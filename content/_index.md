@@ -70,7 +70,7 @@ sections:
     design:
       view: card
   - block: collection
-    id: news
+    id: posts
     content:
       title: Recent Posts
       subtitle: ''
