@@ -39,6 +39,7 @@ header:
 
 # Site footer
 footer:
+  show_hugo_blox_credit: false
   copyright:
     notice: '© {year} Noah Weidig. This work is licensed under {license}'
     license:
