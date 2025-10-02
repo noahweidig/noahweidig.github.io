@@ -2,12 +2,9 @@
 # Display name
 title: Noah Weidig
 
-# Name pronunciation (optional)
-name_pronunciation: ''
-
 # Full name (for SEO)
-first_name: Alex
-last_name: Johnson
+first_name: Noah
+last_name: Weidig
 
 # Status emoji
 status:
@@ -20,7 +17,7 @@ superuser: true
 highlight_name: true
 
 # Role/position/tagline
-role: GIS Research Associate
+role: GIS Analyst ● Data Scientist
 
 # Organizations/Affiliations to display in Biography blox
 organizations:
@@ -33,14 +30,12 @@ profiles:
   - icon: at-symbol
     url: 'mailto:noah.weidig@uf.edu'
     label: E-mail Me
-  - icon: brands/x
-    url: https://twitter.com/AlexAIResearch
   - icon: brands/github
-    url: https://github.com/alexjohnsonai
+    url: https://github.com/noahweidig
   - icon: brands/linkedin
-    url: https://www.linkedin.com/in/alexjohnsonai/
+    url: https://www.linkedin.com/in/noahweidig/
   - icon: academicons/google-scholar
-    url: https://scholar.google.com/citations?user=noahweidig
+    url: https://scholar.google.com/citations?user=Ml95eTwAAAAJ
   - icon: academicons/orcid
     url: https://orcid.org/0000-0003-1205-3209
 
@@ -51,19 +46,19 @@ interests:
   - Landscape Ecology
 
 education:
-  - area: MS Forest Resources and Conservation (AI Focus)
+  - area: MS Forest Resources and Conservation
     institution: University of Florida
-    date_start: 2015-09-01
-    date_end: 2019-06-30
+    date_start: 2023-08-15
+    date_end: 2025-08-16
     summary: |
-      Thesis on _Scaling Laws for Neural Language Models_. Supervised by Prof. Andrew Ng. Published 5 papers in NeurIPS and ICML, with 2 best paper awards.
+      Thesis on _Patterns and drivers of large wildfires within and surrounding the wildland-urban interface of the eastern United States_. Supervised by Dr. Victoria Donovan
     button:
       text: 'Read Thesis'
       url: 'https://example.com/thesis.pdf'
-  - area: MS Computer Science
-    institution: Carnegie Mellon University
-    date_start: 2013-09-01
-    date_end: 2015-05-31
+  - area: BS Biological Sciences
+    institution: Northern Kentucky University
+    date_start: 2018-08-23
+    date_end: 2022-05-31
     summary: |
       GPA: 4.0/4.0
 
@@ -163,4 +158,4 @@ awards:
       Recognized for contributions to scaling laws in deep learning.
 ---
 
-Alex Johnson is a Senior AI Research Scientist at Meta AI, where he leads groundbreaking work on large language models and multimodal systems. His research has been published in top conferences like NeurIPS and ICML, with over 10,000 citations. Alex is passionate about pushing the boundaries of AI while ensuring ethical development. Outside of work, he enjoys hiking in the Rockies, building custom PCs, and mentoring the next generation of AI talent.
+I’m a research associate at the University of Florida's School of Forest, Fisheries, and Geomatic Sciences. I use remote sensing, GIS, and data science to explore how our landscapes change over time. My goal is to translate complex spatial information into clear insights that help people see the bigger picture: how patterns and processes shape where we live.
