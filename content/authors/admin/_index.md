@@ -126,32 +126,90 @@ languages:
   - name: CSS
     percent: 20
 
-# Awards.
-#   Add/remove as many awards below as you like.
-#   Only `title`, `awarder`, and `date` are required.
-#   Begin multi-line `summary` with YAML's `|` or `|2-` multi-line prefix and indent 2 spaces below.
 awards:
-  - title: Best Paper Award
-    url: https://neurips.cc/
-    date: '2022-12-01'
-    awarder: NeurIPS
+  - title: Best Student Presentation Award
+    awarder: International Association of Landscape Ecology
+    date: '2025-04-01'
     icon: hero/trophy
     summary: |
-      Awarded for groundbreaking work on efficient training of large models.
-  - title: AI Innovation Grant
-    url: https://www.nsf.gov/
-    date: '2021-06-15'
-    awarder: National Science Foundation
-    icon: hero/currency-dollar
-    summary: |
-      $500,000 grant for research in ethical AI development.
-  - title: Outstanding PhD Thesis
-    url: https://www.stanford.edu/
-    date: '2019-06-30'
-    awarder: Stanford University
+      Awarded at the 2025 IALE Annual Meeting for best student presentation. Prize: $300.
+
+  - title: Outstanding Teaching Assistant of the Year
+    awarder: University of Florida, School of Forest, Fisheries, and Geomatics Sciences
+    date: '2025-05-01'
     icon: hero/academic-cap
     summary: |
-      Recognized for contributions to scaling laws in deep learning.
+      Recognized as the SFFGS Outstanding Teaching Assistant of the Year.
+
+  - title: BioLEAPS Travel Award
+    awarder: International Association of Landscape Ecology
+    date: '2025-04-01'
+    icon: hero/briefcase
+    summary: |
+      Awarded $1,650 to support participation in the 2025 IALE Annual Meeting.
+
+  - title: Student Travel Award
+    awarder: International Association of Landscape Ecology
+    date: '2025-04-01'
+    icon: hero/briefcase
+    summary: |
+      Awarded $850 to support attendance at the 2025 IALE Annual Meeting.
+
+  - title: Doris and Earl and Verna Lowe Scholarship
+    awarder: University of Florida, College of Agricultural and Life Sciences
+    date: '2024-05-01'
+    icon: hero/currency-dollar
+    summary: |
+      Received $2,000 scholarship for academic excellence and research achievement.
+
+  - title: IFAS Travel Grant
+    awarder: University of Florida, Institute of Food and Agricultural Sciences
+    date: '2024-03-01'
+    icon: hero/briefcase
+    summary: |
+      Awarded $250 to support travel for presenting research at a scientific conference.
+
+  - title: CALS Graduate Assistantship
+    awarder: University of Florida, College of Agricultural and Life Sciences
+    date: '2023-08-01'
+    icon: hero/academic-cap
+    summary: |
+      Awarded a two-year graduate assistantship valued at $27,500 for research and teaching.
+
+  - title: Outstanding Graduate in Biology
+    awarder: Northern Kentucky University
+    date: '2022-05-01'
+    icon: hero/trophy
+    summary: |
+      Recognized as the top graduating biology student in the 2022 class. Prize: $250.
+
+  - title: Biology Major Field Test
+    awarder: Educational Testing Service
+    date: '2022-04-01'
+    icon: hero/academic-cap
+    summary: |
+      Scored in the 95th percentile nationally on the ETS Biology Major Field Test.
+
+  - title: President’s List Nominee
+    awarder: Northern Kentucky University
+    date: '2018-2022'
+    icon: hero/star
+    summary: |
+      Nominated for the President’s List for eight consecutive semesters for maintaining a 4.00 GPA.
+
+  - title: 1st Place Student Poster Competition
+    awarder: Entomological Society of America
+    date: '2021-11-01'
+    icon: hero/trophy
+    summary: |
+      Won 1st place in the ESA 2021 student poster competition. Prize: $75.
+
+  - title: Dr. Carol Swarts Milburn Undergraduate Research Summer Fellowship
+    awarder: Northern Kentucky University
+    date: '2021-06-01'
+    icon: hero/currency-dollar
+    summary: |
+      Received $3,500 fellowship to conduct independent summer research.
 ---
 
 I’m a research associate at the University of Florida's School of Forest, Fisheries, and Geomatic Sciences. I use remote sensing, GIS, and data science to explore how our landscapes change over time. My goal is to translate complex spatial information into clear insights that help people see the bigger picture: how patterns and processes shape where we live.
