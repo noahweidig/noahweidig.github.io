@@ -192,7 +192,7 @@ awards:
 
   - title: President’s List Nominee
     awarder: Northern Kentucky University
-    date: '2018-2022'
+    date: '2022-05-01'
     icon: hero/star
     summary: |
       Nominated for the President’s List for eight consecutive semesters for maintaining a 4.00 GPA.
