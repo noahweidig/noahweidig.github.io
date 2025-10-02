@@ -34,11 +34,9 @@ sections:
       title: '📚 My Research'
       subtitle: ''
       text: |-
-        Use this area to speak to your mission. I'm a research scientist in the Moonshot team at DeepMind. I blog about machine learning, deep learning, and moonshots.
-
-        I apply a range of qualitative and quantitative methods to comprehensively investigate the role of science and technology in the economy.
-
-        Please reach out to collaborate 😃
+        I’m Noah Weidig, a researcher and data scientist focused on using geospatial data, remote sensing, and advanced statistical modeling to analyze how landscapes and communities change over time.
+    
+        I’m passionate about transforming complex spatial and temporal data into clear, actionable insights that inform research, policy, and decision-making.
     design:
       columns: '1'
   - block: collection
