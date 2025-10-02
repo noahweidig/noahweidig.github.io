@@ -17,7 +17,7 @@ superuser: true
 highlight_name: true
 
 # Role/position/tagline
-role: GIS Analyst ● Data Scientist
+role: GIS Analyst | Data Scientist
 
 # Organizations/Affiliations to display in Biography blox
 organizations:
