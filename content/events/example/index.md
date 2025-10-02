@@ -1,5 +1,5 @@
 ---
-title: Example Talk
+title: Burning Boundaries: Large Wildfire Patterns and Drivers in the Eastern United States Wildland-Urban Interface
 
 event: Southern Fire Exchange Webinar
 event_url: https://southernfireexchange.org/calendars
