@@ -62,18 +62,8 @@ education:
     summary: |
       GPA: 4.0/4.0
 
-      Specialized in machine learning and robotics.
-  - area: BS Computer Science
-    institution: MIT
-    date_start: 2009-09-01
-    date_end: 2013-05-31
-    summary: |
-      GPA: 3.9/4.0
-
-      Minored in Mathematics. President of AI Club.
-
 work:
-  - position: Senior AI Research Scientist
+  - position: GIS and Remote Sensing Research Associate
     company_name: Meta AI
     company_url: 'https://ai.meta.com/'
     company_logo: ''
@@ -95,15 +85,15 @@ work:
 skills:
   - name: Technical Skills
     items:
-      - name: Python & PyTorch
+      - name: R Coding
         description: ''
         percent: 95
         icon: code-bracket
-      - name: Machine Learning
+      - name: Python Coding
         description: ''
         percent: 100
         icon: chart-bar
-      - name: Cloud Computing (AWS/GCP)
+      - name: Google Earth Engine
         description: ''
         percent: 85
         icon: cloud
@@ -111,24 +101,30 @@ skills:
     color: '#eeac02'
     color_border: '#f0bf23'
     items:
-      - name: Hiking in the Rockies
+      - name: Hiking
         description: ''
         percent: 80
         icon: person-simple-walk
-      - name: Building Custom PCs
+      - name: Building Web Tools
         description: ''
         percent: 90
         icon: cpu-chip
-      - name: Sci-Fi Reading
+      - name: Reading
         description: ''
         percent: 70
         icon: book-open
 
 languages:
-  - name: English
+  - name: R
     percent: 100
-  - name: Spanish
-    percent: 50
+  - name: Python
+    percent: 60
+  - name: JavaScript
+    percent: 80
+  - name: HTML
+    percent: 30
+  - name: CSS
+    percent: 20
 
 # Awards.
 #   Add/remove as many awards below as you like.
