@@ -1,10 +1,10 @@
 ---
 title: Example Talk
 
-event: Hugo Blox Builder Conference
-event_url: https://example.org
+event: Southern Fire Exchange Webinar
+event_url: https://southernfireexchange.org/calendars
 
-location: Hugo Blox Builder HQ
+location: Zoom
 address:
   street: 450 Serra Mall
   city: Stanford
@@ -12,8 +12,7 @@ address:
   postcode: '94305'
   country: United States
 
-summary: An example talk using Hugo Blox Builder's Markdown slides feature.
-abstract: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis posuere tellusac convallis placerat. Proin tincidunt magna sed ex sollicitudin condimentum. Sed ac faucibus dolor, scelerisque sollicitudin nisi. Cras purus urna, suscipit quis sapien eu, pulvinar tempor diam.'
+summary: I will be giving an online webinar with the Southern Fire Exchange.
 
 # Talk start and end times.
 #   End time can optionally be hidden by prefixing the line with `#`.
@@ -59,14 +58,3 @@ slides: ""
 projects:
   - example
 ---
-
-> [!NOTE]
-> Click on the **Slides** button above to view the built-in slides feature.
-
-Slides can be added in a few ways:
-
-- **Create** slides using Hugo Blox Builder's [_Slides_](https://docs.hugoblox.com/reference/content-types/) feature and link using the `slides` parameter in the front matter of the talk file
-- **Upload** an existing slide deck to this page bundle and link it using `links: [{ type: slides, url: path/to/file } ]` in front matter
-- **Embed** your slides (e.g. Google Slides) or presentation video on this page using [shortcodes](https://docs.hugoblox.com/reference/markdown/).
-
-Further event details, including [page elements](https://docs.hugoblox.com/reference/markdown/) such as image galleries, can be added to the body of this page.
