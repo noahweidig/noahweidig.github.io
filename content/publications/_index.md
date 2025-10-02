@@ -8,11 +8,11 @@ sections:
       title: Publications
       filters:
         folders:
-          - publication
-      count: 0              # ✅ 0 = show everything
+          - publications
+      count: 0
     design:
-      view: citation        # or list/article-grid
-      show_image: false     # ✅ no thumbnails
+      view: citation
+      show_image: false
       fill_image: false
       columns: 1
       show_date: true
