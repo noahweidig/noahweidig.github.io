@@ -9,10 +9,11 @@ sections:
       filters:
         folders:
           - publication
+      count: 0              # ✅ 0 = show everything
     design:
-      view: citation
+      view: citation        # or list/article-grid
+      show_image: false     # ✅ no thumbnails
       fill_image: false
-      show_image: false
       columns: 1
       show_date: true
 ---
