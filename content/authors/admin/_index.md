@@ -64,21 +64,75 @@ education:
 
 work:
   - position: GIS and Remote Sensing Research Associate
-    company_name: Meta AI
-    company_url: 'https://ai.meta.com/'
+    company_name: University of Florida, WFREC
+    company_url: 'https://wfrec.ifas.ufl.edu/'
     company_logo: ''
-    date_start: 2020-01-01
+    date_start: 2025-08-16
     date_end: ''
     summary: |2-
-      Leading research on multimodal AI systems. Contributed to Llama 2 and other open-source models. 50+ citations in 3 years.
-  - position: AI Research Intern
-    company_name: OpenAI
-    company_url: 'https://openai.com/'
+      • Full-time, 40 hrs/wk, PI: Dr. Victoria Donovan  
+      • Examined the role of Conservation Reserve Program lands in wildfire risk across the United States Great Plains
+
+  - position: Graduate Research Assistant
+    company_name: University of Florida, WFREC
+    company_url: 'https://wfrec.ifas.ufl.edu/'
     company_logo: ''
-    date_start: 2019-06-01
-    date_end: 2019-12-31
-    summary: |
-      Worked on GPT-3 scaling. Co-authored paper on prompt engineering.
+    date_start: 2023-08-16
+    date_end: 2025-08-15
+    summary: |2-
+      • Part-time, 25 hrs/wk, PI: Dr. Victoria Donovan  
+      • Explored wildfire dynamics in the wildland–urban interface (WUI) of the eastern United States  
+      • Examined changes in woody cover associated with different land-use types across the eastern United States
+
+  - position: Research Assistant Intern
+    company_name: USDA Agricultural Research Service
+    company_url: 'https://www.ars.usda.gov/'
+    company_logo: ''
+    date_start: 2023-05-22
+    date_end: 2023-08-04
+    summary: |2-
+      • Full-time, 40 hrs/wk, PI: Drs. Carissa Wonkka & Devan McGranahan  
+      • Investigated the interaction between fire and grazing on rangeland ecology using vegetation sampling, transects, and soil sampling
+
+  - position: Fire and Recreation Intern
+    company_name: Student Conservation Association + US Forest Service
+    company_url: 'https://www.fs.usda.gov/'
+    company_logo: ''
+    date_start: 2023-01-23
+    date_end: 2023-05-11
+    summary: |2-
+      • Full-time, 40 hrs/wk, Supervisor: Shane Sturgill  
+      • Wildland firefighting, prescribed burns for conservation projects, trail maintenance, hand tool and saw use, ecological restoration, and interagency coordination
+
+  - position: Research Assistant
+    company_name: University of Cincinnati
+    company_url: 'https://med.uc.edu/'
+    company_logo: ''
+    date_start: 2022-05-31
+    date_end: 2023-01-20
+    summary: |2-
+      • Full-time, 40 hrs/wk, PI: Dr. Donald Lynch  
+      • Investigated platelet function after transcatheter valve interventions using flow/spectral cytometry, confocal and super-resolution microscopy, TEM, Western blotting, MACS, cell culture, and CRISPR-Cas9
+
+  - position: Research Assistant
+    company_name: Northern Kentucky University
+    company_url: 'https://nku.edu/'
+    company_logo: ''
+    date_start: 2021-05-10
+    date_end: 2022-05-14
+    summary: |2-
+      • Part-time, 25 hrs/wk (May–Aug 2021) and 9 hrs/wk (Aug 2021–May 2022), PI: Dr. Allison Parker  
+      • Investigated effects of nutrient concentration and water volume on oviposition choice in female *Culex* mosquitoes using semi-controlled field assays, species identification, trapping, and collection methods
+
+  - position: Research Assistant
+    company_name: Northern Kentucky University
+    company_url: 'https://nku.edu/'
+    company_logo: ''
+    date_start: 2020-02-01
+    date_end: 2020-09-30
+    summary: |2-
+      • Part-time, 10 hrs/wk, PI: Dr. Lauren Williamson  
+      • Investigated effects of maternal helminths on offspring neuroinflammation, neonatal infection response, and learning in adulthood using stereology, microscopy, and cell culture
 
 # Skills
 # Add your own SVG icons to `assets/media/icons/`
