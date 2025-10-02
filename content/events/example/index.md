@@ -37,7 +37,7 @@ image:
 
 links:
   - type: code
-    url: [https://github.com](https://github.com/noahweidig/chapter-2)
+    url: https://github.com/noahweidig/chapter-2
 
 # Markdown Slides (optional).
 #   Associate this talk with Markdown slides.
