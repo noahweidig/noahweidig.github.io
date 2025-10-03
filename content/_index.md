@@ -43,7 +43,6 @@ sections:
     id: publications
     content:
       title: Publications & Presentations
-      text: ''
       filters:
         folders:
           - publications
