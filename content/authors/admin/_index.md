@@ -44,6 +44,8 @@ interests:
   - Data Science
   - Statistical Inference
   - Landscape Ecology
+  - Artificial Intelligence
+  - Large Language Models
 
 education:
   - area: MS Forest Resources and Conservation
