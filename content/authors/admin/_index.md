@@ -46,6 +46,8 @@ interests:
   - Landscape Ecology
   - Artificial Intelligence
   - Large Language Models
+  - Machine Learning
+  - Data Visualization
 
 education:
   - area: MS Forest Resources and Conservation
