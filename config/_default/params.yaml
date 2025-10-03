@@ -36,6 +36,8 @@ header:
     show_theme_chooser: true
     logo:
       text: 'Noah Weidig'
+      image: 'uploads/logo.png'
+      height: 32
 
 # Site footer
 footer:
