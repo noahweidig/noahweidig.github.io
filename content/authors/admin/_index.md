@@ -27,23 +27,18 @@ organizations:
 # Social network links
 # Need to use another icon? Simply download the SVG icon to your `assets/media/icons/` folder.
 profiles:
-  - icon: at-symbol
-    url: 'mailto:noah.weidig@uf.edu'
-    label: E-mail Me
-  - icon: brands/github
-    url: https://github.com/noahweidig
   - icon: brands/linkedin
     url: https://www.linkedin.com/in/noahweidig/
+  - icon: brands/github
+    url: https://github.com/noahweidig
   - icon: academicons/google-scholar
     url: https://scholar.google.com/citations?user=Ml95eTwAAAAJ
   - icon: academicons/orcid
     url: https://orcid.org/0000-0003-1205-3209
-  - icon: hero/calendar-days
-    url: https://cal.com/noah-weidig/meet
   - icon: academicons/researchgate
     url: https://www.researchgate.net/profile/Noah-Weidig
-  - icon: academicons/academia
-    url: https://florida.academia.edu/NoahWeidig
+  - icon: hero/calendar-days
+    url: https://cal.com/noah-weidig/meet
 
 interests:
   - Geospatial Analysis
