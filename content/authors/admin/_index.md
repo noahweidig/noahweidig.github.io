@@ -270,4 +270,4 @@ awards:
       Received $3,500 fellowship to conduct independent summer research.
 ---
 
-I’m a research associate at the University of Florida's School of Forest, Fisheries, and Geomatic Sciences. I use remote sensing, GIS, and data science to explore how our landscapes change over time. My goal is to translate complex spatial information into clear insights that help people see the bigger picture: how patterns and processes shape where we live.
+I’m a research associate at the University of Florida's School of Forest, Fisheries, and Geomatic Sciences. I use remote sensing, GIS, and data science to explore how our landscapes change over time. I love <i class="fab fa-r-project" aria-hidden="true" style="color:#035AA6"></i> programming, especially high-quality data visualization. My goal is to translate complex spatial information into clear insights that help people see the bigger picture: how patterns and processes shape where we live.
