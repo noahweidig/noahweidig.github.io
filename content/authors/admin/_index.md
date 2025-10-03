@@ -38,7 +38,7 @@ profiles:
     url: https://scholar.google.com/citations?user=Ml95eTwAAAAJ
   - icon: academicons/orcid
     url: https://orcid.org/0000-0003-1205-3209
-  - icon: "custom/calendar"
+  - icon: custom/calendar
     url: https://cal.com/noah-weidig/meet
 
 interests:
