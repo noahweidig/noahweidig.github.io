@@ -35,7 +35,7 @@ header:
     show_search: true
     show_theme_chooser: true
     logo:
-      text: 'Noah Weidig'
+      text: ' Noah Weidig'
       filename: 'logo.svg'
 
 # Site footer
