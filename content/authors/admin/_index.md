@@ -40,6 +40,10 @@ profiles:
     url: https://orcid.org/0000-0003-1205-3209
   - icon: hero/calendar-days
     url: https://cal.com/noah-weidig/meet
+  - icon: academicons/researchgate
+    url: https://www.researchgate.net/profile/Noah-Weidig
+  - icon: academicons/academia
+    url: https://florida.academia.edu/NoahWeidig
 
 interests:
   - Geospatial Analysis
