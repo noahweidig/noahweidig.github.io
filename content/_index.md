@@ -11,7 +11,6 @@ design:
 sections:
   - block: resume-biography-3
     content:
-      title: Hi, I'm Noah
       # Choose a user profile to display (a folder name within `content/authors/`)
       username: admin
       text: ''
