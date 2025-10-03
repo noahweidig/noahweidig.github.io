@@ -40,6 +40,7 @@ sections:
     design:
       columns: '1'
   - block: collection
+    id: publications
     content:
       title: Publications & Presentations
       text: ''
