@@ -5,9 +5,9 @@ date: 2025-10-02
 authors:
   - admin
 tags:
-  - Hugo
-  - Hugo Blox
-  - Markdown
+  - Data Vis
+  - Palettes
+  - ggplot
 image:
   caption: 'Image credit: [**Unsplash**](https://unsplash.com)'
 ---
