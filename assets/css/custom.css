@@ -11,3 +11,17 @@
 .dark #skills svg path[fill="#293138"] {
   fill: #d4d4d4;
 }
+
+/* Fix: Ensure light mode background is actually light */
+html,
+body {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+/* Ensure dark mode persists */
+.dark body,
+html.dark {
+  background-color: #0d0d12;
+  color: #ffffff;
+}
