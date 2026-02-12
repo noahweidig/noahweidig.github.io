@@ -1,0 +1,5 @@
+/* Make the navbar logo slightly larger and add more spacing between it and the name */
+.navbar-brand svg {
+  height: 1.6em;
+  margin-right: 0.5em;
+}
