@@ -25,3 +25,15 @@ html.dark {
   background-color: #0d0d12;
   color: #ffffff;
 }
+
+/* Hide navbar brand name on very narrow mobile devices to prevent wrapping */
+@media (max-width: 480px) {
+  .navbar-brand {
+    font-size: 0 !important;
+  }
+  .navbar-brand svg {
+    height: 2rem;
+    width: auto;
+    margin-right: 0;
+  }
+}
