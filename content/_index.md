@@ -238,7 +238,7 @@ sections:
     content:
       title: "Open to Opportunities"
       text: |-
-        I'm currently looking for **senior engineering** or **tech lead** roles.
+        I'm currently looking for **data scientist** or **GIS analyst** roles.
         
         Let's connect and discuss how I can help your team.
       button:
