@@ -1,0 +1,45 @@
+# HugoBlox Theme Pack
+# https://docs.hugoblox.com
+
+hugoblox:
+  meta:
+    format: "hugoblox-theme@1"
+    name: "Retro"
+    vendor: "hugoblox"
+    version: "1.0.0"
+    license: "MIT"
+    description: "Vintage paper meets midnight arcade"
+
+  type: "dual"
+
+  light:
+    # "Vintage Paper" - Sepia, warm, nostalgic
+    colors:
+      primary: "#e38c89" # Desaturated Red/Pink
+      secondary: "#b4e9d6" # Mint Green
+      neutral: "#79726b" # Warm Stone
+    surfaces:
+      background: "#ebe6d9" # Vintage Paper / Beige
+      foreground: "#7d5e3c" # Sepia/Brown
+      header:
+        background: "#e3dbcd" # Slightly darker paper
+        foreground: "#7d5e3c"
+      footer:
+        background: "#dcd3c3"
+        foreground: "#5c4033"
+
+  dark:
+    # "Midnight Arcade" - Deep petrol, mustard, and neon accents
+    colors:
+      primary: "#fbbf24" # Mustard Gold (Amber-400)
+      secondary: "#f472b6" # Retro Pink (Pink-400)
+      neutral: "#134e4a" # Dark Teal (Teal-900)
+    surfaces:
+      background: "#042f2e" # Deep Petrol / Teal-950
+      foreground: "#ccfbf1" # Pale Mint / Teal-50
+      header:
+        background: "#115e59" # Lighter Petrol / Teal-800
+        foreground: "#ccfbf1"
+      footer:
+        background: "#0f393b" # Muted Teal
+        foreground: "#99f6e4" # Teal-200

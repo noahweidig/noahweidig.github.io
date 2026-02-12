@@ -1,0 +1,67 @@
+{{/* Hugo Blox: Export Debug Logs for Dev HUD (window var) */}}
+{{- if site.Params.hugoblox.debug.export_logs | default true -}}
+  {{- /* Collect all logs from all pages (site-wide) */ -}}
+  {{- $entries := slice -}}
+  {{- range .Site.Pages -}}
+    {{- with .Store -}}
+      {{- with .Get "hbx_logs" -}}
+        {{- $entries = $entries | append . -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+
+  {{- /* Summarize dependencies */ -}}
+  {{- $deps := slice -}}
+  {{- range $i, $d := hugo.Deps -}}
+    {{- $dep := dict "path" $d.Path "version" $d.Version "vendor" $d.Vendor -}}
+    {{- with $d.Owner -}}
+      {{- $dep = merge $dep (dict "owner_path" .Path) -}}
+    {{- end -}}
+    {{- with $d.Replace -}}
+      {{- $dep = merge $dep (dict "replace_path" .Path) -}}
+    {{- end -}}
+    {{- with $d.Time -}}
+      {{- $dep = merge $dep (dict "time" (printf "%v" .)) -}}
+    {{- end -}}
+    {{- $deps = $deps | append $dep -}}
+  {{- end -}}
+
+  {{- /* Detect blox-tailwind module version if present */ -}}
+  {{- $bloxTW := dict -}}
+  {{- range $deps -}}
+    {{- $p := .path -}}
+    {{- if and $p (in $p "blox-tailwind") -}}
+      {{- $bloxTW = dict "path" .path "version" .version -}}
+    {{- end -}}
+  {{- end -}}
+
+  {{- /* Current page information */ -}}
+  {{- $filePath := "" -}}
+  {{- with .File -}}
+    {{- $filePath = .Path -}}
+  {{- end -}}
+  {{- $buildId := partialCached "functions/get-build-id.html" "hbx-build-id" -}}
+  {{- $currentPage := dict 
+    "path" .RelPermalink
+    "type" .Type
+    "layout" (.Layout | default "")
+    "kind" .Kind
+    "section" .Section
+    "title" .Title
+    "file" $filePath
+    "buildId" $buildId
+  -}}
+
+  {{- $payload := dict
+    "version" 1
+    "generatedAt" (now.UTC.Format "2006-01-02T15:04:05Z07:00")
+    "hugo" (dict "version" hugo.Version "goVersion" hugo.GoVersion)
+    "deps" $deps
+    "modules" (dict "bloxTailwind" $bloxTW)
+    "entries" $entries
+    "currentPage" $currentPage
+  -}}
+  <script>
+    window.__HBX_LOGS__ = {{ $payload | jsonify | safeJS }};
+  </script>
+{{- end -}}

@@ -1,0 +1,68 @@
+{{/* Hugo Blox: Dynamic Tailwind @source generation for Hugo modules */}}
+{{/* Documentation: https://hugoblox.com/docs/ */}}
+{{/* License: https://github.com/HugoBlox/kit/blob/main/LICENSE.md */}}
+
+{{/*
+This partial generates Tailwind CSS @source directives that tell Tailwind where to scan for CSS classes.
+
+It provides a robust bridge between Hugo's virtual filesystem (which includes module mounts)
+and Tailwind's real filesystem scanner.
+*/}}
+{{ $paths := slice }}
+
+{{/* 1. Always scan the site's source files. */}}
+{{ $paths = $paths | append `content/**/*.md` }}
+{{ $paths = $paths | append `layouts/**/*.html` }}
+{{ $paths = $paths | append `assets/js/**/*.js` }}
+{{ $paths = $paths | append `assets/js/**/*.jsx` }}
+{{ $paths = $paths | append `assets/js/**/*.tsx` }}
+{{ $paths = $paths | append `hugo_stats.json` }}
+
+{{/*
+2.  Crucially, scan Hugo's generated JS output from Preact components.
+    These files are built by Hugo's `js.Build` into a predictable location within the
+    project's `assets` directory, making them a reliable source for Tailwind to scan.
+    This step happens before Tailwind runs, thanks to `templates.Defer` in `site_head.html`.
+*/}}
+{{ $paths = $paths | append `assets/js/preact-built/**/*.js` }}
+
+{{/*
+3. Inline sources: extract class attributes from Preact JSX/TSX and embed them
+   directly so Tailwind can always see them regardless of FS layout.
+*/}}
+{{ $jsx_files := resources.Match "js/hbx/**/*.jsx" }}
+{{ $tsx_files := resources.Match "js/hbx/**/*.tsx" }}
+
+{{ $extracted_classes := slice }}
+{{ range $f := $jsx_files }}
+  {{ $code := $f.Content }}
+  {{ $matches := findRE `class(?:Name)?\s*=\s*"([^"]+)"` $code }}
+  {{ range $m := $matches }}
+    {{ $cls := replaceRE `^class(?:Name)?\s*=\s*"([^"]+)"$` `$1` $m }}
+    {{ $classes := split $cls " " }}
+    {{ range $class := $classes }}
+      {{ $extracted_classes = $extracted_classes | append $class }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+{{ range $f := $tsx_files }}
+  {{ $code := $f.Content }}
+  {{ $matches := findRE `class(?:Name)?\s*=\s*"([^"]+)"` $code }}
+  {{ range $m := $matches }}
+    {{ $cls := replaceRE `^class(?:Name)?\s*=\s*"([^"]+)"$` `$1` $m }}
+    {{ $classes := split $cls " " }}
+    {{ range $class := $classes }}
+      {{ $extracted_classes = $extracted_classes | append $class }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+{{ $extracted_classes = $extracted_classes | uniq }}
+{{ range $class := $extracted_classes }}
+@source inline("{{ $class }}");
+{{ end }}
+
+{{/* Generate the @source rules */}}
+{{ range $paths }}
+@source "{{ . }}";
+{{ end }}

@@ -1,0 +1,41 @@
+{{/*
+  HugoBlox Image Engine: Get website logo
+  
+  SVG-first detection for crisp rendering at any size.
+  Auto-detects from assets/media/:
+    1. logo.svg (preferred - vector, infinite scalability)
+    2. logo.png (fallback - raster, processed by Hugo)
+  
+  Inputs:
+    - constraint: "max_height" or "fit" (default: "fit")
+    - size: int - Target size in pixels
+  
+  Output: dict with:
+    - resource: The logo resource (processed if PNG)
+    - type: MIME type ("image/svg+xml" or "image/png")
+    - is_svg: boolean
+*/}}
+
+{{ $constraint := .constraint | default "fit" }}
+{{ $size := .size | default 36 }}
+{{ $result := dict "resource" nil "type" "" "is_svg" false }}
+
+{{/* 1. Check for SVG first (preferred) */}}
+{{ $logo_svg := resources.Get "media/logo.svg" }}
+{{ if $logo_svg }}
+  {{ $result = dict "resource" $logo_svg "type" "image/svg+xml" "is_svg" true }}
+{{ else }}
+  {{/* 2. Fallback to PNG */}}
+  {{ $logo_png := resources.Get "media/logo.png" }}
+  {{ if $logo_png }}
+    {{ $logo_processed := $logo_png }}
+    {{ if eq $constraint "max_height" }}
+      {{ $logo_processed = $logo_png.Resize (printf "x%d" $size) }}
+    {{ else }}
+      {{ $logo_processed = $logo_png.Fit (printf "%dx%d" $size $size) }}
+    {{ end }}
+    {{ $result = dict "resource" $logo_processed "type" "image/png" "is_svg" false }}
+  {{ end }}
+{{ end }}
+
+{{ return $result }}

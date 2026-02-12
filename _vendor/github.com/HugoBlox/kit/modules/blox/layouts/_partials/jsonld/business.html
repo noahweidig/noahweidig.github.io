@@ -1,0 +1,31 @@
+{{- $sharing_image := resources.GetMatch (path.Join "media" "sharing.*") -}}
+{{- $branding := partialCached "functions/get_branding" . "branding" -}}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": {{site.Params.hugoblox.identity.type | humanize | default "Organization"}},
+  "@id": {{site.BaseURL}},
+  "name": {{$branding.organization}},
+  "logo": {{ partial "functions/get_logo_url" . }},
+  {{with $sharing_image}}"image": {{.Permalink}},{{end}}
+  {{ if (eq site.Params.hugoblox.identity.type "local_business") | and site.Params.hugoblox.seo.location.coordinates }}
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": {{site.Params.hugoblox.seo.location.coordinates.latitude}},
+    "longitude": {{site.Params.hugoblox.seo.location.coordinates.longitude}}
+  },
+  {{end}}
+  {{ with site.Params.hugoblox.seo.location.address }}
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": {{ .street | default "" }},
+    "addressLocality": {{ .city | default "" }},
+    "addressRegion": {{ .region | default "" }},
+    "postalCode": {{ .postal_code | default "" }},
+    "addressCountry": {{ .country | default "" }}
+  },
+  {{end}}
+  {{ with site.Params.hugoblox.seo.location.phone }}"telephone": {{.}},{{end}}
+  "url": {{site.BaseURL}}
+}
+</script>

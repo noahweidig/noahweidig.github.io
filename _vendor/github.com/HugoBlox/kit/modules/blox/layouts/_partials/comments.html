@@ -1,0 +1,17 @@
+{{ $provider := trim (site.Params.hugoblox.comments.provider | lower) " " }}
+
+{{ if $provider }}
+  {{ $provider_tpl := printf "comments/%s.html" $provider }}
+  {{ $provider_exists := templates.Exists (printf "_partials/%s" $provider_tpl) }}
+  {{ if not $provider_exists }}
+    {{ errorf "The '%s' comment provider was not found." $provider }}
+  {{ end }}
+
+  {{ $commentable_page := .Params.commentable }}
+
+  {{ if $commentable_page }}
+  <section id="comments">
+    {{ partial $provider_tpl . }}
+  </section>
+  {{ end }}
+{{ end }}

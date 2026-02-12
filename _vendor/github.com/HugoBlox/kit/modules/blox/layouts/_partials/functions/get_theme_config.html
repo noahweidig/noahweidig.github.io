@@ -1,0 +1,86 @@
+{{/*
+  HugoBlox Theme Engine: Get theme configuration (v2)
+  
+  Returns a dict with:
+    - mode: 'light' | 'dark' | 'system'
+    - light: Light theme pack name (default: "default")
+    - dark: Dark theme pack name (default: "default")
+    - colors: Global color overrides { primary, secondary, neutral }
+    - colors_light: Light-mode specific color overrides
+    - colors_dark: Dark-mode specific color overrides
+    - surfaces: Semantic surface colors { background, foreground, header, footer }
+    - typography: { font, size }
+    - layout: { radius, spacing }
+*/}}
+
+{{/* v2 structure */}}
+{{ $hb := site.Params.hugoblox | default dict }}
+{{ $hb_theme := $hb.theme | default dict }}
+
+{{/* ═══════════════════════════════════════════════════════════════════════════
+    MODE (light/dark/system)
+═══════════════════════════════════════════════════════════════════════════ */}}
+{{ $mode := $hb_theme.mode | default "system" }}
+
+{{/* ═══════════════════════════════════════════════════════════════════════════
+    THEME PACK SELECTION (light/dark)
+    
+    Pack can be:
+      - String: "default" (applies to both)
+      - Object: { light: "latte", dark: "americano" }
+═══════════════════════════════════════════════════════════════════════════ */}}
+{{ $light_pack := "default" }}
+{{ $dark_pack := "default" }}
+
+{{ $pack := $hb_theme.pack | default "default" }}
+{{ if reflect.IsMap $pack }}
+  {{ $light_pack = $pack.light | default "default" }}
+  {{ $dark_pack = $pack.dark | default "default" }}
+{{ else }}
+  {{/* Single string applies to both */}}
+  {{ $light_pack = $pack }}
+  {{ $dark_pack = $pack }}
+{{ end }}
+
+{{/* ═══════════════════════════════════════════════════════════════════════════
+    COLOR OVERRIDES
+═══════════════════════════════════════════════════════════════════════════ */}}
+{{ $colors := $hb_theme.colors | default dict }}
+{{ $colors_light := $hb_theme.colors_light | default dict }}
+{{ $colors_dark := $hb_theme.colors_dark | default dict }}
+
+{{/* ═══════════════════════════════════════════════════════════════════════════
+    SEMANTIC SURFACE COLORS
+═══════════════════════════════════════════════════════════════════════════ */}}
+{{ $surfaces := $hb_theme.surfaces | default dict }}
+
+{{/* ═══════════════════════════════════════════════════════════════════════════
+    TYPOGRAPHY
+═══════════════════════════════════════════════════════════════════════════ */}}
+{{ $hb_typography := $hb.typography | default dict }}
+{{ $typography := dict 
+    "font" ($hb_typography.font | default "sans")
+    "size" ($hb_typography.size | default "md")
+}}
+
+{{/* ═══════════════════════════════════════════════════════════════════════════
+    LAYOUT TOKENS
+═══════════════════════════════════════════════════════════════════════════ */}}
+{{ $hb_layout := $hb.layout | default dict }}
+{{ $layout := dict 
+    "radius" ($hb_layout.radius | default "md")
+    "spacing" ($hb_layout.spacing | default "comfortable")
+}}
+
+{{/* Return theme config dict */}}
+{{ return dict 
+    "mode" $mode
+    "light" $light_pack
+    "dark" $dark_pack
+    "colors" $colors
+    "colors_light" $colors_light
+    "colors_dark" $colors_dark
+    "surfaces" $surfaces
+    "typography" $typography
+    "layout" $layout
+}}

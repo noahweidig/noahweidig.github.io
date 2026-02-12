@@ -1,0 +1,44 @@
+# HugoBlox Theme Pack
+# https://docs.hugoblox.com
+
+hugoblox:
+  meta:
+    format: "hugoblox-theme@1"
+    name: "Cupcake"
+    vendor: "hugoblox"
+    version: "1.0.0"
+    license: "MIT"
+    description: "Sweet pastry pinks and berry accents"
+
+  type: "dual"
+
+  light:
+    colors:
+      primary: "#e779c1" # Frosting Pink
+      secondary: "#d946ef" # Deep Purple/Fuchsia
+      neutral: "#5c4033" # Chocolate/Dark Brown
+    surfaces:
+      background: "#faf7f5" # Vanilla/Sugar
+      foreground: "#7d1f39" # Berry Jam
+      header:
+        background: "#fff0f5" # LavenderBlush - slight pink tint
+        foreground: "#7d1f39"
+      footer:
+        background: "#f3e8e8" # Light Pink Foam
+        foreground: "#7d1f39"
+
+  dark:
+    # "Dark Berry" - Rich, vibrant, fruity
+    colors:
+      primary: "#f472b6" # Bright Icing Pink (Pink-400)
+      secondary: "#c084fc" # Purple Sprinkle (Purple-400)
+      neutral: "#831843" # Deep Berry (Pink-900)
+    surfaces:
+      background: "#4c0519" # Deep Red Velvet / Rose-950
+      foreground: "#fce7f3" # Sweet Cream / Pink-100
+      header:
+        background: "#831843" # Vibrant Berry Header / Pink-900
+        foreground: "#fce7f3"
+      footer:
+        background: "#881337" # Rose-900
+        foreground: "#fbcfe8" # Pink-200

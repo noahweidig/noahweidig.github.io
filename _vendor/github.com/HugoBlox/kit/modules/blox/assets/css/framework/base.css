@@ -1,0 +1,103 @@
+/* Base styles for better text rendering */
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizelegibility;
+  }
+
+  body {
+    line-height: 1.5;
+  }
+}
+
+/* Gradient Mesh Animations */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0) translateX(0);
+  }
+
+  25% {
+    transform: translateY(-20px) translateX(10px);
+  }
+
+  50% {
+    transform: translateY(-10px) translateX(-10px);
+  }
+
+  75% {
+    transform: translateY(-30px) translateX(5px);
+  }
+}
+
+@keyframes rotate-slow {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-float {
+  animation: float 8s ease-in-out infinite;
+}
+
+.animate-rotate-slow {
+  animation: rotate-slow 20s linear infinite;
+}
+
+/* Custom utilities and components */
+@utility task-list {
+  list-style: none;
+  padding-left: 1.5rem;
+}
+
+/* Custom typography styles - the plugin handles the base styles */
+/* Additional customization for prose elements */
+@layer components {
+  .prose a {
+    text-decoration: underline;
+    text-decoration-color: var(--color-primary-300);
+    font-weight: 500;
+  }
+
+  .prose a:hover {
+    color: var(--color-primary-600);
+    text-decoration: none;
+    border-radius: 0.09rem;
+  }
+
+  .prose mark {
+    color: var(--color-neutral-900);
+    background-color: var(--color-primary-200);
+    padding: 0.1rem 0.2rem;
+    border-radius: 0.25rem;
+  }
+
+  .dark .prose-invert a {
+    text-decoration-color: var(--color-neutral-500);
+  }
+
+  .dark .prose-invert a:hover {
+    color: var(--color-primary-300);
+  }
+
+  .dark .prose-invert mark {
+    background-color: var(--color-primary-400);
+    color: black;
+  }
+
+  /* Inline Code Styling */
+  .prose code:not(:where(pre *)) {
+    @apply rounded-md bg-neutral-100 px-1.5 py-0.5 text-[0.875em] font-normal text-primary-700;
+    @apply dark:bg-neutral-700/50 dark:text-primary-300;
+  }
+
+  .prose code:not(:where(pre *))::before,
+  .prose code:not(:where(pre *))::after {
+    content: none;
+  }
+}

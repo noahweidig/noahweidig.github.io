@@ -1,0 +1,45 @@
+# HugoBlox Theme Pack
+# https://docs.hugoblox.com
+
+hugoblox:
+  meta:
+    format: "hugoblox-theme@1"
+    name: "Dracula"
+    vendor: "hugoblox"
+    version: "1.0.0"
+    license: "MIT"
+    description: "The iconic dark theme with a light Buffy variant"
+
+  type: "dual"
+
+  dark:
+    # Official Dracula Dark
+    colors:
+      primary: "#ff79c6" # Pink
+      secondary: "#bd93f9" # Purple
+      neutral: "#6272a4" # Comment
+    surfaces:
+      background: "#282a36" # Background
+      foreground: "#f8f8f2" # Foreground
+      header:
+        background: "#282a36"
+        foreground: "#f8f8f2"
+      footer:
+        background: "#21222c" # Selection
+        foreground: "#f8f8f2"
+
+  light:
+    # Dracula Light (Buffy inspired) - Inverted aesthetic
+    colors:
+      primary: "#d03282" # Darker Pink for contrast
+      secondary: "#9259d6" # Darker Purple for contrast
+      neutral: "#44475a" # Current Line (Dark Gray)
+    surfaces:
+      background: "#f8f8f2" # Light Gray
+      foreground: "#282a36" # Dark Gray
+      header:
+        background: "#e4e4db" # Slightly darker band
+        foreground: "#282a36"
+      footer:
+        background: "#e4e4db"
+        foreground: "#282a36"

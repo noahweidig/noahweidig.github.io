@@ -1,0 +1,114 @@
+<footer class="container mx-auto flex flex-col justify-items-center text-sm leading-6 mt-24 mb-4 text-slate-700 dark:text-slate-200">
+
+  {{ partial "functions/get_hook" (dict "hook" "footer-start" "context" .) }}
+
+  {{/* Load footer block */}}
+  {{- $footer_config := site.Params.hugoblox.footer | default dict -}}
+  {{- $footer_section_name := partial "hbx/resolve-block-param" (dict "config" $footer_config "context" "footer") | default "minimal" -}}
+  {{ $footer_section_path := printf "components/footers/%s.html" $footer_section_name }}
+  {{ if not (templates.Exists (printf "_partials/%s" $footer_section_path)) }}
+    {{ errorf "Check your `params.yaml`. Cannot find footer block at `layouts/_partials/%s`" $footer_section_path }}
+  {{ end }}
+  {{ partial $footer_section_path . }}
+
+  {{/* Attribution - PLEASE DO NOT REMOVE THIS, SUPPORT OPEN SOURCE */}}
+  
+  {{/* Check for Pro license key */}}
+  {{- $license_key := getenv "HUGO_BLOX_LICENSE" -}}
+  {{- $has_pro_license := false -}}
+  
+  {{- if $license_key -}}
+    {{/* Validate UUID v4 format */}}
+    {{- $uuid_pattern := "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$" -}}
+    {{- $is_valid_format := findRE $uuid_pattern (lower $license_key) -}}
+    {{- $has_pro_license = gt (len $is_valid_format) 0 -}}
+  {{- end -}}
+  
+  {{/* Check user preference */}}
+  {{- $wants_to_hide := site.Params.hugoblox.pro.hide_attribution | default false -}}
+  
+  {{/* Determine if we show attribution */}}
+  {{- $show_attribution := true -}}
+  
+  {{- if $has_pro_license -}}
+    {{/* Pro user - respect their choice */}}
+    {{- $show_attribution = not $wants_to_hide -}}
+  {{- else if $wants_to_hide -}}
+    {{/* Free user trying to hide - show warning and attribution */}}
+    {{- warnf "Attribution removal requires HugoBlox Premium. Get Premium at https://hugoblox.com/premium \nAlready purchased Premium? Reach out in the Premium Discord channel for support." -}}
+    {{- $show_attribution = true -}}
+  {{- end -}}
+  
+  {{- if $show_attribution -}}
+    {{- $base := "https://hugoblox.com" -}}
+    {{- $tid  := "" -}}
+    {{- $ref  := .Site.Params.hugoblox.pro.affiliate_code | default "" -}}
+  
+    {{/* Detect Template */}}
+    {{ $hugoblox_file := "" }}
+    {{ if fileExists "hugoblox.yaml" }}
+      {{ $hugoblox_file = readFile "hugoblox.yaml" }}
+      {{ if $hugoblox_file }}
+        {{ $hugoblox_data := $hugoblox_file | transform.Unmarshal }}
+        {{ $tid = $hugoblox_data.template.id | default "" }}
+      {{ end }}
+    {{ end }}
+
+    {{/* Per-site variant selection */}}
+    {{- $brandOptions := slice "Hugo Blox" "Hugo Blox Kit" "Hugo Blox — Open Source" -}}
+    {{- $ctaWhenTemplate := slice "Duplicate this template →" "Clone this template →" "Build yours →" "Create yours →" "Build your site →" "Create your site →" -}}
+    {{- $ctaNoTemplate   := slice "Start free →" "Build yours →" "Create yours →" "Build your site →" "Create your site →" -}}
+  
+    {{- $seed := .Site.BaseURL -}}
+    {{- $h := md5 $seed -}}
+    {{- $digits := replaceRE "[^0-9]" "" $h -}}
+    {{- if lt (len $digits) 6 }}{{- $digits = printf "%s123456" $digits -}}{{- end -}}
+    {{- $first6 := substr $digits 0 6 -}}
+    {{/* Fix for Hugo's int() function treating leading zeros as octal numbers.
+         Strings like "095186" fail because 8 and 9 aren't valid octal digits.
+         Replace leading zero with 1 to ensure valid decimal parsing. */}}
+    {{- if eq (substr $first6 0 1) "0" -}}
+      {{- $first6 = printf "1%s" (substr $first6 1 5) -}}
+    {{- end -}}
+    {{- $n := int $first6 -}}
+  
+    {{- $brandText := index $brandOptions (mod $n (len $brandOptions)) -}}
+    {{- $ctaText   := cond (ne $tid "")
+          (index $ctaWhenTemplate (mod $n (len $ctaWhenTemplate)))
+          (index $ctaNoTemplate   (mod $n (len $ctaNoTemplate))) -}}
+  
+    {{- $target := cond (ne $tid "")
+          (printf "%s/templates/%s/start" $base $tid)
+          (printf "%s/start" $base) -}}
+  
+    {{- $brandHref := printf "%s?utm_source=site_footer&utm_medium=referral&utm_campaign=poweredby_oss&utm_content=brand_%s"
+          $base (cond (ne $tid "") (printf "%s" $tid) "na") -}}
+    {{- $ctaHref := printf "%s?utm_source=site_footer&utm_medium=referral&utm_campaign=poweredby_oss&utm_content=cta_%s"
+          $target (cond (ne $tid "") (printf "%s" $tid) "na") -}}
+    {{- if ne $ref "" -}}
+      {{- $brandHref = printf "%s&ref=%s" $brandHref $ref -}}
+      {{- $ctaHref   = printf "%s&ref=%s"   $ctaHref   $ref -}}
+    {{- end -}}
+  
+    <p class="powered-by text-center text-sm opacity-80 py-1">
+      {{ $published_with := "Made with {hugoblox}." }}
+      {{ $i18n_published_with := i18n "published_with" | default $published_with }}
+      {{ $defaultEnText := "Build yours →" }}
+      {{ $i18n_ctaText := i18n "poweredby_button" | default $ctaText }}
+      {{ if eq $i18n_ctaText $defaultEnText }}
+        {{ $i18n_ctaText = $ctaText }}
+      {{ end }}
+      {{ if not (findRE "{hugoblox}" $i18n_published_with) }}
+        {{ warnf "Please attribute Hugo Blox using `{hugoblox}` in the i18n `published_with` text or sponsor with All Access to remove attribution." }}
+        {{ $i18n_published_with = $published_with }}
+      {{ end }}
+      {{ $i18n_published_with = replace $i18n_published_with "{hugoblox}" (printf "<a class=\"underline hover:opacity-100\" href=\"%s\" target=\"_blank\" rel=\"noopener\" data-hbx=\"poweredby_brand\">%s</a>" $brandHref $brandText) | safeHTML }}
+      {{ $i18n_published_with = replace $i18n_published_with "{repo_link}" "<a href=\"https://github.com/HugoBlox/kit\" target=\"_blank\" rel=\"noopener\">" | safeHTML }}
+      {{ $i18n_published_with = replace $i18n_published_with "{/repo_link}" "</a>" | safeHTML }}
+      {{ $i18n_published_with | safeHTML }}
+      <a class="inline-flex items-center rounded px-2 py-0.5 border border-current ms-2 text-xs hover:opacity-100"
+         href="{{ $ctaHref }}" target="_blank" rel="noopener" data-hbx="poweredby_cta">{{ $i18n_ctaText }}</a>
+    </p>
+  {{- end -}}{{/* end $show_attribution */}}  
+
+</footer>

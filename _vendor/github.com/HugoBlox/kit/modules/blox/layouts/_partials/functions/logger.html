@@ -1,0 +1,51 @@
+{{/*
+  Hugo Blox Logger: A pragmatic, centralized logging helper for Hugo.
+
+  This partial is the single source of truth for all build-time logging.
+  Hugo's template logging is limited to WARN and ERROR. INFO is only shown in the Dev HUD/JSON, not the CLI.
+
+  Usage:
+    {{ partial "functions/logger" (dict
+        "page"    .
+        "level"   "info" | "warn" | "error"  (default: "info")
+        "message" "Your log message here."
+        "id"      "a-unique-id" (optional, for suppressible warnings)
+        "source"  (dict "type" "shortcode|partial|template" "name" "callout|sections" ) (optional)
+    ) }}
+*/}}
+{{- $level := lower (.level | default "info") -}}
+{{- $message := .message | default "" -}}
+{{- $id := .id | default "" -}}
+{{- $source := .source | default dict -}}
+{{- $page := .page | default . -}}
+{{- $isDev := hugo.IsServer -}}
+
+{{/* Store log entry for future debug widget/JSON, regardless of environment. */}}
+{{- with $page -}}
+  {{- with .Store -}}
+    {{- $buildId := partialCached "functions/get-build-id.html" "hbx-build-id" -}}
+    {{- $log_entry := dict "level" $level "message" $message "page" ($.RelPermalink | default "/") "timestamp" now.Unix "id" $id "source" $source "buildId" $buildId -}}
+    {{- $current_logs := .Get "hbx_logs" | default slice -}}
+    {{- $currentBuildId := .Get "hbx_build_id" | default "" -}}
+    {{/* Clear logs if this is a new build cycle */}}
+    {{- if ne $currentBuildId $buildId -}}
+      {{- .Set "hbx_build_id" $buildId -}}
+      {{- $current_logs = slice -}}
+    {{- end -}}
+    {{- .Set "hbx_logs" ($current_logs | append $log_entry) -}}
+  {{- end -}}
+{{- end -}}
+
+{{/* Emit to CLI using fmt with proper severity. Do not print INFO to CLI. */}}
+{{- if eq $level "error" -}}
+  {{- fmt.Errorf "HBX ERROR: %s" $message -}}
+{{- else if eq $level "warn" -}}
+  {{- if $id -}}
+    {{- fmt.Warnidf $id "HBX WARN: %s" $message -}}
+  {{- else -}}
+    {{- fmt.Warnf "HBX WARN: %s" $message -}}
+  {{- end -}}
+{{- else -}}
+  {{/* info: no CLI output; visible via Dev HUD/JSON only */}}
+{{- end -}}
+{{- "" -}}

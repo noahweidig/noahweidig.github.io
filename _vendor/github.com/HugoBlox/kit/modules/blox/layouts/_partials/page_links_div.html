@@ -1,0 +1,8 @@
+{{/* Div wrapper around page links. Hidden if page has no links. */}}
+
+{{ $built := partial "functions/build_links" (dict "page" . "is_list" 0) }}
+{{ if gt (len $built) 0 }}
+<div class="">
+  {{ partial "page_links" (dict "page" . "is_list" 0) }}
+</div>
+{{ end }}

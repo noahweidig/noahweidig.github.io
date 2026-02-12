@@ -1,0 +1,28 @@
+.hb-attachment-link {
+  @apply inline-block font-semibold uppercase outline-none mr-4 mb-1.5 transition-all text-sm tracking-wide focus:outline-none;
+
+  color: var(--color-primary-600);
+}
+
+.hb-attachment-link:hover {
+  color: var(--color-primary-700);
+  text-decoration: underline;
+}
+
+.dark .hb-attachment-link {
+  color: var(--color-primary-400);
+}
+
+.dark .hb-attachment-link:hover {
+  color: var(--color-primary-300);
+}
+
+/* Small links - used in list views */
+.hb-attachment-link-small {
+  @apply p-0 text-xs;
+}
+
+/* Large links - used on single pages */
+.hb-attachment-link-large {
+  @apply p-0 text-sm;
+}

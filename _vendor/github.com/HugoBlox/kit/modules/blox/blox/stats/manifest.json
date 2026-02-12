@@ -1,0 +1,13 @@
+{
+  "id": "stats",
+  "name": "Stats",
+  "version": "2.0.0",
+  "license": "MIT",
+  "category": "content",
+  "tags": ["statistics", "numbers", "metrics", "achievements", "data", "showcase", "grid", "animated", "counters", "icons"],
+  "description": "Showcase impressive statistics with modern animations, icons, and multiple layout options - enhanced for 2025/2026",
+  "author": "Hugo Blox",
+  "homepage": "https://hugoblox.com/blocks/",
+  "repository": "https://github.com/HugoBlox/kit",
+  "keywords": ["hugo", "statistics", "metrics", "achievements", "data", "numbers"]
+}

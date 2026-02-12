@@ -1,0 +1,27 @@
+@import "./libs/chroma/light.css";
+@import "./libs/chroma/dark.css";
+
+/* Code Blocks: Apply theme background */
+/* Requires relative position for Code Copy button */
+.prose .chroma,
+.prose pre {
+  @apply relative rounded-md;
+
+  color: var(--color-neutral-700);
+  background-color: var(--color-neutral-50);
+}
+
+.dark .prose .chroma,
+.dark .prose pre {
+  color: white;
+  background-color: rgb(71 85 105); /* slate-700 equivalent */
+}
+
+/* Fix LaTeX/TeX math rendering in code blocks - prevent inheriting italic from Chroma in dark mode */
+.chroma .language-latex,
+.chroma .language-latex *,
+.chroma .language-tex,
+.chroma .language-tex * {
+  /* biome-ignore lint/complexity/noImportantStyles: Required to override Chroma's default italic for LaTeX/TeX */
+  font-style: normal !important;
+}

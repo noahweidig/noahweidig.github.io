@@ -1,0 +1,42 @@
+{{/*
+  get_branding.html - Centralized branding configuration helper (v2)
+  
+  Returns a dict with:
+    - name: Display name (navbar, footer, JSON-LD publisher)
+    - site_title: Browser tab title / SEO title
+    - organization: Legal/copyright entity name
+  
+  Fallback chain:
+    - site_title → seo.title → name → site.Title
+    - organization → name → site.Title
+*/}}
+
+{{/* v2 structure: hugoblox.identity */}}
+{{ $hb := site.Params.hugoblox | default dict }}
+{{ $identity := $hb.identity | default dict }}
+{{ $seo := $hb.seo | default dict }}
+
+{{/* ═══════════════════════════════════════════════════════════════════════════
+    NAME (primary display name)
+    Priority: hugoblox.identity.name → site.Title
+═══════════════════════════════════════════════════════════════════════════ */}}
+{{ $name := $identity.name | default site.Title }}
+
+{{/* ═══════════════════════════════════════════════════════════════════════════
+    SITE_TITLE (browser tab / SEO title)
+    Priority: hugoblox.seo.title → hugoblox.identity.name → site.Title
+═══════════════════════════════════════════════════════════════════════════ */}}
+{{ $site_title := $seo.title | default $name }}
+
+{{/* ═══════════════════════════════════════════════════════════════════════════
+    ORGANIZATION (legal/copyright entity)
+    Priority: hugoblox.identity.organization → name
+═══════════════════════════════════════════════════════════════════════════ */}}
+{{ $organization := $identity.organization | default $name }}
+
+{{/* Return branding dict */}}
+{{ return dict 
+    "name" $name 
+    "site_title" $site_title 
+    "organization" $organization
+}}

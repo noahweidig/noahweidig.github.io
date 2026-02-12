@@ -1,0 +1,611 @@
+# Navigation
+
+- id: toggle_navigation
+  translation: Toggle navigation
+
+- id: table_of_contents
+  translation: Table of Contents
+
+- id: on_this_page
+  translation: On this page
+
+- id: back_to_top
+  translation: Back to top
+
+- id: home
+  translation: Home
+
+- id: close
+  translation: Close
+
+- id: languages
+  translation: Languages
+
+# General
+
+- id: related
+  translation: Related
+
+# Callouts - All Obsidian-compatible types
+- id: callout_note
+  translation: Note
+
+- id: callout_abstract
+  translation: Abstract
+
+- id: callout_summary
+  translation: Summary
+
+- id: callout_info
+  translation: Info
+
+- id: callout_todo
+  translation: Todo
+
+- id: callout_tip
+  translation: Tip
+
+- id: callout_success
+  translation: Success
+
+- id: callout_question
+  translation: Question
+
+- id: callout_warning
+  translation: Warning
+
+- id: callout_failure
+  translation: Failure
+
+- id: callout_danger
+  translation: Danger
+
+- id: callout_bug
+  translation: Bug
+
+- id: callout_example
+  translation: Example
+
+- id: callout_quote
+  translation: Quote
+
+- id: callout_important
+  translation: Important
+
+- id: callout_caution
+  translation: Caution
+
+- id: backlinks
+  translation: Backlinks
+
+- id: minute_read
+  translation: min read
+
+- id: previous
+  translation: Previous
+
+- id: next
+  translation: Next
+
+- id: figure
+  translation: 'Figure %d:'
+
+- id: edit_page
+  translation: Edit this page
+
+# Themes
+
+- id: theme_selector
+  translation: Display preferences
+
+- id: theme_light
+  translation: Light
+
+- id: theme_dark
+  translation: Dark
+
+- id: theme_auto
+  translation: Automatic
+
+# Buttons
+
+- id: btn_preprint
+  translation: Preprint
+
+- id: btn_pdf
+  translation: PDF
+
+- id: btn_cite
+  translation: Cite
+
+- id: btn_slides
+  translation: Slides
+
+- id: btn_video
+  translation: Video
+
+- id: btn_code
+  translation: Code
+
+- id: btn_dataset
+  translation: Dataset
+
+- id: btn_project
+  translation: Project
+
+- id: btn_poster
+  translation: Poster
+
+- id: btn_source
+  translation: Source Document
+
+# New link types
+- id: btn_doi
+  translation: DOI
+- id: btn_site
+  translation: Site
+- id: btn_canonical
+  translation: Canonical
+- id: btn_crosspost
+  translation: Crosspost
+- id: btn_discussion
+  translation: Discussion
+- id: btn_event
+  translation: Event
+- id: btn_calendar
+  translation: Calendar
+- id: btn_registration
+  translation: Registration
+- id: btn_demo
+  translation: Demo
+- id: btn_model
+  translation: Model
+- id: btn_hal
+  translation: HAL
+- id: btn_dblp
+  translation: DBLP
+- id: btn_isbn
+  translation: ISBN
+- id: btn_osf
+  translation: OSF
+- id: btn_zenodo
+  translation: Zenodo
+- id: btn_kaggle
+  translation: Kaggle
+- id: btn_openalex
+  translation: OpenAlex
+- id: btn_semanticscholar
+  translation: Semantic Scholar
+- id: btn_pwc
+  translation: Papers With Code
+
+- id: btn_copy
+  translation: Copy
+
+- id: btn_copied
+  translation: Copied
+
+- id: btn_download
+  translation: Download
+
+# About widget
+
+- id: interests
+  translation: Interests
+
+- id: education
+  translation: Education
+
+- id: about_me
+  translation: Professional Summary
+
+- id: user_profile_latest
+  translation: Latest
+
+# Countdown widget
+
+- id: days
+  translation: Days
+- id: hours
+  translation: Hours
+- id: minutes
+  translation: Minutes
+- id: seconds
+  translation: Seconds
+
+# Accomplishments widget
+
+- id: see_certificate
+  translation: See certificate
+
+# Experience widget
+
+- id: experience
+  translation: Experience
+
+- id: present
+  translation: Present
+
+# Pages widget
+
+- id: read_more
+  translation: Read more
+
+- id: more_pages
+  translation: See all
+
+- id: more_posts
+  translation: See all posts
+
+- id: more_talks
+  translation: See all events
+
+- id: more_publications
+  translation: See all publications
+
+# Contact widget
+
+- id: contact_name
+  translation: Name
+
+- id: contact_email
+  translation: Email
+
+- id: contact_message
+  translation: Message
+
+- id: contact_attachment
+  translation: Attach file
+
+- id: contact_send
+  translation: Send
+
+- id: book_appointment
+  translation: Book an appointment
+
+# Contact info block
+
+- id: block_contact_title
+  translation: Contact Us
+
+- id: block_contact_visit_title
+  translation: Visit Us
+
+- id: block_contact_office_hours
+  translation: Office Hours
+
+- id: block_contact_view_on_map
+  translation: View on Map
+
+- id: block_contact_connect_title
+  translation: Connect
+
+- id: block_contact_follow_us
+  translation: Follow Us
+
+- id: block_contact_follow_me
+  translation: Find me on
+
+- id: block_contact_prospective_title
+  translation: Prospective Members
+
+- id: block_contact_form_title
+  translation: Send us a Message
+
+- id: block_contact_form_name
+  translation: Name
+
+- id: block_contact_form_email
+  translation: Email
+
+- id: block_contact_form_subject
+  translation: Subject
+
+- id: block_contact_form_message
+  translation: Message
+
+- id: block_contact_form_submit
+  translation: Send Message
+
+# Publication/Event details
+
+- id: abstract
+  translation: Abstract
+
+- id: publication
+  translation: Publication
+
+- id: publication_type
+  translation: Type
+
+- id: date
+  translation: Date
+
+- id: last_updated
+  translation: Last updated on
+
+- id: event
+  translation: Event
+
+- id: location
+  translation: Location
+
+- id: pub_paper_conference
+  translation: Conference paper
+
+- id: pub_article_journal
+  translation: Journal article
+
+- id: pub_article
+  translation: Preprint
+
+- id: pub_report
+  translation: Report
+
+- id: pub_book
+  translation: Book
+
+- id: pub_chapter
+  translation: Book section
+
+- id: pub_thesis
+  translation: Thesis
+
+- id: pub_patent
+  translation: Patent
+
+# Project details
+
+- id: open_project_site
+  translation: Go to Project Site
+
+# Content types for default archive page titles and search results
+
+- id: blog
+  translation: Blog
+
+- id: publications
+  translation: Publications
+
+- id: events
+  translation: Events
+
+- id: projects
+  translation: Projects
+
+- id: slides
+  translation: Slides
+
+- id: authors
+  translation: Authors
+
+- id: qa
+  translation: Q&A
+
+- id: questions
+  translation: Questions
+
+- id: faq
+  translation: FAQ
+
+- id: faqs
+  translation: FAQs
+
+- id: docs
+  translation: Documentation
+
+- id: question
+  translation: Question
+
+- id: answer
+  translation: Answer
+
+- id: accepted_answer
+  translation: Accepted Answer
+
+- id: other_answers
+  translation: Other Answers
+
+- id: related_questions
+  translation: Related Questions
+
+- id: browse_by_category
+  translation: Browse by Category
+
+- id: search_questions
+  translation: Search questions...
+
+- id: no_questions_yet
+  translation: No questions yet. Check back soon!
+
+- id: questions_count
+  translation: questions
+
+# Slides
+
+- id: back_to_slides
+  translation: Back to Slides
+
+- id: featured
+  translation: Featured
+
+- id: details
+  translation: Details
+
+- id: present_slides
+  translation: Present
+
+- id: present_fullscreen
+  translation: Present (fullscreen)
+
+- id: export_pdf_print
+  translation: Export PDF (print)
+
+- id: slides_print_hint
+  translation: Opens in print mode - use browser Print > Save as PDF
+
+- id: slides_search_placeholder
+  translation: Search decks by title...
+
+- id: slides_no_decks
+  translation: No slide decks found
+
+- id: slides_no_matches
+  translation: No decks match your filters
+
+- id: clear_filters
+  translation: Clear filters
+
+- id: topics
+  translation: Topics
+
+- id: related_resources
+  translation: Related Resources
+
+- id: copy_link
+  translation: Copy Link
+
+- id: copy_citation
+  translation: Copy citation
+
+- id: how_to_cite
+  translation: How to cite
+
+- id: citation
+  translation: Citation
+
+- id: bibtex
+  translation: BibTeX
+
+- id: download_cite_bib
+  translation: Download cite.bib
+
+- id: lecture
+  translation: Lecture
+
+- id: enter_fullscreen
+  translation: Enter fullscreen
+
+- id: exit_fullscreen
+  translation: Exit fullscreen
+
+- id: speaker_notes_hint
+  translation: for speaker notes
+
+- id: slides_not_found
+  translation: Slides not found
+
+# Search
+
+- id: search
+  translation: Search
+
+- id: search_placeholder
+  translation: Search...
+
+- id: search_results
+  translation: results found
+
+- id: search_no_results
+  translation: No results found
+
+- id: search_common_queries
+  translation: Common searches
+
+# Error 404
+
+- id: page_not_found
+  translation: Page not found
+
+- id: 404_recommendations
+  translation: Perhaps you were looking for one of these?
+
+# Cookie consent
+
+- id: cookie_message
+  translation: This website uses cookies to ensure you get the best experience on our website.
+
+- id: cookie_dismiss
+  translation: Got it!
+
+- id: cookie_learn
+  translation: Learn more
+
+# Published with
+
+- id: published_with
+  translation: Made with {hugoblox}.
+
+- id: poweredby_button
+  translation: 'Build yours →'
+
+# Dev Hero block
+
+- id: scroll_to_content
+  translation: Scroll to content
+
+- id: developer
+  translation: Developer
+
+# Portfolio block
+
+- id: portfolio_link_code
+  translation: Code
+
+- id: portfolio_link_live
+  translation: Live
+
+- id: portfolio_link_demo
+  translation: Demo
+
+- id: portfolio_link_default
+  translation: Link
+
+- id: portfolio_view_all
+  translation: View All Projects
+
+# Feedback widget
+
+- id: feedback_widget_title
+  translation: Feedback
+
+- id: feedback_widget_question
+  translation: Was this page helpful?
+
+- id: feedback_widget_answer_positive
+  translation: 😍 Yes
+
+- id: feedback_widget_answer_negative
+  translation: 😡 No
+
+# AI Features
+
+- id: ai_insight
+  translation: AI Insight
+
+# Content Metadata
+- id: content_type
+  translation: Content Type
+- id: difficulty
+  translation: Difficulty
+- id: prerequisites
+  translation: Prerequisites
+
+# Card metadata
+- id: trending
+  translation: Trending
+
+- id: article
+  translation: article
+
+- id: articles
+  translation: articles
+
+- id: browse
+  translation: Browse
+
+- id: all
+  translation: All
+
+- id: helpful
+  translation: helpful

@@ -1,0 +1,110 @@
+/* Navigation Styles */
+
+.navbar {
+  @apply relative flex flex-wrap items-center justify-between;
+}
+
+.navbar-brand {
+  /* @apply text-black dark:text-white text-xl font-semibold; */
+  color: var(--color-header-fg);
+  @apply text-xl font-semibold;
+}
+
+.navbar-brand svg {
+  @apply max-h-full max-w-full h-[1em] w-auto inline-block;
+}
+
+.navbar-brand img {
+  /* To shrink to line height, add: h-[1em] */
+  @apply max-h-full w-auto inline-block;
+}
+
+/* Ensure interactive controls show hand cursor */
+.theme-toggle,
+[data-search-toggle],
+#search-toggle,
+[data-te-collapse-init],
+.nav-dropdown > .nav-link[role="button"] {
+  @apply cursor-pointer;
+}
+
+/* navbar toggler */
+input#nav-toggle:checked + label #show-button {
+  @apply hidden;
+}
+
+input#nav-toggle:checked + label #hide-button {
+  @apply block;
+}
+
+input#nav-toggle:checked ~ #nav-menu {
+  @apply block;
+}
+
+#site-header.header {
+  background-color: var(--color-header-bg);
+  color: var(--color-header-fg);
+  @apply py-3 shadow;
+}
+
+/* navbar items */
+
+.navbar-nav {
+  @apply text-center lg:text-left;
+}
+
+.nav-link {
+  /* @apply dark:text-white block p-3 font-semibold transition lg:px-2 lg:py-3; */
+  color: var(--color-header-fg);
+  @apply block p-3 font-semibold transition lg:px-2 lg:py-3;
+}
+
+.nav-link:hover {
+  color: var(--color-primary-700);
+}
+
+.dark .nav-link:hover {
+  color: var(--color-primary-300);
+}
+
+.nav-dropdown {
+  @apply mr-0;
+}
+
+.nav-dropdown > svg {
+  @apply pointer-events-none;
+}
+
+.nav-dropdown-list {
+  @apply bg-white dark:bg-slate-900 z-10 min-w-[180px] rounded py-4 shadow hidden lg:invisible lg:absolute lg:block lg:opacity-0;
+  /* Ensure dropdown appears above content and under header */
+  top: 100%;
+  left: 0;
+}
+
+.nav-dropdown.active .nav-dropdown-list {
+  @apply block lg:visible lg:opacity-100;
+}
+
+/* Ensure hover opens dropdown in desktop (CSS-driven) */
+@media (min-width: 1024px) {
+  .nav-dropdown:hover > .nav-dropdown-list {
+    @apply visible opacity-100;
+  }
+}
+
+.nav-dropdown-item {
+  @apply px-4 [&:not(:last-child)]:mb-2;
+}
+
+.dark .nav-dropdown-item:hover {
+  background-color: var(--color-primary-500);
+}
+
+.nav-dropdown-link {
+  @apply dark:text-white dark:hover:text-white block py-1 font-semibold transition;
+}
+
+.nav-dropdown-link:hover {
+  color: var(--color-primary-700);
+}

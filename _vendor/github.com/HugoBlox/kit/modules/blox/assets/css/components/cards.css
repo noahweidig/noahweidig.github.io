@@ -1,0 +1,67 @@
+:root {
+  --hb-cols: 2;
+}
+
+.hb-cards {
+  grid-template-columns: repeat(auto-fill, minmax(max(250px, calc((100% - 1rem * 2) / var(--hb-cols))), 1fr));
+}
+
+.hb-card {
+  @apply flex flex-col justify-start overflow-hidden rounded-lg border border-gray-200 text-current no-underline dark:shadow-transparent hover:shadow-gray-100 dark:hover:shadow-transparent shadow-gray-100 active:shadow-sm active:shadow-gray-200 transition-all duration-200;
+  @apply hover:border-gray-300 bg-transparent shadow-sm hover:bg-slate-50 hover:shadow-md;
+
+  border-color: var(--color-neutral-700);
+}
+
+.dark .hb-card {
+  border-color: var(--color-neutral-700);
+}
+
+.dark .hb-card:hover {
+  border-color: var(--color-neutral-600);
+  background-color: var(--color-neutral-800);
+}
+
+.hb-card-title {
+  @apply flex font-semibold gap-2 text-gray-700 hover:text-gray-900 items-center;
+
+  color: var(--color-neutral-700);
+}
+
+.hb-card-title:hover {
+  color: var(--color-neutral-900);
+}
+
+.dark .hb-card-title {
+  color: var(--color-neutral-200);
+}
+
+.dark .hb-card-title:hover {
+  color: var(--color-neutral-50);
+}
+
+.hb-card-subtitle {
+  @apply line-clamp-3 text-sm font-normal text-gray-500 dark:text-gray-400 px-4 mb-4 mt-2;
+}
+
+.hb-card svg {
+  color: var(--color-neutral-700);
+  width: 1.5rem;
+  transition: color 0.3s ease;
+}
+
+.hb-card:hover svg {
+  color: currentcolor;
+}
+
+.hb-card p {
+  margin-top: 0.5rem;
+}
+
+.dark .hb-card svg {
+  color: var(--color-neutral-300);
+}
+
+.dark .hb-card:hover svg {
+  color: currentcolor;
+}

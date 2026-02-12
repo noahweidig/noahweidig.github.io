@@ -1,0 +1,22 @@
+{
+  "name": "@hugoblox/blox-tailwind",
+  "version": "1.0.0",
+  "description": "Hugo Blox Tailwind UI Components",
+  "type": "module",
+  "scripts": {
+    "dev": "hugo server --source=../../test --config=../../test/config.yaml --themesDir=../.. --buildDrafts --buildFuture --disableFastRender",
+    "build": "hugo --source=../../test --config=../../test/config.yaml --themesDir=../.. --minify",
+    "type-check": "tsc --noEmit",
+    "lint": "biome check ."
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+    "@preact/preset-vite": "^2.8.1",
+    "@types/node": "^20.10.5",
+    "typescript": "^5.3.3"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
