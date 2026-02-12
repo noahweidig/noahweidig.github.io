@@ -70,3 +70,4 @@ npm-debug.log*
 
 # Hugo vendored modules
 _vendor/
+package-lock.json
