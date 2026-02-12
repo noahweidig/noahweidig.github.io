@@ -13,7 +13,7 @@ main:
     url: /#experience
     weight: 30
   - name: Blog
-    url: /#blog
+    url: https://noahweidig.substack.com/
     weight: 40
   - name: Contact
     url: /#contact

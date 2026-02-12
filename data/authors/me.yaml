@@ -19,16 +19,16 @@ affiliations:
 
 links:
   - icon: brands/linkedin
-    url: https://www.linkedin.com/in/alexjohnson/
+    url: https://www.linkedin.com/in/noahweidig/
   - icon: at-symbol
     url: mailto:noah@noahweidig.com
     label: E-mail Me
   - icon: brands/github
-    url: https://github.com/alexjohnson
+    url: https://github.com/noahweidig/
   - icon: academicons/google-scholar
     url: https://scholar.google.com/citations?hl=en&user=Ml95eTwAAAAJ
   - icon: academicons/orcid
-    url: https://orcid.org/
+    url: https://orcid.org/0000-0003-1205-3209
   - icon: custom/substack
     url: https://noahweidig.substack.com/
   - icon: custom/calendar
