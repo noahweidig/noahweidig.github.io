@@ -251,10 +251,11 @@ hugoblox:
   # ────────────────────────────────────────────────────────────────────────────
   security:
     csp:
-      policy: ""
+      # Start with a safe default CSP - customize as needed
+      policy: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://www.google-analytics.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https://www.google-analytics.com https://www.googletagmanager.com;"
       report_only: false
-    frame_options: allow                 # deny | sameorigin | allow - allow enables iframe embedding
-    permissions_policy: ""
+    frame_options: sameorigin            # deny | sameorigin | allow - allow enables iframe embedding
+    permissions_policy: "camera=(), microphone=(), geolocation=(), payment=(), usb=(), vr=()"
 
   # ────────────────────────────────────────────────────────────────────────────
   # PRIVACY
