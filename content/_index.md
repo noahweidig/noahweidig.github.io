@@ -111,13 +111,13 @@ sections:
         - name: GIS
           items:
             - name: ArcGIS Pro
-              icon: custom/arcgis
-            - name: Google Earth Engine
-              icon: custom/gee
+              icon: brands/arcgis
+            - name: GEE
+              icon: brands/googleearthengine
             - name: QGIS
-              icon: custom/qgis
+              icon: brands/qgis
             - name: GDAL
-              icon: custom/gdal
+              icon: brands/gdal
     design:
       style: grid
       show_levels: false
