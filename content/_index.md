@@ -22,10 +22,10 @@ sections:
         enable: true
         prefix: "I build"
         strings:
-          - "full-stack web apps"
-          - "scalable APIs"
-          - "beautiful UIs"
-          - "open source tools"
+          - "geospatial analyses"
+          - "remote sensing workflows"
+          - "data-driven insights"
+          - "GIS applications"
         type_speed: 70
         delete_speed: 40
         pause_time: 2500
@@ -145,42 +145,86 @@ sections:
       title: Experience
       date_format: Jan 2006
       items:
-        - title: Senior Software Engineer
-          company: Tech Corp
+        - title: GIS & Remote Sensing Research Associate
+          company: University of Florida
           company_url: ''
           company_logo: ''
-          location: San Francisco, CA
-          date_start: '2023-01-01'
+          location: Milton, FL
+          date_start: '2025-08-01'
           date_end: ''
           description: |2-
-            * Lead development of microservices architecture serving 1M+ users
-            * Improved API response time by 40% through optimization
-            * Mentored team of 5 junior developers
-            * Tech stack: React, Node.js, PostgreSQL, AWS
-        - title: Full-Stack Developer
-          company: Startup Inc
+            * Led GIS-based analysis assessing spatial patterns and land-use impacts on community and regional risk management
+            * 40 hrs/wk
+        - title: Graduate Research Assistant
+          company: University of Florida
           company_url: ''
           company_logo: ''
-          location: Remote
-          date_start: '2021-06-01'
-          date_end: '2022-12-31'
+          location: Milton, FL
+          date_start: '2023-08-01'
+          date_end: '2025-08-31'
           description: |2-
-            * Built and deployed 3 production applications from scratch
-            * Implemented CI/CD pipeline reducing deployment time by 60%
-            * Collaborated with design team on UI/UX improvements
-            * Tech stack: Next.js, Express, MongoDB, Docker
-        - title: Junior Developer
-          company: Web Agency
+            * Conducted geospatial analysis to support wildland-urban interface and emergency management decision-making
+            * 25 hrs/wk
+        - title: Research Assistant Intern
+          company: USDA Agricultural Research Service
           company_url: ''
           company_logo: ''
-          location: New York, NY
-          date_start: '2020-01-01'
-          date_end: '2021-05-31'
+          location: Miles City, MT
+          date_start: '2023-05-01'
+          date_end: '2023-08-31'
           description: |2-
-            * Developed client websites using modern web technologies
-            * Maintained and updated legacy codebases
-            * Participated in code reviews and agile ceremonies
-            * Tech stack: React, WordPress, PHP, MySQL
+            * Collected, cleaned, and validated spatial datasets to support GIS-based risk assessment and land-use planning
+            * 40 hrs/wk
+        - title: Fire & Recreation Intern
+          company: Student Conservation Association/US Forest Service
+          company_url: ''
+          company_logo: ''
+          location: ''
+          date_start: '2023-01-01'
+          date_end: '2023-05-31'
+          description: |2-
+            * Applied GIS to support spatial planning and risk assessment for land management projects
+            * 40 hrs/wk
+        - title: Research Assistant
+          company: University of Cincinnati
+          company_url: ''
+          company_logo: ''
+          location: Cincinnati, OH
+          date_start: '2022-05-01'
+          date_end: '2023-01-31'
+          description: |2-
+            * Conducted quantitative data analysis for biomedical research using advanced statistical modeling and visualization
+            * 40 hrs/wk
+        - title: Research Assistant
+          company: Northern Kentucky University
+          company_url: ''
+          company_logo: ''
+          location: Highland Heights, KY
+          date_start: '2020-02-01'
+          date_end: '2022-05-31'
+          description: |2-
+            * Collected, organized, and analyzed complex ecological datasets using spatial and statistical methods
+            * 10-25 hrs/wk
+        - title: Design Consultant
+          company: Garage Living
+          company_url: ''
+          company_logo: ''
+          location: Cincinnati, OH
+          date_start: '2021-09-01'
+          date_end: '2022-06-30'
+          description: |2-
+            * Developed CAD drawings and project plans for residential remodeling projects
+            * 15 hrs/wk
+        - title: Elections Clerk
+          company: Boone County Clerk's Office
+          company_url: ''
+          company_logo: ''
+          location: Burlington, KY
+          date_start: '2017-08-01'
+          date_end: '2020-02-28'
+          description: |2-
+            * Managed and analyzed precinct-level GIS data for voter registration and electoral planning
+            * 25 hrs/wk
     design:
       columns: '1'
       background:

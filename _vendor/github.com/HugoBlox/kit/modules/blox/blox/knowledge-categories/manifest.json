@@ -1,8 +1,0 @@
-{
-  "name": "knowledge-categories",
-  "version": "1",
-  "title": "Knowledge Categories",
-  "description": "Grid of knowledge base category cards",
-  "categories": ["content", "navigation"],
-  "preview": "preview.svg"
-}
