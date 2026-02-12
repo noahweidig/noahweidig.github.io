@@ -154,7 +154,6 @@ sections:
           date_end: ''
           description: |2-
             * Led GIS-based analysis assessing spatial patterns and land-use impacts on community and regional risk management
-            * 40 hrs/wk
         - title: Graduate Research Assistant
           company: University of Florida
           company_url: ''
@@ -164,7 +163,6 @@ sections:
           date_end: '2025-08-31'
           description: |2-
             * Conducted geospatial analysis to support wildland-urban interface and emergency management decision-making
-            * 25 hrs/wk
         - title: Research Assistant Intern
           company: USDA Agricultural Research Service
           company_url: ''
@@ -174,7 +172,6 @@ sections:
           date_end: '2023-08-31'
           description: |2-
             * Collected, cleaned, and validated spatial datasets to support GIS-based risk assessment and land-use planning
-            * 40 hrs/wk
         - title: Fire & Recreation Intern
           company: Student Conservation Association/US Forest Service
           company_url: ''
@@ -184,7 +181,6 @@ sections:
           date_end: '2023-05-31'
           description: |2-
             * Applied GIS to support spatial planning and risk assessment for land management projects
-            * 40 hrs/wk
         - title: Research Assistant
           company: University of Cincinnati
           company_url: ''
@@ -194,7 +190,6 @@ sections:
           date_end: '2023-01-31'
           description: |2-
             * Conducted quantitative data analysis for biomedical research using advanced statistical modeling and visualization
-            * 40 hrs/wk
         - title: Research Assistant
           company: Northern Kentucky University
           company_url: ''
@@ -204,7 +199,6 @@ sections:
           date_end: '2022-05-31'
           description: |2-
             * Collected, organized, and analyzed complex ecological datasets using spatial and statistical methods
-            * 10-25 hrs/wk
         - title: Design Consultant
           company: Garage Living
           company_url: ''
@@ -214,7 +208,6 @@ sections:
           date_end: '2022-06-30'
           description: |2-
             * Developed CAD drawings and project plans for residential remodeling projects
-            * 15 hrs/wk
         - title: Elections Clerk
           company: Boone County Clerk's Office
           company_url: ''
@@ -224,7 +217,6 @@ sections:
           date_end: '2020-02-28'
           description: |2-
             * Managed and analyzed precinct-level GIS data for voter registration and electoral planning
-            * 25 hrs/wk
     design:
       columns: '1'
       background:
