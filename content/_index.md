@@ -98,36 +98,26 @@ sections:
               icon: devicon/javascript
             - name: SQL
               icon: devicon/azuresqldatabase
-        - name: Frontend
+        - name: Tools
           items:
-            - name: React
-              icon: devicon/react
-            - name: Next.js
-              icon: devicon/nextjs
-            - name: Tailwind CSS
-              icon: devicon/tailwindcss
-            - name: Alpine.js
-              icon: devicon/alpinejs
-        - name: Backend
+            - name: LaTeX
+              icon: devicon/latex
+            - name: Markdown
+              icon: devicon/markdown
+            - name: Git
+              icon: devicon/git
+            - name: Bash
+              icon: devicon/bash
+        - name: GIS
           items:
-            - name: Node.js
-              icon: devicon/nodejs
-            - name: Express
-              icon: devicon/express
-            - name: PostgreSQL
-              icon: devicon/postgresql
-            - name: Redis
-              icon: devicon/redis
-        - name: DevOps
-          items:
-            - name: Docker
-              icon: devicon/docker
-            - name: AWS
-              icon: devicon/amazonwebservices-wordmark
-            - name: GitHub Actions
-              icon: brands/github
-            - name: Vercel
-              icon: devicon/vercel
+            - name: ArcGIS Pro
+              icon: custom/arcgis
+            - name: Google Earth Engine
+              icon: custom/gee
+            - name: QGIS
+              icon: custom/qgis
+            - name: GDAL
+              icon: custom/gdal
     design:
       style: grid
       show_levels: false
