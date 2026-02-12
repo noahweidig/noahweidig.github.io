@@ -3,3 +3,11 @@
   height: 1.6em;
   margin-right: 0.5em;
 }
+
+/* Fix dark mode contrast for tech stack icons (LaTeX, Markdown, Bash) */
+.dark #skills svg {
+  fill: currentColor;
+}
+.dark #skills svg path[fill="#293138"] {
+  fill: #d4d4d4;
+}
