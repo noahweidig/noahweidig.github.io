@@ -90,14 +90,14 @@ sections:
       categories:
         - name: Languages
           items:
-            - name: TypeScript
-              icon: devicon/typescript
-            - name: JavaScript
-              icon: devicon/javascript
+            - name: R
+              icon: devicon/r
             - name: Python
               icon: devicon/python
-            - name: Go
-              icon: devicon/go
+            - name: JavaScript
+              icon: devicon/javascript
+            - name: SQL
+              icon: devicon/azuresqldatabase
         - name: Frontend
           items:
             - name: React
@@ -222,7 +222,7 @@ sections:
       text: |-
         I'm always interested in hearing about new projects and opportunities.
         Whether you're looking to hire, collaborate, or just want to say hi, feel free to reach out!
-      email: alex@example.com
+      email: noah@noahweidig.com
       autolink: true
     design:
       columns: '1'

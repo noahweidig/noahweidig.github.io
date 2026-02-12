@@ -2,14 +2,14 @@ schema: hugoblox/author/v1
 slug: me
 is_owner: true
 name:
-  display: Alex Johnson
-  given: Alex
-  family: Johnson
+  display: Noah Weidig
+  given: Noah
+  family: Weidig
 postnominals: []
 status:
-  icon: "💻"  # Emoji shown on avatar badge: 💻 developer, 🎨 designer, 🚀 startup, 🔬 researcher, 🎓 student
+  icon: ""
 role: Full-Stack Developer
-email: alex@example.com
+email: noah@noahweidig.com
 bio: |
   Full-stack developer with 5+ years of experience building scalable web applications.
   Passionate about modern JavaScript, cloud architecture, and creating delightful user experiences.
@@ -20,7 +20,7 @@ affiliations:
 
 links:
   - icon: at-symbol
-    url: mailto:alex@example.com
+    url: mailto:noah@noahweidig.com
     label: E-mail Me
   - icon: brands/github
     url: https://github.com/alexjohnson
@@ -36,17 +36,14 @@ interests:
   - Developer Experience
 
 education:
-  - degree: B.S. Computer Science
-    institution: State University
-    start: 2015-09-01
-    end: 2019-05-31
-    summary: |
-      Focus on software engineering and distributed systems.
-      Senior project on distributed caching systems.
-    button:
-      text: View Project
-      url: https://github.com/alexjohnson/senior-project
-      icon: brands/github
+  - degree: M.S., Forest Resources and Conservation
+    institution: University of Florida
+    start: 2023-08-01
+    end: 2025-08-31
+  - degree: Bachelor of Science, Biological Sciences
+    institution: Northern Kentucky University
+    start: 2018-08-01
+    end: 2022-05-31
 
 experience:
   - role: Senior Software Engineer
