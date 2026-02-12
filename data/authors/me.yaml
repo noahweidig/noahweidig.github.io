@@ -18,15 +18,21 @@ affiliations:
     url: https://www.ufl.edu
 
 links:
+  - icon: brands/linkedin
+    url: https://www.linkedin.com/in/alexjohnson/
   - icon: at-symbol
     url: mailto:noah@noahweidig.com
     label: E-mail Me
   - icon: brands/github
     url: https://github.com/alexjohnson
-  - icon: brands/linkedin
-    url: https://www.linkedin.com/in/alexjohnson/
+  - icon: academicons/google-scholar
+    url: https://scholar.google.com/citations?hl=en&user=Ml95eTwAAAAJ
   - icon: academicons/orcid
     url: https://orcid.org/
+  - icon: custom/substack
+    url: https://noahweidig.substack.com/
+  - icon: custom/calendar
+    url: https://cal.com/noah-weidig/meet
 
 interests:
   - Web Development
