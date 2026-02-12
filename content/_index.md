@@ -57,16 +57,7 @@ sections:
       filters:
         folders:
           - projects
-      buttons:
-        - name: All
-          tag: '*'
-        - name: Full-Stack
-          tag: Full-Stack
-        - name: Frontend
-          tag: Frontend
-        - name: Backend
-          tag: Backend
-      default_button_index: 0
+      buttons: []
       # Archive link auto-shown if more projects exist than 'count' above
       # archive:
       #   enable: false  # Set to false to explicitly hide
@@ -111,13 +102,13 @@ sections:
         - name: GIS
           items:
             - name: ArcGIS Pro
-              icon: brands/arcgis
+              icon: custom/arcgis
             - name: GEE
-              icon: brands/googleearthengine
+              icon: custom/gee
             - name: QGIS
-              icon: brands/qgis
+              icon: custom/qgis
             - name: GDAL
-              icon: brands/gdal
+              icon: custom/gdal
     design:
       style: grid
       show_levels: false
