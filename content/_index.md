@@ -239,12 +239,10 @@ sections:
         text: 'Download Resume'
         url: uploads/resume.pdf
         new_tab: true
-        icon: download
-      button2:
+      button:
         text: 'Hire Me'
         url: https://noahweidig.com/hire
         new_tab: false
-        icon: briefcase
     design:
       card:
         # Light mode: soft pastel theme gradient | Dark mode: rich deep gradient
