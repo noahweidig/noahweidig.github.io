@@ -15,6 +15,9 @@ main:
   - name: Blog
     url: https://noahweidig.substack.com/
     weight: 40
+  - name: Publications
+    url: https://noahweidig.com/pubs
+    weight: 45
   - name: Contact
     url: /#contact
     weight: 50
