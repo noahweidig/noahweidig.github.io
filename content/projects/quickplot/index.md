@@ -9,7 +9,7 @@ tags:
 links:
   - type: live
     url: https://noahweidig.github.io/quickplot/
-    label: Documentation
+    label: Launch QuickPlot
 featured: true
 ---
 
