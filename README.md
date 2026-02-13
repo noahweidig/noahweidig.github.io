@@ -1,124 +1,67 @@
-# [Developer Portfolio](https://hugoblox.com/templates/dev-portfolio/start?utm_source=github&utm_medium=readme)
+# 🌐 noahweidig.com
 
-[![Screenshot](.github/preview.png)](https://hugoblox.com/templates/dev-portfolio/start?utm_source=github&utm_medium=readme)
+Welcome to the repository for my personal website:  
+👉 **[noahweidig.com](https://noahweidig.com)**
 
-<h1 align="center">The Dev Portfolio That Gets You Hired</h1>
-
-<p align="center">
-  <strong>Built for uni students, STEM grads, and software engineers.</strong><br/>
-  Showcase real projects, ship a clean blog, and stand out with a modern dark-first design — without a fragile “black box” React app.
-</p>
-
-<p align="center">
-  <a href="https://hugoblox.com/templates/dev-portfolio/start?utm_source=github&utm_medium=readme"><b>🚀 Deploy in 60s (Free)</b></a>
-  &nbsp;•&nbsp;
-  <a href="https://hugoblox.com/templates/?open=dev-portfolio&loading=true&utm_source=github&utm_medium=readme">Live Demo</a>
-  &nbsp;•&nbsp;
-  <a href="https://docs.hugoblox.com/guides/studio/">HugoBlox Studio (Visual Editor)</a>
-</p>
-
-
-<p align="center">
-  <b>▶︎ Watch 12s Preview</b>
-</p>
-
-https://github.com/user-attachments/assets/a6b676c0-1c10-4734-a55f-68c6f72d1612
-
-<p align="center">
-  <a href="https://discord.gg/z8wNYzb"><img src="https://img.shields.io/discord/722225264733716590?label=Join%20Discord&style=social" alt="Discord"></a>
-  <a href="https://github.com/HugoBlox/kit"><img src="https://img.shields.io/github/stars/HugoBlox/kit?label=Star%20HugoBlox&style=social" alt="GitHub Stars"></a>
-  <a href="https://x.com/LoreLabs_"><img src="https://img.shields.io/twitter/follow/LoreLabs_?label=Follow&style=social" alt="Follow on X"></a>
-</p>
+This site serves as my digital home — a place to showcase projects, research, and experiments across geospatial analysis, data science, and creative work.
 
 ---
 
-## Why this template?
+## ✨ About
 
-Most portfolios look the same — and most “quick” site builders produce slow sites you can’t maintain.
+This website is designed to be:
 
-- **⚡ Fast by default**: Hugo + Tailwind 4 + Hugo Modules → great Lighthouse scores without JS bloat.
-- **🧠 AI-ready content**: Your projects and posts live in clean Markdown/YAML — readable by humans and LLMs.
-- **🎯 Job-hunting optimized**: Projects, tech stack, experience timeline, and a blog layout that looks credible.
-- **🌙 Dark-first (but light-mode supported)**: Looks premium in dark mode, still works perfectly in light mode.
-- **🧩 Block-based**: Reorder/replace sections without rewriting templates.
+- **Minimal** – fast, clean, distraction-free  
+- **Responsive** – works across devices  
+- **Personal** – a reflection of my work & interests  
 
 ---
 
-## Who it’s for
+## 🧭 Contents
 
-- **Students & grads** applying to internships / MSc / PhD / junior roles
-- **STEM professionals** (research, data, ML, bio, engineering) showcasing projects and writing
-- **Software engineers** building a portfolio that feels modern in 2026
+Depending on the current iteration, the site may include:
 
----
-
-## What you get (Free)
-
-- **Developer hero** with modern gradients + optional typewriter
-- **Filterable portfolio** (tags + smooth transitions)
-- **Tech stack** grid with icons
-- **Experience + education timeline**
-- **Blog section** (cards + featured images)
-- **Contact section** with social links + copy email
+- Portfolio / Projects  
+- Research & Publications  
+- Writing / Notes  
+- Contact Information  
 
 ---
 
-## Get started (recommended)
+## 🛠️ Tech Stack
 
-### Option 1 — Online deployer (fastest)
+Built with:
 
-Deploy this template in ~60 seconds:
-
-- [Deploy in browser →](https://hugoblox.com/templates/dev-portfolio/start?utm_source=github&utm_medium=readme)
-
-### Option 2 — HugoBlox Studio (visual editor in VS Code)
-
-- [Studio guide →](https://docs.hugoblox.com/guides/studio/?utm_source=github&utm_medium=readme)
-- [Studio AI automation plans (Free/Plus/Pro) →](https://hugoblox.com/pricing/?utm_source=github&utm_medium=readme)
-
-### Option 3 — HugoBlox CLI (developer workflow)
-
-Install:
-
-```bash
-npm install -g hugoblox@latest
-```
-
-Create a site:
-
-```bash
-hugoblox create site --template dev-portfolio
-```
-
-[CLI docs →](https://docs.hugoblox.com/start/cli/?utm_source=github&utm_medium=readme)
+- HTML / CSS / JS  
+- GitHub Pages  
+- (Optional frameworks / libraries)
 
 ---
 
-## Customize in 10 minutes
+## 🚀 Deployment
 
-- **Your profile**: `data/authors/me.yaml`
-- **Homepage sections**: `content/_index.md`
-- **Projects**: `content/projects/<project>/index.md`
-- **Blog posts**: `content/blog/<post>/index.md`
-- **Theme + identity**: `config/_default/params.yaml`
+The site is deployed via **GitHub Pages**.
+
+Any push to the main branch automatically updates the live site.
 
 ---
 
-## Want the Pro version? 💎
+## 📌 Purpose of This Repo
 
-If you want a version that feels meaningfully more premium (and helps fund open source + research):
+This repository exists to:
 
-- [Premium template →](https://hugoblox.com/templates/dev-portfolio-pro/start?utm_source=github&utm_medium=readme)
-- [HugoBlox Pro / Studio →](https://hugoblox.com/pricing?utm_source=github&utm_medium=readme)
-
----
-
-## Community & support
-
-- **Docs**: [docs.hugoblox.com →](https://docs.hugoblox.com/?utm_source=github&utm_medium=readme)
-- **Discord**: [Join Discord →](https://discord.gg/z8wNYzb)
-- **Issues**: [Open an issue →](https://github.com/HugoBlox/kit/issues)
+- Track website changes  
+- Experiment with design & features  
+- Maintain version history  
 
 ---
 
-MIT © 2016–Present [George Cushen](https://neuralgeo.com/?utm_source=github&utm_medium=readme)
+## 📫 Contact
+
+🌍 **Website:** [https://noahweidig.com](https://noahweidig.com)  
+
+---
+
+## ⚖️ License
+
+Specify a license if applicable (e.g., MIT, All Rights Reserved).
