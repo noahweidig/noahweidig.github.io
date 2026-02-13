@@ -226,25 +226,7 @@ sections:
           dark: "#0d0d12"
       spacing:
         padding: ["4rem", "0", "4rem", "0"]
-
-  # Hire Me Button
-  - block: markdown
-    content:
-      text: |-
-        <div style="text-align: center;">
-          <a href="https://noahweidig.com/hire" target="_blank" rel="noopener" class="inline-flex items-center justify-center rounded-full bg-primary-600 px-8 py-3 text-lg font-medium text-white shadow-sm transition-transform hover:scale-105 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 dark:bg-white dark:text-primary-600 dark:hover:bg-gray-100">
-            Hire Me
-          </a>
-        </div>
-    design:
-      columns: '1'
-      background:
-        color:
-          light: "#ffffff"
-          dark: "#0d0d12"
-      spacing:
-        padding: ["2rem", "0", "2rem", "0"]
-
+  
   # CTA Card
   - block: cta-card
     content:
