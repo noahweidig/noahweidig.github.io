@@ -1,0 +1,36 @@
+{{/* Hugo Blox: CTA Card Block Override */}}
+{{/* This template overrides the default CTA Card to add icon support to the button. */}}
+
+{{ $block := . }}
+{{ $content := $block.content }}
+{{ $design := $block.design }}
+
+<section class="section-cta relative px-6 py-12 md:py-16 {{ $design.css_class }}">
+  <div class="mx-auto max-w-5xl rounded-3xl p-8 md:p-12 shadow-lg {{ $design.card.css_class }} {{ if eq $design.card.text_color "light" }}text-white{{ else }}text-gray-900 dark:text-white{{ end }}">
+    <div class="flex flex-col md:flex-row items-center justify-between gap-8">
+      <div class="text-center md:text-left flex-1 space-y-4">
+        {{ with $content.title }}
+        <h2 class="text-3xl md:text-4xl font-bold tracking-tight">
+          {{ . | markdownify }}
+        </h2>
+        {{ end }}
+        {{ with $content.text }}
+        <div class="prose prose-lg {{ if eq $design.card.text_color "light" }}prose-invert{{ end }} max-w-none">
+          {{ . | markdownify }}
+        </div>
+        {{ end }}
+      </div>
+
+      {{ with $content.button }}
+      <div class="flex-shrink-0">
+        <a href="{{ .url }}" {{ if .new_tab }}target="_blank" rel="noopener"{{ end }} class="inline-flex items-center justify-center rounded-full bg-primary-600 px-8 py-3 text-lg font-medium text-white shadow-sm transition-transform hover:scale-105 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 dark:bg-white dark:text-primary-600 dark:hover:bg-gray-100">
+          {{ if .icon }}
+            <i class="fas fa-{{ .icon }} mr-2"></i>
+          {{ end }}
+          {{ .text | markdownify | emojify }}
+        </a>
+      </div>
+      {{ end }}
+    </div>
+  </div>
+</section>
