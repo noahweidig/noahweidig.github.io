@@ -239,6 +239,7 @@ sections:
         text: 'Download Resume'
         url: uploads/resume.pdf
         new_tab: true
+        icon: download
     design:
       card:
         # Light mode: soft pastel theme gradient | Dark mode: rich deep gradient
