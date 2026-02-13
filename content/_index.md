@@ -236,7 +236,7 @@ sections:
         
         Let's connect and discuss how I can help your team.
       button:
-        text: 'Resume'
+        text: 'Download Resume'
         url: uploads/resume.pdf
         new_tab: true
         icon: download
