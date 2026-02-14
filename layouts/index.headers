@@ -5,6 +5,8 @@
   Strict-Transport-Security: max-age=31536000; includeSubDomains
   {{ with .Site.Params.hugoblox.security.csp.policy }}Content-Security-Policy: {{ . }}{{ end }}
   {{ with .Site.Params.hugoblox.security.permissions_policy }}Permissions-Policy: {{ . }}{{ end }}
+  Link: <https://fonts.googleapis.com>; rel=preconnect
+  Link: <https://fonts.gstatic.com>; rel=preconnect; crossorigin
 
 # Cache control for static assets (fonts, images, etc.)
 /assets/*
