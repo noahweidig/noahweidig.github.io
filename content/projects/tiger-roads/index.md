@@ -9,7 +9,7 @@ tags:
 links:
   - type: live
     url: https://gee-community-catalog.org/projects/tiger_roads/
-    label: Catalog
+    label: View Catalog
 featured: true
 ---
 
