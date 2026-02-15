@@ -11,7 +11,11 @@
   {{ with .Site.Params.hugoblox.security.permissions_policy }}Permissions-Policy: {{ . }}{{ end }}
   Link: <https://fonts.googleapis.com>; rel=preconnect
   Link: <https://fonts.gstatic.com>; rel=preconnect; crossorigin
+  Link: <https://cdn.jsdelivr.net>; rel=preconnect
 
 # Cache control for static assets (fonts, images, etc.)
 /assets/*
   Cache-Control: public, max-age=31536000, immutable
+
+/uploads/*
+  Cache-Control: public, max-age=2592000
