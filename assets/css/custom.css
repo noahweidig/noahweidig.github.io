@@ -27,9 +27,10 @@ html.dark {
 }
 
 /* Fix featured image centering in project cards */
-/* Hugo Blox uses object-fill which stretches images; object-cover properly */
-/* centers and crops images within the 16:9 card container */
-.hb-card img {
+/* Hugo Blox card template applies Tailwind's object-fill class on <img> elements, */
+/* which uses object-fit:fill and stretches images. Override with object-cover to */
+/* properly center and crop images within the 16:9 card container. */
+.blox-portfolio img.object-fill {
   object-fit: cover !important;
   object-position: center !important;
 }
