@@ -9,7 +9,7 @@ tags:
 links:
   - type: live
     url: https://noahweidig.quarto.pub/chartifyr/
-    label: Documentation
+    label: Read Blog
 featured: true
 ---
 
