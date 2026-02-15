@@ -10,6 +10,8 @@ links:
   - type: live
     url: https://www.noahweidig.com/chartifyr/
     label: Read Blog
+image:
+  filename: chartifyr.png
 featured: true
 ---
 

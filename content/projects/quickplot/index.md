@@ -10,6 +10,8 @@ links:
   - type: live
     url: https://noahweidig.github.io/quickplot/
     label: Launch QuickPlot
+image:
+  filename: quickplot.png
 featured: true
 ---
 
