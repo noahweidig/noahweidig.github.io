@@ -10,6 +10,8 @@ links:
   - type: live
     url: https://gee-community-catalog.org/projects/tiger_roads/
     label: Catalog
+image:
+  filename: tiger.png
 featured: true
 ---
 
