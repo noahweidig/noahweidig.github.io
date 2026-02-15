@@ -3,10 +3,6 @@
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   Strict-Transport-Security: max-age=31536000; includeSubDomains
-  X-XSS-Protection: 1; mode=block
-  X-Permitted-Cross-Domain-Policies: none
-  Cross-Origin-Resource-Policy: same-origin
-  Cross-Origin-Opener-Policy: same-origin
   {{ with .Site.Params.hugoblox.security.csp.policy }}Content-Security-Policy: {{ . }}{{ end }}
   {{ with .Site.Params.hugoblox.security.permissions_policy }}Permissions-Policy: {{ . }}{{ end }}
   Link: <https://fonts.googleapis.com>; rel=preconnect
