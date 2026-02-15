@@ -26,6 +26,14 @@ html.dark {
   color: #ffffff;
 }
 
+/* Fix featured image centering in project cards */
+/* Hugo Blox uses object-fill which stretches images; object-cover properly */
+/* centers and crops images within the 16:9 card container */
+.hb-card img {
+  object-fit: cover !important;
+  object-position: center !important;
+}
+
 /* Hide navbar brand name on very narrow mobile devices to prevent wrapping */
 @media (max-width: 480px) {
   .navbar-brand {
