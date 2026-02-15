@@ -1,0 +1,74 @@
+{{/* Hugo Blox: Dev Hero Block Override */}}
+{{ $block := .wcBlock | default . }} <!-- Adjust based on context -->
+{{ $content := $block.content }}
+{{ $design := $block.design }}
+
+{{ $author := "" }}
+{{ if $content.username }}
+  {{ $author = index site.Data.authors $content.username }}
+{{ end }}
+
+<section id="{{ $block.id }}" class="section-dev-hero relative w-full min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 {{ $design.css_class }}">
+  <div class="container mx-auto px-6 md:px-12 flex flex-col items-center text-center">
+
+    <!-- Greeting & Name -->
+    <h1 class="text-4xl md:text-6xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-secondary-600 dark:from-primary-400 dark:to-secondary-400">
+      {{ $content.greeting }} {{ if $author }}{{ $author.name.display | default $author.name }}{{ else }}User{{ end }}
+    </h1>
+
+    <!-- Typewriter -->
+    {{ if $content.typewriter.enable }}
+    <div class="text-2xl md:text-3xl font-medium text-slate-700 dark:text-slate-300 mb-8 h-8 flex justify-center items-center">
+      <span class="mr-2">{{ $content.typewriter.prefix }}</span>
+      <span id="typewriter-text" class="text-primary-600 dark:text-primary-400"></span>
+    </div>
+    {{ end }}
+
+    <!-- Bio Text (Fix for wrapping) -->
+    <div class="prose prose-lg dark:prose-invert max-w-2xl mx-auto mb-10 text-slate-600 dark:text-slate-400 break-words whitespace-normal px-4">
+      {{ if $author }}
+        {{ $author.bio | markdownify }}
+      {{ end }}
+    </div>
+
+    <!-- Social Icons (Fix for wrapping) -->
+    <div class="flex flex-wrap justify-center gap-4 mb-10 px-4">
+      {{ if $author }}
+        {{ range $author.links }}
+          <a href="{{ .url }}" target="_blank" rel="noopener" class="text-slate-500 hover:text-primary-600 dark:text-slate-400 dark:hover:text-primary-400 transition-colors text-3xl p-2">
+            {{ $icon := .icon }}
+            {{ if strings.HasPrefix $icon "brands/" }}
+              <i class="fab fa-{{ strings.TrimPrefix "brands/" $icon }}"></i>
+            {{ else if strings.HasPrefix $icon "academicons/" }}
+              <i class="ai ai-{{ strings.TrimPrefix "academicons/" $icon }}"></i>
+            {{ else if strings.HasPrefix $icon "custom/" }}
+              <i class="fas fa-{{ strings.TrimPrefix "custom/" $icon }}"></i>
+            {{ else }}
+              <i class="fas fa-{{ $icon }}"></i>
+            {{ end }}
+          </a>
+        {{ end }}
+      {{ end }}
+    </div>
+
+    <!-- CTA Buttons (Fix for wrapping) -->
+    <div class="flex flex-col sm:flex-row flex-wrap gap-4 w-full sm:w-auto justify-center px-4">
+      {{ range $content.cta_buttons }}
+        <a href="{{ .url }}" class="inline-flex items-center justify-center rounded-full bg-primary-600 px-8 py-3 text-lg font-medium text-white shadow-sm hover:bg-primary-700 transition-transform hover:scale-105">
+          {{ if .icon }}
+            <i class="fas fa-{{ .icon }} mr-2"></i>
+          {{ end }}
+          {{ .text }}
+        </a>
+      {{ end }}
+    </div>
+
+  </div>
+
+  <!-- Scroll Indicator -->
+  {{ if $content.show_scroll_indicator }}
+  <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+    <i class="fas fa-chevron-down text-2xl text-slate-400"></i>
+  </div>
+  {{ end }}
+</section>
