@@ -119,6 +119,16 @@ sections:
               icon: devicon/numpy
             - name: Plotly
               icon: devicon/plotly
+        - name: IDEs & Editors
+          items:
+            - name: Colab
+              icon: devicon/googlecolab
+            - name: VS Code
+              icon: devicon/vscode
+            - name: Jupyter
+              icon: devicon/jupyter
+            - name: RStudio
+              icon: devicon/rstudio
         - name: GIS
           items:
             - name: ArcGIS Pro
