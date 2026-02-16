@@ -129,6 +129,8 @@ sections:
               icon: custom/qgis
             - name: GDAL
               icon: custom/gdal
+        - name: GIS Tools
+          items:
             - name: sf
               icon: custom/sf
             - name: terra
