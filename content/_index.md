@@ -122,7 +122,7 @@ sections:
         - name: IDEs & Editors
           items:
             - name: Colab
-              icon: devicon/googlecolab
+              icon: custom/googlecolab
             - name: VS Code
               icon: devicon/vscode
             - name: Jupyter
