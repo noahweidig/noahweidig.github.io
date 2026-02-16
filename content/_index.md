@@ -112,7 +112,7 @@ sections:
         - name: Libraries
           items:
             - name: tidyverse
-              icon: brands/tidyverse
+              icon: custom/tidyverse
             - name: pandas
               icon: devicon/pandas
             - name: NumPy
