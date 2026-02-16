@@ -136,9 +136,9 @@ sections:
             - name: terra
               icon: custom/terra
             - name: GeoPandas
-              icon: brands/geopandas
+              icon: custom/geopandas
             - name: OSM
-              icon: brands/openstreetmap
+              icon: custom/openstreetmap
     design:
       style: grid
       show_levels: false
