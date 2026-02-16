@@ -18,9 +18,8 @@ affiliations:
     url: https://www.ufl.edu
 
 links:
-  - icon: brands/linkedin
+  - icon: custom/linkedin
     url: https://www.linkedin.com/in/noahweidig/
-  - icon: at-symbol
   - icon: brands/github
     url: https://github.com/noahweidig/
   - icon: custom/scholar
