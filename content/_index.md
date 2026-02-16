@@ -89,16 +89,36 @@ sections:
               icon: devicon/javascript
             - name: SQL
               icon: devicon/azuresqldatabase
-        - name: Tools
+        - name: Markup
           items:
-            - name: LaTeX
-              icon: devicon/latex
             - name: Markdown
               icon: devicon/markdown
+            - name: LaTeX
+              icon: devicon/latex
+            - name: HTML
+              icon: devicon/html5
+            - name: CSS
+              icon: devicon/css3
+        - name: Version Control
+          items:
             - name: Git
               icon: devicon/git
-            - name: Bash
-              icon: devicon/bash
+            - name: GitHub
+              icon: devicon/github
+            - name: Actions
+              icon: devicon/githubactions
+            - name: Conda
+              icon: devicon/anaconda
+        - name: Libraries
+          items:
+            - name: tidyverse
+              icon: brands/tidyverse
+            - name: pandas
+              icon: devicon/pandas
+            - name: NumPy
+              icon: devicon/numpy
+            - name: Plotly
+              icon: devicon/plotly
         - name: GIS
           items:
             - name: ArcGIS Pro
@@ -109,6 +129,14 @@ sections:
               icon: custom/qgis
             - name: GDAL
               icon: custom/gdal
+            - name: sf
+              icon: custom/sf
+            - name: terra
+              icon: custom/terra
+            - name: GeoPandas
+              icon: brands/geopandas
+            - name: OSM
+              icon: brands/openstreetmap
     design:
       style: grid
       show_levels: false
