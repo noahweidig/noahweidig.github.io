@@ -48,20 +48,25 @@ sections:
         padding: ["6rem", "0", "4rem", "0"]
 
   # Interests
-  - block: features
+  - block: tech-stack
     id: interests
     content:
       title: "Interests"
-      items:
-        - name: Web Development
-          icon: code-bracket
-        - name: Cloud Architecture
-          icon: cloud
-        - name: Open Source
-          icon: star
-        - name: Developer Experience
-          icon: command-line
+      categories:
+        - name: ""
+          items:
+            - name: Applied AI
+            - name: Geospatial Analytics
+            - name: Spatial Data Science
+            - name: Data Visualization
+            - name: Statistical Modeling
+            - name: Machine Learning
+            - name: Bayesian Analysis
+            - name: Remote Sensing
+            - name: Reproducible Research
+            - name: Data Storytelling
     design:
+      style: list
       background:
         color:
           light: "#f5f5f5"
