@@ -40,12 +40,14 @@ education:
     institution: University of Florida
     start: 2023-08-01
     end: 2025-08-31
-    description: "Thesis: Large Wildfire Patterns in the WUI, 4.0 GPA"
+    summary: |
+      Thesis: Large Wildfire Patterns in the WUI, 4.0 GPA
   - degree: Bachelor of Science, Biological Sciences
     institution: Northern Kentucky University
     start: 2018-08-01
     end: 2022-05-31
-    description: "Ecology/Evolution/Organismal Track, 4.0 GPA"
+    summary: |
+      Ecology/Evolution/Organismal Track, 4.0 GPA
 
 experience:
   - role: GIS & Remote Sensing Research Associate
@@ -99,22 +101,14 @@ experience:
 skills:
   - name: Development
     items:
-      - label: TypeScript
-        level: 5
-      - label: React
-        level: 5
-      - label: Node.js
+      - label: R
         level: 5
       - label: Python
-        level: 4
-  - name: DevOps
-    items:
-      - label: Docker
-        level: 4
-      - label: AWS
-        level: 4
-      - label: CI/CD
         level: 5
+      - label: GEE
+        level: 5
+      - label: ArcGIS
+        level: 4
 
 languages:
   - name: English
