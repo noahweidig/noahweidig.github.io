@@ -8,7 +8,7 @@ tags:
   - ggplot2
 links:
   - type: live
-    url: https://noahweidig.quarto.pub/chartifyr/
+    url: https://noahweidig.com/chartifyr/
     label: Read Blog
 featured: true
 ---
