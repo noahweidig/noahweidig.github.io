@@ -40,10 +40,12 @@ education:
     institution: University of Florida
     start: 2023-08-01
     end: 2025-08-31
+    description: "Thesis: Large Wildfire Patterns in the WUI, 4.0 GPA"
   - degree: Bachelor of Science, Biological Sciences
     institution: Northern Kentucky University
     start: 2018-08-01
     end: 2022-05-31
+    description: "Ecology/Evolution/Organismal Track, 4.0 GPA"
 
 experience:
   - role: GIS & Remote Sensing Research Associate
