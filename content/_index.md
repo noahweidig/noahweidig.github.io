@@ -46,7 +46,29 @@ sections:
           dark: "#0a0a0f"
       spacing:
         padding: ["6rem", "0", "4rem", "0"]
-  
+
+  # Interests
+  - block: features
+    id: interests
+    content:
+      title: "Interests"
+      items:
+        - name: Web Development
+          icon: code-bracket
+        - name: Cloud Architecture
+          icon: cloud
+        - name: Open Source
+          icon: star
+        - name: Developer Experience
+          icon: command-line
+    design:
+      background:
+        color:
+          light: "#f5f5f5"
+          dark: "#08080c"
+      spacing:
+        padding: ["4rem", "0", "4rem", "0"]
+
   # Filterable Portfolio - Alpine.js powered project filtering
   - block: portfolio
     id: projects
