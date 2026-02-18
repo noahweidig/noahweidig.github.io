@@ -16,11 +16,11 @@ main:
     url: https://noahweidig.substack.com/
     weight: 40
   - name: Publications
-    url: https://noahweidig.com/pubs
+    url: /pubs
     weight: 45
   - name: Contact
     url: /#contact
     weight: 50
   - name: Hire Me
-    url: https://noahweidig.com/hire
+    url: /hire
     weight: 60
