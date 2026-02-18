@@ -65,6 +65,10 @@ sections:
             - name: Remote Sensing
             - name: Reproducible Research
             - name: Data Storytelling
+            - name: Quantitative Ecology
+            - name: Forecasting
+            - name: Land Use Change
+            - name: Social-Ecological Systems
     design:
       style: list
       background:
