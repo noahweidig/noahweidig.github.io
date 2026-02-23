@@ -12,7 +12,7 @@ links:
     label: Read Blog
 featured: true
 image:
-  filename: ChartifyR.png
+  filename: chartifyR.png
 ---
 
 An interactive guide to data visualization in R using ggplot2.
