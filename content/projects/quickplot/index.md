@@ -11,6 +11,8 @@ links:
     url: https://noahweidig.github.io/quickplot/
     label: Launch Tool
 featured: true
+image:
+  filename: featured.jpg
 ---
 
 An R package for quickly creating publication-ready plots with minimal code.
