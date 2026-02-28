@@ -199,7 +199,7 @@ sections:
       items:
         - title: GIS & Remote Sensing Research Associate
           company: University of Florida
-          company_url: ''
+          company_url: 'http://www.victoriamdonovan.org/'
           company_logo: ''
           location: Milton, FL
           date_start: '2025-08-01'
@@ -208,7 +208,7 @@ sections:
             * Led GIS-based analysis assessing spatial patterns and land-use impacts on community and regional risk management
         - title: Graduate Research Assistant
           company: University of Florida
-          company_url: ''
+          company_url: 'http://www.victoriamdonovan.org/'
           company_logo: ''
           location: Milton, FL
           date_start: '2023-08-01'
@@ -217,7 +217,7 @@ sections:
             * Conducted geospatial analysis to support wildland-urban interface and emergency management decision-making
         - title: Research Assistant Intern
           company: USDA Agricultural Research Service
-          company_url: ''
+          company_url: 'https://www.ars.usda.gov/plains-area/miles-city-mt/larrl/'
           company_logo: ''
           location: Miles City, MT
           date_start: '2023-05-01'
@@ -226,16 +226,16 @@ sections:
             * Collected, cleaned, and validated spatial datasets to support GIS-based risk assessment and land-use planning
         - title: Fire & Recreation Intern
           company: Student Conservation Association/US Forest Service
-          company_url: ''
+          company_url: 'https://thesca.org/integrated-fire-and-recreation-internship-program'
           company_logo: ''
-          location: ''
+          location: Wise, VA
           date_start: '2023-01-01'
           date_end: '2023-05-31'
           description: |2-
             * Applied GIS to support spatial planning and risk assessment for land management projects
         - title: Research Assistant
           company: University of Cincinnati
-          company_url: ''
+          company_url: 'https://med.uc.edu/'
           company_logo: ''
           location: Cincinnati, OH
           date_start: '2022-05-01'
@@ -244,7 +244,7 @@ sections:
             * Conducted quantitative data analysis for biomedical research using advanced statistical modeling and visualization
         - title: Research Assistant
           company: Northern Kentucky University
-          company_url: ''
+          company_url: 'https://www.nku.edu/'
           company_logo: ''
           location: Highland Heights, KY
           date_start: '2020-02-01'
@@ -253,7 +253,7 @@ sections:
             * Collected, organized, and analyzed complex ecological datasets using spatial and statistical methods
         - title: Design Consultant
           company: Garage Living
-          company_url: ''
+          company_url: 'https://www.garageliving.com/f/cincinnati'
           company_logo: ''
           location: Cincinnati, OH
           date_start: '2021-09-01'
@@ -262,7 +262,7 @@ sections:
             * Developed CAD drawings and project plans for residential remodeling projects
         - title: Elections Data Specialist
           company: Boone County Clerk's Office
-          company_url: ''
+          company_url: 'https://boonecountyclerk.ky.gov/'
           company_logo: ''
           location: Burlington, KY
           date_start: '2017-08-01'
