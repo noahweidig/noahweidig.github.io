@@ -260,7 +260,7 @@ sections:
           date_end: '2022-06-30'
           description: |2-
             * Developed CAD drawings and project plans for residential remodeling projects
-        - title: Elections Clerk
+        - title: Elections Data Specialist
           company: Boone County Clerk's Office
           company_url: ''
           company_logo: ''
