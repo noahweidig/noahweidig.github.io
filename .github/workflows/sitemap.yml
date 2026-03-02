@@ -19,7 +19,7 @@ jobs:
       - name: Generate sitemap
         uses: cicirello/generate-sitemap@v1.10.4
         with:
-          base-url-path: https://yourdomain.com
+          base-url-path: https://noahweidig.com
 
       - name: Commit and push sitemap
         run: |
