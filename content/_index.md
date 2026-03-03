@@ -278,6 +278,21 @@ sections:
       spacing:
         padding: ["4rem", "0", "4rem", "0"]
   
+  # Awards
+  - block: resume-awards
+    id: awards
+    content:
+      title: Awards
+      username: me
+    design:
+      date_format: '2006'
+      background:
+        color:
+          light: "#f5f5f5"
+          dark: "#08080c"
+      spacing:
+        padding: ["4rem", "0", "4rem", "0"]
+
   # Contact Section
   - block: contact-info
     id: contact
