@@ -125,4 +125,44 @@ languages:
     level: 5
     label: Native
 
-awards: []
+awards:
+  - title: Best Student Presentation
+    awarder: IALE-NA
+    date: '2025-04-01'
+    summary: '$300'
+  - title: BioLEAPS Travel Grant
+    awarder: IALE-NA
+    date: '2025-04-01'
+    summary: '$1,650'
+  - title: Student Travel Grant
+    awarder: IALE-NA
+    date: '2025-04-01'
+    summary: '$850'
+  - title: CALS Scholarship
+    awarder: University of Florida
+    date: '2024-01-01'
+    summary: '$2,000'
+  - title: IFAS Travel Grant
+    awarder: University of Florida
+    date: '2024-01-01'
+    summary: '$250'
+  - title: CALS Assistantship (×2)
+    awarder: University of Florida
+    date: '2023-08-01'
+    summary: '$27,500 · 2023–2025'
+  - title: Outstanding Graduate in Biology
+    awarder: Northern Kentucky University
+    date: '2022-05-01'
+    summary: '$250'
+  - title: "President's List"
+    awarder: Northern Kentucky University
+    date: '2018-08-01'
+    summary: '4.00 GPA · 2018–2022'
+  - title: 1st Place, EntSoc Poster Competition
+    awarder: Entomological Society
+    date: '2021-01-01'
+    summary: '$75'
+  - title: Carol Swarts Research Fellowship
+    awarder: Northern Kentucky University
+    date: '2020-01-01'
+    summary: '$3,500'
