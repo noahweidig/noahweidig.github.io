@@ -285,6 +285,7 @@ sections:
       title: Awards
       username: me
     design:
+      columns: '2'
       date_format: '2006'
       background:
         color:
