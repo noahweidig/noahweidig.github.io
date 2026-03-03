@@ -288,8 +288,8 @@ sections:
       date_format: '2006'
       background:
         color:
-          light: "#f5f5f5"
-          dark: "#08080c"
+          light: "#ffffff"
+          dark: "#0d0d12"
       spacing:
         padding: ["4rem", "0", "4rem", "0"]
 
