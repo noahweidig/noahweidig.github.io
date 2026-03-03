@@ -127,42 +127,52 @@ languages:
 
 awards:
   - title: Best Student Presentation
+    icon: trophy
     awarder: IALE-NA
     date: '2025-04-01'
     summary: '$300'
   - title: BioLEAPS Travel Grant
+    icon: banknotes
     awarder: IALE-NA
     date: '2025-04-01'
     summary: '$1,650'
   - title: Student Travel Grant
+    icon: banknotes
     awarder: IALE-NA
     date: '2025-04-01'
     summary: '$850'
   - title: CALS Scholarship
+    icon: academic-cap
     awarder: University of Florida
     date: '2024-01-01'
     summary: '$2,000'
   - title: IFAS Travel Grant
+    icon: banknotes
     awarder: University of Florida
     date: '2024-01-01'
     summary: '$250'
   - title: CALS Assistantship (×2)
+    icon: academic-cap
     awarder: University of Florida
     date: '2023-08-01'
     summary: '$27,500 · 2023–2025'
   - title: Outstanding Graduate in Biology
+    icon: trophy
     awarder: Northern Kentucky University
     date: '2022-05-01'
     summary: '$250'
   - title: "President's List"
+    icon: star
     awarder: Northern Kentucky University
     date: '2018-08-01'
     summary: '4.00 GPA · 2018–2022'
   - title: 1st Place, EntSoc Poster Competition
+    icon: trophy
     awarder: Entomological Society
     date: '2021-01-01'
     summary: '$75'
   - title: Carol Swarts Research Fellowship
+    icon: academic-cap
     awarder: Northern Kentucky University
     date: '2020-01-01'
     summary: '$3,500'
