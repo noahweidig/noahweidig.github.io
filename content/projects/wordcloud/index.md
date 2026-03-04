@@ -13,4 +13,4 @@ image:
   filename: featured.png
 ---
 
-A interactive tool for examining wildfire risk across the United States.
+A simple, free wordcloud generator, just for fun!
