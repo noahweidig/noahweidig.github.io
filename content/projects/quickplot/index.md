@@ -1,7 +1,7 @@
 ---
 title: "QuickPlot"
 date: 2025-01-15
-summary: "An R package for quickly creating publication-ready plots with minimal code"
+summary: "A Shiny App for Data Viz with No Code"
 tags:
   - R
   - Data Visualization
