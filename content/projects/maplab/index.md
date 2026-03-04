@@ -14,4 +14,4 @@ image:
   filename: featured.png
 ---
 
-A simple Mapping
+A simple, free mapping project for basic geospatial analysis with geoJSON or shapefiles.
