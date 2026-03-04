@@ -1,7 +1,7 @@
 ---
 title: "TIGER Roads"
 date: 2025-01-05
-summary: "US Census TIGER roads dataset available in the Google Earth Engine community catalog"
+summary: "US Census TIGER Roads in GEE"
 tags:
   - GIS
   - Google Earth Engine
