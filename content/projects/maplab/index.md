@@ -1,7 +1,7 @@
 ---
 title: "MapLab"
 date: 2025-01-05
-summary: "Simple GIS software for non-GIS users"
+summary: "A Simple GIS Software for Non-GIS Users"
 tags:
   - GIS
   - Geospatial
