@@ -1,7 +1,7 @@
 ---
 title: "ChartifyR"
 date: 2025-01-10
-summary: "An interactive guide to data visualization in R using ggplot2"
+summary: "Tutorials for Data Analysis & Viz"
 tags:
   - R
   - Data Visualization
