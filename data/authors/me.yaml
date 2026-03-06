@@ -1,178 +1,159 @@
-schema: hugoblox/author/v1
-slug: me
+schema: "hugoblox/author/v1"
+slug: "me"
 is_owner: true
 name:
-  display: Noah Weidig
-  given: Noah
-  family: Weidig
+  display: "Noah Weidig"
+  given: "Noah"
+  family: "Weidig"
 postnominals: []
 status:
   icon: ""
-role: GIS Analyst • Data Scientist
-email: noah@noahweidig.com
-bio: |
-  I leverage remote sensing, GIS, and data science to translate complex data into clear insight about how our world changes. I believe understanding patterns through time gives people the power to see beyond the moment and shape a more intentional world.
-
+role: "GIS Analyst • Data Scientist"
+email: "noah@noahweidig.com"
+bio: "I leverage remote sensing, GIS, and data science to translate complex data into clear insight about how our world changes. I believe understanding patterns through time gives people the power to see beyond the moment and shape a more intentional world.\n"
 affiliations:
-  - name: University of Florida
-    url: https://www.ufl.edu
-
+  - name: "University of Florida"
+    url: "https://www.ufl.edu"
 links:
-  - icon: custom/linkedin
-    url: https://www.linkedin.com/in/noahweidig/
-  - icon: brands/github
-    url: https://github.com/noahweidig/
-  - icon: custom/scholar
-    url: https://scholar.google.com/citations?hl=en&user=Ml95eTwAAAAJ
-  - icon: academicons/orcid
-    url: https://orcid.org/0000-0003-1205-3209
-  - icon: custom/calendar
-    url: https://cal.com/noah-weidig/meet
-
+  - icon: "custom/linkedin"
+    url: "https://www.linkedin.com/in/noahweidig/"
+  - icon: "brands/github"
+    url: "https://github.com/noahweidig/"
+  - icon: "custom/scholar"
+    url: "https://scholar.google.com/citations?hl=en&user=Ml95eTwAAAAJ"
+  - icon: "academicons/orcid"
+    url: "https://orcid.org/0000-0003-1205-3209"
+  - icon: "custom/calendar"
+    url: "https://cal.com/noah-weidig/meet"
 interests:
-  - Applied AI
-  - Geospatial Analytics
-  - Spatial Data Science
-  - Data Visualization
-  - Statistical Modeling
-  - Machine Learning
-  - Bayesian Analysis
-  - Remote Sensing
-  - Reproducible Research
-  - Data Storytelling
-  - Quantitative Ecology
-  - Forecasting
-  - Land Use Change
-  - Social-Ecological Systems
-
+  - "Applied AI"
+  - "Geospatial Analytics"
+  - "Spatial Data Science"
+  - "Data Visualization"
+  - "Statistical Modeling"
+  - "Machine Learning"
+  - "Bayesian Analysis"
+  - "Remote Sensing"
+  - "Reproducible Research"
+  - "Data Storytelling"
+  - "Quantitative Ecology"
+  - "Forecasting"
+  - "Land Use Change"
+  - "Social-Ecological Systems"
 education:
-  - degree: Master of Science, Forest Resources & Conservation
-    institution: University of Florida
-    start: 2023-08-01
-    end: 2025-08-31
-    summary: |
-      Thesis: Large Wildfire Patterns in the WUI, 4.0 GPA
-  - degree: Bachelor of Science, Biological Sciences
-    institution: Northern Kentucky University
-    start: 2018-08-01
-    end: 2022-05-31
-    summary: |
-      Ecology/Evolution/Organismal Track, 4.0 GPA
-
+  - degree: "Master of Science, Forest Resources & Conservation"
+    institution: "University of Florida"
+    start: "2023-08-01"
+    end: "2025-08-31"
+    summary: "Thesis: Large Wildfire Patterns in the WUI, 4.0 GPA\n"
+  - degree: "Bachelor of Science, Biological Sciences"
+    institution: "Northern Kentucky University"
+    start: "2018-08-01"
+    end: "2022-05-31"
+    summary: "Ecology/Evolution/Organismal Track, 4.0 GPA\n"
 experience:
-  - role: GIS & Remote Sensing Research Associate
-    org: University of Florida
-    start: 2025-08-01
-    summary: |
-      Led GIS-based analysis assessing spatial patterns and land-use impacts on community and regional risk management.
-  - role: Graduate Research Assistant
-    org: University of Florida
-    start: 2023-08-01
-    end: 2025-08-31
-    summary: |
-      Conducted geospatial analysis to support wildland-urban interface and emergency management decision-making.
-  - role: Research Assistant Intern
-    org: USDA Agricultural Research Service
-    start: 2023-05-01
-    end: 2023-08-31
-    summary: |
-      Collected, cleaned, and validated spatial datasets to support GIS-based risk assessment and land-use planning.
-  - role: Fire & Recreation Intern
-    org: Student Conservation Association/US Forest Service
-    start: 2023-01-01
-    end: 2023-05-31
-    summary: |
-      Applied GIS to support spatial planning and risk assessment for land management projects.
-  - role: Research Assistant
-    org: University of Cincinnati
-    start: 2022-05-01
-    end: 2023-01-31
-    summary: |
-      Conducted quantitative data analysis for biomedical research using advanced statistical modeling and visualization.
-  - role: Research Assistant
-    org: Northern Kentucky University
-    start: 2020-02-01
-    end: 2022-05-31
-    summary: |
-      Collected, organized, and analyzed complex ecological datasets using spatial and statistical methods.
-  - role: Design Consultant
-    org: Garage Living
-    start: 2021-09-01
-    end: 2022-06-30
-    summary: |
-      Developed CAD drawings and project plans for residential remodeling projects.
-  - role: Elections Data Specialist
-    org: Boone County Clerk's Office
-    start: 2017-08-01
-    end: 2020-02-28
-    summary: |
-      Managed and analyzed precinct-level GIS data for voter registration and electoral planning.
-
+  - role: "GIS & Remote Sensing Research Associate"
+    org: "University of Florida"
+    start: "2025-08-01"
+    summary: "Led GIS-based analysis assessing spatial patterns and land-use impacts on community and regional risk management.\n"
+  - role: "Graduate Research Assistant"
+    org: "University of Florida"
+    start: "2023-08-01"
+    end: "2025-08-31"
+    summary: "Conducted geospatial analysis to support wildland-urban interface and emergency management decision-making.\n"
+  - role: "Research Assistant Intern"
+    org: "USDA Agricultural Research Service"
+    start: "2023-05-01"
+    end: "2023-08-31"
+    summary: "Collected, cleaned, and validated spatial datasets to support GIS-based risk assessment and land-use planning.\n"
+  - role: "Fire & Recreation Intern"
+    org: "Student Conservation Association/US Forest Service"
+    start: "2023-01-01"
+    end: "2023-05-31"
+    summary: "Applied GIS to support spatial planning and risk assessment for land management projects.\n"
+  - role: "Research Assistant"
+    org: "University of Cincinnati"
+    start: "2022-05-01"
+    end: "2023-01-31"
+    summary: "Conducted quantitative data analysis for biomedical research using advanced statistical modeling and visualization.\n"
+  - role: "Research Assistant"
+    org: "Northern Kentucky University"
+    start: "2020-02-01"
+    end: "2022-05-31"
+    summary: "Collected, organized, and analyzed complex ecological datasets using spatial and statistical methods.\n"
+  - role: "Design Consultant"
+    org: "Garage Living"
+    start: "2021-09-01"
+    end: "2022-06-30"
+    summary: "Developed CAD drawings and project plans for residential remodeling projects.\n"
+  - role: "Elections Data Specialist"
+    org: "Boone County Clerk's Office"
+    start: "2017-08-01"
+    end: "2020-02-28"
+    summary: "Managed and analyzed precinct-level GIS data for voter registration and electoral planning.\n"
 skills:
-  - name: Development
+  - name: "Development"
     items:
-      - label: R
+      - label: "R"
         level: 5
-      - label: Python
+      - label: "Python"
         level: 5
-      - label: GEE
+      - label: "GEE"
         level: 5
-      - label: ArcGIS
+      - label: "ArcGIS"
         level: 4
-
 languages:
-  - name: English
+  - name: "English"
     level: 5
-    label: Native
-
+    label: "Native"
 awards:
-  - title: Best Student Presentation
-    icon: trophy
-    awarder: International Association of Landscape Ecology - North America
-    date: '2025-04-01'
-    summary: '$300'
-  - title: BioLEAPS Travel Grant
-    icon: banknotes
-    awarder: International Association of Landscape Ecology - North America
-    date: '2025-04-01'
-    summary: '$1,650'
-  - title: Student Travel Grant
-    icon: banknotes
-    awarder: International Association of Landscape Ecology - North America
-    date: '2025-04-01'
-    summary: '$850'
-  - title: Doris and Earl Lowe and Verna Lowe Scholarship
-    icon: academic-cap
-    awarder: University of Florida, College of Agricultural and Life Sciences 
-    date: '2024-01-01'
-    summary: '$2,000'
-  - title: IFAS Travel Grant
-    icon: banknotes
-    awarder: University of Florida, Institute of Food and Agricultural Sciences
-    date: '2024-01-01'
-    summary: '$250'
-  - title: Graduate Research Assistantship
-    icon: academic-cap
-    awarder: University of Florida, College of Agricultural and Life Sciences
-    date: '2023-08-01'
-    summary: '$27,500 annually for two years'
-  - title: Outstanding Graduate in Biology
-    icon: trophy
-    awarder: Northern Kentucky University, Department of Biological Sciences
-    date: '2022-05-01'
-    summary: '$250'
+  - title: "Best Student Presentation"
+    icon: "trophy"
+    awarder: "International Association of Landscape Ecology - North America"
+    date: "2025-04-01"
+    summary: "$300"
+  - title: "BioLEAPS Travel Grant"
+    icon: "banknotes"
+    awarder: "International Association of Landscape Ecology - North America"
+    date: "2025-04-01"
+    summary: "$1,650"
+  - title: "Student Travel Grant"
+    icon: "banknotes"
+    awarder: "International Association of Landscape Ecology - North America"
+    date: "2025-04-01"
+    summary: "$850"
+  - title: "Doris and Earl Lowe and Verna Lowe Scholarship"
+    icon: "academic-cap"
+    awarder: "University of Florida, College of Agricultural and Life Sciences"
+    date: "2024-01-01"
+    summary: "$2,000"
+  - title: "IFAS Travel Grant"
+    icon: "banknotes"
+    awarder: "University of Florida, Institute of Food and Agricultural Sciences"
+    date: "2024-01-01"
+    summary: "$250"
+  - title: "Graduate Research Assistantship"
+    icon: "academic-cap"
+    awarder: "University of Florida, College of Agricultural and Life Sciences"
+    date: "2023-08-01"
+    summary: "$27,500 annually for two years"
+  - title: "Outstanding Graduate in Biology"
+    icon: "trophy"
+    awarder: "Northern Kentucky University, Department of Biological Sciences"
+    date: "2022-05-01"
+    summary: "$250"
   - title: "President's List Awardee"
-    icon: star
-    awarder: Northern Kentucky University
-    date: '2018-08-01'
-    summary: '4.00 GPA · 2018–2022'
-  - title: 1st Place, Undergraduate Student Poster Competition
-    icon: trophy
-    awarder: Entomological Society of America
-    date: '2021-01-01'
-    summary: '$75'
-  - title: Dr. Carol Swarts Milburn Research Fellowship
-    icon: academic-cap
-    awarder: Northern Kentucky University
-    date: '2020-01-01'
-    summary: '$3,500'
+    icon: "star"
+    awarder: "Northern Kentucky University"
+    date: "2018-08-01"
+    summary: "4.00 GPA · 2018–2022"
+  - title: "1st Place, Undergraduate Student Poster Competition"
+    icon: "trophy"
+    awarder: "Entomological Society of America"
+    date: "2021-01-01"
+    summary: "$75"
+  - title: "Dr. Carol Swarts Milburn Research Fellowship"
+    icon: "academic-cap"
+    awarder: "Northern Kentucky University"
+    date: "2020-01-01"
+    summary: "$3,500"
