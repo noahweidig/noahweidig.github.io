@@ -96,7 +96,7 @@ hugoblox:
     cta:
       enable: true
       text: "Hire Me"
-      url: noahweidig.com/hire
+      url: https://noahweidig.com/hire
 
   # ────────────────────────────────────────────────────────────────────────────
   # FOOTER
