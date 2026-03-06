@@ -17,14 +17,13 @@ hugoblox:
     # Legal entity for copyright notices (defaults to name if not set)
     organization: ""
     # Schema.org type for structured data
-    type: person                        # person | organization | local_business
+    type: person # person | organization | local_business
     # Short tagline displayed on your site
-    tagline: "Full-Stack Developer"
+    tagline: "GIS Analyst • Data Scientist"
     # Site meta description for search engines and social sharing
     description: "Modern developer portfolio showcasing web development projects, technical blog posts, and open source contributions. Built with Hugo Blox."
     # Social accounts (used for meta tags like Twitter Cards)
-    social:
-      twitter: "yourusername"              # Twitter/X handle for Twitter Cards (without @)
+    social: {}
 
   # ────────────────────────────────────────────────────────────────────────────
   # THEME
@@ -37,9 +36,9 @@ hugoblox:
     pack: "default"
     # Optional: Override theme pack colors
     colors:
-      primary: ""                       # Tailwind palette name or hex (e.g., "indigo" or "#6366f1")
+      primary: "" # Tailwind palette name or hex (e.g., "indigo" or "#6366f1")
       secondary: ""
-      neutral: ""                       # Affects gray utilities (text-gray-*, bg-gray-*)
+      neutral: "" # Affects gray utilities (text-gray-*, bg-gray-*)
     # Optional: Mode-specific color overrides
     colors_light: {}
     colors_dark: {}
@@ -74,7 +73,7 @@ hugoblox:
     # Spacing density: 'compact', 'comfortable', or 'spacious'
     spacing: "comfortable"
     # Avatar shape in author profiles
-    avatar_shape: circle                # circle | square | rounded
+    avatar_shape: circle # circle | square | rounded
 
   # ────────────────────────────────────────────────────────────────────────────
   # HEADER
@@ -83,11 +82,11 @@ hugoblox:
   header:
     enable: true
     # Header style variant
-    style: navbar                       # navbar | navbar-simple | minimal
+    style: navbar # navbar | navbar-simple | minimal
     # Stick to top on scroll
     sticky: true
     # Menu alignment
-    align: center                       # left | center | right
+    align: center # left | center | right
     # Feature toggles
     search: true
     theme_toggle: true
@@ -95,9 +94,9 @@ hugoblox:
     language_switcher: true
     # Call-to-action button
     cta:
-      enable: false
-      text: ""
-      url: ""
+      enable: true
+      text: "Hire Me"
+      url: noahweidig.com/hire
 
   # ────────────────────────────────────────────────────────────────────────────
   # FOOTER
@@ -105,7 +104,7 @@ hugoblox:
   # ────────────────────────────────────────────────────────────────────────────
   footer:
     # Footer style variant
-    style: minimal                      # minimal | columns | centered
+    style: minimal # minimal | columns | centered
     language_switcher: true
     # Custom footer text (HTML supported)
     text: ""
@@ -116,9 +115,9 @@ hugoblox:
   # ────────────────────────────────────────────────────────────────────────────
   copyright:
     # Copyright notice - supports {year}, {name}, {license} placeholders
-    notice: "© {year} {name}. This work is licensed under {license}"
+    notice: "© {name} {year}."
     license:
-      type: cc                          # cc | custom
+      type: custom # cc | custom
       allow_derivatives: false
       share_alike: true
       allow_commercial: false
@@ -129,7 +128,7 @@ hugoblox:
   # ────────────────────────────────────────────────────────────────────────────
   seo:
     # Browser tab title override (defaults to identity.name if not set)
-    title: ""
+    title: "Noah Weidig"
     # For local_business identity type only
     location:
       address:
@@ -166,7 +165,7 @@ hugoblox:
       enable: true
     # Academic citations (disabled for developer portfolio)
     citations:
-      style: apa                        # apa | mla | chicago | ieee
+      style: apa # apa | mla | chicago | ieee
 
   # ────────────────────────────────────────────────────────────────────────────
   # SEARCH
@@ -185,7 +184,7 @@ hugoblox:
   # ────────────────────────────────────────────────────────────────────────────
   comments:
     enable: false
-    provider: ""                        # giscus | disqus
+    provider: "" # giscus | disqus
     giscus:
       repo: ""
       repo_id: ""
@@ -200,9 +199,9 @@ hugoblox:
   # ────────────────────────────────────────────────────────────────────────────
   analytics:
     google:
-      measurement_id: ""                # Google Analytics 4: G-XXXXXXXXXX
+      measurement_id: "" # Google Analytics 4: G-XXXXXXXXXX
     google_tag_manager:
-      container_id: ""                  # GTM-XXXXXXX
+      container_id: "" # GTM-XXXXXXX
     plausible:
       domain: ""
     fathom:
@@ -232,7 +231,7 @@ hugoblox:
   # ────────────────────────────────────────────────────────────────────────────
   repository:
     enable: false
-    url: ""                             # e.g., https://github.com/username/repo
+    url: "" # e.g., https://github.com/username/repo
     branch: main
     content_dir: content
 
@@ -241,7 +240,7 @@ hugoblox:
   # Regional formatting preferences
   # ────────────────────────────────────────────────────────────────────────────
   locale:
-    date_format: "Jan 2, 2006"          # Go time format
+    date_format: "Jan 2, 2006" # Go time format
     time_format: "3:04 PM"
     address_format: en-us
 
@@ -254,7 +253,7 @@ hugoblox:
       # Start with a safe default CSP - customize as needed
       policy: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://www.google-analytics.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https://www.google-analytics.com https://www.googletagmanager.com;"
       report_only: false
-    frame_options: sameorigin            # deny | sameorigin | allow - allow enables iframe embedding
+    frame_options: sameorigin # deny | sameorigin | allow - allow enables iframe embedding
     permissions_policy: "camera=(), microphone=(), geolocation=(), payment=(), usb=(), vr=()"
 
   # ────────────────────────────────────────────────────────────────────────────
@@ -272,7 +271,7 @@ hugoblox:
   debug:
     enable: false
     hud:
-      position: bottom-left             # top-left | top-right | bottom-left | bottom-right
+      position: bottom-left # top-left | top-right | bottom-left | bottom-right
       opacity: 1.0
     export_logs: true
 
@@ -285,8 +284,8 @@ hugoblox:
     # Requires: HugoBlox Premium to support HugoBlox via alternative means
     # Note: Even with Premium, you can keep this false to support open source!
     # Get Premium: https://hugoblox.com/premium
-    hide_attribution: false
-    
+    hide_attribution: true
+
     # Affiliate referral code for rewards program
     # Join affiliate program: https://hugoblox.com/affiliates
     affiliate_code: ""

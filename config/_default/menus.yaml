@@ -4,23 +4,26 @@
 
 main:
   - name: Projects
+    identifier: a67f94de
     url: /#projects
     weight: 10
   - name: Skills
+    identifier: 56b9b039
     url: /#skills
     weight: 20
   - name: Experience
+    identifier: d7013a81
     url: /#experience
     weight: 30
   - name: Blog
+    identifier: "17830975"
     url: https://noahweidig.substack.com/
     weight: 40
   - name: Publications
+    identifier: c7555cab
     url: /pubs
-    weight: 45
-  - name: Contact
-    url: /#contact
     weight: 50
-  - name: Hire Me
-    url: /hire
+  - name: Contact
+    identifier: 4ada4344
+    url: /#contact
     weight: 60
