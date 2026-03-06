@@ -26,14 +26,9 @@ html.dark {
   color: #ffffff;
 }
 
-/* Hide navbar brand name on very narrow mobile devices to prevent wrapping */
-@media (max-width: 480px) {
-  .navbar-brand {
-    font-size: 0 !important;
-  }
-  .navbar-brand svg {
-    height: 2rem;
-    width: auto;
-    margin-right: 0;
+/* Add spacing between the right-side controls and the hamburger toggle on mobile */
+@media (max-width: 1023px) {
+  label[for="nav-toggle"] {
+    margin-left: 0.5rem;
   }
 }
