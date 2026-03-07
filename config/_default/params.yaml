@@ -95,7 +95,7 @@ hugoblox:
     # Call-to-action button
     cta:
       enable: true
-      text: "Hire Me ➜"
+      text: "Hire Me →"
       url: /hire
 
   # ────────────────────────────────────────────────────────────────────────────
