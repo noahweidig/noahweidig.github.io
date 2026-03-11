@@ -32,3 +32,24 @@ html.dark {
     margin-left: 0.5rem;
   }
 }
+
+/* Fix hamburger menu wrapping at very narrow widths (~375px) */
+/* Reduce padding between site title and theme toggle to prevent wrapping */
+@media (max-width: 400px) {
+  /* Reduce navbar padding */
+  .navbar {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+  
+  /* Reduce padding on right-side controls container */
+  .navbar > div.order-1 > div {
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
+  }
+  
+  /* Remove extra margin from hamburger menu */
+  label[for="nav-toggle"] {
+    margin-left: 0.25rem;
+  }
+}
