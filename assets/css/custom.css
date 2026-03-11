@@ -38,18 +38,19 @@ html.dark {
 @media (max-width: 400px) {
   /* Reduce navbar padding */
   .navbar {
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
   }
   
-  /* Reduce padding on right-side controls container */
-  .navbar > div.order-1 > div {
-    padding-left: 0.25rem;
-    padding-right: 0.25rem;
+  /* Reduce padding on right-side controls (theme toggle, search, etc.) */
+  .navbar .order-1 > div,
+  .navbar .order-1 > button {
+    padding-left: 0.25rem !important;
+    padding-right: 0.25rem !important;
   }
   
-  /* Remove extra margin from hamburger menu */
+  /* Reduce hamburger menu margin */
   label[for="nav-toggle"] {
-    margin-left: 0.25rem;
+    margin-left: 0.25rem !important;
   }
 }
