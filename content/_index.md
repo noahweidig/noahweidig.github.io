@@ -130,7 +130,7 @@ sections:
               icon: devicon/html5
             - name: CSS
               icon: devicon/css3
-        - name: Version Control
+        - name: Workflows
           items:
             - name: Git
               icon: devicon/git
@@ -150,16 +150,6 @@ sections:
               icon: devicon/numpy
             - name: Plotly
               icon: devicon/plotly
-        - name: IDEs & Editors
-          items:
-            - name: Colab
-              icon: custom/googlecolab
-            - name: VS Code
-              icon: devicon/vscode
-            - name: Jupyter
-              icon: devicon/jupyter
-            - name: RStudio
-              icon: devicon/rstudio
         - name: GIS
           items:
             - name: ArcGIS Pro
