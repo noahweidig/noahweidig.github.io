@@ -1,5 +1,6 @@
 ---
 title: "QuickPlot"
+weight: 10
 date: 2025-01-15
 summary: "A Shiny App for Data Viz with No Code"
 tags:
