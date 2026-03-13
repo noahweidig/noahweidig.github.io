@@ -1,5 +1,6 @@
 ---
 title: "Wildfire Risk"
+weight: 60
 date: 2025-01-05
 summary: "Risk visualizer for wildfires across the US"
 tags:
