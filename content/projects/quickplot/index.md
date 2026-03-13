@@ -13,7 +13,7 @@ links:
     label: Launch Tool
 featured: true
 image:
-  filename: featured.jpg
+  filename: featured.png
 ---
 
 An R package for quickly creating publication-ready plots with minimal code.
