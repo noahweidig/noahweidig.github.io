@@ -1,5 +1,6 @@
 ---
 title: "WUI Fire Explorer"
+weight: 40
 date: 2025-03-13
 summary: "A GEE app for visualizing risk"
 tags:
