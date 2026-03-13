@@ -1,5 +1,6 @@
 ---
 title: "WordCloud Studio"
+weight: 70
 date: 2025-01-05
 summary: "Word Cloud Generator"
 tags:
