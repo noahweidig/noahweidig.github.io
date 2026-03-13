@@ -13,7 +13,7 @@ links:
     label: Read Blog
 featured: true
 image:
-  filename: featured.webp
+  filename: featured.png
 ---
 
 An interactive guide to data visualization in R using ggplot2.
