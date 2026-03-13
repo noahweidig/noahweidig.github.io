@@ -1,5 +1,6 @@
 ---
 title: "Less."
+weight: 90
 date: 2025-03-13
 summary: "A personal exploration of minimalism"
 tags:
