@@ -105,9 +105,7 @@ hugoblox:
   footer:
     # Footer style variant
     style: minimal # minimal | columns | centered
-    language_switcher: true
-    # Custom footer text (HTML supported)
-    text: ""
+    language_switcher: false
 
   # ────────────────────────────────────────────────────────────────────────────
   # COPYRIGHT
@@ -218,7 +216,7 @@ hugoblox:
   # Search engine site verification codes
   # ────────────────────────────────────────────────────────────────────────────
   verification:
-    google: ""
+    google: "google-site-verification=0ktlvQnqLH01fphPI1cDMDTuQSmCG7mHBQdovXQs2TQ"
     bing: ""
     baidu: ""
     yandex: ""
