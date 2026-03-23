@@ -8,11 +8,12 @@ tags:
   - Geospatial
 links:
   - type: live
-    url: https://noahweidig.com/maplab
+    url: "https://noahweidig.com/maplab"
     label: Launch Tool
 featured: true
 image:
   filename: featured.png
+
 ---
 
 A simple, free mapping project for basic geospatial analysis with geoJSON or shapefiles.

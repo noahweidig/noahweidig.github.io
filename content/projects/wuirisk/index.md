@@ -8,11 +8,12 @@ tags:
   - Risk
 links:
   - type: live
-    url: https://ee-weidignc.projects.earthengine.app/view/wui-wildfire
+    url: "https://ee-weidignc.projects.earthengine.app/view/wui-wildfire"
     label: Launch Tool
 featured: true
 image:
   filename: featured.png
+
 ---
 
 A Google Earth Engine App that visualizes changes in the WUI, large wildfire occurrence, and burn severity.

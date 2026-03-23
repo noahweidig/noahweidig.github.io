@@ -8,11 +8,12 @@ tags:
   - Minimalism
 links:
   - type: live
-    url: https://noahweidig.com/less
+    url: "https://noahweidig.com/less"
     label: View Site
 featured: true
 image:
   filename: featured.png
+
 ---
 
 A personal exploration of minimalism and how it affects our lives.

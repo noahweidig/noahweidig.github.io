@@ -7,11 +7,12 @@ tags:
   - Data Science
 links:
   - type: live
-    url: https://www.noahweidig.com/wordcloud/
+    url: "https://www.noahweidig.com/wordcloud/"
     label: Launch Tool
 featured: true
 image:
   filename: featured.png
+
 ---
 
 A simple, free wordcloud generator, just for fun!

@@ -9,11 +9,12 @@ tags:
   - Wildfire
 links:
   - type: live
-    url: https://rpubs.com/noahweidig/us-wildfire-risk
+    url: "https://rpubs.com/noahweidig/us-wildfire-risk"
     label: Launch Tool
 featured: true
 image:
   filename: featured.png
+
 ---
 
 A interactive tool for examining wildfire risk across the United States.

@@ -9,11 +9,12 @@ tags:
   - Package
 links:
   - type: live
-    url: https://noahweidig.github.io/quickplot/
+    url: "https://noahweidig.github.io/quickplot/"
     label: Launch Tool
 featured: true
 image:
   filename: featured.png
+
 ---
 
 An R package for quickly creating publication-ready plots with minimal code.

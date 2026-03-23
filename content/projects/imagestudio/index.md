@@ -8,11 +8,12 @@ tags:
   - Creative
 links:
   - type: live
-    url: https://noahweidig.com/imagestudio
+    url: "https://noahweidig.com/imagestudio"
     label: Launch Tool
 featured: true
 image:
   filename: featured.png
+
 ---
 
 A creative shiny app for recoloring, editing, and rescaling images.
