@@ -21,7 +21,7 @@ hugoblox:
     # Short tagline displayed on your site
     tagline: "GIS Analyst • Data Scientist"
     # Site meta description for search engines and social sharing
-    description: "Modern developer portfolio showcasing web development projects, technical blog posts, and open source contributions. Built with Hugo Blox."
+    description: "Noah is an ecologist and GIS analyst specializing in geospatial data science, environmental modeling, and large-scale spatial analysis."
     # Social accounts (used for meta tags like Twitter Cards)
     social: {}
 
@@ -71,7 +71,7 @@ hugoblox:
     # Border radius: 'none', 'sm', 'md', 'lg', or 'full'
     radius: "md"
     # Spacing density: 'compact', 'comfortable', or 'spacious'
-    spacing: "comfortable"
+    spacing: "compact"
     # Avatar shape in author profiles
     avatar_shape: circle # circle | square | rounded
 
