@@ -1,6 +1,5 @@
 ---
 title: "MapLab"
-weight: 20
 date: 2025-01-05
 summary: "A Simple GIS Software for Non-GIS Users"
 tags:
