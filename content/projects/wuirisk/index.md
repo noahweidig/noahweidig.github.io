@@ -9,7 +9,7 @@ links:
   - type: live
     url: "https://ee-weidignc.projects.earthengine.app/view/wui-wildfire"
     label: Launch Tool
-featured: false
+featured: true
 image:
   filename: featured.png
 
