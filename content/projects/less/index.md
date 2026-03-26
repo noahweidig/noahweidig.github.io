@@ -10,7 +10,7 @@ links:
   - type: live
     url: "https://noahweidig.com/less"
     label: View Site
-featured: true
+featured: false
 image:
   filename: featured.png
 
