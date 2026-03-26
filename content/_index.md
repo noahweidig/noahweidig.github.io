@@ -79,16 +79,16 @@ sections:
         padding: ["4rem", "0", "4rem", "0"]
 
   # Filterable Portfolio - Alpine.js powered project filtering
-  - block: collection
+  - block: portfolio
     id: projects
     content:
       title: "Featured Projects"
       subtitle: "A selection of my recent work"
       count: 0
-      featured_only: true
       filters:
         folders:
           - projects
+        featured_only: true
       buttons: []
       # Archive link auto-shown if more projects exist than 'count' above
       # archive:
