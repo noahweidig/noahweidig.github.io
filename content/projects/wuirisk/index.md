@@ -1,6 +1,5 @@
 ---
 title: "WUI Wildfire Explorer"
-weight: 40
 date: 2025-03-13
 summary: "A GEE App for Visualizing Risk"
 tags:
