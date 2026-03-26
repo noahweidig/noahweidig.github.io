@@ -1,6 +1,5 @@
 ---
 title: "Wildfire Risk"
-weight: 60
 date: 2025-01-05
 summary: "Wildfire Risk Visualizer by State"
 tags:
