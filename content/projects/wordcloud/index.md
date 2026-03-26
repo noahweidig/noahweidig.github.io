@@ -8,7 +8,7 @@ links:
   - type: live
     url: "https://www.noahweidig.com/wordcloud/"
     label: Launch Tool
-featured: false
+featured: true
 image:
   filename: featured.png
 
