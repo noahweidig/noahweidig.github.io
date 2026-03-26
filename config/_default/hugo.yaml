@@ -6,7 +6,7 @@
 # Website name (set in params.yaml under hugoblox.branding.name)
 title: ""
 # Website URL
-baseURL: "https://example.com/"
+baseURL: "https://noahweidig.com/"
 
 ############################
 ## LANGUAGE
