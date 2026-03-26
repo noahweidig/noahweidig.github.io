@@ -84,7 +84,7 @@ sections:
     content:
       title: "Featured Projects"
       subtitle: "A selection of my recent work"
-      count: 0
+      count: 6
       filters:
         folders:
           - projects
