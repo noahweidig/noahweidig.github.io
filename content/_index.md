@@ -88,7 +88,6 @@ sections:
       filters:
         folders:
           - projects
-        featured_only: true
       buttons: []
       # Archive link auto-shown if more projects exist than 'count' above
       # archive:
