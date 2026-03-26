@@ -79,7 +79,7 @@ sections:
         padding: ["4rem", "0", "4rem", "0"]
 
   # Filterable Portfolio - Alpine.js powered project filtering
-  - block: portfolio
+  - block: collection
     id: projects
     content:
       title: "Featured Projects"
