@@ -1,6 +1,5 @@
 ---
 title: "Image Studio"
-weight: 80
 date: 2025-03-13
 summary: "A Shiny App for Image Editing"
 tags:
