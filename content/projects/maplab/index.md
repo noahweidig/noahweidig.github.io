@@ -1,6 +1,6 @@
 ---
 title: "MapLab"
-date: 2025-01-05
+date: 2026-03-24
 summary: "A Simple GIS Software for Non-GIS Users"
 tags:
   - GIS
