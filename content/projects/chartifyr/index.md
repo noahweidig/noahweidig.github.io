@@ -1,6 +1,5 @@
 ---
 title: "ChartifyR"
-weight: 30
 date: 2025-01-10
 summary: "Tutorials for Data Analysis & Viz"
 tags:
