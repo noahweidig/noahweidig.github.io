@@ -126,7 +126,7 @@ hugoblox:
   # ────────────────────────────────────────────────────────────────────────────
   seo:
     # Browser tab title override (defaults to identity.name if not set)
-    title: "Noah Weidig"
+    title: "Noah Weidig | GIS Analyst & Data Scientist"
     # For local_business identity type only
     location:
       address:
