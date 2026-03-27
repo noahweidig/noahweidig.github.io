@@ -241,7 +241,7 @@ sections:
           date_end: "2022-05-31"
           description: |2-
             * Collected, organized, and analyzed complex ecological datasets using spatial and statistical methods
-        - title: Design Consultant
+        - title: CAD Design Specialist
           company: Garage Living
           company_url: "https://www.garageliving.com/f/cincinnati"
           company_logo: ""
