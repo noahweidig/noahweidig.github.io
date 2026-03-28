@@ -7,7 +7,7 @@ tags:
   - Package
 links:
   - type: live
-    url: "https://noahweidig.com/quickplot/"
+    url: "https://noahweidig.com/fireR/"
     label: View Package
 featured: true
 image:
