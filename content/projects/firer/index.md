@@ -1,5 +1,5 @@
 ---
-title: "FireR"
+title: "FireR Package"
 date: 2026-03-21
 summary: "An R Package for U.S. Fire Data"
 tags:
