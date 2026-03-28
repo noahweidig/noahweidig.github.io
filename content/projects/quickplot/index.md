@@ -16,4 +16,4 @@ image:
 
 ---
 
-An R package for quickly creating publication-ready plots with minimal code.
+An R Shiny app for quickly creating publication-ready plots with minimal code.
