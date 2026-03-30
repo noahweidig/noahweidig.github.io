@@ -1,7 +1,7 @@
 <h1 align="center">Noah Weidig</h1>
 
 <p align="center">
-  <strong>GIS · Remote Sensing · Spatial Data Science · Applied AI</strong><br/>
+  <strong>GIS Analyst · Data Scientist</strong><br/>
   Translating complex geospatial data into clear insight about how our world changes.
 </p>
 
@@ -33,14 +33,17 @@ Actively seeking **Data Scientist** or **GIS Analyst** roles.
 
 | Project | Description | Link |
 |---|---|---|
-| **WUI Wildfire Explorer** | GEE App for visualizing wildfire risk in the wildland-urban interface | [Launch Tool](https://ee-weidignc.projects.earthengine.app/view/wui-wildfire) |
+| **DataViz** | Plotly gallery of data visualizations | [View Gallery](https://noahweidig.com/dataviz/) |
+| **FireR Package** | R package for U.S. fire data | [View Package](https://noahweidig.com/fireR/) |
+| **Map Explorer** | Collection of interactive maps | [See Gallery](https://noahweidig.com/maps) |
+| **WUI Wildfire Explorer** | GEE app for visualizing wildfire risk | [Launch Tool](https://ee-weidignc.projects.earthengine.app/view/wui-wildfire) |
 | **Image Studio** | Shiny App for interactive image editing | [Launch Tool](https://noahweidig.com/imagestudio) |
 | **MapLab** | Simple GIS software built for non-GIS users | [Launch Tool](https://noahweidig.com/maplab) |
-| **QuickPlot** | No-code data visualization via Shiny | [Launch Tool](https://noahweidig.github.io/quickplot/) |
+| **QuickPlot** | Shiny app for no-code data visualization | [Launch Tool](https://noahweidig.github.io/quickplot/) |
 | **ChartifyR** | Tutorials for data analysis and visualization in R | [Read Blog](https://noahweidig.com/chartifyr/) |
-| **Wildfire Risk** | US wildfire risk visualizer by state | [Launch Tool](https://rpubs.com/noahweidig/us-wildfire-risk) |
-| **TIGER Roads** | US Census TIGER Roads integrated into Google Earth Engine | [View Catalog](https://gee-community-catalog.org/projects/tiger_roads/) |
-| **WordCloud Studio** | Interactive word cloud generator | [Launch Tool](https://www.noahweidig.com/wordcloud/) |
+| **TIGER Roads** | US Census TIGER Roads in Google Earth Engine | [View Catalog](https://gee-community-catalog.org/projects/tiger_roads/) |
+| **Wildfire Risk** | Wildfire risk visualizer by state | [Launch Tool](https://rpubs.com/noahweidig/us-wildfire-risk) |
+| **WordCloud Studio** | Word cloud generator | [Launch Tool](https://www.noahweidig.com/wordcloud/) |
 | **Less.** | A personal exploration of minimalism | [View Site](https://noahweidig.com/less) |
 
 ---
@@ -81,6 +84,9 @@ Applied GIS to support spatial planning and risk assessment for land management 
 **Research Assistant** — University of Cincinnati *(May 2022 – Jan 2023)*
 Quantitative data analysis for biomedical research using statistical modeling and visualization.
 
+**CAD Design Specialist** — Garage Living *(Sep 2021 – Jun 2022)*
+Developed CAD drawings and project plans for residential remodeling projects.
+
 **Research Assistant** — Northern Kentucky University *(Feb 2020 – May 2022)*
 Collected and analyzed complex ecological datasets using spatial and statistical methods.
 
@@ -103,10 +109,11 @@ Ecology / Evolution / Organismal Track · 4.0 GPA
 
 | Award | Organization | Year | Amount |
 |---|---|---|---|
+| Outstanding Teaching Assistant of the Year | University of Florida, School of Forest, Fisheries, and Geomatic Sciences | 2025 | 2024 Academic Year |
 | Best Student Presentation | IALE-NA | 2025 | $300 |
 | BioLEAPS Travel Grant | IALE-NA | 2025 | $1,650 |
 | Student Travel Grant | IALE-NA | 2025 | $850 |
-| Doris and Earl Lowe Scholarship | UF CALS | 2024 | $2,000 |
+| Doris and Earl Lowe and Verna Lowe Scholarship | UF CALS | 2024 | $2,000 |
 | IFAS Travel Grant | UF IFAS | 2024 | $250 |
 | Graduate Research Assistantship | UF CALS | 2023 | $27,500/yr (2 yrs) |
 | Outstanding Graduate in Biology | NKU | 2022 | $250 |
@@ -119,29 +126,6 @@ Ecology / Evolution / Organismal Track · 4.0 GPA
 ## Interests
 
 Applied AI · Geospatial Analytics · Spatial Data Science · Data Visualization · Statistical Modeling · Machine Learning · Bayesian Analysis · Remote Sensing · Reproducible Research · Data Storytelling · Quantitative Ecology · Forecasting · Land Use Change · Social-Ecological Systems
-
----
-
-## Template
-
-Built with [HugoBlox Dev Portfolio](https://hugoblox.com/templates/dev-portfolio/) — Hugo + Tailwind 4, fast by default, AI-ready Markdown content.
-
-### Customize
-
-- **Profile**: `data/authors/me.yaml`
-- **Homepage sections**: `content/_index.md`
-- **Projects**: `content/projects/<project>/index.md`
-- **Blog posts**: `content/blog/<post>/index.md`
-- **Theme**: `config/_default/params.yaml`
-
-### Deploy
-
-```bash
-npm install -g hugoblox@latest
-hugoblox create site --template dev-portfolio
-```
-
-Or [deploy in 60 seconds →](https://hugoblox.com/templates/dev-portfolio/start)
 
 ---
 
