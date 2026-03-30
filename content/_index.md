@@ -268,10 +268,11 @@ sections:
       spacing:
         padding: ["4rem", "0", "4rem", "0"]
 
-  - block: markdown
+  - block: cta-button-list
     content:
-      title: ""
-      text: '[See Where I''ve Been →](https://noahweidig.com/geo-portfolio)'
+      buttons:
+        - text: "See Where I've Been →"
+          url: "https://noahweidig.com/geo-portfolio"
     design:
       background:
         color:
