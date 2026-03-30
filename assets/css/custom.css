@@ -33,21 +33,6 @@ html.dark {
   }
 }
 
-/* CTA "Where I've Been" button */
-.cta-map-btn {
-  transition: border-radius 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
-}
-
-.cta-map-btn:hover {
-  border-radius: 0.5rem;
-  transform: scale(1.03);
-  box-shadow: 0 0 16px rgba(0, 0, 0, 0.18);
-}
-
-.dark .cta-map-btn:hover {
-  box-shadow: 0 0 16px rgba(180, 180, 255, 0.22);
-}
-
 /* Fix hamburger menu wrapping at very narrow widths (~375px) */
 /* Reduce padding between site title and theme toggle to prevent wrapping */
 @media (max-width: 400px) {
