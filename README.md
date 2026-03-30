@@ -1,7 +1,5 @@
 # [Noah Weidig — Developer Portfolio](https://www.noahweidig.com)
 
-[![Portfolio Preview](.github/preview.png)](https://www.noahweidig.com)
-
 <h1 align="center">Noah Weidig</h1>
 
 <p align="center">
