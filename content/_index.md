@@ -273,6 +273,7 @@ sections:
       buttons:
         - text: "See Where I've Been →"
           url: "https://noahweidig.com/geo-portfolio"
+          icon: map
     design:
       background:
         color:
