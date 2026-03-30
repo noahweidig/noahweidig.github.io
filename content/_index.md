@@ -268,15 +268,6 @@ sections:
       spacing:
         padding: ["4rem", "0", "4rem", "0"]
 
-  - block: markdown
-    content:
-      text: |
-        <div style="text-align:center; margin: 3rem 0;">
-      <a href="/maps/" class="btn btn-primary btn-lg">
-      See Where I've Been
-        </a>
-      </div>
-
   # Awards
   - block: resume-awards
     id: awards
