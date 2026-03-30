@@ -268,6 +268,20 @@ sections:
       spacing:
         padding: ["4rem", "0", "4rem", "0"]
 
+  - block: cta-button
+    content:
+      title: ""
+      buttons:
+        - text: "See Where I've Been →"
+          url: "https://noahweidig.com/geo-portfolio"
+    design:
+      background:
+        color:
+          light: "#ffffff"
+          dark: "#0d0d12"
+      spacing:
+        padding: ["0", "0", "4rem", "0"]
+
   # Awards
   - block: resume-awards
     id: awards
