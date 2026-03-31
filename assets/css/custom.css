@@ -33,6 +33,13 @@ html.dark {
   }
 }
 
+/* Hide the "Hire Me" button from the nav bar on mobile (it remains in the hamburger dropdown) */
+@media (max-width: 1023px) {
+  .navbar .order-1 > a {
+    display: none;
+  }
+}
+
 /* Fix hamburger menu wrapping at very narrow widths (~375px) */
 /* Reduce padding between site title and theme toggle to prevent wrapping */
 @media (max-width: 400px) {
