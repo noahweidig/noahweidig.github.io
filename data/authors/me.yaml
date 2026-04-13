@@ -107,6 +107,11 @@ languages:
     level: 5
     label: "Native"
 awards:
+  - title: "Outstanding Thesis in Natural Resources"
+    icon: "academic-cap"
+    awarder: "University of Florida, College of Agricultural & Life Sciences"
+    date: "2026-04-11"
+    summary: "2025 Academic Year"
   - title: "Outstanding Thesis in Forest Resources & Conservation"
     icon: "academic-cap"
     awarder: "University of Florida, School of Forest, Fisheries, & Geomatic Sciences"
