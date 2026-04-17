@@ -3,8 +3,8 @@ title: "Lorem Chartsum"
 date: 2025-03-10
 summary: "A Placeholder Chart API"
 tags:
-  - Personal
-  - Creative
+  - APIs
+  - Data Science
 links:
   - type: live
     url: "https://noahweidig.com/lorem-chartsum"
