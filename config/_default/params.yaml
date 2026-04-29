@@ -96,7 +96,7 @@ hugoblox:
     cta:
       enable: true
       text: "Hire Me →"
-      url: /hire
+      url: https://spatialitix.com
 
   # ────────────────────────────────────────────────────────────────────────────
   # FOOTER
