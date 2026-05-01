@@ -94,7 +94,7 @@ hugoblox:
     language_switcher: false
     # Call-to-action button
     cta:
-      enable: true
+      enable: false
       text: "Hire Me →"
       url: https://spatialitix.com
 
