@@ -94,9 +94,9 @@ hugoblox:
     language_switcher: false
     # Call-to-action button
     cta:
-      enable: false
-      text: "Hire Me →"
-      url: https://spatialitix.com
+      enable: true
+      text: "Meet with Me →"
+      url: https://cal.com/noah-weidig/meet
 
   # ────────────────────────────────────────────────────────────────────────────
   # FOOTER
