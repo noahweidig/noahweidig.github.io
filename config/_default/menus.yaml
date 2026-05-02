@@ -17,7 +17,7 @@ main:
     weight: 30
   - name: Blog
     identifier: "17830975"
-    url: "https://noahweidig.substack.com/"
+    url: "/blog"
     weight: 40
   - name: Research
     identifier: c7555cab
