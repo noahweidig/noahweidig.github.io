@@ -2,7 +2,7 @@
 title: Welcome to My Blog
 type: blog
 summary: Notes on science, data, maps, and the landscapes we live in
-date: 2023-10-25
+date: 2026-04-28
 authors:
   - me
 tags:
