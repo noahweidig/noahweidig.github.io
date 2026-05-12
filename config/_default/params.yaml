@@ -95,7 +95,7 @@ hugoblox:
     # Call-to-action button
     cta:
       enable: true
-      text: "Meet with Me →"
+      text: "Book Now →"
       url: https://cal.com/noah-weidig/meet
 
   # ────────────────────────────────────────────────────────────────────────────
