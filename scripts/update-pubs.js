@@ -5,6 +5,28 @@ import { stripHtml } from "./sanitize.js";
 
 const userID = 11988712;
 const pubsDir = path.resolve("content/pubs");
+const authorsDir = path.resolve("content/authors");
+
+function slugify(s) {
+  return String(s)
+    .normalize("NFKD")
+    .replace(/[̀-ͯ]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, "")
+    .trim()
+    .replace(/[\s-]+/g, "-");
+}
+
+function ensureAuthorProfile(name) {
+  const slug = slugify(name);
+  if (!slug) return;
+  const dir = path.join(authorsDir, slug);
+  fs.mkdirSync(dir, { recursive: true });
+  const p = path.join(dir, "_index.md");
+  if (!fs.existsSync(p)) {
+    fs.writeFileSync(p, `---\ntitle: "${name.replace(/"/g, '\\"')}"\n---\n`);
+  }
+}
 const url = `https://api.zotero.org/users/${userID}/publications/items?format=json&include=data,bibtex&limit=200`;
 
 const TYPE_MAP = {
@@ -172,6 +194,7 @@ async function main() {
     if (it.bibtex) {
       fs.writeFileSync(path.join(dir, "cite.bib"), it.bibtex.trim() + "\n");
     }
+    authors.forEach(ensureAuthorProfile);
     written++;
   }
 
