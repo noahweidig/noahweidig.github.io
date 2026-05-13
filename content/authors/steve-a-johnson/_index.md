@@ -1,3 +1,0 @@
----
-title: "Steve A. Johnson"
----

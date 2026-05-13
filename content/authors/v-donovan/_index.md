@@ -1,3 +1,0 @@
----
-title: "V. Donovan"
----

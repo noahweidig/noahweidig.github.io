@@ -3,12 +3,12 @@ title: "Changing large wildfire regime dynamics in the eastern United States"
 date: 2025-01-01
 slug: "GFQI4N78"
 authors:
-  - "Victoria M. Donovan"
-  - "Noah C. Weidig"
-  - "Michaella A. Ivey"
-  - "Raelene M. Crandall"
-  - "Jennifer M. Fill"
-  - "Carissa L. Wonkka"
+  - victoria-m-donovan
+  - me
+  - michaella-a-ivey
+  - raelene-m-crandall
+  - jennifer-m-fill
+  - carissa-l-wonkka
 publication_types:
   - "paper-conference"
 publication: "Oak Woodlands & Forests Fire Consortium"

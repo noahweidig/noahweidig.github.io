@@ -3,8 +3,8 @@ title: "Changing Large Wildfire Dynamics in the Wildland–Urban Interface of th
 date: 2025-01-01
 slug: "DLYLTTBY"
 authors:
-  - "Christian Fernandez"
-  - "Noah C. Weidig"
+  - christian-fernandez
+  - me
 publication_types:
   - "article-magazine"
 publication: "Fire Lines"

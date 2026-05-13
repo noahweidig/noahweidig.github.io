@@ -3,10 +3,10 @@ title: "Changing Large Wildfire Patterns in the Eastern United States Wildland-U
 date: 2024-01-01
 slug: "Y29Q2IHY"
 authors:
-  - "Noah C. Weidig"
-  - "Carissa L. Wonkka"
-  - "Michaella A. Ivey"
-  - "Victoria M. Donovan"
+  - me
+  - carissa-l-wonkka
+  - michaella-a-ivey
+  - victoria-m-donovan
 publication_types:
   - "paper-conference"
 publication: "Northwest Florida Association of Environmental Practitioners Symposium"

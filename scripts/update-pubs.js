@@ -5,7 +5,12 @@ import { stripHtml } from "./sanitize.js";
 
 const userID = 11988712;
 const pubsDir = path.resolve("content/pubs");
-const authorsDir = path.resolve("content/authors");
+const dataAuthorsDir = path.resolve("data/authors");
+
+// Slug for the site owner — must match data/authors/me.yaml
+const OWNER_SLUG = "me";
+const OWNER_FAMILY = "weidig";
+const OWNER_GIVEN_PREFIX = "noah";
 
 function slugify(s) {
   return String(s)
@@ -17,16 +22,46 @@ function slugify(s) {
     .replace(/[\s-]+/g, "-");
 }
 
-function ensureAuthorProfile(name) {
-  const slug = slugify(name);
-  if (!slug) return;
-  const dir = path.join(authorsDir, slug);
-  fs.mkdirSync(dir, { recursive: true });
-  const p = path.join(dir, "_index.md");
-  if (!fs.existsSync(p)) {
-    fs.writeFileSync(p, `---\ntitle: "${name.replace(/"/g, '\\"')}"\n---\n`);
+function isOwner(creator) {
+  if (!creator) return false;
+  const family = (creator.lastName || "").trim().toLowerCase();
+  const given = (creator.firstName || "").trim().toLowerCase();
+  if (family === OWNER_FAMILY && given.startsWith(OWNER_GIVEN_PREFIX)) return true;
+  if (creator.name) {
+    const slug = slugify(creator.name);
+    if (slug === "noah-weidig" || slug === "noah-c-weidig" || slug === OWNER_SLUG) return true;
   }
+  return false;
 }
+
+function authorSlug(creator) {
+  if (isOwner(creator)) return OWNER_SLUG;
+  const display = creator.name
+    ? creator.name
+    : `${creator.firstName || ""} ${creator.lastName || ""}`.trim();
+  return slugify(display);
+}
+
+function authorDisplay(creator) {
+  if (creator.name) return creator.name;
+  return `${creator.firstName || ""} ${creator.lastName || ""}`.trim();
+}
+
+function ensureDataAuthor(slug, display) {
+  if (!slug || slug === OWNER_SLUG) return;
+  fs.mkdirSync(dataAuthorsDir, { recursive: true });
+  const p = path.join(dataAuthorsDir, `${slug}.yaml`);
+  if (fs.existsSync(p)) return;
+  const body = [
+    `schema: "hugoblox/author/v1"`,
+    `slug: "${slug}"`,
+    `name:`,
+    `  display: "${display.replace(/"/g, '\\"')}"`,
+    ``,
+  ].join("\n");
+  fs.writeFileSync(p, body);
+}
+
 const url = `https://api.zotero.org/users/${userID}/publications/items?format=json&include=data,bibtex&limit=200`;
 
 const TYPE_MAP = {
@@ -85,11 +120,12 @@ function yamlEscape(s) {
   return String(s ?? "").replace(/\\/g, "\\\\").replace(/"/g, '\\"');
 }
 
-function formatAuthors(creators) {
+function authorsFromCreators(creators) {
   if (!Array.isArray(creators)) return [];
   return creators
     .filter((c) => c && (c.lastName || c.name))
-    .map((c) => (c.name ? c.name : `${c.firstName || ""} ${c.lastName || ""}`.trim()));
+    .map((c) => ({ slug: authorSlug(c), display: authorDisplay(c) }))
+    .filter((a) => a.slug);
 }
 
 function ensureDir(dir) {
@@ -114,7 +150,7 @@ function buildFrontmatter({ key, title, date, authors, publication_types, public
   lines.push(`slug: "${key}"`);
   if (authors.length) {
     lines.push("authors:");
-    authors.forEach((a) => lines.push(`  - "${yamlEscape(a)}"`));
+    authors.forEach((a) => lines.push(`  - ${a.slug}`));
   }
   lines.push("publication_types:");
   lines.push(`  - "${publication_types}"`);
@@ -170,7 +206,7 @@ async function main() {
     const title = stripHtml(it.data.title || "Untitled");
     const year = extractYear(it.data.date);
     const date = year ? `${year}-01-01` : undefined;
-    const authors = formatAuthors(it.data.creators);
+    const authors = authorsFromCreators(it.data.creators);
     const doi = it.data.DOI || "";
     const link = it.data.url || (doi ? `https://doi.org/${doi}` : "");
     const publication = it.data.publicationTitle || it.data.bookTitle || it.data.proceedingsTitle || it.data.event || it.data.publisher || "";
@@ -194,7 +230,7 @@ async function main() {
     if (it.bibtex) {
       fs.writeFileSync(path.join(dir, "cite.bib"), it.bibtex.trim() + "\n");
     }
-    authors.forEach(ensureAuthorProfile);
+    authors.forEach((a) => ensureDataAuthor(a.slug, a.display));
     written++;
   }
 

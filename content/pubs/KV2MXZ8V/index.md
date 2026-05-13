@@ -3,10 +3,10 @@ title: "Woody cover increases linked to forest infilling and land conversion in 
 date: 2025-01-01
 slug: "KV2MXZ8V"
 authors:
-  - "Michaella A. Ivey"
-  - "Noah C. Weidig"
-  - "Alan A. II Ivory"
-  - "Victoria M. Donovan"
+  - michaella-a-ivey
+  - me
+  - alan-a-ii-ivory
+  - victoria-m-donovan
 publication_types:
   - "paper-conference"
 publication: "International Association for Landscape Ecology - North America Annual Conference"

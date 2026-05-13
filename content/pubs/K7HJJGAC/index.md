@@ -3,9 +3,9 @@ title: "The Goldilocks principle: Finding the balance between water volume and n
 date: 2021-01-01
 slug: "K7HJJGAC"
 authors:
-  - "Noah C. Weidig"
-  - "Amber L. Miller"
-  - "Allison T. Parker"
+  - me
+  - amber-l-miller
+  - allison-t-parker
 publication_types:
   - "paper-conference"
 publication: "Northern Kentucky University Heather Bullen Research Celebration"

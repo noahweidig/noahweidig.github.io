@@ -3,10 +3,10 @@ title: "Woody Cover Fuels Large Wildfire Risk in the Eastern U.S."
 date: 2025-01-01
 slug: "JT88ZP8I"
 authors:
-  - "Michaella A. Ivey"
-  - "Carissa L. Wonkka"
-  - "Noah C. Weidig"
-  - "Victoria M. Donovan"
+  - michaella-a-ivey
+  - carissa-l-wonkka
+  - me
+  - victoria-m-donovan
 publication_types:
   - "article-newspaper"
 publication: "Oak Woodlands & Forests Fire Consortium"

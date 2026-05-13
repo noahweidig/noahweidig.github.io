@@ -1,3 +1,0 @@
----
-title: "L. G. Lazzaro"
----

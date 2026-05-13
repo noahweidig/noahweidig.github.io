@@ -3,7 +3,7 @@ title: "R Markdown: A Reproducible Workflow"
 date: 2024-01-01
 slug: "2BBFVKBC"
 authors:
-  - "Noah C. Weidig"
+  - me
 publication_types:
   - "paper-conference"
 publication: "University of Florida West Florida Research and Education Center Invited Seminar"

@@ -1,3 +1,0 @@
----
-title: "Alan A. Ivory"
----

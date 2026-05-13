@@ -1,3 +1,0 @@
----
-title: "Noah C. Weidig"
----

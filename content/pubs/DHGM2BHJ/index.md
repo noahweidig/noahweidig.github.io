@@ -3,10 +3,10 @@ title: "Woody cover fuels large wildfire risk in the eastern US"
 date: 2024-01-01
 slug: "DHGM2BHJ"
 authors:
-  - "Michaella Ivey"
-  - "Carissa L. Wonkka"
-  - "Noah C. Weidig"
-  - "Victoria M. Donovan"
+  - michaella-ivey
+  - carissa-l-wonkka
+  - me
+  - victoria-m-donovan
 publication_types:
   - "article-journal"
 publication: "Geophysical Research Letters"

@@ -3,10 +3,10 @@ title: "Regional differences in infilling and land-use conversion characterize w
 date: 2026-01-01
 slug: "RCCRGER8"
 authors:
-  - "Michaella A. Ivey"
-  - "Noah C. Weidig"
-  - "Alan A. Ivory"
-  - "Victoria M. Donovan"
+  - michaella-a-ivey
+  - me
+  - alan-a-ivory
+  - victoria-m-donovan
 publication_types:
   - "article-journal"
 publication: "Forest Ecology and Management"

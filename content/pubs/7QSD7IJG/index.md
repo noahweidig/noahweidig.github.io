@@ -3,7 +3,7 @@ title: "Wildfire surges in East, Southeast US fueled by new trees and shrubs"
 date: 2024-01-01
 slug: "7QSD7IJG"
 authors:
-  - "Liza Lester"
+  - liza-lester
 publication_types:
   - "article-newspaper"
 publication: "AGU News"

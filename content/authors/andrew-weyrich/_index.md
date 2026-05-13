@@ -1,3 +1,0 @@
----
-title: "Andrew Weyrich"
----

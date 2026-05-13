@@ -3,13 +3,13 @@ title: "Southeastern Myotis (Myotis austroriparius) Use of Stormwater Sewer Syst
 date: 2025-01-01
 slug: "5CGNYN2I"
 authors:
-  - "Alan A. II Ivory"
-  - "Kody M. Brock"
-  - "Steve A. Johnson"
-  - "Noah C. Weidig"
-  - "Matt T. Hallett"
-  - "Miguel A. Acevedo"
-  - "Brett R. Scheffers"
+  - alan-a-ii-ivory
+  - kody-m-brock
+  - steve-a-johnson
+  - me
+  - matt-t-hallett
+  - miguel-a-acevedo
+  - brett-r-scheffers
 publication_types:
   - "paper-conference"
 publication: "Florida Bat Working Group Annual Meeting; Southeastern Bat Diversity Network"
