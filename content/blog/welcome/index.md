@@ -13,4 +13,4 @@ tags:
 
 Here, I’ll share thoughts on science, geospatial analysis, wildfire, conservation, data visualization, and the occasional technical lesson learned while building things.
 
-Some posts will be polished. Others will be short notes, ideas in progress, or reflections from projects I’m working on.
+Some posts will be polished. Others will be short notes, ideas in progress, or reflections from projects I’m working on. I hope you'll join me as I explore this incredible planet we call home!
