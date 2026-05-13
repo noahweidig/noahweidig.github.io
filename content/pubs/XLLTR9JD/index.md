@@ -3,11 +3,11 @@ title: "Key drivers of large wildfires in and near the eastern United States wil
 date: 2025-01-01
 slug: "XLLTR9JD"
 authors:
-  - "Noah C. Weidig"
-  - "Carissa L. Wonkka"
-  - "Michaella A. Ivey"
-  - "Daniel J. Johnson"
-  - "Victoria M. Donovan"
+  - me
+  - carissa-l-wonkka
+  - michaella-a-ivey
+  - daniel-j-johnson
+  - victoria-m-donovan
 publication_types:
   - "paper-conference"
 publication: "University of Florida Office of Graduate Professional Development Graduate Student Research Day"

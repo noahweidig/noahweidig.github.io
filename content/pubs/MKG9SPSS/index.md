@@ -3,11 +3,11 @@ title: "Rumble in the Cogongrass Jungle: Shrub Resiliency from Round 1"
 date: 2024-01-01
 slug: "MKG9SPSS"
 authors:
-  - "Noah Carl"
-  - "Caden Shows"
-  - "Justin McKeithen"
-  - "Noah C. Weidig"
-  - "Victoria M. Donovan"
+  - noah-carl
+  - caden-shows
+  - justin-mckeithen
+  - me
+  - victoria-m-donovan
 publication_types:
   - "paper-conference"
 publication: "Gulf of Mexico Conference"

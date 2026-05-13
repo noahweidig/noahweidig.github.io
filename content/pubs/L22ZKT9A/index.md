@@ -3,11 +3,11 @@ title: "Fire at the fringe: Drivers of large wildfires in and near the wildland-
 date: 2025-01-01
 slug: "L22ZKT9A"
 authors:
-  - "Noah C. Weidig"
-  - "Carissa L. Wonkka"
-  - "Michaella A. Ivey"
-  - "Daniel J. Johnson"
-  - "Victoria M. Donovan"
+  - me
+  - carissa-l-wonkka
+  - michaella-a-ivey
+  - daniel-j-johnson
+  - victoria-m-donovan
 publication_types:
   - "paper-conference"
 publication: "International Association for Landscape Ecology - North America Annual Conference"

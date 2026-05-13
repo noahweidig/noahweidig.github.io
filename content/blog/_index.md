@@ -1,5 +1,5 @@
 ---
 title: Blog
 type: blog
-view: compact
+view: date-title-summary
 ---

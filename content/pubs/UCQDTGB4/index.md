@@ -3,10 +3,10 @@ title: "Large Wildfire Patterns in the Wildland-Urban Interface of the Eastern U
 date: 2024-01-01
 slug: "UCQDTGB4"
 authors:
-  - "Noah C. Weidig"
-  - "Carissa L. Wonkka"
-  - "Michaella A. Ivey"
-  - "Victoria M. Donovan"
+  - me
+  - carissa-l-wonkka
+  - michaella-a-ivey
+  - victoria-m-donovan
 publication_types:
   - "paper-conference"
 publication: "International Association for Landscape Ecology - North America Annual Conference"

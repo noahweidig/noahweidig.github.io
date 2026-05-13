@@ -3,14 +3,14 @@ title: "Inflammation mediated reprogramming of platelets following transcatheter
 date: 2022-01-01
 slug: "WL4ZN6LH"
 authors:
-  - "Noah C. Weidig"
-  - "Diarra Niang"
-  - "Mikayla Williams"
-  - "Kelsey Porema"
-  - "Julia Palumbo"
-  - "Andrew Weyrich"
-  - "Stephen Smyth"
-  - "Donald R. Lynch"
+  - me
+  - diarra-niang
+  - mikayla-williams
+  - kelsey-porema
+  - julia-palumbo
+  - andrew-weyrich
+  - stephen-smyth
+  - donald-r-lynch
 publication_types:
   - "paper-conference"
 publication: "International Society for Applied Cardiovascular Biology Biennial Meeting"

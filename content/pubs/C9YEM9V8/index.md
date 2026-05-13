@@ -3,12 +3,12 @@ title: "Shifting forest structure and composition following decades of fire excl
 date: 2025-01-01
 slug: "C9YEM9V8"
 authors:
-  - "H. D. Alexander"
-  - "V. Donovan"
-  - "A. Lamounier Moura"
-  - "L. G. Lazzaro"
-  - "Noah C. Weidig"
-  - "M. Ivey"
+  - h-d-alexander
+  - v-donovan
+  - a-lamounier-moura
+  - l-g-lazzaro
+  - me
+  - m-ivey
 publication_types:
   - "paper-conference"
 publication: "Proceedings of the 4th fire ecology and management symposium (FES-412)"

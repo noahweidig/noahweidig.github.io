@@ -5,7 +5,7 @@ lastmod: 2026-05-12
 
 # Authors (reference data/authors/*.yaml)
 authors:
-  - noah-weidig
+  - me
 
 # Taxonomy
 categories:

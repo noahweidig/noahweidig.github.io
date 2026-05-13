@@ -3,7 +3,7 @@ title: "Georgia blaze shows how climate change has led to more wildfires in the 
 date: 2026-01-01
 slug: "Y4VRX4R6"
 authors:
-  - "Seth Borenstein"
+  - seth-borenstein
 publication_types:
   - "article-newspaper"
 publication: "Associated Press"

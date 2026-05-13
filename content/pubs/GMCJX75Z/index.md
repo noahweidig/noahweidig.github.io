@@ -3,10 +3,10 @@ title: "Changing large wildfire dynamics in the wildland–urban interface of th
 date: 2024-01-01
 slug: "GMCJX75Z"
 authors:
-  - "Noah C. Weidig"
-  - "Carissa L. Wonkka"
-  - "Michaella A. Ivey"
-  - "Victoria M. Donovan"
+  - me
+  - carissa-l-wonkka
+  - michaella-a-ivey
+  - victoria-m-donovan
 publication_types:
   - "article-journal"
 publication: "International Journal of Wildland Fire"

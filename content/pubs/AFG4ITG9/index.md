@@ -3,13 +3,13 @@ title: "Unravelling changing wildfire regime dynamics in the eastern United Stat
 date: 2025-01-01
 slug: "AFG4ITG9"
 authors:
-  - "Victoria M. Donovan"
-  - "Raelene M. Crandall"
-  - "Jennifer M. Fill"
-  - "Michaella A. Ivey"
-  - "Alan A. II Ivory"
-  - "Noah C. Weidig"
-  - "Carissa L. Wonkka"
+  - victoria-m-donovan
+  - raelene-m-crandall
+  - jennifer-m-fill
+  - michaella-a-ivey
+  - alan-a-ii-ivory
+  - me
+  - carissa-l-wonkka
 publication_types:
   - "paper-conference"
 publication: "Auburn University College of Forest, Wildlife and Environment Invited Seminar"

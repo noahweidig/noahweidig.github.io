@@ -3,12 +3,12 @@ title: "Changing Large Wildfire Risk in the Southeastern U.S."
 date: 2024-01-01
 slug: "4RBPKM8R"
 authors:
-  - "Victoria M. Donovan"
-  - "Raelene M. Crandall"
-  - "Jennifer M. Fill"
-  - "Michaella A. Ivey"
-  - "Noah C. Weidig"
-  - "Carissa L. Wonkka"
+  - victoria-m-donovan
+  - raelene-m-crandall
+  - jennifer-m-fill
+  - michaella-a-ivey
+  - me
+  - carissa-l-wonkka
 publication_types:
   - "paper-conference"
 publication: "Gulf of Mexico Conference"

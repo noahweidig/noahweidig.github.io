@@ -3,12 +3,12 @@ title: "Unravelling changing wildfire regime dynamics in the eastern United Stat
 date: 2025-01-01
 slug: "JEBKFECI"
 authors:
-  - "Victoria M. Donovan"
-  - "Noah C. Weidig"
-  - "Michaella A. Ivey"
-  - "Raelene M. Crandall"
-  - "Jennifer M. Fill"
-  - "Carissa L. Wonkka"
+  - victoria-m-donovan
+  - me
+  - michaella-a-ivey
+  - raelene-m-crandall
+  - jennifer-m-fill
+  - carissa-l-wonkka
 publication_types:
   - "paper-conference"
 publication: "International Association for Landscape Ecology - North America Annual Conference"
