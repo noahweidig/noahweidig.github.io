@@ -14,12 +14,6 @@ tags:
   - personal
   - digital
 
-# Featured image (if using page bundle)
-image:
-  filename: featured.jpg
-  caption: "Image credit: Unsplash"
-  focal_point: Smart
-
 # Summary (for cards and SEO)
 summary: "Staying focused in a digitally distracted world."
 

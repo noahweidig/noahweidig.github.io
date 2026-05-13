@@ -4,11 +4,9 @@ type: blog
 summary: Notes on science, data, maps, and the landscapes we live in
 date: 2026-04-28
 authors:
-  - me
+  - noah-weidig
 tags:
   - Thoughts
-image:
-  caption: 'Image credit: [**Unsplash**](https://unsplash.com)'
 ---
 
 # Welcome
