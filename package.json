@@ -4,17 +4,21 @@
   "private": true,
   "packageManager": "pnpm@10.14.0",
   "description": "Modern developer portfolio template for Hugo Blox with Tailwind CSS v4 - Free version",
+  "type": "module",
   "scripts": {
     "dev": "hugo server --disableFastRender",
     "build": "hugo --minify && pnpm run pagefind",
-    "pagefind": "pagefind --site public"
+    "pagefind": "pagefind --site public",
+    "update-pubs": "node scripts/update-pubs.js"
   },
   "dependencies": {
     "@tailwindcss/cli": "^4.1.12",
     "@tailwindcss/typography": "^0.5.10",
     "hugo-extended": "^0.157.0",
+    "node-fetch": "^3.3.2",
     "pagefind": "^1.4.0",
     "preact": "^10.27.2",
+    "sanitize-html": "^2.17.4",
     "tailwindcss": "^4.1.12"
   }
 }
