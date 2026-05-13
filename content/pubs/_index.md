@@ -23,6 +23,7 @@ sections:
       filters:
         folders:
           - pubs/journal-articles
+        featured_only: false
       count: 100
     design:
       view: article-grid
@@ -39,6 +40,7 @@ sections:
       filters:
         folders:
           - pubs/thesis
+        featured_only: false
       count: 100
     design:
       view: article-grid
@@ -55,6 +57,7 @@ sections:
       filters:
         folders:
           - pubs/presentations
+        featured_only: false
       count: 100
     design:
       view: article-grid
@@ -71,6 +74,7 @@ sections:
       filters:
         folders:
           - pubs/webinars
+        featured_only: false
       count: 100
     design:
       view: article-grid
@@ -87,6 +91,7 @@ sections:
       filters:
         folders:
           - pubs/peer-reviews
+        featured_only: false
       count: 100
     design:
       view: article-grid
@@ -103,6 +108,7 @@ sections:
       filters:
         folders:
           - pubs/media-coverage
+        featured_only: false
       count: 100
     design:
       view: article-grid
