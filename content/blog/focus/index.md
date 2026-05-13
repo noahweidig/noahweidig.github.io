@@ -1,34 +1,15 @@
 ---
-title: "Living Analog"
-date: 2026-05-12
-lastmod: 2026-05-12
-
-# Authors (reference data/authors/*.yaml)
+title: Beauty, Wonder, and the Natural World
+type: blog
+summary: How getting outside expands our understanding of the world
+date: 2026-04-28
 authors:
   - me
-
-# Taxonomy
-categories:
-  - Focus
 tags:
-  - personal
-  - digital
-
-# Summary (for cards and SEO)
-summary: "Staying focused in a digitally distracted world."
-
-# Reading time (auto-calculated, but overridable)
-reading_time: true
-
-# Pin to top of listings
-featured: false
-
-# Draft mode
+  - Thoughts
 draft: true
 ---
 
-# What is distraction?
-The word distraction comes from the Latin "de", which means from 
----
+# Touching Trees
 
-Your blog post content in Markdown.
+As an ecologist, I often think about natural systems and how they operate at various scales. I explore various opinions and theories about how the world works. But as a GIS specialist, I'm typically stuck behind a computer, hypothesizing, guessing, and Googling.
