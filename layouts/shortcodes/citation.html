@@ -1,8 +1,0 @@
-{{- /*
-  citation shortcode: renders a sanitized APA citation block.
-  Usage: {{< citation >}}<p>...</p>{{< /citation >}}
-  The inner HTML is produced by scripts/update-pubs.js after sanitize-html.
-*/ -}}
-<div class="publication-citation prose dark:prose-invert max-w-none">
-{{ .Inner | safeHTML }}
-</div>
