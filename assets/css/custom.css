@@ -40,6 +40,14 @@ html.dark {
   }
 }
 
+/* Add horizontal padding to publication citation items on mobile so they don't touch screen edges */
+@media (max-width: 640px) {
+  .pub-list-item {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
 /* Fix hamburger menu wrapping at very narrow widths (~375px) */
 /* Reduce padding between site title and theme toggle to prevent wrapping */
 @media (max-width: 400px) {
