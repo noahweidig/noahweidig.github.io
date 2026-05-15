@@ -133,22 +133,37 @@ function firstAuthorLastName(creators) {
   return "";
 }
 
-function firstTitleWord(title) {
-  if (!title) return "";
-  const cleaned = String(title)
+const FILLER_WORDS = new Set([
+  "a", "an", "the", "of", "and", "or", "but", "for", "to", "in", "on",
+  "at", "by", "with", "from", "as", "is", "are", "be",
+]);
+
+function titleWords(title) {
+  if (!title) return [];
+  return String(title)
     .normalize("NFKD")
     .replace(/[̀-ͯ]/g, "")
     .replace(/[^A-Za-z0-9\s-]/g, " ")
-    .trim();
-  const first = cleaned.split(/\s+/)[0] || "";
-  return first;
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean);
+}
+
+function firstNonFillerWords(title, n) {
+  const words = titleWords(title).filter((w) => !FILLER_WORDS.has(w.toLowerCase()));
+  return words.slice(0, n);
 }
 
 function buildReadableSlug(creators, title, year) {
   const last = slugify(firstAuthorLastName(creators)) || "anon";
-  const word = slugify(firstTitleWord(title)) || "untitled";
+  const slugWords = firstNonFillerWords(title, 2).map(slugify).filter(Boolean);
+  const wordPart = slugWords.length ? slugWords.join("-") : "untitled";
   const yy = year ? String(year).slice(-2) : "nd";
-  return `${last}-${word}-${yy}`;
+  return `${last}-${wordPart}-${yy}`;
+}
+
+function breadcrumbTitle(title) {
+  return titleWords(title).slice(0, 3).join(" ");
 }
 
 function authorsFromCreators(creators) {
@@ -174,9 +189,10 @@ function clearPubsDir(dir) {
   }
 }
 
-function buildFrontmatter({ key, title, date, authors, publication_types, publication, abstract, summary, doi, url: link, tags }) {
+function buildFrontmatter({ key, title, linkTitle, date, authors, publication_types, publication, abstract, summary, doi, url: link, tags }) {
   const lines = ["---"];
   lines.push(`title: "${yamlEscape(title)}"`);
+  if (linkTitle) lines.push(`linkTitle: "${yamlEscape(linkTitle)}"`);
   if (date) lines.push(`date: ${date}`);
   lines.push(`slug: "${key}"`);
   if (authors.length) {
@@ -263,7 +279,7 @@ async function main() {
     if (isWebinar) tags.push("Webinar");
 
     const fm = buildFrontmatter({
-      key: slug, title, date, authors,
+      key: slug, title, linkTitle: breadcrumbTitle(title), date, authors,
       publication_types: pubType,
       publication, abstract, summary, doi, url: link, tags,
     });
