@@ -16,6 +16,5 @@ abstract: "This webinar provides an overview of changing large wildfire regimes 
 summary: "This webinar provides an overview of changing large wildfire regimes in the eastern U.S., highlighting increasing wildfire number, size, and total area burned within regions of the southeast. In addition, the presentation will discuss how c…"
 url_source: "https://www.youtube.com/watch?v=vdZSXsaz7c0"
 tags:
-  - "Manuscript"
   - "Webinar"
 ---

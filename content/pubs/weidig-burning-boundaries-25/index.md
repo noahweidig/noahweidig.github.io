@@ -15,6 +15,5 @@ abstract: "Large wildfires are increasing in the eastern United States, raising 
 summary: "Large wildfires are increasing in the eastern United States, raising concern about the risk to human life and property within the wildland-urban interface (WUI), where development and vegetation intermingle. In this webinar, we will explore…"
 url_source: "https://www.youtube.com/watch?v=HdklLrpJKkM"
 tags:
-  - "Manuscript"
   - "Webinar"
 ---

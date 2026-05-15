@@ -13,5 +13,5 @@ summary: "This Open Letter by Kalapodis and Sakkas presents a framework for enha
 doi: "10.21956/OPENRESEUROPE.21420.R53295"
 url_source: "https://open-research-europe.ec.europa.eu/articles/4-131/v3#referee-response-53295"
 tags:
-  - "Preprint"
+  - "Peer Review"
 ---
