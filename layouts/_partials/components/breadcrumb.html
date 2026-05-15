@@ -1,0 +1,31 @@
+<div class="mt-1.5 flex items-center gap-1 overflow-hidden text-sm text-gray-500 dark:text-gray-400">
+  {{- range .Ancestors.Reverse }}
+    {{- if not .IsHome }}
+      <div class="whitespace-nowrap transition-colors min-w-[24px] overflow-hidden text-ellipsis hover:text-gray-900 dark:hover:text-gray-100">
+        <a href="{{ .Permalink }}">{{ .LinkTitle }}</a>
+      </div>
+      {{- partial "functions/get_icon.html" (dict "name" "chevron-right" "attributes" "class=\"w-3.5 shrink-0\"") -}}
+    {{ end -}}
+  {{ end -}}
+  <div class="whitespace-nowrap font-medium text-gray-700 dark:text-gray-100">
+    {{- $label := .LinkTitle -}}
+    {{- if and (eq .Section "pubs") (not .IsSection) -}}
+      {{- $authors := .Params.authors -}}
+      {{- $lastName := "" -}}
+      {{- with $authors -}}
+        {{- $slug := index . 0 -}}
+        {{- with (index site.Data.authors $slug) -}}
+          {{- $display := .name.display -}}
+          {{- $parts := split $display " " -}}
+          {{- $lastName = index $parts (sub (len $parts) 1) -}}
+        {{- end -}}
+      {{- end -}}
+      {{- $year := .Date.Format "2006" -}}
+      {{- $firstWord := index (split .Title " ") 0 -}}
+      {{- if and $lastName $year $firstWord -}}
+        {{- $label = printf `%s, %s, "%s..."` $lastName $year $firstWord -}}
+      {{- end -}}
+    {{- end -}}
+    {{- $label -}}
+  </div>
+</div>
