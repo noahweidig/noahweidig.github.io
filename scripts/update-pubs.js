@@ -110,7 +110,7 @@ const extractYear = (s) => {
 
 function categorizePubType(it) {
   const t = it.data.itemType;
-  const haystack = [it.data.title, it.data.event, it.data.genre].filter(Boolean).join(" ");
+  const haystack = [it.data.title, it.data.event, it.data.genre, it.data.presentationType].filter(Boolean).join(" ");
   if (/\bwebinar\b/i.test(haystack)) return "manuscript";
   if (/referee report/i.test(it.data.title || "")) return "manuscript";
   return TYPE_MAP[t] || "manuscript";
@@ -274,7 +274,7 @@ async function main() {
     const abstract = stripHtml(it.data.abstractNote || "");
     const summary = abstract ? abstract.slice(0, 240) + (abstract.length > 240 ? "…" : "") : "";
 
-    const isWebinar = /\bwebinar\b/i.test([it.data.title, it.data.event, it.data.genre].filter(Boolean).join(" "));
+    const isWebinar = /\bwebinar\b/i.test([it.data.title, it.data.event, it.data.genre, it.data.presentationType].filter(Boolean).join(" "));
     const tags = [tagForType(pubType, it.data.itemType)];
     if (isWebinar) tags.push("Webinar");
 
