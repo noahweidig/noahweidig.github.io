@@ -15,6 +15,7 @@ abstract: "Large wildfires are increasing in the eastern United States; however,
 summary: "Large wildfires are increasing in the eastern United States; however, what factors are heightening large wildfire risk remains unclear. Increases in fuel loads from woody encroachment and canopy infilling have been associated with increasin…"
 doi: "10.1029/2024GL110586"
 url_source: "https://doi.org/10.1029/2024GL110586"
+url_pdf: "ivey-woody-cover-24.pdf"
 tags:
   - "Journal Article"
 ---
