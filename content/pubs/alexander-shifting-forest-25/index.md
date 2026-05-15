@@ -1,7 +1,7 @@
 ---
 title: "Shifting forest structure and composition following decades of fire exclusion in the eastern U.S.: Implications for prescribed fire restoration and wildfires"
 linkTitle: "Shifting forest structure"
-date: 2025-01-01
+date: 2025-06-01
 slug: "alexander-shifting-forest-25"
 authors:
   - h-d-alexander

@@ -1,7 +1,7 @@
 ---
 title: "Rumble in the Cogongrass Jungle: Shrub Resiliency from Round 1"
 linkTitle: "Rumble in the"
-date: 2024-01-01
+date: 2024-02-21
 slug: "carl-rumble-cogongrass-24"
 authors:
   - noah-carl

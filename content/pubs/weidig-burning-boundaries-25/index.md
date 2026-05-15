@@ -1,7 +1,7 @@
 ---
 title: "Burning Boundaries: Large Wildfire Patterns and Drivers in the Eastern United States Wildland-Urban Interface"
 linkTitle: "Burning Boundaries Large"
-date: 2025-01-01
+date: 2025-11-19
 slug: "weidig-burning-boundaries-25"
 authors:
   - me

@@ -1,7 +1,7 @@
 ---
 title: "Georgia blaze shows how climate change has led to more wildfires in the East"
 linkTitle: "Georgia blaze shows"
-date: 2026-01-01
+date: 2026-04-24
 slug: "borenstein-georgia-blaze-26"
 authors:
   - seth-borenstein

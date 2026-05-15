@@ -1,7 +1,7 @@
 ---
 title: "R Markdown: A Reproducible Workflow"
 linkTitle: "R Markdown A"
-date: 2024-01-01
+date: 2024-06-01
 slug: "weidig-r-markdown-24"
 authors:
   - me

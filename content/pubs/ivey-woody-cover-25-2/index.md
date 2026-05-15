@@ -1,7 +1,7 @@
 ---
 title: "Woody cover increases linked to forest infilling and land conversion in the eastern United States"
 linkTitle: "Woody cover increases"
-date: 2025-01-01
+date: 2025-04-01
 slug: "ivey-woody-cover-25-2"
 authors:
   - michaella-a-ivey

@@ -1,7 +1,7 @@
 ---
 title: "Inflammation mediated reprogramming of platelets following transcatheter aortic valve replacement"
 linkTitle: "Inflammation mediated reprogramming"
-date: 2022-01-01
+date: 2022-10-01
 slug: "weidig-inflammation-mediated-22"
 authors:
   - me

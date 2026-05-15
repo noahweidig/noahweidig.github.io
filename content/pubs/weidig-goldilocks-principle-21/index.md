@@ -1,7 +1,7 @@
 ---
 title: "The Goldilocks principle: Finding the balance between water volume and nutrients for ovipositing Culex mosquitoes (Diptera: Culicidae)"
 linkTitle: "The Goldilocks principle"
-date: 2021-01-01
+date: 2021-08-01
 slug: "weidig-goldilocks-principle-21"
 authors:
   - me

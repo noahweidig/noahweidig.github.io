@@ -1,7 +1,7 @@
 ---
 title: "Large Wildfire Patterns in the Wildland-Urban Interface of the Eastern U.S."
 linkTitle: "Large Wildfire Patterns"
-date: 2024-01-01
+date: 2024-04-01
 slug: "weidig-large-wildfire-24"
 authors:
   - me

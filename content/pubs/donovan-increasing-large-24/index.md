@@ -1,7 +1,7 @@
 ---
 title: "Increasing Large Wildfires in the Eastern United States"
 linkTitle: "Increasing Large Wildfires"
-date: 2024-01-01
+date: 2024-03-28
 slug: "donovan-increasing-large-24"
 authors:
   - victoria-m-donovan

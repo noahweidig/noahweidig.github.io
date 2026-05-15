@@ -1,7 +1,7 @@
 ---
 title: "Changing Large Wildfire Risk in the Southeastern U.S."
 linkTitle: "Changing Large Wildfire"
-date: 2024-01-01
+date: 2024-02-22
 slug: "donovan-changing-large-24"
 authors:
   - victoria-m-donovan

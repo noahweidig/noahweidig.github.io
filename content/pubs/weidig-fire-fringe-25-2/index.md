@@ -1,7 +1,7 @@
 ---
 title: "Fire at the fringe: Drivers of large wildfires in and near the wildland-urban interface of the eastern United States"
 linkTitle: "Fire at the"
-date: 2025-01-01
+date: 2025-04-01
 slug: "weidig-fire-fringe-25-2"
 authors:
   - me

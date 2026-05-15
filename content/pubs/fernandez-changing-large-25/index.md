@@ -1,7 +1,7 @@
 ---
 title: "Changing Large Wildfire Dynamics in the Wildland–Urban Interface of the Eastern United States: Research Brief"
 linkTitle: "Changing Large Wildfire"
-date: 2025-01-01
+date: 2025-11-01
 slug: "fernandez-changing-large-25"
 authors:
   - christian-fernandez

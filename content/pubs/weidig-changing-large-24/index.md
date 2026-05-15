@@ -1,7 +1,7 @@
 ---
 title: "Changing large wildfire dynamics in the wildland–urban interface of the eastern United States"
 linkTitle: "Changing large wildfire"
-date: 2024-01-01
+date: 2024-11-22
 slug: "weidig-changing-large-24"
 authors:
   - me

@@ -1,7 +1,7 @@
 ---
 title: "Woody cover fuels large wildfire risk in the eastern US"
 linkTitle: "Woody cover fuels"
-date: 2024-01-01
+date: 2024-12-17
 slug: "ivey-woody-cover-24"
 authors:
   - michaella-ivey

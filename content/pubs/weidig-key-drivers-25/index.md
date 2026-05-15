@@ -1,7 +1,7 @@
 ---
 title: "Key drivers of large wildfires in and near the eastern United States wildland-urban interface"
 linkTitle: "Key drivers of"
-date: 2025-01-01
+date: 2025-04-01
 slug: "weidig-key-drivers-25"
 authors:
   - me

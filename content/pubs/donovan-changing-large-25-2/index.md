@@ -1,7 +1,7 @@
 ---
 title: "Changing large wildfire regime dynamics in the eastern United States"
 linkTitle: "Changing large wildfire"
-date: 2025-01-01
+date: 2025-10-07
 slug: "donovan-changing-large-25-2"
 authors:
   - victoria-m-donovan

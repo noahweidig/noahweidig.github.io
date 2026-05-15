@@ -1,7 +1,7 @@
 ---
 title: "Unravelling changing wildfire regime dynamics in the eastern United States"
 linkTitle: "Unravelling changing wildfire"
-date: 2025-01-01
+date: 2025-04-01
 slug: "donovan-unravelling-changing-25-2"
 authors:
   - victoria-m-donovan

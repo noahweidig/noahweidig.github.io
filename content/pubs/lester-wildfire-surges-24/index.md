@@ -1,7 +1,7 @@
 ---
 title: "Wildfire surges in East, Southeast US fueled by new trees and shrubs"
 linkTitle: "Wildfire surges in"
-date: 2024-01-01
+date: 2024-12-17
 slug: "lester-wildfire-surges-24"
 authors:
   - liza-lester

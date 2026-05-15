@@ -1,7 +1,7 @@
 ---
 title: "Changing Large Wildfire Patterns in the Eastern United States Wildland-Urban Interface"
 linkTitle: "Changing Large Wildfire"
-date: 2024-01-01
+date: 2024-11-01
 slug: "weidig-changing-large-24-2"
 authors:
   - me

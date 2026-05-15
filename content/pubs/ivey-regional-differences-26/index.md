@@ -1,7 +1,7 @@
 ---
 title: "Regional differences in infilling and land-use conversion characterize woody cover increases across the Eastern United States"
 linkTitle: "Regional differences in"
-date: 2026-01-01
+date: 2026-03-01
 slug: "ivey-regional-differences-26"
 authors:
   - michaella-a-ivey
