@@ -15,6 +15,7 @@ abstract: "The recent increase in large wildfires in the eastern United States m
 summary: "The recent increase in large wildfires in the eastern United States makes it crucial to examine the subsequent risk to human life and property. In the eastern US, the wildland–urban interface (WUI), where wildfire risk is greatest, has expa…"
 doi: "10.1071/WF24110"
 url_source: "https://www.publish.csiro.au/WF/WF24110"
+url_pdf: "weidig-changing-large-24.pdf"
 tags:
   - "Journal Article"
 ---
