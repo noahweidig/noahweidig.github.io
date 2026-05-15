@@ -330,8 +330,11 @@ async function main() {
     const summary = abstract ? abstract.slice(0, 240) + (abstract.length > 240 ? "…" : "") : "";
 
     const isWebinar = /\bwebinar\b/i.test([it.data.title, it.data.event, it.data.genre, it.data.presentationType].filter(Boolean).join(" "));
-    const tags = [tagForType(pubType, it.data.itemType)];
-    if (isWebinar) tags.push("Webinar");
+    const isPeerReview = /referee report/i.test(it.data.title || "");
+    let tags;
+    if (isWebinar) tags = ["Webinar"];
+    else if (isPeerReview) tags = ["Peer Review"];
+    else tags = [tagForType(pubType, it.data.itemType)];
 
     const fm = buildFrontmatter({
       key: slug, title, linkTitle: breadcrumbTitle(title), date, authors,
