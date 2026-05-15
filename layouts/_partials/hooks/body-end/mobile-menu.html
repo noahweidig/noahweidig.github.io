@@ -10,7 +10,16 @@
   document.addEventListener('click', function (e) {
     if (!toggle.checked) return;
     if (label && label.contains(e.target)) return;
-    if (menu && menu.contains(e.target)) return;
+    if (menu && menu.contains(e.target)) {
+      var link = e.target.closest && e.target.closest('a[href]');
+      if (link && menu.contains(link)) {
+        var href = link.getAttribute('href') || '';
+        if (href.charAt(0) === '#' || href.indexOf('/#') !== -1) {
+          toggle.checked = false;
+        }
+      }
+      return;
+    }
     toggle.checked = false;
   });
 
