@@ -120,6 +120,37 @@ function yamlEscape(s) {
   return String(s ?? "").replace(/\\/g, "\\\\").replace(/"/g, '\\"');
 }
 
+function firstAuthorLastName(creators) {
+  if (!Array.isArray(creators)) return "";
+  for (const c of creators) {
+    if (!c) continue;
+    if (c.lastName) return c.lastName;
+    if (c.name) {
+      const parts = c.name.trim().split(/\s+/);
+      if (parts.length) return parts[parts.length - 1];
+    }
+  }
+  return "";
+}
+
+function firstTitleWord(title) {
+  if (!title) return "";
+  const cleaned = String(title)
+    .normalize("NFKD")
+    .replace(/[̀-ͯ]/g, "")
+    .replace(/[^A-Za-z0-9\s-]/g, " ")
+    .trim();
+  const first = cleaned.split(/\s+/)[0] || "";
+  return first;
+}
+
+function buildReadableSlug(creators, title, year) {
+  const last = slugify(firstAuthorLastName(creators)) || "anon";
+  const word = slugify(firstTitleWord(title)) || "untitled";
+  const yy = year ? String(year).slice(-2) : "nd";
+  return `${last}-${word}-${yy}`;
+}
+
 function authorsFromCreators(creators) {
   if (!Array.isArray(creators)) return [];
   return creators
@@ -196,11 +227,25 @@ async function main() {
   ensureDir(pubsDir);
   clearPubsDir(pubsDir);
 
+  const entries = items
+    .filter((it) => it.data.itemType !== "attachment" && it.key)
+    .sort((a, b) => a.key.localeCompare(b.key));
+
+  const slugCounts = new Map();
+  for (const it of entries) {
+    const base = buildReadableSlug(
+      it.data.creators,
+      stripHtml(it.data.title || ""),
+      extractYear(it.data.date),
+    );
+    const n = (slugCounts.get(base) || 0) + 1;
+    slugCounts.set(base, n);
+    it.__slug = n === 1 ? base : `${base}-${n}`;
+  }
+
   let written = 0;
-  for (const it of items) {
-    if (it.data.itemType === "attachment") continue;
-    const key = it.key;
-    if (!key) continue;
+  for (const it of entries) {
+    const slug = it.__slug;
 
     const pubType = categorizePubType(it);
     const title = stripHtml(it.data.title || "Untitled");
@@ -218,12 +263,12 @@ async function main() {
     if (isWebinar) tags.push("Webinar");
 
     const fm = buildFrontmatter({
-      key, title, date, authors,
+      key: slug, title, date, authors,
       publication_types: pubType,
       publication, abstract, summary, doi, url: link, tags,
     });
 
-    const dir = path.join(pubsDir, key);
+    const dir = path.join(pubsDir, slug);
     ensureDir(dir);
     fs.writeFileSync(path.join(dir, "index.md"), fm + "\n");
 
