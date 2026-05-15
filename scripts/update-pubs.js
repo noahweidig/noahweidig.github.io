@@ -108,6 +108,60 @@ const extractYear = (s) => {
   return m ? +m[0] : 0;
 };
 
+const MONTHS = {
+  jan: 1, january: 1, feb: 2, february: 2, mar: 3, march: 3,
+  apr: 4, april: 4, may: 5, jun: 6, june: 6, jul: 7, july: 7,
+  aug: 8, august: 8, sep: 9, sept: 9, september: 9,
+  oct: 10, october: 10, nov: 11, november: 11, dec: 12, december: 12,
+};
+
+const pad2 = (n) => String(n).padStart(2, "0");
+
+function parseZoteroDate(raw) {
+  if (!raw) return null;
+  const s = String(raw).trim();
+  if (!s) return null;
+
+  let m = s.match(/^(\d{4})-(\d{1,2})(?:-(\d{1,2}))?$/);
+  if (m) {
+    const y = +m[1], mo = +m[2], d = m[3] ? +m[3] : 1;
+    if (mo >= 1 && mo <= 12) return { y, m: mo, d: d >= 1 && d <= 31 ? d : 1 };
+  }
+
+  m = s.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})$/);
+  if (m) {
+    const mo = +m[1], d = +m[2], y = +m[3];
+    if (mo >= 1 && mo <= 12) return { y, m: mo, d: d >= 1 && d <= 31 ? d : 1 };
+  }
+
+  m = s.match(/^(\d{4})[\/\-](\d{1,2})[\/\-](\d{1,2})$/);
+  if (m) {
+    const y = +m[1], mo = +m[2], d = +m[3];
+    if (mo >= 1 && mo <= 12) return { y, m: mo, d: d >= 1 && d <= 31 ? d : 1 };
+  }
+
+  const yearM = s.match(/\b(19|20)\d{2}\b/);
+  const monthM = s.match(/\b(jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|jun(?:e)?|jul(?:y)?|aug(?:ust)?|sept?(?:ember)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)\b/i);
+  const dayM = s.match(/\b([0-3]?\d)(?:st|nd|rd|th)?\b/);
+  if (yearM) {
+    const y = +yearM[0];
+    const mo = monthM ? MONTHS[monthM[1].toLowerCase()] : null;
+    let d = null;
+    if (dayM && monthM) {
+      const candidate = +dayM[1];
+      if (candidate >= 1 && candidate <= 31 && String(candidate) !== String(y)) d = candidate;
+    }
+    return { y, m: mo || 1, d: d || 1 };
+  }
+
+  return null;
+}
+
+function formatDate(parsed) {
+  if (!parsed) return undefined;
+  return `${parsed.y}-${pad2(parsed.m)}-${pad2(parsed.d)}`;
+}
+
 function categorizePubType(it) {
   const t = it.data.itemType;
   const haystack = [it.data.title, it.data.event, it.data.genre, it.data.presentationType].filter(Boolean).join(" ");
@@ -265,8 +319,9 @@ async function main() {
 
     const pubType = categorizePubType(it);
     const title = stripHtml(it.data.title || "Untitled");
-    const year = extractYear(it.data.date);
-    const date = year ? `${year}-01-01` : undefined;
+    const parsedDate = parseZoteroDate(it.data.date);
+    const year = parsedDate ? parsedDate.y : extractYear(it.data.date);
+    const date = formatDate(parsedDate) || (year ? `${year}-01-01` : undefined);
     const authors = authorsFromCreators(it.data.creators);
     const doi = it.data.DOI || "";
     const link = it.data.url || (doi ? `https://doi.org/${doi}` : "");
