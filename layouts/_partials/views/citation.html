@@ -2,21 +2,6 @@
 {{ $year_value := $item.Params.event_start | default $item.Date }}
 {{ $year := (time $year_value).Format "2006" }}
 {{ $has_attachments := partial "functions/has_attachments" $item }}
-{{ $type_labels := dict
-  "article-journal" "Journal Article"
-  "thesis" "Thesis"
-  "paper-conference" "Presentation"
-  "manuscript" "Manuscript"
-  "article-magazine" "Media Coverage"
-  "article-newspaper" "Media Coverage"
-  "post-weblog" "Media Coverage"
-  "webpage" "Media Coverage"
-  "report" "Report"
-  "book" "Book"
-  "chapter" "Book Chapter"
-}}
-{{ $pt := index ($item.Params.publication_types | default (slice "")) 0 }}
-{{ $pt_label := index $type_labels $pt | default "Publication" }}
 
 <div class="pub-list-item view-citation" style="margin-bottom: 1rem">
   <i class="far fa-file-alt pub-icon" aria-hidden="true"></i>
@@ -34,7 +19,6 @@
   {{ else if $item.Params.publication }}
     {{- $item.Params.publication | markdownify -}}.
   {{ end }}
-  <span class="pub-type-badge" style="display:inline-block;margin-left:.4rem;padding:.05rem .4rem;border:1px solid currentColor;border-radius:.25rem;font-size:.75rem;opacity:.75;">{{ $pt_label }}</span>
 
   {{ if $has_attachments }}
   <div class="flex flex-wrap space-x-3">
@@ -55,7 +39,6 @@
     {{- $item.Params.publication | markdownify -}},
   {{ end }}
   {{- $year -}}.
-  <span class="pub-type-badge" style="display:inline-block;margin-left:.4rem;padding:.05rem .4rem;border:1px solid currentColor;border-radius:.25rem;font-size:.75rem;opacity:.75;">{{ $pt_label }}</span>
 
   {{ if $has_attachments }}
   <div class="flex flex-wrap space-x-3">
