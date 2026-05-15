@@ -165,7 +165,7 @@ function formatDate(parsed) {
 function categorizePubType(it) {
   const t = it.data.itemType;
   const haystack = [it.data.title, it.data.event, it.data.genre, it.data.presentationType].filter(Boolean).join(" ");
-  if (/\bwebinar\b/i.test(haystack)) return "manuscript";
+  if (/\bwebinar\b/i.test(haystack)) return "speech";
   if (/referee report/i.test(it.data.title || "")) return "manuscript";
   return TYPE_MAP[t] || "manuscript";
 }
@@ -325,7 +325,7 @@ async function main() {
     const authors = authorsFromCreators(it.data.creators);
     const doi = it.data.DOI || "";
     const link = it.data.url || (doi ? `https://doi.org/${doi}` : "");
-    const publication = it.data.publicationTitle || it.data.bookTitle || it.data.proceedingsTitle || it.data.event || it.data.publisher || "";
+    const publication = it.data.publicationTitle || it.data.bookTitle || it.data.proceedingsTitle || it.data.meetingName || it.data.event || it.data.place || it.data.publisher || "";
     const abstract = stripHtml(it.data.abstractNote || "");
     const summary = abstract ? abstract.slice(0, 240) + (abstract.length > 240 ? "…" : "") : "";
 
