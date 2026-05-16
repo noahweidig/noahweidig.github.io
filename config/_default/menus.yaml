@@ -19,7 +19,7 @@ main:
     identifier: "17830975"
     url: "/blog"
     weight: 40
-  - name: Research
+  - name: Publications
     identifier: c7555cab
     url: /pubs
     weight: 50
