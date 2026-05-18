@@ -26,6 +26,13 @@ html.dark {
   color: #ffffff;
 }
 
+/* Dark mode: ensure CTA card prose text is white and bold */
+.dark .section-cta .prose {
+  --tw-prose-body: #fff;
+  --tw-prose-bold: #fff;
+  font-weight: 700;
+}
+
 /* Add spacing between the right-side controls and the hamburger toggle on mobile */
 @media (max-width: 1023px) {
   label[for="nav-toggle"] {
