@@ -9,7 +9,7 @@
   {{ end -}}
   <div class="whitespace-nowrap font-medium text-gray-700 dark:text-gray-100">
     {{- $label := .LinkTitle -}}
-    {{- if and (eq .Section "pubs") (not .IsSection) -}}
+    {{- if and (eq .Section "publications") (not .IsSection) -}}
       {{- $authors := .Params.authors -}}
       {{- $lastName := "" -}}
       {{- with $authors -}}

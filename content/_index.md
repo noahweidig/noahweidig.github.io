@@ -105,19 +105,19 @@ sections:
 
   # Featured Publications - Latest journal articles
   - block: collection
-    id: pubs
+    id: publications
     content:
       title: "Featured Publications"
       subtitle: "Recent journal articles"
       count: 4
       filters:
         folders:
-          - pubs
+          - publications
         tag: "Journal Article"
       archive:
         enable: true
         text: "See All Publications"
-        link: "/pubs/"
+        link: "/publications/"
     design:
       view: citation
       background:

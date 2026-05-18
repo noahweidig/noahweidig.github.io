@@ -4,7 +4,7 @@ import fetch from "node-fetch";
 import { stripHtml } from "./sanitize.js";
 
 const userID = 11988712;
-const pubsDir = path.resolve("content/pubs");
+const pubsDir = path.resolve("content/publications");
 const dataAuthorsDir = path.resolve("data/authors");
 
 // Slug for the site owner — must match data/authors/me.yaml
@@ -353,7 +353,7 @@ async function main() {
     written++;
   }
 
-  console.log(`Wrote ${written} publication entries under content/pubs/`);
+  console.log(`Wrote ${written} publication entries under content/publications/`);
 }
 
 main().catch((err) => {
