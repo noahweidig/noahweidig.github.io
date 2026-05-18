@@ -15,7 +15,7 @@
         </h2>
         {{ end }}
         {{ with $content.text }}
-        <div class="prose prose-lg {{ if eq $design.card.text_color "light" }}prose-invert{{ else }}dark:prose-invert dark:prose-p:text-white dark:prose-p:font-bold dark:prose-strong:text-white{{ end }} max-w-none">
+        <div class="prose prose-lg {{ if eq $design.card.text_color "light" }}prose-invert{{ else }}dark:prose-invert dark:[&_p]:text-white dark:[&_p]:font-bold dark:[&_strong]:text-white{{ end }} max-w-none">
           {{ . | markdownify }}
         </div>
         {{ end }}
