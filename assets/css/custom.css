@@ -4,6 +4,16 @@
   margin-right: 0.5em;
 }
 
+/* Glassmorphic navbar */
+.navbar {
+  background-color: rgba(255, 255, 255, 0.6) !important;
+  backdrop-filter: saturate(180%) blur(12px);
+  -webkit-backdrop-filter: saturate(180%) blur(12px);
+}
+.dark .navbar {
+  background-color: rgba(13, 13, 18, 0.6) !important;
+}
+
 /* Fix dark mode contrast for tech stack icons (LaTeX, Markdown, Bash) */
 .dark #skills svg {
   fill: currentColor;
