@@ -21,7 +21,7 @@ main:
     weight: 40
   - name: Publications
     identifier: c7555cab
-    url: /pubs
+    url: "/#pubs"
     weight: 50
   - name: Contact
     identifier: 4ada4344
