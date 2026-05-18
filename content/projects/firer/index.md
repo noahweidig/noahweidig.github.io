@@ -11,7 +11,7 @@ links:
     label: View Package
 featured: true
 image:
-  filename: featured.png
+  filename: featured.webp
 
 ---
 
