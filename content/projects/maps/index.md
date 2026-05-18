@@ -12,7 +12,7 @@ links:
     label: See Gallery
 featured: true
 image:
-  filename: featured.png
+  filename: featured.webp
 
 ---
 
