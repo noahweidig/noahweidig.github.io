@@ -103,6 +103,30 @@ sections:
       spacing:
         padding: ["4rem", "0", "4rem", "0"]
 
+  # Featured Publications - Latest journal articles
+  - block: collection
+    id: pubs
+    content:
+      title: "Featured Publications"
+      subtitle: "Recent journal articles"
+      count: 4
+      filters:
+        folders:
+          - pubs
+        tag: "Journal Article"
+      archive:
+        enable: true
+        text: "See All Publications"
+        link: "/pubs/"
+    design:
+      view: citation
+      background:
+        color:
+          light: "#ffffff"
+          dark: "#0d0d12"
+      spacing:
+        padding: ["4rem", "0", "4rem", "0"]
+
   # Visual Tech Stack - Icons organized by category
   - block: tech-stack
     id: skills
@@ -339,7 +363,7 @@ sections:
           light: "#f5f5f5"
           dark: "#08080c"
       spacing:
-        padding: ["4rem", "0", "6rem", "0"]
+        padding: ["4rem", "1.5rem", "6rem", "1.5rem"]
 
 ---
 
