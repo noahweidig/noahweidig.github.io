@@ -55,6 +55,19 @@ html.dark {
   }
 }
 
+/* Shrink contact email text on narrow mobile widths so it stays within the card */
+@media (max-width: 400px) {
+  #contact button p.text-lg {
+    font-size: 0.95rem;
+    word-break: break-all;
+  }
+}
+@media (max-width: 340px) {
+  #contact button p.text-lg {
+    font-size: 0.8rem;
+  }
+}
+
 /* Fix hamburger menu wrapping at very narrow widths (~375px) */
 /* Reduce padding between site title and theme toggle to prevent wrapping */
 @media (max-width: 400px) {
