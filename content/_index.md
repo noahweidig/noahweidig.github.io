@@ -332,7 +332,7 @@ sections:
           - blog
       archive:
         enable: true
-        text: "Read More Posts →"
+        text: "Read More Posts"
         link: "/blog/"
     design:
       view: compact
