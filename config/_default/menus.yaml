@@ -17,7 +17,7 @@ main:
     weight: 30
   - name: Blog
     identifier: "17830975"
-    url: "/blog"
+    url: "/#blog"
     weight: 40
   - name: Publications
     identifier: c7555cab
