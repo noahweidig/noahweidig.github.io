@@ -320,6 +320,54 @@ sections:
       spacing:
         padding: ["4rem", "0", "4rem", "0"]
 
+  # Featured Posts - Latest blog posts
+  - block: collection
+    id: blog
+    content:
+      title: "Featured Posts"
+      subtitle: "Recent writing"
+      count: 3
+      filters:
+        folders:
+          - blog
+      archive:
+        enable: true
+        text: "Read More Posts →"
+        link: "/blog/"
+    design:
+      view: compact
+      background:
+        color:
+          light: "#f5f5f5"
+          dark: "#08080c"
+      spacing:
+        padding: ["4rem", "0", "4rem", "0"]
+
+  # FAQ
+  - block: faq
+    id: faq
+    content:
+      title: "About My Work"
+      subtitle: "Common questions about collaboration and what I do"
+      items:
+        - question: "What do you do?"
+          answer: "I work at the intersection of geospatial analytics, data science, and applied AI — building reproducible workflows that turn spatial and environmental data into decision-ready insights."
+        - question: "What kinds of projects are you interested in?"
+          answer: "I'm drawn to work involving remote sensing, land-use change, social-ecological systems, and data storytelling. I especially enjoy projects where rigorous analysis meets clear visual communication."
+        - question: "Are you open to collaboration?"
+          answer: "Yes. I'm happy to discuss research collaborations, freelance work, and full-time opportunities in data science or GIS. The best way to start a conversation is through the contact section below."
+        - question: "What tools do you typically work with?"
+          answer: "Mostly R and Python for analysis and modeling, alongside SQL for data wrangling and a range of GIS tools (ArcGIS Pro, QGIS, GEE, GDAL) for spatial work. See the tech stack section for the full toolkit."
+        - question: "How can I get in touch?"
+          answer: "Email is the easiest — you'll find it in the contact section just below this one."
+    design:
+      background:
+        color:
+          light: "#ffffff"
+          dark: "#0d0d12"
+      spacing:
+        padding: ["4rem", "0", "4rem", "0"]
+
   # Contact Section
   - block: contact-info
     id: contact
