@@ -89,15 +89,3 @@ html.dark {
     margin-left: 0.25rem !important;
   }
 }
-
-/* Glassmorphic navbar (light + dark) */
-.navbar {
-  background-color: rgba(255, 255, 255, 0.6) !important;
-  backdrop-filter: saturate(180%) blur(12px);
-  -webkit-backdrop-filter: saturate(180%) blur(12px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-}
-.dark .navbar {
-  background-color: rgba(13, 13, 18, 0.6) !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-}
