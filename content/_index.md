@@ -335,7 +335,7 @@ sections:
         text: "Read More Posts"
         link: "/blog/"
     design:
-      view: compact
+      view: date-title-summary
       background:
         color:
           light: "#f5f5f5"
