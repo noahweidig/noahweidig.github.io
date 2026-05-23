@@ -53,7 +53,7 @@ sections:
     content:
       items:
         - statistic: "25+"
-          description: "Publications"
+          description: "Publications/Presentations"
         - statistic: "8+"
           description: "Years Research Experience"
         - statistic: "20+"
