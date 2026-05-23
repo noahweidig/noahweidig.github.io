@@ -48,7 +48,7 @@
         {{ end }}
         {{ end }}
       </div>
-      <div class="mt-12 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0 md:grid-cols-{{ len .Site.Menus.footer }}">
+      <div class="mt-12 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0 md:grid-cols-{{ add (len .Site.Menus.footer) 1 }}">
 
           {{ $menu := .Site.Menus.footer }}
           {{ range $index, $menuItem := $menu }}
@@ -71,6 +71,28 @@
             </ul>
           </div>
         {{ end }}
+
+        {{ $social := slice
+          (dict "name" "GitHub" "icon" "brands/github" "url" "https://github.com/noahweidig/")
+          (dict "name" "LinkedIn" "icon" "custom/linkedin" "url" "https://www.linkedin.com/in/noahweidig/")
+          (dict "name" "ORCID" "icon" "academicons/orcid" "url" "https://orcid.org/0000-0003-1205-3209")
+        }}
+        <div>
+          <h3 class="text-sm font-bold tracking-wider text-primary-500 uppercase dark:text-primary-300">Social</h3>
+          <ul role="list" class="mt-4 space-y-2">
+            {{ range $social }}
+            <li>
+              <a href="{{ .url }}" target="_blank" rel="noopener"
+                 class="inline-flex items-center gap-2 text-base font-normal text-gray-500 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-300">
+                <span class="inline-flex h-5 w-5 items-center justify-center">
+                  {{ partial "functions/get_icon" (dict "name" .icon "attributes" "class='w-5 h-5'") }}
+                </span>
+                {{ .name }}
+              </a>
+            </li>
+            {{ end }}
+          </ul>
+        </div>
       </div>
     </div>
   </div>
