@@ -47,6 +47,31 @@ html.dark {
   }
 }
 
+/* Stats block: tone down oversized numbers and match card surface to other cards on the page */
+#stats .stats-item h3.counter {
+  font-size: 1.875rem;
+  font-weight: 600;
+  line-height: 1.1;
+}
+@media (min-width: 640px) {
+  #stats .stats-item h3.counter { font-size: 2.25rem; }
+}
+@media (min-width: 1024px) {
+  #stats .stats-item h3.counter { font-size: 2.5rem; }
+}
+
+#stats .stats-item {
+  background-color: #ffffff;
+  border-color: rgb(229 231 235);
+}
+.dark #stats .stats-item {
+  background-color: rgba(255, 255, 255, 0.03);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+.dark #stats .stats-item:hover {
+  background-color: rgba(255, 255, 255, 0.06);
+}
+
 /* Add horizontal padding to publication citation items on mobile so they don't touch screen edges */
 @media (max-width: 640px) {
   .pub-list-item {
