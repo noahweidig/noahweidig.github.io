@@ -33,6 +33,17 @@ html.dark {
   font-weight: 700;
 }
 
+/* Prevent the navbar from wrapping at desktop widths. The blox .navbar is
+   `flex-wrap` so the open hamburger dropdown (w-full) can drop to its own line
+   below lg; at lg+ that wrap instead pushes the search/theme/CTA controls onto
+   a second row. Force nowrap at the lg breakpoint (1024px) where the desktop
+   nav is active, so items stay inline and only collapse to the hamburger below it. */
+@media (min-width: 1024px) {
+  .navbar {
+    flex-wrap: nowrap;
+  }
+}
+
 /* Add spacing between the right-side controls and the hamburger toggle on mobile */
 @media (max-width: 1023px) {
   label[for="nav-toggle"] {
