@@ -15,7 +15,7 @@
           {{ if $show_logo }}
           {{ with $logo.resource }}
             {{ if $logo.is_svg }}
-              <div class="footer-logo" style="height: {{ $logo_height }}px;">
+              <div class="footer-logo text-gray-500 dark:text-gray-300" style="height: {{ $logo_height }}px;">
                 {{- .Content | safeHTML -}}
               </div>
               <style>.footer-logo svg { height: 100%; width: auto; }</style>
@@ -78,9 +78,9 @@
         {{ end }}
 
         {{ $social := slice
-          (dict "name" "GitHub" "icon" "brands/github" "url" "https://github.com/noahweidig/")
-          (dict "name" "LinkedIn" "icon" "custom/linkedin" "url" "https://www.linkedin.com/in/noahweidig/")
-          (dict "name" "ORCID" "icon" "academicons/orcid" "url" "https://orcid.org/0000-0003-1205-3209")
+          (dict "name" "GitHub" "icon" "custom/github-line" "url" "https://github.com/noahweidig/")
+          (dict "name" "LinkedIn" "icon" "custom/linkedin-line" "url" "https://www.linkedin.com/in/noahweidig/")
+          (dict "name" "ORCID" "icon" "custom/orcid-line" "url" "https://orcid.org/0000-0003-1205-3209")
         }}
         <div>
           <h3 class="text-sm font-bold tracking-wider text-primary-500 uppercase dark:text-primary-300">Social</h3>

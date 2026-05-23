@@ -332,19 +332,8 @@ sections:
     content:
       title: "Featured Awards"
       subtitle: "A selection of recent honors"
-      items:
-        - src: media/awards/best-thesis-natural-resources.webp
-          title: Outstanding Thesis in Natural Resources
-          caption: "University of Florida, College of Agricultural & Life Sciences"
-          link: /awards/outstanding-thesis-natural-resources/
-        - src: media/awards/best-thesis-forest-resources.webp
-          title: Outstanding Thesis in Forest Resources & Conservation
-          caption: "University of Florida, School of Forest, Fisheries, & Geomatic Sciences"
-          link: /awards/outstanding-thesis-forest-resources/
-        - src: media/awards/outstanding-graduate-biosci.webp
-          title: Outstanding Graduate in Biology
-          caption: "Northern Kentucky University, Department of Biological Sciences"
-          link: /awards/outstanding-graduate-biology/
+      collection: awards
+      featured_only: true
     design:
       layout: carousel
       columns: 3

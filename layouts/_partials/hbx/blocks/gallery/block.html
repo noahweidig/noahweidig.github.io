@@ -33,6 +33,24 @@
 {{ if reflect.IsSlice $items_raw }}{{ $items = $items_raw }}
 {{ else if reflect.IsMap $items_raw }}{{ $items = slice $items_raw }}{{ end }}
 
+{{/* Optionally source items from a content collection (e.g. featured awards) */}}
+{{ $collection := "" }}
+{{ with index $content "collection" }}{{ $collection = strings.TrimSpace (printf "%v" .) }}{{ end }}
+{{ $featured_only := partial "functions/coerce_bool" (dict "value" (index $content "featured_only") "default" false) }}
+{{ if and $collection (eq (len $items) 0) }}
+  {{ $pages := where site.RegularPages "Section" $collection }}
+  {{ if $featured_only }}{{ $pages = where $pages "Params.featured" true }}{{ end }}
+  {{ $built := slice }}
+  {{ range (sort $pages "Date" "desc") }}
+    {{ $fn := "" }}
+    {{ with .Params.image }}{{ with index . "filename" }}{{ $fn = printf "%v" . }}{{ end }}{{ end }}
+    {{ $imgsrc := "" }}
+    {{ with .Resources.GetMatch $fn }}{{ $imgsrc = .RelPermalink }}{{ end }}
+    {{ $built = $built | append (dict "src" $imgsrc "title" .Title "caption" (.Params.summary | default "") "link" .RelPermalink) }}
+  {{ end }}
+  {{ $items = $built }}
+{{ end }}
+
 {{ $gallery_id := printf "gallery-%d" (now.UnixNano) }}
 {{ with $block.id }}{{ $gallery_id = printf "gallery-%s" . }}{{ end }}
 
@@ -84,8 +102,8 @@
           {{ end }}
 
           <div class="snap-start shrink-0 w-[80%] sm:w-[45%] lg:w-[31%]">
-            {{ if $link }}<a href="{{ $link | safeURL }}" {{ $card_target | safeHTMLAttr }} class="block group/card">{{ else }}<div class="group/card">{{ end }}
-              <div class="relative overflow-hidden rounded-xl border border-gray-200 dark:border-white/[0.06] bg-white dark:bg-white/[0.02] shadow-sm">
+            {{ if $link }}<a href="{{ $link | safeURL }}" {{ $card_target | safeHTMLAttr }} class="block h-full group/card">{{ else }}<div class="h-full group/card">{{ end }}
+              <div class="relative flex h-full flex-col overflow-hidden rounded-xl border border-gray-200 dark:border-white/[0.06] bg-white dark:bg-white/[0.02] shadow-sm">
                 {{ if $img }}
                 <div class="{{ $aspect_class }} w-full overflow-hidden bg-gray-100 dark:bg-white/[0.04]">
                   <img src="{{ $img | safeURL }}" alt="{{ $item_title | default $caption }}" loading="lazy" class="h-full w-full object-cover transition-transform duration-500{{ if $hover_zoom }} group-hover/card:scale-105{{ end }}">
