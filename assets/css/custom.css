@@ -44,6 +44,15 @@ html.dark {
   }
 }
 
+/* Keep the brand title and CTA button text on a single line at desktop widths.
+   Just above the lg breakpoint (~1028px) the navbar gets cramped and the
+   `.navbar-brand` title "Noah Weidig" and the CTA arrow wrap. Forcing nowrap
+   keeps them inline; widths below lg (1024px) still collapse to the hamburger. */
+.navbar-brand,
+.navbar .order-1 > a {
+  white-space: nowrap;
+}
+
 /* Add spacing between the right-side controls and the hamburger toggle on mobile */
 @media (max-width: 1023px) {
   label[for="nav-toggle"] {
