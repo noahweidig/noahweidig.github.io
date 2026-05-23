@@ -59,11 +59,16 @@
               {{ $url := .URL | relLangURL }}
               <li>
                 <a href="{{ $url }}"
-                class="text-base font-normal text-gray-500 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-300"
+                class="inline-flex items-center gap-2 text-base font-normal text-gray-500 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-300"
                    {{ if findRE `^http` .URL }}
                    target="_blank" rel="noopener"
                    {{ end }}
                    >
+                  {{ with $childMenuItem.Params.icon }}
+                  <span class="inline-flex h-5 w-5 items-center justify-center">
+                    {{ partial "functions/get_icon" (dict "name" . "attributes" "class='w-5 h-5'") }}
+                  </span>
+                  {{ end }}
                   {{ $childMenuItem.Name }}
                 </a>
               </li>
