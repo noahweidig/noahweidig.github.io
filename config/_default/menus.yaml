@@ -19,6 +19,10 @@ main:
     identifier: c7555cab
     url: "/#publications"
     weight: 40
+  - name: Awards
+    identifier: f8b5c2a1
+    url: "/#awards"
+    weight: 45
   - name: Blog
     identifier: "17830975"
     url: "/#blog"
