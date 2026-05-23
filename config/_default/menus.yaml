@@ -27,3 +27,53 @@ main:
     identifier: 4ada4344
     url: "/#contact"
     weight: 60
+
+# Footer navigation - grouped columns (parent + children)
+footer:
+  - name: Explore
+    identifier: f-explore
+    weight: 10
+  - name: Projects
+    parent: f-explore
+    url: "/#projects"
+    weight: 11
+  - name: Publications
+    parent: f-explore
+    url: "/#publications"
+    weight: 12
+  - name: Blog
+    parent: f-explore
+    url: "/#blog"
+    weight: 13
+
+  - name: About
+    identifier: f-about
+    weight: 20
+  - name: Experience
+    parent: f-about
+    url: "/#experience"
+    weight: 21
+  - name: Skills
+    parent: f-about
+    url: "/#skills"
+    weight: 22
+  - name: Awards
+    parent: f-about
+    url: "/#awards"
+    weight: 23
+
+  - name: Connect
+    identifier: f-connect
+    weight: 30
+  - name: Contact
+    parent: f-connect
+    url: "/#contact"
+    weight: 31
+  - name: Book a Call
+    parent: f-connect
+    url: "https://cal.com/noah-weidig/meet"
+    weight: 32
+  - name: Geo Portfolio
+    parent: f-connect
+    url: "https://noahweidig.com/geo-portfolio"
+    weight: 33

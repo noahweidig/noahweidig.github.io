@@ -1,0 +1,53 @@
+{{/* Hugo Blox: Stats Block (custom) */}}
+{{/* Slim metrics row. Honors design.background and design.spacing.padding like built-in blocks. */}}
+
+{{ $block := . }}
+{{ $content := $block.content }}
+{{ $design := $block.design }}
+
+{{ $bgLight := "" }}
+{{ $bgDark := "" }}
+{{ with $design.background }}
+  {{ with .color }}
+    {{ $bgLight = .light }}
+    {{ $bgDark = .dark }}
+  {{ end }}
+{{ end }}
+
+{{ $pad := slice "3rem" "0" "3rem" "0" }}
+{{ with $design.spacing }}
+  {{ with .padding }}{{ $pad = . }}{{ end }}
+{{ end }}
+{{ $padStyle := printf "padding: %s %s %s %s;" (index $pad 0) (index $pad 1) (index $pad 2) (index $pad 3) }}
+
+<section
+  id="{{ $block.id | default "stats" }}"
+  class="section-stats relative"
+  {{ with $bgLight }}style="background-color: {{ . }}; {{ $padStyle }}"{{ else }}style="{{ $padStyle }}"{{ end }}
+>
+  {{ with $bgDark }}
+  <style>
+    @media (prefers-color-scheme: dark) { #{{ $block.id | default "stats" }} { background-color: {{ . }} !important; } }
+    .dark #{{ $block.id | default "stats" }} { background-color: {{ . }} !important; }
+  </style>
+  {{ end }}
+
+  <div class="mx-auto max-w-6xl px-6">
+    {{ with $content.title }}
+    <h2 class="text-center text-2xl md:text-3xl font-bold tracking-tight text-gray-900 dark:text-white mb-8">{{ . | markdownify }}</h2>
+    {{ end }}
+
+    {{ $n := len $content.items }}
+    {{ $cols := cond (eq $n 3) "md:grid-cols-3" (cond (eq $n 5) "md:grid-cols-5" "md:grid-cols-4") }}
+    <dl class="grid grid-cols-2 {{ $cols }} gap-6 md:gap-8 text-center">
+      {{ range $content.items }}
+      <div class="flex flex-col items-center">
+        <dt class="order-2 mt-1 text-xs md:text-sm uppercase tracking-wide text-gray-600 dark:text-gray-400">{{ .label | markdownify }}</dt>
+        <dd class="order-1 text-3xl md:text-4xl font-bold text-primary-600 dark:text-primary-400 tabular-nums">
+          {{ with .prefix }}<span class="text-gray-500 dark:text-gray-500">{{ . }}</span>{{ end }}{{ .value }}{{ with .suffix }}<span class="text-primary-600 dark:text-primary-400">{{ . }}</span>{{ end }}
+        </dd>
+      </div>
+      {{ end }}
+    </dl>
+  </div>
+</section>

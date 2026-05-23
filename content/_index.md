@@ -47,6 +47,31 @@ sections:
       spacing:
         padding: ["6rem", "0", "4rem", "0"]
 
+  # Stats - Slim metrics row
+  - block: stats
+    id: stats
+    content:
+      items:
+        - value: "30"
+          suffix: "+"
+          label: "Publications"
+        - value: "6"
+          suffix: "+"
+          label: "Years GIS Experience"
+        - value: "20"
+          suffix: "+"
+          label: "Tools Mastered"
+        - value: "15"
+          suffix: "+"
+          label: "Projects Shipped"
+    design:
+      background:
+        color:
+          light: "#ffffff"
+          dark: "#0d0d12"
+      spacing:
+        padding: ["3rem", "0", "3rem", "0"]
+
   # Interests
   - block: tech-stack
     id: interests
