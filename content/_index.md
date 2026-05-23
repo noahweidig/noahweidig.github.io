@@ -326,20 +326,52 @@ sections:
       spacing:
         padding: ["0", "0", "2rem", "0"]
 
-  # Awards
-  - block: resume-awards
+  # Featured Awards - Carousel gallery
+  - block: gallery
     id: awards
     content:
-      title: Awards
-      username: me
+      title: "Featured Awards"
+      subtitle: "A selection of recent honors"
+      items:
+        - src: media/awards/best-thesis-natural-resources.webp
+          title: Outstanding Thesis in Natural Resources
+          caption: "University of Florida, College of Agricultural & Life Sciences"
+          link: /awards/outstanding-thesis-natural-resources/
+        - src: media/awards/best-thesis-forest-resources.webp
+          title: Outstanding Thesis in Forest Resources & Conservation
+          caption: "University of Florida, School of Forest, Fisheries, & Geomatic Sciences"
+          link: /awards/outstanding-thesis-forest-resources/
+        - src: media/awards/outstanding-graduate-biosci.webp
+          title: Outstanding Graduate in Biology
+          caption: "Northern Kentucky University, Department of Biological Sciences"
+          link: /awards/outstanding-graduate-biology/
     design:
-      date_format: "2006"
+      layout: carousel
+      columns: 3
+      gap: md
+      aspect_ratio: landscape
+      caption_position: below
+      hover_zoom: true
+      lightbox: true
       background:
         color:
           light: "#ffffff"
           dark: "#0d0d12"
       spacing:
-        padding: ["4rem", "0", "4rem", "0"]
+        padding: ["4rem", "0", "2rem", "0"]
+
+  - block: cta-button-list
+    content:
+      buttons:
+        - text: "See All Awards →"
+          url: "/awards/"
+    design:
+      background:
+        color:
+          light: "#ffffff"
+          dark: "#0d0d12"
+      spacing:
+        padding: ["0", "0", "4rem", "0"]
 
   # Featured Posts - Latest blog posts
   - block: collection
