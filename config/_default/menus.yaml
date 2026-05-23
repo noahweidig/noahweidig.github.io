@@ -15,13 +15,17 @@ main:
     identifier: d7013a81
     url: "/#experience"
     weight: 30
-  - name: Blog
-    identifier: "17830975"
-    url: "/#blog"
-    weight: 40
   - name: Publications
     identifier: c7555cab
     url: "/#publications"
+    weight: 40
+  - name: Awards
+    identifier: f8b5c2a1
+    url: "/#awards"
+    weight: 45
+  - name: Blog
+    identifier: "17830975"
+    url: "/#blog"
     weight: 50
   - name: Contact
     identifier: 4ada4344
