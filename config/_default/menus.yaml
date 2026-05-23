@@ -37,14 +37,20 @@ footer:
     parent: f-explore
     url: "/#projects"
     weight: 11
+    params:
+      icon: rocket-launch
   - name: Publications
     parent: f-explore
     url: "/#publications"
     weight: 12
+    params:
+      icon: document-text
   - name: Blog
     parent: f-explore
     url: "/#blog"
     weight: 13
+    params:
+      icon: pencil-square
 
   - name: About
     identifier: f-about
@@ -53,14 +59,20 @@ footer:
     parent: f-about
     url: "/#experience"
     weight: 21
+    params:
+      icon: briefcase
   - name: Skills
     parent: f-about
     url: "/#skills"
     weight: 22
+    params:
+      icon: academic-cap
   - name: Awards
     parent: f-about
     url: "/#awards"
     weight: 23
+    params:
+      icon: trophy
 
   - name: Connect
     identifier: f-connect
@@ -69,11 +81,17 @@ footer:
     parent: f-connect
     url: "/#contact"
     weight: 31
+    params:
+      icon: envelope
   - name: Book a Call
     parent: f-connect
     url: "https://cal.com/noah-weidig/meet"
     weight: 32
+    params:
+      icon: calendar-days
   - name: Geo Portfolio
     parent: f-connect
     url: "https://noahweidig.com/geo-portfolio"
     weight: 33
+    params:
+      icon: map
