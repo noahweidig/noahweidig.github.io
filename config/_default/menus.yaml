@@ -7,6 +7,10 @@ main:
     identifier: a67f94de
     url: "/#projects"
     weight: 10
+  - name: Publications
+    identifier: c7555cab
+    url: "/#publications"
+    weight: 15
   - name: Skills
     identifier: 56b9b039
     url: "/#skills"
@@ -15,10 +19,6 @@ main:
     identifier: d7013a81
     url: "/#experience"
     weight: 30
-  - name: Publications
-    identifier: c7555cab
-    url: "/#publications"
-    weight: 40
   - name: Awards
     identifier: f8b5c2a1
     url: "/#awards"
