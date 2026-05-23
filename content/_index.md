@@ -52,18 +52,14 @@ sections:
     id: stats
     content:
       items:
-        - value: "30"
-          suffix: "+"
-          label: "Publications"
-        - value: "6"
-          suffix: "+"
-          label: "Years GIS Experience"
-        - value: "20"
-          suffix: "+"
-          label: "Tools Mastered"
-        - value: "15"
-          suffix: "+"
-          label: "Projects Shipped"
+        - statistic: "25+"
+          description: "Publications"
+        - statistic: "8+"
+          description: "Years Research Experience"
+        - statistic: "20+"
+          description: "Tools Mastered"
+        - statistic: "14"
+          description: "Featured Projects"
     design:
       background:
         color:
