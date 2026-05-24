@@ -15,7 +15,7 @@
           {{ if $show_logo }}
           {{ with $logo.resource }}
             {{ if $logo.is_svg }}
-              <div class="footer-logo text-gray-500 dark:text-gray-300" style="height: {{ $logo_height }}px;">
+              <div class="footer-logo text-primary-600 dark:text-primary-200" style="height: {{ $logo_height }}px;">
                 {{- .Content | safeHTML -}}
               </div>
               <style>.footer-logo svg { height: 100%; width: auto; }</style>
