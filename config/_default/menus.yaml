@@ -55,6 +55,12 @@ footer:
     weight: 13
     params:
       icon: pencil-square
+  - name: FAQ
+    parent: f-explore
+    url: "/#faq"
+    weight: 14
+    params:
+      icon: question-mark-circle
 
   - name: About
     identifier: f-about
@@ -65,28 +71,41 @@ footer:
     weight: 21
     params:
       icon: briefcase
+  - name: Education
+    parent: f-about
+    url: "/#experience"
+    weight: 22
+    params:
+      icon: building-library
   - name: Skills
     parent: f-about
     url: "/#skills"
-    weight: 22
+    weight: 23
     params:
-      icon: academic-cap
+      icon: code-bracket
   - name: Awards
     parent: f-about
     url: "/#awards"
-    weight: 23
+    weight: 24
     params:
       icon: trophy
 
   - name: Connect
     identifier: f-connect
     weight: 30
+  - name: Email
+    parent: f-connect
+    url: "#"
+    weight: 30
+    params:
+      icon: envelope
+      copy_email: true
   - name: Contact
     parent: f-connect
     url: "/#contact"
     weight: 31
     params:
-      icon: envelope
+      icon: chat-bubble-left-right
   - name: Book a Call
     parent: f-connect
     url: "https://cal.com/noah-weidig/meet"

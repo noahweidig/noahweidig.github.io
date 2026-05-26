@@ -58,6 +58,18 @@
               {{ range $childIndex, $childMenuItem := $menuItem.Children }}
               {{ $url := .URL | relLangURL }}
               <li>
+                {{ if $childMenuItem.Params.copy_email }}
+                {{ $email := site.Data.authors.me.email }}
+                <button type="button" data-copy-email="{{ $email }}"
+                   class="copy-email inline-flex items-center gap-2 text-base font-normal text-gray-500 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-300">
+                  {{ with $childMenuItem.Params.icon }}
+                  <span class="inline-flex h-5 w-5 items-center justify-center">
+                    {{ partial "functions/get_icon" (dict "name" . "attributes" "class='w-5 h-5'") }}
+                  </span>
+                  {{ end }}
+                  <span class="copy-email-label">{{ $childMenuItem.Name }}</span>
+                </button>
+                {{ else }}
                 <a href="{{ $url }}"
                 class="inline-flex items-center gap-2 text-base font-normal text-gray-500 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-300"
                    {{ if findRE `^http` .URL }}
@@ -71,6 +83,7 @@
                   {{ end }}
                   {{ $childMenuItem.Name }}
                 </a>
+                {{ end }}
               </li>
               {{ end }}
             </ul>
@@ -78,8 +91,9 @@
         {{ end }}
 
         {{ $social := slice
-          (dict "name" "GitHub" "icon" "custom/github-line" "url" "https://github.com/noahweidig/")
           (dict "name" "LinkedIn" "icon" "custom/linkedin-line" "url" "https://www.linkedin.com/in/noahweidig/")
+          (dict "name" "GitHub" "icon" "custom/github-line" "url" "https://github.com/noahweidig/")
+          (dict "name" "Google Scholar" "icon" "custom/scholar" "url" "https://scholar.google.com/citations?hl=en&user=Ml95eTwAAAAJ")
           (dict "name" "ORCID" "icon" "custom/orcid-line" "url" "https://orcid.org/0000-0003-1205-3209")
         }}
         <div>
@@ -103,7 +117,7 @@
   </div>
   <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-16">
     <div class="flex flex-wrap items-baseline justify-between">
-      <span class="mt-2 text-sm font-light text-gray-500 dark:text-gray-300">
+      <span class="mt-2 text-sm font-light text-gray-500 dark:text-gray-300 [&_.powered-by]:text-sm">
         {{/* Display copyright license. */}}
         {{ partial "site_footer_license" . }}
       </span>
@@ -112,4 +126,18 @@
       </span>
     </div>
   </div>
+  <script>
+    document.querySelectorAll('.copy-email').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var email = btn.getAttribute('data-copy-email');
+        if (!email) return;
+        navigator.clipboard.writeText(email);
+        var label = btn.querySelector('.copy-email-label');
+        if (!label) return;
+        var original = label.textContent;
+        label.textContent = 'Copied!';
+        setTimeout(function () { label.textContent = original; }, 1500);
+      });
+    });
+  </script>
 </footer>
