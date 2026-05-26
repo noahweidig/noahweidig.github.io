@@ -421,6 +421,8 @@ sections:
         Whether you're looking to hire, collaborate, or just want to say hi, feel free to reach out!
       email: noah@noahweidig.com
       autolink: true
+      show_form: true
+      form_action: https://formspree.io/f/mnjggoke
     design:
       columns: "1"
       background:
