@@ -26,10 +26,12 @@ html.dark {
   color: #ffffff;
 }
 
-/* Dark mode: ensure CTA card prose text is white and bold */
-.dark .section-cta .prose {
-  --tw-prose-body: #fff;
-  --tw-prose-bold: #fff;
+/* Dark mode: make the CTA card body text fully white and bold.
+   The cta-card is a Preact block; its text node renders with
+   `dark:text-white/80 font-light` (thin, 80% opacity) on the dark
+   gradient. `.font-light` is the block's text div hook. */
+.dark [data-block-type="cta-card"] .font-light {
+  color: #fff;
   font-weight: 700;
 }
 
