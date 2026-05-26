@@ -257,17 +257,17 @@
 {{ with index $content "text" }}{{ $text = printf "%v" . | emojify | $page.RenderString }}{{ end }}
 
 {{ if $title }}
-<div class="flex flex-col items-center max-w-prose mx-auto gap-3 justify-center px-6 md:px-0">
+<div class="max-w-prose mx-auto px-6 md:px-0 text-center">
 
-  <div class="mb-6 text-3xl font-bold text-gray-900 dark:text-white">
+  <h2 class="mb-6 text-3xl font-bold text-gray-900 dark:text-white">
     {{ $title }}
-  </div>
+  </h2>
 
   {{ with $text }}<p>{{ . }}</p>{{ end }}
 </div>
 {{ end }}
 
-<div class="flex flex-col items-center px-6">
+<div class="flex flex-col items-center px-2 sm:px-6">
 
   {{ $config := dict 
       "columns" $columns
