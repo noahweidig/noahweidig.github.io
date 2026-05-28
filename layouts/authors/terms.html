@@ -37,10 +37,13 @@
           {{- if eq $display .Title -}}
             {{- $parts := split $name "-" -}}
             {{- $rebuilt := slice -}}
+            {{- $romans := slice "ii" "iii" "iv" "vi" "vii" "viii" "ix" "xi" "xii" -}}
             {{- range $parts -}}
               {{- $part := . -}}
               {{- if eq (len $part) 1 -}}
                 {{- $part = printf "%s." (upper $part) -}}
+              {{- else if in $romans (lower $part) -}}
+                {{- $part = upper $part -}}
               {{- else -}}
                 {{- $part = title $part -}}
               {{- end -}}
