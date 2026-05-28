@@ -282,7 +282,7 @@
             {{ with index . "image" }}{{ $image_name = strings.TrimSpace (printf "%v" .) }}{{ end }}
             {{ $name := "" }}
             {{ with index . "name" }}{{ $name = strings.TrimSpace (printf "%v" .) }}{{ end }}
-            <div class="mx-8 inline-flex items-center">
+            <div class="mx-8 inline-flex shrink-0 items-center">
               {{ if $image_name }}
                 {{ $img := resources.Get (printf "media/%s" $image_name) }}
                 {{ if $img }}
@@ -293,7 +293,7 @@
                   <img src="{{ $img.RelPermalink }}"
                        alt="{{ $name | default "Partner logo" }}"
                        {{ if $isProcessable }}width="{{ $img.Width }}" height="{{ $img.Height }}"{{ end }}
-                       class="h-20 sm:h-20 lg:h-24 w-auto object-contain dark:invert filter grayscale hover:grayscale-0 hover:brightness-90 dark:hover:brightness-125 transition duration-300"
+                       class="h-16 sm:h-20 lg:h-24 w-auto max-w-none object-contain brightness-0 opacity-60 dark:invert hover:opacity-100 transition duration-300"
                        loading="lazy">
                 {{ end }}
               {{ end }}
