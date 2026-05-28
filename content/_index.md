@@ -108,6 +108,22 @@ sections:
             - Machine Learning
             - Data Visualization
             - Quantitative Ecology
+        - name: Biodiversity & Conservation Monitoring
+          description: "Tracking species, habitats, and ecosystem health to inform conservation planning and management decisions."
+          icon: hero/bug-ant
+          gradient: from-lime-400 to-green-600
+          topics:
+            - Species Distribution
+            - Habitat Mapping
+            - Conservation Planning
+        - name: Geospatial Engineering & Open Data
+          description: "Designing scalable spatial data pipelines and open, interoperable tools that make geospatial work reproducible and shareable."
+          icon: hero/server-stack
+          gradient: from-rose-400 to-red-500
+          topics:
+            - Spatial Databases
+            - Data Pipelines
+            - Open Source GIS
     design:
       layout: cards
       background:
