@@ -28,7 +28,26 @@
         {{- if eq $name "me" -}}
           {{- $display = "Noah Weidig" -}}
         {{- else -}}
-          {{- $display = replace .Title "-" " " -}}
+          {{/* Prefer the curated display name from data/authors/<slug>.yaml; fall back to a smart
+               slug -> name transform that title-cases each part and adds a period after single-letter initials. */}}
+          {{- $data := index site.Data.authors $name -}}
+          {{- with $data -}}
+            {{- with .name -}}{{- with .display -}}{{- $display = . -}}{{- end -}}{{- end -}}
+          {{- end -}}
+          {{- if eq $display .Title -}}
+            {{- $parts := split $name "-" -}}
+            {{- $rebuilt := slice -}}
+            {{- range $parts -}}
+              {{- $part := . -}}
+              {{- if eq (len $part) 1 -}}
+                {{- $part = printf "%s." (upper $part) -}}
+              {{- else -}}
+                {{- $part = title $part -}}
+              {{- end -}}
+              {{- $rebuilt = $rebuilt | append $part -}}
+            {{- end -}}
+            {{- $display = delimit $rebuilt " " -}}
+          {{- end -}}
         {{- end }}
 
         <a href="{{ .RelPermalink }}" class="inline-flex items-center px-5 py-2.5 text-sm font-medium text-center text-white bg-primary-700 rounded-lg hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
