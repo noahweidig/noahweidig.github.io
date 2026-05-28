@@ -355,19 +355,19 @@ sections:
       subtitle: "Institutions and agencies I've contributed to"
       logos:
         - name: University of Florida
-          image: logos/uf.svg
+          image: icons/custom/uf.svg
           url: "https://www.ufl.edu/"
         - name: USDA Agricultural Research Service
-          image: logos/usda-ars.svg
+          image: icons/custom/ars.svg
           url: "https://www.ars.usda.gov/"
         - name: USDA Forest Service
-          image: logos/usfs.svg
+          image: icons/custom/fs.svg
           url: "https://www.fs.usda.gov/"
         - name: University of Cincinnati
-          image: logos/uc.svg
+          image: icons/custom/uc.svg
           url: "https://www.uc.edu/"
         - name: Northern Kentucky University
-          image: logos/nku.png
+          image: icons/custom/nku.svg
           url: "https://www.nku.edu/"
     design:
       display_mode: marquee
