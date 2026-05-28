@@ -369,6 +369,12 @@ sections:
         - name: Northern Kentucky University
           image: icons/custom/nku.svg
           url: "https://www.nku.edu/"
+        - name: Student Conservation Association
+          image: icons/custom/sca.svg
+          url: "https://thesca.org/"
+        - name: Boone County Clerk's Office
+          image: icons/custom/boone.svg
+          url: "https://boonecountyclerk.ky.gov/"
     design:
       display_mode: marquee
       background:
