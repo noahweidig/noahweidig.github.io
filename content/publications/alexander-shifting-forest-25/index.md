@@ -6,8 +6,8 @@ slug: "alexander-shifting-forest-25"
 authors:
   - heather-d-alexander
   - victoria-m-donovan
-  - a-lamounier-moura
-  - l-g-lazzaro
+  - arthur-lamounier-moura
+  - lorenzo-g-lazzaro
   - me
   - michaella-a-ivey
 publication_types:

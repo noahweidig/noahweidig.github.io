@@ -6,7 +6,7 @@ slug: "weidig-burning-boundaries-25"
 authors:
   - me
   - carissa-l-wonkka
-  - michaella-ivey
+  - michaella-a-ivey
   - daniel-j-johnson
   - victoria-m-donovan
 publication_types:

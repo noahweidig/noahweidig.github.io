@@ -10,6 +10,7 @@ publication_types:
 publication: "AGU News"
 abstract: "Woody vegetation has increased by 37% over the last 30 years in the eastern United States, fueling the rise in large wildfires. Texas and the Appalachian Mountains took the biggest hits."
 summary: "Woody vegetation has increased by 37% over the last 30 years in the eastern United States, fueling the rise in large wildfires. Texas and the Appalachian Mountains took the biggest hits."
+url_source: "https://news.agu.org/press-release/shrub-growth-fuels-eastern-wildfires/"
 tags:
   - "Media Coverage"
 ---
