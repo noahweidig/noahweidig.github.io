@@ -9,7 +9,7 @@ authors:
   - a-lamounier-moura
   - l-g-lazzaro
   - me
-  - m-ivey
+  - michaella-a-ivey
 publication_types:
   - "paper-conference"
 publication: "Proceedings of the 4th fire ecology and management symposium (FES-412)"

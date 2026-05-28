@@ -4,7 +4,7 @@ linkTitle: "Woody cover fuels"
 date: 2024-12-17
 slug: "ivey-woody-cover-24"
 authors:
-  - michaella-ivey
+  - michaella-a-ivey
   - carissa-l-wonkka
   - me
   - victoria-m-donovan
