@@ -14,7 +14,6 @@ abstract: "Females of container-breeding mosquito species use visual and chemica
 summary: "Females of container-breeding mosquito species use visual and chemical cues to determine suitable habitats to oviposit their eggs. Female Culex mosquitoes oviposit single egg rafts containing hundreds of eggs on the surface of water in cont…"
 doi: "10.1371/journal.pone.0277237"
 url_source: "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0277237"
-url_pdf: "weidig-goldilocks-principle-22.pdf"
 tags:
   - "Journal Article"
 ---

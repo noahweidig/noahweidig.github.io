@@ -6,7 +6,7 @@ slug: "ivey-regional-differences-26"
 authors:
   - michaella-a-ivey
   - me
-  - alan-a-ivory
+  - alan-a-ii-ivory
   - victoria-m-donovan
 publication_types:
   - "article-journal"
@@ -15,7 +15,6 @@ abstract: "Trees and shrubs are expanding into historically open ecosystems acro
 summary: "Trees and shrubs are expanding into historically open ecosystems across the globe, threatening ecological function and ecosystem services. Across much of the eastern U.S., increasing woody cover has been associated with ecological degradati…"
 doi: "10.1016/j.foreco.2025.123446"
 url_source: "https://www.sciencedirect.com/science/article/pii/S0378112725009545"
-url_pdf: "ivey-regional-differences-26.pdf"
 tags:
   - "Journal Article"
 ---

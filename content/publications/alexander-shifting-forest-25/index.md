@@ -4,8 +4,8 @@ linkTitle: "Shifting forest structure"
 date: 2025-06-01
 slug: "alexander-shifting-forest-25"
 authors:
-  - h-d-alexander
-  - v-donovan
+  - heather-d-alexander
+  - victoria-m-donovan
   - a-lamounier-moura
   - l-g-lazzaro
   - me
