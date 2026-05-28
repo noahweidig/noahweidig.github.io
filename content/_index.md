@@ -376,6 +376,9 @@ sections:
         - name: Boone County Clerk's Office
           image: icons/custom/boone.svg
           url: "https://boonecountyclerk.ky.gov/"
+        - name: Garage Living
+          image: icons/custom/garage-living.svg
+          url: "https://www.garageliving.com/f/cincinnati"
     design:
       display_mode: marquee
       background:
