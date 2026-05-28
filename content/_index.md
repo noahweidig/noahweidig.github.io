@@ -379,6 +379,9 @@ sections:
         - name: Garage Living
           image: icons/custom/garage-living.svg
           url: "https://www.garageliving.com/f/cincinnati"
+        - name: ECOS
+          image: icons/custom/ecos.svg
+          url: "https://ecos.fws.gov/"
     design:
       display_mode: marquee
       background:
