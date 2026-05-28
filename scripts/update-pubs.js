@@ -47,11 +47,10 @@ function authorDisplay(creator) {
   return `${creator.firstName || ""} ${creator.lastName || ""}`.trim();
 }
 
-function ensureDataAuthor(slug, display) {
+function writeDataAuthor(slug, display) {
   if (!slug || slug === OWNER_SLUG) return;
   fs.mkdirSync(dataAuthorsDir, { recursive: true });
   const p = path.join(dataAuthorsDir, `${slug}.yaml`);
-  if (fs.existsSync(p)) return;
   const body = [
     `schema: "hugoblox/author/v1"`,
     `slug: "${slug}"`,
@@ -60,6 +59,19 @@ function ensureDataAuthor(slug, display) {
     ``,
   ].join("\n");
   fs.writeFileSync(p, body);
+}
+
+function pruneDataAuthors(activeSlugs) {
+  if (!fs.existsSync(dataAuthorsDir)) return 0;
+  let removed = 0;
+  for (const entry of fs.readdirSync(dataAuthorsDir, { withFileTypes: true })) {
+    if (!entry.isFile() || !entry.name.endsWith(".yaml")) continue;
+    const slug = entry.name.replace(/\.yaml$/, "");
+    if (slug === OWNER_SLUG || activeSlugs.has(slug)) continue;
+    fs.unlinkSync(path.join(dataAuthorsDir, entry.name));
+    removed++;
+  }
+  return removed;
 }
 
 const url = `https://api.zotero.org/users/${userID}/publications/items?format=json&include=data,bibtex&limit=200`;
@@ -313,6 +325,7 @@ async function main() {
     it.__slug = n === 1 ? base : `${base}-${n}`;
   }
 
+  const activeAuthors = new Map();
   let written = 0;
   for (const it of entries) {
     const slug = it.__slug;
@@ -349,11 +362,17 @@ async function main() {
     if (it.bibtex) {
       fs.writeFileSync(path.join(dir, "cite.bib"), it.bibtex.trim() + "\n");
     }
-    authors.forEach((a) => ensureDataAuthor(a.slug, a.display));
+    authors.forEach((a) => activeAuthors.set(a.slug, a.display));
     written++;
   }
 
+  for (const [slug, display] of activeAuthors) {
+    writeDataAuthor(slug, display);
+  }
+  const removed = pruneDataAuthors(new Set(activeAuthors.keys()));
+
   console.log(`Wrote ${written} publication entries under content/publications/`);
+  console.log(`Synced ${activeAuthors.size} author profile(s); pruned ${removed} stale.`);
 }
 
 main().catch((err) => {
