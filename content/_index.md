@@ -68,30 +68,48 @@ sections:
       spacing:
         padding: ["3rem", "0", "3rem", "0"]
 
-  # Interests
-  - block: tech-stack
+  # Research Areas - Focus areas as rich cards
+  - block: research-areas
     id: interests
     content:
-      title: "Interests"
-      categories:
-        - name: ""
-          items:
-            - name: Applied AI
-            - name: Geospatial Analytics
-            - name: Spatial Data Science
-            - name: Data Visualization
-            - name: Statistical Modeling
-            - name: Machine Learning
-            - name: Bayesian Analysis
-            - name: Remote Sensing
-            - name: Reproducible Research
-            - name: Data Storytelling
-            - name: Quantitative Ecology
-            - name: Forecasting
-            - name: Land Use Change
-            - name: Social-Ecological Systems
+      title: "Research Areas"
+      subtitle: "Where I focus my work"
+      text: "I work at the intersection of geospatial analytics, data science, and applied AI — turning spatial and environmental data into decision-ready insight."
+      items:
+        - name: Remote Sensing & Earth Observation
+          description: "Extracting signal from satellite and aerial imagery to monitor landscapes, vegetation, and environmental change over time."
+          icon: hero/globe-alt
+          gradient: from-emerald-400 to-teal-500
+          topics:
+            - Imagery Analysis
+            - Google Earth Engine
+            - Change Detection
+        - name: Land-Use Change & Social-Ecological Systems
+          description: "Studying how landscapes and communities co-evolve — wildland-urban interface, land management, and regional risk."
+          icon: hero/map
+          gradient: from-amber-400 to-orange-500
+          topics:
+            - Land-Use Change
+            - Wildfire & WUI
+            - Risk Assessment
+        - name: Spatial Data Science & Statistical Modeling
+          description: "Building reproducible spatial workflows and statistical models that quantify pattern, uncertainty, and trend."
+          icon: hero/chart-bar
+          gradient: from-sky-400 to-indigo-500
+          topics:
+            - Bayesian Analysis
+            - Forecasting
+            - Reproducible Research
+        - name: Applied AI & Data Storytelling
+          description: "Applying machine learning to geospatial problems and communicating results through clear, compelling visualization."
+          icon: hero/cpu-chip
+          gradient: from-fuchsia-400 to-purple-500
+          topics:
+            - Machine Learning
+            - Data Visualization
+            - Quantitative Ecology
     design:
-      style: list
+      layout: cards
       background:
         color:
           light: "#f5f5f5"
@@ -312,6 +330,37 @@ sections:
           dark: "#0d0d12"
       spacing:
         padding: ["4rem", "0", "4rem", "0"]
+
+  # Logos - Institutions I've worked & studied with
+  - block: logos
+    id: affiliations
+    content:
+      title: "Where I've Worked & Studied"
+      subtitle: "Institutions and agencies I've contributed to"
+      logos:
+        - name: University of Florida
+          image: logos/uf.svg
+          url: "https://www.ufl.edu/"
+        - name: USDA Agricultural Research Service
+          image: logos/usda-ars.svg
+          url: "https://www.ars.usda.gov/"
+        - name: USDA Forest Service
+          image: logos/usfs.svg
+          url: "https://www.fs.usda.gov/"
+        - name: University of Cincinnati
+          image: logos/uc.svg
+          url: "https://www.uc.edu/"
+        - name: Northern Kentucky University
+          image: logos/nku.png
+          url: "https://www.nku.edu/"
+    design:
+      display_mode: marquee
+      background:
+        color:
+          light: "#f5f5f5"
+          dark: "#08080c"
+      spacing:
+        padding: ["3rem", "0", "3rem", "0"]
 
   - block: cta-button-list
     content:
