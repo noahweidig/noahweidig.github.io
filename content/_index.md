@@ -264,6 +264,7 @@ sections:
     id: experience
     content:
       title: Experience
+      subtitle: "Where I've worked and what I've built"
       date_format: Jan 2006
       items:
         - title: GIS & Remote Sensing Research Associate
