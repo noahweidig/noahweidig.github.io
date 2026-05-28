@@ -6,7 +6,7 @@ slug: "ivey-regional-differences-26"
 authors:
   - michaella-a-ivey
   - me
-  - alan-a-ii-ivory
+  - alan-a-ivory-ii
   - victoria-m-donovan
 publication_types:
   - "article-journal"

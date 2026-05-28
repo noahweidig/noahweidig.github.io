@@ -6,7 +6,7 @@ slug: "ivey-woody-cover-25-2"
 authors:
   - michaella-a-ivey
   - me
-  - alan-a-ii-ivory
+  - alan-a-ivory-ii
   - victoria-m-donovan
 publication_types:
   - "paper-conference"

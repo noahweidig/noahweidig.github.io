@@ -2,9 +2,9 @@
 title: "Southeastern Myotis (Myotis austroriparius) Use of Stormwater Sewer Systems"
 linkTitle: "Southeastern Myotis Myotis"
 date: 2025-04-01
-slug: "ivory-southeastern-myotis-25"
+slug: "ivory-ii-southeastern-myotis-25"
 authors:
-  - alan-a-ii-ivory
+  - alan-a-ivory-ii
   - kody-m-brock
   - steve-a-johnson
   - me

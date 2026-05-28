@@ -8,7 +8,7 @@ authors:
   - raelene-m-crandall
   - jennifer-m-fill
   - michaella-a-ivey
-  - alan-a-ii-ivory
+  - alan-a-ivory-ii
   - me
   - carissa-l-wonkka
 publication_types:
