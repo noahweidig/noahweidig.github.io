@@ -33,6 +33,6 @@ jobs:
         run: |
           git config user.email "actions@github.com"
           git config user.name "GitHub Actions"
-          git add content/publications
+          git add content/publications data/authors
           git diff --cached --quiet || git commit -m "Auto-update Zotero publications"
           git push
