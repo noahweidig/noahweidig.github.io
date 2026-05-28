@@ -293,7 +293,7 @@
                   <img src="{{ $img.RelPermalink }}"
                        alt="{{ $name | default "Partner logo" }}"
                        {{ if $isProcessable }}width="{{ $img.Width }}" height="{{ $img.Height }}"{{ end }}
-                       class="h-20 sm:h-20 lg:h-24 w-auto object-contain dark:invert opacity-100 hover:opacity-60 transition duration-300"
+                       class="h-20 sm:h-20 lg:h-24 w-auto object-contain dark:invert filter grayscale hover:grayscale-0 hover:brightness-90 dark:hover:brightness-125 transition duration-300"
                        loading="lazy">
                 {{ end }}
               {{ end }}
