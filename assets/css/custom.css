@@ -68,6 +68,15 @@ html.dark {
   }
 }
 
+/* Connect block: 2x2 grid on narrow, 1x4 row on wider */
+@media (max-width: 479px) {
+  #contact .flex.flex-wrap {
+    display: grid !important;
+    grid-template-columns: repeat(2, auto);
+    justify-content: start;
+  }
+}
+
 /* Fix hamburger menu wrapping at very narrow widths (~375px) */
 /* Reduce padding between site title and theme toggle to prevent wrapping */
 @media (max-width: 400px) {
