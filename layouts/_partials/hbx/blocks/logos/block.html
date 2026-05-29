@@ -276,13 +276,14 @@
       <div class="overflow-hidden">
         <div class="flex animate-marquee whitespace-nowrap">
           {{ if gt (len $logos) 0 }}
+            {{ range $i, $copy := (seq 2) }}
             {{ range $logos }}
             {{ if reflect.IsMap . }}
             {{ $image_name := "" }}
             {{ with index . "image" }}{{ $image_name = strings.TrimSpace (printf "%v" .) }}{{ end }}
             {{ $name := "" }}
             {{ with index . "name" }}{{ $name = strings.TrimSpace (printf "%v" .) }}{{ end }}
-            <div class="mx-8 inline-flex shrink-0 items-center">
+            <div class="mx-8 inline-flex shrink-0 items-center"{{ if gt $i 0 }} aria-hidden="true"{{ end }}>
               {{ if $image_name }}
                 {{ $img := resources.Get (printf "media/%s" $image_name) }}
                 {{ if $img }}
@@ -298,6 +299,7 @@
                 {{ end }}
               {{ end }}
             </div>
+            {{ end }}
             {{ end }}
             {{ end }}
           {{ end }}
