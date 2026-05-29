@@ -274,7 +274,7 @@
     {{ else if eq $display_mode "marquee" }}
     <div class="relative">
       <div class="overflow-hidden">
-        <div class="flex animate-marquee whitespace-nowrap">
+        <div class="flex w-max animate-marquee whitespace-nowrap">
           {{ if gt (len $logos) 0 }}
             {{ range $i, $copy := (seq 2) }}
             {{ range $logos }}
