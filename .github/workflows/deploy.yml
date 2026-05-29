@@ -25,7 +25,7 @@ jobs:
       deploy-host: ${{ steps.check.outputs.host }}
     steps:
     - name: Checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
       with:
         sparse-checkout: hugoblox.yaml
         sparse-checkout-cone-mode: false
@@ -78,4 +78,4 @@ jobs:
     steps:
     - name: Deploy to GitHub Pages
       id: deployment
-      uses: actions/deploy-pages@v4
+      uses: actions/deploy-pages@v5
