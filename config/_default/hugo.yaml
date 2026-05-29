@@ -4,7 +4,7 @@
 # This file is formatted using YAML syntax - learn more at https://learnxinyminutes.com/docs/yaml/
 
 # Website name (set in params.yaml under hugoblox.branding.name)
-title: ""
+title: "Noah Weidig"
 # Website URL
 baseURL: "https://noahweidig.com/"
 
