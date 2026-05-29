@@ -248,8 +248,11 @@ hugoblox:
   # ────────────────────────────────────────────────────────────────────────────
   security:
     csp:
-      # Start with a safe default CSP - customize as needed
-      policy: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://www.google-analytics.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https://www.google-analytics.com https://www.googletagmanager.com;"
+      # CSP uses script hashes instead of 'unsafe-inline' to prevent XSS
+      # Hashes correspond to inline scripts in:
+      # - layouts/_partials/hooks/body-end/mobile-menu.html
+      # - layouts/_partials/components/footers/columns.html
+      policy: "default-src 'self'; script-src 'self' 'sha256-KYIeWbZv1OoViPhIpwWJ0WQFd2CcqJOOO0jcUkwabiY=' 'sha256-LLqqEB55OVLnrrhjJ2n8bHFENJlDcZdIl/ibBriHFAE=' https://cdn.jsdelivr.net https://www.google-analytics.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https://www.google-analytics.com https://www.googletagmanager.com;"
       report_only: false
     frame_options: sameorigin # deny | sameorigin | allow - allow enables iframe embedding
     permissions_policy: "camera=(), microphone=(), geolocation=(), payment=(), usb=(), vr=()"
