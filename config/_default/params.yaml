@@ -15,7 +15,7 @@ hugoblox:
     # Site name - shown in navbar, footer, copyright, and browser title by default
     name: "Noah Weidig"
     # Legal entity for copyright notices (defaults to name if not set)
-    organization: ""
+    organization: "University of Florida"
     # Schema.org type for structured data
     type: person # person | organization | local_business
     # Short tagline displayed on your site
