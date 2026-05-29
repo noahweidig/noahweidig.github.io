@@ -27,7 +27,6 @@ concurrency:
 jobs:
   upgrade:
     name: Upgrade
-    if: github.repository_owner != 'HugoBlox'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
