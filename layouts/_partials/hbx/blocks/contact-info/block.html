@@ -513,27 +513,28 @@
   {{ if $show_form }}
   <div class="mt-12 max-w-3xl mx-auto">
     <div class="bg-white dark:bg-white/[0.03] backdrop-blur-xl rounded-2xl border border-gray-200 dark:border-white/[0.08] p-8">
-      <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">{{ i18n "block_contact_form_title" | default "Send us a Message" }}</h3>
+      <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-2 text-center">{{ i18n "block_contact_form_title" | default "Send us a Message" }}</h3>
+      <p class="text-red-500 text-sm mb-6">*Field Required</p>
       <form action="{{ $form_action | safeURL }}" method="POST" class="space-y-6">
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <div>
-            <label for="name" class="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">{{ i18n "block_contact_form_name" | default "Name" }}</label>
+            <label for="name" class="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">{{ i18n "block_contact_form_name" | default "Name" }}<span class="text-red-500">*</span></label>
             <input type="text" id="name" name="name" required
                    class="w-full px-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500/50 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 transition-colors">
           </div>
           <div>
-            <label for="form-email" class="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">{{ i18n "block_contact_form_email" | default "Email" }}</label>
+            <label for="form-email" class="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">{{ i18n "block_contact_form_email" | default "Email" }}<span class="text-red-500">*</span></label>
             <input type="email" id="form-email" name="email" required
                    class="w-full px-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500/50 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 transition-colors">
           </div>
         </div>
         <div>
-          <label for="subject" class="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">{{ i18n "block_contact_form_subject" | default "Subject" }}</label>
+          <label for="subject" class="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">{{ i18n "block_contact_form_subject" | default "Subject" }}<span class="text-red-500">*</span></label>
           <input type="text" id="subject" name="subject" required
                  class="w-full px-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500/50 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 transition-colors">
         </div>
         <div>
-          <label for="message" class="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">{{ i18n "block_contact_form_message" | default "Message" }}</label>
+          <label for="message" class="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">{{ i18n "block_contact_form_message" | default "Message" }}<span class="text-red-500">*</span></label>
           <textarea id="message" name="message" rows="5" required
                     class="w-full px-4 py-3 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500/50 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 transition-colors resize-none"></textarea>
         </div>
