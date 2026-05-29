@@ -8,7 +8,7 @@
     echo "Go version: $(go version || echo 'Go not available')"
     
     echo "=== Installing dependencies ==="
-    pnpm install --verbose --no-frozen-lockfile
+    pnpm install --verbose --frozen-lockfile
     
     echo "=== Running Hugo build ==="
     hugo --gc --minify -b $URL --logLevel debug --printI18nWarnings --printPathWarnings
@@ -24,8 +24,6 @@
   HUGO_VERSION = "0.160.0"
   GO_VERSION = "1.23"
   NODE_VERSION = "24"
-  # Netlify runs an implicit install step; ensure it never enforces frozen lockfiles
-  PNPM_FLAGS = "--no-frozen-lockfile"
   HUGO_ENABLEGITINFO = "true"
   HUGO_LOG_I18N_WARNINGS = "true"
   HUGO_LOG_WARNINGS = "true"
@@ -40,7 +38,7 @@
     set -e
     echo "=== Deploy Preview Build ==="
     echo "Deploy URL: $DEPLOY_PRIME_URL"
-    pnpm install --verbose --no-frozen-lockfile
+    pnpm install --verbose --frozen-lockfile
     hugo --gc --minify --buildFuture -b $DEPLOY_PRIME_URL --logLevel debug --printI18nWarnings --printPathWarnings
     pnpm run pagefind
   """
@@ -50,7 +48,7 @@
     set -e
     echo "=== Branch Deploy Build ==="
     echo "Deploy URL: $DEPLOY_PRIME_URL"
-    pnpm install --verbose --no-frozen-lockfile
+    pnpm install --verbose --frozen-lockfile
     hugo --gc --minify -b $DEPLOY_PRIME_URL --logLevel debug --printI18nWarnings --printPathWarnings
     pnpm run pagefind
   """
