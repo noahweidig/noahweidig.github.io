@@ -16,4 +16,4 @@ image:
 
 ---
 
-A interactive tool for examining wildfire risk across the United States.
+An interactive tool for examining wildfire risk across the United States.
