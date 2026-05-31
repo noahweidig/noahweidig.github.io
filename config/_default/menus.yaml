@@ -73,7 +73,7 @@ footer:
       icon: briefcase
   - name: Education
     parent: f-about
-    url: "/#experience"
+    url: "/#education"
     weight: 22
     params:
       icon: building-library
