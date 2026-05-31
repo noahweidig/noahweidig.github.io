@@ -6,6 +6,7 @@ import { stripHtml } from "./sanitize.js";
 const userID = 11988712;
 const pubsDir = path.resolve("content/publications");
 const dataAuthorsDir = path.resolve("data/authors");
+const contentAuthorsDir = path.resolve("content/authors");
 
 // Slug for the site owner — must match data/authors/me.yaml
 const OWNER_SLUG = "me";
@@ -69,6 +70,29 @@ function pruneDataAuthors(activeSlugs) {
     const slug = entry.name.replace(/\.yaml$/, "");
     if (slug === OWNER_SLUG || activeSlugs.has(slug)) continue;
     fs.unlinkSync(path.join(dataAuthorsDir, entry.name));
+    removed++;
+  }
+  return removed;
+}
+
+// Author taxonomy term pages need a content file so Hugo derives .Title from the
+// real display name instead of humanizing the slug ("Amber-L-Miller").
+function writeContentAuthor(slug, display) {
+  if (!slug || slug === OWNER_SLUG) return;
+  const dir = path.join(contentAuthorsDir, slug);
+  fs.mkdirSync(dir, { recursive: true });
+  const body = `---\ntitle: "${display.replace(/"/g, '\\"')}"\n---\n`;
+  fs.writeFileSync(path.join(dir, "_index.md"), body);
+}
+
+function pruneContentAuthors(activeSlugs) {
+  if (!fs.existsSync(contentAuthorsDir)) return 0;
+  let removed = 0;
+  for (const entry of fs.readdirSync(contentAuthorsDir, { withFileTypes: true })) {
+    if (!entry.isDirectory()) continue;
+    const slug = entry.name;
+    if (slug === OWNER_SLUG || activeSlugs.has(slug)) continue;
+    fs.rmSync(path.join(contentAuthorsDir, slug), { recursive: true, force: true });
     removed++;
   }
   return removed;
@@ -436,8 +460,11 @@ async function main() {
 
   for (const [slug, display] of activeAuthors) {
     writeDataAuthor(slug, display);
+    writeContentAuthor(slug, display);
   }
-  const removedAuthors = pruneDataAuthors(new Set(activeAuthors.keys()));
+  const activeAuthorSlugs = new Set(activeAuthors.keys());
+  const removedAuthors = pruneDataAuthors(activeAuthorSlugs);
+  pruneContentAuthors(activeAuthorSlugs);
   const removedPubs = pruneObsoletePubs(pubsDir, new Set(entries.map((it) => it.__slug)));
 
   console.log(`Wrote ${written} publication entries under content/publications/`);
