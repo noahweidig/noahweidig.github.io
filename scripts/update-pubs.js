@@ -244,18 +244,65 @@ function ensureDir(dir) {
   fs.mkdirSync(dir, { recursive: true });
 }
 
-function clearPubsDir(dir) {
-  if (!fs.existsSync(dir)) return;
-  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
-    if (entry.isDirectory()) {
-      fs.rmSync(path.join(dir, entry.name), { recursive: true, force: true });
-    } else if (entry.name !== "_index.md") {
-      fs.unlinkSync(path.join(dir, entry.name));
+// Frontmatter keys written by this script; all others are manually curated and must be preserved.
+const SCRIPT_KEYS = new Set([
+  "title", "linkTitle", "date", "slug", "authors",
+  "publication_types", "publication", "abstract", "summary",
+  "doi", "url_source", "tags",
+]);
+
+function parseExistingFrontmatter(filePath) {
+  if (!fs.existsSync(filePath)) return null;
+  const content = fs.readFileSync(filePath, "utf8");
+  const m = content.match(/^---\n([\s\S]*?)\n---/);
+  if (!m) return null;
+  const lines = m[1].split("\n");
+  const result = {};
+  let i = 0;
+  while (i < lines.length) {
+    const line = lines[i];
+    const arrMatch = line.match(/^(\w+):\s*$/);
+    if (arrMatch) {
+      const key = arrMatch[1];
+      const arr = [];
+      i++;
+      while (i < lines.length && lines[i].startsWith("  - ")) {
+        let val = lines[i].slice(4).trim();
+        if (val.startsWith('"') && val.endsWith('"'))
+          val = val.slice(1, -1).replace(/\\"/g, '"').replace(/\\\\/g, "\\");
+        arr.push(val);
+        i++;
+      }
+      result[key] = arr;
+      continue;
     }
+    const kvMatch = line.match(/^(\w+):\s*(.*)/);
+    if (kvMatch) {
+      const key = kvMatch[1];
+      let val = kvMatch[2].trim();
+      if (val.startsWith('"') && val.endsWith('"'))
+        val = val.slice(1, -1).replace(/\\"/g, '"').replace(/\\\\/g, "\\");
+      else if (val === "true") val = true;
+      else if (val === "false") val = false;
+      result[key] = val;
+    }
+    i++;
   }
+  return result;
 }
 
-function buildFrontmatter({ key, title, linkTitle, date, authors, publication_types, publication, abstract, summary, doi, url: link, tags }) {
+function pruneObsoletePubs(dir, activeSlugs) {
+  if (!fs.existsSync(dir)) return 0;
+  let removed = 0;
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    if (!entry.isDirectory() || activeSlugs.has(entry.name)) continue;
+    fs.rmSync(path.join(dir, entry.name), { recursive: true, force: true });
+    removed++;
+  }
+  return removed;
+}
+
+function buildFrontmatter({ key, title, linkTitle, date, authors, publication_types, publication, abstract, summary, doi, url: link, tags, extra = {} }) {
   const lines = ["---"];
   lines.push(`title: "${yamlEscape(title)}"`);
   if (linkTitle) lines.push(`linkTitle: "${yamlEscape(linkTitle)}"`);
@@ -275,6 +322,15 @@ function buildFrontmatter({ key, title, linkTitle, date, authors, publication_ty
   if (tags.length) {
     lines.push("tags:");
     tags.forEach((t) => lines.push(`  - "${yamlEscape(t)}"`));
+  }
+  for (const [k, v] of Object.entries(extra)) {
+    if (typeof v === "boolean") lines.push(`${k}: ${v}`);
+    else if (Array.isArray(v)) {
+      lines.push(`${k}:`);
+      v.forEach((item) => lines.push(`  - "${yamlEscape(String(item))}"`));
+    } else {
+      lines.push(`${k}: "${yamlEscape(String(v))}"`);
+    }
   }
   lines.push("---");
   return lines.join("\n");
@@ -307,7 +363,6 @@ async function main() {
   }
 
   ensureDir(pubsDir);
-  clearPubsDir(pubsDir);
 
   const entries = items
     .filter((it) => it.data.itemType !== "attachment" && it.key)
@@ -349,13 +404,26 @@ async function main() {
     else if (isPeerReview) tags = ["Peer Review"];
     else tags = [tagForType(pubType, it.data.itemType)];
 
+    const dir = path.join(pubsDir, slug);
+    const existing = parseExistingFrontmatter(path.join(dir, "index.md"));
+
+    const mergedPublication = publication || (typeof existing?.publication === "string" ? existing.publication : "");
+    const mergedAbstract = abstract || (typeof existing?.abstract === "string" ? existing.abstract : "");
+    const mergedSummary = summary || (typeof existing?.summary === "string" ? existing.summary : "");
+    const scriptTag = tags[0];
+    const existingTags = Array.isArray(existing?.tags) ? existing.tags : [];
+    const mergedTags = [scriptTag, ...existingTags.filter((t) => t !== scriptTag)];
+    const extra = existing
+      ? Object.fromEntries(Object.entries(existing).filter(([k]) => !SCRIPT_KEYS.has(k)))
+      : {};
+
     const fm = buildFrontmatter({
       key: slug, title, linkTitle: breadcrumbTitle(title), date, authors,
       publication_types: pubType,
-      publication, abstract, summary, doi, url: link, tags,
+      publication: mergedPublication, abstract: mergedAbstract, summary: mergedSummary,
+      doi, url: link, tags: mergedTags, extra,
     });
 
-    const dir = path.join(pubsDir, slug);
     ensureDir(dir);
     fs.writeFileSync(path.join(dir, "index.md"), fm + "\n");
 
@@ -369,10 +437,12 @@ async function main() {
   for (const [slug, display] of activeAuthors) {
     writeDataAuthor(slug, display);
   }
-  const removed = pruneDataAuthors(new Set(activeAuthors.keys()));
+  const removedAuthors = pruneDataAuthors(new Set(activeAuthors.keys()));
+  const removedPubs = pruneObsoletePubs(pubsDir, new Set(entries.map((it) => it.__slug)));
 
   console.log(`Wrote ${written} publication entries under content/publications/`);
-  console.log(`Synced ${activeAuthors.size} author profile(s); pruned ${removed} stale.`);
+  if (removedPubs) console.log(`Removed ${removedPubs} obsolete publication director${removedPubs === 1 ? "y" : "ies"}.`);
+  console.log(`Synced ${activeAuthors.size} author profile(s); pruned ${removedAuthors} stale.`);
 }
 
 main().catch((err) => {
