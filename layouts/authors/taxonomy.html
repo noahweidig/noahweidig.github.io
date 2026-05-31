@@ -1,0 +1,72 @@
+{{ define "title" }}
+  {{- $slug := .Data.Term -}}
+  {{- if eq $slug "me" -}}
+    Noah Weidig | {{ site.Title }}
+  {{- else -}}
+    {{- $parts := split $slug "-" -}}
+    {{- $romans := slice "ii" "iii" "iv" "vi" "vii" "viii" "ix" "xi" "xii" -}}
+    {{- $rebuilt := slice -}}
+    {{- range $parts -}}
+      {{- $part := . -}}
+      {{- if eq (len $part) 1 -}}
+        {{- $part = printf "%s." (upper $part) -}}
+      {{- else if in $romans (lower $part) -}}
+        {{- $part = upper $part -}}
+      {{- else -}}
+        {{- $part = title $part -}}
+      {{- end -}}
+      {{- $rebuilt = $rebuilt | append $part -}}
+    {{- end -}}
+    {{- delimit $rebuilt " " }} | {{ site.Title -}}
+  {{- end -}}
+{{ end }}
+
+{{ define "main" }}
+
+{{/* Compute display name from slug — mirrors the transform in authors/terms.html */}}
+{{- $slug := .Data.Term -}}
+{{- $displayName := "" -}}
+{{- if eq $slug "me" -}}
+  {{- $displayName = "Noah Weidig" -}}
+{{- else -}}
+  {{- $parts := split $slug "-" -}}
+  {{- $romans := slice "ii" "iii" "iv" "vi" "vii" "viii" "ix" "xi" "xii" -}}
+  {{- $rebuilt := slice -}}
+  {{- range $parts -}}
+    {{- $part := . -}}
+    {{- if eq (len $part) 1 -}}
+      {{- $part = printf "%s." (upper $part) -}}
+    {{- else if in $romans (lower $part) -}}
+      {{- $part = upper $part -}}
+    {{- else -}}
+      {{- $part = title $part -}}
+    {{- end -}}
+    {{- $rebuilt = $rebuilt | append $part -}}
+  {{- end -}}
+  {{- $displayName = delimit $rebuilt " " -}}
+{{- end -}}
+
+<div data-pagefind-ignore>
+
+<div class="max-w-prose mx-auto flex justify-center">
+  <article class="prose prose-slate lg:prose-xl dark:prose-invert">
+    <h1 class="lg:text-6xl">{{ $displayName }}</h1>
+    {{ .Content }}
+  </article>
+</div>
+
+{{ $view := "citation" }}
+{{ $config := dict }}
+{{ $pages := .Pages.ByDate.Reverse }}
+
+<div class="flex flex-col items-center">
+  {{ partial "functions/render_view" (dict "fragment" "start" "page" $ "item" . "view" $view "config" $config) }}
+  {{ range $index, $item := $pages }}
+    {{ partial "functions/render_view" (dict "page" . "item" . "view" $view "index" $index "config" $config) }}
+  {{ end }}
+  {{ partial "functions/render_view" (dict "fragment" "end" "page" $ "item" . "view" $view) }}
+</div>
+
+</div>{{/* End pagefind-ignore wrapper */}}
+
+{{ end }}
