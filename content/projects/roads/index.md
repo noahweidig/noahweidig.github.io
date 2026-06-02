@@ -12,7 +12,7 @@ links:
     label: View Catalog
 featured: true
 image:
-  filename: featured.png
+  filename: featured.webp
 
 ---
 

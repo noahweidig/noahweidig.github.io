@@ -11,7 +11,7 @@ links:
     label: Launch Tool
 featured: true
 image:
-  filename: featured.png
+  filename: featured.webp
 
 ---
 
