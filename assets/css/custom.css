@@ -4,6 +4,23 @@
   margin-right: 0.5em;
 }
 
+/* Glassmorphic (semi-transparent + blurred) navbar.
+   IMPORTANT: HugoBlox paints the header background on `#site-header.header`
+   (the element carries `py-3 shadow` plus `background-color: var(--hb-color-header-bg)`),
+   NOT on the inner `.navbar` flex row, which has no background of its own.
+   Earlier attempts styled `.navbar`, so the padded `#site-header` stayed opaque
+   around it and only the navbar's height became translucent -> the "horizontal
+   stripe through the middle". Overriding the real background-bearing element
+   fixes that. The `.page-header` wrapper is `sticky top-0 z-30` (header.sticky:
+   true), so the header overlays scrolling content and the backdrop blur has
+   something to blur. The tint is derived from the existing theme variable via
+   color-mix, so it stays correct in both light and dark modes automatically. */
+#site-header.header {
+  background-color: color-mix(in srgb, var(--hb-color-header-bg) 70%, transparent);
+  -webkit-backdrop-filter: saturate(180%) blur(12px);
+  backdrop-filter: saturate(180%) blur(12px);
+}
+
 /* Fix dark mode contrast for tech stack icons (LaTeX, Markdown, Bash) */
 .dark #skills svg {
   fill: currentColor;
