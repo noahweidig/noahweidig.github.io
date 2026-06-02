@@ -95,7 +95,7 @@ footer:
     weight: 30
   - name: Email
     parent: f-connect
-    url: "#"
+    url: "mailto:noah@noahweidig.com"
     weight: 30
     params:
       icon: envelope
