@@ -11,7 +11,7 @@ links:
     label: See API
 featured: true
 image:
-  filename: featured.png
+  filename: featured.webp
 
 ---
 
