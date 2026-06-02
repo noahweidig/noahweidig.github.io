@@ -23,7 +23,16 @@ hugoblox:
     # Site meta description for search engines and social sharing
     description: "Noah is an ecologist and GIS analyst specializing in geospatial data science, environmental modeling, and large-scale spatial analysis."
     # Social accounts (used for meta tags like Twitter Cards)
-    social: {}
+    social:
+      links:
+        - icon: "custom/linkedin-line"
+          url: "https://www.linkedin.com/in/noahweidig/"
+        - icon: "custom/github-line"
+          url: "https://github.com/noahweidig/"
+        - icon: "custom/scholar"
+          url: "https://scholar.google.com/citations?hl=en&user=Ml95eTwAAAAJ"
+        - icon: "custom/orcid-line"
+          url: "https://orcid.org/0000-0003-1205-3209"
 
   # ────────────────────────────────────────────────────────────────────────────
   # THEME
