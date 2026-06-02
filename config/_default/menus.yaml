@@ -34,87 +34,91 @@ main:
 
 # Footer navigation - grouped columns (parent + children)
 footer:
-  - name: Explore
-    identifier: f-explore
-    weight: 10
-  - name: Projects
-    parent: f-explore
-    url: "/#projects"
-    weight: 11
-    params:
-      icon: rocket-launch
-  - name: Publications
-    parent: f-explore
-    url: "/#publications"
-    weight: 12
-    params:
-      icon: document-text
-  - name: Blog
-    parent: f-explore
-    url: "/#blog"
-    weight: 13
-    params:
-      icon: pencil-square
-  - name: FAQ
-    parent: f-explore
-    url: "/#faq"
-    weight: 14
-    params:
-      icon: question-mark-circle
-
   - name: About
     identifier: f-about
-    weight: 20
+    weight: 10
   - name: Experience
     parent: f-about
     url: "/#experience"
-    weight: 21
+    weight: 11
     params:
       icon: briefcase
   - name: Education
     parent: f-about
     url: "/#education"
-    weight: 22
+    weight: 12
     params:
       icon: building-library
   - name: Skills
     parent: f-about
     url: "/#skills"
-    weight: 23
+    weight: 13
     params:
       icon: code-bracket
+
+  - name: Work
+    identifier: f-work
+    weight: 20
+  - name: Projects
+    parent: f-work
+    url: "/#projects"
+    weight: 21
+    params:
+      icon: rocket-launch
+  - name: Geo Portfolio
+    parent: f-work
+    url: "https://noahweidig.com/geo-portfolio"
+    weight: 22
+    params:
+      icon: map
   - name: Awards
-    parent: f-about
+    parent: f-work
     url: "/#awards"
-    weight: 24
+    weight: 23
     params:
       icon: trophy
 
+  - name: Resources
+    identifier: f-resources
+    weight: 30
+  - name: Publications
+    parent: f-resources
+    url: "/#publications"
+    weight: 31
+    params:
+      icon: document-text
+  - name: Blog
+    parent: f-resources
+    url: "/#blog"
+    weight: 32
+    params:
+      icon: pencil-square
+  - name: FAQ
+    parent: f-resources
+    url: "/#faq"
+    weight: 33
+    params:
+      icon: question-mark-circle
+
   - name: Connect
     identifier: f-connect
-    weight: 30
+    weight: 40
   - name: Email
     parent: f-connect
     url: "mailto:noah@noahweidig.com"
-    weight: 30
+    weight: 41
     params:
       icon: envelope
       copy_email: true
   - name: Contact
     parent: f-connect
     url: "/#contact"
-    weight: 31
+    weight: 42
     params:
       icon: chat-bubble-left-right
   - name: Book a Call
     parent: f-connect
     url: "https://cal.com/noah-weidig/meet"
-    weight: 32
+    weight: 43
     params:
       icon: calendar-days
-  - name: Geo Portfolio
-    parent: f-connect
-    url: "https://noahweidig.com/geo-portfolio"
-    weight: 33
-    params:
-      icon: map
