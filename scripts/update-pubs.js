@@ -201,7 +201,7 @@ function formatDate(parsed) {
 function categorizePubType(it) {
   const t = it.data.itemType;
   const haystack = [it.data.title, it.data.event, it.data.genre, it.data.presentationType].filter(Boolean).join(" ");
-  if (/\bwebinar\b/i.test(haystack)) return "speech";
+  if (/\bwebinar\b/i.test(haystack)) return "paper-conference";
   if (/referee report/i.test(it.data.title || "")) return "manuscript";
   return TYPE_MAP[t] || "manuscript";
 }
