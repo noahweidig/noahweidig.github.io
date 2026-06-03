@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import fetch from "node-fetch";
+import matter from "gray-matter";
 import { stripHtml } from "./sanitize.js";
 
 const userID = 11988712;
@@ -233,9 +234,6 @@ function categorizePubType(it) {
   return TYPE_MAP[t] || "manuscript";
 }
 
-function yamlEscape(s) {
-  return String(s ?? "").replace(/\\/g, "\\\\").replace(/"/g, '\\"');
-}
 
 function firstAuthorLastName(creators) {
   if (!Array.isArray(creators)) return "";
@@ -304,42 +302,11 @@ const SCRIPT_KEYS = new Set([
 
 function parseExistingFrontmatter(filePath) {
   if (!fs.existsSync(filePath)) return null;
-  const content = fs.readFileSync(filePath, "utf8");
-  const m = content.match(/^---\n([\s\S]*?)\n---/);
-  if (!m) return null;
-  const lines = m[1].split("\n");
-  const result = {};
-  let i = 0;
-  while (i < lines.length) {
-    const line = lines[i];
-    const arrMatch = line.match(/^(\w+):\s*$/);
-    if (arrMatch) {
-      const key = arrMatch[1];
-      const arr = [];
-      i++;
-      while (i < lines.length && lines[i].startsWith("  - ")) {
-        let val = lines[i].slice(4).trim();
-        if (val.startsWith('"') && val.endsWith('"'))
-          val = val.slice(1, -1).replace(/\\"/g, '"').replace(/\\\\/g, "\\");
-        arr.push(val);
-        i++;
-      }
-      result[key] = arr;
-      continue;
-    }
-    const kvMatch = line.match(/^(\w+):\s*(.*)/);
-    if (kvMatch) {
-      const key = kvMatch[1];
-      let val = kvMatch[2].trim();
-      if (val.startsWith('"') && val.endsWith('"'))
-        val = val.slice(1, -1).replace(/\\"/g, '"').replace(/\\\\/g, "\\");
-      else if (val === "true") val = true;
-      else if (val === "false") val = false;
-      result[key] = val;
-    }
-    i++;
+  try {
+    return matter(fs.readFileSync(filePath, "utf8")).data;
+  } catch {
+    return null;
   }
-  return result;
 }
 
 function pruneObsoletePubs(dir, activeSlugs) {
@@ -354,37 +321,21 @@ function pruneObsoletePubs(dir, activeSlugs) {
 }
 
 function buildFrontmatter({ key, title, linkTitle, date, authors, publication_types, publication, abstract, summary, doi, url: link, tags, extra = {} }) {
-  const lines = ["---"];
-  lines.push(`title: "${yamlEscape(title)}"`);
-  if (linkTitle) lines.push(`linkTitle: "${yamlEscape(linkTitle)}"`);
-  if (date) lines.push(`date: ${date}`);
-  lines.push(`slug: "${key}"`);
-  if (authors.length) {
-    lines.push("authors:");
-    authors.forEach((a) => lines.push(`  - ${a.slug}`));
-  }
-  lines.push("publication_types:");
-  lines.push(`  - "${publication_types}"`);
-  if (publication) lines.push(`publication: "${yamlEscape(publication)}"`);
-  if (abstract) lines.push(`abstract: "${yamlEscape(abstract)}"`);
-  if (summary) lines.push(`summary: "${yamlEscape(summary)}"`);
-  if (doi) lines.push(`doi: "${yamlEscape(doi)}"`);
-  if (link) lines.push(`url_source: "${yamlEscape(link)}"`);
-  if (tags.length) {
-    lines.push("tags:");
-    tags.forEach((t) => lines.push(`  - "${yamlEscape(t)}"`));
-  }
-  for (const [k, v] of Object.entries(extra)) {
-    if (typeof v === "boolean") lines.push(`${k}: ${v}`);
-    else if (Array.isArray(v)) {
-      lines.push(`${k}:`);
-      v.forEach((item) => lines.push(`  - "${yamlEscape(String(item))}"`));
-    } else {
-      lines.push(`${k}: "${yamlEscape(String(v))}"`);
-    }
-  }
-  lines.push("---");
-  return lines.join("\n");
+  const data = {};
+  data.title = title;
+  if (linkTitle) data.linkTitle = linkTitle;
+  if (date) data.date = date;
+  data.slug = key;
+  if (authors.length) data.authors = authors.map((a) => a.slug);
+  data.publication_types = [publication_types];
+  if (publication) data.publication = publication;
+  if (abstract) data.abstract = abstract;
+  if (summary) data.summary = summary;
+  if (doi) data.doi = doi;
+  if (link) data.url_source = link;
+  if (tags.length) data.tags = tags;
+  Object.assign(data, extra);
+  return matter.stringify("", data).trimEnd();
 }
 
 function tagForType(pubType, itemType) {
