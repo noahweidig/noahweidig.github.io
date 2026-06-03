@@ -52,19 +52,31 @@ jobs:
       run: |
         # Extract hugo_version from hugoblox.yaml using pure shell (avoids unverified binary download)
         VERSION=$(grep -m1 '^[[:space:]]*hugo_version:' hugoblox.yaml | sed "s/.*hugo_version:[[:space:]]*['\"]//;s/['\"][[:space:]]*$//" || true)
-        
+
         # Fallback to a known stable version if not specified
         DEFAULT_VERSION="0.160.0"
         VERSION=${VERSION:-$DEFAULT_VERSION}
-        
+
         # Validate version format (basic check)
         if [[ ! "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
           echo "::warning::Invalid hugo_version format '$VERSION', using default $DEFAULT_VERSION"
           VERSION="$DEFAULT_VERSION"
         fi
-        
+
         echo "HUGO_VERSION=$VERSION" >> $GITHUB_ENV
         echo "Using Hugo version: $VERSION"
+
+    # Cache dependencies (Go modules, node_modules) - restore before install for cache hit
+    - uses: actions/cache@v5
+      with:
+        path: |
+          /tmp/hugo_cache_runner/
+          node_modules/
+          modules/*/node_modules/
+        key: ${{ runner.os }}-hugo-deps-${{ hashFiles('**/go.mod', '**/package-lock.json',
+          '**/pnpm-lock.yaml') }}
+        restore-keys: |
+          ${{ runner.os }}-hugo-deps-
 
     - name: Install dependencies
       run: |
@@ -79,18 +91,6 @@ jobs:
       with:
         hugo-version: ${{ env.HUGO_VERSION }}
         extended: true
-
-    # Cache dependencies (Go modules, node_modules) - stable, rarely changes
-    - uses: actions/cache@v5
-      with:
-        path: |
-          /tmp/hugo_cache_runner/
-          node_modules/
-          modules/*/node_modules/
-        key: ${{ runner.os }}-hugo-deps-${{ hashFiles('**/go.mod', '**/package-lock.json',
-          '**/pnpm-lock.yaml') }}
-        restore-keys: |
-          ${{ runner.os }}-hugo-deps-
 
     # Cache Hugo resources (processed images, CSS) - invalidates only when assets/config change
     - uses: actions/cache@v5
