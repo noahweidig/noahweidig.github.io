@@ -98,7 +98,7 @@ function pruneContentAuthors(activeSlugs) {
   return removed;
 }
 
-const url = `https://api.zotero.org/users/${userID}/publications/items?format=json&include=data,bibtex&limit=200`;
+const baseUrl = `https://api.zotero.org/users/${userID}/publications/items?format=json&include=data,bibtex&limit=100`;
 
 const TYPE_MAP = {
   journalArticle: "article-journal",
@@ -138,6 +138,33 @@ const fetchWithRetry = async (u, { attempts = 3, delayMs = 1_000 } = {}) => {
   }
   throw new Error(`Zotero API error: ${lastError?.message || "Transient failure"}`);
 };
+
+async function fetchAllItems(startUrl) {
+  const items = [];
+  let url = startUrl;
+  while (url) {
+    let lastErr;
+    let res;
+    for (let i = 1; i <= 3; i++) {
+      try {
+        res = await fetch(url);
+        if (res.ok) break;
+        if (res.status >= 500 && i < 3) { await new Promise(r => setTimeout(r, 1000 * i)); continue; }
+        throw new Error(`Zotero API error (${res.status})`);
+      } catch (err) {
+        lastErr = err;
+        if (i < 3) { await new Promise(r => setTimeout(r, 1000 * i)); continue; }
+        throw new Error(`Zotero API request failed: ${err?.message ?? err}`);
+      }
+    }
+    if (!res?.ok) throw new Error(`Zotero API error: ${lastErr?.message || "Transient failure"}`);
+    const page = await res.json();
+    items.push(...page);
+    const link = res.headers.get("link") || "";
+    url = link.match(/<([^>]+)>;\s*rel="next"/)?.[1] ?? null;
+  }
+  return items;
+}
 
 const extractYear = (s) => {
   const m = s?.match(/\b(19|20)\d{2}\b/);
@@ -378,13 +405,7 @@ function tagForType(pubType, itemType) {
 }
 
 async function main() {
-  const payload = await fetchWithRetry(url);
-  let items;
-  try {
-    items = JSON.parse(payload);
-  } catch {
-    throw new Error("Unexpected Zotero API response (could not parse JSON).");
-  }
+  const items = await fetchAllItems(baseUrl);
 
   ensureDir(pubsDir);
 
