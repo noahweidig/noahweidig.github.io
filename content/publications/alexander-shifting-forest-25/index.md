@@ -1,8 +1,11 @@
 ---
-title: "Shifting forest structure and composition following decades of fire exclusion in the eastern U.S.: Implications for prescribed fire restoration and wildfires"
-linkTitle: "Shifting forest structure"
-date: 2025-06-01
-slug: "alexander-shifting-forest-25"
+title: >-
+  Shifting forest structure and composition following decades of fire exclusion
+  in the eastern U.S.: Implications for prescribed fire restoration and
+  wildfires
+linkTitle: Shifting forest structure
+date: '2025-06-01'
+slug: alexander-shifting-forest-25
 authors:
   - heather-d-alexander
   - victoria-m-donovan
@@ -11,8 +14,8 @@ authors:
   - me
   - michaella-a-ivey
 publication_types:
-  - "paper-conference"
-publication: "Proceedings of the 4th fire ecology and management symposium (FES-412)"
+  - paper-conference
+publication: Proceedings of the 4th fire ecology and management symposium (FES-412)
 tags:
-  - "Presentation"
+  - Presentation
 ---
