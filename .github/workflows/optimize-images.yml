@@ -94,13 +94,18 @@ jobs:
           fi
 
           printf 'changed: %s\n' "${FILES[@]}"
-          # Space-join (paths in this repo contain no spaces).
-          echo "args=${FILES[*]}" >> "$GITHUB_OUTPUT"
+          printf '%s\n' "${FILES[@]}" > /tmp/image-targets.txt
           echo "have_work=true" >> "$GITHUB_OUTPUT"
 
       - name: Optimize
         if: steps.collect.outputs.have_work == 'true'
-        run: python3 scripts/optimize_images.py ${{ steps.collect.outputs.args }}
+        run: |
+          if [ -s /tmp/image-targets.txt ]; then
+            mapfile -t FILES < /tmp/image-targets.txt
+            python3 scripts/optimize_images.py "${FILES[@]}"
+          else
+            python3 scripts/optimize_images.py
+          fi
 
       - name: Commit & push
         if: steps.collect.outputs.have_work == 'true'
