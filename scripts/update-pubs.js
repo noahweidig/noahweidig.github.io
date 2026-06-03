@@ -438,7 +438,13 @@ async function main() {
     const authors = authorsFromCreators(it.data.creators);
     const doi = it.data.DOI || "";
     const link = it.data.url || (doi ? `https://doi.org/${doi}` : "");
-    const publication = it.data.publicationTitle || it.data.bookTitle || it.data.proceedingsTitle || it.data.meetingName || it.data.event || it.data.place || it.data.publisher || "";
+    // For a thesis, prefer the awarding institution; never fall back to `place`
+    // (a city), which would render as the citation venue. Other item types keep
+    // `place` as a last-resort venue.
+    const isThesisType = it.data.itemType === "thesis";
+    const publication = it.data.publicationTitle || it.data.bookTitle || it.data.proceedingsTitle || it.data.meetingName || it.data.event
+      || (isThesisType ? (it.data.university || it.data.publisher) : (it.data.place || it.data.publisher))
+      || "";
     const abstract = stripHtml(it.data.abstractNote || "");
     const summary = abstract ? abstract.slice(0, 240) + (abstract.length > 240 ? "…" : "") : "";
 

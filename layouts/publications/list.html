@@ -20,6 +20,9 @@
 {{ $webinars := slice }}
 {{ $peer_reviews := slice }}
 {{ $media := slice }}
+{{ $manuscripts := slice }}
+{{ $reports := slice }}
+{{ $books := slice }}
 
 {{ range $pages }}
   {{ $pt := index (.Params.publication_types | default (slice "")) 0 }}
@@ -38,6 +41,12 @@
     {{ $presentations = $presentations | append . }}
   {{ else if in $media_types $pt }}
     {{ $media = $media | append . }}
+  {{ else if eq $pt "manuscript" }}
+    {{ $manuscripts = $manuscripts | append . }}
+  {{ else if eq $pt "report" }}
+    {{ $reports = $reports | append . }}
+  {{ else if or (eq $pt "book") (eq $pt "chapter") }}
+    {{ $books = $books | append . }}
   {{ end }}
 {{ end }}
 
@@ -47,6 +56,9 @@
   (dict "title" "Presentations" "items" $presentations)
   (dict "title" "Webinars" "items" $webinars)
   (dict "title" "Peer Reviews" "items" $peer_reviews)
+  (dict "title" "Preprints & Manuscripts" "items" $manuscripts)
+  (dict "title" "Reports" "items" $reports)
+  (dict "title" "Books & Chapters" "items" $books)
   (dict "title" "Media Coverage" "items" $media)
 }}
 
