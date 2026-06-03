@@ -3,7 +3,7 @@
 {{ $year := (time $year_value).Format "2006" }}
 {{ $has_attachments := partial "functions/has_attachments" $item }}
 
-<div class="pub-list-item view-citation" style="margin-bottom: 1rem">
+<div class="pub-list-item view-citation mb-4">
   {{ partial "functions/get_icon" (dict "name" "document-text" "attributes" "class=\"pub-icon w-4 h-4 inline-block mr-1\"") }}
 
   {{/* APA Style */}}

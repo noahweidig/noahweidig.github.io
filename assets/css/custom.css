@@ -72,6 +72,77 @@ html.dark {
   white-space: nowrap;
 }
 
+/* Research-areas block: hexagon layout variant */
+.hexagon-container {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  margin: 30px;
+}
+
+.hexagon {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
+}
+
+.hexagon:hover {
+  transform: scale(1.05);
+}
+
+.hexagon-content {
+  text-align: center;
+  padding: 20px;
+}
+
+@media (max-width: 768px) {
+  .hexagon-container {
+    width: 150px;
+    height: 150px;
+  }
+}
+
+/* Logos block: marquee/scroll animations used by the logos block template */
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+}
+
+.animate-scroll {
+  animation: scroll 40s linear infinite;
+}
+
+.animate-marquee:hover,
+.animate-scroll:hover {
+  animation-play-state: paused;
+}
+
+/* Footer logo sizing */
+.footer-logo {
+  height: 24px;
+}
+.footer-logo svg {
+  height: 100%;
+  width: auto;
+}
+.footer-logo img {
+  width: auto;
+}
+
 /* Add spacing between the right-side controls and the hamburger toggle on mobile */
 @media (max-width: 1023px) {
   label[for="nav-toggle"] {

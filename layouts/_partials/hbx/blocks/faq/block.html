@@ -21,6 +21,17 @@
 {{- $mar_raw := index $st "margin" -}}
 {{- if and (reflect.IsSlice $mar_raw) (ge (len $mar_raw) 4) }}{{ $mar = $mar_raw }}{{ end -}}
 
+{{/* Map spacing values to Tailwind classes (avoids inline style="" attributes) */}}
+{{- $sp_map := dict "0" "" "4px" "1" "8px" "2" "12px" "3" "16px" "4" "20px" "5" "24px" "6" "32px" "8" "1rem" "4" "1.5rem" "6" "2rem" "8" "3rem" "12" "4rem" "16" "5rem" "20" "6rem" "24" -}}
+{{- $pt_class := "" -}}
+{{- with index $sp_map (index $pad 0) }}{{ $pt_class = printf "pt-%s" . }}{{ end -}}
+{{- $pb_class := "" -}}
+{{- with index $sp_map (index $pad 2) }}{{ $pb_class = printf "pb-%s" . }}{{ end -}}
+{{- $mt_class := "" -}}
+{{- with index $sp_map (index $mar 0) }}{{ $mt_class = printf "mt-%s" . }}{{ end -}}
+{{- $mb_class := "" -}}
+{{- with index $sp_map (index $mar 2) }}{{ $mb_class = printf "mb-%s" . }}{{ end -}}
+
 {{- $bg := index $design "background" -}}
 {{- if not (reflect.IsMap $bg) }}{{ $bg = dict }}{{ end -}}
 {{- $bg_color_val := "" -}}
@@ -50,7 +61,7 @@
 {{- $button_icon := "" -}}
 {{- with index $button "icon" }}{{ $button_icon = printf "%v" . }}{{ end -}}
 
-<section id="{{ $wcIdentifier }}" class="hb-section {{ $bg_color_val }}" style="padding: {{ delimit $pad " " }}; padding-top: clamp({{ index $pad_sm 0 }}, {{ index $pad 0 }}, {{ index $pad 0 }}); padding-bottom: clamp({{ index $pad_sm 1 }}, {{ index $pad 2 }}, {{ index $pad 2 }}); margin: {{ delimit $mar " " }};">
+<section id="{{ $wcIdentifier }}" class="hb-section {{ $bg_color_val }} {{ $pt_class }} {{ $pb_class }} {{ $mt_class }} {{ $mb_class }}">
   <div class="mx-auto max-w-screen-xl px-6 lg:px-8">
 
     {{- with $title -}}

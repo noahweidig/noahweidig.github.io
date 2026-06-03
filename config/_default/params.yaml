@@ -257,11 +257,13 @@ hugoblox:
   # ────────────────────────────────────────────────────────────────────────────
   security:
     csp:
-      # CSP uses script hashes instead of 'unsafe-inline' to prevent XSS
-      # Hashes correspond to inline scripts in:
+      # CSP uses hashes instead of 'unsafe-inline' for both scripts and styles.
+      # Script hashes correspond to inline scripts in:
       # - layouts/_partials/hooks/body-end/mobile-menu.html
       # - layouts/_partials/components/footers/columns.html
-      policy: "default-src 'self'; script-src 'self' 'sha256-KYIeWbZv1OoViPhIpwWJ0WQFd2CcqJOOO0jcUkwabiY=' 'sha256-LLqqEB55OVLnrrhjJ2n8bHFENJlDcZdIl/ibBriHFAE=' https://cdn.jsdelivr.net https://www.google-analytics.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https://www.google-analytics.com https://www.googletagmanager.com; object-src 'none'; base-uri 'self';"
+      # All inline style="" attributes and <style> blocks have been eliminated;
+      # styles are served exclusively from self-hosted external CSS files.
+      policy: "default-src 'self'; script-src 'self' 'sha256-KYIeWbZv1OoViPhIpwWJ0WQFd2CcqJOOO0jcUkwabiY=' 'sha256-LLqqEB55OVLnrrhjJ2n8bHFENJlDcZdIl/ibBriHFAE=' https://cdn.jsdelivr.net https://www.google-analytics.com https://www.googletagmanager.com; style-src 'self' https://fonts.googleapis.com; img-src 'self' data: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https://www.google-analytics.com https://www.googletagmanager.com; object-src 'none'; base-uri 'self';"
       report_only: false
     frame_options: sameorigin # deny | sameorigin | allow - allow enables iframe embedding
     permissions_policy: "camera=(), microphone=(), geolocation=(), payment=(), usb=(), vr=()"

@@ -114,20 +114,20 @@
         <div class="flex flex-wrap justify-center gap-4" data-stagger="50">
           {{ range $idx, $item := (index . "items") }}
             {{ $level := index $item "level" | default "" }}
-            {{ $level_width := "0%" }}
             {{ $level_color := "bg-gray-500" }}
+            {{ $level_width_class := "w-0" }}
             {{ if eq $level "expert" }}
-              {{ $level_width = "100%" }}
               {{ $level_color = "bg-emerald-500" }}
+              {{ $level_width_class = "w-full" }}
             {{ else if eq $level "advanced" }}
-              {{ $level_width = "75%" }}
               {{ $level_color = "bg-primary-500" }}
+              {{ $level_width_class = "w-3/4" }}
             {{ else if eq $level "intermediate" }}
-              {{ $level_width = "50%" }}
               {{ $level_color = "bg-amber-500" }}
+              {{ $level_width_class = "w-1/2" }}
             {{ else if eq $level "beginner" }}
-              {{ $level_width = "25%" }}
               {{ $level_color = "bg-gray-400" }}
+              {{ $level_width_class = "w-1/4" }}
             {{ end }}
 
             <div 
@@ -157,7 +157,7 @@
                 {{ if and $show_levels $level }}
                 <div class="mt-2 w-full">
                   <div class="h-1 bg-gray-200 dark:bg-white/10 rounded-full overflow-hidden">
-                    <div class="h-full {{ $level_color }} rounded-full transition-all duration-500" style="width: {{ $level_width }}"></div>
+                    <div class="h-full {{ $level_color }} {{ $level_width_class }} rounded-full transition-all duration-500"></div>
                   </div>
                   <span class="text-xs text-gray-500 mt-1 capitalize">{{ $level }}</span>
                 </div>
