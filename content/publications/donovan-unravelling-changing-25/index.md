@@ -14,6 +14,8 @@ authors:
 publication_types:
   - "paper-conference"
 publication: "Auburn University College of Forest, Wildlife and Environment Invited Seminar"
+abstract: "Dr. Donovan discussed her research on changing wildfire dynamics in the eastern U.S., highlighting trends of increasing wildfire size, frequency, and shifts in seasonality. She also explored how rising woody cover and climate-woody cover interactions contribute to wildfire risk. Her findings are crucial for improving wildfire risk management strategies."
+summary: "Dr. Donovan discussed her research on changing wildfire dynamics in the eastern U.S., highlighting trends of increasing wildfire size, frequency, and shifts in seasonality. She also explored how rising woody cover and climate-woody cover in…"
 tags:
   - "Presentation"
 ---
