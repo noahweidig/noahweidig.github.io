@@ -13,6 +13,7 @@ links:
 featured: true
 image:
   filename: featured.webp
+  alt: "TIGER Roads dataset visualization in Google Earth Engine"
 
 ---
 

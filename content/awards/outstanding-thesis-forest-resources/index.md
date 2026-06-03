@@ -5,4 +5,5 @@ summary: "University of Florida, School of Forest, Fisheries, & Geomatic Science
 featured: true
 image:
   filename: featured.webp
+  alt: "Outstanding Thesis in Forest Resources and Conservation award"
 ---

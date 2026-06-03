@@ -11,6 +11,7 @@ links:
 featured: true
 image:
   filename: featured.webp
+  alt: "DataViz gallery showcasing various data visualization examples using Plotly"
 
 ---
 

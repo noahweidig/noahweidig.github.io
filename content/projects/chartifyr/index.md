@@ -13,6 +13,7 @@ links:
 featured: true
 image:
   filename: featured.webp
+  alt: "ChartifyR tutorials for data analysis and visualization with ggplot2"
 
 ---
 

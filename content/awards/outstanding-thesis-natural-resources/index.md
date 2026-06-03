@@ -5,4 +5,5 @@ summary: "University of Florida, College of Agricultural & Life Sciences · 2025
 featured: true
 image:
   filename: featured.webp
+  alt: "Outstanding Thesis in Natural Resources award"
 ---

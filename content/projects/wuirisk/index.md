@@ -12,6 +12,7 @@ links:
 featured: true
 image:
   filename: featured.webp
+  alt: "WUI Wildfire Explorer showing wildland-urban interface risk visualization"
 
 ---
 

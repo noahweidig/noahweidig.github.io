@@ -5,4 +5,5 @@ summary: "International Association of Landscape Ecology - North America · $300
 featured: true
 image:
   filename: featured.webp
+  alt: "Best Student Presentation award"
 ---

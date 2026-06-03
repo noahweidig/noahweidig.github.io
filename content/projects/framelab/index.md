@@ -12,6 +12,7 @@ links:
 featured: true
 image:
   filename: featured.webp
+  alt: "FrameLab tool for capturing website previews in desktop browser windows"
 
 ---
 

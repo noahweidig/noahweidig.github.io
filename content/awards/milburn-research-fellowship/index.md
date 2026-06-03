@@ -5,4 +5,5 @@ summary: "Northern Kentucky University · $3,500"
 featured: false
 image:
   filename: featured.webp
+  alt: "Dr. Carol Swarts Milburn Research Fellowship award"
 ---

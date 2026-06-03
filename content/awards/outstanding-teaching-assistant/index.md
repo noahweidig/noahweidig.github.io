@@ -5,4 +5,5 @@ summary: "University of Florida, School of Forest, Fisheries, & Geomatic Science
 featured: false
 image:
   filename: featured.webp
+  alt: "Outstanding Teaching Assistant of the Year award"
 ---

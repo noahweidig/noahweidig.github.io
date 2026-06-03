@@ -5,4 +5,5 @@ summary: "University of Florida, College of Agricultural & Life Sciences · $2,0
 featured: false
 image:
   filename: featured.webp
+  alt: "Doris and Earl Lowe and Verna Lowe Scholarship award"
 ---

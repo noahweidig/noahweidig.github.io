@@ -13,6 +13,7 @@ links:
 featured: true
 image:
   filename: featured.webp
+  alt: "QuickPlot Shiny app for creating publication-ready data visualizations"
 
 ---
 

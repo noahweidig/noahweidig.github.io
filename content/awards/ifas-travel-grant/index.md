@@ -5,4 +5,5 @@ summary: "University of Florida, Institute of Food & Agricultural Sciences · $2
 featured: false
 image:
   filename: featured.webp
+  alt: "IFAS Travel Grant award certificate"
 ---

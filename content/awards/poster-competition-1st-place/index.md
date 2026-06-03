@@ -5,4 +5,5 @@ summary: "Entomological Society of America · $75"
 featured: false
 image:
   filename: featured.webp
+  alt: "1st Place Undergraduate Student Poster Competition award"
 ---

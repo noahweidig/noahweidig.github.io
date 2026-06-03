@@ -12,6 +12,7 @@ links:
 featured: true
 image:
   filename: featured.webp
+  alt: "Lorem Chartsum API for generating dynamic placeholder charts"
 
 ---
 

@@ -13,6 +13,7 @@ links:
 featured: true
 image:
   filename: featured.webp
+  alt: "Map Explorer interface for interactive geospatial analysis"
 
 ---
 
