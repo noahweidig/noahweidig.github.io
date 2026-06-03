@@ -33,18 +33,8 @@ jobs:
     - name: Check deploy host
       id: check
       run: |
-        # Install pinned yq version for robust YAML parsing
-        YQ_VERSION="v4.44.1"
-        if ! wget -q --tries=3 --waitretry=1 -O /tmp/yq \
-          "https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/yq_linux_amd64"; then
-          echo "::error::Failed to download yq"
-          exit 1
-        fi
-        sudo mv /tmp/yq /usr/local/bin/yq
-        sudo chmod +x /usr/local/bin/yq
-        
-        # Read deploy.host from hugoblox.yaml, default to github-pages
-        HOST=$(yq '.deploy.host // ""' hugoblox.yaml 2>/dev/null | grep -v '^null$' || true)
+        # Extract deploy.host from hugoblox.yaml using pure shell (avoids unverified binary download)
+        HOST=$(grep -m1 '^[[:space:]]*host:' hugoblox.yaml | sed "s/.*host:[[:space:]]*['\"]//;s/['\"][[:space:]]*$//" || true)
         HOST=${HOST:-github-pages}
         
         # Validate known hosts
