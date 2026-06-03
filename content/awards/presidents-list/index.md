@@ -7,3 +7,5 @@ image:
   filename: featured.webp
   alt: "President's List award with 4.00 GPA designation"
 ---
+
+Four four consecutive years, I was recognized on the President's list at Northern Kentucky University for maintaining a 4.00 GPA.
