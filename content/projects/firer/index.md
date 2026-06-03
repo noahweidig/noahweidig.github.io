@@ -12,6 +12,7 @@ links:
 featured: true
 image:
   filename: featured.webp
+  alt: "FireR R package for working with U.S. fire data"
 
 ---
 

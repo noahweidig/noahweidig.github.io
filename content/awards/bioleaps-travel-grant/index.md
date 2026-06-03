@@ -5,4 +5,5 @@ summary: "International Association of Landscape Ecology - North America · $1,6
 featured: false
 image:
   filename: featured.webp
+  alt: "BioLEAPS Travel Grant award certificate"
 ---

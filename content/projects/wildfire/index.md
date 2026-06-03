@@ -13,6 +13,7 @@ links:
 featured: true
 image:
   filename: featured.webp
+  alt: "Wildfire Risk Visualizer interface showing risk assessment across U.S. states"
 
 ---
 

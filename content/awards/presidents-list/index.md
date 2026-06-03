@@ -5,4 +5,5 @@ summary: "Northern Kentucky University · 4.00 GPA · 2018–2022"
 featured: false
 image:
   filename: featured.webp
+  alt: "President's List award with 4.00 GPA designation"
 ---

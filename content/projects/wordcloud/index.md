@@ -11,6 +11,7 @@ links:
 featured: true
 image:
   filename: featured.webp
+  alt: "WordCloud Studio generator for creating word clouds"
 
 ---
 

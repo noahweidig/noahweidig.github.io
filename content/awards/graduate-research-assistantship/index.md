@@ -5,4 +5,5 @@ summary: "University of Florida, College of Agricultural & Life Sciences · $27,
 featured: false
 image:
   filename: featured.webp
+  alt: "Graduate Research Assistantship award"
 ---

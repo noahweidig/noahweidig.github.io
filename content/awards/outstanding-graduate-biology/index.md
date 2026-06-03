@@ -5,4 +5,5 @@ summary: "Northern Kentucky University, Department of Biological Sciences"
 featured: true
 image:
   filename: featured.webp
+  alt: "Outstanding Graduate in Biology award"
 ---

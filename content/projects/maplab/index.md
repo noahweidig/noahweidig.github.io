@@ -12,6 +12,7 @@ links:
 featured: true
 image:
   filename: featured.webp
+  alt: "MapLab interface for basic geospatial analysis and mapping"
 
 ---
 

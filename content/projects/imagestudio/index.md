@@ -12,6 +12,7 @@ links:
 featured: true
 image:
   filename: featured.webp
+  alt: "Image Studio application for creative image editing and recoloring"
 
 ---
 

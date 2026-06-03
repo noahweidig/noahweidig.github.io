@@ -12,6 +12,7 @@ links:
 featured: true
 image:
   filename: featured.webp
+  alt: "Less project exploring minimalism and personal philosophy"
 
 ---
 
