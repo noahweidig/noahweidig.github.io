@@ -15,8 +15,8 @@ importers:
         specifier: ^0.5.10
         version: 0.5.19(tailwindcss@4.1.18)
       hugo-extended:
-        specifier: ^0.157.0
-        version: 0.157.0
+        specifier: ^0.160.0
+        version: 0.160.1
       node-fetch:
         specifier: ^3.3.2
         version: 3.3.2
@@ -345,8 +345,8 @@ packages:
   htmlparser2@10.1.0:
     resolution: {integrity: sha512-VTZkM9GWRAtEpveh7MSF6SjjrpNVNNVJfFup7xTY3UpFtm67foy9HDVXneLtFVt4pMz5kZtgNcvCniNFb1hlEQ==}
 
-  hugo-extended@0.157.0:
-    resolution: {integrity: sha512-vjkR5TKK7mQcACYneext4D/YofJnfcHsFZzwItfevAOYoQUAZ+gUim3gwOLTImrTy8QdyzDtaF4/EHOhXEKWvg==}
+  hugo-extended@0.160.1:
+    resolution: {integrity: sha512-LPtcPyfR22CoUukwQQaTOMpV5svHynQHlfxG7w1Oi9moWQMBNHSAj2u1eN5K8nx4CSB1ZMGfbNL0fBX++bQ3dQ==}
     engines: {node: '>=18.17'}
     hasBin: true
 
@@ -787,7 +787,7 @@ snapshots:
       domutils: 3.2.2
       entities: 7.0.1
 
-  hugo-extended@0.157.0:
+  hugo-extended@0.160.1:
     dependencies:
       adm-zip: 0.5.16
       tar: 7.5.13
