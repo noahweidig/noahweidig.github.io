@@ -16,4 +16,4 @@ image:
 
 ---
 
-A Google Earth Engine App that visualizes changes in the WUI, large wildfire occurrence, and burn severity.
+A Google Earth Engine application that visualizes wildland-urban interface (WUI) dynamics, large wildfire patterns, and burn severity trends. Monitor how development encroaches on fire-prone landscapes and assess regional wildfire risk.

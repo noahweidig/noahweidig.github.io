@@ -17,4 +17,4 @@ image:
 
 ---
 
-An interactive tool for examining wildfire risk across the United States.
+An interactive visualization tool for assessing wildfire risk across U.S. states. Explore state-level risk assessments and identify high-risk regions for fire hazards.

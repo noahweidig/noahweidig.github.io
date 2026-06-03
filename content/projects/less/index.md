@@ -16,4 +16,4 @@ image:
 
 ---
 
-A personal exploration of minimalism and how it affects our lives.
+A personal exploration of minimalism and its impact on well-being and lifestyle. Discover principles of intentional living and how reducing excess creates space for what matters.

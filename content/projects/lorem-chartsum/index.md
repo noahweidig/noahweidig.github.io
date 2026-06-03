@@ -16,4 +16,4 @@ image:
 
 ---
 
-A creative API for creating dynamic placeholder charts.
+An API for developers to generate placeholder charts during development and prototyping. Request dynamic, customizable charts via simple API calls without managing sample data.

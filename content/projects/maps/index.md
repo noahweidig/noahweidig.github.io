@@ -17,4 +17,4 @@ image:
 
 ---
 
-A simple, free mapping project for basic geospatial analysis with geoJSON or shapefiles.
+A curated collection of interactive maps showcasing geospatial data and analysis. Browse themed maps to explore geographic patterns and distributions across regions.

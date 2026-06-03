@@ -15,4 +15,4 @@ image:
 
 ---
 
-A simple, free wordcloud generator, just for fun!
+A simple, free word cloud generator for visualizing text data creatively. Paste text or upload a file to generate beautiful, customizable word clouds that highlight frequently used terms.
