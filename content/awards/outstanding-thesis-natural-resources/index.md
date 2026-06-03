@@ -7,3 +7,5 @@ image:
   filename: featured.webp
   alt: "Outstanding Thesis in Natural Resources award"
 ---
+
+My master's thesis on wildfire risk in the wildland-urban interface was also recognized as the Outstanding Thesis in Natural Resources by the University of Florida's College of Agricultural & Life Sciences. This award acknowledged the research's contribution to understanding and addressing natural resource challenges.
