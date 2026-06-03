@@ -348,6 +348,20 @@ sections:
       spacing:
         padding: ["4rem", "0", "4rem", "0"]
 
+  # Education Timeline
+  - block: resume-education
+    id: education
+    content:
+      username: me
+    design:
+      columns: "1"
+      background:
+        color:
+          light: "#f5f5f5"
+          dark: "#08080c"
+      spacing:
+        padding: ["4rem", "0", "4rem", "0"]
+
   # Logos - Institutions I've worked & studied with
   - block: logos
     id: affiliations
