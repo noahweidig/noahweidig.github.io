@@ -16,4 +16,4 @@ image:
 
 ---
 
-A simple, free mapping project for basic geospatial analysis with geoJSON or shapefiles.
+An intuitive mapping tool for performing geospatial analysis without GIS expertise. Upload GeoJSON or shapefiles to create interactive maps and explore spatial relationships.

@@ -16,4 +16,4 @@ image:
 
 ---
 
-A creative tool for framing websites in a browser window with a desktop background.
+A creative tool for capturing website screenshots framed in a desktop browser window. Perfect for creating polished previews for social media, portfolios, or presentations.

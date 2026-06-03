@@ -16,4 +16,4 @@ image:
 
 ---
 
-A creative shiny app for recoloring, editing, and rescaling images.
+An interactive image editing application for creative visual work. Recolor, adjust dimensions, and apply transformations to images with a simple, intuitive interface.

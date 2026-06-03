@@ -17,4 +17,4 @@ image:
 
 ---
 
-US Census TIGER roads dataset available in the Google Earth Engine community catalog.
+The U.S. Census TIGER roads dataset made accessible in Google Earth Engine for large-scale geospatial analysis. Analyze road networks, transportation patterns, and infrastructure across the entire United States.

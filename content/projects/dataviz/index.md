@@ -15,4 +15,4 @@ image:
 
 ---
 
-An gallery of plot.js plots exploring various ways to visualize data.
+A gallery of Plotly visualizations exploring various approaches to displaying and analyzing data. Demonstrates interactive charts, statistical plots, and custom visualization techniques.

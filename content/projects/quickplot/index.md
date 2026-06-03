@@ -17,4 +17,4 @@ image:
 
 ---
 
-An R Shiny app for quickly creating publication-ready plots with minimal code.
+An interactive Shiny app for creating publication-ready data visualizations without coding. Upload data, customize aesthetics, and generate production-quality plots with a few clicks.

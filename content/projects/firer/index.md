@@ -16,4 +16,4 @@ image:
 
 ---
 
-An R package for downloading and working with U.S. fire data.
+An R package for accessing and analyzing U.S. fire incident data. Simplifies downloading, processing, and visualization of wildfire and prescribed burn records.
