@@ -283,3 +283,50 @@ html:not(.dark) .home-section-bg[style*="--dark-bg-color"] {
     margin-left: 0.25rem !important;
   }
 }
+
+/* Collection/Citation view archive link styling */
+/* Make archive buttons in collection blocks match portfolio block styling */
+
+/* Target and restyle citation view archive buttons */
+.hbb-section a[href*="/publications/"],
+.hbb-section a[href*="/blog/"],
+.hbb-section a[href*="/events/"] {
+  /* Only style archive links with pagination button classes */
+}
+
+a.focus\:z-20.relative {
+  /* This is the pagination archive button style */
+  /* Restyle to match portfolio button */
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  padding-left: 1.5rem !important;
+  padding-right: 1.5rem !important;
+  padding-top: 0.75rem !important;
+  padding-bottom: 0.75rem !important;
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+  color: rgb(31 41 55) !important;
+  background-color: rgb(243 244 246) !important;
+  border: 1px solid rgb(229 231 235) !important;
+  border-radius: 9999px !important;
+  transition-property: all !important;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
+  transition-duration: 300ms !important;
+}
+
+a.focus\:z-20.relative:hover {
+  background-color: rgb(219 220 226) !important;
+  border-color: rgb(209 213 219) !important;
+}
+
+.dark a.focus\:z-20.relative {
+  color: rgb(255 255 255) !important;
+  background-color: rgba(255 255 255 / 0.05) !important;
+  border-color: rgba(255 255 255 / 0.1) !important;
+}
+
+.dark a.focus\:z-20.relative:hover {
+  background-color: rgba(255 255 255 / 0.1) !important;
+  border-color: rgba(255 255 255 / 0.2) !important;
+}
