@@ -352,6 +352,8 @@ sections:
   - block: resume-education
     id: education
     content:
+      title: Education
+      subtitle: "Where I studied and what I learned"
       username: me
     design:
       columns: "1"
