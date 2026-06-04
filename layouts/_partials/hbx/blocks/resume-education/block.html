@@ -10,6 +10,22 @@
 {{ $design := $block.design }}
 {{ if not (reflect.IsMap $design) }}{{ $design = dict }}{{ end }}
 
+{{ $title := "" }}
+{{ $title_raw := index $content "title" }}
+{{ if $title_raw }}{{ $title = strings.TrimSpace (printf "%v" $title_raw) }}{{ end }}
+{{ if not $title }}{{ $title = i18n "education" | default "Education" }}{{ end }}
+{{ $title = $title | emojify | $page.RenderString }}
+
+{{ $subtitle := "" }}
+{{ $subtitle_raw := index $content "subtitle" }}
+{{ if $subtitle_raw }}{{ $subtitle = strings.TrimSpace (printf "%v" $subtitle_raw) }}{{ end }}
+{{ if $subtitle }}{{ $subtitle = $subtitle | emojify | $page.RenderString }}{{ end }}
+
+{{ $text := "" }}
+{{ $text_raw := index $content "text" }}
+{{ if $text_raw }}{{ $text = strings.TrimSpace (printf "%v" $text_raw) }}{{ end }}
+{{ if $text }}{{ $text = $text | emojify | $page.RenderString }}{{ end }}
+
 {{ $username := "me" }}
 {{ $username_raw := index $content "username" }}
 {{ if eq (printf "%T" $username_raw) "string" }}
@@ -73,7 +89,26 @@
 
 {{ if gt (len $education) 0 }}
 <div class="w-full">
-  <h2 class="mb-10 text-3xl font-bold text-gray-900 dark:text-white text-center">{{ i18n "education" | default "Education" }}</h2>
+  {{/* Section Header */}}
+  <div class="text-center max-w-3xl mx-auto mb-12 lg:mb-16">
+    {{ with $title }}
+    <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white tracking-tight mb-4">
+      {{ . }}
+    </h2>
+    {{ end }}
+
+    {{ with $subtitle }}
+    <p class="text-xl text-primary-600 dark:text-primary-400 font-medium mb-3">
+      {{ . }}
+    </p>
+    {{ end }}
+
+    {{ with $text }}
+    <p class="text-lg text-gray-600 dark:text-gray-400">
+      {{ . }}
+    </p>
+    {{ end }}
+  </div>
 
   {{/* Timeline container */}}
   <div class="relative">
