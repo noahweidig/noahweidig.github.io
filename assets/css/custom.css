@@ -86,6 +86,10 @@ html:not(.dark) .home-section-bg[style*="--dark-bg-color"] {
   white-space: nowrap;
 }
 
+.navbar .order-1 > a {
+  border-radius: 9999px;
+}
+
 /* Research-areas block: hexagon layout variant */
 .hexagon-container {
   position: relative;
