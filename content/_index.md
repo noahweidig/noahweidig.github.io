@@ -368,7 +368,9 @@ sections:
     content:
       title: "Where I've Worked & Studied"
       subtitle: "Institutions and agencies I've contributed to"
-      logos:
+      # Native HugoBlox logos block: items[] (the Preact block resolves item images
+      # from items[].image via assets/media/, so paths below map to assets/media/icons/custom/).
+      items:
         - name: University of Florida
           image: icons/custom/uf.svg
           url: "https://www.ufl.edu/"
@@ -419,13 +421,30 @@ sections:
         padding: ["0", "0", "2rem", "0"]
 
   # Featured Awards - Carousel gallery
+  # Native HugoBlox gallery: explicit items[] with images under assets/media/.
+  # (The Preact gallery block resolves items[].src / album, not a content collection.)
   - block: gallery
     id: awards
     content:
       title: "Featured Awards"
       subtitle: "A selection of recent honors"
-      collection: awards
-      featured_only: true
+      items:
+        - src: media/albums/awards/outstanding-thesis-natural-resources.webp
+          title: "Outstanding Thesis in Natural Resources"
+          caption: "University of Florida, College of Agricultural & Life Sciences"
+          link: "/awards/outstanding-thesis-natural-resources/"
+        - src: media/albums/awards/outstanding-thesis-forest-resources.webp
+          title: "Outstanding Thesis in Forest Resources & Conservation"
+          caption: "University of Florida, School of Forest, Fisheries, & Geomatic Sciences"
+          link: "/awards/outstanding-thesis-forest-resources/"
+        - src: media/albums/awards/best-student-presentation.webp
+          title: "Best Student Presentation"
+          caption: "International Association of Landscape Ecology – North America"
+          link: "/awards/best-student-presentation/"
+        - src: media/albums/awards/outstanding-graduate-biology.webp
+          title: "Outstanding Graduate in Biology"
+          caption: "Northern Kentucky University, Department of Biological Sciences"
+          link: "/awards/outstanding-graduate-biology/"
     design:
       layout: carousel
       columns: 3

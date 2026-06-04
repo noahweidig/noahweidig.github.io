@@ -131,6 +131,20 @@ html.dark {
   animation-play-state: paused;
 }
 
+/* Logos block (affiliations): the source SVG logos are dark monochrome artwork,
+   tuned for light mode via the theme's `grayscale` filter. In dark mode that leaves
+   them near-invisible (dark-on-dark), and the site defaults to dark, so invert them
+   to render light-on-dark while keeping the muted, monochrome treatment. Light mode
+   is left untouched (this rule is .dark-scoped). */
+.dark .logos-block-container img {
+  filter: brightness(0) invert(1);
+  opacity: 0.65;
+  transition: opacity 0.3s ease;
+}
+.dark .logos-block-container a:hover img {
+  opacity: 1;
+}
+
 /* Footer logo sizing */
 .footer-logo {
   height: 24px;

@@ -257,17 +257,21 @@ hugoblox:
   # ────────────────────────────────────────────────────────────────────────────
   security:
     csp:
-      # CSP uses hashes instead of 'unsafe-inline' for both scripts and styles.
-      # Script hashes correspond to inline scripts in:
-      # - layouts/_partials/hooks/body-end/mobile-menu.html
-      # - layouts/_partials/components/footers/columns.html
-      # All inline style="" attributes and <style> blocks have been eliminated;
-      # styles are served exclusively from self-hosted external CSS files.
+      # CSP must allow 'unsafe-inline' for styles and scripts: the HugoBlox theme
+      # engine renders its light/dark color tokens in an inline <style> block, sets
+      # per-section background colors via inline style="" attributes, colors inline
+      # SVG icons with inline fills, and hydrates client-side Preact blocks (gallery,
+      # logos, etc.) from inline scripts. A hash-only style-src/script-src therefore
+      # breaks light mode (sections render dark), hides SVG icons, and leaves Preact
+      # blocks unrendered. Inline-style/script hashes are not practical here because
+      # the theme emits many dynamic inline styles/scripts that change per build.
+      # 'unsafe-eval' is required by Alpine.js (used by the portfolio filter block),
+      # which evaluates its x-* directive expressions as JavaScript at runtime.
       # Fonts (Inter + JetBrains Mono) are self-hosted by the theme from
       # assets/dist/font/ via local @font-face — no Google Fonts requests are
       # made, so fonts.googleapis.com (style-src) and fonts.gstatic.com
       # (font-src) are intentionally NOT whitelisted (GDPR/privacy).
-      policy: "default-src 'self'; script-src 'self' 'sha256-KYIeWbZv1OoViPhIpwWJ0WQFd2CcqJOOO0jcUkwabiY=' 'sha256-LLqqEB55OVLnrrhjJ2n8bHFENJlDcZdIl/ibBriHFAE=' https://cdn.jsdelivr.net https://www.google-analytics.com https://www.googletagmanager.com; style-src 'self'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://www.google-analytics.com https://www.googletagmanager.com; object-src 'none'; base-uri 'self';"
+      policy: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://www.google-analytics.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://www.google-analytics.com https://www.googletagmanager.com https://tiles.openfreemap.org; worker-src 'self' blob:; object-src 'none'; base-uri 'self';"
       report_only: false
     frame_options: sameorigin # deny | sameorigin | allow - allow enables iframe embedding
     permissions_policy: "camera=(), microphone=(), geolocation=(), payment=(), usb=(), vr=()"
