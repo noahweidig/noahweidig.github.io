@@ -11,6 +11,12 @@ imports:
 
 # Install any Hugo Blox within the `hugo-blox/blox/` folder
 mounts:
+  # Map project _partials → partials so local overrides take precedence over module templates.
+  # The module mounts its own _partials to partials; without this, Hugo resolves module
+  # templates from layouts/partials/ before the project's layouts/_partials/, silently
+  # ignoring local block overrides (e.g. collection/block.html).
+  - source: layouts/_partials
+    target: layouts/partials
   - source: hugo-blox/blox/community
     target: layouts/_partials/blox/community/
     includeFiles: "**.html"
