@@ -524,6 +524,29 @@ sections:
       spacing:
         padding: ["4rem", "0", "4rem", "0"]
 
+  # Map Section
+  - block: map
+    id: map
+    content:
+      title: Find Me
+      subtitle: "Based at the Mid-Florida Research & Education Center"
+      zoom: 15
+      markers:
+        - lat: 28.638499339452952
+          lng: -81.54849283884396
+          title: My location
+          description: Mid-Florida Research & Education Center
+    design:
+      layout: map-only
+      height: lg
+      border: rounded
+      style_light: bright
+      style_dark: dark
+      background:
+        color:
+          light: "#ffffff"
+          dark: "#0d0d12"
+
   # CTA Card
   - block: cta-card
     content:
