@@ -43,6 +43,20 @@ html.dark {
   color: #ffffff;
 }
 
+/* Fix: section backgrounds stayed black in light mode on OS-dark machines.
+   HugoBlox's safelist.css paints each section's dark background via
+   `@media (prefers-color-scheme: dark) .home-section-bg[style*="--dark-bg-color"]`,
+   which keys off the OS color scheme and ignores the site's manual theme toggle.
+   So with the OS in dark mode, switching the site to light left every section
+   (hero included) painted with its --dark-bg-color. The site toggles light/dark
+   via the `.dark` class on <html>, so re-assert a white background whenever the
+   site is explicitly in light mode (html WITHOUT .dark). Higher specificity than
+   the media-query rule plus !important wins; in dark mode this selector never
+   matches, so the theme's dark backgrounds are untouched. */
+html:not(.dark) .home-section-bg[style*="--dark-bg-color"] {
+  background-color: #ffffff !important;
+}
+
 /* Dark mode: make the CTA card body text fully white and bold.
    The cta-card is a Preact block; its text node renders with
    `dark:text-white/80 font-light` (thin, 80% opacity) on the dark
