@@ -284,3 +284,22 @@ html:not(.dark) .home-section-bg[style*="--dark-bg-color"] {
   }
 }
 
+/* Dark mode footer gradient.
+   The columns footer (layouts/_partials/components/footers/columns.html) carries
+   no background of its own — `--hb-color-footer-bg` is defined in the theme but
+   never painted onto the element, so the footer simply inherits the body's
+   `#0d0d12`. Now that every homepage section is unified to that same black, give
+   the footer a gentle finish instead of dead-flat fill: a top-down linear
+   gradient that deepens `#0d0d12` toward black, plus two faint brand glows
+   (primary + secondary) that echo the hero's blurred radial blobs. Colors are
+   derived from the theme palette vars (`--color-primary-500` / `--color-secondary-500`)
+   via color-mix so they track the active theme pack, matching the navbar tint
+   approach above. Scoped to `.dark` so light mode is untouched. The footer's own
+   `border-t` keeps a crisp seam against the last section. */
+.dark footer[aria-labelledby="footer-heading"] {
+  background:
+    radial-gradient(60% 130% at 15% 0%, color-mix(in srgb, var(--color-primary-500) 9%, transparent), transparent 60%),
+    radial-gradient(55% 130% at 85% 0%, color-mix(in srgb, var(--color-secondary-500) 7%, transparent), transparent 60%),
+    linear-gradient(180deg, #0d0d12 0%, #08080b 100%);
+}
+
