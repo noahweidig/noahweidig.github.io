@@ -171,7 +171,7 @@ sections:
         tag: "Journal Article"
       archive:
         enable: true
-        text: "See All Publications"
+        text: "See More Publications"
         link: "/publications/"
     design:
       view: citation
