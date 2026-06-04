@@ -244,6 +244,24 @@ html:not(.dark) .home-section-bg[style*="--dark-bg-color"] {
   }
 }
 
+/* Card hover lift animation: applied to both project and research area cards */
+@keyframes card-hover-lift {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-4px);
+  }
+}
+
+.card-hover-lift {
+  transition: transform 0.3s ease;
+}
+
+.card-hover-lift:hover {
+  animation: card-hover-lift 0.3s ease forwards;
+}
+
 /* Fix hamburger menu wrapping at very narrow widths (~375px) */
 /* Reduce padding between site title and theme toggle to prevent wrapping */
 @media (max-width: 400px) {
@@ -252,14 +270,14 @@ html:not(.dark) .home-section-bg[style*="--dark-bg-color"] {
     padding-left: 0.5rem !important;
     padding-right: 0.5rem !important;
   }
-  
+
   /* Reduce padding on right-side controls (theme toggle, search, etc.) */
   .navbar .order-1 > div,
   .navbar .order-1 > button {
     padding-left: 0.25rem !important;
     padding-right: 0.25rem !important;
   }
-  
+
   /* Reduce hamburger menu margin */
   label[for="nav-toggle"] {
     margin-left: 0.25rem !important;
