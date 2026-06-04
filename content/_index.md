@@ -129,7 +129,7 @@ sections:
       background:
         color:
           light: "#f5f5f5"
-          dark: "#08080c"
+          dark: "#0d0d12"
       spacing:
         padding: ["4rem", "0", "4rem", "0"]
 
@@ -255,7 +255,7 @@ sections:
       background:
         color:
           light: "#f5f5f5"
-          dark: "#08080c"
+          dark: "#0d0d12"
       spacing:
         padding: ["4rem", "0", "4rem", "0"]
 
@@ -360,7 +360,7 @@ sections:
       background:
         color:
           light: "#f5f5f5"
-          dark: "#08080c"
+          dark: "#0d0d12"
       spacing:
         padding: ["4rem", "0", "4rem", "0"]
 
@@ -405,7 +405,7 @@ sections:
       background:
         color:
           light: "#f5f5f5"
-          dark: "#08080c"
+          dark: "#0d0d12"
       spacing:
         padding: ["3rem", "0", "3rem", "0"]
 
@@ -494,7 +494,7 @@ sections:
       background:
         color:
           light: "#f5f5f5"
-          dark: "#08080c"
+          dark: "#0d0d12"
       spacing:
         padding: ["4rem", "0", "4rem", "0"]
 
@@ -588,7 +588,7 @@ sections:
       background:
         color:
           light: "#f5f5f5"
-          dark: "#08080c"
+          dark: "#0d0d12"
       spacing:
         padding: ["4rem", "1.5rem", "6rem", "1.5rem"]
 
