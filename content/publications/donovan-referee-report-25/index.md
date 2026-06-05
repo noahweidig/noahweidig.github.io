@@ -37,9 +37,13 @@ summary: >-
   the resilience of forests against the increasing wildfire issue in Europe by
   integrating Integrated Fire Management (IFM) and Closer-to-Nature Forest
   Management (CT…
-doi: 10.21956/OPENRESEUROPE.21420.R53295
-url_source: >-
-  https://open-research-europe.ec.europa.eu/articles/4-131/v3#referee-response-53295
+hugoblox:
+  ids:
+    doi: 10.21956/OPENRESEUROPE.21420.R53295
+links:
+  - type: source
+    url: >-
+      https://open-research-europe.ec.europa.eu/articles/4-131/v3#referee-response-53295
 tags:
   - Peer Review
 ---

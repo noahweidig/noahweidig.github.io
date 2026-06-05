@@ -36,8 +36,12 @@ summary: >-
   crucial to examine the subsequent risk to human life and property. In the
   eastern US, the wildland–urban interface (WUI), where wildfire risk is
   greatest, has expa…
-doi: 10.1071/WF24110
-url_source: 'https://www.publish.csiro.au/WF/WF24110'
+hugoblox:
+  ids:
+    doi: 10.1071/WF24110
+links:
+  - type: source
+    url: 'https://www.publish.csiro.au/WF/WF24110'
 tags:
   - Journal Article
 ---

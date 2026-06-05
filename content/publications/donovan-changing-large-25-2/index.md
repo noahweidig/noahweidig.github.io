@@ -40,7 +40,9 @@ summary: >-
   investigations into changes in large (&gt;200 ha) wildfire activity across
   multiple scales in the eastern U.S. and the interacting factors affecting
   wildfire risk. Specificall…
-url_source: 'https://vimeo.com/1125882277'
+links:
+  - type: source
+    url: 'https://vimeo.com/1125882277'
 tags:
   - Webinar
 ---

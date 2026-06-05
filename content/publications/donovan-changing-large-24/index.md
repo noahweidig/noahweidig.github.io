@@ -37,8 +37,10 @@ summary: >-
   disturbance processes like fire that can threaten human communities. We assess
   changes in large (greater than 200 ha) wildfire activity across southeastern
   U.S. ec…
-url_source: >-
-  https://gulfofamericaalliance.org/wp-content/uploads/2024/02/GOMCON-Schedule-of-Concurrent-Sessions-02.14.24.pdf
+links:
+  - type: source
+    url: >-
+      https://gulfofamericaalliance.org/wp-content/uploads/2024/02/GOMCON-Schedule-of-Concurrent-Sessions-02.14.24.pdf
 tags:
   - Presentation
 ---

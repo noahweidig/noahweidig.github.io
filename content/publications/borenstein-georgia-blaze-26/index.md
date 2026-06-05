@@ -21,8 +21,10 @@ summary: >-
   becoming more intense, frequent and damaging in the East, such as this week’s
   blaze that destroyed dozens of homes in Georgia, fire scientists said.
   Researchers blame …
-url_source: >-
-  https://apnews.com/article/wildfire-georgia-east-west-climate-change-helene-9dff2248c09a709c0d03053378210722
+links:
+  - type: source
+    url: >-
+      https://apnews.com/article/wildfire-georgia-east-west-climate-change-helene-9dff2248c09a709c0d03053378210722
 tags:
   - Media Coverage
 ---

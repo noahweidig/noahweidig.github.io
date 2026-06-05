@@ -41,7 +41,9 @@ summary: >-
   globe, leading to ecosystem degradation and increased wildfire risk. Tree and
   shrub cover is increasing in the eastern United States, which historically was
   domi…
-url_source: 'https://www.ialena.org/uploads/9/4/8/2/94821076/iale_program_handout_final.pdf'
+links:
+  - type: source
+    url: 'https://www.ialena.org/uploads/9/4/8/2/94821076/iale_program_handout_final.pdf'
 tags:
   - Presentation
 ---

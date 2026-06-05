@@ -32,7 +32,9 @@ summary: >-
   about the risk to human life and property within the wildland-urban interface
   (WUI), where development and vegetation intermingle. In this webinar, we will
   explore…
-url_source: 'https://www.youtube.com/watch?v=HdklLrpJKkM'
+links:
+  - type: source
+    url: 'https://www.youtube.com/watch?v=HdklLrpJKkM'
 tags:
   - Webinar
 ---

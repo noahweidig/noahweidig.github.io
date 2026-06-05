@@ -39,8 +39,10 @@ summary: >-
   the Gulf of Mexico region and listed as the seventh worst weed in the world.
   Negative impacts to Gulf Coast ecosystems include agricultural disturbances,
   increase…
-url_source: >-
-  https://gulfofamericaalliance.org/wp-content/uploads/2024/02/GOMCON-Poster-Session-Floor-Plan-02.13.24.pdf
+links:
+  - type: source
+    url: >-
+      https://gulfofamericaalliance.org/wp-content/uploads/2024/02/GOMCON-Poster-Session-Floor-Plan-02.13.24.pdf
 tags:
   - Presentation
 ---

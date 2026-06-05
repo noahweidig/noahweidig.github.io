@@ -24,8 +24,10 @@ summary: >-
   United States from 1990 to 2020 and evaluates its association with the
   occurrence of large wildfires (i.e., &gt;200 ha (~494 acres)). Although woody
   encroachment …
-url_source: >-
-  https://oakfirescience.com/research-brief/woody-cover-fuels-large-wildfire-risk-in-the-eastern-u-s/
+links:
+  - type: source
+    url: >-
+      https://oakfirescience.com/research-brief/woody-cover-fuels-large-wildfire-risk-in-the-eastern-u-s/
 tags:
   - Media Coverage
 ---
