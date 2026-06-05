@@ -12,7 +12,7 @@ import {useEffect, useRef} from "preact/hooks";
 const OPENFREEMAP_STYLE_URLS = {
   streets: "https://tiles.openfreemap.org/styles/liberty",
   light: "https://tiles.openfreemap.org/styles/positron",
-  dark: "https://tiles.openfreemap.org/styles/dark",
+  dark: "https://tiles.openfreemap.org/styles/fiord",
   bright: "https://tiles.openfreemap.org/styles/bright",
 };
 
