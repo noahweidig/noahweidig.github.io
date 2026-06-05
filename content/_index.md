@@ -556,7 +556,7 @@ sections:
       markers:
         - lat: 28.638499339452952
           lng: -81.54849283884396
-          title: My location
+          title: University of Florida
           description: Mid-Florida Research & Education Center
     design:
       layout: map-only
