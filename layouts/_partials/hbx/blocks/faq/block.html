@@ -95,7 +95,7 @@
         {{- $answer_raw := index $item "answer" | default (index $item "text") -}}
         {{- if ne $answer_raw nil }}{{ $answer = printf "%v" $answer_raw }}{{ end -}}
         {{- if or $question $answer -}}
-        <div class="faq-item border border-gray-200 dark:border-white/[0.06] rounded-lg overflow-hidden bg-white dark:bg-white/[0.02] shadow-sm dark:shadow-none">
+        <div class="faq-item border border-gray-200 dark:border-white/[0.08] rounded-lg overflow-hidden bg-white dark:bg-white/[0.03] shadow-sm dark:shadow-none">
           <button
             type="button"
             class="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-gray-50 dark:hover:bg-white/[0.04] transition-colors cursor-pointer"
