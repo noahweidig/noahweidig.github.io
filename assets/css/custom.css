@@ -14,8 +14,26 @@
    fixes that. The `.page-header` wrapper is `sticky top-0 z-30` (header.sticky:
    true), so the header overlays scrolling content and the backdrop blur has
    something to blur. The tint is derived from the existing theme variable via
-   color-mix, so it stays correct in both light and dark modes automatically. */
+   color-mix, so it stays correct in both light and dark modes automatically.
+
+   The glass is painted on a `::before` layer rather than on `#site-header`
+   itself. Per the CSS backdrop spec, an element with `backdrop-filter` resets
+   the "backdrop root" for its descendants, so a `backdrop-filter` on a child is
+   neutralised (it samples the empty header layer, not the page). The open mobile
+   drop-down (`#nav-menu`) is a descendant of `#site-header`; keeping the blur on
+   a sibling pseudo-element instead leaves `#site-header` filter-free, so the
+   drop-down below can run its OWN identical blur against the page (see the
+   mobile rule further down). The `::before` covers only the header bar's box, so
+   the bar and the open menu read as one continuous glass surface. */
 #site-header.header {
+  position: relative;
+  background-color: transparent;
+}
+#site-header.header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
   background-color: color-mix(in srgb, var(--hb-color-header-bg) 70%, transparent);
   -webkit-backdrop-filter: saturate(180%) blur(12px);
   backdrop-filter: saturate(180%) blur(12px);
@@ -293,9 +311,12 @@ html:not(.dark) .home-section-bg[style*="--dark-bg-color"] {
    the header height — and the page scroll position — stays put. Scoped below lg
    (1024px) where the hamburger is active; the inline lg+ desktop nav is untouched.
    Because the menu is absolutely positioned BELOW the header it sits outside the
-   header's painted area, so it needs its own background. Mirror the glassmorphic
-   navbar exactly (same color-mix tint + saturate/blur backdrop-filter) so the open
-   drop-down has the identical translucency as the bar above it. */
+   header bar's painted area, so it needs its own background. It mirrors the
+   glassmorphic navbar exactly (same color-mix tint + saturate/blur backdrop-filter)
+   so the open drop-down has the identical translucency as the bar above it. This
+   blur only works because the bar's own blur lives on `#site-header::before`
+   (see top of file), not on `#site-header` -> `#nav-menu` has no backdrop-filter
+   ancestor, so its filter samples the page rather than an empty header layer. */
 @media (max-width: 1023px) {
   #nav-toggle:checked ~ #nav-menu {
     position: absolute;
