@@ -297,7 +297,7 @@ function ensureDir(dir) {
 const SCRIPT_KEYS = new Set([
   "title", "linkTitle", "date", "slug", "authors",
   "publication_types", "publication", "abstract", "summary",
-  "doi", "url_source", "tags",
+  "doi", "url_source", "hugoblox", "links", "tags",
 ]);
 
 function parseExistingFrontmatter(filePath) {
@@ -331,8 +331,8 @@ function buildFrontmatter({ key, title, linkTitle, date, authors, publication_ty
   if (publication) data.publication = publication;
   if (abstract) data.abstract = abstract;
   if (summary) data.summary = summary;
-  if (doi) data.doi = doi;
-  if (link) data.url_source = link;
+  if (doi) data.hugoblox = { ids: { doi } };
+  if (link) data.links = [{ type: "source", url: link }];
   if (tags.length) data.tags = tags;
   Object.assign(data, extra);
   return matter.stringify("", data).trimEnd();
