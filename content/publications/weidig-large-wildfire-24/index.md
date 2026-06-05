@@ -38,7 +38,9 @@ summary: >-
   interface (WUI), which occurs at the intersection between human development
   and wildland vegetative fuels, remains the focus for predicting and mitigating
   wildfire ri…
-url_source: 'https://www.ialena.org/program-2024.html'
+links:
+  - type: source
+    url: 'https://www.ialena.org/program-2024.html'
 tags:
   - Presentation
 ---

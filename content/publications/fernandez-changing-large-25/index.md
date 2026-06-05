@@ -48,7 +48,9 @@ summary: >-
   United States is experiencing notable shifts in wildfire patterns. Weidig and
   colleagues analyzed four decades of wildfire records to examine how large
   wildfire dyna…
-url_source: 'https://mailchi.mp/southernfireexchange/fire-lines-volume-14-issue-9436916'
+links:
+  - type: source
+    url: 'https://mailchi.mp/southernfireexchange/fire-lines-volume-14-issue-9436916'
 tags:
   - Media Coverage
 ---

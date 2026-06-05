@@ -42,7 +42,9 @@ summary: >-
   investigations into changes in large (&gt;200 ha) wildfire activity across
   multiple scales in the eastern U.S. and the interacting factors affecting
   wildfire risk. …
-url_source: 'https://www.ialena.org/uploads/9/4/8/2/94821076/iale_program_handout_final.pdf'
+links:
+  - type: source
+    url: 'https://www.ialena.org/uploads/9/4/8/2/94821076/iale_program_handout_final.pdf'
 tags:
   - Presentation
 ---

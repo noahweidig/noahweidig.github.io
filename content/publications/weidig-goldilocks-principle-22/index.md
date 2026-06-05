@@ -31,8 +31,12 @@ summary: >-
   determine suitable habitats to oviposit their eggs. Female Culex mosquitoes
   oviposit single egg rafts containing hundreds of eggs on the surface of water
   in cont…
-doi: 10.1371/journal.pone.0277237
-url_source: 'https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0277237'
+hugoblox:
+  ids:
+    doi: 10.1371/journal.pone.0277237
+links:
+  - type: source
+    url: 'https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0277237'
 tags:
   - Journal Article
 ---

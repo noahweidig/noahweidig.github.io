@@ -41,8 +41,12 @@ summary: >-
   globe, threatening ecological function and ecosystem services. Across much of
   the eastern U.S., increasing woody cover has been associated with ecological
   degradati…
-doi: 10.1016/j.foreco.2025.123446
-url_source: 'https://www.sciencedirect.com/science/article/pii/S0378112725009545'
+hugoblox:
+  ids:
+    doi: 10.1016/j.foreco.2025.123446
+links:
+  - type: source
+    url: 'https://www.sciencedirect.com/science/article/pii/S0378112725009545'
 tags:
   - Journal Article
 ---

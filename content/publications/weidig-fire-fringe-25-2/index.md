@@ -47,7 +47,9 @@ summary: >-
   greatest amount of WUI compared to the rest of the country. Wildfires in and
   near the WUI pose the greatest risk to human life and property. However, the
   spatial relatio…
-url_source: 'https://www.ialena.org/uploads/9/4/8/2/94821076/iale_program_handout_final.pdf'
+links:
+  - type: source
+    url: 'https://www.ialena.org/uploads/9/4/8/2/94821076/iale_program_handout_final.pdf'
 tags:
   - Presentation
 ---
