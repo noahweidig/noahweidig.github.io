@@ -43,7 +43,8 @@ summary: >-
   domi…
 links:
   - type: source
-    url: 'https://www.ialena.org/uploads/9/4/8/2/94821076/iale_program_handout_final.pdf'
+    url: >-
+      https://www.ialena.org/uploads/9/4/8/2/94821076/iale_program_handout_final.pdf
 tags:
   - Presentation
 ---
