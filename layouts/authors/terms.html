@@ -30,7 +30,7 @@
         {{- else -}}
           {{/* Prefer the curated display name from data/authors/<slug>.yaml; fall back to a smart
                slug -> name transform that title-cases each part and adds a period after single-letter initials. */}}
-          {{- $data := index site.Data.authors $name -}}
+          {{- $data := index hugo.Data.authors $name -}}
           {{- with $data -}}
             {{- with .name -}}{{- with .display -}}{{- $display = . -}}{{- end -}}{{- end -}}
           {{- end -}}

@@ -18,8 +18,8 @@ importers:
         specifier: ^4.0.3
         version: 4.0.3
       hugo-extended:
-        specifier: ^0.160.0
-        version: 0.160.1
+        specifier: ^0.162.1
+        version: 0.162.1
       node-fetch:
         specifier: ^3.3.2
         version: 3.3.2
@@ -264,8 +264,8 @@ packages:
     peerDependencies:
       tailwindcss: '>=3.0.0 || insiders || >=4.0.0-alpha.20 || >=4.0.0-beta.1'
 
-  adm-zip@0.5.16:
-    resolution: {integrity: sha512-TGw5yVi4saajsSEgz25grObGHEUaDrniwvA2qwSC060KfqGPdglhvPMA2lPIoxs3PQIItj2iag35fONcQqgUaQ==}
+  adm-zip@0.5.17:
+    resolution: {integrity: sha512-+Ut8d9LLqwEvHHJl1+PIHqoyDxFgVN847JTVM3Izi3xHDWPE4UtzzXysMZQs64DMcrJfBeS/uoEP4AD3HQHnQQ==}
     engines: {node: '>=12.0'}
 
   argparse@1.0.10:
@@ -364,8 +364,8 @@ packages:
   htmlparser2@10.1.0:
     resolution: {integrity: sha512-VTZkM9GWRAtEpveh7MSF6SjjrpNVNNVJfFup7xTY3UpFtm67foy9HDVXneLtFVt4pMz5kZtgNcvCniNFb1hlEQ==}
 
-  hugo-extended@0.160.1:
-    resolution: {integrity: sha512-LPtcPyfR22CoUukwQQaTOMpV5svHynQHlfxG7w1Oi9moWQMBNHSAj2u1eN5K8nx4CSB1ZMGfbNL0fBX++bQ3dQ==}
+  hugo-extended@0.162.1:
+    resolution: {integrity: sha512-CaAoEP4TbqhE15OU/zorG67/9A5lWYOOQxUXpo+qnEdaFhVaFOUngguYp9XiWIoCCHauuSod391jgrhwyzo6uQ==}
     engines: {node: '>=18.17'}
     hasBin: true
 
@@ -560,8 +560,8 @@ packages:
     resolution: {integrity: sha512-g9ljZiwki/LfxmQADO3dEY1CbpmXT5Hm2fJ+QaGKwSXUylMybePR7/67YW7jOrrvjEgL1Fmz5kzyAjWVWLlucg==}
     engines: {node: '>=6'}
 
-  tar@7.5.13:
-    resolution: {integrity: sha512-tOG/7GyXpFevhXVh8jOPJrmtRpOTsYqUIkVdVooZYJS/z8WhfQUX8RJILmeuJNinGAMSu1veBr4asSHFt5/hng==}
+  tar@7.5.16:
+    resolution: {integrity: sha512-56adEpPMouktRlBLXiaYFFzZ/3+JXa8P9n7WbR+ibIjtviN55mEaOkiysCnPnWm+7kkui1Dn8J9l+g6zV8731w==}
     engines: {node: '>=18'}
 
   to-regex-range@5.0.1:
@@ -758,7 +758,7 @@ snapshots:
       postcss-selector-parser: 6.0.10
       tailwindcss: 4.1.18
 
-  adm-zip@0.5.16: {}
+  adm-zip@0.5.17: {}
 
   argparse@1.0.10:
     dependencies:
@@ -846,10 +846,10 @@ snapshots:
       domutils: 3.2.2
       entities: 7.0.1
 
-  hugo-extended@0.160.1:
+  hugo-extended@0.162.1:
     dependencies:
-      adm-zip: 0.5.16
-      tar: 7.5.13
+      adm-zip: 0.5.17
+      tar: 7.5.16
 
   is-extendable@0.1.1: {}
 
@@ -1007,7 +1007,7 @@ snapshots:
 
   tapable@2.3.0: {}
 
-  tar@7.5.13:
+  tar@7.5.16:
     dependencies:
       '@isaacs/fs-minipass': 4.0.1
       chownr: 3.0.0
