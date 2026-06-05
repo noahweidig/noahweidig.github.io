@@ -10,9 +10,10 @@ authors:
   - victoria-m-donovan
 publication_types:
   - paper-conference
-publication: >-
-  International Association for Landscape Ecology - North America Annual
-  Conference
+publication:
+  name: >-
+    International Association for Landscape Ecology - North America Annual
+    Conference
 abstract: >-
   Wildfires are increasing in the eastern United States. The wildland-urban
   interface (WUI), which occurs at the intersection between human development

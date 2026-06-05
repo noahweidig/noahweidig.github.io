@@ -13,7 +13,8 @@ authors:
   - victoria-m-donovan
 publication_types:
   - paper-conference
-publication: Ecological Society of America
+publication:
+  name: Ecological Society of America
 abstract: >-
   Large wildfires are increasing in the eastern U.S., which contains the
   greatest amount of wildland-urban interface (WUI) compared to the rest of the

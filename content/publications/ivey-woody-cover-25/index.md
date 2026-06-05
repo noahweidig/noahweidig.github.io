@@ -10,7 +10,8 @@ authors:
   - victoria-m-donovan
 publication_types:
   - article-newspaper
-publication: Oak Woodlands & Forests Fire Consortium
+publication:
+  name: Oak Woodlands & Forests Fire Consortium
 abstract: >-
   This study characterizes changes in woody vegetation cover across the eastern
   United States from 1990 to 2020 and evaluates its association with the

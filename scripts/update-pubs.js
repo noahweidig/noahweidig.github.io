@@ -294,9 +294,11 @@ function ensureDir(dir) {
 }
 
 // Frontmatter keys written by this script; all others are manually curated and must be preserved.
+// `publication_short` is the legacy companion to the flat `publication` string; it is
+// superseded by `publication.short_name`, so it is owned (and dropped) by the script.
 const SCRIPT_KEYS = new Set([
   "title", "linkTitle", "date", "slug", "authors",
-  "publication_types", "publication", "abstract", "summary",
+  "publication_types", "publication", "publication_short", "abstract", "summary",
   "doi", "url_source", "hugoblox", "links", "tags",
 ]);
 
@@ -328,7 +330,9 @@ function buildFrontmatter({ key, title, linkTitle, date, authors, publication_ty
   data.slug = key;
   if (authors.length) data.authors = authors.map((a) => a.slug);
   data.publication_types = [publication_types];
-  if (publication) data.publication = publication;
+  // Hugoblox expects the structured `publication: {name, short_name, volume, issue,
+  // pages, publisher}` shape; only emit it when there is at least a venue name.
+  if (publication && publication.name) data.publication = publication;
   if (abstract) data.abstract = abstract;
   if (summary) data.summary = summary;
   if (doi) data.hugoblox = { ids: { doi } };
@@ -336,6 +340,29 @@ function buildFrontmatter({ key, title, linkTitle, date, authors, publication_ty
   if (tags.length) data.tags = tags;
   Object.assign(data, extra);
   return matter.stringify("", data).trimEnd();
+}
+
+// Assemble the structured Hugoblox `publication` map from Zotero fields. Only
+// populated keys are included so the emitted frontmatter stays minimal.
+function buildPublication(it, name) {
+  const pub = {};
+  const str = (v) => (v == null ? "" : String(v).trim());
+  if (name) pub.name = name;
+  const shortName = str(it.data.journalAbbreviation);
+  if (shortName) pub.short_name = shortName;
+  const volume = str(it.data.volume);
+  if (volume) pub.volume = volume;
+  const issue = str(it.data.issue);
+  if (issue) pub.issue = issue;
+  const pages = str(it.data.pages);
+  if (pages) pub.pages = pages;
+  // A thesis already carries its institution in `name`; don't duplicate it as a
+  // publisher. For other types, include `publisher` only when it adds new info.
+  if (it.data.itemType !== "thesis") {
+    const publisher = str(it.data.publisher);
+    if (publisher && publisher !== name) pub.publisher = publisher;
+  }
+  return pub;
 }
 
 function tagForType(pubType, itemType) {
@@ -409,7 +436,12 @@ async function main() {
     const dir = path.join(pubsDir, slug);
     const existing = parseExistingFrontmatter(path.join(dir, "index.md"));
 
-    const mergedPublication = publication || (typeof existing?.publication === "string" ? existing.publication : "");
+    // Preserve a hand-curated venue name when Zotero supplies none, supporting both
+    // the structured map and the legacy flat-string shapes of an existing file.
+    const existingPubName = existing?.publication && typeof existing.publication === "object"
+      ? (existing.publication.name || "")
+      : (typeof existing?.publication === "string" ? existing.publication : "");
+    const mergedPublication = buildPublication(it, publication || existingPubName);
     const mergedAbstract = abstract || (typeof existing?.abstract === "string" ? existing.abstract : "");
     const mergedSummary = summary || (typeof existing?.summary === "string" ? existing.summary : "");
     const scriptTag = tags[0];

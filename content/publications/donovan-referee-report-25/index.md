@@ -12,7 +12,8 @@ authors:
   - me
 publication_types:
   - manuscript
-publication: Open Research Europe
+publication:
+  name: Open Research Europe
 abstract: >-
   This Open Letter by Kalapodis and Sakkas presents a framework for enhancing
   the resilience of forests against the increasing wildfire issue in Europe by

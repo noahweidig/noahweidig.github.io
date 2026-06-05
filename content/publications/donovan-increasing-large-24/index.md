@@ -12,7 +12,8 @@ authors:
   - carissa-l-wonkka
 publication_types:
   - paper-conference
-publication: Southern Fire Exchange
+publication:
+  name: Southern Fire Exchange
 abstract: >-
   This webinar provides an overview of changing large wildfire regimes in the
   eastern U.S., highlighting increasing wildfire number, size, and total area

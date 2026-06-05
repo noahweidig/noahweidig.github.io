@@ -11,7 +11,8 @@ authors:
   - victoria-m-donovan
 publication_types:
   - paper-conference
-publication: Gulf of Mexico Conference
+publication:
+  name: Gulf of Mexico Conference
 abstract: >-
   Cogongrass (Imperata cylindrica) is a pervasive invasive plant species across
   the Gulf of Mexico region and listed as the seventh worst weed in the world.

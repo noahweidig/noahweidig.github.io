@@ -13,7 +13,10 @@ authors:
   - carissa-l-wonkka
 publication_types:
   - paper-conference
-publication: 'Auburn University College of Forest, Wildlife and Environment Invited Seminar'
+publication:
+  name: >-
+    Auburn University College of Forest, Wildlife and Environment Invited
+    Seminar
 abstract: >-
   Dr. Donovan discussed her research on changing wildfire dynamics in the
   eastern U.S., highlighting trends of increasing wildfire size, frequency, and

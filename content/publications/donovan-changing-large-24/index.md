@@ -12,7 +12,8 @@ authors:
   - carissa-l-wonkka
 publication_types:
   - paper-conference
-publication: Gulf of Mexico Conference
+publication:
+  name: Gulf of Mexico Conference
 abstract: >-
   Global change is altering ecosystem structure and function including natural
   disturbance processes like fire that can threaten human communities. We assess

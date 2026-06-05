@@ -7,7 +7,8 @@ authors:
   - liza-lester
 publication_types:
   - article-newspaper
-publication: AGU News
+publication:
+  name: AGU News
 abstract: >-
   Woody vegetation has increased by 37% over the last 30 years in the eastern
   United States, fueling the rise in large wildfires. Texas and the Appalachian

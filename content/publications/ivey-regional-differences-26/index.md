@@ -12,7 +12,11 @@ authors:
   - victoria-m-donovan
 publication_types:
   - article-journal
-publication: Forest Ecology and Management
+publication:
+  name: Forest Ecology and Management
+  short_name: Forest Ecology and Management
+  volume: '603'
+  pages: '123446'
 abstract: >-
   Trees and shrubs are expanding into historically open ecosystems across the
   globe, threatening ecological function and ecosystem services. Across much of

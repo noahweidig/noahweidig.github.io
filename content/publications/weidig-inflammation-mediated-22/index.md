@@ -16,7 +16,8 @@ authors:
   - donald-r-lynch
 publication_types:
   - paper-conference
-publication: International Society for Applied Cardiovascular Biology Biennial Meeting
+publication:
+  name: International Society for Applied Cardiovascular Biology Biennial Meeting
 abstract: >-
   Aortic valve replacement (AVR) remains the only definitive and efficacious
   treatment for patients with severe aortic stenosis (AS), a common valvular

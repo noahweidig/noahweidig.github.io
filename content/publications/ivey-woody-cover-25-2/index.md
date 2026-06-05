@@ -12,9 +12,10 @@ authors:
   - victoria-m-donovan
 publication_types:
   - paper-conference
-publication: >-
-  International Association for Landscape Ecology - North America Annual
-  Conference
+publication:
+  name: >-
+    International Association for Landscape Ecology - North America Annual
+    Conference
 abstract: >-
   Woody cover increases in historically open ecosystems are occurring across the
   globe, leading to ecosystem degradation and increased wildfire risk. Tree and

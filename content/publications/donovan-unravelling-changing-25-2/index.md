@@ -12,9 +12,10 @@ authors:
   - carissa-l-wonkka
 publication_types:
   - paper-conference
-publication: >-
-  International Association for Landscape Ecology - North America Annual
-  Conference
+publication:
+  name: >-
+    International Association for Landscape Ecology - North America Annual
+    Conference
 abstract: >-
   Wildfire risk is changing across the globe. We provide a summary of ongoing
   investigations into changes in large (&gt;200 ha) wildfire activity across

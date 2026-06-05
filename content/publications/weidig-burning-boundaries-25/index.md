@@ -13,7 +13,8 @@ authors:
   - victoria-m-donovan
 publication_types:
   - paper-conference
-publication: Southern Fire Exchange
+publication:
+  name: Southern Fire Exchange
 abstract: >-
   Large wildfires are increasing in the eastern United States, raising concern
   about the risk to human life and property within the wildland-urban interface

@@ -13,9 +13,10 @@ authors:
   - victoria-m-donovan
 publication_types:
   - paper-conference
-publication: >-
-  University of Florida Office of Graduate Professional Development Graduate
-  Student Research Day
+publication:
+  name: >-
+    University of Florida Office of Graduate Professional Development Graduate
+    Student Research Day
 abstract: >-
   Large wildfires are increasing in the eastern U.S., which contains the
   greatest amount of WUI compared to the rest of the country. Wildfires in and
