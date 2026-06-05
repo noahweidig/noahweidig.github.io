@@ -292,7 +292,10 @@ html:not(.dark) .home-section-bg[style*="--dark-bg-color"] {
    `position:relative`, so anchoring the OPEN menu absolutely lifts it out of flow:
    the header height — and the page scroll position — stays put. Scoped below lg
    (1024px) where the hamburger is active; the inline lg+ desktop nav is untouched.
-   Opaque header bg keeps the links legible over whatever content sits beneath. */
+   Because the menu is absolutely positioned BELOW the header it sits outside the
+   header's painted area, so it needs its own background. Mirror the glassmorphic
+   navbar exactly (same color-mix tint + saturate/blur backdrop-filter) so the open
+   drop-down has the identical translucency as the bar above it. */
 @media (max-width: 1023px) {
   #nav-toggle:checked ~ #nav-menu {
     position: absolute;
@@ -301,7 +304,9 @@ html:not(.dark) .home-section-bg[style*="--dark-bg-color"] {
     right: 0;
     z-index: 30;
     padding: 0.5rem 0.75rem 1rem;
-    background-color: var(--hb-color-header-bg);
+    background-color: color-mix(in srgb, var(--hb-color-header-bg) 70%, transparent);
+    -webkit-backdrop-filter: saturate(180%) blur(12px);
+    backdrop-filter: saturate(180%) blur(12px);
   }
 }
 
