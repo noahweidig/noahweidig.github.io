@@ -402,6 +402,7 @@ sections:
           url: "https://ecos.fws.gov/"
     design:
       display_mode: marquee
+      logo_size: lg
       background:
         color:
           light: "#f5f5f5"
