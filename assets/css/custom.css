@@ -284,6 +284,27 @@ html:not(.dark) .home-section-bg[style*="--dark-bg-color"] {
   }
 }
 
+/* Mobile: open hamburger menu overlays the page instead of pushing it down.
+   Blox reveals the menu with `input#nav-toggle:checked ~ #nav-menu{display:block}`
+   (see the built _entry.css). Because #nav-menu is `w-full` inside the flex-wrap
+   `.navbar`, opening it wraps the menu onto a second line, which grows the sticky
+   `#site-header` and shoves all page content downward. `.navbar` is already
+   `position:relative`, so anchoring the OPEN menu absolutely lifts it out of flow:
+   the header height — and the page scroll position — stays put. Scoped below lg
+   (1024px) where the hamburger is active; the inline lg+ desktop nav is untouched.
+   Opaque header bg keeps the links legible over whatever content sits beneath. */
+@media (max-width: 1023px) {
+  #nav-toggle:checked ~ #nav-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 30;
+    padding: 0.5rem 0.75rem 1rem;
+    background-color: var(--hb-color-header-bg);
+  }
+}
+
 /* Dark mode footer gradient.
    The columns footer (layouts/_partials/components/footers/columns.html) carries
    no background of its own — `--hb-color-footer-bg` is defined in the theme but
