@@ -281,7 +281,7 @@ export const MapBlock = ({content = {}, design = {}, provider}) => {
   if (layout === "map-only") {
     return (
       <div class="py-12 sm:py-16 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-7xl mx-auto">
+        <div class="max-w-4xl mx-auto">
           {(content.title || content.subtitle) && (
             <div class="text-center max-w-3xl mx-auto mb-8">
               {content.title && (
