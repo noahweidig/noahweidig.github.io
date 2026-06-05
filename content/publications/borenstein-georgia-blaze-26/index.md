@@ -7,7 +7,8 @@ authors:
   - seth-borenstein
 publication_types:
   - article-newspaper
-publication: Associated Press
+publication:
+  name: Associated Press
 abstract: >-
   Often considered more a problem for Western North America, wildfires are
   becoming more intense, frequent and damaging in the East, such as this week’s

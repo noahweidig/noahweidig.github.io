@@ -13,9 +13,10 @@ authors:
   - victoria-m-donovan
 publication_types:
   - paper-conference
-publication: >-
-  International Association for Landscape Ecology - North America Annual
-  Conference
+publication:
+  name: >-
+    International Association for Landscape Ecology - North America Annual
+    Conference
 abstract: >-
   Large wildfires are increasing in the eastern U.S., which contains the
   greatest amount of WUI compared to the rest of the country. Wildfires in and

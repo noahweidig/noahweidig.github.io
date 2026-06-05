@@ -10,7 +10,10 @@ authors:
   - victoria-m-donovan
 publication_types:
   - article-journal
-publication: Geophysical Research Letters
+publication:
+  name: Geophysical Research Letters
+  volume: '51'
+  issue: e2024GL110586
 abstract: >-
   Large wildfires are increasing in the eastern United States; however, what
   factors are heightening large wildfire risk remains unclear. Increases in fuel

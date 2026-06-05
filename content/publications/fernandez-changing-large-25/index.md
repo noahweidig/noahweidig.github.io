@@ -10,7 +10,10 @@ authors:
   - me
 publication_types:
   - article-magazine
-publication: Fire Lines
+publication:
+  name: Fire Lines
+  volume: '15'
+  issue: '7'
 abstract: >-
   As development continues to expand into fire-prone landscapes, the eastern
   United States is experiencing notable shifts in wildfire patterns. Weidig and

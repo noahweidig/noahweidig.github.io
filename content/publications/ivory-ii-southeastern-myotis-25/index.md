@@ -13,7 +13,8 @@ authors:
   - brett-r-scheffers
 publication_types:
   - paper-conference
-publication: Florida Bat Working Group Annual Meeting; Southeastern Bat Diversity Network
+publication:
+  name: Florida Bat Working Group Annual Meeting; Southeastern Bat Diversity Network
 abstract: >-
   As urbanization continues, animals are increasingly compelled to navigate
   human-altered environments. Here we investigate wildlife use of stormwater

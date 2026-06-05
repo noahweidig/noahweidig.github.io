@@ -11,7 +11,8 @@ authors:
   - allison-t-parker
 publication_types:
   - paper-conference
-publication: Northern Kentucky University Heather Bullen Research Celebration
+publication:
+  name: Northern Kentucky University Heather Bullen Research Celebration
 abstract: >-
   Females of container-breeding mosquito species use visual and chemical cues to
   determine suitable habitats to oviposit their eggs. Female Culex mosquitoes

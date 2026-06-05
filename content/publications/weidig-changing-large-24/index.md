@@ -12,7 +12,11 @@ authors:
   - victoria-m-donovan
 publication_types:
   - article-journal
-publication: International Journal of Wildland Fire
+publication:
+  name: International Journal of Wildland Fire
+  short_name: Int. J. Wildland Fire
+  volume: '33'
+  issue: '12'
 abstract: >-
   The recent increase in large wildfires in the eastern United States makes it
   crucial to examine the subsequent risk to human life and property. In the

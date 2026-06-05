@@ -9,7 +9,8 @@ authors:
   - me
 publication_types:
   - thesis
-publication: University of Florida
+publication:
+  name: University of Florida
 abstract: >-
   The recent increase in large wildfires in the eastern United States makes it
   crucial to examine the subsequent risk to human life and property. In the

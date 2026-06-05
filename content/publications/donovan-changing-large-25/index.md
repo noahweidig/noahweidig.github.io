@@ -12,7 +12,8 @@ authors:
   - carissa-l-wonkka
 publication_types:
   - paper-conference
-publication: Oak Woodlands & Forests Fire Consortium
+publication:
+  name: Oak Woodlands & Forests Fire Consortium
 abstract: >-
   Dr. Donovan will provide a summary of her lab’s ongoing research
   investigations into changes in large (&gt;200 ha) wildfire activity across

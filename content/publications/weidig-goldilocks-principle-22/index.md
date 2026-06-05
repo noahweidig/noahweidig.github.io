@@ -11,7 +11,12 @@ authors:
   - allison-t-parker
 publication_types:
   - article-journal
-publication: PLOS ONE
+publication:
+  name: PLOS ONE
+  short_name: PLOS ONE
+  volume: '17'
+  issue: '11'
+  pages: e0277237
 abstract: >-
   Females of container-breeding mosquito species use visual and chemical cues to
   determine suitable habitats to oviposit their eggs. Female Culex mosquitoes

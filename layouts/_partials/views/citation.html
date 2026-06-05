@@ -2,6 +2,7 @@
 {{ $year_value := $item.Params.event_start | default $item.Date }}
 {{ $year := (time $year_value).Format "2006" }}
 {{ $has_attachments := partial "functions/has_attachments" $item }}
+{{ $pub := partial "functions/resolve_publication.html" $item }}
 
 <div class="pub-list-item view-citation mb-4">
   {{ partial "functions/get_icon" (dict "name" "document-text" "attributes" "class=\"pub-icon w-4 h-4 inline-block mr-1\"") }}
@@ -14,11 +15,7 @@
   </span>
   ({{- $year -}}).
   <a href="{{ $item.RelPermalink }}" class="underline">{{ $item.Title }}</a>.
-  {{ if $item.Params.publication_short }}
-    {{- $item.Params.publication_short | markdownify -}}.
-  {{ else if $item.Params.publication }}
-    {{- $item.Params.publication | markdownify -}}.
-  {{ end }}
+  {{ with $pub.display_short }}{{- . | markdownify -}}.{{ end }}
 
   {{ if $has_attachments }}
   <div class="flex flex-wrap space-x-3">
@@ -33,11 +30,7 @@
     {{ partial "page_metadata_authors" $item }}.
   </span>
   <a href="{{ $item.RelPermalink }}">{{ $item.Title }}</a>.
-  {{ if $item.Params.publication_short }}
-    {{- $item.Params.publication_short | markdownify -}},
-  {{ else if $item.Params.publication }}
-    {{- $item.Params.publication | markdownify -}},
-  {{ end }}
+  {{ with $pub.display_short }}{{- . | markdownify -}},{{ end }}
   {{- $year -}}.
 
   {{ if $has_attachments }}

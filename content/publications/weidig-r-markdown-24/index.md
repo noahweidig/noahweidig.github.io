@@ -7,9 +7,10 @@ authors:
   - me
 publication_types:
   - paper-conference
-publication: >-
-  University of Florida West Florida Research and Education Center Invited
-  Seminar
+publication:
+  name: >-
+    University of Florida West Florida Research and Education Center Invited
+    Seminar
 abstract: >-
   This talk covers the fundamentals of using R Markdown to create reproducible
   workflows that seamlessly integrate code, results, and narrative. It will

@@ -15,7 +15,9 @@ authors:
   - michaella-a-ivey
 publication_types:
   - paper-conference
-publication: Proceedings of the 4th fire ecology and management symposium (FES-412)
+publication:
+  name: Proceedings of the 4th fire ecology and management symposium (FES-412)
+  volume: '4'
 tags:
   - Presentation
 ---
