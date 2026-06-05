@@ -14,7 +14,7 @@
       {{- $lastName := "" -}}
       {{- with $authors -}}
         {{- $slug := index . 0 -}}
-        {{- with (index site.Data.authors $slug) -}}
+        {{- with (index hugo.Data.authors $slug) -}}
           {{- $display := .name.display -}}
           {{- $parts := split $display " " -}}
           {{- $lastName = index $parts (sub (len $parts) 1) -}}

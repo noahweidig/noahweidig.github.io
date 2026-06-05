@@ -58,7 +58,7 @@
               {{ $url := .URL | relLangURL }}
               <li>
                 {{ if $childMenuItem.Params.copy_email }}
-                {{ $email := site.Data.authors.me.email }}
+                {{ $email := hugo.Data.authors.me.email }}
                 <button type="button" data-copy-email="{{ $email }}"
                    class="copy-email inline-flex items-center gap-2 text-base font-normal text-gray-500 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-300">
                   {{ with $childMenuItem.Params.icon }}
