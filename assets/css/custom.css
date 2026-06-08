@@ -329,5 +329,24 @@ html:not(.dark) .home-section-bg[style*="--dark-bg-color"] {
     -webkit-backdrop-filter: saturate(180%) blur(12px);
     backdrop-filter: saturate(180%) blur(12px);
   }
+
+  /* Seam fix: end the bar's glass exactly at the navbar bottom so it meets the
+     open drop-down's glass flush, with no overlapping strip of double glass.
+     `#site-header` carries `py-3`, so its `::before` (inset:0) extends 0.75rem
+     BELOW the navbar's bottom — but the drop-down opens AT the navbar bottom
+     (`top:100%` of the relative `.navbar`). That 0.75rem overlap is two glass
+     panes stacked: the drop-down's backdrop-filter samples the bar glass already
+     painted behind it, so it tints and blurs that strip a SECOND time. The result
+     is a horizontal line where the backdrop appears to shift/blur in a different
+     direction across the bar/menu boundary. Pulling `::before`'s bottom edge up
+     to the navbar bottom (top:0 + bottom:0.75rem -> height = header - bottom pad)
+     removes the overlap: the two panes abut edge-to-edge instead of stacking, and
+     because they share the identical tint + saturate/blur and now each samples the
+     raw page (neither sits behind the other), the bar and drop-down read as one
+     continuous sheet of glass. `:has()` keys off the same #nav-toggle checkbox the
+     theme already uses to reveal the menu; the drop-down itself is not moved. */
+  #site-header.header:has(#nav-toggle:checked)::before {
+    bottom: 0.75rem;
+  }
 }
 
