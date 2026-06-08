@@ -310,43 +310,52 @@ html:not(.dark) .home-section-bg[style*="--dark-bg-color"] {
    `position:relative`, so anchoring the OPEN menu absolutely lifts it out of flow:
    the header height — and the page scroll position — stays put. Scoped below lg
    (1024px) where the hamburger is active; the inline lg+ desktop nav is untouched.
-   Because the menu is absolutely positioned BELOW the header it sits outside the
-   header bar's painted area, so it needs its own background. It mirrors the
-   glassmorphic navbar exactly (same color-mix tint + saturate/blur backdrop-filter)
-   so the open drop-down has the identical translucency as the bar above it. This
-   blur only works because the bar's own blur lives on `#site-header::before`
-   (see top of file), not on `#site-header` -> `#nav-menu` has no backdrop-filter
-   ancestor, so its filter samples the page rather than an empty header layer. */
+
+   ONE continuous pane of glass. The bar and the drop-down used to be two SEPARATE
+   backdrop-filter boxes (the bar on `#site-header::before`, the menu on `#nav-menu`).
+   Two blurs never read as one sheet: each blur is clamped to its own box, so the
+   page is sampled independently on each side of the bar/menu line and the backdrop
+   appears to refract in a DIFFERENT DIRECTION across it — the seam. Making them
+   flush (the previous fix) does not help, because flush is still two boxes. The
+   only cure is a SINGLE backdrop-filter box covering both. So the open menu's box
+   is stretched UP over the bar: `top:-0.75rem` cancels the header's `py-3` top
+   padding (the menu is positioned inside `.navbar`, which sits within that padding),
+   so the box now starts at the very top of the header and its glass — the identical
+   tint + saturate/blur — covers the bar AND the drop-down, blurred exactly once.
+   The links are padded back below the bar with `padding-top` = the live header
+   height the theme publishes as `--navbar-height` (hb-nav.js sets it from
+   `.page-header`'s box). `z-index:-1` drops the pane behind the brand, hamburger and
+   controls (all non-positioned, so they paint above it) so they stay crisp ON the
+   glass; the pane still paints over the page because `.page-header` is a `z-30`
+   sticky stacking context, so the backdrop-filter samples the page as before. */
 @media (max-width: 1023px) {
   #nav-toggle:checked ~ #nav-menu {
     position: absolute;
-    top: 100%;
+    top: -0.75rem;
     left: 0;
     right: 0;
-    z-index: 30;
+    z-index: -1;
     padding: 0.5rem 0.75rem 1rem;
+    /* Push the links back down below the bar the box now spans (see comment). */
+    padding-top: calc(var(--navbar-height, 3.5rem) + 0.25rem);
     background-color: color-mix(in srgb, var(--hb-color-header-bg) 70%, transparent);
     -webkit-backdrop-filter: saturate(180%) blur(12px);
     backdrop-filter: saturate(180%) blur(12px);
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
   }
 
-  /* Seam fix: end the bar's glass exactly at the navbar bottom so it meets the
-     open drop-down's glass flush, with no overlapping strip of double glass.
-     `#site-header` carries `py-3`, so its `::before` (inset:0) extends 0.75rem
-     BELOW the navbar's bottom — but the drop-down opens AT the navbar bottom
-     (`top:100%` of the relative `.navbar`). That 0.75rem overlap is two glass
-     panes stacked: the drop-down's backdrop-filter samples the bar glass already
-     painted behind it, so it tints and blurs that strip a SECOND time. The result
-     is a horizontal line where the backdrop appears to shift/blur in a different
-     direction across the bar/menu boundary. Pulling `::before`'s bottom edge up
-     to the navbar bottom (top:0 + bottom:0.75rem -> height = header - bottom pad)
-     removes the overlap: the two panes abut edge-to-edge instead of stacking, and
-     because they share the identical tint + saturate/blur and now each samples the
-     raw page (neither sits behind the other), the bar and drop-down read as one
-     continuous sheet of glass. `:has()` keys off the same #nav-toggle checkbox the
-     theme already uses to reveal the menu; the drop-down itself is not moved. */
+  /* The open menu now supplies the glass for the WHOLE header, so retire the bar's
+     own `::before` pane while open: keeping it would blur the bar region a second
+     time (double glass behind the single pane) and bring the seam back. Likewise
+     drop `#site-header`'s bottom `shadow`, which would otherwise cast a faint line
+     mid-pane at the old bar/menu boundary; the single pane carries its own shadow.
+     `:has()` keys off the same #nav-toggle checkbox the theme uses to reveal the
+     menu, so both revert automatically on close and the desktop bar is untouched. */
   #site-header.header:has(#nav-toggle:checked)::before {
-    bottom: 0.75rem;
+    display: none;
+  }
+  #site-header.header:has(#nav-toggle:checked) {
+    box-shadow: none;
   }
 }
 
