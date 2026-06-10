@@ -557,7 +557,7 @@ sections:
         - lat: 29.6436
           lng: -82.3549
           title: University of Florida
-          description: University of Florida
+          description: School of Forest, Fisheries and Geomatic Sciences
     design:
       layout: map-only
       height: lg
