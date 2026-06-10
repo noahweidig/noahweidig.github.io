@@ -551,13 +551,13 @@ sections:
     id: map
     content:
       title: Find Me
-      subtitle: "Based at the Mid-Florida Research & Education Center"
+      subtitle: "Based at University of Florida"
       zoom: 15
       markers:
-        - lat: 28.638499339452952
-          lng: -81.54849283884396
+        - lat: 29.6436
+          lng: -82.3549
           title: University of Florida
-          description: Mid-Florida Research & Education Center
+          description: School of Forest, Fisheries and Geomatic Sciences
     design:
       layout: map-only
       height: lg
