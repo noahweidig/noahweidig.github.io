@@ -103,18 +103,27 @@
       </span>
     </div>
   </div>
-  <script>
-    document.querySelectorAll('.copy-email').forEach(function (btn) {
-      btn.addEventListener('click', function () {
+<script>
+document.querySelectorAll('.copy-email').forEach(function (btn) {
+    btn.addEventListener('click', async function () {
         var email = btn.getAttribute('data-copy-email');
         if (!email) return;
-        navigator.clipboard.writeText(email);
+
         var label = btn.querySelector('.copy-email-label');
         if (!label) return;
+
         var original = label.textContent;
-        label.textContent = 'Copied!';
+
+        try {
+            await navigator.clipboard.writeText(email);
+            label.textContent = 'Copied!';
+        } catch (err) {
+            console.error('Failed to copy: ', err);
+            label.textContent = 'Failed!';
+        }
+
         setTimeout(function () { label.textContent = original; }, 1500);
-      });
     });
-  </script>
+});
+</script>
 </footer>
