@@ -1,30 +1,10 @@
 <script>
 (function () {
   var toggle = document.getElementById('nav-toggle');
-  if (!toggle) return;
-  var label = document.querySelector('label[for="nav-toggle"]');
-  var menu = document.getElementById('navbar-menu') ||
-             document.querySelector('.navbar nav') ||
-             document.querySelector('.navbar');
-
-  document.addEventListener('click', function (e) {
-    if (!toggle.checked) return;
-    if (label && label.contains(e.target)) return;
-    if (menu && menu.contains(e.target)) {
-      var link = e.target.closest && e.target.closest('a[href]');
-      if (link && menu.contains(link)) {
-        var href = link.getAttribute('href') || '';
-        if (href.charAt(0) === '#' || href.indexOf('/#') !== -1) {
-          toggle.checked = false;
-        }
-      }
-      return;
-    }
-    toggle.checked = false;
-  });
-
-  window.addEventListener('resize', function () {
-    if (window.innerWidth >= 1024 && toggle.checked) {
+  var menu = document.getElementById('nav-menu');
+  if (!toggle || !menu) return;
+  menu.addEventListener('click', function (e) {
+    if (e.target.closest('a[href]')) {
       toggle.checked = false;
     }
   });
