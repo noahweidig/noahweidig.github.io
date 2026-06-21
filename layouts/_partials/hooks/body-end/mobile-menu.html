@@ -4,8 +4,14 @@
   var menu = document.getElementById('nav-menu');
   if (!toggle || !menu) return;
   menu.addEventListener('click', function (e) {
-    if (e.target.closest('a[href]')) {
-      toggle.checked = false;
+    // Close via the checkbox's native toggle rather than assigning
+    // `toggle.checked = false`: on iOS Safari, programmatically setting
+    // `.checked` does not reliably re-evaluate the `#nav-toggle:checked ~ #nav-menu`
+    // / `:has(#nav-toggle:checked)` rules that hide the menu, so it stayed open on
+    // real devices (it closes fine in desktop/WebKit emulation). `toggle.click()`
+    // uses the same activation path as a real tap on the hamburger, which repaints.
+    if (toggle.checked && e.target.closest('a[href]')) {
+      toggle.click();
     }
   });
 })();
