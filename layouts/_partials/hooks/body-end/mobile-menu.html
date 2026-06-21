@@ -3,16 +3,20 @@
   var toggle = document.getElementById('nav-toggle');
   var menu = document.getElementById('nav-menu');
   if (!toggle || !menu) return;
-  menu.addEventListener('click', function (e) {
-    // Close via the checkbox's native toggle rather than assigning
-    // `toggle.checked = false`: on iOS Safari, programmatically setting
-    // `.checked` does not reliably re-evaluate the `#nav-toggle:checked ~ #nav-menu`
-    // / `:has(#nav-toggle:checked)` rules that hide the menu, so it stayed open on
-    // real devices (it closes fine in desktop/WebKit emulation). `toggle.click()`
-    // uses the same activation path as a real tap on the hamburger, which repaints.
-    if (toggle.checked && e.target.closest('a[href]')) {
-      toggle.click();
-    }
+  // The mobile menu is the theme's pure-CSS checkbox toggle
+  // (#nav-toggle:checked ~ #nav-menu { display:block }). In-page anchor links
+  // (/#publications, ...) don't reload the page, so the checkbox stays checked
+  // and the menu stays open. Release it by setting the IDL property
+  // `checked = false`: that always updates the `:checked` sibling state on every
+  // browser, including real iOS Safari. (The prior fix called `toggle.click()`
+  // instead -- a synthetic click on a `display:none` input, which real iOS drops
+  // even though desktop/WebKit emulation honors it, so the menu never closed on
+  // device.) Bound directly to each link rather than delegated to the <ul>, which
+  // is also more reliable on real iOS than container click delegation.
+  menu.querySelectorAll('a[href]').forEach(function (link) {
+    link.addEventListener('click', function () {
+      toggle.checked = false;
+    });
   });
 })();
 </script>
