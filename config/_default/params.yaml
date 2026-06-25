@@ -271,7 +271,7 @@ hugoblox:
       # assets/dist/font/ via local @font-face — no Google Fonts requests are
       # made, so fonts.googleapis.com (style-src) and fonts.gstatic.com
       # (font-src) are intentionally NOT whitelisted (GDPR/privacy).
-      policy: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://www.google-analytics.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://www.google-analytics.com https://www.googletagmanager.com https://tiles.openfreemap.org; worker-src 'self' blob:; object-src 'none'; base-uri 'self';"
+      policy: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://tiles.openfreemap.org; worker-src 'self' blob:; object-src 'none'; base-uri 'self';"
       report_only: false
     frame_options: sameorigin # deny | sameorigin | allow - allow enables iframe embedding
     permissions_policy: "camera=(), microphone=(), geolocation=(), payment=(), usb=(), xr-spatial-tracking=()"

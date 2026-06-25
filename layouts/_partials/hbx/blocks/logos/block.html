@@ -104,7 +104,7 @@
         {{ end }}
         <div class="group relative">
           {{ if $link }}
-          <a href="{{ $link | safeURL }}" {{ if $external }}target="_blank" rel="noopener"{{ end }}
+          <a href="{{ $link | safeURL }}" {{ if $external }}target="_blank" rel="noopener noreferrer"{{ end }}
              class="block p-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-300"
              {{ if $name }}title="{{ $name }}"{{ end }}>
           {{ else }}
@@ -248,9 +248,9 @@
         </div>
         {{ end }}
         
-        {{/* Duplicate for seamless loop */}}
+        {{/* Duplicate for seamless loop (hidden from assistive tech to avoid double announcement) */}}
         {{ range $items }}
-        <div class="flex-shrink-0">
+        <div class="flex-shrink-0" aria-hidden="true">
           {{ if .image }}
             {{ $img := resources.Get (printf "media/%s" .image) }}
             {{ if $img }}
@@ -317,9 +317,9 @@
       {{ if not (hasPrefix $link "#") }}
         {{ $link = $link | relLangURL }}
       {{ end }}
-      {{ if eq (path.Ext $link) ".pdf" }}{{ $target = "target=\"_blank\" rel=\"noopener\"" }}{{ end }}
+      {{ if eq (path.Ext $link) ".pdf" }}{{ $target = "target=\"_blank\" rel=\"noopener noreferrer\"" }}{{ end }}
     {{ else if in (slice "http" "https") $scheme }}
-      {{ $target = "target=\"_blank\" rel=\"noopener\"" }}
+      {{ $target = "target=\"_blank\" rel=\"noopener noreferrer\"" }}
     {{ end }}
     <div class="mt-12 text-center">
       <a href="{{ $link | safeURL }}" {{ $target | safeHTMLAttr }}
