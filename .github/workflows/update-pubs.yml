@@ -2,7 +2,9 @@ name: Update Zotero
 
 on:
   schedule:
-    - cron: "0 0 */14 * *"
+    # Twice a month on fixed dates (1st and 15th) for predictable, regular runs.
+    # `*/14` on day-of-month produces irregular 3–17 day gaps at month boundaries.
+    - cron: "0 0 1,15 * *"
   workflow_dispatch:
 
 permissions:

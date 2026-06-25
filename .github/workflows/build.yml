@@ -116,6 +116,16 @@ jobs:
           pnpm run pagefind || npx pagefind --site "public"
         fi
 
+    - name: Verify build output
+      run: |
+        # Fail early with a clear message if Hugo produced no usable site,
+        # rather than uploading an empty/broken artifact to Pages.
+        if [ ! -s "public/index.html" ]; then
+          echo "::error::Build output missing or empty: public/index.html not found"
+          exit 1
+        fi
+        echo "Build output verified: $(find public -type f | wc -l) files in public/"
+
     - name: Upload artifact
       id: upload
       uses: actions/upload-pages-artifact@v5

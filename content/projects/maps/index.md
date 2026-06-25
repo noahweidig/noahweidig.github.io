@@ -1,7 +1,7 @@
 ---
 title: "Map Explorer"
 weight: 20
-date: 2026-03-26
+date: "2026-03-26"
 summary: "A Collection of Interactive Maps"
 tags:
   - GIS

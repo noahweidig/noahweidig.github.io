@@ -145,9 +145,9 @@
       {{- if not (hasPrefix $link "#") -}}
         {{- $link = $link | relLangURL -}}
       {{- end -}}
-      {{- if eq (path.Ext $link) ".pdf" }}{{ $target = "target=\"_blank\" rel=\"noopener\"" }}{{ end -}}
+      {{- if eq (path.Ext $link) ".pdf" }}{{ $target = "target=\"_blank\" rel=\"noopener noreferrer\"" }}{{ end -}}
     {{- else if in (slice "http" "https") $scheme -}}
-      {{- $target = "target=\"_blank\" rel=\"noopener\"" -}}
+      {{- $target = "target=\"_blank\" rel=\"noopener noreferrer\"" -}}
     {{- end -}}
     <div class="mt-10 text-center">
       <a href="{{ $link | safeURL }}" {{ $target | safeHTMLAttr }} class="inline-flex items-center gap-2 rounded-lg bg-primary-600 px-6 py-3 text-base font-semibold text-white shadow-sm hover:bg-primary-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600">

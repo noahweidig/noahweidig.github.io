@@ -1,6 +1,6 @@
 ---
 title: "Lorem Chartsum"
-date: 2025-03-10
+date: "2025-03-10"
 summary: "A Placeholder Chart API"
 tags:
   - APIs

@@ -1,6 +1,6 @@
 ---
 title: "ChartifyR"
-date: 2026-03-23
+date: "2026-03-23"
 summary: "Tutorials for Data Analysis & Viz"
 tags:
   - R
