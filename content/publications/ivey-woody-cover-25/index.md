@@ -9,7 +9,7 @@ authors:
   - me
   - victoria-m-donovan
 publication_types:
-  - article-newspaper
+  - article-magazine
 publication:
   name: Oak Woodlands & Forests Fire Consortium
 abstract: >-

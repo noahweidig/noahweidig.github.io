@@ -51,7 +51,7 @@
   {{ $items = $built }}
 {{ end }}
 
-{{ $gallery_id := printf "gallery-%d" (now.UnixNano) }}
+{{ $gallery_id := printf "gallery-%d" (hash.FNV32a (printf "%v" $items)) }}
 {{ with $block.id }}{{ $gallery_id = printf "gallery-%s" . }}{{ end }}
 
 <div class="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">

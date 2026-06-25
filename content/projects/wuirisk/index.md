@@ -5,6 +5,9 @@ summary: "A GEE App for Visualizing Risk"
 tags:
   - Wildfire
   - Risk
+  - GIS
+  - Geospatial
+  - Google Earth Engine
 links:
   - type: live
     url: "https://ee-weidignc.projects.earthengine.app/view/wui-wildfire"
