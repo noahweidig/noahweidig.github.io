@@ -1,0 +1,8 @@
+# Default reviewers for all files in this repository.
+# See https://docs.github.com/articles/about-code-owners
+* @noahweidig
+
+# Build, deploy, and dependency configuration
+/.github/        @noahweidig
+/config/         @noahweidig
+/scripts/        @noahweidig

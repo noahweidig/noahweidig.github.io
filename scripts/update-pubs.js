@@ -3,7 +3,7 @@ import path from "path";
 import matter from "gray-matter";
 import { stripHtml } from "./sanitize.js";
 
-const userID = 11988712;
+const userID = process.env.ZOTERO_USER_ID || 11988712;
 const pubsDir = path.resolve("content/publications");
 const dataAuthorsDir = path.resolve("data/authors");
 const contentAuthorsDir = path.resolve("content/authors");
@@ -125,7 +125,13 @@ async function fetchAllItems(startUrl) {
       try {
         res = await fetch(url);
         if (res.ok) break;
-        if (res.status >= 500 && i < 3) { await new Promise(r => setTimeout(r, 1000 * i)); continue; }
+        // Honor 429 rate-limiting (and Zotero's Backoff header) before retrying.
+        if ((res.status === 429 || res.status >= 500) && i < 3) {
+          const retryAfter = +(res.headers.get("retry-after") || res.headers.get("backoff") || 0);
+          const waitMs = retryAfter > 0 ? retryAfter * 1000 : 1000 * i;
+          await new Promise(r => setTimeout(r, waitMs));
+          continue;
+        }
         throw new Error(`Zotero API error (${res.status})`);
       } catch (err) {
         lastErr = err;
@@ -281,7 +287,8 @@ function parseExistingFrontmatter(filePath) {
   if (!fs.existsSync(filePath)) return null;
   try {
     return matter(fs.readFileSync(filePath, "utf8")).data;
-  } catch {
+  } catch (err) {
+    console.warn(`Warning: could not parse existing frontmatter in ${filePath}: ${err?.message ?? err}`);
     return null;
   }
 }
@@ -433,11 +440,15 @@ async function main() {
       doi, url: link, tags: mergedTags, extra,
     });
 
-    ensureDir(dir);
-    fs.writeFileSync(path.join(dir, "index.md"), fm + "\n");
+    try {
+      ensureDir(dir);
+      fs.writeFileSync(path.join(dir, "index.md"), fm + "\n");
 
-    if (it.bibtex) {
-      fs.writeFileSync(path.join(dir, "cite.bib"), it.bibtex.trim() + "\n");
+      if (it.bibtex) {
+        fs.writeFileSync(path.join(dir, "cite.bib"), it.bibtex.trim() + "\n");
+      }
+    } catch (err) {
+      throw new Error(`Failed to write publication "${slug}" (Zotero key ${it.key}): ${err?.message ?? err}`);
     }
     authors.forEach((a) => activeAuthors.set(a.slug, a.display));
     written++;
