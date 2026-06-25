@@ -104,6 +104,7 @@ function GridTile({item, onClick, aspectClass, captionPosition, hoverZoom, sizes
           decoding="async"
           class={`${imgClass} ${hoverImgClass}`}
           onLoad={() => setLoaded(true)}
+          onError={() => setLoaded(true)}
         />
         {showOverlay && (
           <span class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4 pt-12 text-left">
@@ -172,6 +173,7 @@ function MasonryTile({item, onClick, captionPosition, hoverZoom, sizes, lightbox
           decoding="async"
           class={`${imgClass} ${hoverImgClass} absolute inset-0 w-full h-full object-cover`}
           onLoad={() => setLoaded(true)}
+          onError={() => setLoaded(true)}
         />
         {showOverlay && (
           <span class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4 pt-12 text-left">
@@ -242,6 +244,7 @@ function JustifiedTile({item, rowHeight, onClick, captionPosition, hoverZoom, si
           decoding="async"
           class={`${imgClass} ${hoverImgClass}`}
           onLoad={() => setLoaded(true)}
+          onError={() => setLoaded(true)}
         />
         {showOverlay && (
           <span class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4 pt-12 text-left">
@@ -317,6 +320,7 @@ function CarouselTile({item, basisClass, onClick, aspectClass, captionPosition, 
           decoding="async"
           class={`${imgClass} ${hoverImgClass}`}
           onLoad={() => setLoaded(true)}
+          onError={() => setLoaded(true)}
         />
         {showOverlay && (
           <span class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4 pt-12 text-left">
