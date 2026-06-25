@@ -269,7 +269,7 @@ sections:
       items:
         - title: GIS & Remote Sensing Research Associate
           company: University of Florida
-          company_url: "http://www.victoriamdonovan.org/"
+          company_url: "https://www.victoriamdonovan.org/"
           company_logo: ""
           location: Milton, FL
           date_start: "2025-08-01"
@@ -278,7 +278,7 @@ sections:
             * Led GIS-based analysis assessing spatial patterns and land-use impacts on community and regional risk management
         - title: Graduate Research Assistant
           company: University of Florida
-          company_url: "http://www.victoriamdonovan.org/"
+          company_url: "https://www.victoriamdonovan.org/"
           company_logo: ""
           location: Milton, FL
           date_start: "2023-08-01"
