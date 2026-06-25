@@ -37,6 +37,17 @@ node_modules/
 .env.local
 .env.*.local
 
+# Secrets & credentials
+*.pem
+*.key
+*.p12
+*.pfx
+.ssh/
+.aws/
+.gcloud/
+credentials*.json
+service-account*.json
+
 # ============================================================================
 # Generated Content
 # ============================================================================

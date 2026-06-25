@@ -1,6 +1,5 @@
 import fs from "fs";
 import path from "path";
-import fetch from "node-fetch";
 import matter from "gray-matter";
 import { stripHtml } from "./sanitize.js";
 
@@ -114,30 +113,6 @@ const TYPE_MAP = {
   book: "book",
   bookSection: "chapter",
   report: "report",
-};
-
-const fetchWithRetry = async (u, { attempts = 3, delayMs = 1_000 } = {}) => {
-  let lastError;
-  for (let i = 1; i <= attempts; i++) {
-    try {
-      const r = await fetch(u);
-      const body = await r.text();
-      if (r.ok) return body;
-      if (r.status >= 500 && i < attempts) {
-        await new Promise((res) => setTimeout(res, delayMs * i));
-        continue;
-      }
-      throw new Error(`Zotero API error (${r.status})`);
-    } catch (err) {
-      lastError = err;
-      if (i < attempts) {
-        await new Promise((res) => setTimeout(res, delayMs * i));
-        continue;
-      }
-      throw new Error(`Zotero API request failed: ${err?.message ?? err}`);
-    }
-  }
-  throw new Error(`Zotero API error: ${lastError?.message || "Transient failure"}`);
 };
 
 async function fetchAllItems(startUrl) {
