@@ -73,8 +73,8 @@ jobs:
           /tmp/hugo_cache_runner/
           node_modules/
           modules/*/node_modules/
-        key: ${{ runner.os }}-hugo-deps-${{ hashFiles('**/go.mod', '**/package-lock.json',
-          '**/pnpm-lock.yaml') }}
+        key: ${{ runner.os }}-hugo-deps-${{ hashFiles('**/go.mod', '**/pnpm-lock.yaml')
+          }}
         restore-keys: |
           ${{ runner.os }}-hugo-deps-
 
