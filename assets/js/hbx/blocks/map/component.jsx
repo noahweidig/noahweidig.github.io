@@ -56,15 +56,21 @@ function escapeHtml(text) {
     .replace(/"/g, "&quot;");
 }
 
-// Only allow safe link schemes in marker popups. Blocks javascript:, data:, vbscript:, etc.
+// Allow only safe link schemes in marker popups; blocks javascript and data URLs.
+// Implemented with plain string checks (no regex) so the Tailwind source scanner
+// does not misread a regex character class as arbitrary-value class syntax.
 function safeUrl(url) {
   const raw = String(url ?? "").trim();
   if (!raw) return "";
-  // Explicit scheme present: allow only an http/https/mailto/tel allowlist.
-  if (/^[a-z][a-z0-9+.-]*:/i.test(raw)) {
-    return /^(https?|mailto|tel):/i.test(raw) ? raw : "";
+  const lower = raw.toLowerCase();
+  const safePrefixes = ["http://", "https://", "mailto:", "tel:", "/", "#", "."];
+  for (const p of safePrefixes) {
+    if (lower.startsWith(p)) return raw;
   }
-  // No scheme (relative URL, anchor, or path): safe.
+  // A token that declares its own scheme before any path separator is rejected.
+  const colon = lower.indexOf(":");
+  const slash = lower.indexOf("/");
+  if (colon !== -1 && (slash === -1 || colon < slash)) return "";
   return raw;
 }
 
