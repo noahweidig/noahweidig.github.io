@@ -417,7 +417,9 @@ function SlideshowView({items, design, openLightbox, aspectClass, sizes}) {
   const touchStart = useRef({x: 0, y: 0, t: 0});
 
   const autoplay = !!design.autoplay;
-  const interval = Math.max(1000, design.autoplay_interval || 5000);
+  // Clamp to a sane range so a misconfigured value can't make the slideshow
+  // advance frantically or appear frozen for minutes at a time.
+  const interval = Math.min(30000, Math.max(1000, design.autoplay_interval || 5000));
 
   const next = useCallback(() => setIndex((i) => (i + 1) % items.length), [items.length]);
   const prev = useCallback(() => setIndex((i) => (i - 1 + items.length) % items.length), [items.length]);
@@ -679,7 +681,11 @@ function Lightbox({items, index, onClose, onPrev, onNext}) {
           </figcaption>
         )}
         {items.length > 1 && (
-          <div class="absolute -top-10 left-0 text-xs text-gray-300 font-mono">
+          <div
+            class="absolute -top-10 left-0 text-xs text-gray-300 font-mono"
+            aria-live="polite"
+            aria-atomic="true"
+          >
             {index + 1} / {items.length}
           </div>
         )}

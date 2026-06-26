@@ -67,7 +67,7 @@ footer:
       icon: rocket-launch
   - name: Geo Portfolio
     parent: f-work
-    url: "https://noahweidig.com/geo-portfolio"
+    url: "/geo-portfolio"
     weight: 22
     params:
       icon: map

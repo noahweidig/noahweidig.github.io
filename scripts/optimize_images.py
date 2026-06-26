@@ -58,10 +58,19 @@ def _env(name: str, default: str) -> str:
 
 def _parse_ratio(text: str) -> float:
     text = text.strip()
-    if ":" in text:
-        w, h = text.split(":", 1)
-        return float(w) / float(h)
-    return float(text)
+    try:
+        if ":" in text:
+            w, h = text.split(":", 1)
+            w, h = float(w), float(h)
+            if h == 0:
+                raise ValueError("ratio denominator is zero")
+            return w / h
+        value = float(text)
+        if value <= 0:
+            raise ValueError("ratio must be positive")
+        return value
+    except (ValueError, ZeroDivisionError) as exc:
+        raise SystemExit(f"Invalid aspect ratio {text!r}: {exc}")
 
 
 TARGET_RATIO = _parse_ratio(_env("IMG_TARGET_RATIO", "16:9"))

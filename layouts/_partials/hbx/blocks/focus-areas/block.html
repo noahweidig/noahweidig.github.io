@@ -99,6 +99,37 @@
       {{ with index . "publications" }}{{ $publications = strings.TrimSpace (printf "%v" .) }}{{ end }}
       {{ with index . "funding" }}{{ $funding = strings.TrimSpace (printf "%v" .) }}{{ end }}
 
+      {{/* Generic metrics array: [{ icon, value, label }, ...] — first 3 rendered */}}
+      {{ $metrics := slice }}
+      {{ $metrics_raw := index . "metrics" }}
+      {{ if reflect.IsSlice $metrics_raw }}
+        {{ range $metrics_raw }}
+          {{ if reflect.IsMap . }}
+            {{ $m_icon := "" }}
+            {{ $m_value := "" }}
+            {{ $m_label := "" }}
+            {{ with index . "icon" }}{{ $m_icon = printf "%v" . }}{{ end }}
+            {{ with index . "value" }}{{ $m_value = strings.TrimSpace (printf "%v" .) }}{{ end }}
+            {{ with index . "label" }}{{ $m_label = strings.TrimSpace (printf "%v" .) }}{{ end }}
+            {{ if or $m_value $m_label }}
+              {{ $metrics = $metrics | append (dict "icon" $m_icon "value" $m_value "label" $m_label) }}
+            {{ end }}
+          {{ end }}
+        {{ end }}
+      {{ end }}
+      {{/* Backcompat: synthesise from legacy team_size / publications / funding when `metrics` not provided */}}
+      {{ if not $metrics }}
+        {{ if $team_size }}
+          {{ $metrics = $metrics | append (dict "icon" "hero/user-group" "value" (replaceRE " researchers" "" $team_size) "label" "team") }}
+        {{ end }}
+        {{ if $publications }}
+          {{ $metrics = $metrics | append (dict "icon" "hero/document-text" "value" (replaceRE " papers" "" $publications) "label" "papers") }}
+        {{ end }}
+        {{ if $funding }}
+          {{ $metrics = $metrics | append (dict "icon" "hero/currency-dollar" "value" $funding "label" "funding") }}
+        {{ end }}
+      {{ end }}
+
       {{ $cta_raw := index . "cta" }}
       {{ if reflect.IsMap $cta_raw }}
         {{ with index $cta_raw "url" }}{{ $cta_url = strings.TrimSpace (printf "%v" .) }}{{ end }}
@@ -107,7 +138,7 @@
       {{ end }}
 
       {{ if or $name $description }}
-        {{ $items = $items | append (dict "name" $name "description" $description "icon" $icon "image" $image "gradient" $gradient "url" $url "status" $status "topics" $topics "team_size" $team_size "publications" $publications "funding" $funding "cta" (dict "url" $cta_url "text" $cta_text "icon" $cta_icon)) }}
+        {{ $items = $items | append (dict "name" $name "description" $description "icon" $icon "image" $image "gradient" $gradient "url" $url "status" $status "topics" $topics "metrics" $metrics "team_size" $team_size "publications" $publications "funding" $funding "cta" (dict "url" $cta_url "text" $cta_text "icon" $cta_icon)) }}
       {{ end }}
     {{ end }}
   {{ end }}
@@ -158,9 +189,7 @@
       {{ $item_url := index $item "url" }}
       {{ $status := index $item "status" }}
       {{ $topics := index $item "topics" }}
-      {{ $team_size := index $item "team_size" }}
-      {{ $publications := index $item "publications" }}
-      {{ $funding := index $item "funding" }}
+      {{ $metrics := index $item "metrics" }}
       {{ $item_cta := index $item "cta" }}
       {{ $item_cta_url := "" }}
       {{ $item_cta_text := "" }}
@@ -237,7 +266,7 @@
                 {{ $item_cta_link = $item_cta_link | relLangURL }}
               {{ end }}
             {{ else if in (slice "http" "https") $item_cta_scheme }}
-              {{ $item_cta_target = "target=\"_blank\" rel=\"noopener noreferrer\"" }}
+              {{ $item_cta_target = "target=\"_blank\" rel=\"noopener\"" }}
             {{ end }}
           {{ end }}
 
@@ -279,7 +308,7 @@
                     {{ $item_link = $item_link | relLangURL }}
                   {{ end }}
                 {{ else if in (slice "http" "https") $item_scheme }}
-                  {{ $item_target = "target=\"_blank\" rel=\"noopener noreferrer\"" }}
+                  {{ $item_target = "target=\"_blank\" rel=\"noopener\"" }}
                 {{ end }}
                 <a href="{{ $item_link | safeURL }}" {{ $item_target | safeHTMLAttr }} class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
                   {{ $name }}
@@ -313,28 +342,16 @@
             
             {{/* Footer Section - Always at bottom */}}
             <div class="mt-auto">
-              {{/* Stats/Metrics */}}
-              {{ if or $team_size $publications $funding }}
+              {{/* Stats/Metrics — generic icon/value/label, max 3 */}}
+              {{ with $metrics }}
               <div class="grid grid-cols-3 gap-3 pt-4 border-t border-gray-200 dark:border-gray-700 mb-4">
-                {{ with $team_size }}
+                {{ range first 3 . }}
                 <div class="flex flex-col items-center text-center text-gray-500 dark:text-gray-400">
-                  {{ partial "functions/get_icon" (dict "name" "hero/user-group" "attributes" "class=\"w-4 h-4 mx-auto mb-1\"") }}
-                  <span class="text-xs leading-tight">{{ . | replaceRE " researchers" "" }}</span>
-                  <span class="text-xs text-gray-400">team</span>
-                </div>
-                {{ end }}
-                {{ with $publications }}
-                <div class="flex flex-col items-center text-center text-gray-500 dark:text-gray-400">
-                  {{ partial "functions/get_icon" (dict "name" "hero/document-text" "attributes" "class=\"w-4 h-4 mx-auto mb-1\"") }}
-                  <span class="text-xs leading-tight">{{ . | replaceRE " papers" "" }}</span>
-                  <span class="text-xs text-gray-400">papers</span>
-                </div>
-                {{ end }}
-                {{ with $funding }}
-                <div class="flex flex-col items-center text-center text-gray-500 dark:text-gray-400">
-                  {{ partial "functions/get_icon" (dict "name" "hero/currency-dollar" "attributes" "class=\"w-4 h-4 mx-auto mb-1\"") }}
-                  <span class="text-xs leading-tight">{{ . }}</span>
-                  <span class="text-xs text-gray-400">funding</span>
+                  {{ with index . "icon" }}
+                  {{ partial "functions/get_icon" (dict "name" . "attributes" "class=\"w-4 h-4 mx-auto mb-1\"") }}
+                  {{ end }}
+                  {{ with index . "value" }}<span class="text-xs leading-tight">{{ . }}</span>{{ end }}
+                  {{ with index . "label" }}<span class="text-xs text-gray-400">{{ . }}</span>{{ end }}
                 </div>
                 {{ end }}
               </div>
@@ -420,7 +437,7 @@
         {{ $cta_link = $cta_link | relLangURL }}
       {{ end }}
     {{ else if in (slice "http" "https") $cta_scheme }}
-      {{ $cta_target = "target=\"_blank\" rel=\"noopener noreferrer\"" }}
+      {{ $cta_target = "target=\"_blank\" rel=\"noopener\"" }}
     {{ end }}
     <div class="mt-12 text-center">
       <a href="{{ $cta_link | safeURL }}" {{ $cta_target | safeHTMLAttr }}
@@ -435,3 +452,41 @@
   </div>
 </div>
 
+{{/* Custom CSS for Hexagon Layout */}}
+{{ if eq $layout "hexagon" }}
+<style>
+.hexagon-container {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  margin: 30px;
+}
+
+.hexagon {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
+}
+
+.hexagon:hover {
+  transform: scale(1.05);
+}
+
+.hexagon-content {
+  text-align: center;
+  padding: 20px;
+}
+
+@media (max-width: 768px) {
+  .hexagon-container {
+    width: 150px;
+    height: 150px;
+  }
+}
+</style>
+{{ end }}
