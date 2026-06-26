@@ -380,6 +380,13 @@ function tagForType(pubType, itemType) {
 async function main() {
   const items = await fetchAllItems(baseUrl);
 
+  // Guard against an empty/failed API response (e.g. a 200 with no items) wiping the
+  // whole library: the prune steps below delete every publication/author not present
+  // in `items`, so bailing here avoids catastrophic data loss on a transient hiccup.
+  if (!Array.isArray(items) || items.length === 0) {
+    throw new Error("Zotero returned no items; aborting before prune to avoid deleting all publications and authors.");
+  }
+
   ensureDir(pubsDir);
 
   const entries = items
@@ -419,7 +426,17 @@ async function main() {
       || (isThesisType ? (it.data.university || it.data.publisher) : (it.data.place || it.data.publisher))
       || "";
     const abstract = stripHtml(it.data.abstractNote || "");
-    const summary = abstract ? abstract.slice(0, 240) + (abstract.length > 240 ? "…" : "") : "";
+    // Truncate on a word boundary so cards never render a half-word before the ellipsis.
+    let summary = "";
+    if (abstract) {
+      if (abstract.length > 240) {
+        const cut = abstract.slice(0, 240);
+        const lastSpace = cut.lastIndexOf(" ");
+        summary = (lastSpace > 0 ? cut.slice(0, lastSpace) : cut).replace(/[\s.,;:]+$/, "") + "…";
+      } else {
+        summary = abstract;
+      }
+    }
 
     const isWebinar = /\bwebinar\b/i.test([it.data.title, it.data.event, it.data.genre, it.data.presentationType].filter(Boolean).join(" "));
     const isPeerReview = /referee report/i.test(it.data.title || "");
