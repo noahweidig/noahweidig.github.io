@@ -279,7 +279,8 @@ function ensureDir(dir) {
 // superseded by `publication.short_name`, so it is owned (and dropped) by the script.
 const SCRIPT_KEYS = new Set([
   "title", "linkTitle", "date", "slug", "authors",
-  "publication_types", "publication", "publication_short", "abstract", "summary",
+  "publication_types", "publication", "publication_short", "publication_info",
+  "abstract", "summary",
   "doi", "url_source", "hugoblox", "links", "tags",
 ]);
 
@@ -312,9 +313,14 @@ function buildFrontmatter({ key, title, linkTitle, date, authors, publication_ty
   data.slug = key;
   if (authors.length) data.authors = authors.map((a) => a.slug);
   data.publication_types = [publication_types];
-  // Hugoblox expects the structured `publication: {name, short_name, volume, issue,
-  // pages, publisher}` shape; only emit it when there is at least a venue name.
-  if (publication && publication.name) data.publication = publication;
+  if (publication && publication.name) {
+    data.publication = publication.name;
+    const info = {};
+    for (const k of ["short_name", "volume", "issue", "pages", "publisher"]) {
+      if (publication[k]) info[k] = publication[k];
+    }
+    if (Object.keys(info).length) data.publication_info = info;
+  }
   if (abstract) data.abstract = abstract;
   if (summary) data.summary = summary;
   if (doi) data.hugoblox = { ids: { doi } };

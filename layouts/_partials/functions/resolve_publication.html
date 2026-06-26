@@ -1,9 +1,10 @@
 {{- $item := . -}}
-{{- $pub := $item.Params.publication -}}
+{{- $pub := $item.Params.publication | default "" -}}
+{{- $info := $item.Params.publication_info | default dict -}}
 {{- $short := "" -}}
 {{- if reflect.IsMap $pub -}}
-  {{- $short = $pub.short_name | default $pub.name | default "" -}}
+  {{- $short = index $pub "short_name" | default (index $pub "name") | default "" -}}
 {{- else -}}
-  {{- $short = $item.Params.publication_short | default ($pub | default "") -}}
+  {{- $short = $item.Params.publication_short | default (index $info "short_name") | default ($pub | default "") -}}
 {{- end -}}
 {{- return (dict "display_short" $short) -}}
