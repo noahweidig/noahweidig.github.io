@@ -6,7 +6,7 @@ tags:
   - Data Science
 links:
   - type: live
-    url: "https://www.noahweidig.com/wordcloud/"
+    url: "https://noahweidig.com/wordcloud/"
     label: Launch Tool
 featured: true
 image:

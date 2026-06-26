@@ -14,9 +14,6 @@ importers:
       '@tailwindcss/typography':
         specifier: ^0.5.10
         version: 0.5.19(tailwindcss@4.1.18)
-      gray-matter:
-        specifier: ^4.0.3
-        version: 4.0.3
       hugo-extended:
         specifier: ^0.162.1
         version: 0.162.1
@@ -26,12 +23,16 @@ importers:
       preact:
         specifier: ^10.27.2
         version: 10.28.1
-      sanitize-html:
-        specifier: ^2.17.4
-        version: 2.17.4
       tailwindcss:
         specifier: ^4.1.12
         version: 4.1.18
+    devDependencies:
+      gray-matter:
+        specifier: ^4.0.3
+        version: 4.0.3
+      sanitize-html:
+        specifier: ^2.17.4
+        version: 2.17.4
 
 packages:
 

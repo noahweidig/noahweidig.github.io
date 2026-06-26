@@ -1,0 +1,67 @@
+{{- $page := . -}}
+{{- $raw := $page.Params.publication -}}
+{{- $info := $page.Params.publication_info | default dict -}}
+{{- $legacy_short := $page.Params.publication_short -}}
+
+{{- $name := "" -}}
+{{- $short_name := "" -}}
+{{- $volume := "" -}}
+{{- $issue := "" -}}
+{{- $pages := "" -}}
+{{- $publisher := "" -}}
+{{- $is_legacy := false -}}
+{{- $is_empty := false -}}
+
+{{- if reflect.IsMap $raw -}}
+  {{- $name = index $raw "name" | default "" -}}
+  {{- $short_name = index $raw "short_name" | default "" -}}
+  {{- with index $raw "volume" -}}{{- $volume = printf "%v" . -}}{{- end -}}
+  {{- with index $raw "issue" -}}{{- $issue = printf "%v" . -}}{{- end -}}
+  {{- $pages = index $raw "pages" | default "" -}}
+  {{- $publisher = index $raw "publisher" | default "" -}}
+{{- else if $raw -}}
+  {{- $name = $raw -}}
+  {{- $short_name = $legacy_short | default (index $info "short_name") | default "" -}}
+  {{- with index $info "volume" -}}{{- $volume = printf "%v" . -}}{{- end -}}
+  {{- with index $info "issue" -}}{{- $issue = printf "%v" . -}}{{- end -}}
+  {{- $pages = index $info "pages" | default "" -}}
+  {{- $publisher = index $info "publisher" | default "" -}}
+{{- else -}}
+  {{- $is_empty = true -}}
+{{- end -}}
+
+{{- $display := "" -}}
+{{- $display_short := "" -}}
+
+{{- if not $is_empty -}}
+  {{- $core := "" -}}
+  {{- with $name -}}{{- $core = printf "*%s*" . -}}{{- end -}}
+  {{- with $volume -}}{{- $core = printf "%s, %s" $core . -}}{{- end -}}
+  {{- with $issue -}}{{- $core = printf "%s(%s)" $core . -}}{{- end -}}
+  {{- with $pages -}}{{- $core = printf "%s, %s" $core . -}}{{- end -}}
+  {{- $display = $core -}}
+
+  {{- $short_core := "" -}}
+  {{- if $short_name -}}
+    {{- $short_core = printf "*%s*" $short_name -}}
+  {{- else if $name -}}
+    {{- $short_core = printf "*%s*" $name -}}
+  {{- end -}}
+  {{- with $volume -}}{{- $short_core = printf "%s, %s" $short_core . -}}{{- end -}}
+  {{- with $issue -}}{{- $short_core = printf "%s(%s)" $short_core . -}}{{- end -}}
+  {{- with $pages -}}{{- $short_core = printf "%s, %s" $short_core . -}}{{- end -}}
+  {{- $display_short = $short_core -}}
+{{- end -}}
+
+{{- return (dict
+    "name" $name
+    "short_name" $short_name
+    "volume" $volume
+    "issue" $issue
+    "pages" $pages
+    "publisher" $publisher
+    "display" $display
+    "display_short" $display_short
+    "is_legacy" $is_legacy
+    "is_empty" $is_empty
+) -}}
