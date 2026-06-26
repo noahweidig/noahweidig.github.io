@@ -42,6 +42,9 @@ jobs:
   optimize:
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    # Skip automatic runs triggered by the update-pubs bot's commits (publication
+    # syncs touch markdown, not images). Manual dispatch always runs.
+    if: github.event_name == 'workflow_dispatch' || github.actor != 'github-actions[bot]'
     steps:
       - name: Checkout
         uses: actions/checkout@v5
