@@ -1,6 +1,6 @@
 ---
 title: "WUI Wildfire Explorer"
-date: 2026-03-22
+date: "2026-03-22"
 summary: "A GEE App for Visualizing Risk"
 tags:
   - Wildfire

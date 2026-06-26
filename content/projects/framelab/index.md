@@ -1,6 +1,6 @@
 ---
 title: "FrameLab"
-date: 2025-01-10
+date: "2025-01-10"
 summary: "A Tool for Browser Framing"
 tags:
   - Social Media

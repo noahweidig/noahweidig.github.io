@@ -237,7 +237,7 @@
                 {{ $item_cta_link = $item_cta_link | relLangURL }}
               {{ end }}
             {{ else if in (slice "http" "https") $item_cta_scheme }}
-              {{ $item_cta_target = "target=\"_blank\" rel=\"noopener\"" }}
+              {{ $item_cta_target = "target=\"_blank\" rel=\"noopener noreferrer\"" }}
             {{ end }}
           {{ end }}
 
@@ -279,7 +279,7 @@
                     {{ $item_link = $item_link | relLangURL }}
                   {{ end }}
                 {{ else if in (slice "http" "https") $item_scheme }}
-                  {{ $item_target = "target=\"_blank\" rel=\"noopener\"" }}
+                  {{ $item_target = "target=\"_blank\" rel=\"noopener noreferrer\"" }}
                 {{ end }}
                 <a href="{{ $item_link | safeURL }}" {{ $item_target | safeHTMLAttr }} class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
                   {{ $name }}
@@ -420,7 +420,7 @@
         {{ $cta_link = $cta_link | relLangURL }}
       {{ end }}
     {{ else if in (slice "http" "https") $cta_scheme }}
-      {{ $cta_target = "target=\"_blank\" rel=\"noopener\"" }}
+      {{ $cta_target = "target=\"_blank\" rel=\"noopener noreferrer\"" }}
     {{ end }}
     <div class="mt-12 text-center">
       <a href="{{ $cta_link | safeURL }}" {{ $cta_target | safeHTMLAttr }}

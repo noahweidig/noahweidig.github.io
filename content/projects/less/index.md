@@ -1,6 +1,6 @@
 ---
 title: "Less."
-date: 2025-03-13
+date: "2025-03-13"
 summary: "A Personal Exploration of Minimalism"
 tags:
   - Personal

@@ -65,6 +65,8 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+    # Cap the deploy so a stuck deployment can't hold the 'pages' concurrency group indefinitely.
+    timeout-minutes: 10
     steps:
     - name: Deploy to GitHub Pages
       id: deployment

@@ -98,9 +98,9 @@
       {{ if not (hasPrefix $award_link "#") }}
         {{ $award_link = $award_link | relLangURL }}
       {{ end }}
-      {{ if eq (path.Ext $award_link) ".pdf" }}{{ $award_target = "target=\"_blank\" rel=\"noopener\"" }}{{ end }}
+      {{ if eq (path.Ext $award_link) ".pdf" }}{{ $award_target = "target=\"_blank\" rel=\"noopener noreferrer\"" }}{{ end }}
     {{ else if in (slice "http" "https") $scheme }}
-      {{ $award_target = "target=\"_blank\" rel=\"noopener\"" }}
+      {{ $award_target = "target=\"_blank\" rel=\"noopener noreferrer\"" }}
     {{ end }}
   {{ end }}
   {{ if $award_link }}<a href="{{ $award_link | safeURL }}" {{ $award_target | safeHTMLAttr }}>{{ end }}
@@ -151,9 +151,9 @@
     {{ if not (hasPrefix $certificate_link "#") }}
       {{ $certificate_link = $certificate_link | relLangURL }}
     {{ end }}
-    {{ if eq (path.Ext $certificate_link) ".pdf" }}{{ $certificate_target = "target=\"_blank\" rel=\"noopener\"" }}{{ end }}
+    {{ if eq (path.Ext $certificate_link) ".pdf" }}{{ $certificate_target = "target=\"_blank\" rel=\"noopener noreferrer\"" }}{{ end }}
   {{ else if in (slice "http" "https") $certificate_scheme }}
-    {{ $certificate_target = "target=\"_blank\" rel=\"noopener\"" }}
+    {{ $certificate_target = "target=\"_blank\" rel=\"noopener noreferrer\"" }}
   {{ end }}
   <a href="{{ $certificate_link | safeURL }}" {{ $certificate_target | safeHTMLAttr }} class="inline-flex items-center text-primary-600 dark:text-primary-300 hover:underline">
     {{ i18n "see_certificate" | default "See certificate" }}

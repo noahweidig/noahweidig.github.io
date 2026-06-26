@@ -204,9 +204,9 @@
               {{ if not (hasPrefix $button_link "#") }}
                 {{ $button_link = $button_link | relLangURL }}
               {{ end }}
-              {{ if eq (path.Ext $button_link) ".pdf" }}{{ $button_target = "target=\"_blank\" rel=\"noopener\"" }}{{ end }}
+              {{ if eq (path.Ext $button_link) ".pdf" }}{{ $button_target = "target=\"_blank\" rel=\"noopener noreferrer\"" }}{{ end }}
             {{ else if in (slice "http" "https") $button_scheme }}
-              {{ $button_target = "target=\"_blank\" rel=\"noopener\"" }}
+              {{ $button_target = "target=\"_blank\" rel=\"noopener noreferrer\"" }}
             {{ end }}
             <div class="mt-4 pt-4 border-t border-gray-100 dark:border-white/5">
               <a href="{{ $button_link | safeURL }}" {{ $button_target | safeHTMLAttr }} class="inline-flex items-center gap-2 text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-secondary-600 dark:hover:text-secondary-400 transition-colors">

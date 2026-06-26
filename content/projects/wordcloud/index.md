@@ -1,6 +1,6 @@
 ---
 title: "WordCloud Studio"
-date: 2025-01-05
+date: "2025-01-05"
 summary: "Word Cloud Generator"
 tags:
   - Data Science

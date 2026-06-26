@@ -1,6 +1,6 @@
 ---
 title: "Wildfire Risk"
-date: 2025-01-05
+date: "2025-01-05"
 summary: "Wildfire Risk Visualizer by State"
 tags:
   - GIS

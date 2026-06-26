@@ -1,6 +1,6 @@
 ---
 title: "QuickPlot"
-date: 2026-03-25
+date: "2026-03-25"
 summary: "A Shiny App for Data Viz with No Code"
 tags:
   - R
