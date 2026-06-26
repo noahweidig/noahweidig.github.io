@@ -38,8 +38,21 @@ jobs:
 
       - name: Commit changes
         run: |
+          set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add content/publications content/authors data/authors
-          git diff --cached --quiet || git commit -m "Auto-update Zotero publications"
-          git push
+          if git diff --cached --quiet; then
+            echo "No publication changes to commit."
+            exit 0
+          fi
+          git commit -m "Auto-update Zotero publications"
+          # Retry the push so a transient failure doesn't silently drop a biweekly update.
+          for i in 1 2 3 4; do
+            if git push; then
+              echo "pushed"; exit 0
+            fi
+            echo "push failed, retrying in $((2**i))s"; sleep $((2**i))
+            git pull --rebase || true
+          done
+          echo "::error::git push failed after retries"; exit 1
