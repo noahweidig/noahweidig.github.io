@@ -1,0 +1,9 @@
+{{- $item := . -}}
+{{- $pub := $item.Params.publication -}}
+{{- $short := "" -}}
+{{- if reflect.IsMap $pub -}}
+  {{- $short = $pub.short_name | default $pub.name | default "" -}}
+{{- else -}}
+  {{- $short = $item.Params.publication_short | default ($pub | default "") -}}
+{{- end -}}
+{{- return (dict "display_short" $short) -}}
