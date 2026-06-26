@@ -278,13 +278,19 @@
               <img
                 src="{{ $image.RelPermalink }}"
                 alt="{{ $item.Title }}"
+                loading="lazy"
+                decoding="async"
                 class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
               >
             {{ else }}
               {{ $img := $image.Fill "600x400 webp" }}
-              <img 
-                src="{{ $img.RelPermalink }}" 
+              <img
+                src="{{ $img.RelPermalink }}"
                 alt="{{ $item.Title }}"
+                width="{{ $img.Width }}"
+                height="{{ $img.Height }}"
+                loading="lazy"
+                decoding="async"
                 class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
               >
             {{ end }}

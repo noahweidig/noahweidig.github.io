@@ -123,7 +123,8 @@ async function fetchAllItems(startUrl) {
     let res;
     for (let i = 1; i <= 3; i++) {
       try {
-        res = await fetch(url);
+        // Abort a stalled connection so the workflow can't hang indefinitely.
+        res = await fetch(url, { signal: AbortSignal.timeout(30000) });
         if (res.ok) break;
         // Honor 429 rate-limiting (and Zotero's Backoff header) before retrying.
         if ((res.status === 429 || res.status >= 500) && i < 3) {
@@ -140,7 +141,15 @@ async function fetchAllItems(startUrl) {
       }
     }
     if (!res?.ok) throw new Error(`Zotero API error: ${lastErr?.message || "Transient failure"}`);
-    const page = await res.json();
+    let page;
+    try {
+      page = await res.json();
+    } catch (err) {
+      throw new Error(`Zotero API returned a non-JSON response: ${err?.message ?? err}`);
+    }
+    if (!Array.isArray(page)) {
+      throw new Error("Zotero API response was not a JSON array of items.");
+    }
     items.push(...page);
     const link = res.headers.get("link") || "";
     url = link.match(/<([^>]+)>;\s*rel="next"/)?.[1] ?? null;
@@ -162,6 +171,10 @@ const MONTHS = {
 
 const pad2 = (n) => String(n).padStart(2, "0");
 
+// Days in a given month (1-indexed); handles leap years via Date rollover.
+const daysInMonth = (y, m) => new Date(y, m, 0).getDate();
+const clampDay = (y, m, d) => Math.min(Math.max(d, 1), daysInMonth(y, m));
+
 function parseZoteroDate(raw) {
   if (!raw) return null;
   const s = String(raw).trim();
@@ -170,19 +183,19 @@ function parseZoteroDate(raw) {
   let m = s.match(/^(\d{4})-(\d{1,2})(?:-(\d{1,2}))?$/);
   if (m) {
     const y = +m[1], mo = +m[2], d = m[3] ? +m[3] : 1;
-    if (mo >= 1 && mo <= 12) return { y, m: mo, d: d >= 1 && d <= 31 ? d : 1 };
+    if (mo >= 1 && mo <= 12) return { y, m: mo, d: clampDay(y, mo, d) };
   }
 
   m = s.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})$/);
   if (m) {
     const mo = +m[1], d = +m[2], y = +m[3];
-    if (mo >= 1 && mo <= 12) return { y, m: mo, d: d >= 1 && d <= 31 ? d : 1 };
+    if (mo >= 1 && mo <= 12) return { y, m: mo, d: clampDay(y, mo, d) };
   }
 
   m = s.match(/^(\d{4})[\/\-](\d{1,2})[\/\-](\d{1,2})$/);
   if (m) {
     const y = +m[1], mo = +m[2], d = +m[3];
-    if (mo >= 1 && mo <= 12) return { y, m: mo, d: d >= 1 && d <= 31 ? d : 1 };
+    if (mo >= 1 && mo <= 12) return { y, m: mo, d: clampDay(y, mo, d) };
   }
 
   const yearM = s.match(/\b(19|20)\d{2}\b/);
@@ -196,7 +209,7 @@ function parseZoteroDate(raw) {
       const candidate = +dayM[1];
       if (candidate >= 1 && candidate <= 31 && String(candidate) !== String(y)) d = candidate;
     }
-    return { y, m: mo || 1, d: d || 1 };
+    return { y, m: mo || 1, d: clampDay(y, mo || 1, d || 1) };
   }
 
   return null;
