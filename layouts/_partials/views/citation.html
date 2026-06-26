@@ -1,6 +1,13 @@
 {{ $item := .item }}
 {{ $year_value := $item.Params.event_start | default $item.Date }}
-{{ $year := (time $year_value).Format "2006" }}
+{{/* Guard against an invalid/unparseable event_start that would otherwise panic the build. */}}
+{{ $year := "" }}
+{{ $parsed := try (time $year_value) }}
+{{ if $parsed.Err }}
+  {{ $year = $item.Date.Format "2006" }}
+{{ else }}
+  {{ $year = $parsed.Value.Format "2006" }}
+{{ end }}
 {{ $has_attachments := partial "functions/has_attachments" $item }}
 {{ $pub := partial "functions/resolve_publication.html" $item }}
 

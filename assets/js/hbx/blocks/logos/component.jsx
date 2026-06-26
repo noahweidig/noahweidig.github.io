@@ -36,7 +36,7 @@ function renderText(text) {
     .replace(/\*(.*?)\*/g, "<em>$1</em>");
 }
 
-function LogoItem({item, idx, logoStyle, logoSize, icon_svgs, item_images, padY = "py-3"}) {
+function LogoItem({item, idx, logoStyle, logoSize, icon_svgs, item_images, padY = "py-3", ariaHidden = false}) {
   const iconSvg = item.icon ? (icon_svgs?.[item.icon] ?? null) : null;
   const imgData = item_images?.[String(idx)] ?? null;
   const height = HEIGHT[logoSize] ?? HEIGHT.md;
@@ -83,11 +83,18 @@ function LogoItem({item, idx, logoStyle, logoSize, icon_svgs, item_images, padY 
   const cls = `flex items-center justify-center flex-shrink-0 ${slotW} ${padY}`;
 
   return item.url ? (
-    <a href={item.url} class={cls} aria-label={item.name || undefined} {...(isExt ? {target: "_blank", rel: "noopener noreferrer"} : {})}>
+    <a
+      href={item.url}
+      class={cls}
+      aria-label={item.name || undefined}
+      aria-hidden={ariaHidden ? "true" : undefined}
+      tabindex={ariaHidden ? -1 : undefined}
+      {...(isExt ? {target: "_blank", rel: "noopener noreferrer"} : {})}
+    >
       {visual}
     </a>
   ) : (
-    <div class={cls} role="img" aria-label={item.name || undefined}>
+    <div class={cls} role="img" aria-label={item.name || undefined} aria-hidden={ariaHidden ? "true" : undefined}>
       {visual}
     </div>
   );
@@ -141,6 +148,7 @@ function LogoMarquee({items, logoStyle, logoSize, icon_svgs, item_images, speed}
               logoSize={logoSize}
               icon_svgs={icon_svgs}
               item_images={item_images}
+              ariaHidden={i >= items.length}
             />
           ))}
         </div>

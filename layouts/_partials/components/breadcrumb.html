@@ -1,4 +1,4 @@
-<div class="mt-1.5 flex items-center gap-1 overflow-hidden text-sm text-gray-500 dark:text-gray-400">
+<nav aria-label="Breadcrumb" class="mt-1.5 flex items-center gap-1 overflow-hidden text-sm text-gray-500 dark:text-gray-400">
   {{- range .Ancestors.Reverse }}
     {{- if not .IsHome }}
       <div class="whitespace-nowrap transition-colors min-w-[24px] overflow-hidden text-ellipsis hover:text-gray-900 dark:hover:text-gray-100">
@@ -7,7 +7,7 @@
       {{- partial "functions/get_icon.html" (dict "name" "chevron-right" "attributes" "class=\"w-3.5 shrink-0\"") -}}
     {{ end -}}
   {{ end -}}
-  <div class="whitespace-nowrap font-medium text-gray-700 dark:text-gray-100">
+  <div aria-current="page" class="whitespace-nowrap font-medium text-gray-700 dark:text-gray-100">
     {{- $label := .LinkTitle -}}
     {{- if and (eq .Section "publications") (not .IsSection) -}}
       {{- $authors := .Params.authors -}}
@@ -28,4 +28,4 @@
     {{- end -}}
     {{- $label -}}
   </div>
-</div>
+</nav>

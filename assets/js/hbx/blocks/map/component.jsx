@@ -56,6 +56,18 @@ function escapeHtml(text) {
     .replace(/"/g, "&quot;");
 }
 
+// Only allow safe link schemes in marker popups. Blocks javascript:, data:, vbscript:, etc.
+function safeUrl(url) {
+  const raw = String(url ?? "").trim();
+  if (!raw) return "";
+  // Explicit scheme present: allow only an http/https/mailto/tel allowlist.
+  if (/^[a-z][a-z0-9+.-]*:/i.test(raw)) {
+    return /^(https?|mailto|tel):/i.test(raw) ? raw : "";
+  }
+  // No scheme (relative URL, anchor, or path): safe.
+  return raw;
+}
+
 function directionsUrl(location, override) {
   if (override) return override;
   if (location?.lat == null || location?.lng == null) return null;
@@ -81,9 +93,9 @@ function MapCanvas({location, zoom, markers, provider, style, interactive, attri
       if (!lib) {
         if (attempts++ < 60) {
           setTimeout(init, 50);
-        } else {
-          console.warn("[hugoblox/map] MapLibre GL did not load in time");
         }
+        // MapLibre never loaded; leave the styled placeholder container in place
+        // rather than logging a diagnostic to the production browser console.
         return;
       }
 
@@ -134,7 +146,7 @@ function MapCanvas({location, zoom, markers, provider, style, interactive, attri
         const popupHtml = [
           m.title ? `<strong>${escapeHtml(m.title)}</strong>` : "",
           m.description ? `<div class="mt-1 text-sm">${escapeHtml(m.description)}</div>` : "",
-          m.url ? `<div class="mt-2"><a class="text-primary-600 underline" href="${escapeHtml(m.url)}">View details →</a></div>` : "",
+          safeUrl(m.url) ? `<div class="mt-2"><a class="text-primary-600 underline" href="${escapeHtml(safeUrl(m.url))}">View details →</a></div>` : "",
         ]
           .filter(Boolean)
           .join("");
