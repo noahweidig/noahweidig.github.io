@@ -50,6 +50,7 @@ jobs:
     - name: Get Hugo Version
       id: hugo-version
       run: |
+        set -euo pipefail
         # Extract hugo_version from hugoblox.yaml using pure shell (avoids unverified binary download)
         VERSION=$(grep -m1 '^[[:space:]]*hugo_version:' hugoblox.yaml | sed "s/.*hugo_version:[[:space:]]*['\"]//;s/['\"][[:space:]]*$//" || true)
 
@@ -80,6 +81,7 @@ jobs:
 
     - name: Install dependencies
       run: |
+        set -euo pipefail
         # Install Tailwind CLI if package.json exists
         if [ -f "package.json" ]; then
           echo "Installing Tailwind dependencies..."
@@ -118,6 +120,7 @@ jobs:
 
     - name: Verify build output
       run: |
+        set -euo pipefail
         # Fail early with a clear message if Hugo produced no usable site,
         # rather than uploading an empty/broken artifact to Pages.
         if [ ! -s "public/index.html" ]; then

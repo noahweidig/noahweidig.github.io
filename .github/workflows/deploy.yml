@@ -33,6 +33,7 @@ jobs:
     - name: Check deploy host
       id: check
       run: |
+        set -euo pipefail
         # Extract deploy.host from hugoblox.yaml using pure shell (avoids unverified binary download)
         HOST=$(grep -m1 '^[[:space:]]*host:' hugoblox.yaml | sed "s/.*host:[[:space:]]*['\"]//;s/['\"][[:space:]]*$//" || true)
         HOST=${HOST:-github-pages}
