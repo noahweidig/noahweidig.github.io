@@ -15,7 +15,7 @@ publication:
 abstract: >-
   This study characterizes changes in woody vegetation cover across the eastern
   United States from 1990 to 2020 and evaluates its association with the
-  occurrence of large wildfires (i.e., &gt;200 ha (~494 acres)). Although woody
+  occurrence of large wildfires (i.e., >200 ha (~494 acres)). Although woody
   encroachment and canopy infilling have been partially linked to increased
   wildfire risk in the western US and Great Plains, large-scale trends in
   eastern U.S. woody vegetation—and their potential influence on wildfire
@@ -23,7 +23,7 @@ abstract: >-
 summary: >-
   This study characterizes changes in woody vegetation cover across the eastern
   United States from 1990 to 2020 and evaluates its association with the
-  occurrence of large wildfires (i.e., &gt;200 ha (~494 acres)). Although woody
+  occurrence of large wildfires (i.e., >200 ha (~494 acres)). Although woody
   encroachment …
 links:
   - type: source

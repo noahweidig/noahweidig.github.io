@@ -21,7 +21,7 @@ abstract: >-
   country. Wildfires in and near the WUI pose the greatest risk to human life
   and property. However, the spatial relationship between large wildfires and
   the WUI in the eastern U.S., as well as which factors drive these patterns,
-  remains unclear. Using large wildfire (&gt;200 ha) data from 1991 and 2021, we
+  remains unclear. Using large wildfire (>200 ha) data from 1991 and 2021, we
   (1) assessed the spatial relationships of large wildfires relative to the WUI
   and (2) modeled these relationships using a variety of social and
   environmental variables at multiple spatial scales. Specifically, we assessed

@@ -24,7 +24,7 @@ abstract: >-
   greatest, has expanded tremendously over the last three decades. Aims: This
   study aimed to understand how increasing wildfires in the eastern US are
   manifesting in the WUI. We quantified WUI growth and characterised large
-  (&gt;200 ha) wildfire regimes inside and outside the WUI at multiple spatial
+  (>200 ha) wildfire regimes inside and outside the WUI at multiple spatial
   scales across the eastern US between 1986 and 2021. WUI wildfires in the
   eastern US comprised 45% of all large wildfires and 55% of the area burned,
   were on average 46% larger than non-WUI wildfires, and are becoming more

@@ -21,7 +21,7 @@ abstract: >-
   increasing wildfire risk in other US regions. Understanding if and where woody
   cover increases wildfire risk can help direct proactive fuels management. We
   characterize multi-scale changes in woody cover through time and assess the
-  relationship between woody cover and large wildfire (&gt;200 ha) occurrence in
+  relationship between woody cover and large wildfire (>200 ha) occurrence in
   the eastern US between 1990 and 2020. We found a 37% increase in woody cover
   across the eastern US, with increases occurring in every ecoregion. The odds
   of large wildfire increased as woody cover increased in most central and

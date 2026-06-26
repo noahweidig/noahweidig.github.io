@@ -18,7 +18,7 @@ publication:
     Conference
 abstract: >-
   Wildfire risk is changing across the globe. We provide a summary of ongoing
-  investigations into changes in large (&gt;200 ha) wildfire activity across
+  investigations into changes in large (>200 ha) wildfire activity across
   multiple scales in the eastern U.S. and the interacting factors affecting
   wildfire risk. We found shifting wildfire regime characteristics across south
   and central ecoregions in the east that include increasing wildfire number,
@@ -40,7 +40,7 @@ abstract: >-
   resilience to wildfire.
 summary: >-
   Wildfire risk is changing across the globe. We provide a summary of ongoing
-  investigations into changes in large (&gt;200 ha) wildfire activity across
+  investigations into changes in large (>200 ha) wildfire activity across
   multiple scales in the eastern U.S. and the interacting factors affecting
   wildfire risk. …
 links:

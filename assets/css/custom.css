@@ -149,17 +149,12 @@ html:not(.dark) .home-section-bg[style*="--dark-bg-color"] {
   100% { transform: translateX(-50%); }
 }
 
-@keyframes scroll {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-
 .animate-marquee {
   animation: marquee 30s linear infinite;
 }
 
 .animate-scroll {
-  animation: scroll 40s linear infinite;
+  animation: marquee 40s linear infinite;
 }
 
 .animate-marquee:hover,
@@ -262,22 +257,26 @@ html:not(.dark) .home-section-bg[style*="--dark-bg-color"] {
   }
 }
 
-/* Card hover lift animation: applied to both project and research area cards */
-@keyframes card-hover-lift {
-  0% {
-    transform: translateY(0);
-  }
-  100% {
-    transform: translateY(-4px);
-  }
-}
-
+/* Card hover lift: applied to both project and research area cards */
 .card-hover-lift {
   transition: transform 0.3s ease;
 }
 
 .card-hover-lift:hover {
-  animation: card-hover-lift 0.3s ease forwards;
+  transform: translateY(-4px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee,
+  .animate-scroll {
+    animation: none;
+  }
+  .hexagon {
+    transition: none;
+  }
+  .card-hover-lift {
+    transition: none;
+  }
 }
 
 /* Fix hamburger menu wrapping at very narrow widths (~375px) */
