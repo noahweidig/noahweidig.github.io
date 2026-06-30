@@ -12,7 +12,7 @@ links:
 featured: true
 image:
   filename: featured.webp
-  alt: "R Project Template Builder
+  alt: "R Project Template Builder"
 ---
 
 A site for building reproducible R projects in a few clicks. Easy toggles, customizable variables and folders, and tidyverse- and spatial-friendly.
