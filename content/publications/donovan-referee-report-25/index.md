@@ -37,7 +37,7 @@ summary: >-
   This Open Letter by Kalapodis and Sakkas presents a framework for enhancing
   the resilience of forests against the increasing wildfire issue in Europe by
   integrating Integrated Fire Management (IFM) and Closer-to-Nature Forest
-  Management (CT…
+  Management…
 hugoblox:
   ids:
     doi: 10.21956/OPENRESEUROPE.21420.R53295

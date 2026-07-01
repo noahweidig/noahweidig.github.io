@@ -31,8 +31,7 @@ abstract: >-
 summary: >-
   Large wildfires are increasing in the eastern United States, raising concern
   about the risk to human life and property within the wildland-urban interface
-  (WUI), where development and vegetation intermingle. In this webinar, we will
-  explore…
+  (WUI), where development and vegetation intermingle. In this webinar, we will…
 links:
   - type: source
     url: 'https://www.youtube.com/watch?v=HdklLrpJKkM'

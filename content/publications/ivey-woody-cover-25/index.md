@@ -9,7 +9,7 @@ authors:
   - me
   - victoria-m-donovan
 publication_types:
-  - article-magazine
+  - article-newspaper
 publication:
   name: Oak Woodlands & Forests Fire Consortium
 abstract: >-
@@ -24,7 +24,7 @@ summary: >-
   This study characterizes changes in woody vegetation cover across the eastern
   United States from 1990 to 2020 and evaluates its association with the
   occurrence of large wildfires (i.e., &gt;200 ha (~494 acres)). Although woody
-  encroachment …
+  encroachment…
 links:
   - type: source
     url: >-

@@ -37,7 +37,7 @@ summary: >-
   Global change is altering ecosystem structure and function including natural
   disturbance processes like fire that can threaten human communities. We assess
   changes in large (greater than 200 ha) wildfire activity across southeastern
-  U.S. ec…
+  U.S…
 links:
   - type: source
     url: >-

@@ -38,7 +38,7 @@ summary: >-
   Wildfires are increasing in the eastern United States. The wildland-urban
   interface (WUI), which occurs at the intersection between human development
   and wildland vegetative fuels, remains the focus for predicting and mitigating
-  wildfire ri…
+  wildfire…
 links:
   - type: source
     url: 'https://www.ialena.org/program-2024.html'

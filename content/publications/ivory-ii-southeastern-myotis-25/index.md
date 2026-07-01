@@ -35,7 +35,7 @@ summary: >-
   As urbanization continues, animals are increasingly compelled to navigate
   human-altered environments. Here we investigate wildlife use of stormwater
   sewer systems (SSS), a widespread, subterranean environment resulting from
-  urbanization. We…
+  urbanization…
 tags:
   - Presentation
 ---

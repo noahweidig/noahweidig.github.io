@@ -60,7 +60,7 @@ summary: >-
   Aortic valve replacement (AVR) remains the only definitive and efficacious
   treatment for patients with severe aortic stenosis (AS), a common valvular
   abnormality associated with high mortality, frequent hospitalizations, and
-  over $1 billion…
+  over $1…
 tags:
   - Presentation
 ---

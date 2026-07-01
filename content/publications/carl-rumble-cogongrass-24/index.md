@@ -38,8 +38,7 @@ abstract: >-
 summary: >-
   Cogongrass (Imperata cylindrica) is a pervasive invasive plant species across
   the Gulf of Mexico region and listed as the seventh worst weed in the world.
-  Negative impacts to Gulf Coast ecosystems include agricultural disturbances,
-  increase…
+  Negative impacts to Gulf Coast ecosystems include agricultural disturbances…
 links:
   - type: source
     url: >-

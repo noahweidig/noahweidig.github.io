@@ -40,8 +40,8 @@ abstract: >-
 summary: >-
   Woody cover increases in historically open ecosystems are occurring across the
   globe, leading to ecosystem degradation and increased wildfire risk. Tree and
-  shrub cover is increasing in the eastern United States, which historically was
-  domi…
+  shrub cover is increasing in the eastern United States, which historically
+  was…
 links:
   - type: source
     url: >-

@@ -43,8 +43,7 @@ abstract: >-
 summary: >-
   Trees and shrubs are expanding into historically open ecosystems across the
   globe, threatening ecological function and ecosystem services. Across much of
-  the eastern U.S., increasing woody cover has been associated with ecological
-  degradati…
+  the eastern U.S., increasing woody cover has been associated with ecological…
 hugoblox:
   ids:
     doi: 10.1016/j.foreco.2025.123446

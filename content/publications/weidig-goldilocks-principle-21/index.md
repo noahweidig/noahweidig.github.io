@@ -31,7 +31,7 @@ summary: >-
   Females of container-breeding mosquito species use visual and chemical cues to
   determine suitable habitats to oviposit their eggs. Female Culex mosquitoes
   oviposit single egg rafts containing hundreds of eggs on the surface of water
-  in cont…
+  in…
 tags:
   - Presentation
 ---

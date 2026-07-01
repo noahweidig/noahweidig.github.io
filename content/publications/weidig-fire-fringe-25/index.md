@@ -47,7 +47,7 @@ summary: >-
   Large wildfires are increasing in the eastern U.S., which contains the
   greatest amount of wildland-urban interface (WUI) compared to the rest of the
   country. Wildfires in and near the WUI pose the greatest risk to human life
-  and property. H…
+  and property…
 tags:
   - Presentation
 ---

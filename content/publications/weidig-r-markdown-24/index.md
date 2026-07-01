@@ -23,7 +23,7 @@ summary: >-
   This talk covers the fundamentals of using R Markdown to create reproducible
   workflows that seamlessly integrate code, results, and narrative. It will
   demonstrate how R Markdown enables efficient documentation and sharing of data
-  analyses b…
+  analyses…
 tags:
   - Presentation
 ---

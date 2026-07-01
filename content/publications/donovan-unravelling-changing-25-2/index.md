@@ -42,7 +42,7 @@ summary: >-
   Wildfire risk is changing across the globe. We provide a summary of ongoing
   investigations into changes in large (&gt;200 ha) wildfire activity across
   multiple scales in the eastern U.S. and the interacting factors affecting
-  wildfire risk. …
+  wildfire risk…
 links:
   - type: source
     url: >-

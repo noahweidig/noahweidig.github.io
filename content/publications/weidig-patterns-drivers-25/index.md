@@ -38,7 +38,7 @@ summary: >-
   The recent increase in large wildfires in the eastern United States makes it
   crucial to examine the subsequent risk to human life and property. In the
   East, the wildland-urban interface (WUI), where wildfire risk is greatest, has
-  expanded t…
+  expanded…
 tags:
   - Thesis
 ---

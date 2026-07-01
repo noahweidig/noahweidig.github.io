@@ -27,7 +27,7 @@ summary: >-
   Dr. Donovan discussed her research on changing wildfire dynamics in the
   eastern U.S., highlighting trends of increasing wildfire size, frequency, and
   shifts in seasonality. She also explored how rising woody cover and
-  climate-woody cover in…
+  climate-woody cover…
 tags:
   - Presentation
 ---

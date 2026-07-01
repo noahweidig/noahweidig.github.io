@@ -21,7 +21,7 @@ summary: >-
   Often considered more a problem for Western North America, wildfires are
   becoming more intense, frequent and damaging in the East, such as this week’s
   blaze that destroyed dozens of homes in Georgia, fire scientists said.
-  Researchers blame …
+  Researchers blame…
 links:
   - type: source
     url: >-
