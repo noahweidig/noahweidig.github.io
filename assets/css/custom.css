@@ -357,5 +357,22 @@ html:not(.dark) .home-section-bg[style*="--dark-bg-color"] {
   #site-header.header:has(#nav-toggle:checked) {
     box-shadow: none;
   }
+
+  /* iOS Safari fix: force the open mobile menu closed. Real iOS Safari does not
+     reliably re-evaluate the `#nav-toggle:checked ~ #nav-menu` sibling selector
+     when the (display:none) checkbox is unchecked from JS, so the drop-down stayed
+     visibly open until a second tap happened to force a repaint (the WebKit
+     checkbox-hack repaint bug, cf. twbs/bootstrap#33481). The body-end
+     `mobile-menu` hook adds this class whenever it closes the menu programmatically
+     (a nav item is tapped, or the user taps outside the open menu): a classList
+     change forces the repaint immediately, and `display:none !important` wins over
+     the theme's `:checked ~ #nav-menu{display:block}` reveal regardless of the
+     stale selector state. The hook removes the class again whenever the checkbox is
+     genuinely re-checked (hamburger reopened), so reopening is unaffected. Scoped
+     below lg (1024px) like the rest of the hamburger styling, so the
+     always-visible desktop nav is never touched. */
+  #nav-menu.hb-menu-force-closed {
+    display: none !important;
+  }
 }
 
