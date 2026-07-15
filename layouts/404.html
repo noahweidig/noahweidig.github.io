@@ -1,0 +1,5 @@
+{{ define "main" }}
+  {{ range .Params.sections }}
+    {{ partial (printf "blocks/%s" .block) . }}
+  {{ end }}
+{{ end }}

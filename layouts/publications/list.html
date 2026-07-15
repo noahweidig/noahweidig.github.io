@@ -1,0 +1,80 @@
+{{ define "main" }}
+
+<div class="max-w-prose mx-auto flex justify-center">
+  <article class="prose prose-slate lg:prose-xl dark:prose-invert">
+    <h1 class="lg:text-6xl">{{ .Title }}</h1>
+    {{ .Content }}
+  </article>
+</div>
+
+{{ $view := .Params.view | default "citation" }}
+{{ $config := dict }}
+
+{{ $pages := .Pages.ByDate.Reverse }}
+
+{{ $media_types := slice "article-magazine" "article-newspaper" "post-weblog" "webpage" }}
+
+{{ $journal := slice }}
+{{ $thesis := slice }}
+{{ $presentations := slice }}
+{{ $webinars := slice }}
+{{ $peer_reviews := slice }}
+{{ $media := slice }}
+{{ $manuscripts := slice }}
+{{ $reports := slice }}
+{{ $books := slice }}
+
+{{ range $pages }}
+  {{ $pt := index (.Params.publication_types | default (slice "")) 0 }}
+  {{ $tags := .Params.tags | default slice }}
+  {{ $is_webinar := in $tags "Webinar" }}
+  {{ $is_peer_review := or (in $tags "Peer Review") (findRE "(?i)referee report" (.Title | default "")) }}
+  {{ if $is_webinar }}
+    {{ $webinars = $webinars | append . }}
+  {{ else if $is_peer_review }}
+    {{ $peer_reviews = $peer_reviews | append . }}
+  {{ else if eq $pt "article-journal" }}
+    {{ $journal = $journal | append . }}
+  {{ else if eq $pt "thesis" }}
+    {{ $thesis = $thesis | append . }}
+  {{ else if eq $pt "paper-conference" }}
+    {{ $presentations = $presentations | append . }}
+  {{ else if in $media_types $pt }}
+    {{ $media = $media | append . }}
+  {{ else if eq $pt "manuscript" }}
+    {{ $manuscripts = $manuscripts | append . }}
+  {{ else if eq $pt "report" }}
+    {{ $reports = $reports | append . }}
+  {{ else if or (eq $pt "book") (eq $pt "chapter") }}
+    {{ $books = $books | append . }}
+  {{ end }}
+{{ end }}
+
+{{ $sections := slice
+  (dict "title" "Journal Articles" "items" $journal)
+  (dict "title" "Thesis" "items" $thesis)
+  (dict "title" "Presentations" "items" $presentations)
+  (dict "title" "Webinars" "items" $webinars)
+  (dict "title" "Peer Reviews" "items" $peer_reviews)
+  (dict "title" "Preprints & Manuscripts" "items" $manuscripts)
+  (dict "title" "Reports" "items" $reports)
+  (dict "title" "Books & Chapters" "items" $books)
+  (dict "title" "Media Coverage" "items" $media)
+}}
+
+<div class="flex flex-col items-center">
+  {{ range $sections }}
+    {{ if .items }}
+      <div class="mt-8 container max-w-3xl w-full">
+        <h2 class="text-3xl font-bold tracking-tight text-center text-zinc-800 dark:text-zinc-100 mb-0 leading-tight">{{ .title }}</h2>
+      </div>
+      {{ partial "functions/render_view" (dict "fragment" "start" "page" $ "item" . "view" $view "config" $config) }}
+      {{ range $index, $item := .items }}
+        {{ partial "functions/render_view" (dict "page" . "item" . "view" $view "index" $index "config" $config) }}
+      {{ end }}
+      {{ partial "functions/render_view" (dict "fragment" "end" "page" $ "item" . "view" $view) }}
+    {{ end }}
+  {{ end }}
+</div>
+
+{{ end }}
