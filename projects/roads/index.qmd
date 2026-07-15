@@ -1,0 +1,16 @@
+---
+title: TIGER Roads
+date: '2026-03-21'
+description: US Census TIGER Roads in GEE
+categories:
+- GIS
+- Google Earth Engine
+- Geospatial
+image: featured.webp
+image-alt: TIGER Roads dataset visualization in Google Earth Engine
+featured: true
+---
+
+[View Catalog](https://gee-community-catalog.org/projects/tiger_roads/){.nw-btn .nw-btn-primary target="_blank"}
+
+The U.S. Census TIGER roads dataset made accessible in Google Earth Engine for large-scale geospatial analysis. Analyze road networks, transportation patterns, and infrastructure across the entire United States.

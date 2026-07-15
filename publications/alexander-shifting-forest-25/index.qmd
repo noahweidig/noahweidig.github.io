@@ -1,0 +1,14 @@
+---
+title: "Shifting forest structure and composition following decades of fire exclusion in the eastern U.S.: Implications for prescribed fire restoration and wildfires"
+date: "2025-06-01"
+categories: ["Presentation"]
+pub-authors: "Alexander, H. D., Donovan, V. M., Lamounier Moura, A., Lazzaro, L. G., **Weidig, N. C.** & Ivey, M. A."
+pub-venue: "Proceedings of the 4th fire ecology and management symposium (FES-412)"
+pub-details: "vol. 4"
+---
+
+::: {.nw-cite-meta}
+Alexander, H. D., Donovan, V. M., Lamounier Moura, A., Lazzaro, L. G., **Weidig, N. C.** & Ivey, M. A. (2025). *Proceedings of the 4th fire ecology and management symposium (FES-412)*, vol. 4.
+:::
+
+[BibTeX](cite.bib){.nw-btn .nw-btn-ghost}

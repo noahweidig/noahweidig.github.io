@@ -1,3 +1,0 @@
----
-title: "Kody M. Brock"
----

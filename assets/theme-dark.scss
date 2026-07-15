@@ -1,0 +1,31 @@
+/*-- scss:defaults --*/
+
+$body-bg: #0a0a0f;
+$body-color: #e5e7eb;
+$navbar-bg: rgba(10, 10, 15, 0.85);
+$navbar-fg: #e5e7eb;
+$footer-bg: #0d0d12;
+$card-bg: #13131a;
+$input-bg: #13131a;
+
+/*-- scss:rules --*/
+
+:root {
+  --nw-bg: #0a0a0f;
+  --nw-bg-alt: #0d0d12;
+  --nw-fg: #e5e7eb;
+  --nw-muted: #9ca3af;
+  --nw-card: #13131a;
+  --nw-border: #26262f;
+  --nw-chip: #1d1d26;
+  --nw-hero-glow: rgba(99, 102, 241, 0.18);
+  --nw-cta-from: #4f46e5;
+  --nw-cta-via: #4338ca;
+  --nw-cta-to: #7e22ce;
+  --nw-cta-fg: #f5f3ff;
+}
+
+/* white logos pop on dark; keep institution marks legible */
+.nw-marquee-track img {
+  filter: brightness(0) invert(0.85);
+}

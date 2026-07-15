@@ -1,0 +1,15 @@
+---
+title: MapLab
+date: '2026-03-24'
+description: A Simple GIS Software for Non-GIS Users
+categories:
+- GIS
+- Geospatial
+image: featured.webp
+image-alt: MapLab interface for basic geospatial analysis and mapping
+featured: true
+---
+
+[Launch Tool](https://noahweidig.com/maplab){.nw-btn .nw-btn-primary target="_blank"}
+
+An intuitive mapping tool for performing geospatial analysis without GIS expertise. Upload GeoJSON or shapefiles to create interactive maps and explore spatial relationships.

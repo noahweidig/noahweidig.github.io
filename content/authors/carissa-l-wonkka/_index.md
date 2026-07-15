@@ -1,3 +1,0 @@
----
-title: "Carissa L. Wonkka"
----

@@ -1,3 +1,0 @@
----
-title: "Brett R. Scheffers"
----
