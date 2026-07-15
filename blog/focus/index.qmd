@@ -1,0 +1,12 @@
+---
+title: Beauty, Wonder, and the Natural World
+date: '2026-04-28'
+description: How getting outside expands our understanding of the world
+categories:
+- Thoughts
+draft: true
+---
+
+# Touching Trees
+
+As an ecologist, I often think about natural systems and how they operate at various scales. I explore various opinions and theories about how the world works. But as a GIS specialist, I'm typically stuck behind a computer, hypothesizing, guessing, and Googling.

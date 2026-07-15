@@ -1,0 +1,19 @@
+---
+title: "Woody Cover Fuels Large Wildfire Risk in the Eastern U.S."
+date: "2025-08-01"
+description: "This study characterizes changes in woody vegetation cover across the eastern United States from 1990 to 2020 and evaluates its association with the occurrence of large wildfires (i.e., >200 ha (~494 acres)). Although woody encroachment…"
+categories: ["Media Coverage"]
+pub-authors: "Ivey, M. A., Wonkka, C. L., **Weidig, N. C.** & Donovan, V. M."
+pub-venue: "Oak Woodlands & Forests Fire Consortium"
+pub-url: "https://oakfirescience.com/research-brief/woody-cover-fuels-large-wildfire-risk-in-the-eastern-u-s/"
+---
+
+::: {.nw-cite-meta}
+Ivey, M. A., Wonkka, C. L., **Weidig, N. C.** & Donovan, V. M. (2025). *Oak Woodlands & Forests Fire Consortium*.
+:::
+
+[Source](https://oakfirescience.com/research-brief/woody-cover-fuels-large-wildfire-risk-in-the-eastern-u-s/){.nw-btn .nw-btn-primary target="_blank"} [BibTeX](cite.bib){.nw-btn .nw-btn-ghost}
+
+## Abstract
+
+This study characterizes changes in woody vegetation cover across the eastern United States from 1990 to 2020 and evaluates its association with the occurrence of large wildfires (i.e., >200 ha (~494 acres)). Although woody encroachment and canopy infilling have been partially linked to increased wildfire risk in the western US and Great Plains, large-scale trends in eastern U.S. woody vegetation—and their potential influence on wildfire risk—remain less well understood.

@@ -1,0 +1,13 @@
+<div class="nw-carousel">
+<% for (const item of items) { %>
+<a class="nw-award" href="<%- item.path %>">
+<figure>
+<% if (item.image) { %><img src="<%- item.image %>" alt="<%= item.title %>" loading="lazy"><% } %>
+<figcaption>
+<b><%= item.title %></b>
+<span><%= item.description || '' %></span>
+</figcaption>
+</figure>
+</a>
+<% } %>
+</div>

@@ -1,0 +1,9 @@
+/* Minor fixes that don't belong in the SCSS theme layers */
+html {
+  scroll-behavior: smooth;
+}
+
+/* full-bleed landing page: quarto's custom layout wrapper */
+.page-layout-custom main {
+  padding: 0;
+}

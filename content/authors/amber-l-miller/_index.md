@@ -1,3 +1,0 @@
----
-title: "Amber L. Miller"
----

@@ -1,0 +1,17 @@
+---
+pagetitle: "Page Not Found"
+page-layout: custom
+toc: false
+---
+
+```{=html}
+<section class="nw-section" style="padding-top:7rem">
+  <div class="nw-section-inner">
+    <div class="nw-cta-card">
+      <h2>404 — Page Not Found</h2>
+      <p>The page you're looking for doesn't exist or has been moved.</p>
+      <div class="nw-btns"><a class="nw-btn nw-btn-primary" href="/">Go Home</a></div>
+    </div>
+  </div>
+</section>
+```

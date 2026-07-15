@@ -1,0 +1,16 @@
+---
+title: FastStats
+date: '2026-06-23'
+description: Fast, Client-side Analytics
+categories:
+- R
+- Data Visualization
+- plotly
+image: featured.webp
+image-alt: FastStats browser-based analytics tool with data visualizations
+featured: true
+---
+
+[Open Tool](https://noahweidig.com/faststats/){.nw-btn .nw-btn-primary target="_blank"}
+
+A lightweight, browser-based analytics tool for quickly exploring datasets with interactive visualizations and summary statistics—no installation required.

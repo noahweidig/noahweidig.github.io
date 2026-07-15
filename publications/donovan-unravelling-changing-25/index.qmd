@@ -1,0 +1,18 @@
+---
+title: "Unravelling changing wildfire regime dynamics in the eastern United States"
+date: "2025-04-01"
+description: "Dr. Donovan discussed her research on changing wildfire dynamics in the eastern U.S., highlighting trends of increasing wildfire size, frequency, and shifts in seasonality. She also explored how rising woody cover and climate-woody cover…"
+categories: ["Presentation"]
+pub-authors: "Donovan, V. M., Crandall, R. M., Fill, J. M., Ivey, M. A., Ivory II, A. A., **Weidig, N. C.** & Wonkka, C. L."
+pub-venue: "Auburn University College of Forest, Wildlife and Environment Invited Seminar"
+---
+
+::: {.nw-cite-meta}
+Donovan, V. M., Crandall, R. M., Fill, J. M., Ivey, M. A., Ivory II, A. A., **Weidig, N. C.** & Wonkka, C. L. (2025). *Auburn University College of Forest, Wildlife and Environment Invited Seminar*.
+:::
+
+[BibTeX](cite.bib){.nw-btn .nw-btn-ghost}
+
+## Abstract
+
+Dr. Donovan discussed her research on changing wildfire dynamics in the eastern U.S., highlighting trends of increasing wildfire size, frequency, and shifts in seasonality. She also explored how rising woody cover and climate-woody cover interactions contribute to wildfire risk. Her findings are crucial for improving wildfire risk management strategies.
