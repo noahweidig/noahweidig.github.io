@@ -1,0 +1,58 @@
+name: Update Zotero
+
+on:
+  schedule:
+    # Twice a month on fixed dates (1st and 15th) for predictable, regular runs.
+    # `*/14` on day-of-month produces irregular 3–17 day gaps at month boundaries.
+    - cron: "0 0 1,15 * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-pubs-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v5
+        with:
+          run_install: false
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Fetch Zotero publications
+        run: node scripts/update-pubs.js
+
+      - name: Commit changes
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add content/publications content/authors data/authors
+          if git diff --cached --quiet; then
+            echo "No publication changes to commit."
+            exit 0
+          fi
+          git commit -m "Auto-update Zotero publications"
+          # Retry the push so a transient failure doesn't silently drop a biweekly update.
+          for i in 1 2 3 4; do
+            if git push; then
+              echo "pushed"; exit 0
+            fi
+            echo "push failed, retrying in $((2**i))s"; sleep $((2**i))
+            git pull --rebase || true
+          done
+          echo "::error::git push failed after retries"; exit 1

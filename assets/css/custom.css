@@ -1,0 +1,599 @@
+/* Make the navbar logo slightly larger and add more spacing between it and the name */
+.navbar-brand svg {
+  height: 1.6em;
+  margin-right: 0.5em;
+}
+
+/* Glassmorphic (semi-transparent + blurred) navbar.
+   IMPORTANT: HugoBlox paints the header background on `#site-header.header`
+   (the element carries `py-3 shadow` plus `background-color: var(--hb-color-header-bg)`),
+   NOT on the inner `.navbar` flex row, which has no background of its own.
+   Earlier attempts styled `.navbar`, so the padded `#site-header` stayed opaque
+   around it and only the navbar's height became translucent -> the "horizontal
+   stripe through the middle". Overriding the real background-bearing element
+   fixes that. The `.page-header` wrapper is `sticky top-0 z-30` (header.sticky:
+   true), so the header overlays scrolling content and the backdrop blur has
+   something to blur. The tint is derived from the existing theme variable via
+   color-mix, so it stays correct in both light and dark modes automatically.
+
+   The glass is painted on a `::before` layer rather than on `#site-header`
+   itself. Per the CSS backdrop spec, an element with `backdrop-filter` resets
+   the "backdrop root" for its descendants, so a `backdrop-filter` on a child is
+   neutralised (it samples the empty header layer, not the page). The open mobile
+   drop-down (`#nav-menu`) is a descendant of `#site-header`; keeping the blur on
+   a sibling pseudo-element instead leaves `#site-header` filter-free, so the
+   drop-down below can run its OWN identical blur against the page (see the
+   mobile rule further down). The `::before` covers only the header bar's box, so
+   the bar and the open menu read as one continuous glass surface. */
+#site-header.header {
+  position: relative;
+  background-color: transparent;
+}
+#site-header.header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-color: color-mix(in srgb, var(--hb-color-header-bg) 70%, transparent);
+  -webkit-backdrop-filter: saturate(180%) blur(12px);
+  backdrop-filter: saturate(180%) blur(12px);
+}
+
+/* Fix dark mode contrast for tech stack icons (LaTeX, Markdown, Bash) */
+.dark #skills svg {
+  fill: currentColor;
+}
+.dark #skills svg path[fill="#293138"] {
+  fill: #d4d4d4;
+}
+
+/* Fix: Ensure light mode background is actually light */
+html,
+body {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+/* Ensure dark mode persists */
+.dark body,
+html.dark {
+  background-color: #0d0d12;
+  color: #ffffff;
+}
+
+/* Fix: section backgrounds stayed black in light mode on OS-dark machines.
+   HugoBlox's safelist.css paints each section's dark background via
+   `@media (prefers-color-scheme: dark) .home-section-bg[style*="--dark-bg-color"]`,
+   which keys off the OS color scheme and ignores the site's manual theme toggle.
+   So with the OS in dark mode, switching the site to light left every section
+   (hero included) painted with its --dark-bg-color. The site toggles light/dark
+   via the `.dark` class on <html>, so re-assert a white background whenever the
+   site is explicitly in light mode (html WITHOUT .dark). Higher specificity than
+   the media-query rule plus !important wins; in dark mode this selector never
+   matches, so the theme's dark backgrounds are untouched. */
+html:not(.dark) .home-section-bg[style*="--dark-bg-color"] {
+  background-color: #ffffff !important;
+}
+
+/* Dark mode: make the CTA card body text fully white and bold.
+   The cta-card is a Preact block; its text node renders with
+   `dark:text-white/80 font-light` (thin, 80% opacity) on the dark
+   gradient. `.font-light` is the block's text div hook. */
+.dark [data-block-type="cta-card"] .font-light {
+  color: #fff;
+  font-weight: 700;
+}
+
+/* Prevent the navbar from wrapping at desktop widths. The blox .navbar is
+   `flex-wrap` so the open hamburger dropdown (w-full) can drop to its own line
+   below lg; at lg+ that wrap instead pushes the search/theme/CTA controls onto
+   a second row. Force nowrap at the lg breakpoint (1024px) where the desktop
+   nav is active, so items stay inline and only collapse to the hamburger below it. */
+@media (min-width: 1024px) {
+  .navbar {
+    flex-wrap: nowrap;
+  }
+}
+
+/* Keep the brand title and CTA button text on a single line at desktop widths.
+   Just above the lg breakpoint (~1028px) the navbar gets cramped and the
+   `.navbar-brand` title "Noah Weidig" and the CTA arrow wrap. Forcing nowrap
+   keeps them inline; widths below lg (1024px) still collapse to the hamburger. */
+.navbar-brand,
+.navbar .order-1 > a {
+  white-space: nowrap;
+}
+
+.navbar .order-1 > a {
+  border-radius: 9999px;
+}
+
+/* Never let the brand column shrink. The brand's wrapper div is a plain flex
+   item, and because the logo SVG inside it is `max-w-full` (squeezable), the
+   item's min-content is SMALLER than the nowrap "Noah Weidig" text forced
+   above — so when the navbar gets tight the wrapper shrinks and the title
+   overflows underneath the nav menu, which starts flush at the wrapper's
+   (too-early) right edge. Pinning the wrapper to its natural width means the
+   menu can never start before the title ends; any deficit is absorbed by the
+   menu/controls instead. */
+.navbar > .order-0 {
+  flex-shrink: 0;
+}
+
+/* Single-page (projects/posts) layout between lg (1024px) and xl (1280px):
+   single.html flanks the <article> with a 256px left spacer
+   (`aside.hb-sidebar-container` carrying `lg:hidden xl:block`) and a 256px
+   right TOC (`nav.hb-toc`, `hidden xl:block`) so the content column is
+   centered at xl+. The theme means BOTH columns to disappear below xl, but
+   the component rule `.hb-sidebar-container { @apply flex ... }` is
+   UNLAYERED, so it out-cascades the layered `lg:hidden` utility — the
+   invisible spacer stays in flow at lg–xl with no TOC to balance it, shoving
+   the article 256px right of center. Re-hide the spacer in that band (this
+   unlayered rule has higher specificity, so it wins; the `.lg\:hidden` guard
+   keeps real docs sidebars, which use `lg:sticky` instead, untouched), and
+   cap <main> at the same 48rem it gets at xl+ (article is justify-center) so
+   these widths render the identical centered column instead of a full-width,
+   left-ragged one. */
+@media (min-width: 1024px) and (max-width: 1279.98px) {
+  aside.hb-sidebar-container.lg\:hidden {
+    display: none;
+  }
+  .hb-toc + article > main {
+    max-width: 48rem;
+  }
+}
+
+/* Research-areas block: hexagon layout variant */
+.hexagon-container {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  margin: 30px;
+}
+
+.hexagon {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
+}
+
+.hexagon:hover {
+  transform: scale(1.05);
+}
+
+.hexagon-content {
+  text-align: center;
+  padding: 20px;
+}
+
+@media (max-width: 768px) {
+  .hexagon-container {
+    width: 150px;
+    height: 150px;
+  }
+}
+
+/* Logos block: marquee/scroll animations used by the logos block template */
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+}
+
+.animate-scroll {
+  animation: scroll 40s linear infinite;
+}
+
+.animate-marquee:hover,
+.animate-scroll:hover {
+  animation-play-state: paused;
+}
+
+/* Logos block (affiliations): the source SVG logos are dark monochrome artwork,
+   tuned for light mode via the theme's `grayscale` filter. In dark mode that leaves
+   them near-invisible (dark-on-dark), and the site defaults to dark, so invert them
+   to render light-on-dark while keeping the muted, monochrome treatment. Light mode
+   is left untouched (this rule is .dark-scoped). */
+.dark .logos-block-container img {
+  filter: brightness(0) invert(1);
+  opacity: 0.65;
+  transition: opacity 0.3s ease;
+}
+.dark .logos-block-container a:hover img {
+  opacity: 1;
+}
+
+/* Footer topographic background. The site's site_footer.html override
+   (layouts/_partials/site_footer.html) publishes assets/media/topography.svg
+   and passes its URL in via the --footer-topo-url custom property; painting
+   happens here. The class sits on the OUTERMOST footer element — full
+   viewport width, wrapping both the footer columns and the attribution line —
+   rather than on the columns component, so the pattern reaches the screen
+   edges on desktop and fills the page bottom behind the attribution. The SVG
+   is used as a MASK on a ::before layer rather than as a background-image so
+   a single black-fill asset adapts to both themes: the layer's plain
+   background-color shows through the mask, so light mode gets dark lines and
+   dark mode (.dark override below) gets light ones — the footer's actual
+   background color underneath is untouched. The layer is absolutely
+   positioned over the whole <footer> (inset: 0), so the pattern spans the
+   full footer width edge to edge and tiles to any height; `z-index: -1`
+   inside the footer's own stacking context (z-index: 0 below) slides it
+   between the footer's background and its content, and pointer-events: none
+   keeps the footer's links and buttons clickable through it. */
+.footer-topo {
+  position: relative;
+  z-index: 0;
+}
+.footer-topo::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-color: rgb(0 0 0 / 0.06);
+  -webkit-mask-image: var(--footer-topo-url);
+  mask-image: var(--footer-topo-url);
+  -webkit-mask-repeat: repeat;
+  mask-repeat: repeat;
+  /* The source pattern is a 600x600 seamless tile. */
+  -webkit-mask-size: 600px auto;
+  mask-size: 600px auto;
+}
+/* Light lines on the dark theme; slightly stronger alpha because light-on-dark
+   reads fainter at equal opacity. */
+.dark .footer-topo::before {
+  background-color: rgb(255 255 255 / 0.08);
+}
+/* Scale the tile down on phones so the contour detail stays legible instead of
+   showing one oversized partial tile. */
+@media (max-width: 640px) {
+  .footer-topo::before {
+    -webkit-mask-size: 400px auto;
+    mask-size: 400px auto;
+  }
+}
+
+/* FAQ block: dark-theme surfaces + icon alignment.
+   The FAQ is one of HugoBlox's Preact blocks (blox module `blox/faq/
+   component.jsx`, hydrated into `[data-block-type="faq"]`), so its markup
+   isn't a site template we can edit — custom.css is the customization point,
+   same as the cta-card and stats overrides above. Two problems with the
+   bundled styling on this site:
+
+   1. Dark surfaces: the component paints the accordion card `dark:bg-gray-800`
+      with a `dark:ring-gray-700` ring — a light slate that clashes with the
+      site's near-black `#0d0d12` sections. Restyle it with the same subtle
+      white-alpha surface treatment the stats cards use (bg white/3%, border
+      white/8%) so all cards on the page read as one family. Light mode is
+      untouched (rules are .dark-scoped).
+
+   2. Alignment: the question row is a flex `items-start` button and the +/×
+      circle carries `mt-0.5`, so the question text's center sits a few px
+      above the icon's center. Center-align the row and drop the icon nudge
+      (applies in both themes).
+
+   Selector notes: `.ring-1` is the accordion card (the only ring in the
+   block); its direct children are the per-item rows whose dividers are the
+   `dark:border-gray-700` borders; `button[aria-expanded]` is the question
+   row; `.rounded-full` inside it is the +/× circle. These unlayered rules win
+   over Tailwind's layered utilities. */
+[data-block-type="faq"] button[aria-expanded] {
+  align-items: center;
+}
+[data-block-type="faq"] button[aria-expanded] .rounded-full {
+  margin-top: 0;
+}
+.dark [data-block-type="faq"] .ring-1 {
+  background-color: rgba(255, 255, 255, 0.03);
+  --tw-ring-color: rgba(255, 255, 255, 0.08);
+}
+.dark [data-block-type="faq"] .ring-1 > div {
+  border-color: rgba(255, 255, 255, 0.08);
+}
+.dark [data-block-type="faq"] button[aria-expanded]:hover,
+.dark [data-block-type="faq"] button[aria-expanded]:focus-visible {
+  background-color: rgba(255, 255, 255, 0.04);
+}
+/* The +/× circle: visible against the new darker card, and keep a primary
+   tint on hover (the unlayered base rule would otherwise override the
+   component's dark:group-hover:bg-primary-900/30 utility). */
+.dark [data-block-type="faq"] button[aria-expanded] .rounded-full {
+  background-color: rgba(255, 255, 255, 0.06);
+}
+.dark [data-block-type="faq"] button[aria-expanded]:hover .rounded-full,
+.dark [data-block-type="faq"] button[aria-expanded]:focus-visible .rounded-full {
+  background-color: color-mix(in srgb, var(--color-primary-900, #312e81) 30%, transparent);
+}
+
+/* Footer logo sizing */
+.footer-logo {
+  height: 24px;
+}
+.footer-logo svg {
+  height: 100%;
+  width: auto;
+}
+.footer-logo img {
+  width: auto;
+}
+
+/* Add spacing between the right-side controls and the hamburger toggle on mobile */
+@media (max-width: 1023px) {
+  label[for="nav-toggle"] {
+    margin-left: 0.5rem;
+  }
+}
+
+/* Hide the "Hire Me" button from the nav bar on mobile (it remains in the hamburger dropdown) */
+@media (max-width: 1023px) {
+  .navbar .order-1 > a {
+    display: none;
+  }
+}
+
+/* Stats block: tone down oversized numbers and match card surface to other cards on the page */
+#stats .stats-item h3.counter {
+  font-size: 1.875rem;
+  font-weight: 600;
+  line-height: 1.1;
+}
+@media (min-width: 640px) {
+  #stats .stats-item h3.counter { font-size: 2.25rem; }
+}
+@media (min-width: 1024px) {
+  #stats .stats-item h3.counter { font-size: 2.5rem; }
+}
+
+#stats .stats-item {
+  background-color: #ffffff;
+  border-color: rgb(229 231 235);
+}
+.dark #stats .stats-item {
+  background-color: rgba(255, 255, 255, 0.03);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+.dark #stats .stats-item:hover {
+  background-color: rgba(255, 255, 255, 0.06);
+}
+
+/* Add horizontal padding to publication citation items on mobile so they don't touch screen edges */
+@media (max-width: 640px) {
+  .pub-list-item {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+/* Shrink contact email text on narrow mobile widths so it stays within the card */
+@media (max-width: 400px) {
+  #contact button p.text-lg {
+    font-size: 0.95rem;
+    word-break: break-all;
+  }
+}
+@media (max-width: 340px) {
+  #contact button p.text-lg {
+    font-size: 0.8rem;
+  }
+}
+
+/* Connect block: 2x2 grid on narrow, 1x4 row on wider */
+@media (max-width: 479px) {
+  #contact .flex.flex-wrap {
+    display: grid !important;
+    grid-template-columns: repeat(2, auto);
+    justify-content: start;
+  }
+}
+
+/* Card hover lift animation: applied to both project and research area cards */
+@keyframes card-hover-lift {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-4px);
+  }
+}
+
+.card-hover-lift {
+  transition: transform 0.3s ease;
+}
+
+.card-hover-lift:hover {
+  animation: card-hover-lift 0.3s ease forwards;
+}
+
+/* Fix hamburger menu wrapping at very narrow widths (~375px) */
+/* Reduce padding between site title and theme toggle to prevent wrapping */
+@media (max-width: 400px) {
+  /* Reduce navbar padding */
+  .navbar {
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+  }
+
+  /* Reduce padding on right-side controls (theme toggle, search, etc.) */
+  .navbar .order-1 > div,
+  .navbar .order-1 > button {
+    padding-left: 0.25rem !important;
+    padding-right: 0.25rem !important;
+  }
+
+  /* Reduce hamburger menu margin */
+  label[for="nav-toggle"] {
+    margin-left: 0.25rem !important;
+  }
+}
+
+/* Mobile: open hamburger menu overlays the page instead of pushing it down.
+   Blox reveals the menu with `input#nav-toggle:checked ~ #nav-menu{display:block}`
+   (see the built _entry.css). Because #nav-menu is `w-full` inside the flex-wrap
+   `.navbar`, opening it wraps the menu onto a second line, which grows the sticky
+   `#site-header` and shoves all page content downward. `.navbar` is already
+   `position:relative`, so anchoring the OPEN menu absolutely lifts it out of flow:
+   the header height — and the page scroll position — stays put. Scoped below lg
+   (1024px) where the hamburger is active; the inline lg+ desktop nav is untouched.
+
+   ONE continuous pane of glass. The bar and the drop-down used to be two SEPARATE
+   backdrop-filter boxes (the bar on `#site-header::before`, the menu on `#nav-menu`).
+   Two blurs never read as one sheet: each blur is clamped to its own box, so the
+   page is sampled independently on each side of the bar/menu line and the backdrop
+   appears to refract in a DIFFERENT DIRECTION across it — the seam. Making them
+   flush (the previous fix) does not help, because flush is still two boxes. The
+   only cure is a SINGLE backdrop-filter box covering both. So the open menu's box
+   is stretched UP over the bar: `top:-0.75rem` cancels the header's `py-3` top
+   padding (the menu is positioned inside `.navbar`, which sits within that padding),
+   so the box now starts at the very top of the header and its glass — the identical
+   tint + saturate/blur — covers the bar AND the drop-down, blurred exactly once.
+   The links are padded back below the bar with `padding-top` = the live header
+   height the theme publishes as `--navbar-height` (hb-nav.js sets it from
+   `.page-header`'s box). `z-index:-1` drops the pane behind the brand, hamburger and
+   controls (all non-positioned, so they paint above it) so they stay crisp ON the
+   glass; the pane still paints over the page because `.page-header` is a `z-30`
+   sticky stacking context, so the backdrop-filter samples the page as before. */
+@media (max-width: 1023px) {
+  #nav-toggle:checked ~ #nav-menu {
+    position: absolute;
+    top: -0.75rem;
+    left: 0;
+    right: 0;
+    z-index: -1;
+    padding: 0.5rem 0.75rem 1rem;
+    /* Push the links back down below the bar the box now spans (see comment). */
+    padding-top: calc(var(--navbar-height, 3.5rem) + 0.25rem);
+    background-color: color-mix(in srgb, var(--hb-color-header-bg) 70%, transparent);
+    -webkit-backdrop-filter: saturate(180%) blur(12px);
+    backdrop-filter: saturate(180%) blur(12px);
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  }
+
+  /* The open menu now supplies the glass for the WHOLE header, so retire the bar's
+     own `::before` pane while open: keeping it would blur the bar region a second
+     time (double glass behind the single pane) and bring the seam back. Likewise
+     drop `#site-header`'s bottom `shadow`, which would otherwise cast a faint line
+     mid-pane at the old bar/menu boundary; the single pane carries its own shadow.
+     `:has()` keys off the same #nav-toggle checkbox the theme uses to reveal the
+     menu, so both revert automatically on close and the desktop bar is untouched. */
+  #site-header.header:has(#nav-toggle:checked)::before {
+    display: none;
+  }
+  #site-header.header:has(#nav-toggle:checked) {
+    box-shadow: none;
+  }
+
+  /* iOS Safari fix: force the open mobile menu closed. Real iOS Safari does not
+     reliably re-evaluate the `#nav-toggle:checked ~ #nav-menu` sibling selector
+     when the (display:none) checkbox is unchecked from JS, so the drop-down stayed
+     visibly open until a second tap happened to force a repaint (the WebKit
+     checkbox-hack repaint bug, cf. twbs/bootstrap#33481). The body-end
+     `mobile-menu` hook adds this class whenever it closes the menu programmatically
+     (a nav item is tapped, or the user taps outside the open menu): a classList
+     change forces the repaint immediately, and `display:none !important` wins over
+     the theme's `:checked ~ #nav-menu{display:block}` reveal regardless of the
+     stale selector state. The hook removes the class again whenever the checkbox is
+     genuinely re-checked (hamburger reopened), so reopening is unaffected. Scoped
+     below lg (1024px) like the rest of the hamburger styling, so the
+     always-visible desktop nav is never touched. */
+  #nav-menu.hb-menu-force-closed {
+    display: none !important;
+  }
+}
+
+
+/* Auto-hide header on scroll. The body-end `nav-hide-on-scroll` hook toggles
+   `.hb-header-hidden` on `.page-header` (scroll down = hide, scroll up = show).
+   `.page-header` keeps the theme's `sticky top-0 z-30` from `header.sticky:
+   true`; sliding it with a transform composits on the GPU and — unlike
+   unsticking it — never reflows the page. -110% rather than -100% so the
+   `#site-header` drop shadow (cast a few px below the bar) clears the viewport
+   top edge too. NOTE: while the transform is non-none (hidden + during the
+   slide) `.page-header` becomes the containing block for fixed descendants,
+   and the search modal is `fixed inset-0` inside it — the hook therefore never
+   hides the header while search is open and re-shows it if search opens. */
+.page-header.hb-header-hidden {
+  transform: translateY(-110%);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .page-header {
+    transition: transform 0.3s ease-in-out;
+  }
+}
+/* Back-to-top button (body-end `back-to-top` hook). Same pane of glass as the
+   navbar: identical color-mix tint over `--hb-color-header-bg` and identical
+   saturate/blur, so it reads as part of the theme in both light and dark mode
+   (the --hb-color-* tokens flip with the theme engine, nothing here needs a
+   .dark override). Sized 44x44px — Apple/WCAG minimum touch target — with
+   safe-area insets so it clears the iOS home indicator. Hidden state is
+   opacity:0 + pointer-events:none (not display:none) so the show/hide can
+   fade; the resting shown state is deliberately translucent and only reaches
+   full opacity + primary tint on hover/focus, matching the navbar's
+   hover:text-primary-500 pattern. z-20 keeps it under the sticky header (z-30)
+   and the toast container (z-9999). */
+.hb-back-to-top {
+  position: fixed;
+  right: max(1rem, env(safe-area-inset-right));
+  bottom: max(1.25rem, env(safe-area-inset-bottom));
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 9999px;
+  border: 1px solid color-mix(in srgb, var(--hb-color-header-fg) 15%, transparent);
+  color: var(--hb-color-header-fg);
+  background-color: color-mix(in srgb, var(--hb-color-header-bg) 70%, transparent);
+  -webkit-backdrop-filter: saturate(180%) blur(12px);
+  backdrop-filter: saturate(180%) blur(12px);
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(0.5rem);
+}
+.hb-back-to-top.hb-btt-show {
+  opacity: 0.7;
+  pointer-events: auto;
+  transform: none;
+}
+.hb-back-to-top.hb-btt-show:hover,
+.hb-back-to-top.hb-btt-show:focus-visible {
+  opacity: 1;
+  color: var(--color-primary-500, currentColor);
+}
+.hb-back-to-top .hb-btt-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .hb-back-to-top {
+    transition: opacity 0.3s ease, transform 0.3s ease, color 0.2s ease;
+  }
+}
+@media print {
+  .hb-back-to-top {
+    display: none;
+  }
+}
+
+/* Belt-and-braces for the open mobile menu: the hook already refuses to hide
+   while #nav-toggle is checked, but the drop-down is anchored inside the
+   header (see the overlay rules above), so sliding the header away would take
+   the open menu with it. Keyed off the same checkbox the theme uses. */
+.page-header:has(#nav-toggle:checked) {
+  transform: none;
+}

@@ -1,0 +1,75 @@
+<script>
+(function () {
+  // Auto-hide the sticky header: slide it up when scrolling down, bring it
+  // back when scrolling up. Blox has no built-in option for this — its
+  // `header.sticky` param only pins `.page-header` (`sticky top-0 z-30` in the
+  // module's baseof.html), so this hook toggles `.hb-header-hidden` on that
+  // wrapper and custom.css does the translate. We move `.page-header` itself
+  // (not the inner `#site-header`): a transparent element still hit-tests over
+  // its border box, so translating only the child would leave the z-30 wrapper
+  // silently swallowing clicks on the top strip of the page.
+  var header = document.querySelector('.page-header');
+  if (!header) return;
+
+  var navToggle = document.getElementById('nav-toggle');
+  // The search modal is `position:fixed` INSIDE `.page-header` (navbar.html
+  // includes it there). Any non-none transform on the header would become the
+  // modal's containing block and pin the "full-screen" overlay to the header's
+  // box, so the header must never hide while search is open.
+  var searchModal = header.querySelector('[x-data^="searchModal"]');
+
+  function searchOpen() {
+    return !!searchModal && searchModal.style.display !== 'none';
+  }
+
+  var lastY = window.scrollY;
+  var ticking = false;
+  // Ignore sub-4px jitter (trackpad momentum tails oscillate by a pixel or
+  // two, which would otherwise flicker the header at the direction flip).
+  var TOLERANCE = 4;
+
+  function onScroll() {
+    ticking = false;
+    var y = window.scrollY;
+    // Clamp iOS rubber-band overscroll: top bounce reports negative y and
+    // bottom bounce overshoots, both of which fake a direction change.
+    var maxY = document.documentElement.scrollHeight - window.innerHeight;
+    y = Math.max(0, Math.min(y, maxY));
+
+    if (y <= header.offsetHeight) {
+      // Near the top the header is always shown (there is nothing above to
+      // scroll back for, and hiding here looks like the page losing its bar).
+      header.classList.remove('hb-header-hidden');
+    } else if (y > lastY + TOLERANCE && !(navToggle && navToggle.checked) && !searchOpen()) {
+      header.classList.add('hb-header-hidden');
+    } else if (y < lastY - TOLERANCE) {
+      header.classList.remove('hb-header-hidden');
+    }
+    lastY = y;
+  }
+
+  window.addEventListener('scroll', function () {
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(onScroll);
+    }
+  }, { passive: true });
+
+  // Reopening guards: search can be opened via Cmd/Ctrl+K while the header is
+  // hidden (Alpine flips the modal's inline display), and the containing-block
+  // issue above applies the moment it shows — watch for it and reveal the
+  // header. The mobile hamburger lives in the header so it can't be tapped
+  // while hidden, but `change` also fires from the mobile-menu hook's
+  // programmatic toggling; showing on open keeps every path consistent.
+  if (searchModal && 'MutationObserver' in window) {
+    new MutationObserver(function () {
+      if (searchOpen()) header.classList.remove('hb-header-hidden');
+    }).observe(searchModal, { attributes: true, attributeFilter: ['style'] });
+  }
+  if (navToggle) {
+    navToggle.addEventListener('change', function () {
+      if (navToggle.checked) header.classList.remove('hb-header-hidden');
+    });
+  }
+})();
+</script>

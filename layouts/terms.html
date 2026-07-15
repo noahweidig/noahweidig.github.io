@@ -1,0 +1,39 @@
+{{ define "main" }}
+
+{{/* Exclude taxonomy term listing pages from search indexing */}}
+<div data-pagefind-ignore>
+
+<div class="max-w-prose mx-auto px-4 flex justify-center">
+  <article class="prose prose-slate lg:prose-xl dark:prose-invert max-w-none text-center">
+    <h1 class="lg:text-6xl !mb-4 text-center">{{ .Title }}</h1>
+    {{ .Content }}
+  </article>
+</div>
+
+<div class="max-w-prose mx-auto px-4 my-5">
+
+  <ul role="list" class="flex flex-row gap-6 flex-wrap list-none p-0 m-0">
+    {{- $type := .Type }}
+    {{- range $key, $value := .Data.Terms.Alphabetical }}
+      {{- $name := .Name }}
+      {{- $count := .Count }}
+      {{- with site.GetPage (printf "/%s/%s" $type $name) }}
+
+        <li>
+          <a href="{{ .RelPermalink }}" class="inline-flex items-center px-5 py-2.5 text-sm font-medium text-center text-white bg-primary-700 rounded-lg hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+            {{ .Title }}
+            <span class="inline-flex items-center justify-center w-4 h-4 ms-2 text-xs font-semibold text-primary-800 bg-primary-200 rounded-full">
+              {{ $count }}
+            </span>
+          </a>
+        </li>
+
+      {{- end }}
+    {{- end }}
+  </ul>
+
+</div>
+
+</div>{{/* End pagefind-ignore wrapper */}}
+
+{{- end -}}

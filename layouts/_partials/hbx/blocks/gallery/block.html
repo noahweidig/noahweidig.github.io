@@ -1,0 +1,149 @@
+{{/* Hugo Blox: Gallery (carousel) */}}
+{{/* Documentation: https://hugoblox.com/blocks/ */}}
+{{/* License: https://github.com/HugoBlox/kit/blob/main/LICENSE.md */}}
+
+{{/* Initialise */}}
+{{ $page := .wcPage }}
+{{ $block := .wcBlock }}
+{{ $content := $block.content }}
+{{ if not (reflect.IsMap $content) }}{{ $content = dict }}{{ end }}
+{{ $design := $block.design }}
+{{ if not (reflect.IsMap $design) }}{{ $design = dict }}{{ end }}
+
+{{ $title := "" }}
+{{ with index $content "title" }}{{ $title = strings.TrimSpace (printf "%v" .) }}{{ end }}
+{{ $subtitle := "" }}
+{{ with index $content "subtitle" }}{{ $subtitle = strings.TrimSpace (printf "%v" .) }}{{ end }}
+
+{{/* Design options */}}
+{{ $caption_position := "below" }}
+{{ with index $design "caption_position" }}{{ $caption_position = strings.TrimSpace (printf "%v" .) }}{{ end }}
+{{ $hover_zoom := partial "functions/coerce_bool" (dict "value" (index $design "hover_zoom") "default" false) }}
+{{ $lightbox := partial "functions/coerce_bool" (dict "value" (index $design "lightbox") "default" false) }}
+{{ $aspect_ratio := "landscape" }}
+{{ with index $design "aspect_ratio" }}{{ $aspect_ratio = strings.TrimSpace (printf "%v" .) }}{{ end }}
+{{ $aspect_class := "aspect-[4/3]" }}
+{{ if eq $aspect_ratio "square" }}{{ $aspect_class = "aspect-square" }}
+{{ else if eq $aspect_ratio "portrait" }}{{ $aspect_class = "aspect-[3/4]" }}
+{{ else if eq $aspect_ratio "wide" }}{{ $aspect_class = "aspect-video" }}{{ end }}
+
+{{/* Normalise items */}}
+{{ $items_raw := index $content "items" }}
+{{ $items := slice }}
+{{ if reflect.IsSlice $items_raw }}{{ $items = $items_raw }}
+{{ else if reflect.IsMap $items_raw }}{{ $items = slice $items_raw }}{{ end }}
+
+{{/* Optionally source items from a content collection (e.g. featured awards) */}}
+{{ $collection := "" }}
+{{ with index $content "collection" }}{{ $collection = strings.TrimSpace (printf "%v" .) }}{{ end }}
+{{ $featured_only := partial "functions/coerce_bool" (dict "value" (index $content "featured_only") "default" false) }}
+{{ if and $collection (eq (len $items) 0) }}
+  {{ $pages := where site.RegularPages "Section" $collection }}
+  {{ if $featured_only }}{{ $pages = where $pages "Params.featured" true }}{{ end }}
+  {{ $built := slice }}
+  {{ range (sort $pages "Date" "desc") }}
+    {{ $fn := "" }}
+    {{ with .Params.image }}{{ with index . "filename" }}{{ $fn = printf "%v" . }}{{ end }}{{ end }}
+    {{ $imgsrc := "" }}
+    {{ with .Resources.GetMatch $fn }}{{ $imgsrc = .RelPermalink }}{{ end }}
+    {{ $built = $built | append (dict "src" $imgsrc "title" .Title "caption" (.Params.summary | default "") "link" .RelPermalink) }}
+  {{ end }}
+  {{ $items = $built }}
+{{ end }}
+
+{{ $gallery_id := printf "gallery-%d" (hash.FNV32a (printf "%v" $items)) }}
+{{ with $block.id }}{{ $gallery_id = printf "gallery-%s" . }}{{ end }}
+
+<div class="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
+
+  {{ if or $title $subtitle }}
+  <div class="text-center max-w-3xl mx-auto mb-12 lg:mb-16">
+    {{ with $title }}
+    <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white tracking-tight mb-4">{{ . | markdownify | emojify }}</h2>
+    {{ end }}
+    {{ with $subtitle }}
+    <p class="text-xl text-primary-600 dark:text-primary-400 font-medium mb-3">{{ . | markdownify | emojify }}</p>
+    {{ end }}
+  </div>
+  {{ end }}
+
+  {{ if gt (len $items) 0 }}
+  <div class="relative group/gallery">
+    <div id="{{ $gallery_id }}" class="flex gap-4 sm:gap-6 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-4 -mx-2 px-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      {{ range $idx, $item := $items }}
+        {{ if reflect.IsMap $item }}
+          {{ $src := "" }}
+          {{ with index $item "src" }}{{ $src = strings.TrimSpace (printf "%v" .) }}{{ end }}
+          {{ $item_title := "" }}
+          {{ with index $item "title" }}{{ $item_title = strings.TrimSpace (printf "%v" .) }}{{ end }}
+          {{ $caption := "" }}
+          {{ with index $item "caption" }}{{ $caption = strings.TrimSpace (printf "%v" .) }}{{ end }}
+          {{ $link := "" }}
+          {{ with index $item "link" }}{{ $link = strings.TrimSpace (printf "%v" .) }}{{ end }}
+
+          {{/* Resolve image */}}
+          {{ $img := "" }}
+          {{ if $src }}
+            {{ if or (hasPrefix $src "http://") (hasPrefix $src "https://") (hasPrefix $src "/") }}
+              {{ $img = $src }}
+            {{ else }}
+              {{ $res := resources.Get $src }}
+              {{ if $res }}{{ $img = $res.RelPermalink }}{{ else }}{{ $img = ($src | relURL) }}{{ end }}
+            {{ end }}
+          {{ end }}
+
+          {{ $card_target := "" }}
+          {{ if $link }}
+            {{ $scheme := (urls.Parse $link).Scheme }}
+            {{ if not $scheme }}
+              {{ if not (hasPrefix $link "#") }}{{ $link = $link | relLangURL }}{{ end }}
+            {{ else if in (slice "http" "https") $scheme }}
+              {{ $card_target = "target=\"_blank\" rel=\"noopener noreferrer\"" }}
+            {{ end }}
+          {{ else if and $lightbox $img }}
+            {{ $link = $img }}
+            {{ $card_target = "target=\"_blank\" rel=\"noopener noreferrer\"" }}
+          {{ end }}
+
+          <div class="snap-start shrink-0 w-[80%] sm:w-[45%] lg:w-[31%]">
+            {{ if $link }}<a href="{{ $link | safeURL }}" {{ $card_target | safeHTMLAttr }} class="block h-full group/card">{{ else }}<div class="h-full group/card">{{ end }}
+              <div class="relative flex h-full flex-col overflow-hidden rounded-xl border border-gray-200 dark:border-white/[0.06] bg-white dark:bg-white/[0.02] shadow-sm">
+                {{ if $img }}
+                <div class="{{ $aspect_class }} w-full overflow-hidden bg-gray-100 dark:bg-white/[0.04]">
+                  <img src="{{ $img | safeURL }}" alt="{{ $item_title | default $caption }}" loading="lazy" class="h-full w-full object-cover transition-transform duration-500{{ if $hover_zoom }} group-hover/card:scale-105{{ end }}">
+                </div>
+                {{ end }}
+                {{ if eq $caption_position "overlay" }}
+                {{ if or $item_title $caption }}
+                <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-4 text-white">
+                  {{ with $item_title }}<div class="font-semibold">{{ . | markdownify | emojify }}</div>{{ end }}
+                  {{ with $caption }}<div class="text-sm text-gray-200">{{ . | markdownify | emojify }}</div>{{ end }}
+                </div>
+                {{ end }}
+                {{ else }}
+                {{ if or $item_title $caption }}
+                <div class="p-4">
+                  {{ with $item_title }}<div class="font-semibold text-gray-900 dark:text-white">{{ . | markdownify | emojify }}</div>{{ end }}
+                  {{ with $caption }}<div class="mt-1 text-sm text-gray-500 dark:text-gray-400">{{ . | markdownify | emojify }}</div>{{ end }}
+                </div>
+                {{ end }}
+                {{ end }}
+              </div>
+            {{ if $link }}</a>{{ else }}</div>{{ end }}
+          </div>
+        {{ end }}
+      {{ end }}
+    </div>
+
+    {{ if gt (len $items) 1 }}
+    <button type="button" aria-label="Previous" onclick="document.getElementById('{{ $gallery_id }}').scrollBy({left: -document.getElementById('{{ $gallery_id }}').clientWidth * 0.8, behavior: 'smooth'})" class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 hidden sm:flex items-center justify-center w-10 h-10 rounded-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-white/10 shadow-md text-gray-700 dark:text-gray-200 opacity-0 group-hover/gallery:opacity-100 transition-opacity">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+    </button>
+    <button type="button" aria-label="Next" onclick="document.getElementById('{{ $gallery_id }}').scrollBy({left: document.getElementById('{{ $gallery_id }}').clientWidth * 0.8, behavior: 'smooth'})" class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 hidden sm:flex items-center justify-center w-10 h-10 rounded-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-white/10 shadow-md text-gray-700 dark:text-gray-200 opacity-0 group-hover/gallery:opacity-100 transition-opacity">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+    </button>
+    {{ end }}
+  </div>
+  {{ end }}
+
+</div>
