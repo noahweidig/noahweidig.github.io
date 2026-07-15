@@ -1,0 +1,15 @@
+---
+title: FrameLab
+date: '2025-01-10'
+description: A Tool for Browser Framing
+categories:
+- Social Media
+- Data Science
+image: featured.webp
+image-alt: FrameLab tool for capturing website previews in desktop browser windows
+featured: true
+---
+
+[Launch Tool](https://noahweidig.com/framelab){.nw-btn .nw-btn-primary target="_blank"}
+
+A creative tool for capturing website screenshots framed in a desktop browser window. Perfect for creating polished previews for social media, portfolios, or presentations.

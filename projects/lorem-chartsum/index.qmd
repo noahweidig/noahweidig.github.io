@@ -1,0 +1,15 @@
+---
+title: Lorem Chartsum
+date: '2025-03-10'
+description: A Placeholder Chart API
+categories:
+- APIs
+- Data Science
+image: featured.webp
+image-alt: Lorem Chartsum API for generating dynamic placeholder charts
+featured: true
+---
+
+[See API](https://noahweidig.com/lorem-chartsum){.nw-btn .nw-btn-primary target="_blank"}
+
+An API for developers to generate placeholder charts during development and prototyping. Request dynamic, customizable charts via simple API calls without managing sample data.

@@ -1,0 +1,15 @@
+---
+title: "Awards & Honors"
+description: "Awards, scholarships, grants, and honors I've received over the years."
+page-layout: full
+toc: false
+listing:
+  id: all-awards
+  contents: "*/index.qmd"
+  sort: "date desc"
+  template: ../_ejs/award-card.ejs
+  page-size: 100
+---
+
+::: {#all-awards}
+:::

@@ -1,3 +1,0 @@
----
-title: "Matt T. Hallett"
----

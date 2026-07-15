@@ -1,0 +1,16 @@
+---
+title: "Publications"
+description: "A live feed of my research output, pulled automatically from Zotero. Updated every two weeks."
+page-layout: full
+toc: false
+listing:
+  id: all-pubs
+  contents: "*/index.qmd"
+  sort: "date desc"
+  template: ../_ejs/citation.ejs
+  categories: true
+  page-size: 100
+---
+
+::: {#all-pubs .nw-cites}
+:::

@@ -1,0 +1,18 @@
+---
+title: WUI Wildfire Explorer
+date: '2026-03-22'
+description: A GEE App for Visualizing Risk
+categories:
+- Wildfire
+- Risk
+- GIS
+- Geospatial
+- Google Earth Engine
+image: featured.webp
+image-alt: WUI Wildfire Explorer showing wildland-urban interface risk visualization
+featured: true
+---
+
+[Launch Tool](https://ee-weidignc.projects.earthengine.app/view/wui-wildfire){.nw-btn .nw-btn-primary target="_blank"}
+
+A Google Earth Engine application that visualizes wildland-urban interface (WUI) dynamics, large wildfire patterns, and burn severity trends. Monitor how development encroaches on fire-prone landscapes and assess regional wildfire risk.

@@ -1,0 +1,14 @@
+---
+title: DataViz
+date: '2026-03-16'
+description: A Plotly Gallery of Data Visualization
+categories:
+- Data Visualization
+image: featured.webp
+image-alt: DataViz gallery showcasing various data visualization examples using Plotly
+featured: true
+---
+
+[View Gallery](https://noahweidig.com/dataviz/){.nw-btn .nw-btn-primary target="_blank"}
+
+A gallery of Plotly visualizations exploring various approaches to displaying and analyzing data. Demonstrates interactive charts, statistical plots, and custom visualization techniques.
