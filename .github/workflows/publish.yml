@@ -45,6 +45,14 @@ jobs:
       - name: Render site
         run: quarto render
 
+      - name: Configure GitHub Pages
+        if: github.event_name != 'pull_request'
+        uses: actions/configure-pages@v5
+        with:
+          # Create/enable the Pages site (source: GitHub Actions) if it
+          # doesn't exist yet, so first deploys don't 404.
+          enablement: true
+
       - name: Upload Pages artifact
         if: github.event_name != 'pull_request'
         uses: actions/upload-pages-artifact@v4
