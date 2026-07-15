@@ -129,4 +129,16 @@ Applied AI · Geospatial Analytics · Spatial Data Science · Data Visualization
 
 ---
 
+## This Site
+
+Built with [Quarto](https://quarto.org) and deployed to GitHub Pages — no external theme dependency. The landing page, listings (custom EJS templates in `_ejs/`), and light/dark SCSS themes (`assets/`) all live in this repo. Publications under `publications/` are regenerated from Zotero on the 1st & 15th by `.github/workflows/update-pubs.yml` (do not edit by hand); every push to `main` — including the Zotero sync commit — re-renders and publishes via `.github/workflows/publish.yml`.
+
+```sh
+quarto preview                 # local dev server
+quarto render                  # build to _site/
+node scripts/update-pubs.js    # refresh publications from Zotero
+```
+
+---
+
 MIT © 2026 Noah Weidig

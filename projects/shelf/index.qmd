@@ -1,0 +1,16 @@
+---
+title: Shelf
+date: '2026-02-18'
+description: My Personal Reading Journal
+categories:
+- Reading
+- Books
+- Data Science
+image: featured.webp
+image-alt: 'Shelf: My Personal Reading Journal'
+featured: true
+---
+
+[See Journal](https://noahweidig.com/shelf/){.nw-btn .nw-btn-primary target="_blank"}
+
+A collection of the books I've read, am currently reading, and hope to read—along with my thoughts, ratings, favorite quotes, and takeaways.

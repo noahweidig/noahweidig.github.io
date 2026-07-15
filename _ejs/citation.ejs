@@ -1,0 +1,11 @@
+<% for (const item of items) { %>
+<div class="nw-cite">
+<div class="nw-cite-title"><a href="<%- item.path %>"><%= item.title %></a></div>
+<div class="nw-cite-meta"><% for (const [i, part] of String(item['pub-authors'] || '').replace(/&lt;\/?strong&gt;|<\/?strong>/g, '**').split('**').entries()) { if (i % 2) { %><strong><%= part %></strong><% } else { %><%= part %><% } } %><% if (item.date) { %> (<%= new Date(item.date).getUTCFullYear() %>).<% } %> <% if (item['pub-venue']) { %><em><%= item['pub-venue'] %></em>.<% } %></div>
+<div class="nw-cite-links">
+<% for (const c of (item.categories || []).slice(0, 2)) { %><span class="nw-chip"><%= c %></span><% } %>
+<% if (item['pub-doi']) { %><a href="https://doi.org/<%- item['pub-doi'] %>" target="_blank" rel="noopener">DOI</a><% } %>
+<% if (item['pub-url'] && !item['pub-doi']) { %><a href="<%- item['pub-url'] %>" target="_blank" rel="noopener">Source</a><% } %>
+</div>
+</div>
+<% } %>

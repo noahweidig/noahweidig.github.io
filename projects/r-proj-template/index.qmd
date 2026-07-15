@@ -1,0 +1,15 @@
+---
+title: R Project Template
+date: '2026-03-22'
+description: A Template for Creating R Projects
+categories:
+- R
+- Data Science
+image: featured.webp
+image-alt: R Project Template Builder
+featured: true
+---
+
+[Launch Tool](https://noahweidig.com/r-proj-template/){.nw-btn .nw-btn-primary target="_blank"}
+
+A site for building reproducible R projects in a few clicks. Easy toggles, customizable variables and folders, and tidyverse- and spatial-friendly.

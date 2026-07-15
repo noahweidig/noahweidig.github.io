@@ -1,3 +1,0 @@
----
-title: "Raelene M. Crandall"
----

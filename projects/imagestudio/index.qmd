@@ -1,0 +1,15 @@
+---
+title: Image Studio
+date: '2025-03-13'
+description: A Shiny App for Image Editing
+categories:
+- Personal
+- Creative
+image: featured.webp
+image-alt: Image Studio application for creative image editing and recoloring
+featured: true
+---
+
+[Launch Tool](https://noahweidig.com/imagestudio){.nw-btn .nw-btn-primary target="_blank"}
+
+An interactive image editing application for creative visual work. Recolor, adjust dimensions, and apply transformations to images with a simple, intuitive interface.

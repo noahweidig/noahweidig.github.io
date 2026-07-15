@@ -1,0 +1,64 @@
+name: Publish website
+
+on:
+  push:
+    branches: [main]
+  # Render-only check for PRs so a broken site never reaches main.
+  pull_request:
+    branches: [main]
+  # Re-render automatically after the Zotero sync commits new publications.
+  # (Pushes made with GITHUB_TOKEN don't fire `push` workflows, so we chain
+  # off the update workflow's completion instead.)
+  workflow_run:
+    workflows: ["Update Zotero"]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: ${{ github.event_name == 'pull_request' && format('pages-pr-{0}', github.event.number) || 'pages' }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    # Skip the chained run if the Zotero sync itself failed.
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          # workflow_run events carry no useful ref; render main. All other
+          # events (push, PR, dispatch) check out their default ref.
+          ref: ${{ github.event_name == 'workflow_run' && 'main' || '' }}
+
+      - name: Set up Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
+        with:
+          version: 1.7.32
+
+      - name: Render site
+        run: quarto render
+
+      - name: Upload Pages artifact
+        if: github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

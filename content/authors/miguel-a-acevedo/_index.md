@@ -1,3 +1,0 @@
----
-title: "Miguel A. Acevedo"
----

@@ -1,0 +1,108 @@
+project:
+  type: website
+  output-dir: _site
+  render:
+    - "*.qmd"
+  resources:
+    - CNAME
+    - favicon.ico
+    - favicon.svg
+    - favicon-96x96.png
+    - apple-touch-icon.png
+    - site.webmanifest
+    - web-app-manifest-192x192.png
+    - web-app-manifest-512x512.png
+    - "uploads/**"
+    - "assets/media/**"
+
+website:
+  title: "Noah Weidig"
+  description: "Noah is an ecologist and GIS analyst specializing in geospatial data science, environmental modeling, and large-scale spatial analysis."
+  site-url: "https://noahweidig.com/"
+  favicon: favicon.svg
+  image: assets/media/authors/me.webp
+  open-graph: true
+  twitter-card: true
+  navbar:
+    pinned: true
+    logo: assets/media/icon.svg
+    logo-alt: "Noah Weidig"
+    title: "Noah Weidig"
+    left:
+      - text: Projects
+        href: index.qmd#projects
+      - text: Publications
+        href: index.qmd#publications
+      - text: Skills
+        href: index.qmd#skills
+      - text: Experience
+        href: index.qmd#experience
+      - text: Awards
+        href: index.qmd#awards
+      - text: Blog
+        href: index.qmd#blog
+      - text: Contact
+        href: index.qmd#contact
+    right:
+      - text: "Book Now →"
+        href: "https://cal.com/noah-weidig/meet"
+    tools:
+      - icon: github
+        href: "https://github.com/noahweidig/"
+      - icon: linkedin
+        href: "https://www.linkedin.com/in/noahweidig/"
+  search:
+    location: navbar
+    type: overlay
+  page-footer:
+    border: false
+    left: |
+      © 2026 Noah Weidig.
+    center:
+      - text: Experience
+        href: index.qmd#experience
+      - text: Projects
+        href: index.qmd#projects
+      - text: Publications
+        href: publications/index.qmd
+      - text: Blog
+        href: blog/index.qmd
+      - text: FAQ
+        href: index.qmd#faq
+    right:
+      - icon: linkedin
+        href: "https://www.linkedin.com/in/noahweidig/"
+        aria-label: LinkedIn
+      - icon: github
+        href: "https://github.com/noahweidig/"
+        aria-label: GitHub
+      - icon: mortarboard-fill
+        href: "https://scholar.google.com/citations?hl=en&user=Ml95eTwAAAAJ"
+        aria-label: Google Scholar
+      - icon: person-badge
+        href: "https://orcid.org/0000-0003-1205-3209"
+        aria-label: ORCID
+      - icon: envelope-fill
+        href: "mailto:noah@noahweidig.com"
+        aria-label: Email
+
+format:
+  html:
+    grid:
+      body-width: 1150px
+    theme:
+      dark: [cosmo, assets/theme.scss, assets/theme-dark.scss]
+      light: [cosmo, assets/theme.scss, assets/theme-light.scss]
+    css: assets/site.css
+    toc: false
+    anchor-sections: false
+    link-external-newwindow: true
+    include-in-header:
+      - text: |
+          <meta name="google-site-verification" content="0ktlvQnqLH01fphPI1cDMDTuQSmCG7mHBQdovXQs2TQ">
+          <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96">
+          <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+          <link rel="manifest" href="/site.webmanifest">
+
+execute:
+  freeze: true

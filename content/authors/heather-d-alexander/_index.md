@@ -1,3 +1,0 @@
----
-title: "Heather D. Alexander"
----

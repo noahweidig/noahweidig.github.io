@@ -1,0 +1,14 @@
+---
+title: "Blog"
+description: "Notes on science, data, maps, and the landscapes we live in."
+page-layout: full
+toc: false
+listing:
+  id: all-posts
+  contents: "*/index.qmd"
+  sort: "date desc"
+  template: ../_ejs/post-row.ejs
+---
+
+::: {#all-posts .nw-posts}
+:::

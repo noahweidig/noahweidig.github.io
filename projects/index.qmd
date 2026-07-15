@@ -1,0 +1,19 @@
+---
+title: "Selected Projects"
+description: "I build tools and turn ideas into reality. Here's a selection of projects I've created over the years."
+page-layout: full
+toc: false
+listing:
+  id: all-projects
+  contents: "*/index.qmd"
+  sort: "date desc"
+  template: ../_ejs/project-card.ejs
+include-after-body:
+  - text: |
+      <script src="../assets/home.js"></script>
+---
+
+<div class="nw-filters" data-nw-filter-for="all-projects"></div>
+
+::: {#all-projects .nw-projects}
+:::

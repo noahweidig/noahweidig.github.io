@@ -1,0 +1,17 @@
+---
+title: Wildfire Risk
+date: '2025-01-05'
+description: Wildfire Risk Visualizer by State
+categories:
+- GIS
+- Geospatial
+- Wildfire
+image: featured.webp
+image-alt: Wildfire Risk Visualizer interface showing risk assessment across U.S.
+  states
+featured: true
+---
+
+[Launch Tool](https://rpubs.com/noahweidig/us-wildfire-risk){.nw-btn .nw-btn-primary target="_blank"}
+
+An interactive visualization tool for assessing wildfire risk across U.S. states. Explore state-level risk assessments and identify high-risk regions for fire hazards.
