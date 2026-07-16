@@ -30,11 +30,23 @@ include-after-body:
       <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
       <script>
         var nwMap = L.map('nw-map', { scrollWheelZoom: false }).setView([29.6436, -82.3549], 15);
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/' +
-          (document.documentElement.classList.contains('quarto-dark') ? 'dark_all' : 'rastertiles/voyager') +
-          '/{z}/{x}/{y}{r}.png', {
-          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>'
-        }).addTo(nwMap);
+        var nwTiles = null;
+        var nwTileStyle = null;
+        function nwSyncMapTheme() {
+          var style = document.body.classList.contains('quarto-dark') ||
+            document.documentElement.classList.contains('quarto-dark')
+            ? 'dark_all' : 'rastertiles/voyager';
+          if (style === nwTileStyle) return;
+          nwTileStyle = style;
+          if (nwTiles) nwMap.removeLayer(nwTiles);
+          nwTiles = L.tileLayer('https://{s}.basemaps.cartocdn.com/' + style + '/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>'
+          }).addTo(nwMap);
+        }
+        nwSyncMapTheme();
+        var nwThemeWatcher = new MutationObserver(nwSyncMapTheme);
+        nwThemeWatcher.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+        nwThemeWatcher.observe(document.body, { attributes: true, attributeFilter: ['class'] });
         L.marker([29.6436, -82.3549]).addTo(nwMap)
           .bindPopup('<b>University of Florida</b><br>School of Forest, Fisheries and Geomatic Sciences');
       </script>
@@ -251,13 +263,13 @@ include-after-body:
     <div class="nw-timeline">
       <div class="nw-tl-item">
         <h3>Master of Science, Forest Resources &amp; Conservation</h3>
-        <div><span class="nw-tl-org">University of Florida</span></div>
+        <div><a class="nw-tl-org" href="https://www.ufl.edu/" target="_blank" rel="noopener">University of Florida</a></div>
         <div class="nw-tl-meta">Aug 2023 – Aug 2025</div>
         <p>Thesis: Large Wildfire Patterns in the WUI, 4.0 GPA</p>
       </div>
       <div class="nw-tl-item">
         <h3>Bachelor of Science, Biological Sciences</h3>
-        <div><span class="nw-tl-org">Northern Kentucky University</span></div>
+        <div><a class="nw-tl-org" href="https://www.nku.edu/" target="_blank" rel="noopener">Northern Kentucky University</a></div>
         <div class="nw-tl-meta">Aug 2018 – May 2022</div>
         <p>Ecology, Evolution, &amp; Organismal Track, 4.0 GPA</p>
       </div>

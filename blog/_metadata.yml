@@ -1,6 +1,6 @@
 comments:
   giscus:
-    repo: noahweidig/portfolio
+    repo: noahweidig/noahweidig.github.io
     category: General
     mapping: pathname
     reactions-enabled: true

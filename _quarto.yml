@@ -5,6 +5,7 @@ project:
     - "*.qmd"
   resources:
     - CNAME
+    - robots.txt
     - favicon.ico
     - favicon.svg
     - favicon-96x96.png
@@ -117,9 +118,46 @@ format:
     toc: false
     anchor-sections: false
     link-external-newwindow: true
+    lang: en
     include-in-header:
       - text: |
           <meta name="google-site-verification" content="0ktlvQnqLH01fphPI1cDMDTuQSmCG7mHBQdovXQs2TQ">
+          <meta name="author" content="Noah Weidig">
+          <script type="application/ld+json">
+          {
+            "@context": "https://schema.org",
+            "@graph": [
+              {
+                "@type": "Person",
+                "@id": "https://noahweidig.com/#person",
+                "name": "Noah Weidig",
+                "url": "https://noahweidig.com/",
+                "image": "https://noahweidig.com/assets/media/authors/me.webp",
+                "jobTitle": "GIS Analyst & Data Scientist",
+                "email": "mailto:noah@noahweidig.com",
+                "alumniOf": [
+                  { "@type": "CollegeOrUniversity", "name": "University of Florida", "url": "https://www.ufl.edu/" },
+                  { "@type": "CollegeOrUniversity", "name": "Northern Kentucky University", "url": "https://www.nku.edu/" }
+                ],
+                "knowsAbout": ["GIS", "Remote Sensing", "Spatial Data Science", "Ecology", "Data Visualization", "Machine Learning"],
+                "sameAs": [
+                  "https://www.linkedin.com/in/noahweidig/",
+                  "https://github.com/noahweidig/",
+                  "https://scholar.google.com/citations?hl=en&user=Ml95eTwAAAAJ",
+                  "https://orcid.org/0000-0003-1205-3209"
+                ]
+              },
+              {
+                "@type": "WebSite",
+                "@id": "https://noahweidig.com/#website",
+                "url": "https://noahweidig.com/",
+                "name": "Noah Weidig",
+                "description": "Noah Weidig is an ecologist and GIS analyst specializing in geospatial data science, environmental modeling, and large-scale spatial analysis.",
+                "publisher": { "@id": "https://noahweidig.com/#person" }
+              }
+            ]
+          }
+          </script>
           <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96">
           <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
           <link rel="manifest" href="/site.webmanifest">
