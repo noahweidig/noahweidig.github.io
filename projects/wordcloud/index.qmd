@@ -4,8 +4,6 @@ date: '2025-01-05'
 description: Word Cloud Generator
 categories:
 - Data Science
-image: featured.webp
-image-alt: WordCloud Studio generator for creating word clouds
 featured: true
 ---
 
