@@ -3,17 +3,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 
 $font-family-sans-serif: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !default;
-$primary: #6366f1 !default;
-$link-color: #6366f1 !default;
+$primary: #0076DF !default;
+$link-color: #0076DF !default;
 $border-radius: 0.5rem !default;
 $navbar-padding-y: 0.65rem !default;
 
 /*-- scss:rules --*/
 
 :root {
-  --nw-primary: #6366f1;
-  --nw-secondary: #a855f7;
-  --nw-grad: linear-gradient(135deg, #6366f1, #a855f7);
+  --nw-primary: #0076DF;
+  --nw-secondary: #0076DF;
+  --nw-grad: linear-gradient(135deg, #0076DF, #0076DF);
 }
 
 body {
@@ -36,12 +36,19 @@ body {
 
 /* "Book Now" CTA styled as a button */
 .navbar .navbar-nav .nav-item a[href*="cal.com"] {
-  background: var(--nw-grad);
-  color: #fff !important;
+  background: transparent;
+  color: var(--nw-primary) !important;
+  border: 1px solid var(--nw-primary);
   border-radius: 999px;
   padding: 0.4rem 1.1rem !important;
   font-weight: 600;
   margin-left: 0.5rem;
+  transition: background-color 0.15s, color 0.15s, transform 0.15s;
+}
+
+.navbar .navbar-nav .nav-item a[href*="cal.com"]:hover {
+  background: var(--nw-primary);
+  color: #fff !important;
 }
 
 /* ============ shared section scaffolding ============ */
@@ -98,7 +105,7 @@ body {
   border-radius: 50%;
   object-fit: cover;
   border: 2px solid var(--nw-border);
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+  box-shadow: 0 0 0 3px rgba(0, 118, 223, 0.25);
   margin-bottom: 1.5rem;
 }
 
@@ -146,10 +153,7 @@ body {
 }
 
 #hero h1 .nw-name {
-  background: var(--nw-grad);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--nw-fg);
 }
 
 #hero .nw-role {
@@ -243,7 +247,7 @@ body {
 .nw-btn-primary {
   background: var(--nw-grad);
   color: #fff !important;
-  box-shadow: 0 8px 24px rgba(99, 102, 241, 0.35);
+  box-shadow: 0 8px 24px rgba(0, 118, 223, 0.35);
 }
 
 .nw-btn-ghost {
@@ -281,10 +285,7 @@ body {
   display: block;
   font-size: 2.4rem;
   font-weight: 800;
-  background: var(--nw-grad);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--nw-stat-number);
 }
 
 #stats .nw-stat span {
@@ -359,8 +360,8 @@ body {
 /* gradient icon tiles */
 .g-emerald { background: linear-gradient(135deg, #34d399, #14b8a6); }
 .g-amber   { background: linear-gradient(135deg, #fbbf24, #f97316); }
-.g-sky     { background: linear-gradient(135deg, #38bdf8, #6366f1); }
-.g-fuchsia { background: linear-gradient(135deg, #e879f9, #a855f7); }
+.g-sky     { background: linear-gradient(135deg, #38bdf8, #0076DF); }
+.g-fuchsia { background: linear-gradient(135deg, #38bdf8, #0076DF); }
 .g-lime    { background: linear-gradient(135deg, #a3e635, #16a34a); }
 .g-rose    { background: linear-gradient(135deg, #fb7185, #ef4444); }
 
