@@ -5,8 +5,6 @@ description: A Template for Creating R Projects
 categories:
 - R
 - Data Science
-image: featured.webp
-image-alt: R Project Template Builder
 featured: true
 ---
 

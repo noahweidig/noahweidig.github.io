@@ -5,8 +5,6 @@ description: A Personal Exploration of Minimalism
 categories:
 - Creative
 - Minimalism
-image: featured.webp
-image-alt: Less project exploring minimalism and personal philosophy
 featured: true
 ---
 

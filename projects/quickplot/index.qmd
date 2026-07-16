@@ -5,8 +5,6 @@ description: A Shiny App for Data Viz with No Code
 categories:
 - R
 - Data Visualization
-image: featured.webp
-image-alt: QuickPlot Shiny app for creating publication-ready data visualizations
 featured: true
 ---
 

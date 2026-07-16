@@ -4,8 +4,6 @@ date: '2026-03-16'
 description: A Plotly Gallery of Data Visualization
 categories:
 - Data Visualization
-image: featured.webp
-image-alt: DataViz gallery showcasing various data visualization examples using Plotly
 featured: true
 ---
 

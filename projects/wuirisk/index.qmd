@@ -5,8 +5,6 @@ description: A GEE App for Visualizing Risk
 categories:
 - Fire
 - Geospatial
-image: featured.webp
-image-alt: WUI Wildfire Explorer showing wildland-urban interface risk visualization
 featured: true
 ---
 
