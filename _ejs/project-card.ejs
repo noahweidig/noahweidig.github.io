@@ -19,6 +19,7 @@ const nwProjIcons = {
   'wuirisk':        { g: 'g-amber',   svg: '<path d="M5 12l-2 0l9 -9l9 9l-2 0"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7"/><path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6"/>' }
 };
 %>
+```{=html}
 <% for (const item of items) { %>
 <%
 const nwSegs = String(item.path).split('/').filter(Boolean);
@@ -38,3 +39,4 @@ const nwIcon = nwProjIcons[nwSlug] || { g: 'g-sky', svg: '<path d="M12 3l8 4.5v9
 </div>
 </div>
 <% } %>
+```
