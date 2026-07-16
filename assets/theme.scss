@@ -414,7 +414,8 @@ body {
   transition: transform 0.2s;
 }
 
-.nw-proj-card .nw-proj-media .nw-icon svg {
+.nw-proj-card .nw-proj-media .nw-icon svg,
+.nw-proj-card .nw-proj-media .nw-icon img {
   width: 1.75rem;
   height: 1.75rem;
 }
