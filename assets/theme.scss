@@ -734,36 +734,47 @@ body {
 }
 
 /* ============ posts (blog listing) ============ */
-.nw-posts .nw-post {
-  display: flex;
+.nw-posts {
+  display: grid;
   gap: 1.5rem;
-  align-items: baseline;
-  padding: 1rem 0;
-  border-bottom: 1px solid var(--nw-border);
 }
 
-.nw-post-date {
-  flex: 0 0 7.5rem;
-  color: var(--nw-muted);
-  font-size: 0.88rem;
+.nw-posts .nw-post {
+  background: var(--nw-card);
+  border: 1px solid var(--nw-border);
+  border-radius: 1rem;
+  padding: 1.5rem 1.75rem;
+  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
 }
 
-.nw-post-body h3 {
+.nw-posts .nw-post:hover {
+  transform: translateY(-4px);
+  border-color: var(--nw-primary);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.18);
+}
+
+.nw-post h3 {
   font-size: 1.1rem;
   font-weight: 700;
-  margin: 0 0 0.2rem;
+  margin: 0;
 }
 
-.nw-post-body h3 a {
+.nw-post h3 a {
   color: var(--nw-fg);
   text-decoration: none;
 }
 
-.nw-post-body h3 a:hover {
+.nw-post h3 a:hover {
   color: var(--nw-primary);
 }
 
-.nw-post-body p {
+.nw-post-date {
+  color: var(--nw-muted);
+  font-size: 0.85rem;
+  margin: 0.3rem 0 0.6rem;
+}
+
+.nw-post p {
   margin: 0;
   color: var(--nw-muted);
   font-size: 0.92rem;
@@ -927,7 +938,6 @@ body {
 }
 
 @media (max-width: 640px) {
-  .nw-post-date { flex-basis: 5.5rem; }
   .nw-section { padding: 3rem 0; }
 }
 
