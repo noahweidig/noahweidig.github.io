@@ -5,9 +5,8 @@ description: A GEE App for Visualizing Risk
 categories:
 - Fire
 - Geospatial
-image: featured.webp
-image-alt: WUI Wildfire Explorer showing wildland-urban interface risk visualization
 featured: true
+icon: trees
 ---
 
 [Launch Tool](https://ee-weidignc.projects.earthengine.app/view/wui-wildfire){.nw-btn .nw-btn-primary target="_blank"}

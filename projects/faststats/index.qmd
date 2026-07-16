@@ -6,9 +6,8 @@ categories:
 - R
 - Data Visualization
 - Data Science
-image: featured.webp
-image-alt: FastStats browser-based analytics tool with data visualizations
 featured: true
+icon: gauge
 ---
 
 [Open Tool](https://noahweidig.com/faststats/){.nw-btn .nw-btn-primary target="_blank"}

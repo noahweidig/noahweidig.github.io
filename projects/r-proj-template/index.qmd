@@ -5,9 +5,8 @@ description: A Template for Creating R Projects
 categories:
 - R
 - Data Science
-image: featured.webp
-image-alt: R Project Template Builder
 featured: true
+icon: template
 ---
 
 [Launch Tool](https://noahweidig.com/r-proj-template/){.nw-btn .nw-btn-primary target="_blank"}

@@ -10,7 +10,7 @@ listing:
     max-items: 6
     include:
       featured: true
-    template: _ejs/project-card.ejs
+    template: _ejs/project-card-featured.ejs
   - id: featured-pubs
     contents: "publications/*/index.qmd"
     sort: "date desc"

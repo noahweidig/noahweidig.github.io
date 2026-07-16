@@ -1,7 +1,6 @@
 <% for (const item of items) { %>
 <div class="nw-proj-wrap">
 <div class="nw-proj-card" data-cats="<%= (item.categories || []).join('|') %>">
-<% if (item.image) { %><a href="<%- item.path %>"><img src="<%- item.image %>" alt="<%= item['image-alt'] || item.title %>" loading="lazy"></a><% } %>
 <div class="nw-proj-body">
 <h3><a href="<%- item.path %>"><%= item.title %></a></h3>
 <p><%= item.description || '' %></p>
