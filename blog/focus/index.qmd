@@ -1,12 +1,14 @@
 ---
-title: Beauty, Wonder, and the Natural World
+title: Focus
 date: '2026-04-28'
-description: How getting outside expands our understanding of the world
+description: Living in a distracted world
 categories:
-- Thoughts
+- Tech
 draft: true
 ---
 
-# Touching Trees
+# The Problem
 
-As an ecologist, I often think about natural systems and how they operate at various scales. I explore various opinions and theories about how the world works. But as a GIS specialist, I'm typically stuck behind a computer, hypothesizing, guessing, and Googling.
+The advent of technology has brought about incredible change that has drastically improved the lives of millions of individuals around the world. That being said, technology has several drawbacks. For one, it pulls us away from being present to those we love. It can facilitates addictions and exacerbates a plethora of mental health problems. Don't misunderstand me. I'm not advocating for Luddism. I use technology every day, and I think that techological tools are some of the best human innovations. However, I've seen the negative consequences of allowing technology to permeate every aspect of my life.
+
+# 
