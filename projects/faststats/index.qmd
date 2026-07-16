@@ -5,7 +5,7 @@ description: Fast, Client-side Analytics
 categories:
 - R
 - Data Visualization
-- plotly
+- Data Science
 image: featured.webp
 image-alt: FastStats browser-based analytics tool with data visualizations
 featured: true

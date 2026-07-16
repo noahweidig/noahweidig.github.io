@@ -4,7 +4,6 @@ date: '2026-03-21'
 description: An R Package for U.S. Fire Data
 categories:
 - R
-- Package
 image: featured.webp
 image-alt: FireR R package for working with U.S. fire data
 featured: true

@@ -12,7 +12,7 @@ $input-bg: #13131a;
 
 :root {
   --nw-bg: #0a0a0f;
-  --nw-bg-alt: #0d0d12;
+  --nw-bg-alt: #0a0a0f;
   --nw-fg: #e5e7eb;
   --nw-muted: #9ca3af;
   --nw-card: #13131a;
@@ -23,6 +23,9 @@ $input-bg: #13131a;
   --nw-cta-via: #4338ca;
   --nw-cta-to: #7e22ce;
   --nw-cta-fg: #f5f3ff;
+  --nw-grid-line: rgba(229, 231, 235, 0.04);
+  --nw-topo: rgba(229, 231, 235, 0.07);
+  --nw-footer-bg: #0d0d12;
 }
 
 /* white logos pop on dark; keep institution marks legible */
