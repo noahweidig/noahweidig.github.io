@@ -128,10 +128,22 @@ body {
   padding: 2.5rem 1.5rem 4.5rem;
 }
 
-/* ============ awards grid cleanup ============ */
+/* ============ awards grid: strict 4x1 / 2x2 / 1x4 ============ */
 .nw-carousel {
-  grid-template-columns: repeat(auto-fill, minmax(min(16rem, 100%), 1fr));
+  grid-template-columns: repeat(4, 1fr);
   align-items: start;
+}
+
+@media (max-width: 991.98px) {
+  .nw-carousel {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 575.98px) {
+  .nw-carousel {
+    grid-template-columns: 1fr;
+  }
 }
 
 .nw-carousel > p,

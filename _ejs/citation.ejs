@@ -1,5 +1,5 @@
 <% for (const item of items) { %>
-<div class="nw-cite">
+<div class="nw-cite" data-cats="<%= (item.categories || []).join('|') %>">
 <div class="nw-cite-title"><a href="<%- item.path %>"><%= item.title %></a></div>
 <div class="nw-cite-meta"><% for (const [i, part] of String(item['pub-authors'] || '').replace(/&lt;\/?strong&gt;|<\/?strong>/g, '**').split('**').entries()) { if (i % 2) { %><strong><%= part %></strong><% } else { %><%= part %><% } } %><% if (item.date) { %> (<%= new Date(item.date).getUTCFullYear() %>).<% } %> <% if (item['pub-venue']) { %><em><%= item['pub-venue'] %></em>.<% } %></div>
 <div class="nw-cite-links">

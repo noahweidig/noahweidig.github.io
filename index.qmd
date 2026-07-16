@@ -77,37 +77,37 @@ include-after-body:
     <p class="nw-lead">I work at the intersection of geospatial analytics, data science, and applied AI — turning spatial and environmental data into decision-ready insight.</p>
     <div class="nw-grid">
       <div class="nw-card">
-        <span class="nw-icon g-emerald"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9 9 0 100-18 9 9 0 000 18zm0-18c2.5 2.5 3.9 5.6 3.9 9s-1.4 6.5-3.9 9m0-18c-2.5 2.5-3.9 5.6-3.9 9s1.4 6.5 3.9 9M3.6 9h16.8M3.6 15h16.8"/></svg></span>
+        <span class="nw-icon g-emerald"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.707 6.293l2.586 -2.586a1 1 0 0 1 1.414 0l5.586 5.586a1 1 0 0 1 0 1.414l-2.586 2.586a1 1 0 0 1 -1.414 0l-5.586 -5.586a1 1 0 0 1 0 -1.414z"/><path d="M6 10l-3 3l3 3l3 -3"/><path d="M10 6l3 -3l3 3l-3 3"/><path d="M12 12l1.5 1.5"/><path d="M14.5 17a2.5 2.5 0 0 0 2.5 -2.5"/><path d="M15 21a6 6 0 0 0 6 -6"/></svg></span>
         <h3>Remote Sensing &amp; Earth Observation</h3>
         <p>Extracting signal from satellite and aerial imagery to monitor landscapes, vegetation, and environmental change over time.</p>
         <div class="nw-chips"><span class="nw-chip">Imagery Analysis</span><span class="nw-chip">Google Earth Engine</span><span class="nw-chip">Change Detection</span></div>
       </div>
       <div class="nw-card">
-        <span class="nw-icon g-amber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 6.75V15m6-6v8.25m.5 3.5l5-2.5a1 1 0 00.5-.9V4.6a1 1 0 00-1.4-.9l-4.6 2.3-6-3-5 2.5a1 1 0 00-.5.9v14.7a1 1 0 001.4.9l4.6-2.3 5.5 2.75z"/></svg></span>
+        <span class="nw-icon g-amber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7l6 -3l6 3l6 -3v13l-6 3l-6 -3l-6 3z"/><path d="M9 4v13"/><path d="M15 7v13"/></svg></span>
         <h3>Land-Use Change &amp; Social-Ecological Systems</h3>
         <p>Studying how landscapes and communities co-evolve — wildland-urban interface, land management, and regional risk.</p>
         <div class="nw-chips"><span class="nw-chip">Land-Use Change</span><span class="nw-chip">Wildfire &amp; WUI</span><span class="nw-chip">Risk Assessment</span></div>
       </div>
       <div class="nw-card">
-        <span class="nw-icon g-sky"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.1a1.1 1.1 0 011.1-1.1h1.7A1.1 1.1 0 017 13.1v6.7A1.1 1.1 0 015.9 21H4.1A1.1 1.1 0 013 19.9v-6.8zM9.8 8.6a1.1 1.1 0 011.1-1.1h1.7a1.1 1.1 0 011.1 1.1v11.3a1.1 1.1 0 01-1.1 1.1h-1.7a1.1 1.1 0 01-1.1-1.1V8.6zM16.5 4.1A1.1 1.1 0 0117.6 3h1.7a1.1 1.1 0 011.1 1.1v15.8a1.1 1.1 0 01-1.1 1.1h-1.7a1.1 1.1 0 01-1.1-1.1V4.1z"/></svg></span>
+        <span class="nw-icon g-sky"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v6a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1z"/><path d="M10 9a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v10a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1z"/><path d="M17 5a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v14a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1z"/></svg></span>
         <h3>Spatial Data Science &amp; Statistical Modeling</h3>
         <p>Building reproducible spatial workflows and statistical models that quantify pattern, uncertainty, and trend.</p>
         <div class="nw-chips"><span class="nw-chip">Bayesian Analysis</span><span class="nw-chip">Forecasting</span><span class="nw-chip">Reproducible Research</span></div>
       </div>
       <div class="nw-card">
-        <span class="nw-icon g-fuchsia"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 3v1.5M15.75 3v1.5M8.25 19.5V21M15.75 19.5V21M3 8.25h1.5M3 15.75h1.5M19.5 8.25H21M19.5 15.75H21M6.75 4.5h10.5a2.25 2.25 0 012.25 2.25v10.5a2.25 2.25 0 01-2.25 2.25H6.75a2.25 2.25 0 01-2.25-2.25V6.75A2.25 2.25 0 016.75 4.5zM9.75 9.75h4.5v4.5h-4.5v-4.5z"/></svg></span>
+        <span class="nw-icon g-fuchsia"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 18a2 2 0 0 1 2 2a2 2 0 0 1 2 -2a2 2 0 0 1 -2 -2a2 2 0 0 1 -2 2z"/><path d="M16 6a2 2 0 0 1 2 2a2 2 0 0 1 2 -2a2 2 0 0 1 -2 -2a2 2 0 0 1 -2 2z"/><path d="M9 18a6 6 0 0 1 6 -6a6 6 0 0 1 -6 -6a6 6 0 0 1 -6 6a6 6 0 0 1 6 6z"/></svg></span>
         <h3>Applied AI &amp; Data Storytelling</h3>
         <p>Applying machine learning to geospatial problems and communicating results through clear, compelling visualization.</p>
         <div class="nw-chips"><span class="nw-chip">Machine Learning</span><span class="nw-chip">Data Visualization</span><span class="nw-chip">Quantitative Ecology</span></div>
       </div>
       <div class="nw-card">
-        <span class="nw-icon g-lime"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 12.75c1.1 0 2.1.2 3 .55V21a9 9 0 01-6 0v-7.7c.9-.35 1.9-.55 3-.55zM8.5 4.5a3.5 3.5 0 117 0v2a3.5 3.5 0 11-7 0v-2zM3 8.25l3.2 1.6M21 8.25l-3.2 1.6M4.5 15.75l3-1.5M19.5 15.75l-3-1.5"/></svg></span>
+        <span class="nw-icon g-lime"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21c.5 -4.5 2.5 -8 7 -10"/><path d="M9 18c6.218 0 10.5 -3.288 11 -12v-2h-4.014c-9 0 -11.986 4 -12 9c0 1 0 3 2 5h3z"/></svg></span>
         <h3>Biodiversity &amp; Conservation Monitoring</h3>
         <p>Tracking species, habitats, and ecosystem health to inform conservation planning and management decisions.</p>
         <div class="nw-chips"><span class="nw-chip">Species Distribution</span><span class="nw-chip">Habitat Mapping</span><span class="nw-chip">Conservation Planning</span></div>
       </div>
       <div class="nw-card">
-        <span class="nw-icon g-rose"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5.25 14.25h13.5m-13.5 0a3 3 0 01-3-3m3 3a3 3 0 100 6h13.5a3 3 0 100-6m-16.5-3a3 3 0 013-3h13.5a3 3 0 013 3m-19.5 0a4.5 4.5 0 01.9-2.7L8.1 3.75a3 3 0 012.4-1.2h3a3 3 0 012.4 1.2l2.7 4.8a4.5 4.5 0 01.9 2.7m-18 0h18"/></svg></span>
+        <span class="nw-icon g-rose"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v6a8 3 0 0 0 16 0v-6"/><path d="M4 12v6a8 3 0 0 0 16 0v-6"/></svg></span>
         <h3>Geospatial Engineering &amp; Open Data</h3>
         <p>Designing scalable spatial data pipelines and open, interoperable tools that make geospatial work reproducible and shareable.</p>
         <div class="nw-chips"><span class="nw-chip">Spatial Databases</span><span class="nw-chip">Data Pipelines</span><span class="nw-chip">Open Source GIS</span></div>
@@ -335,11 +335,12 @@ include-after-body:
     <div class="nw-contact">
       <p>I'm always interested in hearing about new projects and opportunities. Whether you're looking to hire, collaborate, or just want to say hi, feel free to reach out!</p>
       <p class="nw-email"><a href="mailto:noah@noahweidig.com">noah@noahweidig.com</a></p>
-      <form class="nw-form" action="https://formspree.io/f/mnjggoke" method="POST">
-        <input type="text" name="name" placeholder="Your name" required>
-        <input type="email" name="email" placeholder="Your email" required>
+      <form class="nw-form" action="https://formspree.io/f/xjgnggga" method="POST">
+        <input type="text" name="name" placeholder="Your name" autocomplete="name" required>
+        <input type="email" name="email" placeholder="Your email" autocomplete="email" required>
         <textarea name="message" rows="5" placeholder="Your message" required></textarea>
-        <div class="nw-btns" style="justify-content:flex-start"><button class="nw-btn nw-btn-primary" type="submit">Send Message</button></div>
+        <p class="nw-form-status" role="status" aria-live="polite" hidden></p>
+        <div class="nw-btns"><button class="nw-btn nw-btn-primary" type="submit">Send Message</button></div>
       </form>
     </div>
   </div>
