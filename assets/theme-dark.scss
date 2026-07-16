@@ -27,6 +27,7 @@ $input-bg: #13131a;
   --nw-topo: rgba(229, 231, 235, 0.07);
   --nw-footer-bg: #0d0d12;
   --nw-glass: rgba(10, 10, 15, 0.85);
+  --nw-glass-strong: rgba(10, 10, 15, 0.96);
 }
 
 /* solid mark renders black by default; flip to white on dark */
@@ -38,4 +39,41 @@ $input-bg: #13131a;
 /* white logos pop on dark; keep institution marks legible */
 .nw-marquee-track img {
   filter: brightness(0) invert(0.85);
+}
+
+/* black tech-stack marks (GitHub, Markdown, LaTeX, …) flip to white on dark;
+   hue-rotate keeps any colored parts close to their original hue */
+.nw-stack-item img.nw-inv {
+  filter: invert(1) hue-rotate(180deg);
+}
+
+/* Leaflet chrome ships light-only; restyle controls and popups for dark */
+#map .leaflet-container {
+  background: #0a0a0f;
+}
+
+#map .leaflet-control-zoom a {
+  background: #13131a;
+  color: #e5e7eb;
+  border-color: #26262f;
+}
+
+#map .leaflet-control-zoom a:hover {
+  background: #1d1d26;
+}
+
+#map .leaflet-control-attribution {
+  background: rgba(19, 19, 26, 0.85);
+  color: #9ca3af;
+}
+
+#map .leaflet-control-attribution a {
+  color: #c7d2fe;
+}
+
+#map .leaflet-popup-content-wrapper,
+#map .leaflet-popup-tip {
+  background: #13131a;
+  color: #e5e7eb;
+  box-shadow: 0 3px 14px rgba(0, 0, 0, 0.6);
 }
