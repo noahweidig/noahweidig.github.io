@@ -51,6 +51,46 @@ document.addEventListener(
   onScroll();
 })();
 
+// Mobile hamburger menu: close after clicking a nav item, or when clicking outside it.
+(function () {
+  var collapseEl = document.querySelector(".navbar-collapse");
+  var toggler = document.querySelector(".navbar-toggler");
+  if (!collapseEl) return;
+
+  function closeMenu() {
+    if (!collapseEl.classList.contains("show")) return;
+    if (window.bootstrap && window.bootstrap.Collapse) {
+      window.bootstrap.Collapse.getOrCreateInstance(collapseEl, { toggle: false }).hide();
+    } else {
+      collapseEl.classList.remove("show");
+    }
+  }
+
+  collapseEl.addEventListener("click", function (e) {
+    if (e.target.closest && e.target.closest("a")) closeMenu();
+  });
+
+  document.addEventListener(
+    "click",
+    function (e) {
+      if (!collapseEl.classList.contains("show")) return;
+      if (collapseEl.contains(e.target)) return;
+      if (toggler && toggler.contains(e.target)) return;
+      closeMenu();
+    },
+    true
+  );
+})();
+
+// Publication detail pages: the auto-generated `description` (a truncated
+// abstract, used for SEO/share meta) also renders as the visible subtitle,
+// duplicating the "Abstract" section further down the page. Drop it.
+(function () {
+  if (!/^\/publications\/[^/]+\/(index\.html)?$/.test(location.pathname)) return;
+  var sub = document.querySelector("#title-block-header .subtitle");
+  if (sub) sub.remove();
+})();
+
 // Project/award detail pages: surface the page's featured image below the title.
 (function () {
   if (!/\/(projects|awards)\/[^/]+\/(index\.html)?$/.test(location.pathname)) return;
