@@ -4,7 +4,7 @@ date: '2026-03-21'
 description: US Census TIGER Roads in GEE
 categories:
 - Geospatial
-- Google Earth Engine
+- Data Science
 image: featured.webp
 image-alt: TIGER Roads dataset visualization in Google Earth Engine
 featured: true
