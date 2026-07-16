@@ -18,16 +18,17 @@ $input-bg: #13131a;
   --nw-card: #13131a;
   --nw-border: #26262f;
   --nw-chip: #1d1d26;
-  --nw-hero-glow: rgba(99, 102, 241, 0.18);
-  --nw-cta-from: #4f46e5;
-  --nw-cta-via: #4338ca;
-  --nw-cta-to: #7e22ce;
-  --nw-cta-fg: #f5f3ff;
+  --nw-hero-glow: rgba(0, 118, 223, 0.18);
+  --nw-cta-from: #0076DF;
+  --nw-cta-via: #0076DF;
+  --nw-cta-to: #0076DF;
+  --nw-cta-fg: #ffffff;
   --nw-grid-line: rgba(229, 231, 235, 0.04);
   --nw-topo: rgba(229, 231, 235, 0.07);
   --nw-footer-bg: #0d0d12;
   --nw-glass: rgba(10, 10, 15, 0.85);
   --nw-glass-strong: rgba(10, 10, 15, 0.96);
+  --nw-stat-number: #ffffff;
 }
 
 /* solid mark renders black by default; flip to white on dark */
@@ -68,7 +69,7 @@ $input-bg: #13131a;
 }
 
 #map .leaflet-control-attribution a {
-  color: #c7d2fe;
+  color: #8fcaff;
 }
 
 #map .leaflet-popup-content-wrapper,
