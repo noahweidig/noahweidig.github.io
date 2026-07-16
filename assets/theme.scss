@@ -39,6 +39,34 @@ body {
   font-weight: 700;
 }
 
+/* Navigation hover state and blue animated underline on desktop. */
+.navbar-expand-lg .navbar-nav .nav-link:hover {
+  color: $primary;
+}
+
+@media screen and (min-width: 992px) {
+  .navbar .navbar-nav .nav-item {
+    position: relative;
+  }
+
+  .navbar .navbar-nav .nav-item::after {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 4px;
+    margin: auto;
+    content: "";
+    background-color: $primary;
+    transition: width 0.3s;
+  }
+
+  .navbar .navbar-nav .nav-item:hover::after {
+    width: 90%;
+  }
+}
+
 /* "Book Now" CTA styled as a button */
 .navbar .navbar-nav .nav-item a[href*="cal.com"] {
   background: transparent;
