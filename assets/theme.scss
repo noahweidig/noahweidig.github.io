@@ -42,8 +42,8 @@ body {
 /* "Book Now" CTA styled as a button */
 .navbar .navbar-nav .nav-item a[href*="cal.com"] {
   background: transparent;
-  color: var(--nw-primary) !important;
-  border: 1px solid var(--nw-primary);
+  color: var(--nw-navcta) !important;
+  border: 1px solid var(--nw-navcta);
   border-radius: 999px;
   padding: 0.4rem 1.1rem !important;
   font-weight: 600;
@@ -451,6 +451,15 @@ body {
 }
 
 /* ============ citations (publications listing) ============ */
+/* home page: match featured pubs/posts width to education & experience timelines */
+#publications .nw-cites,
+#blog .nw-posts {
+  max-width: 46rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
 .nw-cites .nw-cite {
   position: relative;
   background: var(--nw-card);
@@ -740,6 +749,7 @@ body {
 }
 
 .nw-posts .nw-post {
+  position: relative;
   background: var(--nw-card);
   border: 1px solid var(--nw-border);
   border-radius: 1rem;
@@ -766,6 +776,13 @@ body {
 
 .nw-post h3 a:hover {
   color: var(--nw-primary);
+}
+
+/* stretched link: the whole card navigates to the post */
+.nw-post h3 a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
 }
 
 .nw-post-date {
