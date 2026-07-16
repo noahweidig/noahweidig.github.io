@@ -629,6 +629,11 @@ body {
 .nw-tl-item .nw-tl-org {
   font-weight: 600;
   color: var(--nw-primary);
+  text-decoration: none;
+}
+
+.nw-tl-item .nw-tl-org:hover {
+  text-decoration: underline;
 }
 
 .nw-tl-item .nw-tl-meta {
