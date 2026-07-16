@@ -81,7 +81,7 @@ body {
 /* ============ tech stack: single column, larger items ============ */
 .nw-stack {
   grid-template-columns: 1fr;
-  max-width: 60rem;
+  max-width: 36rem;
   margin: 0 auto;
   gap: 1.25rem;
 }
@@ -107,19 +107,6 @@ body {
   height: 3.25rem;
 }
 
-@media (min-width: 768px) {
-  .nw-stack-cat {
-    display: grid;
-    grid-template-columns: 10rem 1fr;
-    align-items: center;
-    justify-items: center;
-    padding: 1.75rem 2rem;
-  }
-
-  .nw-stack-cat h3 {
-    margin: 0;
-  }
-}
 
 /* ============ map: match the contact / CTA container width ============ */
 #map .nw-map {
