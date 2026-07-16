@@ -93,7 +93,7 @@ document.addEventListener(
 
 // Project/award detail pages: surface the page's featured image below the title.
 (function () {
-  if (!/\/(projects|awards)\/[^/]+\/(index\.html)?$/.test(location.pathname)) return;
+  if (!/\/awards\/[^/]+\/(index\.html)?$/.test(location.pathname)) return;
   var meta = document.querySelector('meta[property="og:image"]');
   var header = document.getElementById("title-block-header");
   if (!meta || !header || document.querySelector(".nw-detail-hero")) return;
