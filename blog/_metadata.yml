@@ -1,0 +1,7 @@
+comments:
+  giscus:
+    repo: noahweidig/portfolio
+    category: General
+    mapping: pathname
+    reactions-enabled: true
+    loading: lazy

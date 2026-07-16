@@ -5,7 +5,6 @@ description: Tutorials for Data Analysis & Viz
 categories:
 - R
 - Data Visualization
-- ggplot2
 image: featured.webp
 image-alt: ChartifyR tutorials for data analysis and visualization with ggplot2
 featured: true

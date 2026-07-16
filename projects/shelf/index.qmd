@@ -3,8 +3,7 @@ title: Shelf
 date: '2026-02-18'
 description: My Personal Reading Journal
 categories:
-- Reading
-- Books
+- Creative
 - Data Science
 image: featured.webp
 image-alt: 'Shelf: My Personal Reading Journal'

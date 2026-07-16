@@ -1,17 +1,17 @@
 /*-- scss:defaults --*/
 
-$body-bg: #fafafa;
+$body-bg: #ffffff;
 $body-color: #1f2937;
-$navbar-bg: rgba(250, 250, 250, 0.85);
+$navbar-bg: rgba(255, 255, 255, 0.85);
 $navbar-fg: #1f2937;
-$footer-bg: #f5f5f5;
+$footer-bg: #fafafa;
 $card-bg: #ffffff;
 
 /*-- scss:rules --*/
 
 :root {
-  --nw-bg: #fafafa;
-  --nw-bg-alt: #f5f5f5;
+  --nw-bg: #ffffff;
+  --nw-bg-alt: #ffffff;
   --nw-fg: #1f2937;
   --nw-muted: #6b7280;
   --nw-card: #ffffff;
@@ -22,4 +22,7 @@ $card-bg: #ffffff;
   --nw-cta-via: #e0e7ff;
   --nw-cta-to: #e9d5ff;
   --nw-cta-fg: #1e1b4b;
+  --nw-grid-line: rgba(31, 41, 55, 0.05);
+  --nw-topo: rgba(31, 41, 55, 0.08);
+  --nw-footer-bg: #fafafa;
 }
