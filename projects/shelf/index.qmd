@@ -5,8 +5,6 @@ description: My Personal Reading Journal
 categories:
 - Creative
 - Data Science
-image: featured.webp
-image-alt: 'Shelf: My Personal Reading Journal'
 featured: true
 ---
 

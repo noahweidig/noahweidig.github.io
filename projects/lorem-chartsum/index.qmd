@@ -5,8 +5,6 @@ description: A Placeholder Chart API
 categories:
 - APIs
 - Data Science
-image: featured.webp
-image-alt: Lorem Chartsum API for generating dynamic placeholder charts
 featured: true
 ---
 
