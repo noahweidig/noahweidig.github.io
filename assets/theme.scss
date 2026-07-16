@@ -135,6 +135,15 @@ body {
   margin: 0 0 0.5rem;
 }
 
+#hero h1 .nw-hi {
+  display: block;
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: var(--nw-muted);
+  margin-bottom: 0.5rem;
+}
+
 #hero h1 .nw-name {
   background: var(--nw-grad);
   -webkit-background-clip: text;
@@ -217,6 +226,11 @@ body {
   font-weight: 600;
   text-decoration: none !important;
   transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.nw-btn svg {
+  width: 1.1em;
+  height: 1.1em;
 }
 
 .nw-btn:hover {
@@ -806,4 +820,32 @@ body {
 @media (max-width: 640px) {
   .nw-post-date { flex-basis: 5.5rem; }
   .nw-section { padding: 3rem 0; }
+}
+
+/* mobile: overlay the expanded hamburger menu instead of pushing content down */
+@media (max-width: 991.98px) {
+  .navbar .navbar-collapse {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--nw-bg);
+    border-bottom: 1px solid var(--nw-border);
+    padding: 0.5rem 1rem 1rem;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+  }
+}
+
+/* very narrow screens: shrink the site title so it isn't cut off */
+@media (max-width: 400px) {
+  .navbar .navbar-title {
+    font-size: 0.85rem;
+  }
+}
+
+/* footer social icons (inline SVGs matching the hero) */
+.nav-footer a svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  vertical-align: -0.25em;
 }
