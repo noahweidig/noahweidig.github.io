@@ -587,7 +587,8 @@ body {
   content: "";
   position: absolute;
   left: -2.23rem;
-  top: 1.75rem;
+  top: 50%;
+  transform: translateY(-50%);
   width: 0.9rem;
   height: 0.9rem;
   border-radius: 50%;
