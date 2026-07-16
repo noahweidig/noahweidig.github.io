@@ -451,6 +451,15 @@ body {
 }
 
 /* ============ citations (publications listing) ============ */
+/* home page: match featured pubs/posts width to education & experience timelines */
+#publications .nw-cites,
+#blog .nw-posts {
+  max-width: 46rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
 .nw-cites .nw-cite {
   position: relative;
   background: var(--nw-card);
