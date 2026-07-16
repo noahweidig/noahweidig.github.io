@@ -891,6 +891,16 @@ body {
 /* mobile: overlay the expanded hamburger menu instead of pushing content down;
    same glassmorphic treatment as the navbar itself */
 @media (max-width: 991.98px) {
+  /* Keep every link in the expanded hamburger menu centered, including the CTA. */
+  .navbar .navbar-collapse .navbar-nav {
+    align-items: center;
+    text-align: center;
+  }
+
+  .navbar .navbar-collapse .nav-item {
+    width: 100%;
+  }
+
   .navbar .navbar-collapse {
     position: absolute;
     top: 100%;
@@ -912,6 +922,11 @@ body {
     width: fit-content;
     margin-left: 0;
     margin-top: 0.5rem;
+  }
+
+  /* Free space in the navbar while the dropdown is open. */
+  .navbar:has(.navbar-collapse.show) .navbar-brand img {
+    display: none;
   }
 }
 
