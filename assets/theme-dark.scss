@@ -48,6 +48,19 @@ $input-bg: #13131a;
   filter: invert(1) hue-rotate(180deg);
 }
 
+/* Keep the resume download CTA distinct against the blue CTA panel. */
+.nw-btn-resume {
+  background: var(--nw-primary);
+  border: 1px solid #ffffff;
+  color: #ffffff !important;
+}
+
+.nw-btn-resume:hover {
+  background: #ffffff;
+  border-color: #ffffff;
+  color: var(--nw-primary) !important;
+}
+
 /* Leaflet chrome ships light-only; restyle controls and popups for dark */
 #map .leaflet-container {
   background: #0a0a0f;
