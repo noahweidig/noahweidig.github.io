@@ -82,6 +82,15 @@ document.addEventListener(
   );
 })();
 
+// Publication detail pages: the auto-generated `description` (a truncated
+// abstract, used for SEO/share meta) also renders as the visible subtitle,
+// duplicating the "Abstract" section further down the page. Drop it.
+(function () {
+  if (!/^\/publications\/[^/]+\/(index\.html)?$/.test(location.pathname)) return;
+  var sub = document.querySelector("#title-block-header .subtitle");
+  if (sub) sub.remove();
+})();
+
 // Project/award detail pages: surface the page's featured image below the title.
 (function () {
   if (!/\/(projects|awards)\/[^/]+\/(index\.html)?$/.test(location.pathname)) return;
