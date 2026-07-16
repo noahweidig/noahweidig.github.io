@@ -924,8 +924,8 @@ body {
     margin-top: 0.5rem;
   }
 
-  /* Free space in the navbar while the dropdown is open. */
-  .navbar:has(.navbar-collapse.show) .navbar-brand img {
+  /* Keep the compact mobile navbar clear, whether or not its menu is open. */
+  .navbar .navbar-brand img {
     display: none;
   }
 }
