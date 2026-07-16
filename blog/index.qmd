@@ -9,6 +9,10 @@ listing:
   contents: "*/index.qmd"
   sort: "date desc"
   template: ../_ejs/post-row.ejs
+  feed:
+    title: "Noah Weidig — Blog"
+    description: "Notes on science, data, maps, and the landscapes we live in."
+    items: 20
 ---
 
 ::: {#all-posts .nw-posts}

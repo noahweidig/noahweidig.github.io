@@ -255,7 +255,7 @@ img.nw-detail-hero {
   gap: 0.6rem;
   font-weight: 800;
   font-size: 1.15rem;
-  color: var(--nw-primary);
+  color: var(--nw-fg);
   text-decoration: none;
 }
 
@@ -294,7 +294,7 @@ img.nw-detail-hero {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: var(--nw-primary);
+  color: var(--nw-fg);
   margin: 0 0 1rem;
 }
 
