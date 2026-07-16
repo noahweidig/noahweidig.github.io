@@ -749,6 +749,7 @@ body {
 }
 
 .nw-posts .nw-post {
+  position: relative;
   background: var(--nw-card);
   border: 1px solid var(--nw-border);
   border-radius: 1rem;
@@ -775,6 +776,13 @@ body {
 
 .nw-post h3 a:hover {
   color: var(--nw-primary);
+}
+
+/* stretched link: the whole card navigates to the post */
+.nw-post h3 a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
 }
 
 .nw-post-date {
