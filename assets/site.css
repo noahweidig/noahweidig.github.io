@@ -16,7 +16,7 @@ html {
   padding: 0 !important;
   margin-left: 0.5rem !important;
   margin-right: 0 !important;
-  border: 1px solid var(--nw-navcta);
+  border: 1px solid var(--nw-border);
   border-radius: 50%;
   box-sizing: border-box;
   transition: background-color 0.15s, border-color 0.15s;
@@ -55,7 +55,7 @@ body.quarto-dark .quarto-navbar-tools .quarto-color-scheme-toggle:hover > .bi::b
   height: var(--nw-navctl);
   min-width: var(--nw-navctl);
   padding: 0;
-  border: 1px solid var(--nw-navcta);
+  border: 1px solid var(--nw-border);
   border-radius: 50%;
   background: transparent;
   color: var(--nw-navcta);
