@@ -71,6 +71,13 @@ body.quarto-dark .quarto-navbar-tools .quarto-color-scheme-toggle:hover > .bi::b
   box-shadow: none;
 }
 
+/* Quarto's theme CSS colors the magnifier svg directly (color: #1f2937 on
+   light), which outranks the inherited hover color above, so force it. */
+#quarto-search.type-overlay .aa-DetachedSearchButton:hover .aa-SubmitIcon,
+#quarto-search.type-overlay .aa-DetachedSearchButton:focus .aa-SubmitIcon {
+  color: #fff !important;
+}
+
 #quarto-search .aa-DetachedSearchButtonIcon {
   width: auto;
   padding: 0;
