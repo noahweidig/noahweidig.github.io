@@ -1,14 +1,38 @@
 ---
 title: Focus
-date: '2026-04-28'
+date: '2026-07-16'
 description: Living in a distracted world
 categories:
 - Tech
-draft: true
+draft: false
 ---
 
 # The Problem
 
-The advent of technology has brought about incredible change that has drastically improved the lives of millions of individuals around the world. That being said, technology has several drawbacks. For one, it pulls us away from being present to those we love. It can facilitates addictions and exacerbates a plethora of mental health problems. Don't misunderstand me. I'm not advocating for Luddism. I use technology every day, and I think that techological tools are some of the best human innovations. However, I've seen the negative consequences of allowing technology to permeate every aspect of my life.
+The advent of technology has brought about incredible change that has drastically improved the lives of millions of individuals around the world. That being said, technology has several drawbacks. For one, it pulls us away from being present to those we love. It can facilitate addictions and exacerbate a plethora of mental health problems. Don't misunderstand me: I'm not advocating for Luddism. I use technology every day, and I think technological tools are some of the best human innovations. However, I've seen the negative consequences of allowing technology to permeate every aspect of my life.
 
-# 
+The core issue isn't willpower. It's design. Apps are engineered to capture and hold your attention as long as possible. Fighting that with discipline alone is an uphill battle. A better strategy: create friction.
+
+# Creating Friction
+
+Friction is the deliberate introduction of small barriers between you and a distraction. You don't have to quit your phone cold turkey: you just make it slightly harder to mindlessly reach for it. Over time, that resistance adds up.
+
+Here are a few tools I've found genuinely useful:
+
+## Shift Your Phone
+
+[Shift Your Phone](https://shiftyourphone.com/?ref=SUSRQKSJ) helps transform a smartphone into something simpler: a device that supports communication and essential tasks without constantly demanding attention. It uses MDM technology to prevent ALL workarounds for accessing distractions. No more ignoring Screen Time limits for 15 minutes.
+
+## Freedom
+
+[Freedom](https://freedom.to) lets you block distracting websites and apps across all your devices simultaneously. The key feature is scheduled and recurring sessions: your blocks run automatically, so you don't have to rely on in-the-moment willpower to turn them on. If you do a lot of deep work at a computer, Freedom is one of the most effective tools in this space.
+
+## Foqos
+
+[Foqos](https://foqos.app) takes a more physical approach. It uses NFC tags (small stickers you place around your environment) to trigger focus sessions when you tap your phone to them. Place one on your desk, your notebook, or your car dashboard. It turns starting a focus session into a physical ritual rather than a digital decision, which is surprisingly effective.
+
+# The Bigger Picture
+
+None of these tools will fix a broken relationship with technology on their own. But they lower the activation energy required to be intentional. The goal isn't to use your phone less for the sake of it — it's to make room for the things that actually matter: deep work, real conversations, and being present in your own life.
+
+Start with one change. See what shifts.
