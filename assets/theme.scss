@@ -42,8 +42,8 @@ body {
 /* "Book Now" CTA styled as a button */
 .navbar .navbar-nav .nav-item a[href*="cal.com"] {
   background: transparent;
-  color: var(--nw-primary) !important;
-  border: 1px solid var(--nw-primary);
+  color: var(--nw-navcta) !important;
+  border: 1px solid var(--nw-navcta);
   border-radius: 999px;
   padding: 0.4rem 1.1rem !important;
   font-weight: 600;
