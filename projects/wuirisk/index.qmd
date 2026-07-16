@@ -3,9 +3,7 @@ title: WUI Wildfire Explorer
 date: '2026-03-22'
 description: A GEE App for Visualizing Risk
 categories:
-- Wildfire
-- Risk
-- GIS
+- Fire
 - Geospatial
 - Google Earth Engine
 image: featured.webp

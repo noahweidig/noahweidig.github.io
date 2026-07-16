@@ -3,7 +3,6 @@ title: Map Explorer
 date: '2026-03-26'
 description: A Collection of Interactive Maps
 categories:
-- GIS
 - Geospatial
 image: featured.webp
 image-alt: Map Explorer interface for interactive geospatial analysis

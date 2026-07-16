@@ -3,6 +3,7 @@ title: "Blog"
 description: "Notes on science, data, maps, and the landscapes we live in."
 page-layout: full
 toc: false
+comments: false
 listing:
   id: all-posts
   contents: "*/index.qmd"

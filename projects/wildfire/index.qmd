@@ -3,9 +3,8 @@ title: Wildfire Risk
 date: '2025-01-05'
 description: Wildfire Risk Visualizer by State
 categories:
-- GIS
 - Geospatial
-- Wildfire
+- Fire
 image: featured.webp
 image-alt: Wildfire Risk Visualizer interface showing risk assessment across U.S.
   states
