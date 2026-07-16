@@ -4,9 +4,27 @@ html {
 }
 
 /* ============ color-scheme toggle: sun / moon icons ============ */
-.quarto-color-scheme-toggle {
-  margin-left: 8px !important;
-  margin-right: 8px !important;
+/* Circle around the toggle, sized to match the CTA button height, with the
+   same hover animation as the CTA and search: fills blue and the icon turns
+   white in both light and dark mode. */
+.quarto-navbar-tools .quarto-color-scheme-toggle {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  width: var(--nw-navctl);
+  height: var(--nw-navctl);
+  padding: 0 !important;
+  margin-left: 0.5rem !important;
+  margin-right: 0 !important;
+  border: 1px solid var(--nw-navcta);
+  border-radius: 50%;
+  box-sizing: border-box;
+  transition: background-color 0.15s, border-color 0.15s;
+}
+
+.quarto-navbar-tools .quarto-color-scheme-toggle:hover {
+  background: var(--nw-primary);
+  border-color: var(--nw-primary);
 }
 
 .quarto-color-scheme-toggle:not(.alternate) .bi::before {
@@ -15,6 +33,76 @@ html {
 
 body.quarto-dark .quarto-color-scheme-toggle > .bi::before {
   background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="%23d1d5db" class="bi bi-sun-fill" viewBox="0 0 16 16"><path d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.414a.5.5 0 1 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707z"/></svg>') !important;
+}
+
+/* Hover: swap the icon to a white-filled variant (moon on light, sun on dark). */
+body:not(.quarto-dark) .quarto-navbar-tools .quarto-color-scheme-toggle:hover .bi::before {
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="%23fff" viewBox="0 0 16 16"><path d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z"/></svg>') !important;
+}
+
+body.quarto-dark .quarto-navbar-tools .quarto-color-scheme-toggle:hover > .bi::before {
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="%23fff" class="bi bi-sun-fill" viewBox="0 0 16 16"><path d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.414a.5.5 0 1 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707z"/></svg>') !important;
+}
+
+/* ============ navbar search: circle matching the toggle & CTA ============ */
+/* Overlay search renders a button.aa-DetachedSearchButton whose magnifier svg
+   paints with currentColor, so the hover just recolors it white. */
+#quarto-search.type-overlay .aa-DetachedSearchButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--nw-navctl);
+  height: var(--nw-navctl);
+  min-width: var(--nw-navctl);
+  padding: 0;
+  border: 1px solid var(--nw-navcta);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--nw-navcta);
+  box-shadow: none;
+  transition: background-color 0.15s, border-color 0.15s, color 0.15s;
+}
+
+#quarto-search.type-overlay .aa-DetachedSearchButton:hover,
+#quarto-search.type-overlay .aa-DetachedSearchButton:focus {
+  background: var(--nw-primary);
+  border-color: var(--nw-primary);
+  color: #fff;
+  box-shadow: none;
+}
+
+#quarto-search .aa-DetachedSearchButtonIcon {
+  width: auto;
+  padding: 0;
+  color: inherit;
+}
+
+#quarto-search .aa-DetachedSearchButtonIcon .aa-SubmitIcon {
+  width: 1rem;
+  height: 1rem;
+}
+
+#quarto-search .aa-DetachedSearchButtonPlaceholder,
+#quarto-search .aa-DetachedSearchButtonQuery {
+  display: none;
+}
+
+/* Mobile: the brand's mx-auto centering was pulling the search + theme toggle
+   in toward the title. Anchor the brand hard-left so the tools stay pinned to
+   the right edge of the navbar. */
+@media (max-width: 991.98px) {
+  .navbar .navbar-container {
+    flex-wrap: nowrap;
+  }
+
+  .navbar .navbar-brand-container.mx-auto {
+    margin-left: 0 !important;
+    margin-right: auto !important;
+  }
+
+  .navbar .quarto-navbar-tools {
+    margin-left: 0.25rem;
+  }
 }
 
 /* full-bleed landing page: quarto's custom layout wrapper */

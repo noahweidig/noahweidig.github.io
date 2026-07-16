@@ -14,6 +14,9 @@ $navbar-padding-y: 0.65rem !default;
   --nw-primary: #0076DF;
   --nw-secondary: #0076DF;
   --nw-grad: linear-gradient(135deg, #0076DF, #0076DF);
+  /* shared height for the CTA button, so the theme-toggle and search circles
+     can size their diameter to match it exactly */
+  --nw-navctl: 2.4rem;
 }
 
 body {
@@ -39,41 +42,57 @@ body {
   font-weight: 700;
 }
 
-/* Navigation hover state and blue animated underline on desktop. */
+/* Navigation hover state on desktop. */
 .navbar-expand-lg .navbar-nav .nav-link:hover {
   color: $primary;
 }
 
+/* Desktop: on hover, draw a fully-rounded blue "pill" outline around the
+   nav-link text. Scoped to the left-hand text items (.me-auto) so the
+   "Book Now" CTA — which lives in .ms-auto and has its own pill styling —
+   never picks up this outline. */
 @media screen and (min-width: 992px) {
-  .navbar .navbar-nav .nav-item {
+  .navbar .navbar-nav.me-auto .nav-item {
     position: relative;
   }
 
-  .navbar .navbar-nav .nav-item::after {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    width: 0;
-    height: 4px;
-    margin: auto;
-    content: "";
-    background-color: $primary;
-    transition: width 0.3s;
+  .navbar .navbar-nav.me-auto .nav-item .nav-link {
+    position: relative;
+    z-index: 1;
   }
 
-  .navbar .navbar-nav .nav-item:hover::after {
-    width: 90%;
+  .navbar .navbar-nav.me-auto .nav-item::after {
+    content: "";
+    position: absolute;
+    left: -0.1rem;
+    right: -0.1rem;
+    top: 50%;
+    height: 2rem;
+    border: 1.5px solid $primary;
+    border-radius: 999px;
+    opacity: 0;
+    transform: translateY(-50%) scale(0.92);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    pointer-events: none;
+  }
+
+  .navbar .navbar-nav.me-auto .nav-item:hover::after {
+    opacity: 1;
+    transform: translateY(-50%) scale(1);
   }
 }
 
-/* "Book Now" CTA styled as a button */
+/* "Book Now" CTA styled as a button. Height is pinned to --nw-navctl so the
+   theme-toggle and search circles can match its diameter. */
 .navbar .navbar-nav .nav-item a[href*="cal.com"] {
+  display: inline-flex;
+  align-items: center;
+  height: var(--nw-navctl);
   background: transparent;
   color: var(--nw-navcta) !important;
   border: 1px solid var(--nw-navcta);
   border-radius: 999px;
-  padding: 0.4rem 1.1rem !important;
+  padding: 0 1.1rem !important;
   font-weight: 600;
   margin-left: 0.5rem;
   transition: background-color 0.15s, border-color 0.15s, color 0.15s, transform 0.15s;
@@ -1017,7 +1036,7 @@ body {
 
   /* Book Now pill: hug the text instead of stretching across the dropdown */
   .navbar .navbar-nav .nav-item a[href*="cal.com"] {
-    display: inline-block;
+    display: inline-flex;
     width: fit-content;
     margin-left: 0;
     margin-top: 0.5rem;
