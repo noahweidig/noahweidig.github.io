@@ -8,9 +8,13 @@ listing:
   contents: "*/index.qmd"
   sort: "date desc"
   template: ../_ejs/citation.ejs
-  categories: true
   page-size: 100
+include-after-body:
+  - text: |
+      <script src="../assets/home.js"></script>
 ---
+
+<div class="nw-filters" data-nw-filter-for="all-pubs"></div>
 
 ::: {#all-pubs .nw-cites}
 :::

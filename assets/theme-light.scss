@@ -25,4 +25,11 @@ $card-bg: #ffffff;
   --nw-grid-line: rgba(31, 41, 55, 0.05);
   --nw-topo: rgba(31, 41, 55, 0.08);
   --nw-footer-bg: #fafafa;
+  --nw-glass: rgba(255, 255, 255, 0.85);
+}
+
+/* solid mark stays black on light */
+.navbar .navbar-brand img,
+.nw-footer-logo img {
+  filter: none;
 }

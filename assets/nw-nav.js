@@ -9,6 +9,29 @@ document.addEventListener(
   true
 );
 
+// Detail pages: Quarto points title-block category tags at the home page,
+// where they do nothing. Send them to the section listing's filter instead.
+(function () {
+  var m = location.pathname.match(/^\/(projects|publications|awards|blog)\//);
+  if (!m) return;
+  document.querySelectorAll(".quarto-title .quarto-category").forEach(function (el) {
+    var cat = el.textContent.trim();
+    var href = "/" + m[1] + "/#category=" + encodeURIComponent(cat);
+    var parent = el.closest("a");
+    if (parent) {
+      parent.href = href;
+      // drop any listeners Quarto attached to the tag itself
+      el.replaceWith(el.cloneNode(true));
+    } else {
+      var a = document.createElement("a");
+      a.className = el.className;
+      a.textContent = cat;
+      a.href = href;
+      el.replaceWith(a);
+    }
+  });
+})();
+
 // Subtle back-to-top button, shown after scrolling down a bit.
 (function () {
   var btn = document.createElement("button");
