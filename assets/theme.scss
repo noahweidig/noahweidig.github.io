@@ -22,6 +22,7 @@ body {
 
 .navbar {
   backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--nw-border);
 }
 
@@ -222,9 +223,11 @@ body {
   align-items: center;
   gap: 0.5rem;
   padding: 0.7rem 1.6rem;
+  border: 0;
   border-radius: 999px;
   font-weight: 600;
   text-decoration: none !important;
+  cursor: pointer;
   transition: transform 0.15s, box-shadow 0.15s;
 }
 
@@ -256,8 +259,22 @@ body {
 #stats .nw-stats {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
-  gap: 2rem;
+  gap: 1.5rem;
   text-align: center;
+}
+
+#stats .nw-stat {
+  background: var(--nw-card);
+  border: 1px solid var(--nw-border);
+  border-radius: 1rem;
+  padding: 1.75rem 1rem;
+  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+
+#stats .nw-stat:hover {
+  transform: translateY(-4px);
+  border-color: var(--nw-primary);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.18);
 }
 
 #stats .nw-stat b {
@@ -405,17 +422,38 @@ body {
 
 /* ============ citations (publications listing) ============ */
 .nw-cites .nw-cite {
-  border-left: 3px solid var(--nw-primary);
+  position: relative;
   background: var(--nw-card);
-  border-radius: 0 0.75rem 0.75rem 0;
-  padding: 1.1rem 1.4rem;
+  border: 1px solid var(--nw-border);
+  border-radius: 1rem;
+  padding: 1.25rem 1.5rem;
   margin-bottom: 1rem;
+  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+
+.nw-cites .nw-cite:hover {
+  transform: translateY(-4px);
+  border-color: var(--nw-primary);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.18);
 }
 
 .nw-cite-title a {
   font-weight: 700;
   color: var(--nw-fg);
   text-decoration: none;
+}
+
+/* stretched link: the whole card navigates to the publication page */
+.nw-cite-title a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+/* keep DOI/source chips clickable above the stretched link */
+.nw-cite-links a,
+.nw-cite-links .nw-chip {
+  position: relative;
 }
 
 .nw-cite-title a:hover {
@@ -697,6 +735,7 @@ body {
 .nw-faq summary {
   font-weight: 700;
   cursor: pointer;
+  color: var(--nw-fg);
 }
 
 .nw-faq details p {
@@ -721,12 +760,23 @@ body {
   text-align: left;
   display: grid;
   gap: 1rem;
+  background: var(--nw-card);
+  border: 1px solid var(--nw-border);
+  border-radius: 1rem;
+  padding: 1.75rem;
+  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+
+.nw-form:hover,
+.nw-form:focus-within {
+  border-color: var(--nw-primary);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.18);
 }
 
 .nw-form input,
 .nw-form textarea {
   width: 100%;
-  background: var(--nw-card);
+  background: var(--nw-bg);
   border: 1px solid var(--nw-border);
   border-radius: 0.6rem;
   padding: 0.7rem 1rem;
@@ -738,6 +788,20 @@ body {
 .nw-form textarea:focus {
   outline: 2px solid var(--nw-primary);
   border-color: transparent;
+}
+
+.nw-form-status {
+  margin: 0;
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
+.nw-form-status.ok {
+  color: #10b981;
+}
+
+.nw-form-status.err {
+  color: #ef4444;
 }
 
 /* ============ map ============ */
@@ -822,14 +886,17 @@ body {
   .nw-section { padding: 3rem 0; }
 }
 
-/* mobile: overlay the expanded hamburger menu instead of pushing content down */
+/* mobile: overlay the expanded hamburger menu instead of pushing content down;
+   same glassmorphic treatment as the navbar itself */
 @media (max-width: 991.98px) {
   .navbar .navbar-collapse {
     position: absolute;
     top: 100%;
     left: 0;
     right: 0;
-    background: var(--nw-bg);
+    background: var(--nw-glass);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--nw-border);
     padding: 0.5rem 1rem 1rem;
     box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
