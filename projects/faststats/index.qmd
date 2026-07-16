@@ -6,8 +6,6 @@ categories:
 - R
 - Data Visualization
 - Data Science
-image: featured.webp
-image-alt: FastStats browser-based analytics tool with data visualizations
 featured: true
 ---
 

@@ -394,10 +394,33 @@ body {
   box-shadow: 0 14px 34px rgba(0, 0, 0, 0.18);
 }
 
-.nw-proj-card img {
+.nw-proj-card .nw-proj-media {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   aspect-ratio: 16/9;
-  object-fit: cover;
+  background: var(--nw-chip);
+}
+
+.nw-proj-card .nw-proj-media .nw-icon {
+  display: inline-flex;
+  width: 3.5rem;
+  height: 3.5rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.85rem;
+  color: #fff;
+  transition: transform 0.2s;
+}
+
+.nw-proj-card .nw-proj-media .nw-icon svg {
+  width: 1.75rem;
+  height: 1.75rem;
+}
+
+.nw-proj-card:hover .nw-proj-media .nw-icon {
+  transform: scale(1.08);
 }
 
 .nw-proj-card .nw-proj-body {

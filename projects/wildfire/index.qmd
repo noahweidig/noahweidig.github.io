@@ -5,9 +5,6 @@ description: Wildfire Risk Visualizer by State
 categories:
 - Geospatial
 - Fire
-image: featured.webp
-image-alt: Wildfire Risk Visualizer interface showing risk assessment across U.S.
-  states
 featured: true
 ---
 
