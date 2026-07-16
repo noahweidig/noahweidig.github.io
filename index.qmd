@@ -371,7 +371,7 @@ include-after-body:
     <div class="nw-cta-card">
       <h2>Open to Opportunities</h2>
       <p>I'm currently looking for <strong>data scientist</strong> or <strong>GIS analyst</strong> roles.<br>Let's connect and discuss how I can help your team.</p>
-      <div class="nw-btns"><a class="nw-btn nw-btn-primary" href="uploads/resume.pdf" target="_blank" rel="noopener">Download Resume</a></div>
+      <div class="nw-btns"><a class="nw-btn nw-btn-primary nw-btn-resume" href="uploads/resume.pdf" target="_blank" rel="noopener">Download Resume</a></div>
     </div>
   </div>
 </section>
