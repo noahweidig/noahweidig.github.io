@@ -17,16 +17,17 @@ $card-bg: #ffffff;
   --nw-card: #ffffff;
   --nw-border: #e5e7eb;
   --nw-chip: #eef2f7;
-  --nw-hero-glow: rgba(99, 102, 241, 0.12);
-  --nw-cta-from: #c7d2fe;
-  --nw-cta-via: #e0e7ff;
-  --nw-cta-to: #e9d5ff;
-  --nw-cta-fg: #1e1b4b;
+  --nw-hero-glow: rgba(0, 118, 223, 0.12);
+  --nw-cta-from: #d7ebff;
+  --nw-cta-via: #eaf5ff;
+  --nw-cta-to: #f2f8ff;
+  --nw-cta-fg: #003b70;
   --nw-grid-line: rgba(31, 41, 55, 0.05);
   --nw-topo: rgba(31, 41, 55, 0.08);
   --nw-footer-bg: #fafafa;
   --nw-glass: rgba(255, 255, 255, 0.85);
   --nw-glass-strong: rgba(255, 255, 255, 0.96);
+  --nw-stat-number: #000000;
 }
 
 /* solid mark stays black on light */
