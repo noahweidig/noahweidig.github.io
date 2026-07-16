@@ -48,11 +48,12 @@ body {
   padding: 0.4rem 1.1rem !important;
   font-weight: 600;
   margin-left: 0.5rem;
-  transition: background-color 0.15s, color 0.15s, transform 0.15s;
+  transition: background-color 0.15s, border-color 0.15s, color 0.15s, transform 0.15s;
 }
 
 .navbar .navbar-nav .nav-item a[href*="cal.com"]:hover {
   background: var(--nw-primary);
+  border-color: var(--nw-primary);
   color: #fff !important;
 }
 
