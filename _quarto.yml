@@ -100,8 +100,7 @@ website:
       </div>
       </div>
       <div class="nw-footer-bottom">
-      <div>© 2026 Noah Weidig.</div>
-      <div>All Rights Reserved.</div>
+      <div>© 2026 Noah Weidig · Built with <a href="https://quarto.org">Quarto</a>.</div>
       </div>
       </div>
 
