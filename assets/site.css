@@ -89,7 +89,12 @@ body {
 .nw-stack-items {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: 1.5rem 2.75rem;
+}
+
+.nw-stack-cat {
+  text-align: center;
 }
 
 .nw-stack-item {
@@ -107,6 +112,7 @@ body {
     display: grid;
     grid-template-columns: 10rem 1fr;
     align-items: center;
+    justify-items: center;
     padding: 1.75rem 2rem;
   }
 
@@ -154,10 +160,13 @@ body {
 }
 
 /* ============ detail pages: hero image injected from page metadata ============ */
+/* taller frame + contain so the full image is visible without cropping */
 img.nw-detail-hero {
   width: 100%;
-  max-height: 24rem;
-  object-fit: cover;
+  aspect-ratio: 4 / 3;
+  max-height: 38rem;
+  object-fit: contain;
+  background: var(--nw-card);
   border-radius: 1rem;
   border: 1px solid var(--nw-border);
   margin-bottom: 1.5rem;
