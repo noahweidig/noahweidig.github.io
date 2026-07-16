@@ -46,11 +46,6 @@ website:
     right:
       - text: "Book Now →"
         href: "https://cal.com/noah-weidig/meet"
-    tools:
-      - icon: github
-        href: "https://github.com/noahweidig/"
-      - icon: linkedin
-        href: "https://www.linkedin.com/in/noahweidig/"
   search:
     location: navbar
     type: overlay
@@ -58,17 +53,6 @@ website:
     border: false
     left: |
       © 2026 Noah Weidig.
-    center:
-      - text: Experience
-        href: index.qmd#experience
-      - text: Projects
-        href: index.qmd#projects
-      - text: Publications
-        href: publications/index.qmd
-      - text: Blog
-        href: blog/index.qmd
-      - text: FAQ
-        href: index.qmd#faq
     right:
       - icon: linkedin
         href: "https://www.linkedin.com/in/noahweidig/"
