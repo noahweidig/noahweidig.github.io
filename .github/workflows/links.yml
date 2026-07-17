@@ -27,7 +27,7 @@ jobs:
         run: quarto render
 
       - name: Run lychee
-        uses: lycheeverse/lychee-action@885c65f3dc543b57c898c8099f4e08c8afa8a58b # v2.6.1
+        uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2.9.0
         with:
           # Check the rendered site so generated links are covered too.
           # 403/429 accepted: sites like LinkedIn and Scholar block bots.
