@@ -4,7 +4,6 @@ date: '2025-03-13'
 description: A Personal Exploration of Minimalism
 categories:
 - Creative
-- Minimalism
 featured: true
 ---
 
