@@ -3,8 +3,6 @@ title: FastStats
 date: '2026-06-23'
 description: Fast, Client-side Analytics
 categories:
-- R
-- Data Visualization
 - Data Science
 featured: true
 ---
