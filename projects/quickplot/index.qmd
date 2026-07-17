@@ -4,7 +4,7 @@ date: '2026-03-25'
 description: A Shiny App for Data Viz with No Code
 categories:
 - R
-- Data Visualization
+- Data Science
 featured: true
 ---
 
