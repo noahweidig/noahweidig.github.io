@@ -99,20 +99,3 @@ document.addEventListener(
   var sub = document.querySelector("#title-block-header .subtitle");
   if (sub) sub.remove();
 })();
-
-// Project/award detail pages: surface the page's featured image below the title.
-(function () {
-  if (!/\/awards\/[^/]+\/(index\.html)?$/.test(location.pathname)) return;
-  var meta = document.querySelector('meta[property="og:image"]');
-  var header = document.getElementById("title-block-header");
-  if (!meta || !header || document.querySelector(".nw-detail-hero")) return;
-  var img = document.createElement("img");
-  try {
-    img.src = new URL(meta.content, location.href).pathname;
-  } catch (e) {
-    img.src = meta.content;
-  }
-  img.alt = "";
-  img.className = "nw-detail-hero";
-  header.insertAdjacentElement("afterend", img);
-})();

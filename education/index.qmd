@@ -1,0 +1,16 @@
+---
+title: "Education"
+description: "Degrees and academic training in biology, ecology, and geospatial science."
+page-layout: full
+toc: false
+listing:
+  id: all-education
+  contents: "*/index.qmd"
+  sort: "date desc"
+  template: ../_ejs/timeline-card.ejs
+  fields: [title, org, dates, location, description, path]
+  page-size: 100
+---
+
+::: {#all-education}
+:::
