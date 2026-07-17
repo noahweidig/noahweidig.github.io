@@ -123,6 +123,10 @@ format:
           <script src="/assets/nw-nav.js"></script>
     toc: false
     anchor-sections: false
+    # No page on the site uses LaTeX math, but Quarto still ships MathJax
+    # (285 KiB from jsDelivr) plus a render-blocking ES6 polyfill on listing
+    # pages. `plain` drops both; re-enable mathjax if a post ever needs math.
+    html-math-method: plain
     link-external-newwindow: true
     lang: en
     include-in-header:
