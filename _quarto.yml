@@ -112,6 +112,7 @@ format:
       dark: [cosmo, assets/theme.scss, assets/theme-dark.scss]
       light: [cosmo, assets/theme.scss, assets/theme-light.scss]
     css: assets/site.css
+    lightbox: auto
     include-after-body:
       - text: |
           <script src="/assets/nw-nav.js"></script>
