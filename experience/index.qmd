@@ -1,0 +1,16 @@
+---
+title: "Experience"
+description: "Roles and internships across GIS, remote sensing, and ecological research."
+page-layout: full
+toc: false
+listing:
+  id: all-experience
+  contents: "*/index.qmd"
+  sort: "date desc"
+  template: ../_ejs/timeline-card.ejs
+  fields: [title, org, dates, location, description, path]
+  page-size: 100
+---
+
+::: {#all-experience}
+:::
