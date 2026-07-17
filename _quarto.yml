@@ -3,6 +3,9 @@ project:
   output-dir: _site
   render:
     - "*.qmd"
+  # Regenerate per-page Open Graph SVG cards after every render
+  # (see scripts/generate-og.ts for how the cards are built).
+  post-render: scripts/generate-og.ts
   resources:
     - CNAME
     - robots.txt
