@@ -1,0 +1,1 @@
+<div class="nw-timeline"><% for (const item of items) { %><a class="nw-tl-item nw-tl-link" href="<%- item.path %>"><h3><%= item.title %></h3><% if (item.org) { %><div class="nw-tl-org"><%= item.org %></div><% } %><div class="nw-tl-meta"><%= item.dates || '' %><% if (item.location) { %> · <%= item.location %><% } %></div><p><%= item.description || '' %></p></a><% } %></div>

@@ -26,35 +26,65 @@ listing:
 include-after-body:
   - text: |
       <script src="assets/home.js"></script>
-      <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-      <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
       <script>
-        var nwMap = L.map('nw-map', { scrollWheelZoom: false }).setView([29.6436, -82.3549], 15);
-        var nwTiles = null;
-        var nwTileStyle = null;
-        function nwSyncMapTheme() {
-          var style = document.body.classList.contains('quarto-dark') ||
-            document.documentElement.classList.contains('quarto-dark')
-            ? 'dark_all' : 'rastertiles/voyager';
-          if (style === nwTileStyle) return;
-          nwTileStyle = style;
-          if (nwTiles) nwMap.removeLayer(nwTiles);
-          nwTiles = L.tileLayer('https://{s}.basemaps.cartocdn.com/' + style + '/{z}/{x}/{y}{r}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>'
-          }).addTo(nwMap);
-        }
-        nwSyncMapTheme();
-        var nwThemeWatcher = new MutationObserver(nwSyncMapTheme);
-        nwThemeWatcher.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
-        nwThemeWatcher.observe(document.body, { attributes: true, attributeFilter: ['class'] });
-        L.marker([29.6436, -82.3549]).addTo(nwMap)
-          .bindPopup('<b>University of Florida</b><br>School of Forest, Fisheries and Geomatic Sciences');
+        // Leaflet is only needed for the map at the very bottom of the page,
+        // so defer fetching its CSS/JS (and the map tiles) until the map is
+        // about to scroll into view instead of paying for it on page load.
+        (function () {
+          var mapEl = document.getElementById('nw-map');
+          if (!mapEl) return;
+          var loaded = false;
+          function nwInitMap() {
+            var nwMap = L.map('nw-map', { scrollWheelZoom: false }).setView([29.6436, -82.3549], 15);
+            var nwTiles = null;
+            var nwTileStyle = null;
+            function nwSyncMapTheme() {
+              var style = document.body.classList.contains('quarto-dark') ||
+                document.documentElement.classList.contains('quarto-dark')
+                ? 'dark_all' : 'rastertiles/voyager';
+              if (style === nwTileStyle) return;
+              nwTileStyle = style;
+              if (nwTiles) nwMap.removeLayer(nwTiles);
+              nwTiles = L.tileLayer('https://{s}.basemaps.cartocdn.com/' + style + '/{z}/{x}/{y}{r}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>'
+              }).addTo(nwMap);
+            }
+            nwSyncMapTheme();
+            var nwThemeWatcher = new MutationObserver(nwSyncMapTheme);
+            nwThemeWatcher.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+            nwThemeWatcher.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+            L.marker([29.6436, -82.3549]).addTo(nwMap)
+              .bindPopup('<b>University of Florida</b><br>School of Forest, Fisheries and Geomatic Sciences');
+          }
+          function nwLoadLeaflet() {
+            if (loaded) return;
+            loaded = true;
+            var css = document.createElement('link');
+            css.rel = 'stylesheet';
+            css.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+            document.head.appendChild(css);
+            var js = document.createElement('script');
+            js.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+            js.onload = nwInitMap;
+            document.head.appendChild(js);
+          }
+          if ('IntersectionObserver' in window) {
+            new IntersectionObserver(function (entries, obs) {
+              if (entries.some(function (e) { return e.isIntersecting; })) {
+                obs.disconnect();
+                nwLoadLeaflet();
+              }
+            }, { rootMargin: '600px' }).observe(mapEl);
+          } else {
+            nwLoadLeaflet();
+          }
+        })();
       </script>
 ---
 
 ```{=html}
 <section id="hero">
-  <img class="nw-avatar" src="assets/media/authors/me.webp" alt="Noah Weidig">
+  <img class="nw-avatar" src="assets/media/authors/me.webp" alt="Noah Weidig" width="700" height="700" fetchpriority="high" decoding="async">
   <div><span class="nw-status">Open to opportunities</span></div>
   <h1><span class="nw-hi">— Hi, I'm —</span><span class="nw-name">Noah Weidig</span></h1>
   <div class="nw-role">GIS Analyst • Data Scientist</div>
@@ -160,28 +190,28 @@ include-after-body:
     <p class="nw-subtitle">Technologies I use to build things</p>
     <div class="nw-stack">
       <div class="nw-stack-cat"><h3>Languages</h3><div class="nw-stack-items">
-        <span class="nw-stack-item"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/r/r-original.svg" alt="" loading="lazy">R</span>
-        <span class="nw-stack-item"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg" alt="" loading="lazy">Python</span>
-        <span class="nw-stack-item"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg" alt="" loading="lazy">JavaScript</span>
-        <span class="nw-stack-item"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/azuresqldatabase/azuresqldatabase-original.svg" alt="" loading="lazy">SQL</span>
+        <span class="nw-stack-item"><img src="assets/media/icons/devicon/r-original.svg" alt="" loading="lazy">R</span>
+        <span class="nw-stack-item"><img src="assets/media/icons/devicon/python-original.svg" alt="" loading="lazy">Python</span>
+        <span class="nw-stack-item"><img src="assets/media/icons/devicon/javascript-original.svg" alt="" loading="lazy">JavaScript</span>
+        <span class="nw-stack-item"><img src="assets/media/icons/devicon/azuresqldatabase-original.svg" alt="" loading="lazy">SQL</span>
       </div></div>
       <div class="nw-stack-cat"><h3>Markup</h3><div class="nw-stack-items">
-        <span class="nw-stack-item"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/markdown/markdown-original.svg" alt="" loading="lazy" class="nw-inv">Markdown</span>
-        <span class="nw-stack-item"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/latex/latex-original.svg" alt="" loading="lazy" class="nw-inv">LaTeX</span>
-        <span class="nw-stack-item"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg" alt="" loading="lazy">HTML</span>
-        <span class="nw-stack-item"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg" alt="" loading="lazy">CSS</span>
+        <span class="nw-stack-item"><img src="assets/media/icons/devicon/markdown-original.svg" alt="" loading="lazy" class="nw-inv">Markdown</span>
+        <span class="nw-stack-item"><img src="assets/media/icons/devicon/latex-original.svg" alt="" loading="lazy" class="nw-inv">LaTeX</span>
+        <span class="nw-stack-item"><img src="assets/media/icons/devicon/html5-original.svg" alt="" loading="lazy">HTML</span>
+        <span class="nw-stack-item"><img src="assets/media/icons/devicon/css3-original.svg" alt="" loading="lazy">CSS</span>
       </div></div>
       <div class="nw-stack-cat"><h3>Workflows</h3><div class="nw-stack-items">
-        <span class="nw-stack-item"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/git/git-original.svg" alt="" loading="lazy">Git</span>
-        <span class="nw-stack-item"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/github/github-original.svg" alt="" loading="lazy" class="nw-inv">GitHub</span>
-        <span class="nw-stack-item"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/githubactions/githubactions-original.svg" alt="" loading="lazy">Actions</span>
-        <span class="nw-stack-item"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/anaconda/anaconda-original.svg" alt="" loading="lazy">Conda</span>
+        <span class="nw-stack-item"><img src="assets/media/icons/devicon/git-original.svg" alt="" loading="lazy">Git</span>
+        <span class="nw-stack-item"><img src="assets/media/icons/devicon/github-original.svg" alt="" loading="lazy" class="nw-inv">GitHub</span>
+        <span class="nw-stack-item"><img src="assets/media/icons/devicon/githubactions-original.svg" alt="" loading="lazy">Actions</span>
+        <span class="nw-stack-item"><img src="assets/media/icons/devicon/anaconda-original.svg" alt="" loading="lazy">Conda</span>
       </div></div>
       <div class="nw-stack-cat"><h3>Libraries</h3><div class="nw-stack-items">
         <span class="nw-stack-item"><img src="assets/media/icons/custom/tidyverse.svg" alt="" loading="lazy">tidyverse</span>
-        <span class="nw-stack-item"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/pandas/pandas-original.svg" alt="" loading="lazy" class="nw-inv">pandas</span>
-        <span class="nw-stack-item"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/numpy/numpy-original.svg" alt="" loading="lazy">NumPy</span>
-        <span class="nw-stack-item"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/plotly/plotly-original.svg" alt="" loading="lazy">Plotly</span>
+        <span class="nw-stack-item"><img src="assets/media/icons/devicon/pandas-original.svg" alt="" loading="lazy" class="nw-inv">pandas</span>
+        <span class="nw-stack-item"><img src="assets/media/icons/devicon/numpy-original.svg" alt="" loading="lazy">NumPy</span>
+        <span class="nw-stack-item"><img src="assets/media/icons/devicon/plotly-original.svg" alt="" loading="lazy">Plotly</span>
       </div></div>
       <div class="nw-stack-cat"><h3>GIS</h3><div class="nw-stack-items">
         <span class="nw-stack-item"><img src="assets/media/icons/custom/arcgis.svg" alt="" loading="lazy">ArcGIS Pro</span>
@@ -204,55 +234,56 @@ include-after-body:
     <h2 class="nw-title">Experience</h2>
     <p class="nw-subtitle">Where I've worked and what I've built</p>
     <div class="nw-timeline">
-      <div class="nw-tl-item">
+      <a class="nw-tl-item nw-tl-link" href="experience/uf-gis-associate/">
         <h3>GIS &amp; Remote Sensing Research Associate</h3>
-        <div><a class="nw-tl-org" href="https://www.victoriamdonovan.org/" target="_blank" rel="noopener">University of Florida</a></div>
+        <div class="nw-tl-org">University of Florida</div>
         <div class="nw-tl-meta">Aug 2025 – Present · Milton, FL</div>
         <p>Led GIS-based analysis assessing spatial patterns and land-use impacts on community and regional risk management</p>
-      </div>
-      <div class="nw-tl-item">
+      </a>
+      <a class="nw-tl-item nw-tl-link" href="experience/uf-grad-research/">
         <h3>Graduate Research Assistant</h3>
-        <div><a class="nw-tl-org" href="https://www.victoriamdonovan.org/" target="_blank" rel="noopener">University of Florida</a></div>
+        <div class="nw-tl-org">University of Florida</div>
         <div class="nw-tl-meta">Aug 2023 – Aug 2025 · Milton, FL</div>
         <p>Conducted geospatial analysis to support wildland-urban interface and emergency management decision-making</p>
-      </div>
-      <div class="nw-tl-item">
+      </a>
+      <a class="nw-tl-item nw-tl-link" href="experience/usda-intern/">
         <h3>Research Assistant Intern</h3>
-        <div><a class="nw-tl-org" href="https://www.ars.usda.gov/plains-area/miles-city-mt/larrl/" target="_blank" rel="noopener">USDA Agricultural Research Service</a></div>
+        <div class="nw-tl-org">USDA Agricultural Research Service</div>
         <div class="nw-tl-meta">May 2023 – Aug 2023 · Miles City, MT</div>
         <p>Collected, cleaned, and validated spatial datasets to support GIS-based risk assessment and land-use planning</p>
-      </div>
-      <div class="nw-tl-item">
+      </a>
+      <a class="nw-tl-item nw-tl-link" href="experience/sca-intern/">
         <h3>Fire &amp; Recreation Intern</h3>
-        <div><a class="nw-tl-org" href="https://thesca.org/integrated-fire-and-recreation-internship-program" target="_blank" rel="noopener">Student Conservation Association/US Forest Service</a></div>
+        <div class="nw-tl-org">Student Conservation Association/US Forest Service</div>
         <div class="nw-tl-meta">Jan 2023 – May 2023 · Wise, VA</div>
         <p>Applied GIS to support spatial planning and risk assessment for land management projects</p>
-      </div>
-      <div class="nw-tl-item">
+      </a>
+      <a class="nw-tl-item nw-tl-link" href="experience/uc-research/">
         <h3>Research Assistant</h3>
-        <div><a class="nw-tl-org" href="https://med.uc.edu/" target="_blank" rel="noopener">University of Cincinnati</a></div>
+        <div class="nw-tl-org">University of Cincinnati</div>
         <div class="nw-tl-meta">May 2022 – Jan 2023 · Cincinnati, OH</div>
         <p>Conducted quantitative data analysis for biomedical research using advanced statistical modeling and visualization</p>
-      </div>
-      <div class="nw-tl-item">
+      </a>
+      <a class="nw-tl-item nw-tl-link" href="experience/nku-research/">
         <h3>Research Assistant</h3>
-        <div><a class="nw-tl-org" href="https://www.nku.edu/" target="_blank" rel="noopener">Northern Kentucky University</a></div>
+        <div class="nw-tl-org">Northern Kentucky University</div>
         <div class="nw-tl-meta">Feb 2020 – May 2022 · Highland Heights, KY</div>
         <p>Collected, organized, and analyzed complex ecological datasets using spatial and statistical methods</p>
-      </div>
-      <div class="nw-tl-item">
+      </a>
+      <a class="nw-tl-item nw-tl-link" href="experience/garage-living-cad/">
         <h3>CAD Design Specialist</h3>
-        <div><a class="nw-tl-org" href="https://www.garageliving.com/f/cincinnati" target="_blank" rel="noopener">Garage Living</a></div>
+        <div class="nw-tl-org">Garage Living</div>
         <div class="nw-tl-meta">Sep 2021 – Jun 2022 · Cincinnati, OH</div>
         <p>Developed CAD drawings and project plans for residential remodeling projects</p>
-      </div>
-      <div class="nw-tl-item">
+      </a>
+      <a class="nw-tl-item nw-tl-link" href="experience/boone-elections/">
         <h3>Elections Data Specialist</h3>
-        <div><a class="nw-tl-org" href="https://boonecountyclerk.ky.gov/" target="_blank" rel="noopener">Boone County Clerk's Office</a></div>
+        <div class="nw-tl-org">Boone County Clerk's Office</div>
         <div class="nw-tl-meta">Aug 2017 – Feb 2020 · Burlington, KY</div>
         <p>Managed and analyzed precinct-level GIS data for voter registration and electoral planning</p>
-      </div>
+      </a>
     </div>
+    <div class="nw-btns" style="margin-top:2rem"><a class="nw-btn nw-btn-ghost" href="experience/">See All Experience →</a></div>
   </div>
 </section>
 
@@ -261,19 +292,20 @@ include-after-body:
     <h2 class="nw-title">Education</h2>
     <p class="nw-subtitle">Where I studied and what I learned</p>
     <div class="nw-timeline">
-      <div class="nw-tl-item">
+      <a class="nw-tl-item nw-tl-link" href="education/uf-masters/">
         <h3>Master of Science, Forest Resources &amp; Conservation</h3>
-        <div><a class="nw-tl-org" href="https://www.ufl.edu/" target="_blank" rel="noopener">University of Florida</a></div>
+        <div class="nw-tl-org">University of Florida</div>
         <div class="nw-tl-meta">Aug 2023 – Aug 2025</div>
         <p>Thesis: Large Wildfire Patterns in the WUI, 4.0 GPA</p>
-      </div>
-      <div class="nw-tl-item">
+      </a>
+      <a class="nw-tl-item nw-tl-link" href="education/nku-bachelors/">
         <h3>Bachelor of Science, Biological Sciences</h3>
-        <div><a class="nw-tl-org" href="https://www.nku.edu/" target="_blank" rel="noopener">Northern Kentucky University</a></div>
+        <div class="nw-tl-org">Northern Kentucky University</div>
         <div class="nw-tl-meta">Aug 2018 – May 2022</div>
         <p>Ecology, Evolution, &amp; Organismal Track, 4.0 GPA</p>
-      </div>
+      </a>
     </div>
+    <div class="nw-btns" style="margin-top:2rem"><a class="nw-btn nw-btn-ghost" href="education/">See All Education →</a></div>
   </div>
 </section>
 
