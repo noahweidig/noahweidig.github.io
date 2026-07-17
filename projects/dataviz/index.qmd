@@ -3,7 +3,7 @@ title: DataViz
 date: '2026-03-16'
 description: A Plotly Gallery of Data Visualization
 categories:
-- Data Visualization
+- Data Science
 featured: true
 ---
 
