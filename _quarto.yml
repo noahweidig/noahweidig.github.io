@@ -24,6 +24,7 @@ website:
   title: "Noah Weidig"
   description: "Noah is an ecologist and GIS analyst specializing in geospatial data science, environmental modeling, and large-scale spatial analysis."
   site-url: "https://noahweidig.com/"
+  llms-txt: true
   favicon: favicon.svg
   image: assets/media/authors/me.webp
   open-graph: true
