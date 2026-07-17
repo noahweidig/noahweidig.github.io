@@ -7,3 +7,5 @@ image-alt: Student Travel Grant from International Association of Landscape Ecol
 ---
 
 I received the Student Travel Grant from the International Association of Landscape Ecology - North America to support my attendance at their 2025 annual conference. This award facilitated my participation in a premier professional meeting in landscape ecology.
+
+![Student Travel Grant from International Association of Landscape Ecology](featured.webp){.lightbox fig-alt="Student Travel Grant from International Association of Landscape Ecology"}
