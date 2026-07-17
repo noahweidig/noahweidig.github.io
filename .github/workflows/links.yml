@@ -33,12 +33,13 @@ jobs:
           # noahweidig.com links are checked live (some are separate
           # project-pages repos, not part of this site's render).
           # Accepted codes: 403/429 (bot blocking), 405 (Formspree POST
-          # endpoint), 999 (LinkedIn). Excluded hosts have TLS setups
-          # rustls can't negotiate.
+          # endpoint), 415 (oakfirescience.com's WAF rejects the CI request
+          # though the page loads 200 in a browser), 999 (LinkedIn).
+          # Excluded hosts have TLS setups rustls can't negotiate.
           args: >-
             --no-progress
             --root-dir ${{ github.workspace }}/_site
-            --accept '100..=103,200..=299,403,405,429,999'
+            --accept '100..=103,200..=299,403,405,415,429,999'
             --exclude 'ecos\.fws\.gov'
             --exclude 'victoriamdonovan\.org'
             '_site/**/*.html'
