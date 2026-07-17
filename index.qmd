@@ -1,5 +1,8 @@
 ---
 pagetitle: "Noah Weidig | GIS Analyst & Data Scientist"
+# Emits <meta name="description"> only; page-layout custom has no title block,
+# so nothing renders on the page itself.
+description: "Noah Weidig is an ecologist and GIS analyst specializing in geospatial data science, environmental modeling, and large-scale spatial analysis."
 page-layout: custom
 section-divs: false
 toc: false

@@ -53,8 +53,16 @@ document.addEventListener(
     window.scrollTo({ top: 0, behavior: "smooth" });
   });
   document.body.appendChild(btn);
+  // Read scrollY inside rAF so the toggle doesn't force a synchronous reflow
+  // mid-scroll (headroom.js invalidates layout in the same scroll events).
+  var ticking = false;
   var onScroll = function () {
-    btn.classList.toggle("show", window.scrollY > 600);
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function () {
+      btn.classList.toggle("show", window.scrollY > 600);
+      ticking = false;
+    });
   };
   window.addEventListener("scroll", onScroll, { passive: true });
   onScroll();
