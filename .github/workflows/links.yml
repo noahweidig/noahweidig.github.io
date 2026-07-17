@@ -30,11 +30,16 @@ jobs:
         uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2.9.0
         with:
           # Check the rendered site so generated links are covered too.
-          # 403/429 accepted: sites like LinkedIn and Scholar block bots.
+          # noahweidig.com links are checked live (some are separate
+          # project-pages repos, not part of this site's render).
+          # Accepted codes: 403/429 (bot blocking), 405 (Formspree POST
+          # endpoint), 999 (LinkedIn). Excluded hosts have TLS setups
+          # rustls can't negotiate.
           args: >-
             --no-progress
             --root-dir ${{ github.workspace }}/_site
-            --remap "https://noahweidig.com file://${{ github.workspace }}/_site"
-            --accept '100..=103,200..=299,403,429'
+            --accept '100..=103,200..=299,403,405,429,999'
+            --exclude 'ecos\.fws\.gov'
+            --exclude 'victoriamdonovan\.org'
             '_site/**/*.html'
           fail: true
