@@ -4,6 +4,8 @@ date: '2026-03-21'
 description: An R Package for U.S. Fire Data
 categories:
 - R
+- Data Science
+- Fire
 featured: true
 ---
 
