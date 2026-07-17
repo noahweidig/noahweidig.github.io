@@ -1,0 +1,40 @@
+name: Check links
+
+on:
+  pull_request:
+    branches: [main]
+  schedule:
+    # Monthly sweep for link rot on the 8th.
+    - cron: "0 6 8 * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  lychee:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
+
+      - name: Set up Quarto
+        uses: quarto-dev/quarto-actions/setup@8a96df13519ee81fd526f2dfca5962811136661b # v2
+        with:
+          version: 1.7.32
+
+      - name: Render site
+        run: quarto render
+
+      - name: Run lychee
+        uses: lycheeverse/lychee-action@885c65f3dc543b57c898c8099f4e08c8afa8a58b # v2.6.1
+        with:
+          # Check the rendered site so generated links are covered too.
+          # 403/429 accepted: sites like LinkedIn and Scholar block bots.
+          args: >-
+            --no-progress
+            --root-dir ${{ github.workspace }}/_site
+            --remap "https://noahweidig.com file://${{ github.workspace }}/_site"
+            --accept '100..=103,200..=299,403,429'
+            '_site/**/*.html'
+          fail: true
