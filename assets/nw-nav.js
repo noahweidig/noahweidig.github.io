@@ -9,27 +9,36 @@ document.addEventListener(
   true
 );
 
-// Detail pages: Quarto points title-block category tags at the home page,
-// where they do nothing. Send them to the section listing's filter instead.
+// Detail pages: Quarto points title-block category tags at whichever listing
+// the visitor came from (often the home page, where they do nothing). Send
+// them to the section listing's filter instead. quarto.js injects its links
+// asynchronously after fetching listings.json, so retarget on every DOM
+// change to the title block rather than just once at load.
 (function () {
   var m = location.pathname.match(/^\/(projects|publications|awards|blog)\//);
   if (!m) return;
-  document.querySelectorAll(".quarto-title .quarto-category").forEach(function (el) {
-    var cat = el.textContent.trim();
-    var href = "/" + m[1] + "/#category=" + encodeURIComponent(cat);
-    var parent = el.closest("a");
-    if (parent) {
-      parent.href = href;
-      // drop any listeners Quarto attached to the tag itself
-      el.replaceWith(el.cloneNode(true));
-    } else {
-      var a = document.createElement("a");
-      a.className = el.className;
-      a.textContent = cat;
-      a.href = href;
-      el.replaceWith(a);
-    }
-  });
+  var retarget = function () {
+    document.querySelectorAll(".quarto-title .quarto-category").forEach(function (el) {
+      var cat = el.textContent.trim();
+      var href = "/" + m[1] + "/#category=" + encodeURIComponent(cat);
+      var parent = el.closest("a");
+      if (parent) parent.href = href;
+      el.querySelectorAll("a").forEach(function (a) {
+        a.href = href;
+      });
+      if (!parent && !el.querySelector("a")) {
+        var a = document.createElement("a");
+        a.href = href;
+        while (el.firstChild) a.appendChild(el.firstChild);
+        el.appendChild(a);
+      }
+    });
+  };
+  retarget();
+  var header = document.getElementById("title-block-header");
+  if (header) {
+    new MutationObserver(retarget).observe(header, { childList: true, subtree: true });
+  }
 })();
 
 // Subtle back-to-top button, shown after scrolling down a bit.
