@@ -1122,6 +1122,19 @@ body {
   padding: 2.5rem 1.25rem 4rem;
 }
 
+/* The custom-layout title block ("Curriculum Vitae" + description) spans the
+   full content column, so it sits left of the narrower .nw-cv body. Constrain
+   it to the same max-width, centering, and horizontal padding so it lines up. */
+body:has(.nw-cv) #title-block-header {
+  max-width: 60rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+  box-sizing: border-box;
+  width: 100%;
+}
+
 .nw-cv-header {
   display: flex;
   flex-wrap: wrap;
