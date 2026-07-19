@@ -1,0 +1,12 @@
+<% for (const item of items) { %>
+<div class="nw-cv-entry">
+<div class="nw-cv-entry-head">
+<div class="nw-cv-entry-title"><%= item.title %></div>
+<% const when = item.dates || (item.date ? new Date(item.date).getUTCFullYear() : ''); %><% if (when) { %><div class="nw-cv-entry-date"><%= when %></div><% } %>
+</div>
+<% if (item.org || item.location) { %>
+<div class="nw-cv-entry-meta"><% if (item.org) { %><% if (item['org-url']) { %><a href="<%- item['org-url'] %>" target="_blank" rel="noopener"><%= item.org %></a><% } else { %><span><%= item.org %></span><% } %><% } %><% if (item.org && item.location) { %> · <% } %><% if (item.location) { %><%= item.location %><% } %></div>
+<% } %>
+<% if (item.description) { %><p class="nw-cv-entry-desc"><%= item.description %></p><% } %>
+</div>
+<% } %>
