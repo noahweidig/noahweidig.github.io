@@ -89,8 +89,8 @@ listing:
     </div>
   </div>
   <div class="nw-cv-actions">
-    <button type="button" class="nw-btn nw-btn-primary" onclick="window.print()">Print / Save as PDF</button>
-    <a class="nw-btn nw-btn-ghost" href="uploads/resume.pdf" target="_blank" rel="noopener">One-page Résumé</a>
+    <button type="button" class="nw-btn nw-btn-primary nw-cv-print">Print / Save as PDF</button>
+    <a class="nw-btn nw-btn-ghost" href="/uploads/resume.pdf" target="_blank" rel="noopener">One-page Résumé</a>
   </div>
 </header>
 
