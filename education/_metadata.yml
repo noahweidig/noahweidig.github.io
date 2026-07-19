@@ -1,11 +1,3 @@
-comments:
-  giscus:
-    repo: noahweidig/noahweidig.github.io
-    category: General
-    mapping: pathname
-    reactions-enabled: true
-    loading: lazy
-
 # Social share buttons (schochastics/quarto-social-share). Applied to every
 # page in this directory; the site home page and 404 are intentionally excluded.
 share:
