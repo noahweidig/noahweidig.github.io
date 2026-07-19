@@ -1114,3 +1114,276 @@ body {
   height: 1.25rem;
   vertical-align: -0.25em;
 }
+
+/* ============ CV / curriculum vitae page ============ */
+.nw-cv {
+  max-width: 60rem;
+  margin: 0 auto;
+  padding: 2.5rem 1.25rem 4rem;
+}
+
+.nw-cv-header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid var(--nw-border);
+}
+
+.nw-cv-name {
+  margin: 0;
+  font-size: 2.4rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.nw-cv-role {
+  margin: 0.25rem 0 0.5rem;
+  font-weight: 600;
+  color: var(--nw-primary);
+}
+
+.nw-cv-contact {
+  margin: 0;
+  color: var(--nw-muted);
+  font-size: 0.95rem;
+}
+
+.nw-cv-contact a {
+  color: var(--nw-fg);
+  text-decoration: none;
+}
+
+.nw-cv-contact a:hover {
+  color: var(--nw-primary);
+}
+
+.nw-cv-sep {
+  margin: 0 0.4rem;
+  opacity: 0.5;
+}
+
+.nw-cv-socials {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+}
+
+.nw-cv-socials a {
+  color: var(--nw-muted);
+}
+
+.nw-cv-socials a:hover {
+  color: var(--nw-primary);
+}
+
+.nw-cv-socials svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.nw-cv-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.nw-cv-actions .nw-btn {
+  padding: 0.55rem 1.2rem;
+  font-size: 0.9rem;
+  justify-content: center;
+}
+
+.nw-cv-summary {
+  margin: 1.5rem 0 0;
+  color: var(--nw-muted);
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+.nw-cv-section {
+  margin-top: 2.5rem;
+}
+
+.nw-cv-section > h2 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin: 0 0 1.25rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--nw-border);
+}
+
+.nw-cv-section > h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--nw-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 1.5rem 0 0.75rem;
+}
+
+.nw-cv-entry {
+  padding: 0.9rem 0;
+  border-bottom: 1px solid var(--nw-border);
+}
+
+.nw-cv-entry:last-child {
+  border-bottom: 0;
+}
+
+.nw-cv-entry-head {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.nw-cv-entry-title {
+  font-weight: 700;
+  color: var(--nw-fg);
+}
+
+.nw-cv-entry-date {
+  flex: 0 0 auto;
+  color: var(--nw-muted);
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.nw-cv-entry-meta {
+  color: var(--nw-primary);
+  font-size: 0.92rem;
+  margin-top: 0.15rem;
+}
+
+.nw-cv-entry-meta a {
+  color: var(--nw-primary);
+  text-decoration: none;
+}
+
+.nw-cv-entry-meta a:hover {
+  text-decoration: underline;
+}
+
+.nw-cv-entry-desc {
+  margin: 0.4rem 0 0;
+  color: var(--nw-muted);
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+/* publications on the CV render as a flat list (no cards) */
+.nw-cv .nw-cite {
+  padding: 0.7rem 0;
+  border-bottom: 1px solid var(--nw-border);
+}
+
+.nw-cv .nw-cite:last-child {
+  border-bottom: 0;
+}
+
+.nw-cv-skills {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.nw-cv-skill-row {
+  display: flex;
+  gap: 1rem;
+  align-items: baseline;
+}
+
+.nw-cv-skill-cat {
+  flex: 0 0 12rem;
+  font-weight: 700;
+  color: var(--nw-fg);
+}
+
+@media (max-width: 640px) {
+  .nw-cv-name {
+    font-size: 1.9rem;
+  }
+  .nw-cv-actions {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .nw-cv-skill-row {
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+  .nw-cv-skill-cat {
+    flex-basis: auto;
+  }
+}
+
+/* ============ print / save-as-PDF ============ */
+@media print {
+  /* strip site chrome so the CV prints as a clean document */
+  .navbar,
+  .nav-footer,
+  #quarto-back-to-top,
+  .nw-back-to-top,
+  #quarto-header,
+  .quarto-title-banner,
+  .aa-DetachedOverlay,
+  .nw-cv-actions,
+  .social-share,
+  #TOC {
+    display: none !important;
+  }
+
+  html,
+  body {
+    background: #fff !important;
+    color: #000 !important;
+  }
+
+  .nw-cv {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nw-cv-name,
+  .nw-cv-entry-title,
+  .nw-cv-section > h2 {
+    color: #000 !important;
+  }
+
+  .nw-cv-contact,
+  .nw-cv-summary,
+  .nw-cv-entry-desc,
+  .nw-cv-entry-date,
+  .nw-cv-section > h3 {
+    color: #333 !important;
+  }
+
+  a {
+    color: #000 !important;
+    text-decoration: none !important;
+  }
+
+  /* keep each role, degree, award, and citation intact across page breaks */
+  .nw-cv-entry,
+  .nw-cv .nw-cite,
+  .nw-cv-skill-row {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .nw-cv-section {
+    break-inside: auto;
+  }
+
+  .nw-cv-section > h2,
+  .nw-cv-section > h3 {
+    break-after: avoid;
+  }
+
+  @page {
+    margin: 1.5cm;
+  }
+}
