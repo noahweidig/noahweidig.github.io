@@ -1365,6 +1365,13 @@ body:has(.nw-cv) #title-block-header {
     display: none !important;
   }
 
+  /* Drop the Quarto page title block ("Curriculum Vitae" + description) from
+     the printed CV only — it stays on screen. The heading is redundant on a
+     saved PDF, where the person's name already leads the document. */
+  body:has(.nw-cv) #title-block-header {
+    display: none !important;
+  }
+
   html,
   body {
     background: #fff !important;
@@ -1374,7 +1381,10 @@ body:has(.nw-cv) #title-block-header {
   .nw-cv {
     max-width: none;
     margin: 0;
-    padding: 0;
+    /* Left/right page margins are applied here as horizontal padding rather
+       than via @page, so they survive on every printed page even when the
+       browser zeroes out @page side margins. Top/bottom come from @page. */
+    padding: 0 1.5cm;
   }
 
   .nw-cv-name,
@@ -1416,7 +1426,22 @@ body:has(.nw-cv) #title-block-header {
 
 /* Page margins for print/save-as-PDF. Kept at the top level: @page only
    applies to paged media anyway, and Chromium ignores @page rules nested
-   inside @media print, which left printed PDFs with no margins at all. */
+   inside @media print, which left printed PDFs with no margins at all.
+
+   Only top/bottom margins are set here. Some browsers drop the left/right
+   @page margins (or the user's dialog zeroes them), which left printed CVs
+   flush against the left and right edges. The left/right margins are instead
+   applied as horizontal padding on .nw-cv above, so they hold on every page. */
 @page {
-  margin: 1.5cm;
+  margin: 1.5cm 0;
+}
+
+/* Social share row: the extension drops the block into the "body-content" grid
+   column. That column is centered on article pages (individual projects, blog
+   posts) but sits left of center on the full-width listing pages (/projects,
+   /awards, /blog), leaving the buttons off-center there. Span the whole grid so
+   the extension's justify-content:center lands the row centered on every layout.
+   Higher specificity than Quarto's `.page-columns > *` rule so it wins. */
+.page-columns > .social-share {
+  grid-column: screen-start / screen-end;
 }
