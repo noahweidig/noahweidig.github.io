@@ -555,8 +555,11 @@ body {
   text-decoration: none;
 }
 
-/* stretched link: the whole card navigates to the publication page */
-.nw-cite-title a::after {
+/* stretched link: the whole card navigates to the publication page.
+   Scoped to .nw-cites (the publications listing cards) — on the CV the
+   .nw-cite entries are flat, unpositioned rows, so an unscoped ::after
+   would resolve against the page and blanket it in an invisible link. */
+.nw-cites .nw-cite-title a::after {
   content: "";
   position: absolute;
   inset: 0;
@@ -1299,8 +1302,10 @@ body:has(.nw-cv) #title-block-header {
   line-height: 1.55;
 }
 
-/* publications on the CV render as a flat list (no cards) */
+/* publications on the CV render as a flat list (no cards); position:relative
+   contains any stretched-link ::after so it can never cover the page */
 .nw-cv .nw-cite {
+  position: relative;
   padding: 0.7rem 0;
   border-bottom: 1px solid var(--nw-border);
 }
@@ -1407,8 +1412,11 @@ body:has(.nw-cv) #title-block-header {
   .nw-cv-section > h3 {
     break-after: avoid;
   }
+}
 
-  @page {
-    margin: 1.5cm;
-  }
+/* Page margins for print/save-as-PDF. Kept at the top level: @page only
+   applies to paged media anyway, and Chromium ignores @page rules nested
+   inside @media print, which left printed PDFs with no margins at all. */
+@page {
+  margin: 1.5cm;
 }
