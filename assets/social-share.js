@@ -30,6 +30,35 @@
         });
       });
     });
+
+    relocate(containers);
+  }
+
+  // The Lua filter injects the share markup `after-body`, which lands *after*
+  // the page footer. Move each block to just before the footer (bottom of the
+  // page content) and prepend a "Share on:" label.
+  function relocate(containers) {
+    var footer = document.querySelector("#quarto-footer") ||
+      document.querySelector("footer.footer");
+    if (!footer) return;
+
+    containers.forEach(function (c) {
+      if (c.dataset.relocated) return;
+      c.dataset.relocated = "1";
+
+      if (!c.querySelector(".social-share-label")) {
+        var label = document.createElement("div");
+        label.className = "social-share-label";
+        label.textContent = "Share on:";
+        c.insertBefore(label, c.firstChild);
+      }
+
+      // Move the outer wrapper the filter created (falls back to the container).
+      var block = c.parentElement && c.parentElement !== document.body
+        ? c.parentElement
+        : c;
+      footer.parentNode.insertBefore(block, footer);
+    });
   }
 
   if (document.readyState === "loading") {

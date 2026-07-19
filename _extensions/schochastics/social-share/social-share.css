@@ -6,6 +6,13 @@
     flex-wrap: wrap;
 }
 
+.social-share .social-share-label {
+    flex-basis: 100%;
+    margin-bottom: 0.5em;
+    margin-left: 0.5em;
+    font-weight: 600;
+}
+
 .social-share a {
     border-radius: 25px;
     padding: 0.25rem 0.5rem;
