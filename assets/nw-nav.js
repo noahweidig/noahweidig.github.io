@@ -41,6 +41,15 @@ document.addEventListener(
   }
 })();
 
+// CV page: trigger the browser print dialog from the "Print / Save as PDF"
+// button. Bound in JS rather than an inline onclick so it fires reliably.
+document.addEventListener("click", function (e) {
+  var btn = e.target.closest && e.target.closest(".nw-cv-print");
+  if (!btn) return;
+  e.preventDefault();
+  window.print();
+});
+
 // Subtle back-to-top button, shown after scrolling down a bit.
 (function () {
   var btn = document.createElement("button");
