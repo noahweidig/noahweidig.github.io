@@ -2,14 +2,15 @@
 .social-share {
     display: flex;
     flex-direction: row;
-    justify-content: left;
+    justify-content: center;
     flex-wrap: wrap;
 }
 
 .social-share .social-share-label {
     flex-basis: 100%;
     margin-bottom: 0.5em;
-    margin-left: 0.5em;
+    margin-left: 0;
+    text-align: center;
     font-weight: 600;
 }
 
@@ -20,7 +21,8 @@
     border: 1px solid transparent;
     transition: background ease 0.3s, color ease 0.3s;
     margin-bottom: 1em;
-    margin-left: 0.5em;
+    margin-left: 0.25em;
+    margin-right: 0.25em;
     text-decoration: none;
 }
 

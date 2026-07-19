@@ -1032,6 +1032,18 @@ body {
   letter-spacing: -0.02em;
 }
 
+/* Breathing room between the fixed navbar and each page's title. The home page
+   uses a custom layout with no title block, so it's unaffected. */
+#title-block-header {
+  margin-top: 1.75rem;
+}
+
+@media (max-width: 640px) {
+  #title-block-header {
+    margin-top: 2.5rem;
+  }
+}
+
 /* Experience/education detail pages: org · dates · location lead line. */
 .nw-detail-lead {
   color: var(--nw-muted);

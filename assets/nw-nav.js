@@ -42,13 +42,35 @@ document.addEventListener(
 })();
 
 // CV page: trigger the browser print dialog from the "Print / Save as PDF"
-// button. Bound in JS rather than an inline onclick so it fires reliably.
-document.addEventListener("click", function (e) {
-  var btn = e.target.closest && e.target.closest(".nw-cv-print");
-  if (!btn) return;
-  e.preventDefault();
-  window.print();
-});
+// button. Bound in JS (capture phase) rather than an inline onclick so it
+// fires reliably and beats any ancestor <a> that might otherwise navigate.
+document.addEventListener(
+  "click",
+  function (e) {
+    var btn = e.target.closest && e.target.closest(".nw-cv-print");
+    if (!btn) return;
+    e.preventDefault();
+    e.stopPropagation();
+    window.print();
+  },
+  true
+);
+
+// CV page: defensively unwrap any anchor that ends up wrapping the CV header
+// or body, so the top section (name, contact, Print/Résumé buttons) is never
+// turned into one giant link.
+(function () {
+  var cv = document.querySelector(".nw-cv");
+  if (!cv) return;
+  [cv, cv.querySelector(".nw-cv-header")].forEach(function (el) {
+    if (!el) return;
+    var a = el.closest("a");
+    if (a && a.parentNode) {
+      while (a.firstChild) a.parentNode.insertBefore(a.firstChild, a);
+      a.parentNode.removeChild(a);
+    }
+  });
+})();
 
 // Subtle back-to-top button, shown after scrolling down a bit.
 (function () {
