@@ -20,6 +20,10 @@ project:
     - "assets/media/**"
     - "assets/fonts/**"
     - assets/nw-nav.js
+    - assets/social-share.js
+
+filters:
+  - social-share
 
 website:
   title: "Noah Weidig"
@@ -122,6 +126,7 @@ format:
     include-after-body:
       - text: |
           <script src="/assets/nw-nav.js"></script>
+          <script src="/assets/social-share.js"></script>
     toc: false
     anchor-sections: false
     # No page on the site uses LaTeX math, but Quarto still ships MathJax
