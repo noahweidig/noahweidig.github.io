@@ -14,6 +14,10 @@ toc-depth: 3
 code-fold: show
 code-tools: true
 execute:
+  # This site's CI renders with Quarto but does not install R, so the R
+  # chunks below are displayed (and are fully copy-paste runnable for
+  # readers) rather than executed during the build.
+  enabled: false
   warning: false
   message: false
   fig-align: center
