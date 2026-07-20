@@ -9,4 +9,8 @@ featured: true
 
 [Launch Tool](https://www.noahweidig.com/wordcloud/){.nw-btn .nw-btn-primary target="_blank"}
 
-A simple, free word cloud generator for visualizing text data creatively. Paste text or upload a file to generate beautiful, customizable word clouds that highlight frequently used terms.
+![WordCloud Studio generating a word cloud](../../assets/media/albums/projects/wordcloud.webp)
+
+WordCloud Studio turns a block of text into a word cloud. Paste something in or upload a file, and it sizes each word by how often it shows up, with colors, fonts, and shapes you can adjust until it looks the way you want.
+
+It's free and needs no account. I built it mostly because the existing generators buried a ten-second task under ads and sign-up walls.
