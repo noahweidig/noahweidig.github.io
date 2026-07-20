@@ -29,10 +29,17 @@ const nwSegs = String(item.path).split('/').filter(Boolean);
 const nwSlug = nwSegs.length > 1 ? nwSegs[nwSegs.length - 2] : nwSegs[0];
 const nwGrad = nwProjGrads[nwSlug] || 'g-sky';
 const nwIconSrc = '/assets/media/icons/projects/' + (nwProjGrads[nwSlug] ? nwSlug : 'default') + '.svg';
+// Every slug in nwProjGrads has a captured screenshot under albums/projects.
+const nwHasShot = Object.prototype.hasOwnProperty.call(nwProjGrads, nwSlug);
+const nwShotSrc = '/assets/media/albums/projects/' + nwSlug + '.webp';
 %>
 <div class="nw-proj-wrap">
 <div class="nw-proj-card" data-cats="<%= (item.categories || []).join('|') %>">
+<% if (nwHasShot) { %>
+<a class="nw-proj-media nw-has-shot" href="<%- item.path %>" aria-label="<%= item.title %>"><img class="nw-proj-shot" src="<%= nwShotSrc %>" alt="Screenshot of <%= item.title %>" loading="lazy"></a>
+<% } else { %>
 <a class="nw-proj-media" href="<%- item.path %>" aria-label="<%= item.title %>"><span class="nw-icon <%= nwGrad %>"><img src="<%= nwIconSrc %>" alt="" loading="lazy"></span></a>
+<% } %>
 <div class="nw-proj-body">
 <h3><a href="<%- item.path %>"><%= item.title %></a></h3>
 <p><%= item.description || '' %></p>

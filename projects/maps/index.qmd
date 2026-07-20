@@ -9,4 +9,8 @@ featured: true
 
 [See Gallery](https://noahweidig.com/maps){.nw-btn .nw-btn-primary target="_blank"}
 
-A curated collection of interactive maps showcasing geospatial data and analysis. Browse themed maps to explore geographic patterns and distributions across regions.
+![The Map Explorer gallery of interactive maps](../../assets/media/albums/projects/maps.webp)
+
+Map Explorer is where I collect the interactive maps I've made — some pulled from my research, some built just because a dataset was too interesting to leave in a table. Each one is self-contained: pan and zoom to explore the pattern it's showing.
+
+Keeping them in one place serves two purposes. It's a portfolio of cartographic styles I've tried, and it gives me a live example to point to when I'm explaining how I'd approach a mapping problem.
