@@ -1070,6 +1070,15 @@ body {
   scroll-margin-top: 4.5rem;
 }
 
+/* Package hex logos are placed inline in section headings (e.g. `### dplyr
+   <img ...>`). Quarto copies each heading's markup into the table-of-contents
+   sidebar, which pulled those hex icons into the TOC "legend". Hide images in
+   the TOC so only the package names show there. */
+#TOC img,
+nav[role="doc-toc"] img {
+  display: none;
+}
+
 @media (max-width: 640px) {
   .nw-section { padding: 3rem 0; }
 }
