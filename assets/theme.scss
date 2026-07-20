@@ -1126,12 +1126,11 @@ nav[role="doc-toc"] img {
 
   /* ----- Hamburger that morphs into an X when expanded (no layout shift) ----- */
   .navbar .navbar-toggler .navbar-toggler-icon {
-    background-image: none;
     position: relative;
     width: 1.4rem;
     height: 1.4rem;
     display: inline-block;
-    /* middle bar */
+    /* middle bar (the shorthand also clears Bootstrap's default icon image) */
     background: linear-gradient(var(--nw-fg), var(--nw-fg)) center / 100% 2px no-repeat;
     transition: background 0.2s ease;
   }
