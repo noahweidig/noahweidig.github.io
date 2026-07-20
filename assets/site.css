@@ -463,6 +463,19 @@ img.nw-detail-hero {
   font-size: 0.85rem;
 }
 
+.nw-footer-bottom .nw-quarto-credit {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: inherit;
+}
+
+.nw-footer-bottom .nw-quarto-credit svg {
+  width: 0.9rem;
+  height: 0.9rem;
+  flex: none;
+}
+
 @media (max-width: 900px) {
   .nw-footer-grid {
     grid-template-columns: repeat(2, 1fr);
