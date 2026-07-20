@@ -497,6 +497,25 @@ body {
   transform: scale(1.08);
 }
 
+/* real site screenshot fills the media box; falls back to the icon tile
+   above when a project has no screenshot yet */
+.nw-proj-card .nw-proj-media.nw-has-shot {
+  padding: 0;
+}
+
+.nw-proj-card .nw-proj-shot {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.nw-proj-card:hover .nw-proj-shot {
+  transform: scale(1.03);
+}
+
 .nw-proj-card .nw-proj-body {
   padding: 1.25rem 1.5rem 1.5rem;
   display: flex;
