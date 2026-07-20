@@ -77,7 +77,7 @@ listing:
     <p class="nw-cv-contact">
       <a href="mailto:noah@noahweidig.com">noah@noahweidig.com</a>
       <span class="nw-cv-sep">·</span>
-      Gainesville, FL
+      Orlando, FL
       <span class="nw-cv-sep">·</span>
       <a href="https://noahweidig.com/">noahweidig.com</a>
     </p>
