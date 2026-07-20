@@ -116,7 +116,7 @@ website:
       </div>
       </div>
       <div class="nw-footer-bottom">
-      <div>© 2026 Noah Weidig · Built with <a href="https://quarto.org">Quarto</a>.</div>
+      <div>© 2026 Noah Weidig · Built with <a href="https://quarto.org" class="nw-quarto-credit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4l16 8l-16 8z"/></svg>Quarto</a>. All Rights Reserved.</div>
       </div>
       </div>
 
