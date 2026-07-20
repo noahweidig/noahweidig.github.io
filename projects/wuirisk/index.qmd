@@ -10,4 +10,8 @@ featured: true
 
 [Launch Tool](https://ee-weidignc.projects.earthengine.app/view/wui-wildfire){.nw-btn .nw-btn-primary target="_blank"}
 
-A Google Earth Engine application that visualizes wildland-urban interface (WUI) dynamics, large wildfire patterns, and burn severity trends. Monitor how development encroaches on fire-prone landscapes and assess regional wildfire risk.
+![The WUI Wildfire Explorer mapping large fires across the United States](../../assets/media/albums/projects/wuirisk.webp)
+
+The WUI Wildfire Explorer is a Google Earth Engine app that maps large wildfires against the wildland-urban interface — the places where houses meet wildland vegetation and fire risk concentrates. It grew directly out of my master's thesis on large-fire patterns in the eastern United States.
+
+You can step through years, see fire perimeters and their burn severity, and read the WUI classification underneath: interface versus intermix, and how much housing sits in vegetated land. Click a perimeter and its details come up. The point is to make an abstract risk concrete — you can watch development push into fire-prone country and see exactly where the two meet.
