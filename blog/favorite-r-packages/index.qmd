@@ -11,38 +11,10 @@ image: logos/tidyverse.png
 image-alt: The tidyverse hexagonal logo
 toc: true
 toc-depth: 3
-code-fold: show
-code-tools: true
-execute:
-  # This site's CI renders with Quarto but does not install R, so the R
-  # chunks below are displayed (and are fully copy-paste runnable for
-  # readers) rather than executed during the build.
-  enabled: false
-  warning: false
-  message: false
-  fig-align: center
-  fig-width: 7
-  fig-height: 4.5
-knitr:
-  opts_chunk:
-    dev: png
-    dpi: 150
-    comment: "#>"
-    collapse: true
+# The R throughout this post is shown as formatted, copy-paste-runnable code
+# rather than executed at render time, so the site builds without an R
+# toolchain in CI.
 ---
-
-```{r}
-#| label: setup
-#| include: false
-
-# A single place to control logo sizing and knitr behavior for the whole post.
-knitr::opts_chunk$set(
-  fig.retina = 2,
-  out.width  = "100%"
-)
-
-set.seed(42)
-```
 
 After enough years writing R, you stop thinking about individual functions and
 start thinking about *workflows* — the small, repeated motions of loading data,
@@ -62,22 +34,12 @@ now the default in most modern tidyverse teaching. I switch to the magrittr pipe
 `%>%` only in the rare spot where its extra features (like the `.` placeholder
 or `%<>%`) genuinely help, and I call it out when I do.
 
-```{r}
-#| label: libraries
-#| results: hide
-
+```r
 library(tidyverse)      # attaches ggplot2, dplyr, tidyr, readr, purrr,
                         # tibble, stringr, forcats, lubridate, and friends
 library(palmerpenguins) # the `penguins` dataset used throughout
-```
 
-```{r}
-#| label: conflicts-note
-#| echo: false
-#| results: hide
-
-# Loading the tidyverse prints a conflicts banner; we suppress it above with
-# message: false, but we discuss those conflicts in the `conflicted` section.
+set.seed(42)            # so the random examples below reproduce exactly
 ```
 
 ## The tidyverse
@@ -97,9 +59,7 @@ next one felt familiar. Add a pipe to chain those functions into a readable
 left-to-right sequence, and suddenly R code reads like a description of what you
 are actually doing.
 
-```{r}
-#| label: tidyverse-teaser
-
+```r
 penguins |>
   filter(!is.na(body_mass_g)) |>
   group_by(species, sex) |>
@@ -133,10 +93,7 @@ implements the *grammar of graphics*, the idea that any statistical graphic can
 be described as data mapped to visual properties (aesthetics) and drawn with
 geometric objects (geoms) in layers.
 
-```{r}
-#| label: ggplot2-teaser
-#| fig-alt: Scatterplot of penguin flipper length versus body mass colored by species.
-
+```r
 ggplot(penguins, aes(flipper_length_mm, body_mass_g, colour = species)) +
   geom_point(alpha = 0.8) +
   labs(title = "Flipper length predicts body mass", colour = "Species")
@@ -155,9 +112,7 @@ rows, `select()` columns, `mutate()` new columns, `arrange()` the order,
 The workflow I use constantly is group-summarise-arrange to answer "what's the
 typical value, split by category?"
 
-```{r}
-#| label: dplyr-verbs
-
+```r
 penguins |>
   filter(!is.na(bill_length_mm)) |>
   mutate(bill_ratio = bill_length_mm / bill_depth_mm) |>
@@ -176,9 +131,7 @@ whole category of "why is my data frame still grouped?" bugs.
 Two more workflows I would not want to live without. First, **joins** for
 combining tables:
 
-```{r}
-#| label: dplyr-join
-
+```r
 island_region <- tibble(
   island = c("Torgersen", "Biscoe", "Dream"),
   region = c("North",     "South",  "East")
@@ -193,9 +146,7 @@ penguins |>
 Second, `across()` for applying the same transformation to many columns without
 copy-pasting:
 
-```{r}
-#| label: dplyr-across
-
+```r
 penguins |>
   summarise(
     across(ends_with("_mm"), \(x) mean(x, na.rm = TRUE)),
@@ -223,9 +174,7 @@ layouts — the single most common data-cleaning task in the real world.
 The classic workflow: measurements sitting in separate columns that really want
 to be a single "measurement" variable. ggplot2 in particular loves long data.
 
-```{r}
-#| label: tidyr-longer
-
+```r
 penguins_long <- penguins |>
   select(species, bill_length_mm, bill_depth_mm, flipper_length_mm) |>
   pivot_longer(
@@ -239,10 +188,7 @@ penguins_long
 
 That long form drops straight into a faceted plot:
 
-```{r}
-#| label: tidyr-longer-plot
-#| fig-alt: Boxplots of three penguin body measurements faceted by measurement type.
-
+```r
 penguins_long |>
   filter(!is.na(value)) |>
   ggplot(aes(species, value, fill = species)) +
@@ -263,9 +209,7 @@ more predictably than base R's `read.csv()`. It gets its
 tibble, never converts strings to factors behind your back, and tells you
 exactly how it parsed every column.
 
-```{r}
-#| label: readr-teaser
-
+```r
 # Read a CSV directly from a string — handy for reproducible examples.
 read_csv("x,y\n1,a\n2,b\n3,c")
 ```
@@ -278,9 +222,7 @@ would otherwise write. It has its [own deep dive](#purrr-in-depth). The one-line
 pitch: `map_dbl(x, f)` applies `f` to each element of `x` and *guarantees* it
 gives you back a double vector, or errors loudly if it can't.
 
-```{r}
-#| label: purrr-teaser
-
+```r
 # Fit a model per species and pull out R-squared, all without a loop.
 penguins |>
   split(penguins$species) |>
@@ -294,9 +236,7 @@ less than base `data.frame`s, and that is a feature: they never change column
 types, never do partial name matching, never coerce strings to factors, and
 print a clean, columnar summary that shows types and fits your console.
 
-```{r}
-#| label: tibble-print
-
+```r
 tibble(
   id    = 1:3,
   group = c("a", "b", "a"),
@@ -310,9 +250,7 @@ comes from [pillar](#under-the-hood). Tibbles also support **list-columns**,
 where each cell holds an arbitrary object. That is what makes the
 "nest, map a model over each group, unnest the results" workflow possible:
 
-```{r}
-#| label: tibble-listcol
-
+```r
 penguins |>
   nest(.by = species) |>
   mutate(n_rows = map_int(data, nrow))
@@ -325,9 +263,7 @@ penguins |>
 pattern is always second. Every function starts with `str_`, which means
 autocomplete becomes a menu of everything you can do.
 
-```{r}
-#| label: stringr-workflow
-
+```r
 tibble(raw = c("  Adelie ", "GENTOO", "chinstrap")) |>
   mutate(
     trimmed = str_trim(raw),
@@ -352,10 +288,7 @@ with a `fct_` family.
 The workflow that earns its keep: reordering a factor by a summary statistic so
 your bar chart is sorted by value instead of alphabetically.
 
-```{r}
-#| label: forcats-reorder
-#| fig-alt: Bar chart of mean penguin body mass by species, sorted descending.
-
+```r
 penguins |>
   filter(!is.na(body_mass_g)) |>
   summarise(mean_mass = mean(body_mass_g), .by = species) |>
@@ -375,9 +308,7 @@ time zones — all the things that make base R date handling a chore become
 one-liners. It has its [own section below](#lubridate-in-depth), but here is the
 flavor:
 
-```{r}
-#| label: lubridate-teaser
-
+```r
 ymd("2026-07-20") + months(3)
 ```
 
@@ -393,9 +324,7 @@ Knowing these exist makes error messages far less mysterious.
   own composable grammar with helpers like `matches()`, `all_of()`, `any_of()`,
   and `everything()`.
 
-  ```{r}
-  #| label: tidyselect-demo
-
+  ```r
   penguins |> select(species, where(is.numeric)) |> names()
   ```
 
@@ -405,9 +334,7 @@ Knowing these exist makes error messages far less mysterious.
   and "prototype" mean. It is why tidyverse type coercions are predictable
   instead of surprising.
 
-  ```{r}
-  #| label: vctrs-demo
-
+  ```r
   vctrs::vec_c(factor("a"), factor("b"))  # combines factor levels sensibly
   ```
 
@@ -420,9 +347,7 @@ Knowing these exist makes error messages far less mysterious.
   embrace operator, and the condition system. If you have ever written a function
   that takes a column name as a bare argument, you have used rlang.
 
-  ```{r}
-  #| label: rlang-demo
-
+  ```r
   group_mean <- function(df, group, var) {
     df |> summarise(mean = mean({{ var }}, na.rm = TRUE), .by = {{ group }})
   }
@@ -473,10 +398,7 @@ Every ggplot is built from the same components:
 
 You assemble these with `+`, adding one **layer** at a time. Start simple:
 
-```{r}
-#| label: gg-layer-1
-#| fig-alt: Basic scatterplot of penguin flipper length versus body mass.
-
+```r
 p <- ggplot(penguins, aes(flipper_length_mm, body_mass_g))
 
 p + geom_point()
@@ -485,10 +407,7 @@ p + geom_point()
 `p` holds the data and the base mapping; every geom we add inherits them. Now
 layer a second geom on top — a smooth trend line over the same points:
 
-```{r}
-#| label: gg-layer-2
-#| fig-alt: Scatterplot of flipper length versus body mass with a linear trend line.
-
+```r
 p +
   geom_point(aes(colour = species), alpha = 0.7) +
   geom_smooth(method = "lm", se = TRUE, colour = "black")
@@ -505,10 +424,7 @@ Scales govern the translation from data to pixels: axis limits and breaks, and
 the palettes behind colour, fill, size, and shape. You rarely need them for a
 quick look, but they are how you go from "fine" to "polished."
 
-```{r}
-#| label: gg-scales
-#| fig-alt: Scatterplot with a viridis color scale and comma-formatted axis.
-
+```r
 ggplot(penguins, aes(flipper_length_mm, body_mass_g, colour = bill_length_mm)) +
   geom_point(size = 2, na.rm = TRUE) +
   scale_colour_viridis_c(option = "plasma") +
@@ -526,10 +442,7 @@ Faceting splits one plot into a grid of small multiples. It is the single most
 effective way to show how a relationship varies across a categorical variable,
 and it takes one line.
 
-```{r}
-#| label: gg-facet
-#| fig-alt: Scatterplots of flipper length versus body mass faceted by island and colored by species.
-
+```r
 ggplot(penguins, aes(flipper_length_mm, body_mass_g, colour = species)) +
   geom_point(alpha = 0.7, na.rm = TRUE) +
   facet_wrap(~ island) +
@@ -546,10 +459,7 @@ Annotations add reference lines, text, and highlights that are not driven by the
 data mapping. They are how you direct the reader's eye to the point you are
 making.
 
-```{r}
-#| label: gg-annotate
-#| fig-alt: Scatterplot with a horizontal reference line at the mean body mass and a text label.
-
+```r
 mean_mass <- mean(penguins$body_mass_g, na.rm = TRUE)
 
 ggplot(penguins, aes(flipper_length_mm, body_mass_g)) +
@@ -569,10 +479,7 @@ position, spacing. ggplot2 ships several complete themes (`theme_minimal()`,
 `theme_bw()`, `theme_classic()`), and you tweak individual elements with
 `theme()`.
 
-```{r}
-#| label: gg-theme
-#| fig-alt: Scatterplot styled with theme_minimal and a bottom legend.
-
+```r
 ggplot(penguins, aes(flipper_length_mm, body_mass_g, colour = species)) +
   geom_point(alpha = 0.8, na.rm = TRUE) +
   theme_minimal(base_size = 13) +
@@ -588,10 +495,7 @@ If you make a lot of plots, define your house style **once** as a function and
 reuse it everywhere. This is the workflow that keeps a report visually
 consistent:
 
-```{r}
-#| label: gg-custom-theme
-#| fig-alt: Scatterplot using a reusable custom theme function.
-
+```r
 theme_nw <- function(base_size = 13) {
   theme_minimal(base_size = base_size) +
     theme(
@@ -620,10 +524,7 @@ Finish with `ggsave()`. It infers the format from the file extension, lets you
 set physical dimensions and resolution, and by default saves the last plot you
 drew.
 
-```{r}
-#| label: gg-save
-#| eval: false
-
+```r
 p_final <- ggplot(penguins, aes(flipper_length_mm, body_mass_g, colour = species)) +
   geom_point(alpha = 0.8, na.rm = TRUE) +
   theme_nw()
@@ -650,9 +551,7 @@ for [vroom](#vroom), which shares readr's interface.)
 
 ### read_csv, read_tsv, and friends
 
-```{r}
-#| label: readr-basic
-
+```r
 csv_text <- "id,species,mass_g,measured
 1,Adelie,3750,2026-01-05
 2,Gentoo,5400,2026-01-06
@@ -672,9 +571,7 @@ The best habit in readr is to *state* your expected column types with `col_types
 rather than letting the parser guess. This makes imports reproducible and turns
 silent type surprises into explicit errors.
 
-```{r}
-#| label: readr-coltypes
-
+```r
 read_csv(
   csv_text,
   col_types = cols(
@@ -694,9 +591,7 @@ integer, factor, double, Date — one letter per column.
 readr's `parse_*()` functions are the same machinery you can call directly, which
 is great for cleaning messy columns after import.
 
-```{r}
-#| label: readr-parse
-
+```r
 parse_date(c("2026-07-20", "2026-01-01"))
 
 # Numbers with currency symbols, thousands separators, and percent signs:
@@ -728,9 +623,7 @@ list; the typed variants return exactly the vector type they promise.
 
 ### map and its typed variants
 
-```{r}
-#| label: purrr-map-family
-
+```r
 nums <- list(a = 1:5, b = 6:10, c = 11:15)
 
 map(nums, mean)        # always returns a list
@@ -754,9 +647,7 @@ A workflow I use constantly: run something over many inputs and stack the result
 into one tibble. The modern idiom is `map()` to a list of tibbles, then
 `list_rbind()`:
 
-```{r}
-#| label: purrr-list-rbind
-
+```r
 fit_species <- function(sp) {
   df <- filter(penguins, species == sp)
   m  <- lm(body_mass_g ~ flipper_length_mm, df)
@@ -779,9 +670,7 @@ first error; `safely()` and `possibly()` let the rest continue.
 
 `possibly()` returns a fallback value on error:
 
-```{r}
-#| label: purrr-possibly
-
+```r
 safe_log <- possibly(log, otherwise = NA_real_)
 map_dbl(list(1, 10, "oops", 100), safe_log)
 ```
@@ -789,9 +678,7 @@ map_dbl(list(1, 10, "oops", 100), safe_log)
 `safely()` returns a list with `result` and `error` slots for *every* call, so
 you can inspect exactly what went wrong where:
 
-```{r}
-#| label: purrr-safely
-
+```r
 safe_log2 <- safely(log)
 results   <- map(list(1, "bad", 100), safe_log2)
 
@@ -820,9 +707,7 @@ You do not write format strings in lubridate. You pick the function whose name
 matches the order the date parts appear — `ymd`, `mdy`, `dmy` — and it figures
 out the separators.
 
-```{r}
-#| label: lubridate-parse
-
+```r
 ymd("2026-07-20")
 mdy("July 20, 2026")
 dmy("20/07/2026")
@@ -838,9 +723,7 @@ Bucketing timestamps into days, weeks, or months is the backbone of every
 time-series summary. `floor_date()` rounds down to the start of a unit,
 `ceiling_date()` rounds up.
 
-```{r}
-#| label: lubridate-rounding
-
+```r
 ts <- ymd_hms("2026-07-20 14:37:12")
 
 floor_date(ts, unit = "hour")
@@ -850,9 +733,7 @@ ceiling_date(ts, unit = "week")
 
 The real-world workflow — turn raw timestamps into a monthly count:
 
-```{r}
-#| label: lubridate-bucket
-
+```r
 tibble(event_time = ymd("2026-01-01") + days(sample(0:180, 500, replace = TRUE))) |>
   mutate(month = floor_date(event_time, "month")) |>
   count(month) |>
@@ -871,9 +752,7 @@ prevents subtle bugs:
 - **Intervals** (`a %--% b`) are a specific span between two fixed instants, which
   you can measure or check membership against.
 
-```{r}
-#| label: lubridate-spans
-
+```r
 start <- ymd("2026-01-31")
 
 start + months(1)   # period: lands on Feb 28 (calendar-aware)
@@ -890,9 +769,7 @@ Time zones are lubridate's other quiet superpower. `with_tz()` shows the *same
 instant* in a different zone; `force_tz()` *reinterprets* the clock reading as if
 it were in another zone (usually to fix data that was labeled wrong).
 
-```{r}
-#| label: lubridate-tz
-
+```r
 meeting <- ymd_hms("2026-07-20 09:00:00", tz = "America/New_York")
 
 with_tz(meeting, "Europe/London")   # same moment, London clock
@@ -919,9 +796,7 @@ platform quirks; fs functions all start with `file_`, `dir_`, or `path_`, return
 tidy character vectors of paths, and behave identically on Windows, macOS, and
 Linux.
 
-```{r}
-#| label: fs-paths
-
+```r
 library(fs)
 
 # Build paths without worrying about separators:
@@ -934,9 +809,7 @@ path_file(p)
 The everyday workflow is listing, filtering, and acting on files. fs makes
 recursive listing and filtering by glob trivial:
 
-```{r}
-#| label: fs-dir-ops
-
+```r
 # Create a small tree in a temp directory to demonstrate safely.
 tmp <- path(tempdir(), "fs-demo")
 dir_create(path(tmp, c("raw", "clean")))
@@ -950,12 +823,6 @@ Copy, move, and delete are `file_copy()`, `file_move()`, and `file_delete()`
 (with `dir_delete()` for whole trees). The `dir_info()` function returns a tibble
 of file metadata — size, modification time, permissions — which pipes straight
 into dplyr for "find me every file over 100 MB older than a year" queries.
-
-```{r}
-#| label: fs-cleanup
-#| include: false
-dir_delete(tmp)  # tidy up the demo directory
-```
 
 ### here
 
@@ -971,10 +838,7 @@ anyone else runs it — or you reorganize your folders — it breaks.
 your `.Rproj`, `.git`, or a `.here` file), no matter where the current working
 directory happens to be:
 
-```{r}
-#| label: here-demo
-#| eval: false
-
+```r
 library(here)
 
 # Always resolves to <project-root>/data/raw/penguins.csv,
@@ -982,10 +846,7 @@ library(here)
 read_csv(here("data", "raw", "penguins.csv"))
 ```
 
-```{r}
-#| label: here-root
-#| eval: false
-
+```r
 here()          # prints the detected project root
 ```
 
@@ -1004,9 +865,7 @@ script you intend to share or re-run.
 a dozen commas, you write the string once and drop `{expressions}` inline — they
 are evaluated and spliced in. It reads exactly like the sentence you are building.
 
-```{r}
-#| label: glue-basic
-
+```r
 library(glue)
 
 species <- "Gentoo"
@@ -1017,18 +876,14 @@ glue("We measured {n} {species} penguins.")
 glue is **vectorized**, which makes it perfect for generating filenames, labels,
 and SQL in bulk:
 
-```{r}
-#| label: glue-vectorized
-
+```r
 ids <- 1:3
 glue("penguin_{sprintf('%03d', ids)}.csv")
 ```
 
 A few workflows where glue shines:
 
-```{r}
-#| label: glue-uses
-
+```r
 # Dynamic plot titles and labels:
 sp <- "Adelie"; yr <- 2026
 title <- glue("{sp} body mass, {yr}")
@@ -1062,10 +917,7 @@ hazard.
 **conflicted** replaces that silent, order-dependent behavior with a loud, safe
 one: any ambiguous call becomes an **error** that forces you to choose.
 
-```{r}
-#| label: conflicted-demo
-#| eval: false
-
+```r
 library(conflicted)
 library(dplyr)
 library(MASS)     # also exports select()
@@ -1099,9 +951,7 @@ interface — `vroom()` maps onto `read_csv()`. Use readr as your everyday defau
 for clarity and helpful messages; reach for vroom when file size becomes the
 bottleneck.
 
-```{r}
-#| label: vroom-benchmark
-
+```r
 library(vroom)
 
 # Write a moderately sized CSV to a temp file, then compare read times.
@@ -1123,12 +973,6 @@ timing <- bench::mark(
 timing[, c("expression", "min", "median", "mem_alloc")]
 ```
 
-```{r}
-#| label: vroom-cleanup
-#| include: false
-file.remove(csv_path)
-```
-
 ::: {.callout-tip}
 The speed gap widens with file size and column count, and is largest when you
 read many columns but *use* only a few. For a 200 MB export you filter down to a
@@ -1146,10 +990,7 @@ today still works when you return to it after ggplot2 has had three releases.
 The mental model: `renv` is to R packages what a virtual environment is to Python
 or a lockfile is to npm. The core workflow is four verbs.
 
-```{r}
-#| label: renv-workflow
-#| eval: false
-
+```r
 library(renv)
 
 # 1. init(): create a project-local library and take a first snapshot.
@@ -1197,9 +1038,7 @@ you stop memorizing one accessor for `lm` and another for `glmer`.
 
 Let's fit a model to use throughout this section.
 
-```{r}
-#| label: easystats-model
-
+```r
 model <- lm(body_mass_g ~ flipper_length_mm + species + sex, data = penguins)
 ```
 
@@ -1211,9 +1050,7 @@ the data, the predictors, the response, the parameters — through one consisten
 API. You rarely call it directly, but it is why `parameters` and `performance`
 work identically across model types.
 
-```{r}
-#| label: insight-demo
-
+```r
 library(insight)
 
 get_predictors(model) |> head(3)
@@ -1227,9 +1064,7 @@ errors, confidence intervals, and *p*-values — into a clean, consistent table.
 is the tidy `summary()` you always wanted, and it works the same whether the
 model is an `lm` or a mixed model.
 
-```{r}
-#| label: parameters-demo
-
+```r
 library(parameters)
 
 model_parameters(model)
@@ -1242,20 +1077,14 @@ of assumption checks (normality, heteroscedasticity, collinearity, influential
 points). The `check_model()` function produces a single diagnostic dashboard that
 replaces a dozen manual `plot()` calls.
 
-```{r}
-#| label: performance-metrics
-
+```r
 library(performance)
 
 model_performance(model)
 check_collinearity(model)
 ```
 
-```{r}
-#| label: performance-checkmodel
-#| fig-height: 8
-#| fig-alt: A grid of regression diagnostic plots produced by performance::check_model.
-
+```r
 check_model(model)
 ```
 
@@ -1266,9 +1095,7 @@ eta-squared, standardized coefficients — and, crucially, translates them into
 plain-language interpretations ("small", "medium", "large") using documented
 rules of thumb.
 
-```{r}
-#| label: effectsize-demo
-
+```r
 library(effectsize)
 
 # Standardized parameters put coefficients on a comparable scale:
@@ -1286,9 +1113,7 @@ Pearson, Spearman, partial, and Bayesian correlations, returns a tibble with
 confidence intervals and *p*-values, and can produce a full correlation matrix
 ready for plotting.
 
-```{r}
-#| label: correlation-demo
-
+```r
 library(correlation)
 
 penguins |>
@@ -1304,9 +1129,7 @@ rescaling, and recoding, with a consistent API that plays well with modeling
 functions. Think of it as dplyr/tidyr's cousin, tuned for the transformations
 statisticians reach for.
 
-```{r}
-#| label: datawizard-demo
-
+```r
 library(datawizard)
 
 penguins |>
@@ -1326,9 +1149,7 @@ penguins |>
 marginal means, and contrasts. Instead of reading coefficients and doing mental
 arithmetic, you ask the model directly: "what does it predict for each species?"
 
-```{r}
-#| label: modelbased-demo
-
+```r
 library(modelbased)
 
 estimate_means(model, by = "species")
@@ -1341,9 +1162,7 @@ estimate_means(model, by = "species")
 if you work mostly with frequentist models, its `describe_posterior()` and
 distribution utilities are useful. Here it is on a simulated posterior:
 
-```{r}
-#| label: bayestestr-demo
-
+```r
 library(bayestestR)
 
 posterior <- distribution_normal(4000, mean = 200, sd = 40)
@@ -1357,10 +1176,7 @@ scales, and themes, and — most usefully — `plot()` methods for the objects t
 other easystats packages return. That `check_model()` dashboard above? see draws
 it. It is the reason easystats output looks polished with no extra effort.
 
-```{r}
-#| label: see-demo
-#| fig-alt: A see-styled plot of the model's estimated marginal means by species.
-
+```r
 library(see)
 
 estimate_means(model, by = "species") |>
@@ -1376,10 +1192,7 @@ describing it — effect sizes, significance, interpretation, and all — follow
 reporting standards. It is a first draft of your results section, generated from
 the model itself.
 
-```{r}
-#| label: report-demo
-#| results: asis
-
+```r
 library(report)
 
 report(model)
@@ -1409,10 +1222,7 @@ draw a distribution's shape (the slab) together with a point-and-interval summar
 The signature geom is `stat_halfeye()`, which draws a density "half-eye": half a
 violin plus a median and credible interval.
 
-```{r}
-#| label: ggdist-halfeye
-#| fig-alt: Half-eye distribution plots of penguin body mass by species.
-
+```r
 library(ggdist)
 
 penguins |>
@@ -1429,11 +1239,7 @@ layered intervals. Because ggdist understands distribution objects, you can also
 plot *analytical* distributions directly, which is invaluable for showing a model's
 predicted uncertainty rather than just raw data:
 
-```{r}
-#| label: ggdist-dist
-#| fig-height: 3
-#| fig-alt: A half-eye plot of an analytical normal distribution.
-
+```r
 tibble(mean = 4200, sd = 800) |>
   ggplot(aes(y = "prediction", xdist = distributional::dist_normal(mean, sd))) +
   stat_halfeye() +
@@ -1447,9 +1253,7 @@ tibble(mean = 4200, sd = 800) |>
 operators. No more `grid.arrange()` incantations — you literally add plots
 together. It is the most intuitive plot-composition tool in R.
 
-```{r}
-#| label: patchwork-setup
-
+```r
 p1 <- ggplot(penguins, aes(flipper_length_mm, body_mass_g, colour = species)) +
   geom_point(alpha = 0.7, na.rm = TRUE, show.legend = FALSE) +
   theme_nw()
@@ -1466,11 +1270,7 @@ p3 <- ggplot(penguins, aes(body_mass_g, fill = species)) +
 The operators say what they do: `+` packs plots into a grid, `|` places them
 side by side, `/` stacks them vertically. Parentheses nest layouts.
 
-```{r}
-#| label: patchwork-layout
-#| fig-height: 6
-#| fig-alt: Three penguin plots composed with patchwork, one on top spanning two below.
-
+```r
 library(patchwork)
 
 (p1 | p2) / p3
@@ -1479,11 +1279,7 @@ library(patchwork)
 patchwork also collects shared legends and adds figure-level annotations —
 titles, tags, captions — across the whole composition:
 
-```{r}
-#| label: patchwork-annotate
-#| fig-height: 4
-#| fig-alt: Two penguin plots side by side with a shared legend and panel tags A and B.
-
+```r
 pa <- ggplot(penguins, aes(flipper_length_mm, body_mass_g, colour = species)) +
   geom_point(alpha = 0.7, na.rm = TRUE) + theme_nw()
 pb <- ggplot(penguins, aes(bill_length_mm, bill_depth_mm, colour = species)) +
@@ -1509,11 +1305,7 @@ patchwork feature for enforcing consistency across a composition.
 `plot_grid()` aligns panels by their plotting areas, so axes line up even when
 labels differ in width.
 
-```{r}
-#| label: cowplot-grid
-#| fig-height: 4
-#| fig-alt: Two penguin plots arranged in a labeled grid with aligned axes via cowplot.
-
+```r
 library(cowplot)
 
 cp1 <- ggplot(penguins, aes(flipper_length_mm, body_mass_g)) +
@@ -1527,11 +1319,7 @@ plot_grid(cp1, cp2, labels = c("A", "B"), align = "h", ncol = 2)
 The shared-legend workflow is a cowplot classic: extract one plot's legend, then
 place it once for the whole grid.
 
-```{r}
-#| label: cowplot-legend
-#| fig-height: 4
-#| fig-alt: Two penguin plots sharing a single legend placed at the bottom via cowplot.
-
+```r
 leg_plot <- ggplot(penguins, aes(flipper_length_mm, body_mass_g, colour = species)) +
   geom_point(na.rm = TRUE) +
   theme_cowplot() +
@@ -1574,8 +1362,6 @@ You need the next one that removes the friction you are feeling right now.
 Happy analyzing. And if you build something you are proud of with these, I would
 love to hear about it.
 
-```{r}
-#| label: session-info
-
+```r
 sessionInfo()
 ```
