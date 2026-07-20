@@ -1123,6 +1123,45 @@ nav[role="doc-toc"] img {
   .navbar .navbar-brand img {
     display: none;
   }
+
+  /* ----- Hamburger that morphs into an X when expanded (no layout shift) ----- */
+  .navbar .navbar-toggler .navbar-toggler-icon {
+    position: relative;
+    width: 1.4rem;
+    height: 1.4rem;
+    display: inline-block;
+    /* middle bar (the shorthand also clears Bootstrap's default icon image) */
+    background: linear-gradient(var(--nw-fg), var(--nw-fg)) center / 100% 2px no-repeat;
+    transition: background 0.2s ease;
+  }
+
+  .navbar .navbar-toggler .navbar-toggler-icon::before,
+  .navbar .navbar-toggler .navbar-toggler-icon::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--nw-fg);
+    border-radius: 2px;
+    transition: transform 0.2s ease, top 0.2s ease;
+  }
+
+  .navbar .navbar-toggler .navbar-toggler-icon::before { top: 0.25rem; }
+  .navbar .navbar-toggler .navbar-toggler-icon::after  { top: 1.05rem; }
+
+  /* Expanded → the two outer bars rotate into an X, middle bar fades. */
+  .navbar .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
+    background-image: none;
+  }
+  .navbar .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon::before {
+    top: 0.65rem;
+    transform: rotate(45deg);
+  }
+  .navbar .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon::after {
+    top: 0.65rem;
+    transform: rotate(-45deg);
+  }
 }
 
 /* very narrow screens: shrink the site title so it isn't cut off */
