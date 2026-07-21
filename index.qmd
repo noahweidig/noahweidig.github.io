@@ -90,7 +90,7 @@ include-after-body:
   <div class="nw-hero-inner">
   <div class="nw-hero-text">
   <div><span class="nw-status">Open to opportunities</span></div>
-  <h1><span class="nw-hi">— Hi, I'm —</span><span class="nw-name">Noah Weidig</span></h1>
+  <h1><span class="nw-hi">Welcome to my website!</span><span class="nw-name">Hello, My<br>Name's <span class="nw-accent">Noah</span>.</span></h1>
   <div class="nw-role">GIS Analyst • Data Scientist</div>
   <div class="nw-type">I build <span class="nw-typed" data-strings='["geospatial analyses","remote sensing workflows","data-driven insights","GIS applications"]'></span><span class="nw-caret">&nbsp;</span></div>
   <div class="nw-socials">
