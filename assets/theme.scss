@@ -234,6 +234,11 @@ body {
   color: var(--nw-fg);
 }
 
+#hero h1 .nw-name .nw-accent {
+  color: var(--nw-primary);
+  -webkit-text-fill-color: var(--nw-primary);
+}
+
 #hero .nw-role {
   font-size: 1.15rem;
   color: var(--nw-muted);
@@ -382,7 +387,7 @@ body {
   }
 
   #hero .nw-hero-text {
-    max-width: 34rem;
+    max-width: 38rem;
   }
 
   #hero .nw-status {
@@ -404,6 +409,32 @@ body {
   #hero .nw-avatar {
     width: 22rem;
     height: 22rem;
+  }
+
+  /* fill the dead space between text and portrait: bigger type, narrower row */
+  .nw-hero-inner {
+    max-width: 66rem;
+  }
+
+  #hero h1 {
+    font-size: clamp(3.25rem, 5vw, 4.75rem);
+  }
+
+  #hero h1 .nw-hi {
+    font-size: 1.2rem;
+  }
+
+  #hero .nw-role {
+    font-size: 1.4rem;
+  }
+
+  #hero .nw-type {
+    font-size: 1.6rem;
+    min-height: 2.6rem;
+  }
+
+  #hero .nw-hero-text {
+    max-width: 42rem;
   }
 }
 
