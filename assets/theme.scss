@@ -337,30 +337,54 @@ body {
   border-color: var(--nw-primary);
 }
 
-/* ============ hero: two-column (text left, image right) on wider screens ============ */
-/* mobile stays the centered stack above; >=768px splits into text | avatar */
+/* ============ hero: two-column (text left, portrait right) on wider screens ============ */
+/* mobile: centered stack (portrait first); >=768px: text | portrait split */
+.nw-hero-inner {
+  max-width: 72rem;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  gap: 2rem;
+}
+
+.nw-hero-media {
+  position: relative;
+  flex-shrink: 0;
+}
+
+/* soft glow halo behind the portrait */
+.nw-hero-media::before {
+  content: "";
+  position: absolute;
+  inset: -15%;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--nw-hero-glow), transparent 70%);
+  z-index: 0;
+}
+
+.nw-hero-media .nw-avatar {
+  position: relative;
+  z-index: 1;
+  display: block;
+  margin-bottom: 0;
+}
+
 @media (min-width: 768px) {
+  .nw-hero-inner {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 3rem;
+  }
+
   #hero {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    column-gap: 3rem;
-    align-items: center;
     text-align: left;
-    max-width: 72rem;
-    margin: 0 auto;
   }
 
-  /* avatar occupies the right column, spanning all text rows */
-  #hero .nw-avatar {
-    grid-column: 2;
-    grid-row: 1 / -1;
-    align-self: center;
-    width: 18rem;
-    height: 18rem;
-    margin-bottom: 0;
+  #hero .nw-hero-text {
+    max-width: 34rem;
   }
 
-  /* text content flows into the left column, left-aligned */
   #hero .nw-status {
     margin-bottom: 1rem;
   }
@@ -368,6 +392,11 @@ body {
   #hero .nw-socials,
   #hero .nw-btns {
     justify-content: flex-start;
+  }
+
+  #hero .nw-avatar {
+    width: 18rem;
+    height: 18rem;
   }
 }
 
