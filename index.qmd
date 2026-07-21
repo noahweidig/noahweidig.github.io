@@ -30,44 +30,119 @@ include-after-body:
   - text: |
       <script src="assets/home.js"></script>
       <script>
-        // Leaflet is only needed for the map at the very bottom of the page,
+        // MapLibre is only needed for the globe at the very bottom of the page,
         // so defer fetching its CSS/JS (and the map tiles) until the map is
         // about to scroll into view instead of paying for it on page load.
+        // The map starts as a globe in space on the far side of the world;
+        // once the section is actually visible it spins around the globe and
+        // dives down into Orlando.
         (function () {
           var mapEl = document.getElementById('nw-map');
           if (!mapEl) return;
+          var ORLANDO = [-81.3789, 28.5384];
           var loaded = false;
+          var nwMap = null;
+          var mapReady = false;
+          var flown = false;
+          var wantFly = false;
+          var nwMarker = null;
+          var nwPopup = null;
+          // Marker + popup stay hidden until the fly-in has landed on Orlando
+          function nwShowMarker() {
+            if (nwMarker) { nwMarker.addTo(nwMap); nwMarker = null; }
+            if (nwPopup) { nwPopup.addTo(nwMap); nwPopup = null; }
+          }
+          function nwStyle() {
+            var style = document.body.classList.contains('quarto-dark') ||
+              document.documentElement.classList.contains('quarto-dark')
+              ? 'dark_all' : 'rastertiles/voyager';
+            return {
+              version: 8,
+              projection: { type: 'globe' },
+              // Atmosphere halo while in "space", fading out once zoomed in
+              sky: { 'atmosphere-blend': ['interpolate', ['linear'], ['zoom'], 0, 1, 6, 1, 8, 0] },
+              sources: {
+                carto: {
+                  type: 'raster',
+                  tiles: ['a', 'b', 'c', 'd'].map(function (s) {
+                    return 'https://' + s + '.basemaps.cartocdn.com/' + style + '/{z}/{x}/{y}.png';
+                  }),
+                  tileSize: 256,
+                  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>'
+                }
+              },
+              // No background layer: the canvas stays transparent around the
+              // globe so the CSS starfield behind it shows through.
+              layers: [{ id: 'carto', type: 'raster', source: 'carto' }]
+            };
+          }
+          function nwFly() {
+            if (flown) return;
+            if (!mapReady) { wantFly = true; return; }
+            flown = true;
+            if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+              nwMap.jumpTo({ center: ORLANDO, zoom: 12.2 });
+              nwShowMarker();
+              return;
+            }
+            // Stage 1: spin the globe most of the way around while easing in…
+            nwMap.easeTo({
+              center: [ORLANDO[0] + 55, 12],
+              zoom: 1.6,
+              duration: 3000,
+              easing: function (t) { return t; },
+              essential: true
+            });
+            nwMap.once('moveend', function () {
+              // …stage 2: finish the spin and dive down into Orlando.
+              nwMap.flyTo({ center: ORLANDO, zoom: 12.2, duration: 5200, essential: true });
+              nwMap.once('moveend', nwShowMarker);
+            });
+          }
           function nwInitMap() {
-            var nwMap = L.map('nw-map', { scrollWheelZoom: false }).setView([29.6436, -82.3549], 15);
-            var nwTiles = null;
-            var nwTileStyle = null;
+            nwMap = new maplibregl.Map({
+              container: 'nw-map',
+              style: nwStyle(),
+              // Opposite side of the world from Orlando, zoomed all the way out
+              center: [ORLANDO[0] + 180, -ORLANDO[1]],
+              zoom: 0.6,
+              attributionControl: { compact: true }
+            });
+            nwMap.scrollZoom.disable();
+            nwMap.addControl(new maplibregl.NavigationControl({ showCompass: false }));
+            var dot = document.createElement('div');
+            dot.className = 'nw-pulse';
+            nwMarker = new maplibregl.Marker({ element: dot }).setLngLat(ORLANDO);
+            nwPopup = new maplibregl.Popup({ offset: 18, closeButton: false, closeOnClick: false, focusAfterOpen: false })
+              .setLngLat(ORLANDO)
+              .setHTML('<b>Orlando, Florida</b><br><code>28.5384&deg; N, 81.3789&deg; W</code>');
+            var nwMapStyle = null;
             function nwSyncMapTheme() {
               var style = document.body.classList.contains('quarto-dark') ||
                 document.documentElement.classList.contains('quarto-dark')
                 ? 'dark_all' : 'rastertiles/voyager';
-              if (style === nwTileStyle) return;
-              nwTileStyle = style;
-              if (nwTiles) nwMap.removeLayer(nwTiles);
-              nwTiles = L.tileLayer('https://{s}.basemaps.cartocdn.com/' + style + '/{z}/{x}/{y}{r}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>'
-              }).addTo(nwMap);
+              if (style === nwMapStyle) return;
+              nwMapStyle = style;
+              nwMap.setStyle(nwStyle());
             }
-            nwSyncMapTheme();
+            nwMapStyle = nwStyle().sources.carto.tiles[0].indexOf('dark_all') !== -1 ? 'dark_all' : 'rastertiles/voyager';
             var nwThemeWatcher = new MutationObserver(nwSyncMapTheme);
             nwThemeWatcher.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
             nwThemeWatcher.observe(document.body, { attributes: true, attributeFilter: ['class'] });
-            L.marker([29.6436, -82.3549]).addTo(nwMap)
-              .bindPopup('<b>University of Florida</b><br>School of Forest, Fisheries and Geomatic Sciences');
+            nwMap.on('load', function () {
+              mapReady = true;
+              if (wantFly) nwFly();
+            });
           }
-          function nwLoadLeaflet() {
+          function nwLoadMapLibre() {
             if (loaded) return;
             loaded = true;
             var css = document.createElement('link');
             css.rel = 'stylesheet';
-            css.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+            css.href = 'https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.css';
             document.head.appendChild(css);
             var js = document.createElement('script');
-            js.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+            js.src = 'https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.js';
             js.onload = nwInitMap;
             document.head.appendChild(js);
           }
@@ -75,11 +150,18 @@ include-after-body:
             new IntersectionObserver(function (entries, obs) {
               if (entries.some(function (e) { return e.isIntersecting; })) {
                 obs.disconnect();
-                nwLoadLeaflet();
+                nwLoadMapLibre();
               }
             }, { rootMargin: '600px' }).observe(mapEl);
+            new IntersectionObserver(function (entries, obs) {
+              if (entries.some(function (e) { return e.isIntersecting; })) {
+                obs.disconnect();
+                nwFly();
+              }
+            }, { threshold: 0.4 }).observe(mapEl);
           } else {
-            nwLoadLeaflet();
+            nwLoadMapLibre();
+            wantFly = true;
           }
         })();
       </script>
