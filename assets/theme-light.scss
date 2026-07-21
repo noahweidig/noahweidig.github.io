@@ -29,6 +29,10 @@ $card-bg: #ffffff;
   --nw-glass-strong: rgba(255, 255, 255, 0.96);
   --nw-stat-number: #000000;
   --nw-navcta: #000000;
+  /* code-window extension: light but darker than the near-white default */
+  --nw-code-bg: #e8ebef;
+  --nw-code-titlebar: #dde1e7;
+  --nw-code-border: #cbd2da;
 }
 
 /* solid mark stays black on light */

@@ -1695,3 +1695,25 @@ body:has(.nw-cv) #title-block-header {
 .page-columns > .social-share {
   grid-column: screen-start / screen-end;
 }
+
+/* code-window extension theming. The extension paints itself from the CSS
+   system colors `Canvas`/`currentColor`, which track the browser color-scheme
+   rather than Quarto's light/dark toggle, so dark-mode windows render light and
+   the default gray is too pale. Pin the surfaces to theme-aware vars instead
+   (defined in theme-light.scss / theme-dark.scss). */
+.code-with-filename {
+  background-color: var(--nw-code-bg) !important;
+  border-color: var(--nw-code-border) !important;
+}
+
+.code-with-filename .code-with-filename-file {
+  background-color: var(--nw-code-titlebar) !important;
+  border-bottom-color: var(--nw-code-border) !important;
+}
+
+.code-with-filename .sourceCode pre,
+.code-with-filename div.sourceCode pre,
+.code-with-filename .code-copy-outer-scaffold pre,
+.code-with-filename > pre {
+  background-color: var(--nw-code-bg) !important;
+}
