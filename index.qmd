@@ -89,13 +89,13 @@ include-after-body:
             nwMap.easeTo({
               center: [ORLANDO[0] + 55, 12],
               zoom: 1.6,
-              duration: 3000,
+              duration: 1800,
               easing: function (t) { return t; },
               essential: true
             });
             nwMap.once('moveend', function () {
               // …stage 2: finish the spin and dive down into Orlando.
-              nwMap.flyTo({ center: ORLANDO, zoom: 12.2, duration: 5200, essential: true });
+              nwMap.flyTo({ center: ORLANDO, zoom: 12.2, duration: 3000, essential: true });
               nwMap.once('moveend', nwShowMarker);
             });
           }
