@@ -30,6 +30,11 @@ $input-bg: #13131a;
   --nw-glass-strong: rgba(10, 10, 15, 0.96);
   --nw-stat-number: #ffffff;
   --nw-navcta: #ffffff;
+  /* code-window extension: force a proper dark bg (default Canvas renders
+     light because the page never declares color-scheme: dark) */
+  --nw-code-bg: #14141b;
+  --nw-code-titlebar: #1b1b23;
+  --nw-code-border: #2a2a34;
 }
 
 /* solid mark renders black by default; flip to white on dark */
