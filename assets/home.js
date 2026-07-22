@@ -115,26 +115,6 @@
     window.matchMedia &&
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  // Hero topography parallax: track the cursor and expose it as -0.5..0.5
-  // custom properties; CSS translates the two contour layers from them.
-  var hero = document.getElementById("hero");
-  if (
-    hero &&
-    !reducedMotion &&
-    window.matchMedia &&
-    window.matchMedia("(pointer: fine)").matches
-  ) {
-    hero.addEventListener("mousemove", function (e) {
-      var r = hero.getBoundingClientRect();
-      hero.style.setProperty("--nw-px", ((e.clientX - r.left) / r.width - 0.5).toFixed(3));
-      hero.style.setProperty("--nw-py", ((e.clientY - r.top) / r.height - 0.5).toFixed(3));
-    });
-    hero.addEventListener("mouseleave", function () {
-      hero.style.setProperty("--nw-px", 0);
-      hero.style.setProperty("--nw-py", 0);
-    });
-  }
-
   // Scroll reveal: fade sections' items in as they enter the viewport.
   // Elements already on screen at load are never hidden, so first paint (and
   // the LCP element) is identical with or without this — Lighthouse-safe.

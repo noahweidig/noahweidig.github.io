@@ -161,8 +161,9 @@ body {
   background: transparent;
 }
 
-/* Opaque backgrounds on the hero and stats sections hide the body grid there,
-   so the grid backdrop first appears at the Research Areas section. */
+/* An opaque background on the hero hides the body grid there (the particles
+   canvas sits on top of it); the grid backdrop first appears at the stats
+   section. */
 #hero {
   background:
     radial-gradient(60rem 30rem at 50% -10%, var(--nw-hero-glow), transparent 70%),
@@ -170,72 +171,69 @@ body {
   overflow: hidden;
 }
 
-#stats {
-  background: var(--nw-bg);
-}
-
-/* ============ hero: parallax topographic contours ============ */
-/* Two masked copies of the footer's topography pattern, drifting at different
-   rates as the cursor moves (home.js sets --nw-px/--nw-py in -0.5..0.5). The
-   slower, larger-scale layer reads as farther away. Oversized inset keeps
-   edges hidden while the layers translate. */
-#hero .nw-topo-layer {
+/* ============ hero: interactive particle-network background ============ */
+/* particles.js canvas (config in index.qmd) fills the hero behind the
+   content. pointer-events stay on so hover-repulse and click-push work in
+   the empty areas around the text and portrait. */
+#nw-particles {
   position: absolute;
-  inset: -3rem;
-  pointer-events: none;
-  background: var(--nw-topo);
-  -webkit-mask: url(media/topography.svg) 0 0 / 37.5rem 37.5rem repeat;
-  mask: url(media/topography.svg) 0 0 / 37.5rem 37.5rem repeat;
-  transform: translate3d(calc(var(--nw-px, 0) * 1.5rem), calc(var(--nw-py, 0) * 1.5rem), 0);
-  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-#hero .nw-topo-a {
-  opacity: 0.55;
-}
-
-#hero .nw-topo-b {
-  -webkit-mask-size: 56rem 56rem;
-  mask-size: 56rem 56rem;
-  -webkit-mask-position: 12rem 7rem;
-  mask-position: 12rem 7rem;
-  opacity: 0.35;
-  transform: translate3d(calc(var(--nw-px, 0) * 3rem), calc(var(--nw-py, 0) * 3rem), 0);
+  inset: 0;
+  z-index: 0;
 }
 
 #hero .nw-hero-inner {
   position: relative;
   z-index: 1;
+  /* let hovers over gaps in the hero row fall through to the particles */
+  pointer-events: none;
 }
 
-/* ============ hero: tool icons orbiting the portrait ============ */
-/* The ring spins; each chip's inner img spins in reverse at the same rate so
-   the logos stay upright. Hovering the portrait pauses the orbit and enlarges
-   the chips. */
+#hero .nw-hero-inner a,
+#hero .nw-hero-inner button,
 #hero .nw-hero-media {
-  --nw-orbit-r: 5.9rem;
+  pointer-events: auto;
+}
+
+/* ============ hero: tool dots orbiting the portrait ============ */
+/* Six small dots sit exactly on the avatar's ring (--nw-orbit-r matches the
+   avatar radius at each breakpoint) and drift slowly around it; each chip's
+   inner img spins in reverse at the same rate so the logos stay upright.
+   Hovering the portrait pauses the orbit; hovering a dot pops it open into
+   its tool icon. */
+#hero .nw-hero-media {
+  --nw-orbit-r: 4.75rem;
 }
 
 @media (min-width: 768px) {
   #hero .nw-hero-media {
-    --nw-orbit-r: 10.1rem;
+    --nw-orbit-r: 9rem;
   }
 }
 
 @media (min-width: 992px) {
   #hero .nw-hero-media {
-    --nw-orbit-r: 12.1rem;
+    --nw-orbit-r: 11rem;
   }
 }
 
 #hero .nw-orbit {
   position: absolute;
-  inset: 0;
+  /* explicit ring-sized square centered on the avatar (whose center sits
+     --nw-orbit-r below the top of .nw-hero-media) — inset: 0 would track the
+     media box, which can run taller than the avatar and sag the ring */
+  top: 0;
+  left: 50%;
+  width: calc(var(--nw-orbit-r) * 2);
+  height: calc(var(--nw-orbit-r) * 2);
+  margin-left: calc(-1 * var(--nw-orbit-r));
   z-index: 2;
   pointer-events: none;
-  animation: nw-orbit-spin 60s linear infinite;
+  animation: nw-orbit-spin 90s linear infinite;
 }
 
+/* Each chip is an invisible full-size hover target; the visible dot is its
+   ::before. Keeping the chip size constant means popping open never shifts
+   the orbit geometry. */
 #hero .nw-orbit span {
   position: absolute;
   top: 50%;
@@ -247,21 +245,34 @@ body {
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background: var(--nw-card);
-  border: 1px solid var(--nw-border);
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+  background: transparent;
+  border: 1px solid transparent;
+  pointer-events: auto;
   transform:
     rotate(calc(var(--i) * 60deg))
     translateX(var(--nw-orbit-r))
     rotate(calc(var(--i) * -60deg))
     scale(var(--nw-orbit-s, 1));
-  transition: transform 0.2s ease;
+  transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+#hero .nw-orbit span::before {
+  content: "";
+  position: absolute;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background: var(--nw-primary);
+  box-shadow: 0 0 6px rgba(0, 118, 223, 0.55);
+  transition: opacity 0.2s ease;
 }
 
 #hero .nw-orbit img {
   width: 1.4rem;
   height: 1.4rem;
-  animation: nw-orbit-spin 60s linear infinite reverse;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  animation: nw-orbit-spin 90s linear infinite reverse;
 }
 
 #hero .nw-hero-media:hover .nw-orbit,
@@ -269,8 +280,19 @@ body {
   animation-play-state: paused;
 }
 
-#hero .nw-hero-media:hover .nw-orbit span {
+#hero .nw-orbit span:hover {
   --nw-orbit-s: 1.18;
+  background: var(--nw-card);
+  border-color: var(--nw-border);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+}
+
+#hero .nw-orbit span:hover::before {
+  opacity: 0;
+}
+
+#hero .nw-orbit span:hover img {
+  opacity: 1;
 }
 
 @keyframes nw-orbit-spin {
@@ -294,11 +316,6 @@ body {
   #hero .nw-orbit,
   #hero .nw-orbit img {
     animation: none;
-  }
-
-  #hero .nw-topo-layer {
-    transition: none;
-    transform: none;
   }
 }
 
