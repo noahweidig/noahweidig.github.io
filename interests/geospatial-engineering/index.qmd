@@ -1,0 +1,16 @@
+---
+title: "Geospatial Engineering & Open Data"
+description: "Scalable spatial data pipelines and open, interoperable tools that make geospatial work reproducible and shareable."
+date: "2025-01-01"
+categories: [Interest]
+---
+
+::: {.nw-detail-lead}
+Spatial Databases · Data Pipelines · Open Source GIS
+:::
+
+Behind every good map is infrastructure — the databases, pipelines, and formats that move data from raw source to finished analysis without losing its integrity. Geospatial engineering is the part of my work that makes everything else repeatable at scale.
+
+I design spatial data pipelines that ingest, clean, and standardize large heterogeneous datasets, backed by spatial databases (PostGIS and friends) and built on open, interoperable formats like GeoParquet, Cloud-Optimized GeoTIFF, and STAC. I lean heavily on the open-source GIS stack — GDAL, QGIS, Python and R geospatial libraries — because open tools and open data are what let others verify, reuse, and build on the work.
+
+The aim is durable plumbing: systems that a collaborator can pick up, understand, and extend long after the original analysis is done.

@@ -1,0 +1,16 @@
+---
+title: "Biodiversity & Conservation Monitoring"
+description: "Tracking species, habitats, and ecosystem health to inform conservation planning and management decisions."
+date: "2025-01-01"
+categories: [Interest]
+---
+
+::: {.nw-detail-lead}
+Species Distribution · Habitat Mapping · Conservation Planning
+:::
+
+Conservation runs on evidence: you cannot protect what you have not measured. My work here uses spatial and ecological data to track where species live, how their habitats are faring, and where limited conservation effort will do the most good.
+
+That includes building species-distribution models that link occurrence records to environmental drivers, mapping and monitoring habitat condition through time, and framing the results as concrete planning inputs — priority areas, connectivity corridors, and management targets. Grounded in a background in ecology, I try to keep the biology in the loop, so a model reflects how organisms actually use a landscape rather than just where the pixels happen to correlate.
+
+The through-line is turning scattered observations into a coherent, spatial picture of ecosystem health that managers can act on before options close.
