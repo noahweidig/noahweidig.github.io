@@ -263,6 +263,7 @@ body {
   border-radius: 50%;
   background: var(--nw-primary);
   box-shadow: 0 0 6px rgba(0, 118, 223, 0.55);
+  opacity: 0;
   transition: opacity 0.2s ease;
 }
 
