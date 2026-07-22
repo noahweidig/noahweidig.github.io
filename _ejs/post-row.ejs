@@ -1,5 +1,5 @@
 <% for (const item of items) { %>
-<div class="nw-post">
+<div class="nw-post" data-cats="<%= (item.categories || []).join('|') %>">
 <h3><a href="<%- item.path %>"><%= item.title %></a></h3>
 <div class="nw-post-date"><%= item.date ? new Date(item.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC' }) : '' %></div>
 <p><%= item.description || '' %></p>
