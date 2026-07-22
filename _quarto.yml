@@ -3,9 +3,12 @@ project:
   output-dir: _site
   render:
     - "*.qmd"
-  # Regenerate per-page Open Graph SVG cards after every render
-  # (see scripts/generate-og.ts for how the cards are built).
-  post-render: scripts/generate-og.ts
+  # After every render: sync the hero "Featured Projects" stat with the
+  # projects that actually have `featured: true` (scripts/update-stats.ts),
+  # then regenerate per-page Open Graph SVG cards (scripts/generate-og.ts).
+  post-render:
+    - scripts/update-stats.ts
+    - scripts/generate-og.ts
   resources:
     - CNAME
     - robots.txt
