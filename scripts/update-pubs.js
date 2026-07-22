@@ -16,12 +16,14 @@ function stripHtml(html) {
   if (!html) return "";
   // Strip tags until the output stabilizes: a single pass can leave markup
   // behind (e.g. "<scr<b></b>ipt>" → "<script>"), which CodeQL flags as
-  // incomplete multi-character sanitization.
+  // incomplete multi-character sanitization. The optional ">" keeps the
+  // regex linear-time (no rescanning past unclosed "<") and drops dangling
+  // unterminated tags too.
   let text = String(html);
   let prev;
   do {
     prev = text;
-    text = text.replace(/<[^>]*>/g, "");
+    text = text.replace(/<[^>]*>?/g, "");
   } while (text !== prev);
   return text
     .replace(/&(amp|lt|gt|quot|#39|apos|nbsp);/g, (m) => ENTITIES[m] || m)
