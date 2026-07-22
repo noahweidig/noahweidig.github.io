@@ -165,6 +165,8 @@ body {
    canvas sits on top of it); the grid backdrop first appears at the stats
    section. */
 #hero {
+  /* anchor for the absolutely-positioned #nw-particles canvas */
+  position: relative;
   background:
     radial-gradient(60rem 30rem at 50% -10%, var(--nw-hero-glow), transparent 70%),
     var(--nw-bg);

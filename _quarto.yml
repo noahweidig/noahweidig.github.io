@@ -24,6 +24,9 @@ project:
     - "assets/fonts/**"
     - assets/nw-nav.js
     - assets/social-share.js
+    # Loaded dynamically from index.qmd's hero script, so Quarto's resource
+    # discovery can't see it — must be listed explicitly.
+    - assets/vendor/particles.min.js
 
 filters:
   - social-share
