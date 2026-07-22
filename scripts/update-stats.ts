@@ -12,6 +12,11 @@
  * page (the <b data-nw-stat="featured-projects"> element in index.qmd). The
  * number in the source is only a fallback — deriving it here at every render
  * means the stat can't drift when projects are added or unfeatured.
+ *
+ * It also stamps the current year into the footer copyright notice (the
+ * <span data-nw-copyright-year> element from _quarto.yml) on every rendered
+ * page, so the year rolls over automatically with each render instead of
+ * waiting for a manual bump every January.
  */
 
 import fs from "node:fs";
@@ -55,6 +60,31 @@ function main(): void {
   const out = html.replace(re, `$1${featured}$2`);
   if (out !== html) fs.writeFileSync(home, out);
   console.log(`[stats] featured projects: ${featured}`);
+
+  stampCopyrightYear(outputDir);
+}
+
+function* htmlFiles(dir: string): Generator<string> {
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) yield* htmlFiles(full);
+    else if (entry.isFile() && entry.name.endsWith(".html")) yield full;
+  }
+}
+
+function stampCopyrightYear(dir: string): void {
+  const year = String(new Date().getFullYear());
+  const re = /(<span data-nw-copyright-year[^>]*>)[^<]*(<\/span>)/g;
+  let stamped = 0;
+  for (const file of htmlFiles(dir)) {
+    const html = fs.readFileSync(file, "utf8");
+    const out = html.replace(re, `$1${year}$2`);
+    if (out !== html) {
+      fs.writeFileSync(file, out);
+      stamped++;
+    }
+  }
+  console.log(`[stats] copyright year ${year} stamped on ${stamped} page(s)`);
 }
 
 main();
