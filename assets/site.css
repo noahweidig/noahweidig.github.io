@@ -175,6 +175,13 @@ body {
   padding-bottom: 5rem;
 }
 
+/* desktop: larger side margins → narrower hero row brings text + portrait closer */
+@media (min-width: 992px) {
+  #hero .nw-hero-inner {
+    max-width: 56rem;
+  }
+}
+
 @media (max-width: 640px) {
   .nw-section {
     padding: 3.5rem 0;
