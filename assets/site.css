@@ -161,8 +161,160 @@ body {
   background: transparent;
 }
 
+/* Opaque backgrounds on the hero and stats sections hide the body grid there,
+   so the grid backdrop first appears at the Research Areas section. */
 #hero {
-  background: radial-gradient(60rem 30rem at 50% -10%, var(--nw-hero-glow), transparent 70%);
+  background:
+    radial-gradient(60rem 30rem at 50% -10%, var(--nw-hero-glow), transparent 70%),
+    var(--nw-bg);
+  overflow: hidden;
+}
+
+#stats {
+  background: var(--nw-bg);
+}
+
+/* ============ hero: parallax topographic contours ============ */
+/* Two masked copies of the footer's topography pattern, drifting at different
+   rates as the cursor moves (home.js sets --nw-px/--nw-py in -0.5..0.5). The
+   slower, larger-scale layer reads as farther away. Oversized inset keeps
+   edges hidden while the layers translate. */
+#hero .nw-topo-layer {
+  position: absolute;
+  inset: -3rem;
+  pointer-events: none;
+  background: var(--nw-topo);
+  -webkit-mask: url(media/topography.svg) 0 0 / 37.5rem 37.5rem repeat;
+  mask: url(media/topography.svg) 0 0 / 37.5rem 37.5rem repeat;
+  transform: translate3d(calc(var(--nw-px, 0) * 1.5rem), calc(var(--nw-py, 0) * 1.5rem), 0);
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+#hero .nw-topo-a {
+  opacity: 0.55;
+}
+
+#hero .nw-topo-b {
+  -webkit-mask-size: 56rem 56rem;
+  mask-size: 56rem 56rem;
+  -webkit-mask-position: 12rem 7rem;
+  mask-position: 12rem 7rem;
+  opacity: 0.35;
+  transform: translate3d(calc(var(--nw-px, 0) * 3rem), calc(var(--nw-py, 0) * 3rem), 0);
+}
+
+#hero .nw-hero-inner {
+  position: relative;
+  z-index: 1;
+}
+
+/* ============ hero: tool icons orbiting the portrait ============ */
+/* The ring spins; each chip's inner img spins in reverse at the same rate so
+   the logos stay upright. Hovering the portrait pauses the orbit and enlarges
+   the chips. */
+#hero .nw-hero-media {
+  --nw-orbit-r: 5.9rem;
+}
+
+@media (min-width: 768px) {
+  #hero .nw-hero-media {
+    --nw-orbit-r: 10.1rem;
+  }
+}
+
+@media (min-width: 992px) {
+  #hero .nw-hero-media {
+    --nw-orbit-r: 12.1rem;
+  }
+}
+
+#hero .nw-orbit {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  animation: nw-orbit-spin 60s linear infinite;
+}
+
+#hero .nw-orbit span {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 2.6rem;
+  height: 2.6rem;
+  margin: -1.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--nw-card);
+  border: 1px solid var(--nw-border);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+  transform:
+    rotate(calc(var(--i) * 60deg))
+    translateX(var(--nw-orbit-r))
+    rotate(calc(var(--i) * -60deg))
+    scale(var(--nw-orbit-s, 1));
+  transition: transform 0.2s ease;
+}
+
+#hero .nw-orbit img {
+  width: 1.4rem;
+  height: 1.4rem;
+  animation: nw-orbit-spin 60s linear infinite reverse;
+}
+
+#hero .nw-hero-media:hover .nw-orbit,
+#hero .nw-hero-media:hover .nw-orbit img {
+  animation-play-state: paused;
+}
+
+#hero .nw-hero-media:hover .nw-orbit span {
+  --nw-orbit-s: 1.18;
+}
+
+@keyframes nw-orbit-spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (max-width: 767.98px) {
+  #hero .nw-orbit span {
+    width: 2.1rem;
+    height: 2.1rem;
+    margin: -1.05rem;
+  }
+
+  #hero .nw-orbit img {
+    width: 1.15rem;
+    height: 1.15rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #hero .nw-orbit,
+  #hero .nw-orbit img {
+    animation: none;
+  }
+
+  #hero .nw-topo-layer {
+    transition: none;
+    transform: none;
+  }
+}
+
+/* ============ scroll reveal ============ */
+/* home.js tags below-the-fold elements with .nw-reveal (so no-JS visitors and
+   everything visible at load stay untouched) and flips on .nw-in as they
+   scroll into view. Opacity + transform only: no layout shift. */
+.nw-reveal {
+  opacity: 0;
+  transform: translateY(1rem);
+  transition: opacity 0.55s ease-out, transform 0.55s ease-out;
+}
+
+.nw-reveal.nw-in {
+  opacity: 1;
+  transform: none;
 }
 
 /* ============ premium whitespace between sections ============ */

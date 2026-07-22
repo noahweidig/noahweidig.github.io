@@ -110,4 +110,66 @@
         });
     });
   }
+
+  var reducedMotion =
+    window.matchMedia &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // Hero topography parallax: track the cursor and expose it as -0.5..0.5
+  // custom properties; CSS translates the two contour layers from them.
+  var hero = document.getElementById("hero");
+  if (
+    hero &&
+    !reducedMotion &&
+    window.matchMedia &&
+    window.matchMedia("(pointer: fine)").matches
+  ) {
+    hero.addEventListener("mousemove", function (e) {
+      var r = hero.getBoundingClientRect();
+      hero.style.setProperty("--nw-px", ((e.clientX - r.left) / r.width - 0.5).toFixed(3));
+      hero.style.setProperty("--nw-py", ((e.clientY - r.top) / r.height - 0.5).toFixed(3));
+    });
+    hero.addEventListener("mouseleave", function () {
+      hero.style.setProperty("--nw-px", 0);
+      hero.style.setProperty("--nw-py", 0);
+    });
+  }
+
+  // Scroll reveal: fade sections' items in as they enter the viewport.
+  // Elements already on screen at load are never hidden, so first paint (and
+  // the LCP element) is identical with or without this — Lighthouse-safe.
+  if (!reducedMotion && "IntersectionObserver" in window) {
+    var revealables = document.querySelectorAll(
+      ".nw-section .nw-title, .nw-section .nw-subtitle, .nw-section .nw-lead, " +
+        ".nw-stat, .nw-card, .nw-proj-wrap, .nw-cite, .nw-post, .nw-stack-cat, " +
+        ".nw-tl-item, .nw-award, .nw-faq details, .nw-contact, .nw-map, " +
+        ".nw-cta-card, .nw-marquee"
+    );
+    var fold = window.innerHeight;
+    var below = [];
+    revealables.forEach(function (el) {
+      if (el.getBoundingClientRect().top >= fold) below.push(el);
+    });
+    if (below.length) {
+      var io = new IntersectionObserver(
+        function (entries) {
+          // Stagger items that arrive in the same batch (capped so trailing
+          // cards in big grids don't lag behind the scroll)
+          var delay = 0;
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            entry.target.style.transitionDelay = delay + "ms";
+            entry.target.classList.add("nw-in");
+            io.unobserve(entry.target);
+            delay = Math.min(delay + 70, 280);
+          });
+        },
+        { rootMargin: "0px 0px -8% 0px" }
+      );
+      below.forEach(function (el) {
+        el.classList.add("nw-reveal");
+        io.observe(el);
+      });
+    }
+  }
 })();
