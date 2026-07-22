@@ -225,14 +225,6 @@ include-after-body:
   </div>
   <div class="nw-hero-media">
     <img class="nw-avatar" src="assets/media/authors/me.webp" alt="Noah Weidig" width="700" height="700" fetchpriority="high" decoding="async">
-    <div class="nw-orbit" aria-hidden="true">
-      <span style="--i:0"><img src="assets/media/icons/devicon/r-original.svg" alt="" width="24" height="24" loading="lazy"></span>
-      <span style="--i:1"><img src="assets/media/icons/devicon/python-original.svg" alt="" width="24" height="24" loading="lazy"></span>
-      <span style="--i:2"><img src="assets/media/icons/custom/qgis.svg" alt="" width="24" height="24" loading="lazy"></span>
-      <span style="--i:3"><img src="assets/media/icons/custom/arcgis.svg" alt="" width="24" height="24" loading="lazy"></span>
-      <span style="--i:4"><img src="assets/media/icons/custom/gee.svg" alt="" width="24" height="24" loading="lazy"></span>
-      <span style="--i:5"><img src="assets/media/icons/custom/gdal.svg" alt="" width="24" height="24" loading="lazy"></span>
-    </div>
   </div>
   </div>
 </section>
