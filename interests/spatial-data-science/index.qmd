@@ -1,0 +1,16 @@
+---
+title: "Spatial Data Science & Statistical Modeling"
+description: "Reproducible spatial workflows and statistical models that quantify pattern, uncertainty, and trend."
+date: "2025-01-01"
+categories: [Interest]
+---
+
+::: {.nw-detail-lead}
+Bayesian Analysis · Forecasting · Reproducible Research
+:::
+
+Spatial data breaks most of the assumptions that classical statistics is built on — nearby places are correlated, sampling is uneven, and the answer often depends on scale. My work in spatial data science is about modeling those realities honestly rather than ignoring them.
+
+I build statistical and probabilistic models that quantify not just a point estimate but the uncertainty around it: hierarchical and Bayesian models for messy ecological data, spatial regression that accounts for autocorrelation, and forecasts that come with credible intervals instead of false precision. Every step lives in scripted, version-controlled pipelines so that a result can be reproduced, audited, and rerun as new data arrives.
+
+Reproducibility is not an afterthought here — it is the deliverable. A model is only as valuable as your ability to trust, re-run, and extend it.
