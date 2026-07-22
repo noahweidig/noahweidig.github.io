@@ -14,8 +14,16 @@ const ENTITIES = { "&amp;": "&", "&lt;": "<", "&gt;": ">", "&quot;": '"', "&#39;
 
 function stripHtml(html) {
   if (!html) return "";
-  return String(html)
-    .replace(/<[^>]*>/g, "")
+  // Strip tags until the output stabilizes: a single pass can leave markup
+  // behind (e.g. "<scr<b></b>ipt>" → "<script>"), which CodeQL flags as
+  // incomplete multi-character sanitization.
+  let text = String(html);
+  let prev;
+  do {
+    prev = text;
+    text = text.replace(/<[^>]*>/g, "");
+  } while (text !== prev);
+  return text
     .replace(/&(amp|lt|gt|quot|#39|apos|nbsp);/g, (m) => ENTITIES[m] || m)
     .replace(/\s+/g, " ")
     .trim();
