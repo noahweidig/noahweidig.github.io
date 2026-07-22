@@ -30,6 +30,43 @@ include-after-body:
   - text: |
       <script src="assets/home.js"></script>
       <script>
+        // Interactive "neural network" hero background: particles.js (MIT,
+        // self-hosted like the fonts) with the same config the lumo Quarto
+        // theme uses — drifting dots linked by lines, repelled on hover,
+        // added on click. Skipped entirely for reduced-motion users.
+        (function () {
+          var el = document.getElementById('nw-particles');
+          if (!el) return;
+          if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+          var js = document.createElement('script');
+          js.src = 'assets/vendor/particles.min.js';
+          js.onload = function () {
+            particlesJS('nw-particles', {
+              particles: {
+                number: { value: 80, density: { enable: true, value_area: 800 } },
+                color: { value: '#888888' },
+                shape: { type: 'circle', stroke: { width: 0, color: '#000000' } },
+                opacity: { value: 0.5, random: false },
+                size: { value: 5, random: true },
+                line_linked: { enable: true, distance: 150, color: '#888888', opacity: 0.4, width: 1 },
+                move: { enable: true, speed: 3, direction: 'none', random: false, straight: false, out_mode: 'out' }
+              },
+              interactivity: {
+                detect_on: 'canvas',
+                events: {
+                  onhover: { enable: true, mode: 'repulse' },
+                  onclick: { enable: true, mode: 'push' },
+                  resize: true
+                },
+                modes: { repulse: { distance: 200 }, push: { particles_nb: 4 } }
+              },
+              retina_detect: true
+            });
+          };
+          document.head.appendChild(js);
+        })();
+      </script>
+      <script>
         // MapLibre is only needed for the globe at the very bottom of the page,
         // so defer fetching its CSS/JS (and the map tiles) until the map is
         // about to scroll into view instead of paying for it on page load.
@@ -169,8 +206,7 @@ include-after-body:
 
 ```{=html}
 <section id="hero">
-  <div class="nw-topo-layer nw-topo-a" aria-hidden="true"></div>
-  <div class="nw-topo-layer nw-topo-b" aria-hidden="true"></div>
+  <div id="nw-particles" aria-hidden="true"></div>
   <div class="nw-hero-inner">
   <div class="nw-hero-text">
   <h1><span class="nw-hi">Welcome to my website!</span><span class="nw-name">Hello, My<br>Name's <span class="nw-accent">Noah</span>.</span></h1>
