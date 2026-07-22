@@ -1,0 +1,16 @@
+---
+title: "Land-Use Change & Social-Ecological Systems"
+description: "How landscapes and communities co-evolve — wildland-urban interface, land management, and regional risk."
+date: "2025-01-01"
+categories: [Interest]
+---
+
+::: {.nw-detail-lead}
+Land-Use Change · Wildfire & WUI · Risk Assessment
+:::
+
+Land use is where human decisions and ecological processes meet on the same map. I study how those two systems shape each other — how development, management, and policy rewrite the landscape, and how the landscape pushes back through fire, flood, and shifting habitat.
+
+Much of my recent work centers on the wildland-urban interface (WUI): the expanding edge where homes press into flammable vegetation. My M.S. thesis mapped large-wildfire patterns across the WUI of the eastern United States, quantifying how settlement geometry and fuel arrangement drive exposure and risk. That framing — treating people and ecosystems as one coupled system rather than two separate ones — carries into everything from land-management planning to regional risk assessment.
+
+Understanding these dynamics means combining historical land-cover records, demographic and parcel data, and disturbance histories into a single spatial narrative of change.

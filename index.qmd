@@ -208,42 +208,42 @@ include-after-body:
     <p class="nw-subtitle">Where I focus my work</p>
     <p class="nw-lead">I work at the intersection of geospatial analytics, data science, and applied AI — turning spatial and environmental data into decision-ready insight.</p>
     <div class="nw-grid">
-      <div class="nw-card">
+      <a class="nw-card" href="interests/remote-sensing/">
         <span class="nw-icon g-emerald"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.707 6.293l2.586 -2.586a1 1 0 0 1 1.414 0l5.586 5.586a1 1 0 0 1 0 1.414l-2.586 2.586a1 1 0 0 1 -1.414 0l-5.586 -5.586a1 1 0 0 1 0 -1.414z"/><path d="M6 10l-3 3l3 3l3 -3"/><path d="M10 6l3 -3l3 3l-3 3"/><path d="M12 12l1.5 1.5"/><path d="M14.5 17a2.5 2.5 0 0 0 2.5 -2.5"/><path d="M15 21a6 6 0 0 0 6 -6"/></svg></span>
         <h3>Remote Sensing &amp; Earth Observation</h3>
         <p>Extracting signal from satellite and aerial imagery to monitor landscapes, vegetation, and environmental change over time.</p>
         <div class="nw-chips"><span class="nw-chip">Imagery Analysis</span><span class="nw-chip">Google Earth Engine</span><span class="nw-chip">Change Detection</span></div>
-      </div>
-      <div class="nw-card">
+      </a>
+      <a class="nw-card" href="interests/land-use-change/">
         <span class="nw-icon g-amber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7l6 -3l6 3l6 -3v13l-6 3l-6 -3l-6 3z"/><path d="M9 4v13"/><path d="M15 7v13"/></svg></span>
         <h3>Land-Use Change &amp; Social-Ecological Systems</h3>
         <p>Studying how landscapes and communities co-evolve — wildland-urban interface, land management, and regional risk.</p>
         <div class="nw-chips"><span class="nw-chip">Land-Use Change</span><span class="nw-chip">Wildfire &amp; WUI</span><span class="nw-chip">Risk Assessment</span></div>
-      </div>
-      <div class="nw-card">
+      </a>
+      <a class="nw-card" href="interests/spatial-data-science/">
         <span class="nw-icon g-sky"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v6a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1z"/><path d="M10 9a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v10a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1z"/><path d="M17 5a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v14a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1z"/></svg></span>
         <h3>Spatial Data Science &amp; Statistical Modeling</h3>
         <p>Building reproducible spatial workflows and statistical models that quantify pattern, uncertainty, and trend.</p>
         <div class="nw-chips"><span class="nw-chip">Bayesian Analysis</span><span class="nw-chip">Forecasting</span><span class="nw-chip">Reproducible Research</span></div>
-      </div>
-      <div class="nw-card">
+      </a>
+      <a class="nw-card" href="interests/applied-ai/">
         <span class="nw-icon g-fuchsia"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 18a2 2 0 0 1 2 2a2 2 0 0 1 2 -2a2 2 0 0 1 -2 -2a2 2 0 0 1 -2 2z"/><path d="M16 6a2 2 0 0 1 2 2a2 2 0 0 1 2 -2a2 2 0 0 1 -2 -2a2 2 0 0 1 -2 2z"/><path d="M9 18a6 6 0 0 1 6 -6a6 6 0 0 1 -6 -6a6 6 0 0 1 -6 6a6 6 0 0 1 6 6z"/></svg></span>
         <h3>Applied AI &amp; Data Storytelling</h3>
         <p>Applying machine learning to geospatial problems and communicating results through clear, compelling visualization.</p>
         <div class="nw-chips"><span class="nw-chip">Machine Learning</span><span class="nw-chip">Data Visualization</span><span class="nw-chip">Quantitative Ecology</span></div>
-      </div>
-      <div class="nw-card">
+      </a>
+      <a class="nw-card" href="interests/biodiversity-conservation/">
         <span class="nw-icon g-lime"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21c.5 -4.5 2.5 -8 7 -10"/><path d="M9 18c6.218 0 10.5 -3.288 11 -12v-2h-4.014c-9 0 -11.986 4 -12 9c0 1 0 3 2 5h3z"/></svg></span>
         <h3>Biodiversity &amp; Conservation Monitoring</h3>
         <p>Tracking species, habitats, and ecosystem health to inform conservation planning and management decisions.</p>
         <div class="nw-chips"><span class="nw-chip">Species Distribution</span><span class="nw-chip">Habitat Mapping</span><span class="nw-chip">Conservation Planning</span></div>
-      </div>
-      <div class="nw-card">
+      </a>
+      <a class="nw-card" href="interests/geospatial-engineering/">
         <span class="nw-icon g-rose"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v6a8 3 0 0 0 16 0v-6"/><path d="M4 12v6a8 3 0 0 0 16 0v-6"/></svg></span>
         <h3>Geospatial Engineering &amp; Open Data</h3>
         <p>Designing scalable spatial data pipelines and open, interoperable tools that make geospatial work reproducible and shareable.</p>
         <div class="nw-chips"><span class="nw-chip">Spatial Databases</span><span class="nw-chip">Data Pipelines</span><span class="nw-chip">Open Source GIS</span></div>
-      </div>
+      </a>
     </div>
   </div>
 </section>

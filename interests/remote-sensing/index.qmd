@@ -1,0 +1,16 @@
+---
+title: "Remote Sensing & Earth Observation"
+description: "Extracting signal from satellite and aerial imagery to monitor landscapes, vegetation, and environmental change over time."
+date: "2025-01-01"
+categories: [Interest]
+---
+
+::: {.nw-detail-lead}
+Imagery Analysis · Google Earth Engine · Change Detection
+:::
+
+Satellites and aircraft record the Earth's surface at a cadence and scale no field campaign can match. My work in remote sensing turns that raw imagery into measurements — surface reflectance, spectral indices, and land-cover classes that describe how a landscape is changing and why.
+
+I work across the full processing chain: sourcing and calibrating multispectral and SAR scenes, correcting for atmosphere and terrain, deriving vegetation and moisture indices, and building classification and change-detection workflows that hold up across seasons and sensors. Cloud platforms like Google Earth Engine let me run these analyses over decades of archive and continental extents without moving a single tile off the server.
+
+The goal is always the same: replace a subjective impression of "the landscape looks different" with a defensible, repeatable number — burned area, canopy loss, urban expansion, or drought stress — that decision-makers can actually use.

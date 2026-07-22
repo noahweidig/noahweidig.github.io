@@ -1,0 +1,16 @@
+---
+title: "Applied AI & Data Storytelling"
+description: "Applying machine learning to geospatial problems and communicating results through clear, compelling visualization."
+date: "2025-01-01"
+categories: [Interest]
+---
+
+::: {.nw-detail-lead}
+Machine Learning · Data Visualization · Quantitative Ecology
+:::
+
+Machine learning is a powerful lever for geospatial problems — but only if the results are trustworthy and someone can actually understand them. I sit at both ends of that pipeline: training models that solve real spatial tasks, and translating their output into something a decision-maker can read at a glance.
+
+On the modeling side, I apply supervised and unsupervised learning to imagery classification, species and habitat prediction, and pattern discovery in large environmental datasets — always paying attention to validation, class balance, and where a model is likely to fail. On the communication side, I design visualizations and maps that carry the finding, not just the data: clear encodings, honest scales, and a narrative that leads the audience to the point.
+
+Good data storytelling closes the loop between analysis and action. A model that no one understands changes nothing.

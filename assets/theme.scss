@@ -484,7 +484,18 @@ body {
   border: 1px solid var(--nw-border);
   border-radius: 1rem;
   padding: 1.75rem;
-  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s, background 0.2s;
+}
+
+/* research-area cards double as links to their /interests/ detail pages */
+a.nw-card {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+a.nw-card:hover h3 {
+  color: var(--nw-primary);
 }
 
 .nw-card:hover {
@@ -540,9 +551,36 @@ body {
 .g-emerald { background: linear-gradient(135deg, #34d399, #14b8a6); }
 .g-amber   { background: linear-gradient(135deg, #fbbf24, #f97316); }
 .g-sky     { background: linear-gradient(135deg, #38bdf8, #0076DF); }
-.g-fuchsia { background: linear-gradient(135deg, #38bdf8, #0076DF); }
+.g-fuchsia { background: linear-gradient(135deg, #e879f9, #a855f7); }
 .g-lime    { background: linear-gradient(135deg, #a3e635, #16a34a); }
 .g-rose    { background: linear-gradient(135deg, #fb7185, #ef4444); }
+
+/* Research-area cards: a subtle two-tone wash keyed to each card's icon
+   colors. The two hues are mixed into the card background by --nw-tint
+   (small in light, a touch stronger in dark) so the tint stays gentle in
+   both themes. Icon-color pairs mirror the .g-* tiles above. */
+.nw-card:has(.g-emerald) { --c1: #34d399; --c2: #14b8a6; }
+.nw-card:has(.g-amber)   { --c1: #fbbf24; --c2: #f97316; }
+.nw-card:has(.g-sky)     { --c1: #38bdf8; --c2: #0076DF; }
+.nw-card:has(.g-fuchsia) { --c1: #e879f9; --c2: #a855f7; }
+.nw-card:has(.g-lime)    { --c1: #a3e635; --c2: #16a34a; }
+.nw-card:has(.g-rose)    { --c1: #fb7185; --c2: #ef4444; }
+
+.nw-card:has(.nw-icon) {
+  background: linear-gradient(
+    145deg,
+    color-mix(in srgb, var(--c1) var(--nw-tint), var(--nw-card)),
+    color-mix(in srgb, var(--c2) var(--nw-tint), var(--nw-card))
+  );
+}
+
+.nw-card:has(.nw-icon):hover {
+  background: linear-gradient(
+    145deg,
+    color-mix(in srgb, var(--c1) var(--nw-tint-hover), var(--nw-card)),
+    color-mix(in srgb, var(--c2) var(--nw-tint-hover), var(--nw-card))
+  );
+}
 
 /* ============ project cards (listing) ============ */
 .nw-projects.quarto-listing {
