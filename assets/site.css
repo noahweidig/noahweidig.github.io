@@ -198,10 +198,8 @@ body {
 
 /* ============ hero: tool dots orbiting the portrait ============ */
 /* Six small dots sit exactly on the avatar's ring (--nw-orbit-r matches the
-   avatar radius at each breakpoint) and drift slowly around it; each chip's
-   inner img spins in reverse at the same rate so the logos stay upright.
-   Hovering the portrait pauses the orbit; hovering a dot pops it open into
-   its tool icon. */
+   avatar radius at each breakpoint). Hovering a dot pops it open into its
+   tool icon. */
 #hero .nw-hero-media {
   --nw-orbit-r: 4.75rem;
 }
@@ -230,7 +228,6 @@ body {
   margin-left: calc(-1 * var(--nw-orbit-r));
   z-index: 2;
   pointer-events: none;
-  animation: nw-orbit-spin 90s linear infinite;
 }
 
 /* Each chip is an invisible full-size hover target; the visible dot is its
@@ -274,12 +271,6 @@ body {
   height: 1.4rem;
   opacity: 0;
   transition: opacity 0.2s ease;
-  animation: nw-orbit-spin 90s linear infinite reverse;
-}
-
-#hero .nw-hero-media:hover .nw-orbit,
-#hero .nw-hero-media:hover .nw-orbit img {
-  animation-play-state: paused;
 }
 
 #hero .nw-orbit span:hover {
@@ -297,10 +288,6 @@ body {
   opacity: 1;
 }
 
-@keyframes nw-orbit-spin {
-  to { transform: rotate(360deg); }
-}
-
 @media (max-width: 767.98px) {
   #hero .nw-orbit span {
     width: 2.1rem;
@@ -311,13 +298,6 @@ body {
   #hero .nw-orbit img {
     width: 1.15rem;
     height: 1.15rem;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  #hero .nw-orbit,
-  #hero .nw-orbit img {
-    animation: none;
   }
 }
 
