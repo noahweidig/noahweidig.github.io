@@ -197,7 +197,9 @@ include-after-body:
       <div class="nw-stat"><b>25+</b><span>Papers &amp; Talks</span></div>
       <div class="nw-stat"><b>8+</b><span>Years Research Experience</span></div>
       <div class="nw-stat"><b>20+</b><span>Tools Mastered</span></div>
-      <div class="nw-stat"><b>14</b><span>Featured Projects</span></div>
+      <!-- The number is a fallback: scripts/update-stats.ts rewrites it at render
+     time to the count of projects/*/index.qmd with `featured: true`. -->
+      <div class="nw-stat"><b data-nw-stat="featured-projects">17</b><span>Featured Projects</span></div>
     </div>
   </div>
 </section>

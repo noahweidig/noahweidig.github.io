@@ -13,7 +13,12 @@ listing:
     title: "Noah Weidig — Blog"
     description: "Notes on science, data, maps, and the landscapes we live in."
     items: 20
+include-after-body:
+  - text: |
+      <script src="../assets/home.js"></script>
 ---
+
+<div class="nw-filters" data-nw-filter-for="all-posts"></div>
 
 ::: {#all-posts .nw-posts}
 :::
