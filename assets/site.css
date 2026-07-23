@@ -161,16 +161,26 @@ body {
   background: transparent;
 }
 
-/* An opaque background on the hero hides the body grid there (the particles
-   canvas sits on top of it); the grid backdrop first appears at the stats
-   section. */
+/* The hero's opaque background lives on a ::before layer that fades out over
+   its bottom third, so the body grid emerges gradually beneath the particle
+   network instead of starting abruptly at the stats section. */
 #hero {
   /* anchor for the absolutely-positioned #nw-particles canvas */
   position: relative;
+  background: none;
+  overflow: hidden;
+}
+
+#hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
   background:
     radial-gradient(60rem 30rem at 50% -10%, var(--nw-hero-glow), transparent 70%),
     var(--nw-bg);
-  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to bottom, #000 65%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 65%, transparent 100%);
 }
 
 /* ============ hero: interactive particle-network background ============ */
@@ -181,6 +191,10 @@ body {
   position: absolute;
   inset: 0;
   z-index: 0;
+  /* fade the network out over the same zone the hero background fades, so
+     particles dissolve into the grid instead of clipping at the hero edge */
+  -webkit-mask-image: linear-gradient(to bottom, #000 70%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 70%, transparent 100%);
 }
 
 #hero .nw-hero-inner {
