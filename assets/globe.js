@@ -14,16 +14,21 @@
   var FRICTION = 0.92; // per-frame decay of flick velocity
   var DOT_COLOR = "0, 118, 223"; // --nw-primary (#0076DF), same in both themes
   var TILT = 0.35;
+  var ORLANDO = { lat: 28.5384, lon: -81.3789 };
 
   var reduceMotion =
     window.matchMedia &&
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   var ctx = canvas.getContext("2d");
+  var label = document.getElementById("nw-globe-label");
+  var marker = toSphere(ORLANDO.lat, ORLANDO.lon);
   var dots = null; // [{x, y, z} unit-sphere points]
   var size = 0; // CSS pixel size of the square canvas
   var radius = 0;
-  var rotY = 0;
+  // Start with the marker facing the viewer: rotate about Y so Orlando's
+  // azimuth lands front-center, then apply the usual tilt.
+  var rotY = -Math.atan2(marker.x, marker.z);
   var rotX = TILT;
   var velY = AUTO_SPEED;
   var velX = 0;
@@ -35,6 +40,17 @@
   var running = false;
   var visible = false;
   var rafId = 0;
+
+  // Same lat/lon → unit-sphere mapping used for the precomputed land dots
+  function toSphere(lat, lon) {
+    var phi = ((90 - lat) * Math.PI) / 180;
+    var theta = ((180 - lon) * Math.PI) / 180;
+    return {
+      x: Math.sin(phi) * Math.cos(theta),
+      y: Math.cos(phi),
+      z: Math.sin(phi) * Math.sin(theta),
+    };
+  }
 
   function resize() {
     var dpr = window.devicePixelRatio || 1;
@@ -72,6 +88,45 @@
       ctx.arc(p.sx, p.sy, dotMax * (0.4 + 0.6 * depth), 0, Math.PI * 2);
       ctx.fillStyle = "rgba(" + DOT_COLOR + "," + (0.08 + 0.82 * depth) + ")";
       ctx.fill();
+    }
+    drawMarker(c, cosX, sinX, cosY, sinY);
+  }
+
+  // Pulsing Orlando marker drawn on top of the land dots; the coordinate
+  // label (an HTML card) tracks the marker and hides on the far side.
+  function drawMarker(c, cosX, sinX, cosY, sinY) {
+    var x1 = marker.x * cosY + marker.z * sinY;
+    var z1 = -marker.x * sinY + marker.z * cosY;
+    var y2 = marker.y * cosX - z1 * sinX;
+    var z2 = marker.y * sinX + z1 * cosX;
+    var front = z2 > 0.05;
+    if (front) {
+      var sx = c + x1 * radius;
+      var sy = c - y2 * radius;
+      var r = Math.max(3.5, size * 0.011);
+      if (!reduceMotion) {
+        // expanding ring, ~2s cycle
+        var t = ((performance.now ? performance.now() : Date.now()) % 2000) / 2000;
+        ctx.beginPath();
+        ctx.arc(sx, sy, r * (1 + t * 2.4), 0, Math.PI * 2);
+        ctx.strokeStyle = "rgba(" + DOT_COLOR + "," + 0.55 * (1 - t) + ")";
+        ctx.lineWidth = Math.max(1, r * 0.35);
+        ctx.stroke();
+      }
+      ctx.beginPath();
+      ctx.arc(sx, sy, r, 0, Math.PI * 2);
+      ctx.fillStyle = "rgb(" + DOT_COLOR + ")";
+      ctx.fill();
+      ctx.lineWidth = Math.max(1.5, r * 0.4);
+      ctx.strokeStyle = "#ffffff";
+      ctx.stroke();
+      if (label) {
+        label.hidden = false;
+        label.style.left = canvas.offsetLeft + sx + "px";
+        label.style.top = canvas.offsetTop + sy - r * 2.2 + "px";
+      }
+    } else if (label) {
+      label.hidden = true;
     }
   }
 

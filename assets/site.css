@@ -315,9 +315,15 @@ body {
 }
 
 
-/* ============ map: match the contact / CTA container width ============ */
-#map .nw-map {
+/* ============ find me: dot globe with Orlando marker ============ */
+.nw-globe-wrap {
   max-width: 52rem;
+  margin: 0 auto;
+}
+
+.nw-globe-frame {
+  position: relative;
+  max-width: 30rem;
   margin: 0 auto;
 }
 
@@ -559,28 +565,128 @@ img.nw-detail-hero {
   }
 }
 
-/* ============ contact: dot globe + form, two columns ============ */
-/* The intro/email keep the narrow centered measure; the globe/form row
-   widens the section so both columns get breathing room. */
-.nw-contact-wide {
+/* ============ contact: one card, info column + form column ============ */
+.nw-contact-card {
+  position: relative;
   max-width: 62rem;
-}
-
-.nw-contact-grid {
+  margin: 2.5rem auto 0;
   display: grid;
-  grid-template-columns: 1fr 1.1fr;
-  gap: 3rem;
-  align-items: center;
-  margin-top: 2.5rem;
+  grid-template-columns: 1fr 1.15fr;
+  gap: 2.5rem 3rem;
   text-align: left;
+  background: var(--nw-card);
+  border: 1px solid var(--nw-border);
+  border-radius: 1.25rem;
+  padding: 2.75rem;
+  overflow: hidden;
+  box-shadow: 0 1.25rem 2.5rem -1.75rem rgba(0, 0, 0, 0.35);
 }
 
-/* .nw-form carries its own top margin for the stacked layout; the grid
-   handles spacing here */
-.nw-contact-grid .nw-form {
-  margin-top: 0;
+/* hairline accent along the top edge — quiet premium, no extra chrome */
+.nw-contact-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--nw-primary), transparent);
+  opacity: 0.85;
 }
 
+.nw-contact-info h3 {
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  margin: 0 0 0.75rem;
+}
+
+.nw-contact-info > p {
+  color: var(--nw-muted);
+  margin: 0 0 1.75rem;
+}
+
+.nw-contact-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 1.15rem;
+}
+
+.nw-contact-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+.nw-contact-icon {
+  flex: none;
+  width: 2.6rem;
+  height: 2.6rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.75rem;
+  border: 1px solid var(--nw-border);
+  background: var(--nw-bg);
+  color: var(--nw-primary);
+}
+
+.nw-contact-icon svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.nw-contact-item {
+  display: grid;
+  gap: 0.1rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.nw-contact-item small {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--nw-muted);
+}
+
+.nw-contact-item a {
+  color: var(--nw-fg);
+  text-decoration: none;
+}
+
+.nw-contact-item a:hover {
+  color: var(--nw-primary);
+}
+
+/* the card is the chrome now; the form inside it sheds its own */
+.nw-contact-card .nw-form {
+  margin: 0;
+  background: none;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+}
+
+@media (min-width: 861px) {
+  .nw-contact-card .nw-form {
+    border-left: 1px solid var(--nw-border);
+    padding-left: 3rem;
+  }
+}
+
+@media (max-width: 860px) {
+  .nw-contact-card {
+    grid-template-columns: 1fr;
+    padding: 2rem 1.5rem;
+    gap: 2rem;
+  }
+}
+
+/* ============ dot globe canvas + marker label ============ */
 #nw-globe {
   display: block;
   width: 100%;
@@ -601,14 +707,32 @@ img.nw-detail-hero {
   margin: 0.75rem 0 0;
 }
 
-@media (max-width: 860px) {
-  .nw-contact-grid {
-    grid-template-columns: 1fr;
-    gap: 2rem;
-  }
+.nw-globe-label {
+  position: absolute;
+  transform: translate(-50%, -100%);
+  display: grid;
+  gap: 0.15rem;
+  justify-items: center;
+  pointer-events: none;
+  white-space: nowrap;
+  background: var(--nw-card);
+  color: var(--nw-fg);
+  border: 1px solid var(--nw-border);
+  border-radius: 0.6rem;
+  padding: 0.45rem 0.75rem;
+  font-size: 0.85rem;
+  box-shadow: 0 3px 14px rgba(0, 0, 0, 0.25);
+}
 
-  .nw-contact-globe {
-    max-width: 19rem;
-    margin: 0 auto;
-  }
+/* display:grid above beats the UA [hidden] rule; restore it explicitly */
+.nw-globe-label[hidden] {
+  display: none;
+}
+
+.nw-globe-label code {
+  font-size: 0.75rem;
+  background: var(--nw-chip);
+  color: var(--nw-fg);
+  padding: 0.1rem 0.35rem;
+  border-radius: 0.3rem;
 }

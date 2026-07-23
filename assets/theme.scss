@@ -1068,17 +1068,6 @@ a.nw-card:hover h3 {
 }
 
 /* ============ contact ============ */
-.nw-contact {
-  max-width: 40rem;
-  margin: 0 auto;
-  text-align: center;
-}
-
-.nw-contact .nw-email {
-  font-size: 1.1rem;
-  font-weight: 600;
-}
-
 .nw-form {
   margin-top: 2rem;
   text-align: left;
@@ -1119,96 +1108,6 @@ a.nw-card:hover h3 {
 
 .nw-form-status.err {
   color: #ef4444;
-}
-
-/* ============ map (MapLibre globe) ============ */
-#map .nw-map {
-  height: 26rem;
-  border-radius: 1rem;
-  border: 1px solid var(--nw-border);
-  overflow: hidden;
-  /* Outer space behind the transparent globe canvas: deep-space base plus
-     repeating starfield layers. Space stays dark in both color modes. */
-  background-color: #05070d;
-  background-image:
-    radial-gradient(1px 1px at 25px 35px, rgba(255, 255, 255, 0.9) 50%, transparent 51%),
-    radial-gradient(1px 1px at 130px 90px, rgba(255, 255, 255, 0.55) 50%, transparent 51%),
-    radial-gradient(1.5px 1.5px at 210px 160px, rgba(255, 255, 255, 0.8) 50%, transparent 51%),
-    radial-gradient(1px 1px at 70px 200px, rgba(214, 230, 255, 0.6) 50%, transparent 51%),
-    radial-gradient(1.5px 1.5px at 300px 60px, rgba(255, 244, 214, 0.7) 50%, transparent 51%),
-    radial-gradient(ellipse at 50% 40%, #131c33 0%, rgba(19, 28, 51, 0) 70%);
-  background-size: 260px 260px, 340px 340px, 420px 420px, 300px 300px, 380px 380px, 100% 100%;
-  background-repeat: repeat, repeat, repeat, repeat, repeat, no-repeat;
-}
-
-/* Pulsing marker on Orlando */
-#map .nw-pulse {
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: var(--nw-primary);
-  border: 2px solid #ffffff;
-  position: relative;
-}
-
-#map .nw-pulse::before {
-  content: "";
-  position: absolute;
-  inset: -3px;
-  border-radius: 50%;
-  background: var(--nw-primary);
-  opacity: 0.6;
-  animation: nw-ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
-}
-
-@keyframes nw-ping {
-  0% { transform: scale(1); opacity: 0.6; }
-  80%, 100% { transform: scale(3); opacity: 0; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  #map .nw-pulse::before {
-    animation: none;
-  }
-}
-
-/* Marker popup restyled to match the site card look in both color modes */
-#map .maplibregl-popup-content {
-  font-family: inherit;
-  background: var(--nw-card);
-  color: var(--nw-fg);
-  border: 1px solid var(--nw-border);
-  border-radius: 0.6rem;
-  padding: 0.55rem 0.85rem;
-  box-shadow: 0 3px 14px rgba(0, 0, 0, 0.25);
-}
-
-#map .maplibregl-popup-content code {
-  font-size: 0.8rem;
-  background: var(--nw-chip);
-  color: var(--nw-fg);
-  padding: 0.1rem 0.35rem;
-  border-radius: 0.3rem;
-}
-
-#map .maplibregl-popup-anchor-bottom .maplibregl-popup-tip,
-#map .maplibregl-popup-anchor-bottom-left .maplibregl-popup-tip,
-#map .maplibregl-popup-anchor-bottom-right .maplibregl-popup-tip {
-  border-top-color: var(--nw-card);
-}
-
-#map .maplibregl-popup-anchor-top .maplibregl-popup-tip,
-#map .maplibregl-popup-anchor-top-left .maplibregl-popup-tip,
-#map .maplibregl-popup-anchor-top-right .maplibregl-popup-tip {
-  border-bottom-color: var(--nw-card);
-}
-
-#map .maplibregl-popup-anchor-left .maplibregl-popup-tip {
-  border-right-color: var(--nw-card);
-}
-
-#map .maplibregl-popup-anchor-right .maplibregl-popup-tip {
-  border-left-color: var(--nw-card);
 }
 
 /* ============ CTA card ============ */
