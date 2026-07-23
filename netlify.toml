@@ -1,0 +1,5 @@
+# Netlify: PR deploy previews only. Production stays on GitHub Pages
+# (deployed from `main` via .github/workflows/publish.yml).
+[build]
+  command = "quarto render"
+  publish = "_site"
