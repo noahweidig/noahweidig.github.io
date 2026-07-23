@@ -1126,24 +1126,155 @@ a.nw-card:hover h3 {
 
 /* ============ CTA card ============ */
 .nw-cta-card {
-  max-width: 52rem;
+  position: relative;
+  max-width: 56rem;
   margin: 0 auto;
   text-align: center;
-  border-radius: 1.25rem;
-  padding: 3rem 2rem;
+  border-radius: 1.5rem;
+  padding: 3.5rem 2.5rem;
+  overflow: hidden;
+  isolation: isolate;
+  border: 1px solid color-mix(in srgb, var(--nw-cta-fg) 14%, transparent);
   background: linear-gradient(135deg, var(--nw-cta-from), var(--nw-cta-via), var(--nw-cta-to));
   color: var(--nw-cta-fg);
+  box-shadow:
+    0 1.75rem 3.5rem -1.75rem rgba(0, 60, 120, 0.45),
+    inset 0 1px 0 var(--nw-cta-glow);
+}
+
+/* topography texture, keyed to the card foreground — the same survey-map
+   motif used behind the footer, tying the closing card to the site language */
+.nw-cta-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--nw-cta-line);
+  -webkit-mask: url(/assets/media/topography.svg) 0 0 / 30rem 30rem repeat;
+  mask: url(/assets/media/topography.svg) 0 0 / 30rem 30rem repeat;
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+/* soft radial glow anchored top-centre for depth */
+.nw-cta-card::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -35%;
+  width: 42rem;
+  height: 42rem;
+  transform: translateX(-50%);
+  z-index: -1;
+  background: radial-gradient(closest-side, var(--nw-cta-glow), transparent 70%);
+  pointer-events: none;
+}
+
+/* availability pill — mirrors the hero status chip, always-on green so it
+   reads the same in both themes over the blue card */
+.nw-cta-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: #10b981;
+  background: rgba(16, 185, 129, 0.14);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  border-radius: 999px;
+  padding: 0.35rem 0.95rem;
+  margin-bottom: 1.4rem;
+}
+
+.nw-cta-status::before {
+  content: "";
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5);
+  animation: nw-pulse 2s infinite;
 }
 
 .nw-cta-card h2 {
   font-weight: 800;
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
   border: none;
-  margin-top: 0;
+  margin: 0 0 0.85rem;
   color: inherit;
 }
 
-.nw-cta-card p {
-  opacity: 0.9;
+.nw-cta-card > p {
+  opacity: 0.92;
+  max-width: 40rem;
+  margin: 0 auto 1.9rem;
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+/* quick-fact chips: location / focus / availability */
+.nw-cta-facts {
+  list-style: none;
+  margin: 0 0 2rem;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.6rem;
+}
+
+.nw-cta-facts li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  color: var(--nw-cta-fg);
+  background: color-mix(in srgb, var(--nw-cta-fg) 7%, transparent);
+  border: 1px solid color-mix(in srgb, var(--nw-cta-fg) 16%, transparent);
+}
+
+.nw-cta-facts svg {
+  width: 1rem;
+  height: 1rem;
+  opacity: 0.8;
+  flex: none;
+}
+
+/* CTA buttons: a solid inverse chip + a quiet outline, both scoped so the
+   site-wide blue gradient button doesn't disappear against the blue card */
+.nw-cta-card .nw-btn-primary {
+  background: var(--nw-cta-btn-bg);
+  color: var(--nw-cta-btn-fg) !important;
+  box-shadow: 0 0.75rem 1.75rem -0.75rem rgba(0, 40, 90, 0.55);
+}
+
+.nw-cta-card .nw-btn-ghost {
+  border: 1px solid color-mix(in srgb, var(--nw-cta-fg) 32%, transparent);
+  color: var(--nw-cta-fg) !important;
+  background: transparent;
+}
+
+.nw-cta-card .nw-btn-ghost:hover {
+  border-color: var(--nw-cta-fg);
+  background: color-mix(in srgb, var(--nw-cta-fg) 8%, transparent);
+}
+
+.nw-cta-foot {
+  margin: 1.6rem 0 0;
+  font-size: 0.82rem;
+  opacity: 0.75;
+}
+
+@media (max-width: 560px) {
+  .nw-cta-card {
+    padding: 2.75rem 1.5rem;
+  }
 }
 
 /* ============ filter buttons (projects page) ============ */
