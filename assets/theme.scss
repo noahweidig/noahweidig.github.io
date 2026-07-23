@@ -64,15 +64,21 @@ body {
   transition: filter 0.2s ease;
 }
 
-/* Logo turns blue on hover (maps the black mark to $primary #0076DF).
-   Source SVG is black in every theme, so this single rule works on both
-   light and dark. */
+/* Logo + site title turn blue together on brand hover. The logo is a black
+   SVG mark, so it uses a filter chain that maps black to $primary #0076DF
+   (source is black in every theme, so it works on both light and dark); the
+   title just takes the blue text color. */
 .navbar .navbar-brand:hover img {
   filter: invert(41%) sepia(29%) saturate(3753%) hue-rotate(187deg) brightness(83%) contrast(115%);
 }
 
+.navbar .navbar-brand:hover .navbar-title {
+  color: $primary;
+}
+
 .navbar .navbar-title {
   font-weight: 700;
+  transition: color 0.2s ease;
 }
 
 /* Navigation hover state on desktop. */
