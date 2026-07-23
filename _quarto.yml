@@ -27,6 +27,8 @@ project:
     # Loaded dynamically from index.qmd's hero script, so Quarto's resource
     # discovery can't see it — must be listed explicitly.
     - assets/vendor/particles.min.js
+    # Fetched at runtime by assets/globe.js — same story, list explicitly.
+    - assets/data/globe-dots.json
 
 filters:
   - social-share
