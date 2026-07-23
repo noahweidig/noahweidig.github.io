@@ -22,10 +22,18 @@ $input-bg: #13131a;
   --nw-tint: 12%;
   --nw-tint-hover: 18%;
   --nw-hero-glow: rgba(0, 118, 223, 0.18);
-  --nw-cta-from: #0076DF;
+  --nw-cta-from: #0a5bb0;
   --nw-cta-via: #0076DF;
-  --nw-cta-to: #0076DF;
+  --nw-cta-to: #1488f0;
   --nw-cta-fg: #ffffff;
+  /* solid "inverse" CTA button: white chip with blue label so it stays
+     visible on the blue card (the site-wide blue gradient button would
+     vanish here) */
+  --nw-cta-btn-bg: #ffffff;
+  --nw-cta-btn-fg: #0a5bb0;
+  /* faint texture + hairline colors keyed to the card foreground */
+  --nw-cta-line: rgba(255, 255, 255, 0.10);
+  --nw-cta-glow: rgba(255, 255, 255, 0.16);
   --nw-grid-line: rgba(229, 231, 235, 0.07);
   --nw-topo: rgba(229, 231, 235, 0.07);
   --nw-footer-bg: #0d0d12;
