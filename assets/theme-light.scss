@@ -21,10 +21,16 @@ $card-bg: #ffffff;
   --nw-tint: 7%;
   --nw-tint-hover: 12%;
   --nw-hero-glow: rgba(0, 118, 223, 0.12);
-  --nw-cta-from: #d7ebff;
-  --nw-cta-via: #eaf5ff;
+  --nw-cta-from: #cfe6ff;
+  --nw-cta-via: #e4f1ff;
   --nw-cta-to: #f2f8ff;
   --nw-cta-fg: #003b70;
+  /* solid "inverse" CTA button: deep-blue chip with white label */
+  --nw-cta-btn-bg: #0076DF;
+  --nw-cta-btn-fg: #ffffff;
+  /* faint texture + hairline colors keyed to the card foreground */
+  --nw-cta-line: rgba(0, 59, 112, 0.10);
+  --nw-cta-glow: rgba(0, 118, 223, 0.18);
   --nw-grid-line: rgba(31, 41, 55, 0.05);
   --nw-topo: rgba(31, 41, 55, 0.08);
   --nw-footer-bg: #fafafa;
