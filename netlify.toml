@@ -1,0 +1,14 @@
+# Netlify: PR deploy previews only. Production stays on GitHub Pages
+# (deployed from `main` via .github/workflows/publish.yml).
+#
+# Netlify's build image has no Quarto binary, so install it (pinned to the
+# same version as CI) before rendering.
+[build]
+  publish = "_site"
+  command = """
+curl -sL https://github.com/quarto-dev/quarto-cli/releases/download/v${QUARTO_VERSION}/quarto-${QUARTO_VERSION}-linux-amd64.tar.gz | tar -xz && \
+export PATH="$PWD/quarto-${QUARTO_VERSION}/bin:$PATH" && \
+quarto render"""
+
+[build.environment]
+  QUARTO_VERSION = "1.9.38"
