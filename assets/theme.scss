@@ -61,6 +61,14 @@ body {
 
 .navbar .navbar-brand img {
   height: 2.5rem;
+  transition: filter 0.2s ease;
+}
+
+/* Logo turns blue on hover (maps the black mark to $primary #0076DF).
+   Source SVG is black in every theme, so this single rule works on both
+   light and dark. */
+.navbar .navbar-brand:hover img {
+  filter: invert(41%) sepia(29%) saturate(3753%) hue-rotate(187deg) brightness(83%) contrast(115%);
 }
 
 .navbar .navbar-title {
