@@ -67,142 +67,6 @@ include-after-body:
           document.head.appendChild(js);
         })();
       </script>
-      <script>
-        // MapLibre is only needed for the globe at the very bottom of the page,
-        // so defer fetching its CSS/JS (and the map tiles) until the map is
-        // about to scroll into view instead of paying for it on page load.
-        // The map starts as a globe in space on the far side of the world;
-        // once the section is actually visible it spins around the globe and
-        // dives down into Orlando.
-        (function () {
-          var mapEl = document.getElementById('nw-map');
-          if (!mapEl) return;
-          var ORLANDO = [-81.3789, 28.5384];
-          var loaded = false;
-          var nwMap = null;
-          var mapReady = false;
-          var flown = false;
-          var wantFly = false;
-          var nwMarker = null;
-          var nwPopup = null;
-          // Marker + popup stay hidden until the fly-in has landed on Orlando
-          function nwShowMarker() {
-            if (nwMarker) { nwMarker.addTo(nwMap); nwMarker = null; }
-            if (nwPopup) { nwPopup.addTo(nwMap); nwPopup = null; }
-          }
-          function nwStyle() {
-            var style = document.body.classList.contains('quarto-dark') ||
-              document.documentElement.classList.contains('quarto-dark')
-              ? 'dark_all' : 'rastertiles/voyager';
-            return {
-              version: 8,
-              projection: { type: 'globe' },
-              // Atmosphere halo while in "space", fading out once zoomed in
-              sky: { 'atmosphere-blend': ['interpolate', ['linear'], ['zoom'], 0, 1, 6, 1, 8, 0] },
-              sources: {
-                carto: {
-                  type: 'raster',
-                  tiles: ['a', 'b', 'c', 'd'].map(function (s) {
-                    return 'https://' + s + '.basemaps.cartocdn.com/' + style + '/{z}/{x}/{y}.png';
-                  }),
-                  tileSize: 256,
-                  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>'
-                }
-              },
-              // No background layer: the canvas stays transparent around the
-              // globe so the CSS starfield behind it shows through.
-              layers: [{ id: 'carto', type: 'raster', source: 'carto' }]
-            };
-          }
-          function nwFly() {
-            if (flown) return;
-            if (!mapReady) { wantFly = true; return; }
-            flown = true;
-            if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-              nwMap.jumpTo({ center: ORLANDO, zoom: 12.2 });
-              nwShowMarker();
-              return;
-            }
-            // Stage 1: spin the globe most of the way around while easing in…
-            nwMap.easeTo({
-              center: [ORLANDO[0] + 55, 12],
-              zoom: 1.6,
-              duration: 1800,
-              easing: function (t) { return t; },
-              essential: true
-            });
-            nwMap.once('moveend', function () {
-              // …stage 2: finish the spin and dive down into Orlando.
-              nwMap.flyTo({ center: ORLANDO, zoom: 12.2, duration: 3000, essential: true });
-              nwMap.once('moveend', nwShowMarker);
-            });
-          }
-          function nwInitMap() {
-            nwMap = new maplibregl.Map({
-              container: 'nw-map',
-              style: nwStyle(),
-              // Opposite side of the world from Orlando, zoomed all the way out
-              center: [ORLANDO[0] + 180, -ORLANDO[1]],
-              zoom: 0.6,
-              attributionControl: { compact: true }
-            });
-            nwMap.scrollZoom.disable();
-            nwMap.addControl(new maplibregl.NavigationControl({ showCompass: false }));
-            var dot = document.createElement('div');
-            dot.className = 'nw-pulse';
-            nwMarker = new maplibregl.Marker({ element: dot }).setLngLat(ORLANDO);
-            nwPopup = new maplibregl.Popup({ offset: 18, closeButton: false, closeOnClick: false, focusAfterOpen: false })
-              .setLngLat(ORLANDO)
-              .setHTML('<b>Orlando, Florida</b><br><code>28.5384&deg; N, 81.3789&deg; W</code>');
-            var nwMapStyle = null;
-            function nwSyncMapTheme() {
-              var style = document.body.classList.contains('quarto-dark') ||
-                document.documentElement.classList.contains('quarto-dark')
-                ? 'dark_all' : 'rastertiles/voyager';
-              if (style === nwMapStyle) return;
-              nwMapStyle = style;
-              nwMap.setStyle(nwStyle());
-            }
-            nwMapStyle = nwStyle().sources.carto.tiles[0].indexOf('dark_all') !== -1 ? 'dark_all' : 'rastertiles/voyager';
-            var nwThemeWatcher = new MutationObserver(nwSyncMapTheme);
-            nwThemeWatcher.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
-            nwThemeWatcher.observe(document.body, { attributes: true, attributeFilter: ['class'] });
-            nwMap.on('load', function () {
-              mapReady = true;
-              if (wantFly) nwFly();
-            });
-          }
-          function nwLoadMapLibre() {
-            if (loaded) return;
-            loaded = true;
-            var css = document.createElement('link');
-            css.rel = 'stylesheet';
-            css.href = 'https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.css';
-            document.head.appendChild(css);
-            var js = document.createElement('script');
-            js.src = 'https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.js';
-            js.onload = nwInitMap;
-            document.head.appendChild(js);
-          }
-          if ('IntersectionObserver' in window) {
-            new IntersectionObserver(function (entries, obs) {
-              if (entries.some(function (e) { return e.isIntersecting; })) {
-                obs.disconnect();
-                nwLoadMapLibre();
-              }
-            }, { rootMargin: '600px' }).observe(mapEl);
-            new IntersectionObserver(function (entries, obs) {
-              if (entries.some(function (e) { return e.isIntersecting; })) {
-                obs.disconnect();
-                nwFly();
-              }
-            }, { threshold: 0.4 }).observe(mapEl);
-          } else {
-            nwLoadMapLibre();
-            wantFly = true;
-          }
-        })();
-      </script>
 ---
 
 ```{=html}
@@ -507,22 +371,32 @@ include-after-body:
   <div class="nw-section-inner">
     <h2 class="nw-title">Get In Touch</h2>
     <p class="nw-subtitle">Let's build something amazing together</p>
-    <div class="nw-contact nw-contact-wide">
-      <p>I'm always interested in hearing about new projects and opportunities. Whether you're looking to hire, collaborate, or just want to say hi, feel free to reach out!</p>
-      <p class="nw-email"><a href="mailto:noah@noahweidig.com">noah@noahweidig.com</a></p>
-      <div class="nw-contact-grid">
-        <div class="nw-contact-globe">
-          <canvas id="nw-globe" aria-hidden="true"></canvas>
-          <p class="nw-globe-tag">Reach me from anywhere</p>
-        </div>
-        <form class="nw-form" action="https://formspree.io/f/xjgnggga" method="POST">
-          <input type="text" name="name" placeholder="Your name" autocomplete="name" required>
-          <input type="email" name="email" placeholder="Your email" autocomplete="email" required>
-          <textarea name="message" rows="5" placeholder="Your message" required></textarea>
-          <p class="nw-form-status" role="status" aria-live="polite" hidden></p>
-          <div class="nw-btns"><button class="nw-btn nw-btn-primary" type="submit">Send Message</button></div>
-        </form>
+    <div class="nw-contact-card">
+      <div class="nw-contact-info">
+        <h3>Let's start a conversation</h3>
+        <p>I'm always interested in hearing about new projects and opportunities. Whether you're looking to hire, collaborate, or just want to say hi, feel free to reach out!</p>
+        <ul class="nw-contact-list">
+          <li>
+            <span class="nw-contact-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6l9 -6"/></svg></span>
+            <span class="nw-contact-item"><small>Email</small><a href="mailto:noah@noahweidig.com">noah@noahweidig.com</a></span>
+          </li>
+          <li>
+            <span class="nw-contact-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"/><path d="M17.657 16.657l-4.243 4.243a2 2 0 0 1 -2.827 0l-4.244 -4.243a8 8 0 1 1 11.314 0z"/></svg></span>
+            <span class="nw-contact-item"><small>Location</small><span>Orlando, Florida</span></span>
+          </li>
+          <li>
+            <span class="nw-contact-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7v-2a2 2 0 0 1 2 -2h4a2 2 0 0 1 2 2v2"/><path d="M12 12v.01"/><path d="M3 13a20 20 0 0 0 18 0"/></svg></span>
+            <span class="nw-contact-item"><small>Open to</small><span>Data science &amp; GIS roles, collaborations</span></span>
+          </li>
+        </ul>
       </div>
+      <form class="nw-form" action="https://formspree.io/f/xjgnggga" method="POST">
+        <input type="text" name="name" placeholder="Your name" autocomplete="name" required>
+        <input type="email" name="email" placeholder="Your email" autocomplete="email" required>
+        <textarea name="message" rows="5" placeholder="Your message" required></textarea>
+        <p class="nw-form-status" role="status" aria-live="polite" hidden></p>
+        <div class="nw-btns"><button class="nw-btn nw-btn-primary" type="submit">Send Message</button></div>
+      </form>
     </div>
   </div>
 </section>
@@ -530,8 +404,14 @@ include-after-body:
 <section id="map" class="nw-section">
   <div class="nw-section-inner">
     <h2 class="nw-title">Find Me</h2>
-    <p class="nw-subtitle">Based at University of Florida</p>
-    <div id="nw-map" class="nw-map"></div>
+    <p class="nw-subtitle">Based in Orlando, Florida</p>
+    <div class="nw-globe-wrap">
+      <div class="nw-globe-frame">
+        <canvas id="nw-globe" aria-hidden="true"></canvas>
+        <div class="nw-globe-label" id="nw-globe-label" hidden><b>Orlando, Florida</b><code>28.5384&deg; N, 81.3789&deg; W</code></div>
+      </div>
+      <p class="nw-globe-tag">Drag to spin the globe</p>
+    </div>
   </div>
 </section>
 
