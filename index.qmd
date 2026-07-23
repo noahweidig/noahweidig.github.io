@@ -29,6 +29,7 @@ listing:
 include-after-body:
   - text: |
       <script src="assets/home.js"></script>
+      <script src="assets/globe.js"></script>
       <script>
         // Interactive "neural network" hero background: particles.js (MIT,
         // self-hosted like the fonts) with the same config the lumo Quarto
@@ -506,16 +507,22 @@ include-after-body:
   <div class="nw-section-inner">
     <h2 class="nw-title">Get In Touch</h2>
     <p class="nw-subtitle">Let's build something amazing together</p>
-    <div class="nw-contact">
+    <div class="nw-contact nw-contact-wide">
       <p>I'm always interested in hearing about new projects and opportunities. Whether you're looking to hire, collaborate, or just want to say hi, feel free to reach out!</p>
       <p class="nw-email"><a href="mailto:noah@noahweidig.com">noah@noahweidig.com</a></p>
-      <form class="nw-form" action="https://formspree.io/f/xjgnggga" method="POST">
-        <input type="text" name="name" placeholder="Your name" autocomplete="name" required>
-        <input type="email" name="email" placeholder="Your email" autocomplete="email" required>
-        <textarea name="message" rows="5" placeholder="Your message" required></textarea>
-        <p class="nw-form-status" role="status" aria-live="polite" hidden></p>
-        <div class="nw-btns"><button class="nw-btn nw-btn-primary" type="submit">Send Message</button></div>
-      </form>
+      <div class="nw-contact-grid">
+        <div class="nw-contact-globe">
+          <canvas id="nw-globe" aria-hidden="true"></canvas>
+          <p class="nw-globe-tag">Reach me from anywhere</p>
+        </div>
+        <form class="nw-form" action="https://formspree.io/f/xjgnggga" method="POST">
+          <input type="text" name="name" placeholder="Your name" autocomplete="name" required>
+          <input type="email" name="email" placeholder="Your email" autocomplete="email" required>
+          <textarea name="message" rows="5" placeholder="Your message" required></textarea>
+          <p class="nw-form-status" role="status" aria-live="polite" hidden></p>
+          <div class="nw-btns"><button class="nw-btn nw-btn-primary" type="submit">Send Message</button></div>
+        </form>
+      </div>
     </div>
   </div>
 </section>

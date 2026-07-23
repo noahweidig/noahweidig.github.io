@@ -558,3 +558,57 @@ img.nw-detail-hero {
     grid-template-columns: 1fr;
   }
 }
+
+/* ============ contact: dot globe + form, two columns ============ */
+/* The intro/email keep the narrow centered measure; the globe/form row
+   widens the section so both columns get breathing room. */
+.nw-contact-wide {
+  max-width: 62rem;
+}
+
+.nw-contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 3rem;
+  align-items: center;
+  margin-top: 2.5rem;
+  text-align: left;
+}
+
+/* .nw-form carries its own top margin for the stacked layout; the grid
+   handles spacing here */
+.nw-contact-grid .nw-form {
+  margin-top: 0;
+}
+
+#nw-globe {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  cursor: grab;
+  /* keep vertical page scrolling working when touches start on the globe */
+  touch-action: pan-y;
+}
+
+#nw-globe:active {
+  cursor: grabbing;
+}
+
+.nw-globe-tag {
+  text-align: center;
+  color: var(--nw-muted);
+  font-size: 0.95rem;
+  margin: 0.75rem 0 0;
+}
+
+@media (max-width: 860px) {
+  .nw-contact-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .nw-contact-globe {
+    max-width: 19rem;
+    margin: 0 auto;
+  }
+}
