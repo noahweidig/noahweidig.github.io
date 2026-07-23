@@ -3,6 +3,10 @@ project:
   output-dir: _site
   render:
     - "*.qmd"
+    # Netlify installs Quarto by extracting the release tarball into the repo
+    # (quarto-<version>/). Exclude it so Quarto never tries to render the
+    # template .qmd files bundled inside its own installation.
+    - "!quarto-*/**"
   # After every render: sync the hero "Featured Projects" stat with the
   # projects that actually have `featured: true` (scripts/update-stats.ts),
   # then regenerate per-page Open Graph SVG cards (scripts/generate-og.ts).
