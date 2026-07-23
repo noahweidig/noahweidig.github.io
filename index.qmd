@@ -418,9 +418,16 @@ include-after-body:
 <section id="cta" class="nw-section nw-alt">
   <div class="nw-section-inner">
     <div class="nw-cta-card">
+      <span class="nw-cta-status">Available for new roles</span>
       <h2>Open to Opportunities</h2>
-      <p>I'm currently looking for <strong>data scientist</strong> or <strong>GIS analyst</strong> roles.<br>Let's connect and discuss how I can help your team.</p>
-      <div class="nw-btns"><a class="nw-btn nw-btn-primary nw-btn-resume" href="uploads/resume.pdf" target="_blank" rel="noopener">Download Resume</a><a class="nw-btn nw-btn-primary nw-btn-resume" href="/cv.html">View Full CV</a></div>
+      <p>I'm looking for <strong>data scientist</strong> and <strong>GIS analyst</strong> roles where rigorous spatial analysis drives real decisions. If that's the kind of work your team is doing, let's talk.</p>
+      <ul class="nw-cta-facts">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"/><path d="M17.657 16.657l-4.243 4.243a2 2 0 0 1 -2.827 0l-4.244 -4.243a8 8 0 1 1 11.314 0z"/></svg>Orlando, FL &middot; Remote-friendly</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 4.5v9l-8 4.5l-8 -4.5v-9z"/><path d="M12 12l8 -4.5"/><path d="M12 12v9"/><path d="M12 12l-8 -4.5"/></svg>Data science, GIS &amp; applied AI</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 7v5l3 3"/><path d="M12 3a9 9 0 1 0 0 18a9 9 0 0 0 0 -18"/></svg>Replies within 24 hours</li>
+      </ul>
+      <div class="nw-btns"><a class="nw-btn nw-btn-primary" href="uploads/resume.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2"/><path d="M7 11l5 5l5 -5"/><path d="M12 4v12"/></svg>Download Resume</a><a class="nw-btn nw-btn-ghost" href="/cv.html">View Full CV</a><a class="nw-btn nw-btn-ghost" href="mailto:noah@noahweidig.com">Get in Touch</a></div>
+      <p class="nw-cta-foot">Prefer email? Reach me directly at <a href="mailto:noah@noahweidig.com" style="color:inherit;font-weight:600;">noah@noahweidig.com</a></p>
     </div>
   </div>
 </section>
