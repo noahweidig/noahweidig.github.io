@@ -327,6 +327,25 @@ body {
   margin: 0 auto;
 }
 
+/* Narrow screens: the marker label can swing past the viewport edge as the
+   globe spins; clip it at the frame instead of letting it widen the page
+   into a sideways scroll. clip (not hidden) avoids creating a scroll box,
+   and only the x axis is clipped so the label can still rise above the
+   frame. The html/body guard backstops any horizontal overflow the frame
+   clip misses; the hidden line is a fallback for browsers without clip
+   (pre-2022 Safari), and is safe because the navbar is fixed, not sticky. */
+@media (max-width: 767.98px) {
+  .nw-globe-frame {
+    overflow-x: clip;
+  }
+
+  html,
+  body {
+    overflow-x: hidden;
+    overflow-x: clip;
+  }
+}
+
 /* ============ consistent side margins on listing pages ============ */
 .page-layout-full main.content {
   max-width: 72rem;
