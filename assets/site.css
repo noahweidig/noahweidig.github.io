@@ -285,12 +285,16 @@ body {
   }
 }
 
-/* ============ tech stack: single column, larger items ============ */
-.nw-stack {
-  grid-template-columns: 1fr;
-  max-width: 36rem;
-  margin: 0 auto;
-  gap: 1.25rem;
+/* ============ tech stack ============ */
+/* Below the desktop breakpoint the mosaic collapses to a single centred
+   column; the desktop mosaic itself lives in theme.scss. */
+@media (max-width: 991.98px) {
+  .nw-stack {
+    grid-template-columns: 1fr;
+    max-width: 36rem;
+    margin: 0 auto;
+    gap: 1.25rem;
+  }
 }
 
 .nw-stack-cat {
@@ -301,10 +305,7 @@ body {
    is always 4x1, 2x2, or 1x4 — never a ragged 3+1 flex wrap that spills text
    out of the card. */
 .nw-stack-items {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
   justify-items: center;
-  align-content: center;
   gap: 1.25rem 1rem;
 }
 
@@ -328,25 +329,6 @@ body {
 .nw-stack-item img {
   width: 2.75rem;
   height: 2.75rem;
-}
-
-/* Deck-peel cards are absolutely positioned and fill their .nw-stack, so the
-   stack needs enough height for the current grid or the text falls out the
-   bottom. Size it per breakpoint to match the 4x1 / 2x2 / 1x4 layouts. */
-.nw-deck-track.is-deck .nw-stack {
-  height: 15rem;
-}
-
-@media (max-width: 560px) {
-  .nw-deck-track.is-deck .nw-stack {
-    height: 21rem; /* two rows */
-  }
-}
-
-@media (max-width: 360px) {
-  .nw-deck-track.is-deck .nw-stack {
-    height: 30rem; /* four rows */
-  }
 }
 
 
