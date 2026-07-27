@@ -1277,8 +1277,10 @@ a.nw-card:hover h3 {
   background: color-mix(in srgb, var(--nw-cta-fg) 8%, transparent);
 }
 
-.nw-cta-foot {
-  margin: 3.4rem 0 0;
+/* scoped to out-specify `.nw-cta-card > p` above, which otherwise zeroes the
+   top margin and collapses this line onto the button row */
+.nw-cta-card > .nw-cta-foot {
+  margin: 2.25rem auto 0;
   font-size: 0.82rem;
   opacity: 0.75;
 }
