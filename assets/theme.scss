@@ -788,6 +788,13 @@ a.nw-card:hover h3 {
   border: 1px solid var(--nw-border);
   border-radius: 1rem;
   padding: 1.5rem;
+  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+
+.nw-stack-cat:hover {
+  transform: translateY(-4px);
+  border-color: var(--nw-primary);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.18);
 }
 
 .nw-stack-cat h3 {
@@ -819,11 +826,6 @@ a.nw-card:hover h3 {
   width: 2.4rem;
   height: 2.4rem;
   object-fit: contain;
-  transition: transform 0.15s;
-}
-
-.nw-stack-item:hover img {
-  transform: scale(1.15);
 }
 
 /* ============ timeline (experience) ============ */
