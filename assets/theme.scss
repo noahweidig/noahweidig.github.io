@@ -781,10 +781,14 @@ a.nw-card:hover h3 {
 }
 
 /* ============ tech stack ============ */
+/* Six category cards laid out as a fixed 2 x 3 mosaic. minmax(0, 1fr) keeps
+   a card from being stretched past its track by its own contents. */
 .nw-stack {
   display: grid;
   gap: 1.5rem;
-  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  max-width: 60rem;
+  margin: 0 auto;
 }
 
 .nw-stack-cat {
@@ -812,11 +816,13 @@ a.nw-card:hover h3 {
 
 .nw-stack-items {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 0.75rem;
 }
 
 .nw-stack-item {
+  min-width: 0;
+  overflow-wrap: anywhere;
   display: flex;
   flex-direction: column;
   align-items: center;
