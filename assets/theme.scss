@@ -64,14 +64,18 @@ body {
   transition: filter 0.2s ease;
 }
 
-/* Logo + site title turn blue together on brand hover. The logo is a black
-   SVG mark, so it uses a filter chain that maps black to $primary #0076DF
-   (source is black in every theme, so it works on both light and dark); the
-   title just takes the blue text color. */
+/* Logo + site title turn blue together on brand hover. Quarto renders them
+   as two sibling .navbar-brand anchors, so the hover lives on the shared
+   .navbar-brand-container — hovering either one colors both. The logo is a
+   black SVG mark, so it uses a filter chain that maps black to $primary
+   #0076DF (source is black in every theme, so it works on both light and
+   dark); the title just takes the blue text color. */
+.navbar .navbar-brand-container:hover img,
 .navbar .navbar-brand:hover img {
   filter: invert(41%) sepia(29%) saturate(3753%) hue-rotate(187deg) brightness(83%) contrast(115%);
 }
 
+.navbar .navbar-brand-container:hover .navbar-title,
 .navbar .navbar-brand:hover .navbar-title {
   color: $primary;
 }

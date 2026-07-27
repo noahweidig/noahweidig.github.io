@@ -121,7 +121,7 @@
   if (!reducedMotion && "IntersectionObserver" in window) {
     var revealables = document.querySelectorAll(
       ".nw-section .nw-title, .nw-section .nw-subtitle, .nw-section .nw-lead, " +
-        ".nw-stat, .nw-card, .nw-proj-wrap, .nw-cite, .nw-post, .nw-stack-cat, " +
+        ".nw-stat, .nw-card, .nw-proj-wrap, .nw-cite, .nw-post, " +
         ".nw-tl-item, .nw-award, .nw-faq details, .nw-contact-card, .nw-globe-wrap, " +
         ".nw-cta-card, .nw-marquee"
     );
@@ -152,4 +152,5 @@
       });
     }
   }
+
 })();
