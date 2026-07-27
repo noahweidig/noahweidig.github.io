@@ -285,33 +285,50 @@ body {
   }
 }
 
-/* ============ tech stack: single column, larger items ============ */
-.nw-stack {
-  grid-template-columns: 1fr;
-  max-width: 36rem;
-  margin: 0 auto;
-  gap: 1.25rem;
-}
-
-.nw-stack-items {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1.5rem 2.75rem;
+/* ============ tech stack ============ */
+/* Below the desktop breakpoint the mosaic collapses to a single centred
+   column; the desktop mosaic itself lives in theme.scss. */
+@media (max-width: 991.98px) {
+  .nw-stack {
+    grid-template-columns: 1fr;
+    max-width: 36rem;
+    margin: 0 auto;
+    gap: 1.25rem;
+  }
 }
 
 .nw-stack-cat {
   text-align: center;
 }
 
+/* Each card holds exactly four items, laid out as a strict grid so the card
+   is always 4x1, 2x2, or 1x4 — never a ragged 3+1 flex wrap that spills text
+   out of the card. */
+.nw-stack-items {
+  justify-items: center;
+  gap: 1.25rem 1rem;
+}
+
+@media (max-width: 560px) {
+  .nw-stack-items {
+    grid-template-columns: repeat(2, 1fr); /* 2x2 */
+  }
+}
+
+@media (max-width: 360px) {
+  .nw-stack-items {
+    grid-template-columns: 1fr; /* 1x4 */
+  }
+}
+
 .nw-stack-item {
-  font-size: 0.95rem;
-  gap: 0.6rem;
+  font-size: 0.9rem;
+  gap: 0.55rem;
 }
 
 .nw-stack-item img {
-  width: 3.25rem;
-  height: 3.25rem;
+  width: 2.75rem;
+  height: 2.75rem;
 }
 
 
@@ -325,6 +342,25 @@ body {
   position: relative;
   max-width: 30rem;
   margin: 0 auto;
+}
+
+/* Narrow screens: the marker label can swing past the viewport edge as the
+   globe spins; clip it at the frame instead of letting it widen the page
+   into a sideways scroll. clip (not hidden) avoids creating a scroll box,
+   and only the x axis is clipped so the label can still rise above the
+   frame. The html/body guard backstops any horizontal overflow the frame
+   clip misses; the hidden line is a fallback for browsers without clip
+   (pre-2022 Safari), and is safe because the navbar is fixed, not sticky. */
+@media (max-width: 767.98px) {
+  .nw-globe-frame {
+    overflow-x: clip;
+  }
+
+  html,
+  body {
+    overflow-x: hidden;
+    overflow-x: clip;
+  }
 }
 
 /* ============ consistent side margins on listing pages ============ */

@@ -1,7 +1,29 @@
 {
+  "id": "/",
   "name": "Noah Weidig",
   "short_name": "Noah W",
+  "description": "Noah Weidig is an ecologist and GIS analyst specializing in geospatial data science, environmental modeling, and large-scale spatial analysis.",
+  "start_url": "/",
+  "scope": "/",
   "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/favicon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    },
     {
       "src": "/web-app-manifest-192x192.png",
       "sizes": "192x192",
@@ -15,7 +37,7 @@
       "purpose": "maskable"
     }
   ],
-  "theme_color": "#ffffff",
+  "theme_color": "#0076DF",
   "background_color": "#ffffff",
   "display": "standalone"
 }

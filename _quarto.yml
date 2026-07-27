@@ -18,6 +18,7 @@ project:
     - robots.txt
     - favicon.ico
     - favicon.svg
+    - safari-pinned-tab.svg
     - favicon-96x96.png
     - apple-touch-icon.png
     - site.webmanifest
@@ -194,9 +195,14 @@ format:
           }
           </script>
           <link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+          <link rel="icon" href="/favicon.ico" sizes="32x32">
+          <link rel="icon" type="image/svg+xml" href="/favicon.svg">
           <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96">
           <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+          <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#0076DF">
           <link rel="manifest" href="/site.webmanifest">
+          <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+          <meta name="theme-color" content="#0a0a0f" media="(prefers-color-scheme: dark)">
 
 execute:
   freeze: true
