@@ -286,14 +286,20 @@ body {
 }
 
 /* ============ tech stack ============ */
-/* Below the desktop breakpoint the mosaic collapses to a single centred
-   column; the desktop mosaic itself lives in theme.scss. */
+/* The desktop mosaic (a strict 2 x 3 grid) lives in theme.scss. The card grid
+   stays even at every width: two equal columns down to the phone breakpoint,
+   then a single centred column so cards never end up ragged. */
 @media (max-width: 991.98px) {
   .nw-stack {
-    grid-template-columns: 1fr;
-    max-width: 36rem;
-    margin: 0 auto;
+    max-width: 44rem;
     gap: 1.25rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .nw-stack {
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 28rem;
   }
 }
 
@@ -309,15 +315,24 @@ body {
   gap: 1.25rem 1rem;
 }
 
+/* Two cards per row leaves each card too narrow for a 4x1 item row on small
+   tablets, so the items go 2x2 there and again on phones once the cards go
+   full width. */
+@media (min-width: 640.02px) and (max-width: 900px) {
+  .nw-stack-items {
+    grid-template-columns: repeat(2, minmax(0, 1fr)); /* 2x2 */
+  }
+}
+
 @media (max-width: 560px) {
   .nw-stack-items {
-    grid-template-columns: repeat(2, 1fr); /* 2x2 */
+    grid-template-columns: repeat(2, minmax(0, 1fr)); /* 2x2 */
   }
 }
 
 @media (max-width: 360px) {
   .nw-stack-items {
-    grid-template-columns: 1fr; /* 1x4 */
+    grid-template-columns: minmax(0, 1fr); /* 1x4 */
   }
 }
 
