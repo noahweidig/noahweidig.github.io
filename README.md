@@ -45,6 +45,11 @@ Actively seeking **Data Scientist** or **GIS Analyst** roles.
 | **Wildfire Risk** | Wildfire risk visualizer by state | [Launch Tool](https://rpubs.com/noahweidig/us-wildfire-risk) |
 | **WordCloud Studio** | Word cloud generator | [Launch Tool](https://www.noahweidig.com/wordcloud/) |
 | **Less.** | A personal exploration of minimalism | [View Site](https://noahweidig.com/less) |
+| **FastStats** | Fast, client-side analytics in the browser | [Open Tool](https://noahweidig.com/faststats/) |
+| **FrameLab** | A tool for browser framing | [Launch Tool](https://noahweidig.com/framelab) |
+| **Lorem Chartsum** | A placeholder chart API | [See API](https://noahweidig.com/lorem-chartsum) |
+| **R Project Template** | A template for creating R projects | [Launch Tool](https://noahweidig.com/r-proj-template/) |
+| **Shelf** | My personal reading journal | [See Journal](https://noahweidig.com/shelf/) |
 
 ---
 
@@ -109,6 +114,8 @@ Ecology / Evolution / Organismal Track · 4.0 GPA
 
 | Award | Organization | Year | Amount |
 |---|---|---|---|
+| Outstanding Thesis in Natural Resources | University of Florida, College of Agricultural & Life Sciences | 2026 | 2025 Academic Year |
+| Outstanding Thesis in Forest Resources & Conservation | University of Florida, School of Forest, Fisheries, & Geomatic Sciences | 2026 | 2025 Academic Year |
 | Outstanding Teaching Assistant of the Year | University of Florida, School of Forest, Fisheries, and Geomatic Sciences | 2025 | 2024 Academic Year |
 | Best Student Presentation | IALE-NA | 2025 | $300 |
 | BioLEAPS Travel Grant | IALE-NA | 2025 | $1,650 |
