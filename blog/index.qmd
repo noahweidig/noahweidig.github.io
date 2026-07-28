@@ -18,7 +18,7 @@ include-after-body:
       <script src="../assets/home.js"></script>
 ---
 
-<div class="nw-filters" data-nw-filter-for="all-posts"></div>
+<div class="nw-filters" data-nw-filter-for="all-posts" data-nw-filter-noun="posts"></div>
 
 ::: {#all-posts .nw-posts}
 :::

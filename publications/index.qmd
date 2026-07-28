@@ -14,7 +14,7 @@ include-after-body:
       <script src="../assets/home.js"></script>
 ---
 
-<div class="nw-filters" data-nw-filter-for="all-pubs"></div>
+<div class="nw-filters" data-nw-filter-for="all-pubs" data-nw-filter-noun="publications"></div>
 
 ::: {#all-pubs .nw-cites}
 :::

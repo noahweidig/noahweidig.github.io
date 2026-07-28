@@ -13,7 +13,7 @@ include-after-body:
       <script src="../assets/home.js"></script>
 ---
 
-<div class="nw-filters" data-nw-filter-for="all-projects"></div>
+<div class="nw-filters" data-nw-filter-for="all-projects" data-nw-filter-noun="projects"></div>
 
 ::: {#all-projects .nw-projects}
 :::

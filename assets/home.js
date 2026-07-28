@@ -33,9 +33,23 @@
     })();
   }
 
-  // Duplicate marquee content so the loop is seamless
+  // Duplicate marquee content so the loop is seamless: the `nw-scroll`
+  // keyframe translates by -50%, which only lines up if the row is exactly
+  // doubled. The copy is decoration — hide it from assistive tech and take it
+  // out of the tab order so the logos aren't announced (or tabbed through)
+  // twice. `aria-hidden` goes on each appended child because the children are
+  // flex items of the track and can't be wrapped without breaking layout.
   document.querySelectorAll(".nw-marquee-track").forEach(function (track) {
-    track.innerHTML += track.innerHTML;
+    var copies = Array.prototype.map.call(track.children, function (child) {
+      var clone = child.cloneNode(true);
+      clone.setAttribute("aria-hidden", "true");
+      if (clone.tagName === "A") clone.tabIndex = -1;
+      clone.querySelectorAll("a, button, input, [tabindex]").forEach(function (f) {
+        f.tabIndex = -1;
+      });
+      return clone;
+    });
+    copies.forEach(function (clone) { track.appendChild(clone); });
   });
 
   // Category filter buttons for card grids (projects, publications)
@@ -51,29 +65,59 @@
     cards().forEach(function (c) {
       (c.dataset.cats || "").split("|").filter(Boolean).forEach(function (t) { cats.add(t); });
     });
+    // The bar is a labelled group of toggle buttons, and filtering changes the
+    // grid without moving focus — so the result count is announced through a
+    // live region, the same pattern the contact form status uses.
+    bar.setAttribute("role", "group");
+    if (!bar.getAttribute("aria-label")) bar.setAttribute("aria-label", "Filter by category");
+    var noun = bar.dataset.nwFilterNoun || "items";
+    var status = document.createElement("p");
+    status.className = "nw-sr-only nw-filter-status";
+    status.setAttribute("role", "status");
+    status.setAttribute("aria-live", "polite");
+    bar.insertAdjacentElement("afterend", status);
+
     var mk = function (label, cat) {
       var b = document.createElement("button");
+      // Explicit, so dropping the bar inside a <form> later can't turn every
+      // filter click into a submit (createElement defaults to type="submit").
+      b.type = "button";
       b.textContent = label;
+      // The category lives on the element, not in the label text, so deep
+      // links keep working if the visible label is ever reformatted.
+      if (cat) b.dataset.cat = cat;
+      b.setAttribute("aria-pressed", "false");
       b.onclick = function () {
-        bar.querySelectorAll("button").forEach(function (x) { x.classList.remove("active"); });
+        bar.querySelectorAll("button").forEach(function (x) {
+          x.classList.remove("active");
+          x.setAttribute("aria-pressed", "false");
+        });
         b.classList.add("active");
+        b.setAttribute("aria-pressed", "true");
+        var shown = 0, total = 0;
         cards().forEach(function (c) {
           var show = !cat || (c.dataset.cats || "").split("|").indexOf(cat) !== -1;
           (c.closest(".nw-proj-wrap") || c).style.display = show ? "" : "none";
+          total++;
+          if (show) shown++;
         });
+        status.textContent = "Showing " + shown + " of " + total + " " + noun +
+          (cat ? " in " + label : "");
       };
       bar.appendChild(b);
       return b;
     };
-    mk("All", null).classList.add("active");
+    var all = mk("All", null);
+    all.classList.add("active");
+    all.setAttribute("aria-pressed", "true");
     Array.from(cats).sort().forEach(function (c) { mk(c, c); });
 
     // Deep link: #category=X (used by tags on detail pages)
     var m = location.hash.match(/category=([^&]*)/);
     if (m) {
       var want = decodeURIComponent(m[1].replace(/\+/g, " "));
-      bar.querySelectorAll("button").forEach(function (b) {
-        if (b.textContent === want) b.click();
+      bar.querySelectorAll("button[data-cat]").forEach(function (b) {
+        if (b.dataset.cat === want) b.click();
       });
     }
   });
