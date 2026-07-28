@@ -988,6 +988,10 @@ a.nw-card:hover h3 {
 
 .nw-award img {
   width: 100%;
+  /* Required now that the markup carries width/height attributes: without it
+     the height attribute is used as a presentational hint, which specifies
+     both axes and makes aspect-ratio inert. */
+  height: auto;
   aspect-ratio: 4/3;
   object-fit: cover;
   border-radius: 0.9rem;
@@ -1289,6 +1293,19 @@ a.nw-card:hover h3 {
   .nw-cta-card {
     padding: 2.75rem 1.5rem;
   }
+}
+
+/* Visually hidden, still announced: used for the filter result live region. */
+.nw-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 /* ============ filter buttons (projects page) ============ */

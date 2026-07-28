@@ -185,40 +185,40 @@ include-after-body:
     <p class="nw-subtitle">Technologies I use to build things</p>
     <div class="nw-stack">
       <div class="nw-stack-cat"><h3>Languages</h3><div class="nw-stack-items">
-        <span class="nw-stack-item"><img src="assets/media/icons/devicon/r-original.svg" alt="" loading="lazy">R</span>
-        <span class="nw-stack-item"><img src="assets/media/icons/devicon/python-original.svg" alt="" loading="lazy">Python</span>
-        <span class="nw-stack-item"><img src="assets/media/icons/devicon/javascript-original.svg" alt="" loading="lazy">JavaScript</span>
-        <span class="nw-stack-item"><img src="assets/media/icons/devicon/azuresqldatabase-original.svg" alt="" loading="lazy">SQL</span>
+        <span class="nw-stack-item"><img src="assets/media/icons/devicon/r-original.svg" width="128" height="128" alt="" loading="lazy">R</span>
+        <span class="nw-stack-item"><img src="assets/media/icons/devicon/python-original.svg" width="128" height="128" alt="" loading="lazy">Python</span>
+        <span class="nw-stack-item"><img src="assets/media/icons/devicon/javascript-original.svg" width="128" height="128" alt="" loading="lazy">JavaScript</span>
+        <span class="nw-stack-item"><img src="assets/media/icons/devicon/azuresqldatabase-original.svg" width="128" height="128" alt="" loading="lazy">SQL</span>
       </div></div>
       <div class="nw-stack-cat"><h3>Markup</h3><div class="nw-stack-items">
-        <span class="nw-stack-item"><img src="assets/media/icons/devicon/markdown-original.svg" alt="" loading="lazy" class="nw-inv">Markdown</span>
-        <span class="nw-stack-item"><img src="assets/media/icons/devicon/latex-original.svg" alt="" loading="lazy" class="nw-inv">LaTeX</span>
-        <span class="nw-stack-item"><img src="assets/media/icons/devicon/html5-original.svg" alt="" loading="lazy">HTML</span>
-        <span class="nw-stack-item"><img src="assets/media/icons/devicon/css3-original.svg" alt="" loading="lazy">CSS</span>
+        <span class="nw-stack-item"><img src="assets/media/icons/devicon/markdown-original.svg" width="128" height="128" alt="" loading="lazy" class="nw-inv">Markdown</span>
+        <span class="nw-stack-item"><img src="assets/media/icons/devicon/latex-original.svg" width="128" height="128" alt="" loading="lazy" class="nw-inv">LaTeX</span>
+        <span class="nw-stack-item"><img src="assets/media/icons/devicon/html5-original.svg" width="128" height="128" alt="" loading="lazy">HTML</span>
+        <span class="nw-stack-item"><img src="assets/media/icons/devicon/css3-original.svg" width="128" height="128" alt="" loading="lazy">CSS</span>
       </div></div>
       <div class="nw-stack-cat"><h3>Workflows</h3><div class="nw-stack-items">
-        <span class="nw-stack-item"><img src="assets/media/icons/devicon/git-original.svg" alt="" loading="lazy">Git</span>
-        <span class="nw-stack-item"><img src="assets/media/icons/devicon/github-original.svg" alt="" loading="lazy" class="nw-inv">GitHub</span>
-        <span class="nw-stack-item"><img src="assets/media/icons/devicon/githubactions-original.svg" alt="" loading="lazy">Actions</span>
-        <span class="nw-stack-item"><img src="assets/media/icons/devicon/anaconda-original.svg" alt="" loading="lazy">Conda</span>
+        <span class="nw-stack-item"><img src="assets/media/icons/devicon/git-original.svg" width="128" height="128" alt="" loading="lazy">Git</span>
+        <span class="nw-stack-item"><img src="assets/media/icons/devicon/github-original.svg" width="128" height="128" alt="" loading="lazy" class="nw-inv">GitHub</span>
+        <span class="nw-stack-item"><img src="assets/media/icons/devicon/githubactions-original.svg" width="128" height="128" alt="" loading="lazy">Actions</span>
+        <span class="nw-stack-item"><img src="assets/media/icons/devicon/anaconda-original.svg" width="128" height="128" alt="" loading="lazy">Conda</span>
       </div></div>
       <div class="nw-stack-cat"><h3>Libraries</h3><div class="nw-stack-items">
-        <span class="nw-stack-item"><img src="assets/media/icons/custom/tidyverse.svg" alt="" loading="lazy">tidyverse</span>
-        <span class="nw-stack-item"><img src="assets/media/icons/devicon/pandas-original.svg" alt="" loading="lazy" class="nw-inv">pandas</span>
-        <span class="nw-stack-item"><img src="assets/media/icons/devicon/numpy-original.svg" alt="" loading="lazy">NumPy</span>
-        <span class="nw-stack-item"><img src="assets/media/icons/devicon/plotly-original.svg" alt="" loading="lazy">Plotly</span>
+        <span class="nw-stack-item"><img src="assets/media/icons/custom/tidyverse.svg" width="2521" height="2911" alt="" loading="lazy">tidyverse</span>
+        <span class="nw-stack-item"><img src="assets/media/icons/devicon/pandas-original.svg" width="128" height="128" alt="" loading="lazy" class="nw-inv">pandas</span>
+        <span class="nw-stack-item"><img src="assets/media/icons/devicon/numpy-original.svg" width="128" height="128" alt="" loading="lazy">NumPy</span>
+        <span class="nw-stack-item"><img src="assets/media/icons/devicon/plotly-original.svg" width="128" height="128" alt="" loading="lazy">Plotly</span>
       </div></div>
       <div class="nw-stack-cat"><h3>GIS</h3><div class="nw-stack-items">
-        <span class="nw-stack-item"><img src="assets/media/icons/custom/arcgis.svg" alt="" loading="lazy">ArcGIS Pro</span>
-        <span class="nw-stack-item"><img src="assets/media/icons/custom/gee.svg" alt="" loading="lazy">GEE</span>
-        <span class="nw-stack-item"><img src="assets/media/icons/custom/qgis.svg" alt="" loading="lazy">QGIS</span>
-        <span class="nw-stack-item"><img src="assets/media/icons/custom/gdal.svg" alt="" loading="lazy">GDAL</span>
+        <span class="nw-stack-item"><img src="assets/media/icons/custom/arcgis.svg" width="24" height="24" alt="" loading="lazy">ArcGIS Pro</span>
+        <span class="nw-stack-item"><img src="assets/media/icons/custom/gee.svg" width="24" height="24" alt="" loading="lazy">GEE</span>
+        <span class="nw-stack-item"><img src="assets/media/icons/custom/qgis.svg" width="256" height="256" alt="" loading="lazy">QGIS</span>
+        <span class="nw-stack-item"><img src="assets/media/icons/custom/gdal.svg" width="64" height="64" alt="" loading="lazy">GDAL</span>
       </div></div>
       <div class="nw-stack-cat"><h3>GIS Tools</h3><div class="nw-stack-items">
-        <span class="nw-stack-item"><img src="assets/media/icons/custom/sf.svg" alt="" loading="lazy">sf</span>
-        <span class="nw-stack-item"><img src="assets/media/icons/custom/terra.svg" alt="" loading="lazy">terra</span>
-        <span class="nw-stack-item"><img src="assets/media/icons/custom/geopandas.svg" alt="" loading="lazy">GeoPandas</span>
-        <span class="nw-stack-item"><img src="assets/media/icons/custom/openstreetmap.svg" alt="" loading="lazy">OSM</span>
+        <span class="nw-stack-item"><img src="assets/media/icons/custom/sf.svg" width="483" height="589" alt="" loading="lazy">sf</span>
+        <span class="nw-stack-item"><img src="assets/media/icons/custom/terra.svg" width="785" height="881" alt="" loading="lazy">terra</span>
+        <span class="nw-stack-item"><img src="assets/media/icons/custom/geopandas.svg" width="314" height="314" alt="" loading="lazy">GeoPandas</span>
+        <span class="nw-stack-item"><img src="assets/media/icons/custom/openstreetmap.svg" width="260" height="260" alt="" loading="lazy">OSM</span>
       </div></div>
     </div>
   </div>
@@ -308,17 +308,17 @@ include-after-body:
   <div class="nw-section-inner">
     <h2 class="nw-title">Where I've Worked &amp; Studied</h2>
     <p class="nw-subtitle">Institutions and agencies I've contributed to</p>
-    <div class="nw-marquee">
+    <div class="nw-marquee" role="group" aria-label="Affiliations">
       <div class="nw-marquee-track">
-        <a href="https://www.ufl.edu/" target="_blank" rel="noopener"><img src="assets/media/icons/custom/uf.svg" alt="University of Florida" loading="lazy"></a>
-        <a href="https://www.ars.usda.gov/" target="_blank" rel="noopener"><img src="assets/media/icons/custom/ars.svg" alt="USDA Agricultural Research Service" loading="lazy"></a>
-        <a href="https://www.fs.usda.gov/" target="_blank" rel="noopener"><img src="assets/media/icons/custom/fs.svg" alt="USDA Forest Service" loading="lazy"></a>
-        <a href="https://www.uc.edu/" target="_blank" rel="noopener"><img src="assets/media/icons/custom/uc.svg" alt="University of Cincinnati" loading="lazy"></a>
-        <a href="https://www.nku.edu/" target="_blank" rel="noopener"><img src="assets/media/icons/custom/nku.svg" alt="Northern Kentucky University" loading="lazy"></a>
-        <a href="https://thesca.org/" target="_blank" rel="noopener"><img src="assets/media/icons/custom/sca.svg" alt="Student Conservation Association" loading="lazy"></a>
-        <a href="https://boonecountyclerk.ky.gov/" target="_blank" rel="noopener"><img src="assets/media/icons/custom/boone.svg" alt="Boone County Clerk's Office" loading="lazy"></a>
-        <a href="https://www.garageliving.com/f/cincinnati" target="_blank" rel="noopener"><img src="assets/media/icons/custom/garage-living.svg" alt="Garage Living" loading="lazy"></a>
-        <a href="https://ecos.fws.gov/" target="_blank" rel="noopener"><img src="assets/media/icons/custom/ecos.svg" alt="ECOS" loading="lazy"></a>
+        <a href="https://www.ufl.edu/" target="_blank" rel="noopener"><img src="assets/media/icons/custom/uf.svg" width="800" height="600" alt="University of Florida" loading="lazy"></a>
+        <a href="https://www.ars.usda.gov/" target="_blank" rel="noopener"><img src="assets/media/icons/custom/ars.svg" width="800" height="600" alt="USDA Agricultural Research Service" loading="lazy"></a>
+        <a href="https://www.fs.usda.gov/" target="_blank" rel="noopener"><img src="assets/media/icons/custom/fs.svg" width="600" height="450" alt="USDA Forest Service" loading="lazy"></a>
+        <a href="https://www.uc.edu/" target="_blank" rel="noopener"><img src="assets/media/icons/custom/uc.svg" width="800" height="600" alt="University of Cincinnati" loading="lazy"></a>
+        <a href="https://www.nku.edu/" target="_blank" rel="noopener"><img src="assets/media/icons/custom/nku.svg" width="586" height="290" alt="Northern Kentucky University" loading="lazy"></a>
+        <a href="https://thesca.org/" target="_blank" rel="noopener"><img src="assets/media/icons/custom/sca.svg" width="622" height="849" alt="Student Conservation Association" loading="lazy"></a>
+        <a href="https://boonecountyclerk.ky.gov/" target="_blank" rel="noopener"><img src="assets/media/icons/custom/boone.svg" width="600" height="600" alt="Boone County Clerk's Office" loading="lazy"></a>
+        <a href="https://www.garageliving.com/f/cincinnati" target="_blank" rel="noopener"><img src="assets/media/icons/custom/garage-living.svg" width="600" height="178" alt="Garage Living" loading="lazy"></a>
+        <a href="https://ecos.fws.gov/" target="_blank" rel="noopener"><img src="assets/media/icons/custom/ecos.svg" width="148" height="161" alt="ECOS" loading="lazy"></a>
       </div>
     </div>
     <div class="nw-btns" style="margin-top:1.5rem"><a class="nw-btn nw-btn-ghost" href="https://noahweidig.com/geo-portfolio">See Where I've Been →</a></div>
@@ -330,10 +330,10 @@ include-after-body:
     <h2 class="nw-title">Featured Awards</h2>
     <p class="nw-subtitle">A selection of recent honors</p>
     <div class="nw-carousel">
-      <a class="nw-award" href="awards/outstanding-thesis-natural-resources/"><figure><img src="assets/media/albums/awards/outstanding-thesis-natural-resources.webp" alt="Outstanding Thesis in Natural Resources" loading="lazy"><figcaption><b>Outstanding Thesis in Natural Resources</b><span>University of Florida, College of Agricultural &amp; Life Sciences</span></figcaption></figure></a>
-      <a class="nw-award" href="awards/outstanding-thesis-forest-resources/"><figure><img src="assets/media/albums/awards/outstanding-thesis-forest-resources.webp" alt="Outstanding Thesis in Forest Resources & Conservation" loading="lazy"><figcaption><b>Outstanding Thesis in Forest Resources &amp; Conservation</b><span>University of Florida, School of Forest, Fisheries, &amp; Geomatic Sciences</span></figcaption></figure></a>
-      <a class="nw-award" href="awards/best-student-presentation/"><figure><img src="assets/media/albums/awards/best-student-presentation.webp" alt="Best Student Presentation" loading="lazy"><figcaption><b>Best Student Presentation</b><span>International Association of Landscape Ecology – North America</span></figcaption></figure></a>
-      <a class="nw-award" href="awards/outstanding-graduate-biology/"><figure><img src="assets/media/albums/awards/outstanding-graduate-biology.webp" alt="Outstanding Graduate in Biology" loading="lazy"><figcaption><b>Outstanding Graduate in Biology</b><span>Northern Kentucky University, Department of Biological Sciences</span></figcaption></figure></a>
+      <a class="nw-award" href="awards/outstanding-thesis-natural-resources/"><figure><img src="assets/media/albums/awards/outstanding-thesis-natural-resources.webp" width="1200" height="675" alt="Outstanding Thesis in Natural Resources" loading="lazy"><figcaption><b>Outstanding Thesis in Natural Resources</b><span>University of Florida, College of Agricultural &amp; Life Sciences</span></figcaption></figure></a>
+      <a class="nw-award" href="awards/outstanding-thesis-forest-resources/"><figure><img src="assets/media/albums/awards/outstanding-thesis-forest-resources.webp" width="1200" height="675" alt="Outstanding Thesis in Forest Resources & Conservation" loading="lazy"><figcaption><b>Outstanding Thesis in Forest Resources &amp; Conservation</b><span>University of Florida, School of Forest, Fisheries, &amp; Geomatic Sciences</span></figcaption></figure></a>
+      <a class="nw-award" href="awards/best-student-presentation/"><figure><img src="assets/media/albums/awards/best-student-presentation.webp" width="1200" height="900" alt="Best Student Presentation" loading="lazy"><figcaption><b>Best Student Presentation</b><span>International Association of Landscape Ecology – North America</span></figcaption></figure></a>
+      <a class="nw-award" href="awards/outstanding-graduate-biology/"><figure><img src="assets/media/albums/awards/outstanding-graduate-biology.webp" width="1200" height="675" alt="Outstanding Graduate in Biology" loading="lazy"><figcaption><b>Outstanding Graduate in Biology</b><span>Northern Kentucky University, Department of Biological Sciences</span></figcaption></figure></a>
     </div>
     <div class="nw-btns" style="margin-top:2rem"><a class="nw-btn nw-btn-ghost" href="awards/">See All Awards →</a></div>
   </div>
