@@ -1,8 +1,15 @@
 // Landing-page interactivity: typewriter, project filters, marquee duplication.
 (function () {
-  // Typewriter
+  var reducedMotion =
+    window.matchMedia &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // Typewriter. Under reduced motion the first string is rendered statically
+  // instead of being typed, so the heading never animates its text.
   var el = document.querySelector("#hero .nw-typed");
-  if (el) {
+  if (el && reducedMotion) {
+    el.textContent = (JSON.parse(el.dataset.strings || "[]")[0]) || "";
+  } else if (el) {
     var strings = JSON.parse(el.dataset.strings || "[]");
     var typeSpeed = 70, deleteSpeed = 40, pauseTime = 2500;
     var idx = 0, pos = 0, deleting = false;
@@ -110,10 +117,6 @@
         });
     });
   }
-
-  var reducedMotion =
-    window.matchMedia &&
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   // Scroll reveal: fade sections' items in as they enter the viewport.
   // Elements already on screen at load are never hidden, so first paint (and

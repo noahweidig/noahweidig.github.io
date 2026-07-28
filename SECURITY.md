@@ -1,21 +1,29 @@
 # Security Policy
 
-## Supported Versions
+## Scope
 
-Use this section to tell people about which versions of your project are
-currently being supported with security updates.
+This repository is the source for my personal website, a static
+[Quarto](https://quarto.org) site published at
+[noahweidig.com](https://noahweidig.com). It ships no releases and no versioned
+artifacts, so there is nothing to support on a per-version basis: only the
+currently deployed site and the current `main` branch are in scope.
 
-| Version | Supported          |
-| ------- | ------------------ |
-| 5.1.x   | :white_check_mark: |
-| 5.0.x   | :x:                |
-| 4.0.x   | :white_check_mark: |
-| < 4.0   | :x:                |
+Reports about the deployed site, the build configuration, or a dependency
+pinned in this repository are all welcome. Findings in third-party services the
+site links out to (hosted apps, Formspree, GitHub Pages itself) should go to
+those providers directly.
 
 ## Reporting a Vulnerability
 
-Use this section to tell people how to report a vulnerability.
+Please report privately rather than opening a public issue:
 
-Tell them where to go, how often they can expect to get an update on a
-reported vulnerability, what to expect if the vulnerability is accepted or
-declined, etc.
+- **Preferred:** [open a private security advisory](https://github.com/noahweidig/noahweidig.github.io/security/advisories/new)
+  on this repository's Security tab.
+- **Alternative:** email <noah@noahweidig.com>.
+
+Include what you found, where, and the steps to reproduce it.
+
+I maintain this site on my own, so response times are best effort: expect an
+acknowledgement within about a week. If a report is accepted I will fix it on
+`main` and redeploy, then credit you in the advisory unless you would rather
+stay anonymous. If I decline a report I will explain why.

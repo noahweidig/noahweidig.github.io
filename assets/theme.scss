@@ -1813,3 +1813,37 @@ body:has(.nw-cv) #title-block-header {
 .code-with-filename > pre {
   background-color: var(--nw-code-bg) !important;
 }
+
+/* ---------------------------------------------------------------------------
+   Reduced motion
+
+   The JS-driven motion (particles hero, globe, scroll reveal, typewriter)
+   already checks `prefers-reduced-motion` at its call sites. These rules cover
+   the CSS side: the infinite animations that would otherwise keep running —
+   the logo marquee, the typewriter caret, and the two availability pulse dots.
+   Each element stays visible and legible, it simply holds still.
+   --------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  /* Logo marquee: stop the 40s horizontal scroll and let the row be swiped or
+     scrolled manually instead (hover-to-pause is not keyboard/touch reachable). */
+  .nw-marquee-track {
+    animation: none;
+    transform: none;
+  }
+
+  .nw-marquee {
+    overflow-x: auto;
+  }
+
+  /* Caret and availability dots: hold at full opacity rather than blinking. */
+  #hero .nw-type .nw-caret,
+  #hero .nw-status::before,
+  .nw-cta-status::before {
+    animation: none;
+    opacity: 1;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+}
