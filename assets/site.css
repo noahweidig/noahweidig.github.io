@@ -527,6 +527,10 @@ img.nw-detail-hero {
 
 .nw-footer-brand .nw-footer-logo img {
   height: 1.75rem;
+  /* Required now that the markup carries width/height attributes: the width
+     attribute would otherwise act as a presentational hint and size the logo
+     at its intrinsic 920px. */
+  width: auto;
 }
 
 .nw-footer-brand p {

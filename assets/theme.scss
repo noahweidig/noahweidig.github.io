@@ -988,6 +988,10 @@ a.nw-card:hover h3 {
 
 .nw-award img {
   width: 100%;
+  /* Required now that the markup carries width/height attributes: without it
+     the height attribute is used as a presentational hint, which specifies
+     both axes and makes aspect-ratio inert. */
+  height: auto;
   aspect-ratio: 4/3;
   object-fit: cover;
   border-radius: 0.9rem;
