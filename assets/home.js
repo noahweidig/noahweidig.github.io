@@ -75,7 +75,7 @@
     status.className = "nw-sr-only nw-filter-status";
     status.setAttribute("role", "status");
     status.setAttribute("aria-live", "polite");
-    bar.insertAdjacentElement("afterend", status);
+    bar.after(status);
 
     var mk = function (label, cat) {
       var b = document.createElement("button");
