@@ -80,8 +80,14 @@ document.addEventListener(
   btn.setAttribute("aria-label", "Back to top");
   btn.innerHTML =
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg>';
+  // An explicit `behavior: "smooth"` overrides the CSS `scroll-behavior: auto`
+  // set under reduced motion, so check the preference here too (live, rather
+  // than cached, so a mid-session change to the setting is respected).
   btn.addEventListener("click", function () {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    var reduce =
+      window.matchMedia &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
   });
   document.body.appendChild(btn);
   // Read scrollY inside rAF so the toggle doesn't force a synchronous reflow
