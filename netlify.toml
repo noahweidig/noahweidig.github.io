@@ -2,13 +2,29 @@
 # (deployed from `main` via .github/workflows/publish.yml).
 #
 # Netlify's build image has no Quarto binary, so install it (pinned to the
-# same version as CI) before rendering.
+# same version as CI) before rendering. The tarball is downloaded to disk and
+# checksum-verified before anything is extracted or executed: GitHub release
+# assets are mutable, so a version pin alone doesn't guarantee the bytes.
+# `set -eu` plus `curl -f` means a failed or 404'd download stops the build
+# here instead of falling through to a "quarto: not found" further down.
+# (The old `curl | tar` form reported only tar's exit status, so a download
+# failure was invisible; there is no pipe left to need `pipefail`, which is
+# not POSIX and would itself fail under dash.)
+#
+# When bumping QUARTO_VERSION, update QUARTO_SHA256 from that release's
+# quarto-<version>-checksums.txt.
 [build]
   publish = "_site"
   command = """
-curl -sL https://github.com/quarto-dev/quarto-cli/releases/download/v${QUARTO_VERSION}/quarto-${QUARTO_VERSION}-linux-amd64.tar.gz | tar -xz && \
-export PATH="$PWD/quarto-${QUARTO_VERSION}/bin:$PATH" && \
+set -eu
+QUARTO_TARBALL="quarto-${QUARTO_VERSION}-linux-amd64.tar.gz"
+curl -fsSL -o "$QUARTO_TARBALL" \
+  "https://github.com/quarto-dev/quarto-cli/releases/download/v${QUARTO_VERSION}/${QUARTO_TARBALL}"
+echo "${QUARTO_SHA256}  ${QUARTO_TARBALL}" | sha256sum -c -
+tar -xzf "$QUARTO_TARBALL"
+export PATH="$PWD/quarto-${QUARTO_VERSION}/bin:$PATH"
 quarto render"""
 
 [build.environment]
   QUARTO_VERSION = "1.9.38"
+  QUARTO_SHA256 = "ea8c897368791ad9f200010c087ea3111b2e556b12a960487dd4e216902aa102"
