@@ -223,12 +223,22 @@ async function main() {
     .filter((it) => it.data.itemType !== "attachment" && it.key)
     .sort((a, b) => a.key.localeCompare(b.key));
 
+  // Collisions are disambiguated with a slice of the Zotero item key rather
+  // than an ordinal. An ordinal depends on which *other* items exist, so
+  // removing or renaming one member of a colliding pair silently renumbers the
+  // survivor and 404s its published URL. The key is intrinsic to the item and
+  // survives edits, so a page's URL stops moving underneath it. Only colliding
+  // slugs take the suffix, so the common case stays clean.
   const slugCounts = new Map();
   for (const it of entries) {
     const base = buildSlug(it.data.creators, stripHtml(it.data.title || ""), extractYear(it.data.date));
-    const n = (slugCounts.get(base) || 0) + 1;
-    slugCounts.set(base, n);
-    it.__slug = n === 1 ? base : `${base}-${n}`;
+    slugCounts.set(base, (slugCounts.get(base) || 0) + 1);
+    it.__base = base;
+  }
+  for (const it of entries) {
+    it.__slug = slugCounts.get(it.__base) === 1
+      ? it.__base
+      : `${it.__base}-${it.key.toLowerCase().slice(0, 4)}`;
   }
 
   let written = 0;
