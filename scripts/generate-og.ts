@@ -13,9 +13,12 @@
  *      Quarto rendered — nothing to update by hand);
  *   2. writes a deterministic 1200x630 pure-SVG card (text + procedural
  *      topographic contour lines seeded from the page's slug — no raster
- *      images, no external assets) to <output-dir>/assets/og/<slug>.svg;
- *   3. rewrites the page's og:image / twitter:image metadata to point at
- *      that card, using the absolute site-url from _quarto.yml.
+ *      images, no external assets) to <output-dir>/assets/og/<slug>.svg.
+ *
+ * The rendered pages' og:image / twitter:image tags are left alone: no major
+ * link unfurler renders image/svg+xml, so pointing them at these cards only
+ * blanked out the previews that `website.image` in _quarto.yml was already
+ * serving. Wire the tags back up once the cards are emitted as PNG.
  *
  * Design tokens mirror assets/theme.scss + theme-dark.scss: Inter, brand
  * blue #0076DF, background #0a0a0f, foreground #e5e7eb, muted #9ca3af,
@@ -254,15 +257,6 @@ function readMeta(html: string, attr: "property" | "name", key: string): string 
   return m ? decodeEntities(m[1]) : null;
 }
 
-function upsertMeta(html: string, attr: "property" | "name", key: string, value: string): string {
-  const escaped = esc(value);
-  for (const a of [attr, attr === "property" ? "name" : "property"] as const) {
-    const re = new RegExp(`(<meta ${a}="${key}" content=")[^"]*(">?)`);
-    if (re.test(html)) return html.replace(re, `$1${escaped}$2`);
-  }
-  return html.replace("</head>", `<meta ${attr}="${key}" content="${escaped}">\n</head>`);
-}
-
 function* walkHtml(dir: string): Generator<string> {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
     const full = path.join(dir, entry.name);
@@ -290,10 +284,6 @@ function main(): void {
     process.exit(1);
   }
 
-  const quartoYml = fs.readFileSync(path.join(projectRoot, "_quarto.yml"), "utf8");
-  const siteUrlMatch = quartoYml.match(/^\s*site-url:\s*["']?([^"'\s]+)/m);
-  const siteUrl = (siteUrlMatch ? siteUrlMatch[1] : "/").replace(/\/$/, "");
-
   const ogDir = path.join(outputDir, "assets", "og");
   fs.mkdirSync(ogDir, { recursive: true });
 
@@ -317,15 +307,14 @@ function main(): void {
     const svg = renderCard({ title, description, author, section, slug });
     fs.writeFileSync(path.join(ogDir, `${slug}.svg`), svg);
 
-    const imageUrl = `${siteUrl}/assets/og/${slug}.svg`;
-    let out = html;
-    out = upsertMeta(out, "property", "og:image", imageUrl);
-    out = upsertMeta(out, "property", "og:image:width", String(W));
-    out = upsertMeta(out, "property", "og:image:height", String(H));
-    out = upsertMeta(out, "property", "og:image:alt", title);
-    out = upsertMeta(out, "name", "twitter:image", imageUrl);
-    out = upsertMeta(out, "name", "twitter:card", "summary_large_image");
-    if (out !== html) fs.writeFileSync(file, out);
+    // Deliberately *not* rewriting og:image / twitter:image to the SVG.
+    // No major unfurler (Facebook, X, LinkedIn, Slack, Discord, iMessage)
+    // renders image/svg+xml — SVG is active content, so they refuse it by
+    // design. Pointing the tags at a card nobody can render is worse than
+    // leaving them alone, because upsertMeta overwrites the working
+    // `website.image` default from _quarto.yml and previews lose their
+    // image entirely. The cards are written as assets and will be wired
+    // back up once there's a raster (PNG) card to point at.
     count++;
   }
   console.log(`[og-cards] generated ${count} cards in ${path.relative(projectRoot, ogDir)}`);
