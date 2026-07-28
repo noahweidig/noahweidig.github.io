@@ -44,9 +44,15 @@ website:
   description: "Noah is an ecologist and GIS analyst specializing in geospatial data science, environmental modeling, and large-scale spatial analysis."
   site-url: "https://noahweidig.com/"
   llms-txt: true
-  google-analytics: "G-WSCVDHQJ7H"
+  # Cookieless GA4: `storage: none` stops gtag from writing _ga/_ga_* cookies,
+  # so no ePrivacy/GDPR consent banner is required. Returning visitors are no
+  # longer identified across sessions — page/referrer stats are unaffected.
+  google-analytics:
+    tracking-id: "G-WSCVDHQJ7H"
+    anonymous-ip: true
+    storage: none
   favicon: favicon.svg
-  image: assets/media/authors/me.webp
+  image: /assets/media/authors/me.webp
   open-graph: true
   twitter-card: true
   navbar:
@@ -130,7 +136,7 @@ website:
       </div>
       </div>
       <div class="nw-footer-bottom">
-      <div>© <span data-nw-copyright-year>2026</span> Noah Weidig · Built with <a href="https://quarto.org" class="nw-quarto-credit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 4V20"/><path d="M4 12H20"/></svg>Quarto</a>. All Rights Reserved.</div>
+      <div><a href="/privacy">Privacy</a> · © <span data-nw-copyright-year>2026</span> Noah Weidig · Built with <a href="https://quarto.org" class="nw-quarto-credit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 4V20"/><path d="M4 12H20"/></svg>Quarto</a>. All Rights Reserved.</div>
       </div>
       </div>
 

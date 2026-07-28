@@ -198,7 +198,7 @@
   // ── lazy init ──────────────────────────────────────────────────────────────
 
   function start() {
-    fetch("assets/data/globe-dots.json")
+    fetch("/assets/data/globe-dots.json")
       .then(function (r) {
         return r.json();
       })
@@ -217,8 +217,12 @@
         if (reduceMotion || !visible) draw();
         if (visible) setRunning(true);
       })
-      .catch(function () {
-        /* decorative: fail silently, the layout stands on its own */
+      .catch(function (err) {
+        /* decorative: never surface to visitors, the layout stands on its
+           own — but leave a debug trace so a broken path is diagnosable. */
+        if (window.console && console.debug) {
+          console.debug("[nw-globe] dot data unavailable:", err);
+        }
       });
   }
 

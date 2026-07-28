@@ -1,0 +1,51 @@
+---
+title: "Privacy"
+description: "What this site collects, why, and how to opt out — analytics, the contact form, and third-party services."
+toc: false
+---
+
+*Last updated: 28 July 2026*
+
+This is a personal portfolio site. It sells nothing, has no accounts, and
+collects as little as it can get away with.
+
+## Analytics
+
+The site uses Google Analytics 4 in **cookieless** mode. No `_ga` cookies are
+written, nothing is stored in your browser between visits, and IP addresses are
+anonymised before processing. What is recorded is aggregate: which pages get
+read, roughly where traffic comes from, and which links referred it. There is
+no way for me to tie any of that back to you, and no returning-visitor
+tracking.
+
+If you would rather send nothing at all, any content or tracker blocker will
+stop the requests, as will your browser's "Do Not Track" or equivalent setting
+in blockers that honour it.
+
+## Contact form
+
+The contact form on the [home page](/#contact) is handled by
+[Formspree](https://formspree.io/legal/privacy-policy). Whatever you type into
+it — your name, email address, and message — is transmitted to Formspree and
+forwarded to my inbox. It is used to reply to you and nothing else: no mailing
+list, no sharing, no resale. You can email me directly at
+[noah@noahweidig.com](mailto:noah@noahweidig.com) instead if you would rather
+skip the intermediary.
+
+## Scheduling
+
+The "Book a Call" links go to [Cal.com](https://cal.com/privacy), which handles
+its own booking data under its own privacy policy.
+
+## Hosting and fonts
+
+The site is static, served by GitHub Pages, with deploy previews on Netlify.
+Both keep standard server request logs, which I do not have access to. Fonts
+are self-hosted, so no font CDN sees your visit.
+
+## Your rights
+
+If you are in the EU, UK, or another jurisdiction with data protection law and
+want to know what I hold about you, or want it deleted, email
+[noah@noahweidig.com](mailto:noah@noahweidig.com). In practice the only thing
+that ever exists is a message you sent me yourself.
