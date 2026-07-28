@@ -1291,6 +1291,19 @@ a.nw-card:hover h3 {
   }
 }
 
+/* Visually hidden, still announced: used for the filter result live region. */
+.nw-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 /* ============ filter buttons (projects page) ============ */
 .nw-filters {
   display: flex;

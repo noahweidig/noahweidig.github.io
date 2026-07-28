@@ -1,6 +1,21 @@
 /* Minor fixes that don't belong in the SCSS theme layers */
-html {
-  scroll-behavior: smooth;
+
+/* Guarded at the point of declaration rather than overridden later: Quarto
+   emits the compiled theme bundle before `css:` files, so an unconditional
+   rule here would out-cascade the `prefers-reduced-motion` block in
+   theme.scss (identical `html` specificity, later stylesheet wins). */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* The navbar logo is emitted by Quarto, so width/height attributes can't be
+   added to the markup; Bootstrap sizes it `max-height: 24px; width: auto`,
+   which leaves its width unknown until the SVG loads. Declaring the intrinsic
+   ratio (logo.svg viewBox 919.6 x 1078.72) reserves the box up front. */
+.navbar-logo {
+  aspect-ratio: 920 / 1079;
 }
 
 /* ============ color-scheme toggle: sun / moon icons ============ */
