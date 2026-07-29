@@ -39,6 +39,9 @@ project:
 filters:
   - social-share
   - code-window
+  # Turns code blocks tagged `.webr` into live, editable R cells that run in
+  # the reader's browser via WebAssembly. No-ops on pages without such cells.
+  - webr
 
 website:
   title: "Noah Weidig"
