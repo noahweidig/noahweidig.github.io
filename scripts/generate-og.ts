@@ -63,12 +63,19 @@ const SECTION_LABELS: Record<string, string> = {
   publications: "Publications",
   awards: "Awards",
 };
-/** Call to action, by top-level section. */
+/** Call to action, by top-level section — one for an item, one for the
+ *  section's own listing page ("Read the post" makes no sense on /blog/). */
 const CTA_LABELS: Record<string, string> = {
   blog: "Read the post",
   projects: "See the project",
   publications: "Read the paper",
   awards: "See the award",
+};
+const INDEX_CTA_LABELS: Record<string, string> = {
+  blog: "Browse the blog",
+  projects: "Browse the projects",
+  publications: "Browse the publications",
+  awards: "Browse the awards",
 };
 
 const projectRoot = process.env.QUARTO_PROJECT_DIR ??
@@ -361,7 +368,8 @@ async function main(): Promise<void> {
     const topDir = rel.split(path.sep)[0];
     const category = (html.match(/class="quarto-category"[^>]*>([^<]+)</) ?? [])[1];
     const section = category?.trim() || SECTION_LABELS[topDir] || "";
-    const cta = CTA_LABELS[topDir] ?? "Read more";
+    const isSectionIndex = rel === path.join(topDir, "index.html");
+    const cta = (isSectionIndex ? INDEX_CTA_LABELS[topDir] : CTA_LABELS[topDir]) ?? "Read more";
 
     // ---- card ----
     const slug = slugFor(rel);
@@ -372,7 +380,7 @@ async function main(): Promise<void> {
     // ---- <head> metadata ----
     const imageUrl = `${SITE_URL}/assets/og/${slug}.png`;
     const imageAlt = `${title} — ${SITE_NAME}`;
-    const isArticle = topDir === "blog" && rel !== path.join("blog", "index.html");
+    const isArticle = topDir === "blog" && !isSectionIndex;
 
     let head = html.slice(0, headEnd);
     head = upsertMeta(head, "property", "og:title", title);
