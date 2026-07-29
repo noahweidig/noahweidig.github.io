@@ -9,7 +9,8 @@ project:
     - "!quarto-*/**"
   # After every render: sync the hero "Featured Projects" stat with the
   # projects that actually have `featured: true` (scripts/update-stats.ts),
-  # then regenerate per-page Open Graph SVG cards (scripts/generate-og.ts).
+  # then regenerate the per-page Open Graph PNG cards and their <head> meta
+  # tags (scripts/generate-og.ts).
   post-render:
     - scripts/update-stats.ts
     - scripts/generate-og.ts
@@ -42,7 +43,7 @@ filters:
 website:
   title: "Noah Weidig"
   description: "Noah is an ecologist and GIS analyst specializing in geospatial data science, environmental modeling, and large-scale spatial analysis."
-  site-url: "https://noahweidig.com/"
+  site-url: "https://www.noahweidig.com/"
   llms-txt: true
   # Cookieless GA4: `storage: none` stops gtag from writing _ga/_ga_* cookies,
   # so no ePrivacy/GDPR consent banner is required. Returning visitors are no
@@ -171,10 +172,10 @@ format:
             "@graph": [
               {
                 "@type": "Person",
-                "@id": "https://noahweidig.com/#person",
+                "@id": "https://www.noahweidig.com/#person",
                 "name": "Noah Weidig",
-                "url": "https://noahweidig.com/",
-                "image": "https://noahweidig.com/assets/media/authors/me.webp",
+                "url": "https://www.noahweidig.com/",
+                "image": "https://www.noahweidig.com/assets/media/authors/me.webp",
                 "jobTitle": "GIS Analyst & Data Scientist",
                 "email": "mailto:noah@noahweidig.com",
                 "alumniOf": [
@@ -191,11 +192,11 @@ format:
               },
               {
                 "@type": "WebSite",
-                "@id": "https://noahweidig.com/#website",
-                "url": "https://noahweidig.com/",
+                "@id": "https://www.noahweidig.com/#website",
+                "url": "https://www.noahweidig.com/",
                 "name": "Noah Weidig",
                 "description": "Noah Weidig is an ecologist and GIS analyst specializing in geospatial data science, environmental modeling, and large-scale spatial analysis.",
-                "publisher": { "@id": "https://noahweidig.com/#person" }
+                "publisher": { "@id": "https://www.noahweidig.com/#person" }
               }
             ]
           }

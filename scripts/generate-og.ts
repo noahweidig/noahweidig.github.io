@@ -2,8 +2,8 @@
  * generate-og.ts — automatic Open Graph card generation.
  *
  * Runs as a Quarto post-render step (see `project.post-render` in
- * _quarto.yml). Quarto executes it with its bundled Deno, so there are no
- * dependencies to install; for local debugging it also runs under Node:
+ * _quarto.yml). Quarto executes it with its bundled Deno; for local debugging
+ * it also runs under Node:
  *
  *   node --experimental-strip-types scripts/generate-og.ts
  *
@@ -11,57 +11,94 @@
  *   1. reads the page's title, description, author, and category/section
  *      straight out of the rendered <head> (so cards always match what
  *      Quarto rendered — nothing to update by hand);
- *   2. writes a deterministic 1200x630 pure-SVG card (text + procedural
- *      topographic contour lines seeded from the page's slug — no raster
- *      images, no external assets) to <output-dir>/assets/og/<slug>.svg.
+ *   2. composes a 1200x630 card — the fixed brand background (amber →
+ *      magenta → teal gradient under the site's topographic texture) with
+ *      bold white text over a contrast scrim — and rasterizes it to
+ *      <output-dir>/assets/og/<slug>.png;
+ *   3. rewrites the page's <head> so og:image / twitter:image point at that
+ *      PNG, and fills in the rest of the Open Graph set (og:title,
+ *      og:description, og:url, og:type, og:image:width/height/alt,
+ *      twitter:card=summary_large_image, …). Meta tags are only ever written
+ *      inside <head>; any og:/twitter: tags found in <body> are removed.
  *
- * The rendered pages' og:image / twitter:image tags are left alone: no major
- * link unfurler renders image/svg+xml, so pointing them at these cards only
- * blanked out the previews that `website.image` in _quarto.yml was already
- * serving. Wire the tags back up once the cards are emitted as PNG.
+ * Cards are PNG, not SVG, deliberately: no major unfurler (Facebook, X,
+ * LinkedIn, Slack, Discord, iMessage) renders image/svg+xml, so the previous
+ * SVG-only cards could never be referenced from og:image. Rasterization uses
+ * resvg compiled to WebAssembly plus static Inter faces, both vendored under
+ * scripts/vendor — `quarto render` remains the only build step.
  *
- * Design tokens mirror assets/theme.scss + theme-dark.scss: Inter, brand
- * blue #0076DF, background #0a0a0f, foreground #e5e7eb, muted #9ca3af,
- * contour/grid tints matching --nw-topo / --nw-grid-line.
+ * The background is intentionally identical on every card: one brand image,
+ * recognisable at thumbnail size, with the page's own words on top.
  */
 
 import fs from "node:fs";
 import path from "node:path";
 import process from "node:process";
+import { pathToFileURL } from "node:url";
+import zlib from "node:zlib";
 
 // ---------------------------------------------------------------- config
 
 const W = 1200;
 const H = 630;
 
+/** Brand background + card palette. Text is white by design: the gradient is
+ *  saturated, so anything else loses legibility at preview thumbnail size. */
 const BRAND = {
-  bg: "#0a0a0f", // --nw-bg (dark)
-  fg: "#f3f4f6", // near --nw-fg, brightened for card contrast
-  body: "#e5e7eb", // --nw-fg (dark)
-  muted: "#9ca3af", // --nw-muted (dark)
-  primary: "#0076DF", // --nw-primary
-  border: "#26262f", // --nw-border (dark)
-  topo: "rgba(229,231,235,0.09)", // --nw-topo (dark), nudged for 630px canvas
-  grid: "rgba(229,231,235,0.045)", // --nw-grid-line (dark)
-  tick: "rgba(229,231,235,0.16)",
+  gradFrom: "#efa30d", // amber, top-left corner
+  gradMid: "#c22fc7", // magenta, left third
+  gradTo: "#15a473", // teal, right edge
+  contour: "#1b2430", // topo line ink, drawn at low opacity
+  fg: "#ffffff",
+  accent: "#ffffff",
 };
 
-const FONT = `'Inter','Segoe UI',-apple-system,BlinkMacSystemFont,Roboto,'Helvetica Neue',Arial,sans-serif`;
-const MONO = `'SF Mono','JetBrains Mono',Menlo,Consolas,'Liberation Mono',monospace`;
-
-const SITE_NAME = "Noah Weidig";
-const SECTION_LABELS: Record<string, string> = {
-  blog: "Blog",
-  projects: "Projects",
-  publications: "Publications",
-  awards: "Awards",
-};
+const FONT = "Inter";
 
 const projectRoot = process.env.QUARTO_PROJECT_DIR ??
   path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
 const outputDir = process.env.QUARTO_PROJECT_OUTPUT_DIR
   ? path.resolve(projectRoot, process.env.QUARTO_PROJECT_OUTPUT_DIR)
   : path.join(projectRoot, "_site");
+const vendorDir = path.join(projectRoot, "scripts", "vendor");
+
+const SITE_NAME = "Noah Weidig";
+/**
+ * Open Graph URLs must be absolute, so they need a host. Production (GitHub
+ * Pages) uses `site-url` from _quarto.yml; a Netlify deploy preview points at
+ * itself instead, otherwise every preview would advertise og:image URLs on
+ * noahweidig.com — where the card for an unmerged page does not exist yet, so
+ * unfurlers and validators (opengraph.xyz, Facebook's debugger) see a 404 and
+ * show no preview at all.
+ */
+function canonicalSiteUrl(): string {
+  const yml = fs.readFileSync(path.join(projectRoot, "_quarto.yml"), "utf8");
+  const m = yml.match(/^\s*site-url:\s*["']?([^"'\s]+)/m);
+  if (!m) throw new Error("[og-cards] no site-url found in _quarto.yml");
+  return m[1].replace(/\/+$/, "");
+}
+const SITE_URL = (process.env.CONTEXT && process.env.CONTEXT !== "production" &&
+  process.env.DEPLOY_PRIME_URL?.replace(/\/+$/, "")) || canonicalSiteUrl();
+const SECTION_LABELS: Record<string, string> = {
+  blog: "Blog",
+  projects: "Projects",
+  publications: "Publications",
+  awards: "Awards",
+};
+/** Call to action, by top-level section — one for an item, one for the
+ *  section's own listing page ("Read the post" makes no sense on /blog/). */
+const CTA_LABELS: Record<string, string> = {
+  blog: "Read the post",
+  projects: "See the project",
+  publications: "Read the paper",
+  awards: "See the award",
+};
+const INDEX_CTA_LABELS: Record<string, string> = {
+  blog: "Browse the blog",
+  projects: "Browse the projects",
+  publications: "Browse the publications",
+  awards: "Browse the awards",
+};
 
 // -------------------------------------------------------------- helpers
 
@@ -83,28 +120,6 @@ function decodeEntities(s: string): string {
     .replace(/&lt;/g, "<")
     .replace(/&gt;/g, ">")
     .replace(/&amp;/g, "&");
-}
-
-/** FNV-1a hash — stable seed so every page gets the same card each build. */
-function fnv1a(s: string): number {
-  let h = 0x811c9dc5;
-  for (let i = 0; i < s.length; i++) {
-    h ^= s.charCodeAt(i);
-    h = Math.imul(h, 0x01000193);
-  }
-  return h >>> 0;
-}
-
-/** Small deterministic PRNG (mulberry32). */
-function mulberry32(seed: number): () => number {
-  let a = seed >>> 0;
-  return () => {
-    a |= 0;
-    a = (a + 0x6d2b79f5) | 0;
-    let t = Math.imul(a ^ (a >>> 15), 1 | a);
-    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-  };
 }
 
 /** Greedy word wrap using an average-glyph-width estimate for Inter. */
@@ -133,128 +148,180 @@ function wrap(text: string, fontSize: number, widthFactor: number, maxWidth: num
   return lines;
 }
 
-// ------------------------------------------------------- card rendering
+// -------------------------------------------------------- background art
 
 /**
- * Concentric topographic contours: one fixed per-angle noise profile per
- * page keeps the rings nested (they never cross), like real contour lines.
+ * The topographic texture is the site's own artwork (assets/media/topography.svg,
+ * the same tile theme.scss masks behind cards and the footer), tiled as an SVG
+ * pattern rather than redrawn — one background, identical on every card.
  */
-function contours(rand: () => number, cx: number, cy: number, rings: number, r0: number, step: number, opacity: number): string {
-  const n = 26;
-  const bumps: number[] = [];
-  for (let i = 0; i < n; i++) bumps.push((rand() - 0.5) * 2);
-  // Smooth the noise profile so contours undulate gently.
-  const profile = bumps.map((_, i) => {
-    const a = bumps[(i + n - 1) % n], b = bumps[i], c = bumps[(i + 1) % n];
-    return (a + 2 * b + c) / 4;
-  });
-  const paths: string[] = [];
-  for (let ring = 0; ring < rings; ring++) {
-    const base = r0 + ring * step;
-    const pts: [number, number][] = [];
-    for (let i = 0; i < n; i++) {
-      const theta = (i / n) * Math.PI * 2;
-      const r = base * (1 + 0.22 * profile[i]);
-      pts.push([cx + r * Math.cos(theta), cy + r * Math.sin(theta)]);
-    }
-    // Catmull-Rom -> cubic bezier for a smooth closed loop.
-    let d = `M ${pts[0][0].toFixed(1)} ${pts[0][1].toFixed(1)}`;
-    for (let i = 0; i < n; i++) {
-      const p0 = pts[(i + n - 1) % n], p1 = pts[i], p2 = pts[(i + 1) % n], p3 = pts[(i + 2) % n];
-      const c1 = [p1[0] + (p2[0] - p0[0]) / 6, p1[1] + (p2[1] - p0[1]) / 6];
-      const c2 = [p2[0] - (p3[0] - p1[0]) / 6, p2[1] - (p3[1] - p1[1]) / 6];
-      d += ` C ${c1[0].toFixed(1)} ${c1[1].toFixed(1)}, ${c2[0].toFixed(1)} ${c2[1].toFixed(1)}, ${p2[0].toFixed(1)} ${p2[1].toFixed(1)}`;
-    }
-    d += " Z";
-    paths.push(`<path d="${d}"/>`);
-  }
-  return `<g fill="none" stroke="${BRAND.topo}" stroke-opacity="${opacity}" stroke-width="1.4">${paths.join("")}</g>`;
+function topoPath(): string {
+  const svg = fs.readFileSync(path.join(projectRoot, "assets", "media", "topography.svg"), "utf8");
+  const d = svg.match(/<path[^>]*\sd="([^"]+)"/);
+  if (!d) throw new Error("[og-cards] no path found in assets/media/topography.svg");
+  return d[1];
 }
 
-function gridAndTicks(): string {
-  const parts: string[] = [];
-  for (let x = 100; x < W; x += 100) parts.push(`M ${x} 0 V ${H}`);
-  for (let y = 105; y < H; y += 105) parts.push(`M 0 ${y} H ${W}`);
-  const grid = `<path d="${parts.join(" ")}" stroke="${BRAND.grid}" stroke-width="1"/>`;
-  const ticks: string[] = [];
-  for (let x = 100; x < W; x += 100) ticks.push(`M ${x} 0 V 10 M ${x} ${H} V ${H - 10}`);
-  for (let y = 105; y < H; y += 105) ticks.push(`M 0 ${y} H 10 M ${W} ${y} H ${W - 10}`);
-  return grid + `<path d="${ticks.join(" ")}" stroke="${BRAND.tick}" stroke-width="1.5"/>`;
+/** The brand background: gradient wash, topo texture, then a contrast scrim. */
+function background(): string {
+  return `
+  <rect width="${W}" height="${H}" fill="url(#nw-grad)"/>
+  <rect width="${W}" height="${H}" fill="url(#nw-topo)"/>
+  <rect width="${W}" height="${H}" fill="url(#nw-scrim)"/>
+  <rect width="${W}" height="${H}" fill="url(#nw-scrim-v)"/>`;
 }
+
+// ------------------------------------------------------- card rendering
 
 interface CardMeta {
   title: string;
   description: string;
   author: string;
   section: string;
-  slug: string;
+  cta: string;
 }
 
-function renderCard(meta: CardMeta): string {
-  const seed = fnv1a(meta.slug);
-  const rand = mulberry32(seed);
+/**
+ * Safe-area margin. Previews get cropped (X rounds the corners, Slack and
+ * Discord letterbox), so nothing is drawn within `M` of any edge.
+ */
+const M = 110;
+const TEXT_W = W - 2 * M;
 
-  // Deterministic pseudo-coordinates as a cartographic signature.
-  const lat = (24 + rand() * 25).toFixed(4);
-  const lon = (67 + rand() * 58).toFixed(4);
+const KICKER_Y = 132; // baseline
+const CTA_Y = 430; // top of the pill
+const CTA_H = 66;
+const FOOTER_Y = 560; // baseline
 
-  // Contour cluster occupying the right side, plus a faint echo bottom-left.
-  const topoMain = contours(rand, 920 + rand() * 120, 250 + rand() * 160, 9, 46, 58, 1);
-  const topoEcho = contours(rand, 120 + rand() * 100, 560 + rand() * 60, 5, 30, 46, 0.6);
-  const peakX = 920, peakY = 250; // crosshair anchors near the main cluster
-
-  // ---- typography ----
+function renderCardSvg(meta: CardMeta, topo: string): string {
   const title = meta.title || SITE_NAME;
-  const fs = title.length <= 34 ? 72 : title.length <= 68 ? 60 : 50;
-  const titleLines = wrap(title, fs, 0.53, 940, 3);
-  const lineH = Math.round(fs * 1.16);
-  const titleY = 236;
+  const descLines = meta.description ? wrap(meta.description, 28, 0.5, TEXT_W, 2) : [];
 
-  const descLines = meta.description
-    ? wrap(meta.description, 28, 0.5, 900, 2)
-    : [];
-  const descY = titleY + titleLines.length * lineH + 14;
+  // With a description the text block hangs upward off the CTA; without one
+  // the title sits just under the kicker. Either way, pick the largest size
+  // that still clears its neighbours, so nothing collides or runs off.
+  const descBottom = CTA_Y - 36;
+  const descY = descBottom - (Math.max(descLines.length, 1) - 1) * 38;
+  const titleBottom = descY - 62;
+  const titleTop = KICKER_Y + 104; // first baseline when top-anchored
+
+  let fs_ = 76;
+  let titleLines = wrap(title, fs_, 0.53, TEXT_W, 3);
+  let lineH = Math.round(fs_ * 1.14);
+  for (const size of [76, 62, 52, 44]) {
+    fs_ = size;
+    lineH = Math.round(size * 1.14);
+    titleLines = wrap(title, size, 0.53, TEXT_W, 3);
+    const span = (titleLines.length - 1) * lineH;
+    const fits = descLines.length
+      ? titleBottom - span - size >= KICKER_Y + 18
+      : titleTop + span <= CTA_Y - 42;
+    if (fits) break;
+  }
+  const titleY = descLines.length
+    ? titleBottom - (titleLines.length - 1) * lineH
+    : titleTop;
 
   const kicker = meta.section
-    ? `<tspan fill="${BRAND.primary}">${esc(SITE_NAME.toUpperCase())}</tspan><tspan fill="${BRAND.border}" dx="14">/</tspan><tspan fill="${BRAND.muted}" dx="14">${esc(meta.section.toUpperCase())}</tspan>`
-    : `<tspan fill="${BRAND.primary}">${esc(SITE_NAME.toUpperCase())}</tspan>`;
+    ? `${SITE_NAME.toUpperCase()}  ·  ${meta.section.toUpperCase()}`
+    : SITE_NAME.toUpperCase();
 
   const titleSpans = titleLines
-    .map((l, i) => `<tspan x="84" y="${titleY + i * lineH}">${esc(l)}</tspan>`)
+    .map((l, i) => `<tspan x="${M}" y="${titleY + i * lineH}">${esc(l)}</tspan>`)
     .join("");
   const descSpans = descLines
-    .map((l, i) => `<tspan x="84" y="${descY + i * 40}">${esc(l)}</tspan>`)
+    .map((l, i) => `<tspan x="${M}" y="${descY + i * 38}">${esc(l)}</tspan>`)
     .join("");
 
+  // Call to action: outlined pill, width estimated from the label length.
+  // The arrow is a drawn path, not "→" — the Inter subset shipped in
+  // scripts/vendor has no arrow glyph, and a missing glyph renders as tofu.
+  const ctaW = Math.round(meta.cta.length * 15.2) + 116;
+  const arrowX = M + ctaW - 62;
+  const arrowY = CTA_Y + CTA_H / 2;
+  const arrow =
+    `<path d="M ${arrowX} ${arrowY} h 26 m -10 -9 l 10 9 l -10 9" fill="none" stroke="${BRAND.fg}" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>`;
+
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(title)}">
-  <rect width="${W}" height="${H}" fill="${BRAND.bg}"/>
-  ${gridAndTicks()}
-  ${topoMain}
-  ${topoEcho}
-  <g stroke="${BRAND.primary}" stroke-width="1.5" opacity="0.85">
-    <path d="M ${peakX - 9} ${peakY} H ${peakX + 9} M ${peakX} ${peakY - 9} V ${peakY + 9}"/>
-  </g>
-  <circle cx="${peakX}" cy="${peakY}" r="3" fill="${BRAND.primary}"/>
-  <rect x="0" y="0" width="8" height="${H}" fill="${BRAND.primary}"/>
-  <text x="84" y="132" font-family="${FONT}" font-size="24" font-weight="700" letter-spacing="4">${kicker}</text>
-  <text font-family="${FONT}" font-size="${fs}" font-weight="800" letter-spacing="${(-0.02 * fs).toFixed(2)}" fill="${BRAND.fg}">${titleSpans}</text>
-  <text font-family="${FONT}" font-size="28" font-weight="400" fill="${BRAND.muted}">${descSpans}</text>
-  <line x1="84" y1="516" x2="1116" y2="516" stroke="${BRAND.border}" stroke-width="1"/>
-  <text x="84" y="566" font-family="${FONT}" font-size="26">
-    <tspan font-weight="600" fill="${BRAND.body}">${esc(meta.author || SITE_NAME)}</tspan>
-    <tspan fill="${BRAND.primary}" dx="12">·</tspan>
-    <tspan fill="${BRAND.muted}" dx="12">noahweidig.com</tspan>
-  </text>
-  <text x="1116" y="566" text-anchor="end" font-family="${MONO}" font-size="20" fill="${BRAND.muted}" opacity="0.8">${lat}° N · ${lon}° W</text>
+  <defs>
+    <linearGradient id="nw-grad" x1="0" y1="0" x2="1" y2="0.55">
+      <stop offset="0" stop-color="${BRAND.gradFrom}"/>
+      <stop offset="0.2" stop-color="${BRAND.gradMid}"/>
+      <stop offset="0.5" stop-color="${BRAND.gradMid}"/>
+      <stop offset="1" stop-color="${BRAND.gradTo}"/>
+    </linearGradient>
+    <linearGradient id="nw-scrim" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#000000" stop-opacity="0.34"/>
+      <stop offset="0.65" stop-color="#000000" stop-opacity="0.18"/>
+      <stop offset="1" stop-color="#000000" stop-opacity="0.12"/>
+    </linearGradient>
+    <linearGradient id="nw-scrim-v" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#000000" stop-opacity="0.1"/>
+      <stop offset="0.45" stop-color="#000000" stop-opacity="0.03"/>
+      <stop offset="1" stop-color="#000000" stop-opacity="0.18"/>
+    </linearGradient>
+    <pattern id="nw-topo" width="900" height="900" patternUnits="userSpaceOnUse">
+      <path d="${topo}" transform="scale(1.5)" fill="${BRAND.contour}" fill-opacity="0.2"/>
+    </pattern>
+  </defs>
+  ${background()}
+  <text x="${M}" y="${KICKER_Y}" font-family="${FONT}" font-size="24" font-weight="800" letter-spacing="5" fill="${BRAND.fg}" fill-opacity="0.92">${esc(kicker)}</text>
+  <text font-family="${FONT}" font-size="${fs_}" font-weight="800" letter-spacing="${(-0.02 * fs_).toFixed(2)}" fill="${BRAND.fg}">${titleSpans}</text>
+  <text font-family="${FONT}" font-size="28" font-weight="400" fill="${BRAND.fg}" fill-opacity="0.92">${descSpans}</text>
+  <rect x="${M}" y="${CTA_Y}" width="${ctaW}" height="${CTA_H}" rx="${CTA_H / 2}" fill="#000000" fill-opacity="0.3" stroke="${BRAND.accent}" stroke-width="2.5"/>
+  <text x="${M + 38}" y="${CTA_Y + 43}" font-family="${FONT}" font-size="27" font-weight="800" letter-spacing="0.4" fill="${BRAND.fg}">${esc(meta.cta)}</text>
+  ${arrow}
+  <text x="${M}" y="${FOOTER_Y}" font-family="${FONT}" font-size="26" font-weight="800" fill="${BRAND.fg}" fill-opacity="0.95">${esc(meta.author || SITE_NAME)}</text>
+  <text x="${W - M}" y="${FOOTER_Y}" text-anchor="end" font-family="${FONT}" font-size="26" font-weight="800" fill="${BRAND.fg}" fill-opacity="0.95">noahweidig.com</text>
 </svg>
 `;
+}
+
+// ------------------------------------------------------------ rasterizer
+
+// deno-lint-ignore no-explicit-any
+let Resvg: any;
+
+async function initRasterizer(): Promise<Uint8Array[]> {
+  const mod = await import(pathToFileURL(path.join(vendorDir, "resvg", "resvg.mjs")).href);
+  const wasm = zlib.gunzipSync(fs.readFileSync(path.join(vendorDir, "resvg", "resvg.wasm.gz")));
+  await mod.initWasm(wasm);
+  Resvg = mod.Resvg;
+  return [
+    new Uint8Array(fs.readFileSync(path.join(vendorDir, "fonts", "inter-400.ttf"))),
+    new Uint8Array(fs.readFileSync(path.join(vendorDir, "fonts", "inter-800.ttf"))),
+  ];
+}
+
+function rasterize(svg: string, fontBuffers: Uint8Array[]): Uint8Array {
+  const resvg = new Resvg(svg, {
+    fitTo: { mode: "width", value: W },
+    font: {
+      fontBuffers,
+      defaultFontFamily: { sansSerif: FONT },
+      loadSystemFonts: false,
+    },
+  });
+  return resvg.render().asPng();
 }
 
 // ------------------------------------------------------- html handling
 
 function readMeta(html: string, attr: "property" | "name", key: string): string | null {
-  const m = html.match(new RegExp(`<meta ${attr}="${key}" content="([^"]*)"`));
+  const m = html.match(new RegExp(`<meta\\s+${attr}="${key}"\\s+content="([^"]*)"`));
   return m ? decodeEntities(m[1]) : null;
+}
+
+/**
+ * Insert or update a meta tag — inside <head> only. Returns the new head.
+ * `attr` follows the spec each vocabulary uses: Open Graph is RDFa
+ * (`property`), Twitter's card tags are plain `name`.
+ */
+function upsertMeta(head: string, attr: "property" | "name", key: string, value: string): string {
+  const tag = `<meta ${attr}="${key}" content="${esc(value)}">`;
+  const existing = new RegExp(`<meta\\s+${attr}="${key}"\\s+content="[^"]*"\\s*/?>`);
+  if (existing.test(head)) return head.replace(existing, tag);
+  return `${head}${tag}\n`;
 }
 
 function* walkHtml(dir: string): Generator<string> {
@@ -276,13 +343,24 @@ function slugFor(relPath: string): string {
   return p.replace(/\//g, "-");
 }
 
+/** Canonical absolute URL for a rendered page. */
+function pageUrl(relPath: string): string {
+  let p = relPath.replace(/\\/g, "/");
+  if (p === "index.html") return `${SITE_URL}/`;
+  if (p.endsWith("/index.html")) p = p.slice(0, -"index.html".length);
+  return `${SITE_URL}/${p}`;
+}
+
 // ----------------------------------------------------------------- main
 
-function main(): void {
+async function main(): Promise<void> {
   if (!fs.existsSync(outputDir)) {
     console.error(`[og-cards] output dir not found: ${outputDir}`);
     process.exit(1);
   }
+
+  const fontBuffers = await initRasterizer();
+  const topo = topoPath();
 
   const ogDir = path.join(outputDir, "assets", "og");
   fs.mkdirSync(ogDir, { recursive: true });
@@ -291,6 +369,9 @@ function main(): void {
   for (const file of walkHtml(outputDir)) {
     const rel = path.relative(outputDir, file);
     const html = fs.readFileSync(file, "utf8");
+
+    const headEnd = html.search(/<\/head>/i);
+    if (headEnd === -1) continue; // fragment, not a page
 
     const rawTitle = readMeta(html, "property", "og:title") ??
       decodeEntities((html.match(/<title>([^<]*)<\/title>/) ?? [, ""])[1]!);
@@ -302,22 +383,52 @@ function main(): void {
     const topDir = rel.split(path.sep)[0];
     const category = (html.match(/class="quarto-category"[^>]*>([^<]+)</) ?? [])[1];
     const section = category?.trim() || SECTION_LABELS[topDir] || "";
+    const isSectionIndex = rel === path.join(topDir, "index.html");
+    const cta = (isSectionIndex ? INDEX_CTA_LABELS[topDir] : CTA_LABELS[topDir]) ?? "Read more";
 
+    // ---- card ----
     const slug = slugFor(rel);
-    const svg = renderCard({ title, description, author, section, slug });
-    fs.writeFileSync(path.join(ogDir, `${slug}.svg`), svg);
+    const svg = renderCardSvg({ title, description, author, section, cta }, topo);
+    const png = rasterize(svg, fontBuffers);
+    fs.writeFileSync(path.join(ogDir, `${slug}.png`), png);
 
-    // Deliberately *not* rewriting og:image / twitter:image to the SVG.
-    // No major unfurler (Facebook, X, LinkedIn, Slack, Discord, iMessage)
-    // renders image/svg+xml — SVG is active content, so they refuse it by
-    // design. Pointing the tags at a card nobody can render is worse than
-    // leaving them alone, because upsertMeta overwrites the working
-    // `website.image` default from _quarto.yml and previews lose their
-    // image entirely. The cards are written as assets and will be wired
-    // back up once there's a raster (PNG) card to point at.
+    // ---- <head> metadata ----
+    const imageUrl = `${SITE_URL}/assets/og/${slug}.png`;
+    // Don't say "Noah Weidig" twice when the title already carries it.
+    const imageAlt = title.includes(SITE_NAME) ? title : `${title} — ${SITE_NAME}`;
+    const isArticle = topDir === "blog" && !isSectionIndex;
+
+    let head = html.slice(0, headEnd);
+    head = upsertMeta(head, "property", "og:title", title);
+    if (description) head = upsertMeta(head, "property", "og:description", description);
+    head = upsertMeta(head, "property", "og:url", pageUrl(rel));
+    head = upsertMeta(head, "property", "og:type", isArticle ? "article" : "website");
+    head = upsertMeta(head, "property", "og:site_name", SITE_NAME);
+    head = upsertMeta(head, "property", "og:locale", "en_US");
+    head = upsertMeta(head, "property", "og:image", imageUrl);
+    head = upsertMeta(head, "property", "og:image:secure_url", imageUrl);
+    head = upsertMeta(head, "property", "og:image:type", "image/png");
+    head = upsertMeta(head, "property", "og:image:width", String(W));
+    head = upsertMeta(head, "property", "og:image:height", String(H));
+    head = upsertMeta(head, "property", "og:image:alt", imageAlt);
+    // Full-width preview on X; every other platform falls back to Open Graph.
+    head = upsertMeta(head, "name", "twitter:card", "summary_large_image");
+    head = upsertMeta(head, "name", "twitter:title", title);
+    if (description) head = upsertMeta(head, "name", "twitter:description", description);
+    head = upsertMeta(head, "name", "twitter:image", imageUrl);
+    head = upsertMeta(head, "name", "twitter:image:alt", imageAlt);
+
+    // Social metadata belongs in <head>; strip any that Quarto or a filter
+    // left in the body, where no unfurler looks for it.
+    const body = html.slice(headEnd).replace(
+      /[ \t]*<meta\s+(?:property|name)="(?:og:|twitter:)[^"]*"\s+content="[^"]*"\s*\/?>\n?/gi,
+      "",
+    );
+
+    fs.writeFileSync(file, head + body);
     count++;
   }
   console.log(`[og-cards] generated ${count} cards in ${path.relative(projectRoot, ogDir)}`);
 }
 
-main();
+await main();
