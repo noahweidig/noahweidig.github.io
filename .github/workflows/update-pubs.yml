@@ -2,10 +2,10 @@ name: Update Zotero
 
 on:
   schedule:
-    # Twice a month on fixed dates (1st and 15th) for predictable, regular runs.
-    - cron: "0 0 1,15 * *"
+    # At 00:00 UTC every 5th day of the month: 1st, 6th, 11th, etc.
+    - cron: "0 0 */5 * *"
   workflow_dispatch:
-
+  
 permissions:
   contents: write
 
