@@ -56,7 +56,16 @@ const BRAND = {
 const FONT = "Inter";
 
 const SITE_NAME = "Noah Weidig";
-const SITE_URL = "https://noahweidig.com";
+/**
+ * Open Graph URLs must be absolute, so they need a host. Production (GitHub
+ * Pages) uses `site-url` from _quarto.yml; a Netlify deploy preview points at
+ * itself instead, otherwise every preview would advertise og:image URLs on
+ * noahweidig.com — where the card for an unmerged page does not exist yet, so
+ * unfurlers and validators (opengraph.xyz, Facebook's debugger) see a 404 and
+ * show no preview at all.
+ */
+const SITE_URL = (process.env.CONTEXT && process.env.CONTEXT !== "production" &&
+  process.env.DEPLOY_PRIME_URL?.replace(/\/+$/, "")) || "https://noahweidig.com";
 const SECTION_LABELS: Record<string, string> = {
   blog: "Blog",
   projects: "Projects",
@@ -379,7 +388,8 @@ async function main(): Promise<void> {
 
     // ---- <head> metadata ----
     const imageUrl = `${SITE_URL}/assets/og/${slug}.png`;
-    const imageAlt = `${title} — ${SITE_NAME}`;
+    // Don't say "Noah Weidig" twice when the title already carries it.
+    const imageAlt = title.includes(SITE_NAME) ? title : `${title} — ${SITE_NAME}`;
     const isArticle = topDir === "blog" && !isSectionIndex;
 
     let head = html.slice(0, headEnd);
