@@ -9,7 +9,8 @@ project:
     - "!quarto-*/**"
   # After every render: sync the hero "Featured Projects" stat with the
   # projects that actually have `featured: true` (scripts/update-stats.ts),
-  # then regenerate per-page Open Graph SVG cards (scripts/generate-og.ts).
+  # then regenerate the per-page Open Graph PNG cards and their <head> meta
+  # tags (scripts/generate-og.ts).
   post-render:
     - scripts/update-stats.ts
     - scripts/generate-og.ts

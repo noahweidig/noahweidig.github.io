@@ -148,14 +148,13 @@ node scripts/update-pubs.js    # refresh publications from Zotero
 
 ### Open Graph cards
 
-Every page gets a unique 1200×630 social-preview card, generated automatically as part of `quarto render` — nothing to update by hand when titles or descriptions change.
+Every page gets a 1200×630 social-preview card, generated automatically as part of `quarto render` — nothing to update by hand when titles or descriptions change.
 
-- `scripts/generate-og.ts` runs as a Quarto **post-render** step (wired up in `_quarto.yml` → `project.post-render`). Quarto executes it with its bundled Deno, so there are no extra dependencies; for standalone debugging use `node --experimental-strip-types scripts/generate-og.ts` after a render.
-- The script walks the rendered HTML in `_site/`, reads each page's title, description, author, and category/section from the rendered `<head>`, and writes a card to `_site/assets/og/<slug>.svg` (e.g. `blog/welcome/` → `blog-welcome.svg`).
-- Cards are **pure SVG** — text plus procedural topographic contour lines and grid ticks, no raster or external assets. The contour geometry is seeded from the page slug (FNV-1a hash → PRNG), so each page's card is unique yet byte-for-byte deterministic across builds. Colors and typography mirror the dark theme tokens in `assets/theme.scss` / `theme-dark.scss` (Inter, `#0076DF`, `#0a0a0f`).
-- After writing each card, the script rewrites that page's `og:image`, `og:image:*`, `twitter:image`, and `twitter:card` meta tags to the absolute URL built from `site-url` in `_quarto.yml`, so links resolve correctly on GitHub Pages.
-
-Note: some social scrapers (Facebook, LinkedIn, Slack) only rasterize PNG/JPEG/WebP `og:image` values and may fall back to no image for SVG. If broad scraper support ever matters more than the no-raster constraint, rasterize the same SVGs in the post-render step.
+- `scripts/generate-og.ts` runs as a Quarto **post-render** step (wired up in `_quarto.yml` → `project.post-render`). Quarto executes it with its bundled Deno, so there is nothing to install; for standalone debugging use `node --experimental-strip-types scripts/generate-og.ts` after a render.
+- The script walks the rendered HTML in `_site/`, reads each page's title, description, author, and category/section from the rendered `<head>`, and writes a card to `_site/assets/og/<slug>.png` (e.g. `blog/welcome/` → `blog-welcome.png`).
+- Cards are **PNG** (1200×630, ~0.7 MB, well under every platform's 5 MB ceiling). Every card shares one background — the brand amber → magenta → teal gradient under the site's own `assets/media/topography.svg` texture — with the page's kicker, title, description, and a section-specific call to action ("Read the post →") set in bold white Inter over a contrast scrim, inside a 110 px safe-area margin so nothing is clipped by a platform's crop.
+- Rasterization uses [resvg](https://github.com/yisibl/resvg-js) compiled to WebAssembly plus static Inter faces, both vendored in `scripts/vendor/` (see the README there) so `quarto render` stays the only build step — no `npm install`, no network access at build time.
+- After writing each card, the script upserts the page's Open Graph set **inside `<head>` only** — `og:title`, `og:description`, `og:url`, `og:type`, `og:site_name`, `og:image` plus `og:image:type`/`width`/`height`/`alt`, and `twitter:card=summary_large_image` with `twitter:title`/`description`/`image` — using absolute URLs built from `site-url` in `_quarto.yml`. Any `og:`/`twitter:` tags that end up in `<body>`, where no unfurler looks, are stripped.
 
 ---
 
