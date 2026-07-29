@@ -1308,6 +1308,22 @@ a.nw-card:hover h3 {
   border: 0;
 }
 
+/* ============ filterable listing pages (projects, publications, blog) ======
+   Quarto sizes the body-content grid track from the content it holds, so once
+   the category filter hides cards the column collapsed to the widest card that
+   was left — filtering to a single short post made every card narrower. A
+   definite width on the listing (and on the filter bar above it, so the two
+   stay aligned) pins the track. The viewport term keeps that width definite —
+   a percentage would be resolved against the very track it is meant to size —
+   so narrow screens shrink the column instead of overflowing it. */
+#listing-all-posts,
+#listing-all-pubs,
+#listing-all-projects,
+.nw-filters {
+  width: min(72rem, calc(100vw - 5rem));
+  margin-inline: auto;
+}
+
 /* ============ filter buttons (projects page) ============ */
 .nw-filters {
   display: flex;
