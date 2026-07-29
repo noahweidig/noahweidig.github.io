@@ -11,9 +11,29 @@ image: logos/tidyverse.png
 image-alt: The tidyverse hexagonal logo
 toc: true
 toc-depth: 3
-# The R throughout this post is shown as formatted, copy-paste-runnable code
-# rather than executed at render time, so the site builds without an R
-# toolchain in CI.
+# The R in this post is never executed at render time — the site still builds
+# without an R toolchain in CI. Instead the quarto-webr extension turns most
+# blocks into live cells that run in the reader's browser via WebAssembly
+# (webR). A few blocks that a browser sandbox cannot honestly run (renv,
+# benchmarks, reads of real files) stay as static listings.
+#
+# Those cells are fenced as ```{.r .webr}, not the ```{webr-r} form from the
+# extension's README: code-window filters first and rewrites unknown code-block
+# languages, which would strip off the class webR keys on. A plain `.r` class
+# survives that pass untouched.
+#
+# `engine: markdown` keeps Quarto from reaching for jupyter or knitr — nothing
+# here executes at render time, so CI needs neither R nor Python.
+engine: markdown
+webr:
+  # Nothing is installed up front: a full tidyverse download on page load would
+  # be tens of megabytes for every visitor. Packages are fetched on demand by
+  # the `webr::install()` calls in the cells themselves.
+  packages: []
+  show-startup-message: false
+  cell-options:
+    editor-max-height: 500
+    out-width: 100%
 ---
 
 After enough years writing R, you stop thinking about individual functions and
@@ -34,7 +54,34 @@ now the default in most modern tidyverse teaching. I switch to the magrittr pipe
 `%>%` only in the rare spot where its extra features (like the `.` placeholder
 or `%<>%`) genuinely help, and I call it out when I do.
 
-```r
+::: {.callout-important}
+## The code on this page actually runs
+
+Every cell with a **Run Code** button is a live R session running in *your
+browser* — no install, no server, nothing sent anywhere. It is real R compiled
+to WebAssembly by [webR](https://docs.r-wasm.org/webr/latest/), wired up with
+the [quarto-webr](https://github.com/coatless/quarto-webr) extension. Edit the
+code, rerun it, break it, fix it.
+
+Two things to know:
+
+1. **Run the setup cell below first.** All the cells share one R session, and
+   the later ones expect `penguins` and the tidyverse to be loaded.
+2. **`webr::install()` is a browser-only line.** On your own machine you would
+   use `install.packages()` once and forget it; in the browser each package is
+   fetched fresh, so the cells that need one ask for it explicitly. The
+   tidyverse download is a chunk of megabytes and takes a moment the first
+   time.
+
+A few blocks — `renv`, the vroom benchmark, the `conflicted` demo, anything
+that reads a real file from disk — are plain listings, because they need a
+project, a filesystem, or timings that a browser sandbox cannot honestly give
+you.
+:::
+
+```{.r .webr}
+webr::install(c("tidyverse", "palmerpenguins"))
+
 library(tidyverse)      # attaches ggplot2, dplyr, tidyr, readr, purrr,
                         # tibble, stringr, forcats, lubridate, and friends
 library(palmerpenguins) # the `penguins` dataset used throughout
@@ -59,7 +106,7 @@ next one felt familiar. Add a pipe to chain those functions into a readable
 left-to-right sequence, and suddenly R code reads like a description of what you
 are actually doing.
 
-```r
+```{.r .webr}
 penguins |>
   filter(!is.na(body_mass_g)) |>
   group_by(species, sex) |>
@@ -93,7 +140,7 @@ implements the *grammar of graphics*, the idea that any statistical graphic can
 be described as data mapped to visual properties (aesthetics) and drawn with
 geometric objects (geoms) in layers.
 
-```r
+```{.r .webr}
 ggplot(penguins, aes(flipper_length_mm, body_mass_g, colour = species)) +
   geom_point(alpha = 0.8) +
   labs(title = "Flipper length predicts body mass", colour = "Species")
@@ -112,7 +159,7 @@ rows, `select()` columns, `mutate()` new columns, `arrange()` the order,
 The workflow I use constantly is group-summarise-arrange to answer "what's the
 typical value, split by category?"
 
-```r
+```{.r .webr}
 penguins |>
   filter(!is.na(bill_length_mm)) |>
   mutate(bill_ratio = bill_length_mm / bill_depth_mm) |>
@@ -131,7 +178,7 @@ whole category of "why is my data frame still grouped?" bugs.
 Two more workflows I would not want to live without. First, **joins** for
 combining tables:
 
-```r
+```{.r .webr}
 island_region <- tibble(
   island = c("Torgersen", "Biscoe", "Dream"),
   region = c("North",     "South",  "East")
@@ -146,7 +193,7 @@ penguins |>
 Second, `across()` for applying the same transformation to many columns without
 copy-pasting:
 
-```r
+```{.r .webr}
 penguins |>
   summarise(
     across(ends_with("_mm"), \(x) mean(x, na.rm = TRUE)),
@@ -174,7 +221,7 @@ layouts — the single most common data-cleaning task in the real world.
 The classic workflow: measurements sitting in separate columns that really want
 to be a single "measurement" variable. ggplot2 in particular loves long data.
 
-```r
+```{.r .webr}
 penguins_long <- penguins |>
   select(species, bill_length_mm, bill_depth_mm, flipper_length_mm) |>
   pivot_longer(
@@ -188,7 +235,7 @@ penguins_long
 
 That long form drops straight into a faceted plot:
 
-```r
+```{.r .webr}
 penguins_long |>
   filter(!is.na(value)) |>
   ggplot(aes(species, value, fill = species)) +
@@ -209,7 +256,7 @@ more predictably than base R's `read.csv()`. It gets its
 tibble, never converts strings to factors behind your back, and tells you
 exactly how it parsed every column.
 
-```r
+```{.r .webr}
 # Read a CSV directly from a string — handy for reproducible examples.
 read_csv("x,y\n1,a\n2,b\n3,c")
 ```
@@ -222,7 +269,7 @@ would otherwise write. It has its [own deep dive](#purrr-in-depth). The one-line
 pitch: `map_dbl(x, f)` applies `f` to each element of `x` and *guarantees* it
 gives you back a double vector, or errors loudly if it can't.
 
-```r
+```{.r .webr}
 # Fit a model per species and pull out R-squared, all without a loop.
 penguins |>
   split(penguins$species) |>
@@ -236,7 +283,7 @@ less than base `data.frame`s, and that is a feature: they never change column
 types, never do partial name matching, never coerce strings to factors, and
 print a clean, columnar summary that shows types and fits your console.
 
-```r
+```{.r .webr}
 tibble(
   id    = 1:3,
   group = c("a", "b", "a"),
@@ -250,7 +297,7 @@ comes from [pillar](#under-the-hood). Tibbles also support **list-columns**,
 where each cell holds an arbitrary object. That is what makes the
 "nest, map a model over each group, unnest the results" workflow possible:
 
-```r
+```{.r .webr}
 penguins |>
   nest(.by = species) |>
   mutate(n_rows = map_int(data, nrow))
@@ -263,7 +310,7 @@ penguins |>
 pattern is always second. Every function starts with `str_`, which means
 autocomplete becomes a menu of everything you can do.
 
-```r
+```{.r .webr}
 tibble(raw = c("  Adelie ", "GENTOO", "chinstrap")) |>
   mutate(
     trimmed = str_trim(raw),
@@ -288,7 +335,7 @@ with a `fct_` family.
 The workflow that earns its keep: reordering a factor by a summary statistic so
 your bar chart is sorted by value instead of alphabetically.
 
-```r
+```{.r .webr}
 penguins |>
   filter(!is.na(body_mass_g)) |>
   summarise(mean_mass = mean(body_mass_g), .by = species) |>
@@ -308,7 +355,7 @@ time zones — all the things that make base R date handling a chore become
 one-liners. It has its [own section below](#lubridate-in-depth), but here is the
 flavor:
 
-```r
+```{.r .webr}
 ymd("2026-07-20") + months(3)
 ```
 
@@ -398,7 +445,7 @@ Every ggplot is built from the same components:
 
 You assemble these with `+`, adding one **layer** at a time. Start simple:
 
-```r
+```{.r .webr}
 p <- ggplot(penguins, aes(flipper_length_mm, body_mass_g))
 
 p + geom_point()
@@ -407,7 +454,7 @@ p + geom_point()
 `p` holds the data and the base mapping; every geom we add inherits them. Now
 layer a second geom on top — a smooth trend line over the same points:
 
-```r
+```{.r .webr}
 p +
   geom_point(aes(colour = species), alpha = 0.7) +
   geom_smooth(method = "lm", se = TRUE, colour = "black")
@@ -424,7 +471,7 @@ Scales govern the translation from data to pixels: axis limits and breaks, and
 the palettes behind colour, fill, size, and shape. You rarely need them for a
 quick look, but they are how you go from "fine" to "polished."
 
-```r
+```{.r .webr}
 ggplot(penguins, aes(flipper_length_mm, body_mass_g, colour = bill_length_mm)) +
   geom_point(size = 2, na.rm = TRUE) +
   scale_colour_viridis_c(option = "plasma") +
@@ -442,7 +489,7 @@ Faceting splits one plot into a grid of small multiples. It is the single most
 effective way to show how a relationship varies across a categorical variable,
 and it takes one line.
 
-```r
+```{.r .webr}
 ggplot(penguins, aes(flipper_length_mm, body_mass_g, colour = species)) +
   geom_point(alpha = 0.7, na.rm = TRUE) +
   facet_wrap(~ island) +
@@ -459,7 +506,7 @@ Annotations add reference lines, text, and highlights that are not driven by the
 data mapping. They are how you direct the reader's eye to the point you are
 making.
 
-```r
+```{.r .webr}
 mean_mass <- mean(penguins$body_mass_g, na.rm = TRUE)
 
 ggplot(penguins, aes(flipper_length_mm, body_mass_g)) +
@@ -479,7 +526,7 @@ position, spacing. ggplot2 ships several complete themes (`theme_minimal()`,
 `theme_bw()`, `theme_classic()`), and you tweak individual elements with
 `theme()`.
 
-```r
+```{.r .webr}
 ggplot(penguins, aes(flipper_length_mm, body_mass_g, colour = species)) +
   geom_point(alpha = 0.8, na.rm = TRUE) +
   theme_minimal(base_size = 13) +
@@ -495,7 +542,7 @@ If you make a lot of plots, define your house style **once** as a function and
 reuse it everywhere. This is the workflow that keeps a report visually
 consistent:
 
-```r
+```{.r .webr}
 theme_nw <- function(base_size = 13) {
   theme_minimal(base_size = base_size) +
     theme(
@@ -551,7 +598,7 @@ for [vroom](#vroom), which shares readr's interface.)
 
 ### read_csv, read_tsv, and friends
 
-```r
+```{.r .webr}
 csv_text <- "id,species,mass_g,measured
 1,Adelie,3750,2026-01-05
 2,Gentoo,5400,2026-01-06
@@ -571,7 +618,7 @@ The best habit in readr is to *state* your expected column types with `col_types
 rather than letting the parser guess. This makes imports reproducible and turns
 silent type surprises into explicit errors.
 
-```r
+```{.r .webr}
 read_csv(
   csv_text,
   col_types = cols(
@@ -591,7 +638,7 @@ integer, factor, double, Date — one letter per column.
 readr's `parse_*()` functions are the same machinery you can call directly, which
 is great for cleaning messy columns after import.
 
-```r
+```{.r .webr}
 parse_date(c("2026-07-20", "2026-01-01"))
 
 # Numbers with currency symbols, thousands separators, and percent signs:
@@ -623,7 +670,7 @@ list; the typed variants return exactly the vector type they promise.
 
 ### map and its typed variants
 
-```r
+```{.r .webr}
 nums <- list(a = 1:5, b = 6:10, c = 11:15)
 
 map(nums, mean)        # always returns a list
@@ -647,7 +694,7 @@ A workflow I use constantly: run something over many inputs and stack the result
 into one tibble. The modern idiom is `map()` to a list of tibbles, then
 `list_rbind()`:
 
-```r
+```{.r .webr}
 fit_species <- function(sp) {
   df <- filter(penguins, species == sp)
   m  <- lm(body_mass_g ~ flipper_length_mm, df)
@@ -670,7 +717,7 @@ first error; `safely()` and `possibly()` let the rest continue.
 
 `possibly()` returns a fallback value on error:
 
-```r
+```{.r .webr}
 safe_log <- possibly(log, otherwise = NA_real_)
 map_dbl(list(1, 10, "oops", 100), safe_log)
 ```
@@ -678,7 +725,7 @@ map_dbl(list(1, 10, "oops", 100), safe_log)
 `safely()` returns a list with `result` and `error` slots for *every* call, so
 you can inspect exactly what went wrong where:
 
-```r
+```{.r .webr}
 safe_log2 <- safely(log)
 results   <- map(list(1, "bad", 100), safe_log2)
 
@@ -707,7 +754,7 @@ You do not write format strings in lubridate. You pick the function whose name
 matches the order the date parts appear — `ymd`, `mdy`, `dmy` — and it figures
 out the separators.
 
-```r
+```{.r .webr}
 ymd("2026-07-20")
 mdy("July 20, 2026")
 dmy("20/07/2026")
@@ -723,7 +770,7 @@ Bucketing timestamps into days, weeks, or months is the backbone of every
 time-series summary. `floor_date()` rounds down to the start of a unit,
 `ceiling_date()` rounds up.
 
-```r
+```{.r .webr}
 ts <- ymd_hms("2026-07-20 14:37:12")
 
 floor_date(ts, unit = "hour")
@@ -733,7 +780,7 @@ ceiling_date(ts, unit = "week")
 
 The real-world workflow — turn raw timestamps into a monthly count:
 
-```r
+```{.r .webr}
 tibble(event_time = ymd("2026-01-01") + days(sample(0:180, 500, replace = TRUE))) |>
   mutate(month = floor_date(event_time, "month")) |>
   count(month) |>
@@ -752,7 +799,7 @@ prevents subtle bugs:
 - **Intervals** (`a %--% b`) are a specific span between two fixed instants, which
   you can measure or check membership against.
 
-```r
+```{.r .webr}
 start <- ymd("2026-01-31")
 
 start + months(1)   # period: lands on Feb 28 (calendar-aware)
@@ -769,7 +816,7 @@ Time zones are lubridate's other quiet superpower. `with_tz()` shows the *same
 instant* in a different zone; `force_tz()` *reinterprets* the clock reading as if
 it were in another zone (usually to fix data that was labeled wrong).
 
-```r
+```{.r .webr}
 meeting <- ymd_hms("2026-07-20 09:00:00", tz = "America/New_York")
 
 with_tz(meeting, "Europe/London")   # same moment, London clock
@@ -796,7 +843,8 @@ platform quirks; fs functions all start with `file_`, `dir_`, or `path_`, return
 tidy character vectors of paths, and behave identically on Windows, macOS, and
 Linux.
 
-```r
+```{.r .webr}
+webr::install("fs")
 library(fs)
 
 # Build paths without worrying about separators:
@@ -809,7 +857,7 @@ path_file(p)
 The everyday workflow is listing, filtering, and acting on files. fs makes
 recursive listing and filtering by glob trivial:
 
-```r
+```{.r .webr}
 # Create a small tree in a temp directory to demonstrate safely.
 tmp <- path(tempdir(), "fs-demo")
 dir_create(path(tmp, c("raw", "clean")))
@@ -846,7 +894,10 @@ library(here)
 read_csv(here("data", "raw", "penguins.csv"))
 ```
 
-```r
+```{.r .webr}
+webr::install("here")
+library(here)
+
 here()          # prints the detected project root
 ```
 
@@ -865,7 +916,8 @@ script you intend to share or re-run.
 a dozen commas, you write the string once and drop `{expressions}` inline — they
 are evaluated and spliced in. It reads exactly like the sentence you are building.
 
-```r
+```{.r .webr}
+webr::install("glue")
 library(glue)
 
 species <- "Gentoo"
@@ -876,14 +928,14 @@ glue("We measured {n} {species} penguins.")
 glue is **vectorized**, which makes it perfect for generating filenames, labels,
 and SQL in bulk:
 
-```r
+```{.r .webr}
 ids <- 1:3
 glue("penguin_{sprintf('%03d', ids)}.csv")
 ```
 
 A few workflows where glue shines:
 
-```r
+```{.r .webr}
 # Dynamic plot titles and labels:
 sp <- "Adelie"; yr <- 2026
 title <- glue("{sp} body mass, {yr}")
@@ -1038,7 +1090,7 @@ you stop memorizing one accessor for `lm` and another for `glmer`.
 
 Let's fit a model to use throughout this section.
 
-```r
+```{.r .webr}
 model <- lm(body_mass_g ~ flipper_length_mm + species + sex, data = penguins)
 ```
 
@@ -1050,7 +1102,8 @@ the data, the predictors, the response, the parameters — through one consisten
 API. You rarely call it directly, but it is why `parameters` and `performance`
 work identically across model types.
 
-```r
+```{.r .webr}
+webr::install("insight")
 library(insight)
 
 get_predictors(model) |> head(3)
@@ -1064,7 +1117,8 @@ errors, confidence intervals, and *p*-values — into a clean, consistent table.
 is the tidy `summary()` you always wanted, and it works the same whether the
 model is an `lm` or a mixed model.
 
-```r
+```{.r .webr}
+webr::install("parameters")
 library(parameters)
 
 model_parameters(model)
@@ -1077,7 +1131,8 @@ of assumption checks (normality, heteroscedasticity, collinearity, influential
 points). The `check_model()` function produces a single diagnostic dashboard that
 replaces a dozen manual `plot()` calls.
 
-```r
+```{.r .webr}
+webr::install("performance")
 library(performance)
 
 model_performance(model)
@@ -1095,7 +1150,8 @@ eta-squared, standardized coefficients — and, crucially, translates them into
 plain-language interpretations ("small", "medium", "large") using documented
 rules of thumb.
 
-```r
+```{.r .webr}
+webr::install("effectsize")
 library(effectsize)
 
 # Standardized parameters put coefficients on a comparable scale:
@@ -1113,7 +1169,8 @@ Pearson, Spearman, partial, and Bayesian correlations, returns a tibble with
 confidence intervals and *p*-values, and can produce a full correlation matrix
 ready for plotting.
 
-```r
+```{.r .webr}
+webr::install("correlation")
 library(correlation)
 
 penguins |>
@@ -1129,7 +1186,8 @@ rescaling, and recoding, with a consistent API that plays well with modeling
 functions. Think of it as dplyr/tidyr's cousin, tuned for the transformations
 statisticians reach for.
 
-```r
+```{.r .webr}
+webr::install("datawizard")
 library(datawizard)
 
 penguins |>
@@ -1149,7 +1207,8 @@ penguins |>
 marginal means, and contrasts. Instead of reading coefficients and doing mental
 arithmetic, you ask the model directly: "what does it predict for each species?"
 
-```r
+```{.r .webr}
+webr::install("modelbased")
 library(modelbased)
 
 estimate_means(model, by = "species")
@@ -1162,7 +1221,8 @@ estimate_means(model, by = "species")
 if you work mostly with frequentist models, its `describe_posterior()` and
 distribution utilities are useful. Here it is on a simulated posterior:
 
-```r
+```{.r .webr}
+webr::install("bayestestR")
 library(bayestestR)
 
 posterior <- distribution_normal(4000, mean = 200, sd = 40)
@@ -1176,7 +1236,8 @@ scales, and themes, and — most usefully — `plot()` methods for the objects t
 other easystats packages return. That `check_model()` dashboard above? see draws
 it. It is the reason easystats output looks polished with no extra effort.
 
-```r
+```{.r .webr}
+webr::install("see")
 library(see)
 
 estimate_means(model, by = "species") |>
@@ -1192,7 +1253,8 @@ describing it — effect sizes, significance, interpretation, and all — follow
 reporting standards. It is a first draft of your results section, generated from
 the model itself.
 
-```r
+```{.r .webr}
+webr::install("report")
 library(report)
 
 report(model)
@@ -1222,7 +1284,8 @@ draw a distribution's shape (the slab) together with a point-and-interval summar
 The signature geom is `stat_halfeye()`, which draws a density "half-eye": half a
 violin plus a median and credible interval.
 
-```r
+```{.r .webr}
+webr::install("ggdist")
 library(ggdist)
 
 penguins |>
@@ -1239,7 +1302,9 @@ layered intervals. Because ggdist understands distribution objects, you can also
 plot *analytical* distributions directly, which is invaluable for showing a model's
 predicted uncertainty rather than just raw data:
 
-```r
+```{.r .webr}
+webr::install("distributional")
+
 tibble(mean = 4200, sd = 800) |>
   ggplot(aes(y = "prediction", xdist = distributional::dist_normal(mean, sd))) +
   stat_halfeye() +
@@ -1253,7 +1318,7 @@ tibble(mean = 4200, sd = 800) |>
 operators. No more `grid.arrange()` incantations — you literally add plots
 together. It is the most intuitive plot-composition tool in R.
 
-```r
+```{.r .webr}
 p1 <- ggplot(penguins, aes(flipper_length_mm, body_mass_g, colour = species)) +
   geom_point(alpha = 0.7, na.rm = TRUE, show.legend = FALSE) +
   theme_nw()
@@ -1270,7 +1335,8 @@ p3 <- ggplot(penguins, aes(body_mass_g, fill = species)) +
 The operators say what they do: `+` packs plots into a grid, `|` places them
 side by side, `/` stacks them vertically. Parentheses nest layouts.
 
-```r
+```{.r .webr}
+webr::install("patchwork")
 library(patchwork)
 
 (p1 | p2) / p3
@@ -1279,7 +1345,7 @@ library(patchwork)
 patchwork also collects shared legends and adds figure-level annotations —
 titles, tags, captions — across the whole composition:
 
-```r
+```{.r .webr}
 pa <- ggplot(penguins, aes(flipper_length_mm, body_mass_g, colour = species)) +
   geom_point(alpha = 0.7, na.rm = TRUE) + theme_nw()
 pb <- ggplot(penguins, aes(bill_length_mm, bill_depth_mm, colour = species)) +
@@ -1305,7 +1371,8 @@ patchwork feature for enforcing consistency across a composition.
 `plot_grid()` aligns panels by their plotting areas, so axes line up even when
 labels differ in width.
 
-```r
+```{.r .webr}
+webr::install("cowplot")
 library(cowplot)
 
 cp1 <- ggplot(penguins, aes(flipper_length_mm, body_mass_g)) +
@@ -1319,7 +1386,7 @@ plot_grid(cp1, cp2, labels = c("A", "B"), align = "h", ncol = 2)
 The shared-legend workflow is a cowplot classic: extract one plot's legend, then
 place it once for the whole grid.
 
-```r
+```{.r .webr}
 leg_plot <- ggplot(penguins, aes(flipper_length_mm, body_mass_g, colour = species)) +
   geom_point(na.rm = TRUE) +
   theme_cowplot() +
@@ -1362,6 +1429,6 @@ You need the next one that removes the friction you are feeling right now.
 Happy analyzing. And if you build something you are proud of with these, I would
 love to hear about it.
 
-```r
+```{.r .webr}
 sessionInfo()
 ```
