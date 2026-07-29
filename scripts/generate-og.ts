@@ -55,6 +55,13 @@ const BRAND = {
 
 const FONT = "Inter";
 
+const projectRoot = process.env.QUARTO_PROJECT_DIR ??
+  path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
+const outputDir = process.env.QUARTO_PROJECT_OUTPUT_DIR
+  ? path.resolve(projectRoot, process.env.QUARTO_PROJECT_OUTPUT_DIR)
+  : path.join(projectRoot, "_site");
+const vendorDir = path.join(projectRoot, "scripts", "vendor");
+
 const SITE_NAME = "Noah Weidig";
 /**
  * Open Graph URLs must be absolute, so they need a host. Production (GitHub
@@ -64,8 +71,14 @@ const SITE_NAME = "Noah Weidig";
  * unfurlers and validators (opengraph.xyz, Facebook's debugger) see a 404 and
  * show no preview at all.
  */
+function canonicalSiteUrl(): string {
+  const yml = fs.readFileSync(path.join(projectRoot, "_quarto.yml"), "utf8");
+  const m = yml.match(/^\s*site-url:\s*["']?([^"'\s]+)/m);
+  if (!m) throw new Error("[og-cards] no site-url found in _quarto.yml");
+  return m[1].replace(/\/+$/, "");
+}
 const SITE_URL = (process.env.CONTEXT && process.env.CONTEXT !== "production" &&
-  process.env.DEPLOY_PRIME_URL?.replace(/\/+$/, "")) || "https://noahweidig.com";
+  process.env.DEPLOY_PRIME_URL?.replace(/\/+$/, "")) || canonicalSiteUrl();
 const SECTION_LABELS: Record<string, string> = {
   blog: "Blog",
   projects: "Projects",
@@ -86,13 +99,6 @@ const INDEX_CTA_LABELS: Record<string, string> = {
   publications: "Browse the publications",
   awards: "Browse the awards",
 };
-
-const projectRoot = process.env.QUARTO_PROJECT_DIR ??
-  path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
-const outputDir = process.env.QUARTO_PROJECT_OUTPUT_DIR
-  ? path.resolve(projectRoot, process.env.QUARTO_PROJECT_OUTPUT_DIR)
-  : path.join(projectRoot, "_site");
-const vendorDir = path.join(projectRoot, "scripts", "vendor");
 
 // -------------------------------------------------------------- helpers
 
