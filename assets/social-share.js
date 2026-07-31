@@ -23,10 +23,31 @@
       email: "mailto:?subject=" + t + "&body=Check%20out%20this%20link:%20" + u
     };
 
+    // The filter emits icon-only links, so their only accessible name is the
+    // Font Awesome glyph — i.e. none at all to a screen reader, and a
+    // "links must have discernible text" failure. Name each one and hide the
+    // decorative <i> from the accessibility tree. Nothing changes visually.
+    var labels = {
+      twitter: "Share on X",
+      linkedin: "Share on LinkedIn",
+      facebook: "Share on Facebook",
+      reddit: "Share on Reddit",
+      tumblr: "Share on Tumblr",
+      stumbleupon: "Share on StumbleUpon",
+      bsky: "Share on Bluesky",
+      email: "Share by email"
+    };
+
     containers.forEach(function (c) {
       Object.keys(templates).forEach(function (cls) {
         c.querySelectorAll("a." + cls).forEach(function (a) {
           a.setAttribute("href", templates[cls]);
+          if (!a.getAttribute("aria-label")) a.setAttribute("aria-label", labels[cls]);
+          // The filter's `target="_blank"` ships without a `rel`.
+          if (!a.getAttribute("rel")) a.setAttribute("rel", "noopener");
+          a.querySelectorAll("i").forEach(function (i) {
+            i.setAttribute("aria-hidden", "true");
+          });
         });
       });
     });

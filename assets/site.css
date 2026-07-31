@@ -559,13 +559,20 @@ img.nw-detail-hero {
   height: 1.2rem;
 }
 
-.nw-footer-col h3 {
+/* h2, not h3: the footer columns are the page's second-level landmarks, and
+   an <h3> straight after the page <h1> is a skipped level. Same type. */
+.nw-footer-col h2 {
   font-size: 0.75rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--nw-fg);
   margin: 0 0 1rem;
+  /* Quarto underlines every content <h2> and dims every <h3> to .9; these are
+     footer column labels, so undo the underline and keep the h3 dimming. */
+  border-bottom: 0;
+  padding-bottom: 0;
+  opacity: 0.9;
 }
 
 .nw-footer-col ul {

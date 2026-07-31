@@ -15,5 +15,10 @@ include-after-body:
 
 <div class="nw-filters" data-nw-filter-for="all-projects" data-nw-filter-noun="projects"></div>
 
+<!-- The listing renders each item at heading level 3; without a level-2
+     heading between them and the page title the document skips a level.
+     Announced to screen readers, invisible on screen. -->
+<h2 class="visually-hidden">All projects</h2>
+
 ::: {#all-projects .nw-projects}
 :::

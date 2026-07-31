@@ -144,3 +144,25 @@ document.addEventListener(
   var sub = document.querySelector("#title-block-header .subtitle");
   if (sub) sub.remove();
 })();
+
+// Two accessibility defects in Quarto's own navbar markup, patched here rather
+// than by forking the template.
+//
+//  * The brand logo link is named only by its <img alt>, and the site's CSS
+//    hides that image at narrow widths — leaving the link with no accessible
+//    name at all on mobile ("Links do not have a discernible name").
+//  * The hamburger button carries role="menu", which is not a role a <button>
+//    is allowed to take and which overrides its implicit button semantics.
+//
+// Neither change is visible; both are removed the moment Quarto fixes them
+// upstream and this block is deleted.
+(function () {
+  var brand = document.querySelector("a.navbar-brand-logo");
+  if (brand && !brand.getAttribute("aria-label")) {
+    var img = brand.querySelector("img[alt]");
+    brand.setAttribute("aria-label", (img && img.getAttribute("alt")) || "Home");
+  }
+
+  var toggler = document.querySelector("button.navbar-toggler[role='menu']");
+  if (toggler) toggler.removeAttribute("role");
+})();
