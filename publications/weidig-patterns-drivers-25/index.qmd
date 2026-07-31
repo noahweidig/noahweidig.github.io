@@ -5,13 +5,14 @@ description: "The recent increase in large wildfires in the eastern United State
 categories: ["Thesis"]
 pub-authors: "**Weidig, N. C.**"
 pub-venue: "University of Florida"
+pub-url: "https://original-ufdc.uflib.ufl.edu/files/UFE0062783/00001/Weidig_N.pdf"
 ---
 
 ::: {.nw-cite-meta}
 **Weidig, N. C.** (2025). *University of Florida*.
 :::
 
-[BibTeX](cite.bib){.nw-btn .nw-btn-ghost}
+[Source](https://original-ufdc.uflib.ufl.edu/files/UFE0062783/00001/Weidig_N.pdf){.nw-btn .nw-btn-primary target="_blank"} [BibTeX](cite.bib){.nw-btn .nw-btn-ghost}
 
 ## Abstract
 
