@@ -6,7 +6,7 @@ categories:
 - Thoughts
 ---
 
-# Welcome
+## Welcome
 
 Here, I’ll share thoughts on science, geospatial analysis, wildfire, conservation, data visualization, and the occasional technical lesson learned while building things.
 

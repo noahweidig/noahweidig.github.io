@@ -266,6 +266,18 @@ async function main() {
     const category = categorize(it);
     const authorsHtml = joinAuthors((it.data.creators || []).filter((c) => c && (c.lastName || c.name)).map(citeName));
 
+    // Not every Zotero record carries an abstract, and a page with no
+    // `description` gets no <meta name="description"> and no Open Graph blurb —
+    // it just shows up bare in search results. Fall back to the citation the
+    // page already displays, which is at least an accurate summary.
+    if (!summary) {
+      const who = stripHtml(authorsHtml).replace(/\*\*/g, "").replace(/\s+/g, " ").trim();
+      summary = [
+        `${category}${who ? ` by ${who}` : ""}${year ? ` (${year})` : ""}.`,
+        venue ? `${venue.replace(/\*/g, "")}.` : "",
+      ].filter(Boolean).join(" ");
+    }
+
     const detailBits = [];
     const str = (v) => (v == null ? "" : String(v).trim());
     if (str(it.data.volume)) detailBits.push(`vol. ${str(it.data.volume)}`);

@@ -324,6 +324,14 @@ function upsertMeta(head: string, attr: "property" | "name", key: string, value:
   return `${head}${tag}\n`;
 }
 
+/** Insert or update a <link rel="…"> in <head>. Returns the new head. */
+function upsertLink(head: string, rel: string, href: string, extra = ""): string {
+  const tag = `<link rel="${rel}" href="${esc(href)}"${extra ? " " + extra : ""}>`;
+  const existing = new RegExp(`<link\\s+rel="${rel}"[^>]*>`);
+  if (existing.test(head)) return head.replace(existing, tag);
+  return `${head}${tag}\n`;
+}
+
 function* walkHtml(dir: string): Generator<string> {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
     const full = path.join(dir, entry.name);
@@ -396,12 +404,29 @@ async function main(): Promise<void> {
     const imageUrl = `${SITE_URL}/assets/og/${slug}.png`;
     // Don't say "Noah Weidig" twice when the title already carries it.
     const imageAlt = title.includes(SITE_NAME) ? title : `${title} — ${SITE_NAME}`;
-    const isArticle = topDir === "blog" && !isSectionIndex;
+    // Blog posts and publication records are datestamped, single-subject
+    // documents; everything else on the site is a page about the site.
+    const isArticle = (topDir === "blog" || topDir === "publications") && !isSectionIndex;
+    const canonical = pageUrl(rel);
 
     let head = html.slice(0, headEnd);
+    // Quarto emits no canonical link of its own, and GitHub Pages serves every
+    // page at more than one address (/cv and /cv.html, /blog/focus/ and
+    // /blog/focus/index.html), so without this each page looks like several
+    // duplicates to a crawler. The URL is the same one og:url advertises and
+    // the one sitemap.xml lists — see scripts/optimize-output.ts.
+    // The 404 page is reachable at every bad URL on the domain, so it gets the
+    // opposite treatment: keep it out of the index (crawlers may still follow
+    // its links) and give it no canonical, which would only contradict the
+    // noindex. It is already absent from sitemap.xml.
+    if (rel === "404.html") {
+      head = upsertMeta(head, "name", "robots", "noindex, follow");
+    } else {
+      head = upsertLink(head, "canonical", canonical);
+    }
     head = upsertMeta(head, "property", "og:title", title);
     if (description) head = upsertMeta(head, "property", "og:description", description);
-    head = upsertMeta(head, "property", "og:url", pageUrl(rel));
+    head = upsertMeta(head, "property", "og:url", canonical);
     head = upsertMeta(head, "property", "og:type", isArticle ? "article" : "website");
     head = upsertMeta(head, "property", "og:site_name", SITE_NAME);
     head = upsertMeta(head, "property", "og:locale", "en_US");
