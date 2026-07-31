@@ -7,7 +7,7 @@ categories:
 - Data Science
 - Tidyverse
 draft: false
-image: logos/tidyverse.png
+image: logos/tidyverse.webp
 image-alt: The tidyverse hexagonal logo
 toc: true
 toc-depth: 3
@@ -132,7 +132,7 @@ you rarely call by name but that power the whole thing. We cover both layers
 below.
 :::
 
-### ggplot2 <img src="logos/ggplot2.png" alt="ggplot2 hex logo" align="right" height="100">
+### ggplot2 <img src="logos/ggplot2.webp" alt="ggplot2 hex logo" align="right" width="87" height="100" loading="lazy">
 
 **ggplot2** is the visualization workhorse, and it earns a
 [deep dive of its own below](#ggplot2-in-depth). The short version: it
@@ -149,7 +149,7 @@ ggplot(penguins, aes(flipper_length_mm, body_mass_g, colour = species)) +
 We will unpack layering, scales, facets, themes, and annotations in the
 [ggplot2 section](#ggplot2-in-depth).
 
-### dplyr <img src="logos/dplyr.png" alt="dplyr hex logo" align="right" height="100">
+### dplyr <img src="logos/dplyr.webp" alt="dplyr hex logo" align="right" width="87" height="100" loading="lazy">
 
 **dplyr** is the grammar of data manipulation, and it is probably the package I
 type most. It boils down data wrangling to a small set of verbs: `filter()`
@@ -212,7 +212,7 @@ of times a day. `slice_max()` / `slice_min()` grab the top-*n* rows per group.
 And `case_when()` is the readable replacement for nested `if_else()`.
 :::
 
-### tidyr <img src="logos/tidyr.png" alt="tidyr hex logo" align="right" height="100">
+### tidyr <img src="logos/tidyr.webp" alt="tidyr hex logo" align="right" width="87" height="100" loading="lazy">
 
 Where dplyr manipulates tidy data, **tidyr** *makes* data tidy. Its two headline
 functions, `pivot_longer()` and `pivot_wider()`, reshape between wide and long
@@ -248,7 +248,7 @@ into several, `unnest()` for flattening list-columns (essential when working
 with [purrr](#purrr-in-depth) results), and `complete()` for making implicit
 missing combinations explicit.
 
-### readr <img src="logos/readr.png" alt="readr hex logo" align="right" height="100">
+### readr <img src="logos/readr.webp" alt="readr hex logo" align="right" width="87" height="100" loading="lazy">
 
 **readr** imports rectangular text files — CSVs, TSVs, fixed-width — faster and
 more predictably than base R's `read.csv()`. It gets its
@@ -261,7 +261,7 @@ exactly how it parsed every column.
 read_csv("x,y\n1,a\n2,b\n3,c")
 ```
 
-### purrr <img src="logos/purrr.png" alt="purrr hex logo" align="right" height="100">
+### purrr <img src="logos/purrr.webp" alt="purrr hex logo" align="right" width="87" height="100" loading="lazy">
 
 **purrr** is functional programming for R: a consistent, type-stable family of
 `map()` functions that replace most of the `for` loops and `*apply()` calls you
@@ -276,7 +276,7 @@ penguins |>
   map_dbl(\(df) summary(lm(body_mass_g ~ flipper_length_mm, df))$r.squared)
 ```
 
-### tibble <img src="logos/tibble.png" alt="tibble hex logo" align="right" height="100">
+### tibble <img src="logos/tibble.webp" alt="tibble hex logo" align="right" width="87" height="100" loading="lazy">
 
 **tibble** is the tidyverse's modern reimagining of the data frame. Tibbles do
 less than base `data.frame`s, and that is a feature: they never change column
@@ -303,7 +303,7 @@ penguins |>
   mutate(n_rows = map_int(data, nrow))
 ```
 
-### stringr <img src="logos/stringr.png" alt="stringr hex logo" align="right" height="100">
+### stringr <img src="logos/stringr.webp" alt="stringr hex logo" align="right" width="87" height="100" loading="lazy">
 
 **stringr** wraps the powerful-but-cryptic base string functions in a consistent
 `str_` API where the string is always the first argument (so it pipes) and the
@@ -325,7 +325,7 @@ pattern), `str_replace_all()` (clean up messy text), `str_extract()` (pull a
 substring out with a regex), and `str_c()` / [glue](#glue) for gluing strings
 together.
 
-### forcats <img src="logos/forcats.png" alt="forcats hex logo" align="right" height="100">
+### forcats <img src="logos/forcats.webp" alt="forcats hex logo" align="right" width="87" height="100" loading="lazy">
 
 **forcats** exists to make categorical variables — factors — bearable. Factor
 level order controls the order of bars, legends, and facets in every plot you
@@ -348,7 +348,7 @@ penguins |>
 Other favorites: `fct_infreq()` (order by frequency), `fct_lump_n()` (collapse
 rare levels into "Other"), and `fct_recode()` (rename levels explicitly).
 
-### lubridate <img src="logos/lubridate.png" alt="lubridate hex logo" align="right" height="100">
+### lubridate <img src="logos/lubridate.webp" alt="lubridate hex logo" align="right" width="87" height="100" loading="lazy">
 
 **lubridate** makes dates and times tractable. Parsing, arithmetic, rounding,
 time zones — all the things that make base R date handling a chore become
@@ -375,7 +375,7 @@ Knowing these exist makes error messages far less mysterious.
   penguins |> select(species, where(is.numeric)) |> names()
   ```
 
-- **vctrs** <img src="logos/vctrs.png" alt="vctrs hex logo" align="right" height="70">
+- **vctrs** <img src="logos/vctrs.webp" alt="vctrs hex logo" align="right" width="61" height="70" loading="lazy">
   defines the rules for what happens when vectors of different types meet: what
   `c(1L, 2.5)` should become, how a row-bind reconciles column types, what "size"
   and "prototype" mean. It is why tidyverse type coercions are predictable
@@ -389,7 +389,7 @@ Knowing these exist makes error messages far less mysterious.
   the truncation of wide output, the color. Every nicely formatted tibble you
   have ever seen is pillar at work.
 
-- **rlang** <img src="logos/rlang.png" alt="rlang hex logo" align="right" height="70">
+- **rlang** <img src="logos/rlang.webp" alt="rlang hex logo" align="right" width="61" height="70" loading="lazy">
   is the toolkit for R's metaprogramming: tidy evaluation, the `{{ }}`
   embrace operator, and the condition system. If you have ever written a function
   that takes a column name as a bare argument, you have used rlang.
@@ -423,7 +423,7 @@ worldview you have bumped into.
 
 ## ggplot2 in depth {#ggplot2-in-depth}
 
-<img src="logos/ggplot2.png" alt="ggplot2 hex logo" align="right" height="100">
+<img src="logos/ggplot2.webp" alt="ggplot2 hex logo" align="right" width="87" height="100" loading="lazy">
 
 ggplot2 deserves more than a teaser because it is the package whose mental model
 pays the largest dividends. Once the grammar clicks, you stop searching for "the
@@ -586,7 +586,7 @@ resizing afterward, so text and points scale correctly.
 
 ## readr in depth {#readr-in-depth}
 
-<img src="logos/readr.png" alt="readr hex logo" align="right" height="100">
+<img src="logos/readr.webp" alt="readr hex logo" align="right" width="87" height="100" loading="lazy">
 
 Base R's `read.csv()` works, but it has habits that cost you time: it guesses
 column types opaquely, historically converted strings to factors, mangles column
@@ -661,7 +661,7 @@ wrong, and your import is now explicit and reproducible.
 
 ## purrr in depth {#purrr-in-depth}
 
-<img src="logos/purrr.png" alt="purrr hex logo" align="right" height="100">
+<img src="logos/purrr.webp" alt="purrr hex logo" align="right" width="87" height="100" loading="lazy">
 
 If you find yourself writing a `for` loop to build up a result vector or list,
 purrr almost certainly has a cleaner, safer way. The core idea is **iteration as
@@ -742,7 +742,7 @@ single explicit loop.
 
 ## lubridate in depth {#lubridate-in-depth}
 
-<img src="logos/lubridate.png" alt="lubridate hex logo" align="right" height="100">
+<img src="logos/lubridate.webp" alt="lubridate hex logo" align="right" width="87" height="100" loading="lazy">
 
 Dates are where base R frustrates people most: the format strings, the time-zone
 surprises, the awkward arithmetic. **lubridate** replaces all of it with
@@ -835,7 +835,7 @@ The tidyverse gets the headlines, but a project's *reproducibility* rests on a
 quieter set of tools. These are the packages that make a script run the same way
 on your laptop, your collaborator's machine, and a server two years from now.
 
-### fs <img src="logos/fs.png" alt="fs hex logo" align="right" height="100">
+### fs <img src="logos/fs.webp" alt="fs hex logo" align="right" width="87" height="100" loading="lazy">
 
 **fs** provides a consistent, cross-platform API for file-system work. Base R's
 `file.*` and `dir.*` functions have inconsistent names, mixed return types, and
@@ -910,7 +910,7 @@ machine, for anyone, forever. The rule of thumb: never write `setwd()` in a
 script you intend to share or re-run.
 :::
 
-### glue <img src="logos/glue.png" alt="glue hex logo" align="right" height="100"> {#glue}
+### glue <img src="logos/glue.webp" alt="glue hex logo" align="right" width="87" height="100" loading="lazy"> {#glue}
 
 **glue** is string interpolation done right. Instead of juggling `paste0()` with
 a dozen commas, you write the string once and drop `{expressions}` inline — they
@@ -991,7 +991,7 @@ the top state exactly which function every ambiguous name refers to, so a reader
 (or future you) never has to guess.
 :::
 
-### vroom <img src="logos/vroom.png" alt="vroom hex logo" align="right" height="100"> {#vroom}
+### vroom <img src="logos/vroom.webp" alt="vroom hex logo" align="right" width="89" height="100" loading="lazy"> {#vroom}
 
 **vroom** reads delimited files *fast* — often several times faster than readr on
 large data. Its trick is **lazy, altrep-backed reading**: it indexes the file up
@@ -1032,7 +1032,7 @@ handful of columns, vroom's laziness can be the difference between seconds and a
 coffee break.
 :::
 
-### renv <img src="logos/renv.svg" alt="renv hex logo" align="right" height="100">
+### renv <img src="logos/renv.svg" alt="renv hex logo" align="right" width="100" height="100" loading="lazy">
 
 Reproducibility is not just about code — it is about the *exact package versions*
 that code ran against. **renv** gives every project its own private, isolated
@@ -1094,7 +1094,7 @@ Let's fit a model to use throughout this section.
 model <- lm(body_mass_g ~ flipper_length_mm + species + sex, data = penguins)
 ```
 
-### insight <img src="logos/insight.png" alt="insight hex logo" align="right" height="100">
+### insight <img src="logos/insight.webp" alt="insight hex logo" align="right" width="86" height="100" loading="lazy">
 
 **insight** is the foundation the rest of easystats is built on. It knows how to
 reach *inside* virtually any model object and pull out its parts — the formula,
@@ -1110,7 +1110,7 @@ get_predictors(model) |> head(3)
 find_formula(model)
 ```
 
-### parameters <img src="logos/parameters.png" alt="parameters hex logo" align="right" height="100">
+### parameters <img src="logos/parameters.webp" alt="parameters hex logo" align="right" width="86" height="100" loading="lazy">
 
 **parameters** extracts and formats a model's coefficients — estimates, standard
 errors, confidence intervals, and *p*-values — into a clean, consistent table. It
@@ -1124,7 +1124,7 @@ library(parameters)
 model_parameters(model)
 ```
 
-### performance <img src="logos/performance.png" alt="performance hex logo" align="right" height="100">
+### performance <img src="logos/performance.webp" alt="performance hex logo" align="right" width="86" height="100" loading="lazy">
 
 **performance** assesses model quality: R², RMSE, AIC/BIC, ICC, and a full suite
 of assumption checks (normality, heteroscedasticity, collinearity, influential
@@ -1143,7 +1143,7 @@ check_collinearity(model)
 check_model(model)
 ```
 
-### effectsize <img src="logos/effectsize.png" alt="effectsize hex logo" align="right" height="100">
+### effectsize <img src="logos/effectsize.webp" alt="effectsize hex logo" align="right" width="86" height="100" loading="lazy">
 
 **effectsize** computes and interprets standardized effect sizes — Cohen's *d*,
 eta-squared, standardized coefficients — and, crucially, translates them into
@@ -1162,7 +1162,7 @@ aov(body_mass_g ~ flipper_length_mm + species + sex, data = penguins) |>
   eta_squared()
 ```
 
-### correlation <img src="logos/correlation.png" alt="correlation hex logo" align="right" height="100">
+### correlation <img src="logos/correlation.webp" alt="correlation hex logo" align="right" width="86" height="100" loading="lazy">
 
 **correlation** turns correlation analysis into a single tidy call. It handles
 Pearson, Spearman, partial, and Bayesian correlations, returns a tibble with
@@ -1178,7 +1178,7 @@ penguins |>
   correlation()
 ```
 
-### datawizard <img src="logos/datawizard.png" alt="datawizard hex logo" align="right" height="100">
+### datawizard <img src="logos/datawizard.webp" alt="datawizard hex logo" align="right" width="86" height="100" loading="lazy">
 
 **datawizard** is easystats' data-preparation toolkit — the tidyverse-adjacent
 layer for the statistical side. It handles reshaping, standardizing, centering,
@@ -1201,7 +1201,7 @@ penguins |>
   describe_distribution()
 ```
 
-### modelbased <img src="logos/modelbased.png" alt="modelbased hex logo" align="right" height="100">
+### modelbased <img src="logos/modelbased.webp" alt="modelbased hex logo" align="right" width="86" height="100" loading="lazy">
 
 **modelbased** computes and visualizes model-based predictions, estimated
 marginal means, and contrasts. Instead of reading coefficients and doing mental
@@ -1214,7 +1214,7 @@ library(modelbased)
 estimate_means(model, by = "species")
 ```
 
-### bayestestR <img src="logos/bayestestR.png" alt="bayestestR hex logo" align="right" height="100">
+### bayestestR <img src="logos/bayestestR.webp" alt="bayestestR hex logo" align="right" width="86" height="100" loading="lazy">
 
 **bayestestR** provides the vocabulary of Bayesian inference: credible intervals
 (HDIs), probability of direction (pd), ROPE-based tests, and Bayes factors. Even
@@ -1229,7 +1229,7 @@ posterior <- distribution_normal(4000, mean = 200, sd = 40)
 describe_posterior(posterior, test = c("p_direction", "rope"))
 ```
 
-### see <img src="logos/see.png" alt="see hex logo" align="right" height="100">
+### see <img src="logos/see.webp" alt="see hex logo" align="right" width="86" height="100" loading="lazy">
 
 **see** is the visualization layer for easystats. It provides ggplot2 geoms,
 scales, and themes, and — most usefully — `plot()` methods for the objects the
@@ -1245,7 +1245,7 @@ estimate_means(model, by = "species") |>
   theme_lucid()
 ```
 
-### report <img src="logos/report.png" alt="report hex logo" align="right" height="100">
+### report <img src="logos/report.webp" alt="report hex logo" align="right" width="86" height="100" loading="lazy">
 
 **report** is the package that still delights me. It takes a model (or a data
 frame, or a *t*-test) and writes a **paragraph of publication-ready prose**
@@ -1274,7 +1274,7 @@ three packages solve problems the core package deliberately leaves open:
 visualizing uncertainty, composing multiple plots, and finishing figures for
 publication.
 
-### ggdist <img src="logos/ggdist.svg" alt="ggdist hex logo" align="right" height="100">
+### ggdist <img src="logos/ggdist.svg" alt="ggdist hex logo" align="right" width="86" height="100" loading="lazy">
 
 **ggdist** is for visualizing *distributions and uncertainty* — the thing bar
 charts with error bars do badly. It adds a family of "slabinterval" geoms that
@@ -1312,7 +1312,7 @@ tibble(mean = 4200, sd = 800) |>
   theme_nw()
 ```
 
-### patchwork <img src="logos/patchwork.png" alt="patchwork hex logo" align="right" height="100">
+### patchwork <img src="logos/patchwork.webp" alt="patchwork hex logo" align="right" width="87" height="100" loading="lazy">
 
 **patchwork** composes separate ggplots into a single figure using arithmetic
 operators. No more `grid.arrange()` incantations — you literally add plots
@@ -1363,7 +1363,7 @@ pb <- ggplot(penguins, aes(bill_length_mm, bill_depth_mm, colour = species)) +
 That trailing `&` applies a theme change to *every* subplot at once — a
 patchwork feature for enforcing consistency across a composition.
 
-### cowplot <img src="logos/cowplot.png" alt="cowplot hex logo" align="right" height="100">
+### cowplot <img src="logos/cowplot.webp" alt="cowplot hex logo" align="right" width="87" height="100" loading="lazy">
 
 **cowplot** predates some of patchwork's features and remains the go-to for
 **publication-quality** figure assembly, especially when you need precise

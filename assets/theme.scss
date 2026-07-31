@@ -1213,12 +1213,18 @@ a.nw-card:hover h3 {
   animation: nw-pulse 2s infinite;
 }
 
-.nw-cta-card h2 {
+// h1 as well as h2: the 404 page's card carries the page's only top-level
+// heading, so it has to be an <h1> — with exactly the same type treatment as
+// the <h2> every other CTA card uses.
+.nw-cta-card :is(h1, h2) {
   font-weight: 800;
   font-size: clamp(2rem, 4vw, 2.75rem);
   letter-spacing: -0.02em;
   line-height: 1.1;
   border: none;
+  // Quarto's own h2 rule contributes this; state it so the 404 page's <h1>
+  // lands on exactly the same baseline as every other card's <h2>.
+  padding-bottom: 0.5rem;
   margin: 0 0 0.85rem;
   color: inherit;
 }
@@ -1544,6 +1550,10 @@ body:has(.nw-cv) #title-block-header {
   font-size: 2.4rem;
   font-weight: 800;
   letter-spacing: -0.02em;
+  // The name is an <h2> so the page keeps a single <h1> (its title); Quarto
+  // underlines content h2s, which this heading never had.
+  border-bottom: 0;
+  padding-bottom: 0;
 }
 
 .nw-cv-role {
