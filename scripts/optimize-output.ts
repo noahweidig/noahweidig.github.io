@@ -37,12 +37,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import process from "node:process";
-
-const projectRoot = process.env.QUARTO_PROJECT_DIR ??
-  path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
-const outputDir = process.env.QUARTO_PROJECT_OUTPUT_DIR
-  ? path.resolve(projectRoot, process.env.QUARTO_PROJECT_OUTPUT_DIR)
-  : path.join(projectRoot, "_site");
+import { outputDir, walkHtml } from "./site-output.ts";
 
 // ------------------------------------------------------- image dimensions
 
@@ -148,18 +143,6 @@ function addAttrs(tag: string, extra: string): string {
 }
 
 // -------------------------------------------------------------- html pass
-
-function* walkHtml(dir: string): Generator<string> {
-  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
-    const full = path.join(dir, entry.name);
-    if (entry.isDirectory()) {
-      if (entry.name === "site_libs" || entry.name.endsWith("_files")) continue;
-      yield* walkHtml(full);
-    } else if (entry.name.endsWith(".html")) {
-      yield full;
-    }
-  }
-}
 
 /**
  * Rewrite the <img> tags inside a page's <main>. Navigation and footer imagery

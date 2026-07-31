@@ -36,6 +36,7 @@ import path from "node:path";
 import process from "node:process";
 import { pathToFileURL } from "node:url";
 import zlib from "node:zlib";
+import { outputDir, projectRoot, walkHtml } from "./site-output.ts";
 
 // ---------------------------------------------------------------- config
 
@@ -55,11 +56,6 @@ const BRAND = {
 
 const FONT = "Inter";
 
-const projectRoot = process.env.QUARTO_PROJECT_DIR ??
-  path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
-const outputDir = process.env.QUARTO_PROJECT_OUTPUT_DIR
-  ? path.resolve(projectRoot, process.env.QUARTO_PROJECT_OUTPUT_DIR)
-  : path.join(projectRoot, "_site");
 const vendorDir = path.join(projectRoot, "scripts", "vendor");
 
 const SITE_NAME = "Noah Weidig";
@@ -330,18 +326,6 @@ function upsertLink(head: string, rel: string, href: string, extra = ""): string
   const existing = new RegExp(`<link\\s+rel="${rel}"[^>]*>`);
   if (existing.test(head)) return head.replace(existing, tag);
   return `${head}${tag}\n`;
-}
-
-function* walkHtml(dir: string): Generator<string> {
-  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
-    const full = path.join(dir, entry.name);
-    if (entry.isDirectory()) {
-      if (entry.name === "site_libs" || entry.name.endsWith("_files")) continue;
-      yield* walkHtml(full);
-    } else if (entry.name.endsWith(".html")) {
-      yield full;
-    }
-  }
 }
 
 function slugFor(relPath: string): string {
