@@ -4,7 +4,16 @@ local function ensureHtmlDeps()
         version = '1.0.0',
         stylesheets = {
             'social-share.css',
-            '_extensions/quarto-ext/fontawesome/assets/css/all.min.css'
+            -- Local change to the vendored extension: upstream loads the full
+            -- Font Awesome Free build (101 KiB of CSS, plus 269 KiB of webfonts
+            -- at runtime) to draw six share buttons. social-share-icons.css is
+            -- a generated subset with only the glyphs this site uses — same
+            -- families, same outlines, ~2.7 KiB total. Regenerate it with
+            -- `python3 scripts/subset-social-icons.py` after enabling another
+            -- network in a `_metadata.yml` `share:` block. To revert, swap the
+            -- line below back to
+            -- '_extensions/quarto-ext/fontawesome/assets/css/all.min.css'.
+            'social-share-icons.css'
         }
     })
 end

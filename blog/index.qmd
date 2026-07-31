@@ -20,5 +20,10 @@ include-after-body:
 
 <div class="nw-filters" data-nw-filter-for="all-posts" data-nw-filter-noun="posts"></div>
 
+<!-- The listing renders each item at heading level 3; without a level-2
+     heading between them and the page title the document skips a level.
+     Announced to screen readers, invisible on screen. -->
+<h2 class="visually-hidden">All posts</h2>
+
 ::: {#all-posts .nw-posts}
 :::

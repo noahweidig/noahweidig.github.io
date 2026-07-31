@@ -72,7 +72,7 @@ listing:
 ```{=html}
 <header class="nw-cv-header">
   <div class="nw-cv-id">
-    <h1 class="nw-cv-name">Noah Weidig</h1>
+    <h2 class="nw-cv-name">Noah Weidig</h2>
     <p class="nw-cv-role">GIS Analyst &amp; Data Scientist</p>
     <p class="nw-cv-contact">
       <a href="mailto:noah@noahweidig.com">noah@noahweidig.com</a>
