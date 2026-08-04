@@ -7,7 +7,7 @@ categories:
 featured: true
 ---
 
-[Open Tool](https://noahweidig.com/faststats/){.nw-btn .nw-btn-primary target="_blank"}
+[Open Tool](https://faststats.noahweidig.com/){.nw-btn .nw-btn-primary target="_blank"}
 
 ![The FastStats browser-based data explorer](../../assets/media/albums/projects/faststats.webp)
 
