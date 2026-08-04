@@ -1118,6 +1118,10 @@ a.nw-card:hover h3 {
   padding: 0.7rem 1rem;
   color: var(--nw-fg);
   font: inherit;
+  /* floor stays at 16px: iOS Safari zooms the viewport on focus of any
+     input/textarea sized below that, which would be worse than the
+     crowding this is meant to fix. */
+  font-size: clamp(1rem, 3.6vw, 1.05rem);
 }
 
 .nw-form input:focus,
