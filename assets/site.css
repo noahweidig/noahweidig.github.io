@@ -718,8 +718,14 @@ img.nw-detail-hero {
 .nw-contact-item {
   display: grid;
   gap: 0.1rem;
-  font-size: 0.95rem;
+  min-width: 0;
+  font-size: clamp(0.85rem, 3.2vw, 0.95rem);
   font-weight: 600;
+}
+
+.nw-contact-item a,
+.nw-contact-item span {
+  overflow-wrap: anywhere;
 }
 
 .nw-contact-item small {
@@ -760,6 +766,34 @@ img.nw-detail-hero {
     grid-template-columns: 1fr;
     padding: 2rem 1.5rem;
     gap: 2rem;
+    text-align: center;
+  }
+
+  .nw-contact-info,
+  .nw-contact-card .nw-form {
+    justify-self: center;
+    width: 100%;
+    max-width: 26rem;
+  }
+
+  .nw-contact-list {
+    text-align: left;
+  }
+}
+
+/* narrow phones: give the card less padding to work with, so shrink text
+   progressively (clamp) rather than letting it crowd the card edge. */
+@media (max-width: 480px) {
+  .nw-contact-card {
+    padding: 1.5rem 1.1rem;
+  }
+
+  .nw-contact-info h3 {
+    font-size: clamp(1.05rem, 5.5vw, 1.35rem);
+  }
+
+  .nw-contact-info > p {
+    font-size: clamp(0.85rem, 3.6vw, 0.95rem);
   }
 }
 
