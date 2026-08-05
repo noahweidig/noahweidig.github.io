@@ -33,6 +33,47 @@
     })();
   }
 
+  // Hero headline: scale line 1 ("Spatial Analysis.") so it renders exactly as
+  // wide as line 2 ("Real Insights."). The ratio depends on the loaded font, so
+  // it is measured rather than hard-coded: reset the scale to 1, measure both
+  // lines with a Range (block spans stretch to the container, so their own
+  // width says nothing), then store w2/w1 as --nw-l1-fit. The stylesheet only
+  // consumes the variable at >=768px, so mobile is untouched.
+  var heroH1 = document.querySelector("#hero h1");
+  var l1 = heroH1 && heroH1.querySelector(".nw-line-1");
+  var l2 = heroH1 && heroH1.querySelector(".nw-line-2");
+  if (l1 && l2 && document.createRange) {
+    var textWidth = function (node) {
+      var r = document.createRange();
+      r.selectNodeContents(node);
+      return r.getBoundingClientRect().width;
+    };
+    var fitHeadline = function () {
+      heroH1.style.setProperty("--nw-l1-fit", "1");
+      var fit = 1;
+      // A couple of correction passes absorb the small non-proportional part
+      // of text width (hinting, subpixel rounding); it converges immediately.
+      for (var i = 0; i < 3; i++) {
+        var w1 = textWidth(l1), w2 = textWidth(l2);
+        if (!(w1 > 0 && w2 > 0)) {
+          heroH1.style.removeProperty("--nw-l1-fit");
+          return;
+        }
+        fit = fit * w2 / w1;
+        heroH1.style.setProperty("--nw-l1-fit", String(fit));
+      }
+    };
+    fitHeadline();
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(fitHeadline);
+    }
+    var fitTimer;
+    window.addEventListener("resize", function () {
+      clearTimeout(fitTimer);
+      fitTimer = setTimeout(fitHeadline, 150);
+    });
+  }
+
   // Duplicate marquee content so the loop is seamless: the `nw-scroll`
   // keyframe translates by -50%, which only lines up if the row is exactly
   // doubled. The copy is decoration — hide it from assistive tech and take it
