@@ -165,7 +165,7 @@ include-after-body:
 :::
 :::
 
-::: {.nw-section .nw-alt #publications}
+::: {.nw-section .nw-alt .nw-wash-l #publications}
 ::: {.nw-section-inner}
 <h2 class="nw-title">Featured Publications</h2>
 <p class="nw-subtitle">Recent journal articles</p>
@@ -303,7 +303,7 @@ include-after-body:
   </div>
 </section>
 
-<section id="affiliations" class="nw-section nw-alt">
+<section id="affiliations" class="nw-section nw-alt nw-wash-l">
   <div class="nw-section-inner">
     <h2 class="nw-title">Where I've Worked &amp; Studied</h2>
     <p class="nw-subtitle">Institutions and agencies I've contributed to</p>
@@ -366,7 +366,7 @@ include-after-body:
   </div>
 </section>
 
-<section id="contact" class="nw-section nw-alt">
+<section id="contact" class="nw-section nw-alt nw-wash-l">
   <div class="nw-section-inner">
     <h2 class="nw-title">Get In Touch</h2>
     <p class="nw-subtitle">Let's build something amazing together</p>
