@@ -254,6 +254,20 @@ body.quarto-dark .quarto-navbar-tools .quarto-color-scheme-toggle:hover > .bi::b
   }
 }
 
+/* Quarto pads every direct child of #quarto-content — 14px on desktop, 0 below
+   992px — and that id selector outranks `.nw-section`, so the landing page's
+   sections were keeping their bottom padding while losing the top entirely.
+   Restore the symmetric padding from a selector that outranks Quarto's. */
+#quarto-content > .nw-section {
+  padding-top: 6rem;
+}
+
+@media (max-width: 640px) {
+  #quarto-content > .nw-section {
+    padding-top: 3.5rem;
+  }
+}
+
 /* ============ hero headline: never wider than the page margins ============ */
 /* Both halves of the headline are `white-space: nowrap`, and the longer one
    ("Spatial Analysis.") measures ~6.6em in Inter at this weight and letter
@@ -1017,4 +1031,67 @@ img.nw-detail-hero {
   .nw-alt::after {
     display: none;
   }
+}
+
+/* ============ closing CTA: text straight on the gradient band ============ */
+/* The card chrome (blue panel, topography texture, glow, shadow) is dropped on
+   the landing page so the closing pitch sits directly on the section's own
+   gradient. Scoped to #cta: the 404 page still uses the card treatment. Colors
+   switch to the page foreground/muted pair, which is contrast-checked against
+   the page background in both themes — the band's wash is only a light tint
+   over it. */
+#cta .nw-cta-card {
+  max-width: 46rem;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  color: var(--nw-fg);
+}
+
+/* topography texture and the radial glow */
+#cta .nw-cta-card::before,
+#cta .nw-cta-card::after {
+  display: none;
+}
+
+#cta .nw-cta-card > p {
+  color: var(--nw-muted);
+  opacity: 1;
+}
+
+#cta .nw-cta-card > p strong {
+  color: var(--nw-fg);
+}
+
+#cta .nw-cta-card > .nw-cta-foot {
+  color: var(--nw-muted);
+  opacity: 1;
+}
+
+/* fact chips pick up the site's chip colors instead of the card's tinted ones */
+#cta .nw-cta-facts li {
+  color: var(--nw-fg);
+  background: var(--nw-chip);
+  border: 1px solid var(--nw-border);
+}
+
+/* buttons go back to their site-wide look, which reads correctly against the
+   page background now that the blue panel is gone */
+#cta .nw-cta-card .nw-btn-primary {
+  background: var(--nw-grad);
+  color: #fff !important;
+  box-shadow: 0 8px 24px rgba(0, 118, 223, 0.35);
+}
+
+#cta .nw-cta-card .nw-btn-ghost {
+  border: 1px solid var(--nw-border);
+  color: var(--nw-fg) !important;
+  background: transparent;
+}
+
+#cta .nw-cta-card .nw-btn-ghost:hover {
+  border-color: var(--nw-primary);
+  background: transparent;
 }
