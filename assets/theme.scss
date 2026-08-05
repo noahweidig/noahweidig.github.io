@@ -257,11 +257,13 @@ body {
   -webkit-text-fill-color: var(--nw-primary);
 }
 
-#hero .nw-role {
-  font-size: 1.15rem;
-  color: var(--nw-muted);
-  font-weight: 600;
-  margin-bottom: 0.75rem;
+/* Each half of the headline owns a line and never wraps mid-phrase. */
+#hero h1 .nw-line {
+  display: block;
+  white-space: nowrap;
+  /* re-declared so tracking scales with each line's own size, keeping width
+     proportional to font-size (the h1's em value would resolve once, in px) */
+  letter-spacing: -0.03em;
 }
 
 #hero .nw-type {
@@ -295,8 +297,8 @@ body {
 
 #hero .nw-socials a {
   display: inline-flex;
-  width: 2.75rem;
-  height: 2.75rem;
+  width: 3.5rem;
+  height: 3.5rem;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
@@ -312,8 +314,8 @@ body {
 }
 
 #hero .nw-socials svg {
-  width: 1.35rem;
-  height: 1.35rem;
+  width: 1.75rem;
+  height: 1.75rem;
 }
 
 .nw-btns {
@@ -408,6 +410,18 @@ body {
     max-width: 38rem;
   }
 
+  #hero h1 {
+    font-size: clamp(2rem, 4.2vw, 2.9rem);
+  }
+
+  /* "Spatial Analysis." is the longer phrase, so it is scaled down until it
+     measures exactly as wide as "Real Insights." home.js computes the ratio
+     from the rendered text and sets --nw-l1-fit; the literal is the no-JS
+     fallback. */
+  #hero h1 .nw-line-1 {
+    font-size: calc(1em * var(--nw-l1-fit, 0.83));
+  }
+
   #hero .nw-status {
     margin-bottom: 1rem;
   }
@@ -435,15 +449,11 @@ body {
   }
 
   #hero h1 {
-    font-size: clamp(3.25rem, 5vw, 4.75rem);
+    font-size: clamp(2.5rem, 4vw, 3.5rem);
   }
 
   #hero h1 .nw-hi {
     font-size: 1.2rem;
-  }
-
-  #hero .nw-role {
-    font-size: 1.4rem;
   }
 
   #hero .nw-type {
