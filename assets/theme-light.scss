@@ -21,6 +21,14 @@ $card-bg: #ffffff;
   --nw-tint: 7%;
   --nw-tint-hover: 12%;
   --nw-hero-glow: rgba(0, 118, 223, 0.12);
+  /* alternating full-bleed section wash: soft tints over white, plus the
+     flat color the grain tile is masked out of */
+  --nw-wash-sky: rgba(0, 118, 223, 0.16);
+  --nw-wash-teal: rgba(13, 179, 186, 0.15);
+  --nw-wash-emerald: rgba(16, 185, 129, 0.14);
+  --nw-wash-violet: rgba(124, 92, 246, 0.13);
+  --nw-grain: #1f2937;
+  --nw-grain-op: 0.18;
   --nw-cta-from: #cfe6ff;
   --nw-cta-via: #e4f1ff;
   --nw-cta-to: #f2f8ff;
