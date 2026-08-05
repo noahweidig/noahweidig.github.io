@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-  <a href="https://www.noahweidig.com"><b>🌐 noahweidig.com</b></a>
+  <a href="https://www.noahweidig.com"><b>noahweidig.com</b></a>
   &nbsp;•&nbsp;
   <a href="https://noahweidig.substack.com/">Blog (Substack)</a>
   &nbsp;•&nbsp;
