@@ -34,6 +34,9 @@
   border: 1px solid var(--nw-border);
   border-radius: 50%;
   box-sizing: border-box;
+  /* filled, like every other button on the site — see "buttons: filled,
+     never transparent" below */
+  background: var(--nw-card);
   transition: background-color 0.15s, border-color 0.15s;
 }
 
@@ -87,7 +90,7 @@ body.quarto-dark .quarto-navbar-tools .quarto-color-scheme-toggle:hover > .bi::b
   padding: 0;
   border: 1px solid var(--nw-border);
   border-radius: 50%;
-  background: transparent;
+  background: var(--nw-card);
   color: var(--nw-navcta);
   box-shadow: none;
   transition: background-color 0.15s, border-color 0.15s, color 0.15s;
@@ -293,8 +296,11 @@ body.quarto-dark .quarto-navbar-tools .quarto-color-scheme-toggle:hover > .bi::b
 }
 
 /* ============ navbar Book Now: never wrap; hide when space is tight ============ */
+/* The fill matches the other outline buttons — see "buttons: filled, never
+   transparent" below; it lives here so the selector isn't declared twice. */
 .navbar .navbar-nav .nav-item a[href*="cal.com"] {
   white-space: nowrap;
+  background: var(--nw-card);
 }
 
 @media (min-width: 992px) and (max-width: 1249.98px) {
@@ -1110,31 +1116,20 @@ img.nw-detail-hero {
   border-color: var(--nw-primary);
 }
 
-.navbar .navbar-nav .nav-item a[href*="cal.com"] {
-  background: var(--nw-card);
-}
-
-#quarto-search.type-overlay .aa-DetachedSearchButton,
-.quarto-navbar-tools .quarto-color-scheme-toggle {
-  background: var(--nw-card);
-}
-
-/* the hover fills stay as they were: solid primary with a white glyph */
-#quarto-search.type-overlay .aa-DetachedSearchButton:hover,
-#quarto-search.type-overlay .aa-DetachedSearchButton:focus,
-.quarto-navbar-tools .quarto-color-scheme-toggle:hover,
-.navbar .navbar-nav .nav-item a[href*="cal.com"]:hover {
-  background: var(--nw-primary);
-}
-
 /* ============ white labels render pure white ============ */
 /* `body { -webkit-font-smoothing: antialiased }` switches macOS to grayscale
    antialiasing, which thins these labels enough that no glyph pixel reaches
    #fff — sampling one reads about #e6e7eb. Subpixel rendering restores solid
    white cores; the color is pinned alongside it so nothing dims it. */
 .nw-btn-primary,
-.nw-cta-card .nw-btn-primary,
+.nw-cta-card .nw-btn-primary {
+  -webkit-font-smoothing: auto;
+  color: #fff !important;
+}
+
+/* the navbar CTA's white-on-blue hover label, same treatment */
 .navbar .navbar-nav .nav-item a[href*="cal.com"]:hover {
+  background: var(--nw-primary);
   -webkit-font-smoothing: auto;
   color: #fff !important;
 }
