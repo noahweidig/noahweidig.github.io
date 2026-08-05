@@ -39,10 +39,12 @@
   // lines with a Range (block spans stretch to the container, so their own
   // width says nothing), then store w2/w1 as --nw-l1-fit. The stylesheet only
   // consumes the variable at >=768px, so mobile is untouched.
-  var heroH1 = document.querySelector("#hero h1");
-  var l1 = heroH1 && heroH1.querySelector(".nw-line-1");
-  var l2 = heroH1 && heroH1.querySelector(".nw-line-2");
-  if (l1 && l2 && document.createRange) {
+  function setUpHeadlineFit() {
+    var heroH1 = document.querySelector("#hero h1");
+    var l1 = heroH1?.querySelector(".nw-line-1");
+    var l2 = heroH1?.querySelector(".nw-line-2");
+    if (!l1 || !l2 || !document.createRange) return;
+
     var textWidth = function (node) {
       var r = document.createRange();
       r.selectNodeContents(node);
@@ -63,16 +65,16 @@
         heroH1.style.setProperty("--nw-l1-fit", String(fit));
       }
     };
+
     fitHeadline();
-    if (document.fonts && document.fonts.ready) {
-      document.fonts.ready.then(fitHeadline);
-    }
+    if (document.fonts) document.fonts.ready.then(fitHeadline);
     var fitTimer;
     window.addEventListener("resize", function () {
       clearTimeout(fitTimer);
       fitTimer = setTimeout(fitHeadline, 150);
     });
   }
+  setUpHeadlineFit();
 
   // Duplicate marquee content so the loop is seamless: the `nw-scroll`
   // keyframe translates by -50%, which only lines up if the row is exactly
