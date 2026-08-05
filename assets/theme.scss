@@ -59,8 +59,11 @@ body {
   margin: 0 auto;
 }
 
+/* Bootstrap caps the brand image at `max-height: 24px`, which overrode the
+   height below — both have to be set for the mark to actually grow. */
 .navbar .navbar-brand img {
-  height: 2.5rem;
+  height: 2.25rem;
+  max-height: 2.25rem;
   transition: filter 0.2s ease;
 }
 
@@ -257,11 +260,10 @@ body {
   -webkit-text-fill-color: var(--nw-primary);
 }
 
-#hero .nw-role {
-  font-size: 1.15rem;
-  color: var(--nw-muted);
-  font-weight: 600;
-  margin-bottom: 0.75rem;
+/* Each half of the headline owns a line and never wraps mid-phrase. */
+#hero h1 .nw-line {
+  display: block;
+  white-space: nowrap;
 }
 
 #hero .nw-type {
@@ -295,8 +297,8 @@ body {
 
 #hero .nw-socials a {
   display: inline-flex;
-  width: 2.75rem;
-  height: 2.75rem;
+  width: 3.5rem;
+  height: 3.5rem;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
@@ -312,8 +314,8 @@ body {
 }
 
 #hero .nw-socials svg {
-  width: 1.35rem;
-  height: 1.35rem;
+  width: 1.75rem;
+  height: 1.75rem;
 }
 
 .nw-btns {
@@ -408,6 +410,10 @@ body {
     max-width: 38rem;
   }
 
+  #hero h1 {
+    font-size: clamp(2rem, 4.2vw, 2.9rem);
+  }
+
   #hero .nw-status {
     margin-bottom: 1rem;
   }
@@ -423,6 +429,28 @@ body {
   }
 }
 
+/* Tablet widths: the row is narrow enough that space-between opens a gulf
+   between the text and the portrait, so pack the two columns together and let
+   the headline grow into the space instead. */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .nw-hero-inner {
+    justify-content: center;
+    gap: 1.75rem;
+  }
+
+  #hero .nw-hero-text {
+    max-width: none;
+  }
+
+  #hero h1 {
+    font-size: clamp(2.2rem, 4.6vw, 2.9rem);
+  }
+
+  #hero .nw-type {
+    font-size: 1.45rem;
+  }
+}
+
 @media (min-width: 992px) {
   #hero .nw-avatar {
     width: 22rem;
@@ -435,15 +463,11 @@ body {
   }
 
   #hero h1 {
-    font-size: clamp(3.25rem, 5vw, 4.75rem);
+    font-size: clamp(2.5rem, 4vw, 3.5rem);
   }
 
   #hero h1 .nw-hi {
     font-size: 1.2rem;
-  }
-
-  #hero .nw-role {
-    font-size: 1.4rem;
   }
 
   #hero .nw-type {

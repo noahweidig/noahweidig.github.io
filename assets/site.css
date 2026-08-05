@@ -162,23 +162,14 @@ body.quarto-dark .quarto-navbar-tools .quarto-color-scheme-toggle:hover > .bi::b
   padding: 0;
 }
 
-/* ============ global grid-line backdrop (everything except the footer) ============ */
-body {
-  background-image:
-    linear-gradient(var(--nw-grid-line) 1px, transparent 1px),
-    linear-gradient(90deg, var(--nw-grid-line) 1px, transparent 1px);
-  background-size: 3.5rem 3.5rem;
-  background-position: center top;
-}
-
-/* sections sit transparent so the grid shows through; no gray alt bands */
+/* sections sit transparent against the page background; no gray alt bands */
 .nw-alt {
   background: transparent;
 }
 
 /* The hero's opaque background lives on a ::before layer that fades out over
-   its bottom third, so the body grid emerges gradually beneath the particle
-   network instead of starting abruptly at the stats section. */
+   its bottom third, so it blends gradually into the page background beneath
+   the particle network instead of ending abruptly at the stats section. */
 #hero {
   /* anchor for the absolutely-positioned #nw-particles canvas */
   position: relative;
@@ -207,7 +198,7 @@ body {
   inset: 0;
   z-index: 0;
   /* fade the network out over the same zone the hero background fades, so
-     particles dissolve into the grid instead of clipping at the hero edge */
+     particles dissolve into the page instead of clipping at the hero edge */
   -webkit-mask-image: linear-gradient(to bottom, #000 70%, transparent 100%);
   mask-image: linear-gradient(to bottom, #000 70%, transparent 100%);
 }
