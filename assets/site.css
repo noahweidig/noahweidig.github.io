@@ -254,6 +254,35 @@ body.quarto-dark .quarto-navbar-tools .quarto-color-scheme-toggle:hover > .bi::b
   }
 }
 
+/* Quarto pads every direct child of #quarto-content — 14px on desktop, 0 below
+   992px — and that id selector outranks `.nw-section`, so the landing page's
+   sections were keeping their bottom padding while losing the top entirely.
+   Restore the symmetric padding from a selector that outranks Quarto's. */
+#quarto-content > .nw-section {
+  padding-top: 6rem;
+}
+
+@media (max-width: 640px) {
+  #quarto-content > .nw-section {
+    padding-top: 3.5rem;
+  }
+}
+
+/* ============ hero headline: never wider than the page margins ============ */
+/* Both halves of the headline are `white-space: nowrap`, and the longer one
+   ("Spatial Analysis.") measures ~6.6em in Inter at this weight and letter
+   spacing — ~7.4em in a system fallback while the webfont swaps in — so the
+   2.5rem floor in the theme's clamp() runs off both edges of a very narrow
+   phone. Cap the size at what fits between the hero's 1.5rem gutters even in
+   the wider fallback face,
+   so the type keeps shrinking with the viewport instead of overflowing. Scoped
+   to phone widths: the tablet/desktop rules set their own sizes. */
+@media (max-width: 767.98px) {
+  #hero h1 {
+    font-size: min(clamp(2.5rem, 6vw, 4rem), calc((100vw - 3rem) / 7.6));
+  }
+}
+
 /* ============ hero name: plain fg color, not gradient ============ */
 #hero h1 .nw-name {
   background: none;
@@ -289,6 +318,18 @@ body.quarto-dark .quarto-navbar-tools .quarto-color-scheme-toggle:hover > .bi::b
   #stats .nw-stats {
     grid-template-columns: 1fr;
   }
+}
+
+/* ============ affiliation logos: icon strip under the stats ============ */
+/* No heading of its own — the moving logos read as a quiet credential strip
+   below the stat cards. The track's own vertical padding is dropped so the
+   section's bottom gap stays equal to its top gap. */
+#stats .nw-marquee {
+  margin-top: 2.5rem;
+}
+
+#stats .nw-marquee-track {
+  padding: 0;
 }
 
 /* ============ tech stack ============ */
@@ -391,16 +432,12 @@ body.quarto-dark .quarto-navbar-tools .quarto-color-scheme-toggle:hover > .bi::b
   padding: 2.5rem 1.5rem 4.5rem;
 }
 
-/* ============ awards grid: strict 4x1 / 2x2 / 1x4 ============ */
+/* ============ awards grid: strict 2x2, or 1x4 on narrow phones ============ */
 .nw-carousel {
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   align-items: start;
-}
-
-@media (max-width: 991.98px) {
-  .nw-carousel {
-    grid-template-columns: repeat(2, 1fr);
-  }
+  max-width: 62rem;
+  margin: 0 auto;
 }
 
 @media (max-width: 575.98px) {
@@ -414,6 +451,56 @@ body.quarto-dark .quarto-navbar-tools .quarto-color-scheme-toggle:hover > .bi::b
 .nw-cites > p,
 .nw-posts > p {
   display: none;
+}
+
+/* ============ featured publications: 2x2, or 1x4 on narrow phones ======== */
+#publications .nw-cites {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  max-width: 62rem;
+}
+
+/* the grid gap owns the spacing between cards now */
+#publications .nw-cites .nw-cite {
+  margin-bottom: 0;
+}
+
+@media (max-width: 640px) {
+  #publications .nw-cites {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============ research areas: neutral cards, no per-card color ============ */
+/* The .g-* icon classes are gone from the markup, so the tinted card
+   background keyed to them (theme.scss, via --c1/--c2) has nothing to mix;
+   pin the card and its icon tile back to the plain surface colors. */
+#interests .nw-card,
+#interests .nw-card:hover {
+  background: var(--nw-card);
+}
+
+#interests .nw-card .nw-icon {
+  background: var(--nw-chip);
+  color: var(--nw-fg);
+}
+
+/* ============ even breathing room top and bottom of every section ======== */
+/* Sections pad equally top and bottom, so the gap above a section's header
+   matches the gap below its last card (and, on a gradient band, the distance
+   to each edge of the gradient) — provided nothing leaves a trailing margin
+   behind. The "see all" row sits the same 2.5rem below the cards that the
+   subtitle sits above them. */
+.nw-section > .nw-section-inner > :last-child,
+.nw-cites .nw-cite:last-child,
+.nw-posts .nw-post:last-child,
+.nw-faq details:last-child {
+  margin-bottom: 0;
+}
+
+.nw-btns.nw-section-more {
+  margin-top: 2.5rem;
 }
 
 /* ============ detail pages: hero image injected from page metadata ============ */
@@ -843,10 +930,11 @@ img.nw-detail-hero {
 /* The landing page alternates plain page background and a full-bleed color
    wash: the wash rides on `.nw-alt` sections (which are otherwise
    transparent), so the rhythm is plain / gradient / plain / gradient all the
-   way down. Direction alternates too — odd bands pool their color against the
-   right wall, even bands (`.nw-wash-l`) against the left — and each band gets
-   its own hue pair via `--nw-w1` / `--nw-w2`. The hero is deliberately left
-   out: the particle network is already carrying that area.
+   way down. Each band spans the full width of the page and blends its two
+   hues (`--nw-w1` / `--nw-w2`) straight across, left to right; `.nw-wash-l`
+   bands run the same blend the other way so no two bands sweep the same
+   direction. The hero is deliberately left out: the particle network is
+   already carrying that area.
 
    Two layers per band, both behind the content:
      ::before  the gradient itself, cut off square at the section's top and
@@ -855,16 +943,9 @@ img.nw-detail-hero {
                fractal-noise tile so the same tile works in either theme */
 .nw-alt {
   position: relative;
-  /* which wall the color pools against; the grain rides the same fade, so the
-     plain side of every band stays true white / true black */
-  --nw-wash-fade: linear-gradient(90deg, transparent 20%, #000 95%);
   /* keep the z-index:-1 layers inside the section rather than letting them
      slide behind the page background */
   isolation: isolate;
-}
-
-.nw-alt.nw-wash-l {
-  --nw-wash-fade: linear-gradient(270deg, transparent 20%, #000 95%);
 }
 
 .nw-alt::before,
@@ -877,37 +958,27 @@ img.nw-detail-hero {
 }
 
 .nw-alt::before {
-  background:
-    radial-gradient(75% 120% at 100% 30%, var(--nw-w1), transparent 68%),
-    radial-gradient(62% 100% at 86% 88%, var(--nw-w2), transparent 70%),
-    linear-gradient(90deg, transparent 32%, var(--nw-w1) 145%);
+  background: linear-gradient(90deg, var(--nw-w1), var(--nw-w2));
 }
 
-/* mirrored bands: the same wash pooled against the left wall */
+/* mirrored bands: the same two hues, swept the other way */
 .nw-alt.nw-wash-l::before {
-  background:
-    radial-gradient(75% 120% at 0% 30%, var(--nw-w1), transparent 68%),
-    radial-gradient(62% 100% at 14% 88%, var(--nw-w2), transparent 70%),
-    linear-gradient(270deg, transparent 32%, var(--nw-w1) 145%);
+  background: linear-gradient(270deg, var(--nw-w1), var(--nw-w2));
 }
 
 .nw-alt::after {
   background: var(--nw-grain);
   opacity: var(--nw-grain-op);
-  /* alpha noise tile, intersected with the band's horizontal fade so the
-     grain sits only where the color does */
+  /* alpha noise tile: the grain now covers the whole band, since the color
+     does too */
   -webkit-mask-image:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
-    var(--nw-wash-fade);
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   mask-image:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
-    var(--nw-wash-fade);
-  -webkit-mask-size: 160px 160px, 100% 100%;
-  mask-size: 160px 160px, 100% 100%;
-  -webkit-mask-repeat: repeat, no-repeat;
-  mask-repeat: repeat, no-repeat;
-  -webkit-mask-composite: source-in;
-  mask-composite: intersect;
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  -webkit-mask-size: 160px 160px;
+  mask-size: 160px 160px;
+  -webkit-mask-repeat: repeat;
+  mask-repeat: repeat;
 }
 
 /* per-band hue pairs: cool blues and greens, rotating so no two adjacent
@@ -924,17 +995,12 @@ img.nw-detail-hero {
 
 #experience {
   --nw-w1: var(--nw-wash-emerald);
-  --nw-w2: var(--nw-wash-teal);
-}
-
-#affiliations {
-  --nw-w1: var(--nw-wash-sky);
   --nw-w2: var(--nw-wash-violet);
 }
 
 #blog {
   --nw-w1: var(--nw-wash-teal);
-  --nw-w2: var(--nw-wash-emerald);
+  --nw-w2: var(--nw-wash-violet);
 }
 
 #contact {
@@ -965,4 +1031,110 @@ img.nw-detail-hero {
   .nw-alt::after {
     display: none;
   }
+}
+
+/* ============ closing CTA: text straight on the gradient band ============ */
+/* The card chrome (blue panel, topography texture, glow, shadow) is dropped on
+   the landing page so the closing pitch sits directly on the section's own
+   gradient. Scoped to #cta: the 404 page still uses the card treatment. Colors
+   switch to the page foreground/muted pair, which is contrast-checked against
+   the page background in both themes — the band's wash is only a light tint
+   over it. */
+#cta .nw-cta-card {
+  max-width: 46rem;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  color: var(--nw-fg);
+}
+
+/* topography texture and the radial glow */
+#cta .nw-cta-card::before,
+#cta .nw-cta-card::after {
+  display: none;
+}
+
+#cta .nw-cta-card > p {
+  color: var(--nw-muted);
+  opacity: 1;
+}
+
+#cta .nw-cta-card > p strong {
+  color: var(--nw-fg);
+}
+
+#cta .nw-cta-card > .nw-cta-foot {
+  color: var(--nw-muted);
+  opacity: 1;
+}
+
+/* fact chips pick up the site's chip colors instead of the card's tinted ones */
+#cta .nw-cta-facts li {
+  color: var(--nw-fg);
+  background: var(--nw-chip);
+  border: 1px solid var(--nw-border);
+}
+
+/* buttons go back to their site-wide look, which reads correctly against the
+   page background now that the blue panel is gone */
+#cta .nw-cta-card .nw-btn-primary {
+  background: var(--nw-grad);
+  color: #fff !important;
+  box-shadow: 0 8px 24px rgba(0, 118, 223, 0.35);
+}
+
+#cta .nw-cta-card .nw-btn-ghost {
+  border: 1px solid var(--nw-border);
+  color: var(--nw-fg) !important;
+  background: var(--nw-card);
+}
+
+#cta .nw-cta-card .nw-btn-ghost:hover {
+  border-color: var(--nw-primary);
+  background: var(--nw-chip);
+}
+
+/* ============ buttons: filled, never transparent ============ */
+/* The outline buttons ("See All …", "View Full CV", the navbar CTA, and the
+   search / theme-toggle circles) were transparent, so whatever band they
+   happened to sit on showed through. They now carry the card surface, which
+   keeps them legible on plain background and on a gradient band alike. */
+.nw-btn-ghost {
+  background: var(--nw-card);
+}
+
+.nw-btn-ghost:hover {
+  background: var(--nw-chip);
+  border-color: var(--nw-primary);
+}
+
+.navbar .navbar-nav .nav-item a[href*="cal.com"] {
+  background: var(--nw-card);
+}
+
+#quarto-search.type-overlay .aa-DetachedSearchButton,
+.quarto-navbar-tools .quarto-color-scheme-toggle {
+  background: var(--nw-card);
+}
+
+/* the hover fills stay as they were: solid primary with a white glyph */
+#quarto-search.type-overlay .aa-DetachedSearchButton:hover,
+#quarto-search.type-overlay .aa-DetachedSearchButton:focus,
+.quarto-navbar-tools .quarto-color-scheme-toggle:hover,
+.navbar .navbar-nav .nav-item a[href*="cal.com"]:hover {
+  background: var(--nw-primary);
+}
+
+/* ============ white labels render pure white ============ */
+/* `body { -webkit-font-smoothing: antialiased }` switches macOS to grayscale
+   antialiasing, which thins these labels enough that no glyph pixel reaches
+   #fff — sampling one reads about #e6e7eb. Subpixel rendering restores solid
+   white cores; the color is pinned alongside it so nothing dims it. */
+.nw-btn-primary,
+.nw-cta-card .nw-btn-primary,
+.navbar .navbar-nav .nav-item a[href*="cal.com"]:hover {
+  -webkit-font-smoothing: auto;
+  color: #fff !important;
 }
