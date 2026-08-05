@@ -103,6 +103,22 @@ include-after-body:
      time to the count of projects/*/index.qmd with `featured: true`. -->
       <div class="nw-stat"><b data-nw-stat="featured-projects">17</b><span>Featured Projects</span></div>
     </div>
+    <!-- Affiliation logos: icons only, no heading — they read as a quiet
+         credential strip under the stats. The id keeps the footer's
+         /#affiliations link pointing at them. -->
+    <div class="nw-marquee" id="affiliations" role="group" aria-label="Affiliations">
+      <div class="nw-marquee-track">
+        <a href="https://www.ufl.edu/" target="_blank" rel="noopener"><img src="assets/media/icons/custom/uf.svg" width="800" height="600" alt="University of Florida" loading="lazy"></a>
+        <a href="https://www.ars.usda.gov/" target="_blank" rel="noopener"><img src="assets/media/icons/custom/ars.svg" width="800" height="600" alt="USDA Agricultural Research Service" loading="lazy"></a>
+        <a href="https://www.fs.usda.gov/" target="_blank" rel="noopener"><img src="assets/media/icons/custom/fs.svg" width="600" height="450" alt="USDA Forest Service" loading="lazy"></a>
+        <a href="https://www.uc.edu/" target="_blank" rel="noopener"><img src="assets/media/icons/custom/uc.svg" width="800" height="600" alt="University of Cincinnati" loading="lazy"></a>
+        <a href="https://www.nku.edu/" target="_blank" rel="noopener"><img src="assets/media/icons/custom/nku.svg" width="586" height="290" alt="Northern Kentucky University" loading="lazy"></a>
+        <a href="https://thesca.org/" target="_blank" rel="noopener"><img src="assets/media/icons/custom/sca.svg" width="622" height="849" alt="Student Conservation Association" loading="lazy"></a>
+        <a href="https://boonecountyclerk.ky.gov/" target="_blank" rel="noopener"><img src="assets/media/icons/custom/boone.svg" width="600" height="600" alt="Boone County Clerk's Office" loading="lazy"></a>
+        <a href="https://www.garageliving.com/f/cincinnati" target="_blank" rel="noopener"><img src="assets/media/icons/custom/garage-living.svg" width="600" height="178" alt="Garage Living" loading="lazy"></a>
+        <a href="https://ecos.fws.gov/" target="_blank" rel="noopener"><img src="assets/media/icons/custom/ecos.svg" width="148" height="161" alt="ECOS" loading="lazy"></a>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -113,37 +129,37 @@ include-after-body:
     <p class="nw-lead">I work at the intersection of geospatial analytics, data science, and applied AI — turning spatial and environmental data into decision-ready insight.</p>
     <div class="nw-grid">
       <a class="nw-card" href="interests/remote-sensing/">
-        <span class="nw-icon g-emerald"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.707 6.293l2.586 -2.586a1 1 0 0 1 1.414 0l5.586 5.586a1 1 0 0 1 0 1.414l-2.586 2.586a1 1 0 0 1 -1.414 0l-5.586 -5.586a1 1 0 0 1 0 -1.414z"/><path d="M6 10l-3 3l3 3l3 -3"/><path d="M10 6l3 -3l3 3l-3 3"/><path d="M12 12l1.5 1.5"/><path d="M14.5 17a2.5 2.5 0 0 0 2.5 -2.5"/><path d="M15 21a6 6 0 0 0 6 -6"/></svg></span>
+        <span class="nw-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.707 6.293l2.586 -2.586a1 1 0 0 1 1.414 0l5.586 5.586a1 1 0 0 1 0 1.414l-2.586 2.586a1 1 0 0 1 -1.414 0l-5.586 -5.586a1 1 0 0 1 0 -1.414z"/><path d="M6 10l-3 3l3 3l3 -3"/><path d="M10 6l3 -3l3 3l-3 3"/><path d="M12 12l1.5 1.5"/><path d="M14.5 17a2.5 2.5 0 0 0 2.5 -2.5"/><path d="M15 21a6 6 0 0 0 6 -6"/></svg></span>
         <h3>Remote Sensing &amp; Earth Observation</h3>
         <p>Extracting signal from satellite and aerial imagery to monitor landscapes, vegetation, and environmental change over time.</p>
         <div class="nw-chips"><span class="nw-chip">Imagery Analysis</span><span class="nw-chip">Google Earth Engine</span><span class="nw-chip">Change Detection</span></div>
       </a>
       <a class="nw-card" href="interests/land-use-change/">
-        <span class="nw-icon g-amber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7l6 -3l6 3l6 -3v13l-6 3l-6 -3l-6 3z"/><path d="M9 4v13"/><path d="M15 7v13"/></svg></span>
+        <span class="nw-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7l6 -3l6 3l6 -3v13l-6 3l-6 -3l-6 3z"/><path d="M9 4v13"/><path d="M15 7v13"/></svg></span>
         <h3>Land-Use Change &amp; Social-Ecological Systems</h3>
         <p>Studying how landscapes and communities co-evolve — wildland-urban interface, land management, and regional risk.</p>
         <div class="nw-chips"><span class="nw-chip">Land-Use Change</span><span class="nw-chip">Wildfire &amp; WUI</span><span class="nw-chip">Risk Assessment</span></div>
       </a>
       <a class="nw-card" href="interests/spatial-data-science/">
-        <span class="nw-icon g-sky"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v6a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1z"/><path d="M10 9a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v10a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1z"/><path d="M17 5a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v14a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1z"/></svg></span>
+        <span class="nw-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v6a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1z"/><path d="M10 9a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v10a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1z"/><path d="M17 5a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v14a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1z"/></svg></span>
         <h3>Spatial Data Science &amp; Statistical Modeling</h3>
         <p>Building reproducible spatial workflows and statistical models that quantify pattern, uncertainty, and trend.</p>
         <div class="nw-chips"><span class="nw-chip">Bayesian Analysis</span><span class="nw-chip">Forecasting</span><span class="nw-chip">Reproducible Research</span></div>
       </a>
       <a class="nw-card" href="interests/applied-ai/">
-        <span class="nw-icon g-fuchsia"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 18a2 2 0 0 1 2 2a2 2 0 0 1 2 -2a2 2 0 0 1 -2 -2a2 2 0 0 1 -2 2z"/><path d="M16 6a2 2 0 0 1 2 2a2 2 0 0 1 2 -2a2 2 0 0 1 -2 -2a2 2 0 0 1 -2 2z"/><path d="M9 18a6 6 0 0 1 6 -6a6 6 0 0 1 -6 -6a6 6 0 0 1 -6 6a6 6 0 0 1 6 6z"/></svg></span>
+        <span class="nw-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 18a2 2 0 0 1 2 2a2 2 0 0 1 2 -2a2 2 0 0 1 -2 -2a2 2 0 0 1 -2 2z"/><path d="M16 6a2 2 0 0 1 2 2a2 2 0 0 1 2 -2a2 2 0 0 1 -2 -2a2 2 0 0 1 -2 2z"/><path d="M9 18a6 6 0 0 1 6 -6a6 6 0 0 1 -6 -6a6 6 0 0 1 -6 6a6 6 0 0 1 6 6z"/></svg></span>
         <h3>Applied AI &amp; Data Storytelling</h3>
         <p>Applying machine learning to geospatial problems and communicating results through clear, compelling visualization.</p>
         <div class="nw-chips"><span class="nw-chip">Machine Learning</span><span class="nw-chip">Data Visualization</span><span class="nw-chip">Quantitative Ecology</span></div>
       </a>
       <a class="nw-card" href="interests/biodiversity-conservation/">
-        <span class="nw-icon g-lime"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21c.5 -4.5 2.5 -8 7 -10"/><path d="M9 18c6.218 0 10.5 -3.288 11 -12v-2h-4.014c-9 0 -11.986 4 -12 9c0 1 0 3 2 5h3z"/></svg></span>
+        <span class="nw-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21c.5 -4.5 2.5 -8 7 -10"/><path d="M9 18c6.218 0 10.5 -3.288 11 -12v-2h-4.014c-9 0 -11.986 4 -12 9c0 1 0 3 2 5h3z"/></svg></span>
         <h3>Biodiversity &amp; Conservation Monitoring</h3>
         <p>Tracking species, habitats, and ecosystem health to inform conservation planning and management decisions.</p>
         <div class="nw-chips"><span class="nw-chip">Species Distribution</span><span class="nw-chip">Habitat Mapping</span><span class="nw-chip">Conservation Planning</span></div>
       </a>
       <a class="nw-card" href="interests/geospatial-engineering/">
-        <span class="nw-icon g-rose"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v6a8 3 0 0 0 16 0v-6"/><path d="M4 12v6a8 3 0 0 0 16 0v-6"/></svg></span>
+        <span class="nw-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v6a8 3 0 0 0 16 0v-6"/><path d="M4 12v6a8 3 0 0 0 16 0v-6"/></svg></span>
         <h3>Geospatial Engineering &amp; Open Data</h3>
         <p>Designing scalable spatial data pipelines and open, interoperable tools that make geospatial work reproducible and shareable.</p>
         <div class="nw-chips"><span class="nw-chip">Spatial Databases</span><span class="nw-chip">Data Pipelines</span><span class="nw-chip">Open Source GIS</span></div>
@@ -161,7 +177,7 @@ include-after-body:
 ::: {#featured-projects .nw-projects}
 :::
 
-<div class="nw-btns" style="margin-top:2rem"><a class="nw-btn nw-btn-ghost" href="projects/">Browse All Projects →</a></div>
+<div class="nw-btns nw-section-more"><a class="nw-btn nw-btn-ghost" href="projects/">Browse All Projects →</a></div>
 :::
 :::
 
@@ -173,7 +189,7 @@ include-after-body:
 ::: {#featured-pubs .nw-cites}
 :::
 
-<div class="nw-btns" style="margin-top:2rem"><a class="nw-btn nw-btn-ghost" href="publications/">See More Publications →</a></div>
+<div class="nw-btns nw-section-more"><a class="nw-btn nw-btn-ghost" href="publications/">See More Publications →</a></div>
 :::
 :::
 
@@ -240,44 +256,8 @@ include-after-body:
         <div class="nw-tl-meta">Aug 2023 – Aug 2025 · Milton, FL</div>
         <p>Conducted geospatial analysis to support wildland-urban interface and emergency management decision-making</p>
       </a>
-      <a class="nw-tl-item nw-tl-link" href="experience/usda-intern/">
-        <h3>Research Assistant Intern</h3>
-        <div class="nw-tl-org">USDA Agricultural Research Service</div>
-        <div class="nw-tl-meta">May 2023 – Aug 2023 · Miles City, MT</div>
-        <p>Collected, cleaned, and validated spatial datasets to support GIS-based risk assessment and land-use planning</p>
-      </a>
-      <a class="nw-tl-item nw-tl-link" href="experience/sca-intern/">
-        <h3>Fire &amp; Recreation Intern</h3>
-        <div class="nw-tl-org">Student Conservation Association/US Forest Service</div>
-        <div class="nw-tl-meta">Jan 2023 – May 2023 · Wise, VA</div>
-        <p>Applied GIS to support spatial planning and risk assessment for land management projects</p>
-      </a>
-      <a class="nw-tl-item nw-tl-link" href="experience/uc-research/">
-        <h3>Research Assistant</h3>
-        <div class="nw-tl-org">University of Cincinnati</div>
-        <div class="nw-tl-meta">May 2022 – Jan 2023 · Cincinnati, OH</div>
-        <p>Conducted quantitative data analysis for biomedical research using advanced statistical modeling and visualization</p>
-      </a>
-      <a class="nw-tl-item nw-tl-link" href="experience/nku-research/">
-        <h3>Research Assistant</h3>
-        <div class="nw-tl-org">Northern Kentucky University</div>
-        <div class="nw-tl-meta">Feb 2020 – May 2022 · Highland Heights, KY</div>
-        <p>Collected, organized, and analyzed complex ecological datasets using spatial and statistical methods</p>
-      </a>
-      <a class="nw-tl-item nw-tl-link" href="experience/garage-living-cad/">
-        <h3>CAD Design Specialist</h3>
-        <div class="nw-tl-org">Garage Living</div>
-        <div class="nw-tl-meta">Sep 2021 – Jun 2022 · Cincinnati, OH</div>
-        <p>Developed CAD drawings and project plans for residential remodeling projects</p>
-      </a>
-      <a class="nw-tl-item nw-tl-link" href="experience/boone-elections/">
-        <h3>Elections Data Specialist</h3>
-        <div class="nw-tl-org">Boone County Clerk's Office</div>
-        <div class="nw-tl-meta">Aug 2017 – Feb 2020 · Burlington, KY</div>
-        <p>Managed and analyzed precinct-level GIS data for voter registration and electoral planning</p>
-      </a>
     </div>
-    <div class="nw-btns" style="margin-top:2rem"><a class="nw-btn nw-btn-ghost" href="experience/">See All Experience →</a></div>
+    <div class="nw-btns nw-section-more"><a class="nw-btn nw-btn-ghost" href="experience/">See All Experience →</a></div>
   </div>
 </section>
 
@@ -299,28 +279,7 @@ include-after-body:
         <p>Ecology, Evolution, &amp; Organismal Track, 4.0 GPA</p>
       </a>
     </div>
-    <div class="nw-btns" style="margin-top:2rem"><a class="nw-btn nw-btn-ghost" href="education/">See All Education →</a></div>
-  </div>
-</section>
-
-<section id="affiliations" class="nw-section nw-alt nw-wash-l">
-  <div class="nw-section-inner">
-    <h2 class="nw-title">Where I've Worked &amp; Studied</h2>
-    <p class="nw-subtitle">Institutions and agencies I've contributed to</p>
-    <div class="nw-marquee" role="group" aria-label="Affiliations">
-      <div class="nw-marquee-track">
-        <a href="https://www.ufl.edu/" target="_blank" rel="noopener"><img src="assets/media/icons/custom/uf.svg" width="800" height="600" alt="University of Florida" loading="lazy"></a>
-        <a href="https://www.ars.usda.gov/" target="_blank" rel="noopener"><img src="assets/media/icons/custom/ars.svg" width="800" height="600" alt="USDA Agricultural Research Service" loading="lazy"></a>
-        <a href="https://www.fs.usda.gov/" target="_blank" rel="noopener"><img src="assets/media/icons/custom/fs.svg" width="600" height="450" alt="USDA Forest Service" loading="lazy"></a>
-        <a href="https://www.uc.edu/" target="_blank" rel="noopener"><img src="assets/media/icons/custom/uc.svg" width="800" height="600" alt="University of Cincinnati" loading="lazy"></a>
-        <a href="https://www.nku.edu/" target="_blank" rel="noopener"><img src="assets/media/icons/custom/nku.svg" width="586" height="290" alt="Northern Kentucky University" loading="lazy"></a>
-        <a href="https://thesca.org/" target="_blank" rel="noopener"><img src="assets/media/icons/custom/sca.svg" width="622" height="849" alt="Student Conservation Association" loading="lazy"></a>
-        <a href="https://boonecountyclerk.ky.gov/" target="_blank" rel="noopener"><img src="assets/media/icons/custom/boone.svg" width="600" height="600" alt="Boone County Clerk's Office" loading="lazy"></a>
-        <a href="https://www.garageliving.com/f/cincinnati" target="_blank" rel="noopener"><img src="assets/media/icons/custom/garage-living.svg" width="600" height="178" alt="Garage Living" loading="lazy"></a>
-        <a href="https://ecos.fws.gov/" target="_blank" rel="noopener"><img src="assets/media/icons/custom/ecos.svg" width="148" height="161" alt="ECOS" loading="lazy"></a>
-      </div>
-    </div>
-    <div class="nw-btns" style="margin-top:1.5rem"><a class="nw-btn nw-btn-ghost" href="https://noahweidig.com/geo-portfolio">See Where I've Been →</a></div>
+    <div class="nw-btns nw-section-more"><a class="nw-btn nw-btn-ghost" href="education/">See All Education →</a></div>
   </div>
 </section>
 
@@ -334,12 +293,12 @@ include-after-body:
       <a class="nw-award" href="awards/best-student-presentation/"><figure><img src="assets/media/albums/awards/best-student-presentation.webp" width="1200" height="900" alt="Best Student Presentation" loading="lazy"><figcaption><b>Best Student Presentation</b><span>International Association of Landscape Ecology – North America</span></figcaption></figure></a>
       <a class="nw-award" href="awards/outstanding-graduate-biology/"><figure><img src="assets/media/albums/awards/outstanding-graduate-biology.webp" width="1200" height="675" alt="Outstanding Graduate in Biology" loading="lazy"><figcaption><b>Outstanding Graduate in Biology</b><span>Northern Kentucky University, Department of Biological Sciences</span></figcaption></figure></a>
     </div>
-    <div class="nw-btns" style="margin-top:2rem"><a class="nw-btn nw-btn-ghost" href="awards/">See All Awards →</a></div>
+    <div class="nw-btns nw-section-more"><a class="nw-btn nw-btn-ghost" href="awards/">See All Awards →</a></div>
   </div>
 </section>
 ```
 
-::: {.nw-section .nw-alt #blog}
+::: {.nw-section .nw-alt .nw-wash-l #blog}
 ::: {.nw-section-inner}
 <h2 class="nw-title">Featured Posts</h2>
 <p class="nw-subtitle">Recent writing</p>
@@ -347,7 +306,7 @@ include-after-body:
 ::: {#featured-posts .nw-posts}
 :::
 
-<div class="nw-btns" style="margin-top:2rem"><a class="nw-btn nw-btn-ghost" href="blog/">Read More Posts →</a></div>
+<div class="nw-btns nw-section-more"><a class="nw-btn nw-btn-ghost" href="blog/">Read More Posts →</a></div>
 :::
 :::
 
@@ -366,7 +325,7 @@ include-after-body:
   </div>
 </section>
 
-<section id="contact" class="nw-section nw-alt nw-wash-l">
+<section id="contact" class="nw-section nw-alt">
   <div class="nw-section-inner">
     <h2 class="nw-title">Get In Touch</h2>
     <p class="nw-subtitle">Let's build something amazing together</p>
@@ -414,7 +373,7 @@ include-after-body:
   </div>
 </section>
 
-<section id="cta" class="nw-section nw-alt">
+<section id="cta" class="nw-section nw-alt nw-wash-l">
   <div class="nw-section-inner">
     <div class="nw-cta-card">
       <span class="nw-cta-status">Available for new roles</span>
