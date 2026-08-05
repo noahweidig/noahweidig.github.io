@@ -849,8 +849,8 @@ img.nw-detail-hero {
    out: the particle network is already carrying that area.
 
    Two layers per band, both behind the content:
-     ::before  the gradient itself, faded top and bottom so bands dissolve
-               into the plain sections instead of ending on a hard edge
+     ::before  the gradient itself, cut off square at the section's top and
+               bottom so each band reads as a distinct block
      ::after   fine film grain, painted as a flat color masked by an SVG
                fractal-noise tile so the same tile works in either theme */
 .nw-alt {
@@ -874,10 +874,6 @@ img.nw-detail-hero {
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  /* both layers dissolve into the plain sections above and below instead of
-     ending on a hard horizontal edge */
-  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 18%, #000 82%, transparent);
-  mask-image: linear-gradient(to bottom, transparent, #000 18%, #000 82%, transparent);
 }
 
 .nw-alt::before {
@@ -898,22 +894,20 @@ img.nw-detail-hero {
 .nw-alt::after {
   background: var(--nw-grain);
   opacity: var(--nw-grain-op);
-  /* alpha noise tile, intersected with the band's vertical and horizontal
-     fades so the grain sits only where the color does */
+  /* alpha noise tile, intersected with the band's horizontal fade so the
+     grain sits only where the color does */
   -webkit-mask-image:
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
-    linear-gradient(to bottom, transparent, #000 18%, #000 82%, transparent),
     var(--nw-wash-fade);
   mask-image:
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
-    linear-gradient(to bottom, transparent, #000 18%, #000 82%, transparent),
     var(--nw-wash-fade);
-  -webkit-mask-size: 160px 160px, 100% 100%, 100% 100%;
-  mask-size: 160px 160px, 100% 100%, 100% 100%;
-  -webkit-mask-repeat: repeat, no-repeat, no-repeat;
-  mask-repeat: repeat, no-repeat, no-repeat;
-  -webkit-mask-composite: source-in, source-in;
-  mask-composite: intersect, intersect;
+  -webkit-mask-size: 160px 160px, 100% 100%;
+  mask-size: 160px 160px, 100% 100%;
+  -webkit-mask-repeat: repeat, no-repeat;
+  mask-repeat: repeat, no-repeat;
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
 }
 
 /* per-band hue pairs: cool blues and greens, rotating so no two adjacent
