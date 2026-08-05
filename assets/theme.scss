@@ -59,8 +59,11 @@ body {
   margin: 0 auto;
 }
 
+/* Bootstrap caps the brand image at `max-height: 24px`, which overrode the
+   height below — both have to be set for the mark to actually grow. */
 .navbar .navbar-brand img {
-  height: 2.5rem;
+  height: 2.25rem;
+  max-height: 2.25rem;
   transition: filter 0.2s ease;
 }
 
@@ -261,9 +264,6 @@ body {
 #hero h1 .nw-line {
   display: block;
   white-space: nowrap;
-  /* re-declared so tracking scales with each line's own size, keeping width
-     proportional to font-size (the h1's em value would resolve once, in px) */
-  letter-spacing: -0.03em;
 }
 
 #hero .nw-type {
@@ -414,14 +414,6 @@ body {
     font-size: clamp(2rem, 4.2vw, 2.9rem);
   }
 
-  /* "Spatial Analysis." is the longer phrase, so it is scaled down until it
-     measures exactly as wide as "Real Insights." home.js computes the ratio
-     from the rendered text and sets --nw-l1-fit; the literal is the no-JS
-     fallback. */
-  #hero h1 .nw-line-1 {
-    font-size: calc(1em * var(--nw-l1-fit, 0.83));
-  }
-
   #hero .nw-status {
     margin-bottom: 1rem;
   }
@@ -434,6 +426,28 @@ body {
   #hero .nw-avatar {
     width: 18rem;
     height: 18rem;
+  }
+}
+
+/* Tablet widths: the row is narrow enough that space-between opens a gulf
+   between the text and the portrait, so pack the two columns together and let
+   the headline grow into the space instead. */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .nw-hero-inner {
+    justify-content: center;
+    gap: 1.75rem;
+  }
+
+  #hero .nw-hero-text {
+    max-width: none;
+  }
+
+  #hero h1 {
+    font-size: clamp(2.2rem, 4.6vw, 2.9rem);
+  }
+
+  #hero .nw-type {
+    font-size: 1.45rem;
   }
 }
 
