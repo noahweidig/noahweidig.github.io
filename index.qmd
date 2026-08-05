@@ -74,7 +74,7 @@ include-after-body:
   <div id="nw-particles" aria-hidden="true"></div>
   <div class="nw-hero-inner">
   <div class="nw-hero-text">
-  <h1><span class="nw-hi">Welcome to my website!</span><span class="nw-name">Hello, My<br>Name's <span class="nw-accent">Noah</span>.</span></h1>
+  <h1><span class="nw-name">Spatial Analysis.<br>Real <span class="nw-accent">Insights</span>.</span></h1>
   <div class="nw-role">GIS Analyst • Data Scientist</div>
   <div class="nw-type">I build <span class="nw-typed" data-strings='["geospatial analyses","remote sensing workflows","data-driven insights","GIS applications"]'></span><span class="nw-caret">&nbsp;</span></div>
   <div class="nw-socials">
