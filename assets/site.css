@@ -1088,10 +1088,53 @@ img.nw-detail-hero {
 #cta .nw-cta-card .nw-btn-ghost {
   border: 1px solid var(--nw-border);
   color: var(--nw-fg) !important;
-  background: transparent;
+  background: var(--nw-card);
 }
 
 #cta .nw-cta-card .nw-btn-ghost:hover {
   border-color: var(--nw-primary);
-  background: transparent;
+  background: var(--nw-chip);
+}
+
+/* ============ buttons: filled, never transparent ============ */
+/* The outline buttons ("See All …", "View Full CV", the navbar CTA, and the
+   search / theme-toggle circles) were transparent, so whatever band they
+   happened to sit on showed through. They now carry the card surface, which
+   keeps them legible on plain background and on a gradient band alike. */
+.nw-btn-ghost {
+  background: var(--nw-card);
+}
+
+.nw-btn-ghost:hover {
+  background: var(--nw-chip);
+  border-color: var(--nw-primary);
+}
+
+.navbar .navbar-nav .nav-item a[href*="cal.com"] {
+  background: var(--nw-card);
+}
+
+#quarto-search.type-overlay .aa-DetachedSearchButton,
+.quarto-navbar-tools .quarto-color-scheme-toggle {
+  background: var(--nw-card);
+}
+
+/* the hover fills stay as they were: solid primary with a white glyph */
+#quarto-search.type-overlay .aa-DetachedSearchButton:hover,
+#quarto-search.type-overlay .aa-DetachedSearchButton:focus,
+.quarto-navbar-tools .quarto-color-scheme-toggle:hover,
+.navbar .navbar-nav .nav-item a[href*="cal.com"]:hover {
+  background: var(--nw-primary);
+}
+
+/* ============ white labels render pure white ============ */
+/* `body { -webkit-font-smoothing: antialiased }` switches macOS to grayscale
+   antialiasing, which thins these labels enough that no glyph pixel reaches
+   #fff — sampling one reads about #e6e7eb. Subpixel rendering restores solid
+   white cores; the color is pinned alongside it so nothing dims it. */
+.nw-btn-primary,
+.nw-cta-card .nw-btn-primary,
+.navbar .navbar-nav .nav-item a[href*="cal.com"]:hover {
+  -webkit-font-smoothing: auto;
+  color: #fff !important;
 }
