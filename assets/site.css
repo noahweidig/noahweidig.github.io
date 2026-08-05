@@ -838,3 +838,137 @@ img.nw-detail-hero {
   padding: 0.1rem 0.35rem;
   border-radius: 0.3rem;
 }
+
+/* ============ alternating wall-to-wall gradient bands ============ */
+/* The landing page alternates plain page background and a full-bleed color
+   wash: the wash rides on `.nw-alt` sections (which are otherwise
+   transparent), so the rhythm is plain / gradient / plain / gradient all the
+   way down. Direction alternates too — odd bands pool their color against the
+   right wall, even bands (`.nw-wash-l`) against the left — and each band gets
+   its own hue pair via `--nw-w1` / `--nw-w2`. The hero is deliberately left
+   out: the particle network is already carrying that area.
+
+   Two layers per band, both behind the content:
+     ::before  the gradient itself, faded top and bottom so bands dissolve
+               into the plain sections instead of ending on a hard edge
+     ::after   fine film grain, painted as a flat color masked by an SVG
+               fractal-noise tile so the same tile works in either theme */
+.nw-alt {
+  position: relative;
+  /* which wall the color pools against; the grain rides the same fade, so the
+     plain side of every band stays true white / true black */
+  --nw-wash-fade: linear-gradient(90deg, transparent 20%, #000 95%);
+  /* keep the z-index:-1 layers inside the section rather than letting them
+     slide behind the page background */
+  isolation: isolate;
+}
+
+.nw-alt.nw-wash-l {
+  --nw-wash-fade: linear-gradient(270deg, transparent 20%, #000 95%);
+}
+
+.nw-alt::before,
+.nw-alt::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  /* both layers dissolve into the plain sections above and below instead of
+     ending on a hard horizontal edge */
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 18%, #000 82%, transparent);
+  mask-image: linear-gradient(to bottom, transparent, #000 18%, #000 82%, transparent);
+}
+
+.nw-alt::before {
+  background:
+    radial-gradient(75% 120% at 100% 30%, var(--nw-w1), transparent 68%),
+    radial-gradient(62% 100% at 86% 88%, var(--nw-w2), transparent 70%),
+    linear-gradient(90deg, transparent 32%, var(--nw-w1) 145%);
+}
+
+/* mirrored bands: the same wash pooled against the left wall */
+.nw-alt.nw-wash-l::before {
+  background:
+    radial-gradient(75% 120% at 0% 30%, var(--nw-w1), transparent 68%),
+    radial-gradient(62% 100% at 14% 88%, var(--nw-w2), transparent 70%),
+    linear-gradient(270deg, transparent 32%, var(--nw-w1) 145%);
+}
+
+.nw-alt::after {
+  background: var(--nw-grain);
+  opacity: var(--nw-grain-op);
+  /* alpha noise tile, intersected with the band's vertical and horizontal
+     fades so the grain sits only where the color does */
+  -webkit-mask-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
+    linear-gradient(to bottom, transparent, #000 18%, #000 82%, transparent),
+    var(--nw-wash-fade);
+  mask-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
+    linear-gradient(to bottom, transparent, #000 18%, #000 82%, transparent),
+    var(--nw-wash-fade);
+  -webkit-mask-size: 160px 160px, 100% 100%, 100% 100%;
+  mask-size: 160px 160px, 100% 100%, 100% 100%;
+  -webkit-mask-repeat: repeat, no-repeat, no-repeat;
+  mask-repeat: repeat, no-repeat, no-repeat;
+  -webkit-mask-composite: source-in, source-in;
+  mask-composite: intersect, intersect;
+}
+
+/* per-band hue pairs: cool blues and greens, rotating so no two adjacent
+   bands read the same, each one still quiet enough to sit under body copy */
+#interests {
+  --nw-w1: var(--nw-wash-sky);
+  --nw-w2: var(--nw-wash-emerald);
+}
+
+#publications {
+  --nw-w1: var(--nw-wash-violet);
+  --nw-w2: var(--nw-wash-sky);
+}
+
+#experience {
+  --nw-w1: var(--nw-wash-emerald);
+  --nw-w2: var(--nw-wash-teal);
+}
+
+#affiliations {
+  --nw-w1: var(--nw-wash-sky);
+  --nw-w2: var(--nw-wash-violet);
+}
+
+#blog {
+  --nw-w1: var(--nw-wash-teal);
+  --nw-w2: var(--nw-wash-emerald);
+}
+
+#contact {
+  --nw-w1: var(--nw-wash-violet);
+  --nw-w2: var(--nw-wash-teal);
+}
+
+#cta {
+  --nw-w1: var(--nw-wash-sky);
+  --nw-w2: var(--nw-wash-emerald);
+}
+
+/* the wash is decoration only; drop it where the viewport is too narrow for
+   the gradient to read as anything but a tint over the text column */
+@media (max-width: 560px) {
+  .nw-alt::before,
+  .nw-alt::after {
+    opacity: 0.55;
+  }
+
+  .nw-alt::after {
+    opacity: calc(var(--nw-grain-op) * 0.6);
+  }
+}
+
+@media (prefers-contrast: more) {
+  .nw-alt::before,
+  .nw-alt::after {
+    display: none;
+  }
+}

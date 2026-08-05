@@ -22,6 +22,14 @@ $input-bg: #13131a;
   --nw-tint: 12%;
   --nw-tint-hover: 18%;
   --nw-hero-glow: rgba(0, 118, 223, 0.18);
+  /* alternating full-bleed section wash: the same hues pushed deeper so they
+     glow against near-black instead of washing it out */
+  --nw-wash-sky: rgba(0, 118, 223, 0.28);
+  --nw-wash-teal: rgba(13, 179, 186, 0.24);
+  --nw-wash-emerald: rgba(16, 185, 129, 0.22);
+  --nw-wash-violet: rgba(124, 92, 246, 0.21);
+  --nw-grain: #ffffff;
+  --nw-grain-op: 0.09;
   --nw-cta-from: #0a5bb0;
   --nw-cta-via: #0076DF;
   --nw-cta-to: #1488f0;
