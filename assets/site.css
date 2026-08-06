@@ -331,12 +331,12 @@ body.quarto-dark .quarto-navbar-tools .quarto-color-scheme-toggle:hover > .bi::b
    below the stat cards. The track's own vertical padding is dropped so the
    section's bottom gap stays equal to its top gap. */
 #stats .nw-marquee {
-  margin-top: 4.5rem;
+  margin-top: 6.5rem;
 }
 
 @media (max-width: 640px) {
   #stats .nw-marquee {
-    margin-top: 3rem;
+    margin-top: 4.5rem;
   }
 }
 

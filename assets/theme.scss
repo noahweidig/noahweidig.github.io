@@ -786,8 +786,13 @@ body {
   margin-top: 0;
 }
 
+/* The strip is roughly twice as long as the affiliation row, so at a shared
+   duration it would scroll at twice the speed. This is the no-JS fallback
+   pace; home.js replaces it with a duration measured off the real track width
+   so both marquees move at the same px/s. */
 .nw-marquee-tech .nw-marquee-track {
   gap: 3rem;
+  animation-duration: 75s;
 }
 
 .nw-tech-item {
@@ -1886,7 +1891,7 @@ body:has(.nw-cv) #title-block-header {
    Each element stays visible and legible, it simply holds still.
    --------------------------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
-  /* Logo marquee: stop the 40s horizontal scroll and let the row be swiped or
+  /* Logo marquee: stop the horizontal scroll and let the row be swiped or
      scrolled manually instead (hover-to-pause is not keyboard/touch reachable). */
   .nw-marquee-track {
     animation: none;
