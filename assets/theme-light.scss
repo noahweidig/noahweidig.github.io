@@ -1,9 +1,9 @@
 /*-- scss:defaults --*/
 
 $body-bg: #ffffff;
-$body-color: #1f2937;
+$body-color: #000000;
 $navbar-bg: rgba(255, 255, 255, 0.85);
-$navbar-fg: #1f2937;
+$navbar-fg: #000000;
 $footer-bg: #fafafa;
 $card-bg: #ffffff;
 
@@ -12,7 +12,7 @@ $card-bg: #ffffff;
 :root {
   --nw-bg: #ffffff;
   --nw-bg-alt: #ffffff;
-  --nw-fg: #1f2937;
+  --nw-fg: #000000;
   --nw-muted: #6b7280;
   --nw-card: #ffffff;
   --nw-border: #e5e7eb;
@@ -20,10 +20,10 @@ $card-bg: #ffffff;
   /* strength of the icon-color wash on research-area cards */
   --nw-tint: 7%;
   --nw-tint-hover: 12%;
-  --nw-hero-glow: rgba(0, 118, 223, 0.12);
+  --nw-hero-glow: rgba(18, 110, 245, 0.12);
   /* alternating full-bleed section wash: soft tints over white, plus the
      flat color the grain tile is masked out of */
-  --nw-wash-sky: rgba(0, 118, 223, 0.16);
+  --nw-wash-sky: rgba(18, 110, 245, 0.16);
   --nw-wash-teal: rgba(13, 179, 186, 0.15);
   --nw-wash-emerald: rgba(16, 185, 129, 0.14);
   --nw-wash-violet: rgba(124, 92, 246, 0.13);
@@ -34,11 +34,11 @@ $card-bg: #ffffff;
   --nw-cta-to: #f2f8ff;
   --nw-cta-fg: #003b70;
   /* solid "inverse" CTA button: deep-blue chip with white label */
-  --nw-cta-btn-bg: #0076DF;
+  --nw-cta-btn-bg: #126ef5;
   --nw-cta-btn-fg: #ffffff;
   /* faint texture + hairline colors keyed to the card foreground */
   --nw-cta-line: rgba(0, 59, 112, 0.10);
-  --nw-cta-glow: rgba(0, 118, 223, 0.18);
+  --nw-cta-glow: rgba(18, 110, 245, 0.18);
   --nw-topo: rgba(31, 41, 55, 0.08);
   --nw-footer-bg: #fafafa;
   --nw-glass: rgba(255, 255, 255, 0.85);

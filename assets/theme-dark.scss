@@ -1,9 +1,9 @@
 /*-- scss:defaults --*/
 
 $body-bg: #0a0a0f;
-$body-color: #e5e7eb;
+$body-color: #ffffff;
 $navbar-bg: rgba(10, 10, 15, 0.85);
-$navbar-fg: #e5e7eb;
+$navbar-fg: #ffffff;
 $footer-bg: #0d0d12;
 $card-bg: #13131a;
 $input-bg: #13131a;
@@ -13,7 +13,7 @@ $input-bg: #13131a;
 :root {
   --nw-bg: #0a0a0f;
   --nw-bg-alt: #0a0a0f;
-  --nw-fg: #e5e7eb;
+  --nw-fg: #ffffff;
   --nw-muted: #9ca3af;
   --nw-card: #13131a;
   --nw-border: #26262f;
@@ -21,17 +21,17 @@ $input-bg: #13131a;
   /* strength of the icon-color wash on research-area cards */
   --nw-tint: 12%;
   --nw-tint-hover: 18%;
-  --nw-hero-glow: rgba(0, 118, 223, 0.18);
+  --nw-hero-glow: rgba(18, 110, 245, 0.18);
   /* alternating full-bleed section wash: the same hues pushed deeper so they
      glow against near-black instead of washing it out */
-  --nw-wash-sky: rgba(0, 118, 223, 0.28);
+  --nw-wash-sky: rgba(18, 110, 245, 0.28);
   --nw-wash-teal: rgba(13, 179, 186, 0.24);
   --nw-wash-emerald: rgba(16, 185, 129, 0.22);
   --nw-wash-violet: rgba(124, 92, 246, 0.21);
   --nw-grain: #ffffff;
   --nw-grain-op: 0.09;
   --nw-cta-from: #0a5bb0;
-  --nw-cta-via: #0076DF;
+  --nw-cta-via: #126ef5;
   --nw-cta-to: #1488f0;
   --nw-cta-fg: #ffffff;
   /* solid "inverse" CTA button: white chip with blue label so it stays
