@@ -566,7 +566,8 @@ body {
   font-weight: 600;
   padding: 0.2rem 0.65rem;
   border-radius: 999px;
-  background: var(--nw-chip);
+  background: none;
+  border: 1px solid var(--nw-border);
   color: var(--nw-muted);
 }
 
