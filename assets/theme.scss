@@ -325,12 +325,15 @@ body {
   flex-wrap: wrap;
 }
 
+/* Every pill carries the same 1px hairline: transparent on the filled
+   primary button, the shared border color on the ghost variant, so the two
+   sit at identical size and weight side by side. */
 .nw-btn {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
   padding: 0.7rem 1.6rem;
-  border: 0;
+  border: 1px solid transparent;
   border-radius: 999px;
   font-weight: 600;
   text-decoration: none !important;
@@ -775,61 +778,46 @@ body {
 }
 
 /* ============ tech stack ============ */
-/* Six category cards laid out as a fixed 2 x 3 mosaic. minmax(0, 1fr) keeps
-   a card from being stretched past its track by its own contents. */
-.nw-stack {
-  display: grid;
-  gap: 1.5rem;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  max-width: 60rem;
-  margin: 0 auto;
+/* One scrolling strip instead of category cards, sharing the marquee
+   machinery (and the seamless duplication in home.js) with the affiliation
+   logos. Items rest grey and come to full color on hover. */
+/* the subtitle already leaves its own 2.5rem below it */
+.nw-marquee-tech {
+  margin-top: 0;
 }
 
-.nw-stack-cat {
-  background: var(--nw-card);
-  border: 1px solid var(--nw-border);
-  border-radius: 1rem;
-  padding: 1.5rem;
-  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+.nw-marquee-tech .nw-marquee-track {
+  gap: 3rem;
 }
 
-.nw-stack-cat:hover {
-  transform: translateY(-4px);
-  border-color: var(--nw-primary);
-  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.18);
-}
-
-.nw-stack-cat h3 {
-  font-size: 0.8rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--nw-muted);
-  margin: 0 0 1rem;
-}
-
-.nw-stack-items {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 0.75rem;
-}
-
-.nw-stack-item {
-  min-width: 0;
-  overflow-wrap: anywhere;
+.nw-tech-item {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.45rem;
-  font-size: 0.72rem;
+  gap: 0.55rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
   color: var(--nw-muted);
-  text-align: center;
+  opacity: 0.7;
+  transition: opacity 0.15s, color 0.15s;
 }
 
-.nw-stack-item img {
-  width: 2.4rem;
-  height: 2.4rem;
+.nw-tech-item img {
+  width: 2.75rem;
+  height: 2.75rem;
   object-fit: contain;
+  filter: grayscale(1);
+  transition: filter 0.15s;
+}
+
+.nw-tech-item:hover {
+  opacity: 1;
+  color: var(--nw-primary);
+}
+
+.nw-tech-item:hover img {
+  filter: none;
 }
 
 /* ============ timeline (experience) ============ */
@@ -981,6 +969,7 @@ body {
   margin: 0;
 }
 
+/* framed like a card: same 1px hairline, same corner radius */
 .nw-award img {
   width: 100%;
   /* Required now that the markup carries width/height attributes: without it
@@ -989,7 +978,7 @@ body {
   height: auto;
   aspect-ratio: 4/3;
   object-fit: cover;
-  border-radius: 0.9rem;
+  border-radius: 1rem;
   border: 1px solid var(--nw-border);
   transition: transform 0.2s;
 }
@@ -1081,10 +1070,41 @@ body {
   margin-bottom: 0.85rem;
 }
 
+/* The default disclosure triangle is replaced by a thin plus at the right
+   edge that rotates into an X when the answer opens. The two bars are drawn
+   as pseudo-elements on a fixed-size box so the glyph stays optically
+   centered through the rotation. */
 .nw-faq summary {
   font-weight: 700;
   cursor: pointer;
   color: var(--nw-fg);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  list-style: none;
+}
+
+.nw-faq summary::-webkit-details-marker {
+  display: none;
+}
+
+.nw-faq summary::after {
+  content: "";
+  flex: none;
+  width: 0.9rem;
+  height: 0.9rem;
+  background-image:
+    linear-gradient(var(--nw-fg), var(--nw-fg)),
+    linear-gradient(var(--nw-fg), var(--nw-fg));
+  background-size: 100% 1.5px, 1.5px 100%;
+  background-position: center, center;
+  background-repeat: no-repeat;
+  transition: transform 0.2s ease;
+}
+
+.nw-faq details[open] summary::after {
+  transform: rotate(45deg);
 }
 
 .nw-faq details p {
