@@ -50,6 +50,32 @@
       return clone;
     });
     copies.forEach(function (clone) { track.appendChild(clone); });
+
+    // Both marquees scroll at the same speed rather than the same duration:
+    // the CSS duration is fixed, so a longer strip (the tech stack carries
+    // far more items than the affiliations) would race past at more than
+    // twice the pace. Deriving the duration from the measured width of one
+    // copy pins every marquee to NW_MARQUEE_PX_PER_SEC and keeps them in step
+    // as items are added or removed.
+    var copyWidth = track.scrollWidth / 2;
+    if (copyWidth > 0) {
+      track.style.animationDuration = (copyWidth / 32) + "s";
+    }
+  });
+
+  // FAQ behaves as an accordion: opening one entry closes the others, so the
+  // list never grows tall enough to push the answer you just opened off
+  // screen. `toggle` doesn't bubble, hence the per-details listener.
+  document.querySelectorAll(".nw-faq").forEach(function (faq) {
+    var items = faq.querySelectorAll("details");
+    items.forEach(function (item) {
+      item.addEventListener("toggle", function () {
+        if (!item.open) return;
+        items.forEach(function (other) {
+          if (other !== item) other.open = false;
+        });
+      });
+    });
   });
 
   // Category filter buttons for card grids (projects, publications)
