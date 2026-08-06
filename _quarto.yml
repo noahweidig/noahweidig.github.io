@@ -50,7 +50,7 @@ filters:
 website:
   title: "Noah Weidig"
   description: "Noah is an ecologist and GIS analyst specializing in geospatial data science, environmental modeling, and large-scale spatial analysis."
-  site-url: "https://www.noahweidig.com/"
+  site-url: "https://noahweidig.com/"
   llms-txt: true
   # Cookieless GA4: `storage: none` stops gtag from writing _ga/_ga_* cookies,
   # so no ePrivacy/GDPR consent banner is required. Returning visitors are no
