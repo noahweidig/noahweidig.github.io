@@ -28,17 +28,17 @@
 $web-font-path: false;
 
 $font-family-sans-serif: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !default;
-$primary: #0076DF !default;
-$link-color: #0076DF !default;
+$primary: #126ef5 !default;
+$link-color: #126ef5 !default;
 $border-radius: 0.5rem !default;
 $navbar-padding-y: 0.65rem !default;
 
 /*-- scss:rules --*/
 
 :root {
-  --nw-primary: #0076DF;
-  --nw-secondary: #0076DF;
-  --nw-grad: linear-gradient(135deg, #0076DF, #0076DF);
+  --nw-primary: #126ef5;
+  --nw-secondary: #126ef5;
+  --nw-grad: linear-gradient(135deg, #126ef5, #126ef5);
   /* shared height for the CTA button, so the theme-toggle and search circles
      can size their diameter to match it exactly */
   --nw-navctl: 2.4rem;
@@ -71,11 +71,11 @@ body {
    as two sibling .navbar-brand anchors, so the hover lives on the shared
    .navbar-brand-container — hovering either one colors both. The logo is a
    black SVG mark, so it uses a filter chain that maps black to $primary
-   #0076DF (source is black in every theme, so it works on both light and
+   #126ef5 (source is black in every theme, so it works on both light and
    dark); the title just takes the blue text color. */
 .navbar .navbar-brand-container:hover img,
 .navbar .navbar-brand:hover img {
-  filter: invert(41%) sepia(29%) saturate(3753%) hue-rotate(187deg) brightness(83%) contrast(115%);
+  filter: invert(41%) sepia(29%) saturate(3753%) hue-rotate(194deg) brightness(83%) contrast(115%);
 }
 
 .navbar .navbar-brand-container:hover .navbar-title,
@@ -204,7 +204,7 @@ body {
   border-radius: 50%;
   object-fit: cover;
   border: 2px solid var(--nw-border);
-  box-shadow: 0 0 0 3px rgba(0, 118, 223, 0.25);
+  box-shadow: 0 0 0 3px rgba(18, 110, 245, 0.25);
   margin-bottom: 1.5rem;
 }
 
@@ -350,7 +350,7 @@ body {
 .nw-btn-primary {
   background: var(--nw-grad);
   color: #fff !important;
-  box-shadow: 0 8px 24px rgba(0, 118, 223, 0.35);
+  box-shadow: 0 8px 24px rgba(18, 110, 245, 0.35);
 }
 
 .nw-btn-ghost {
@@ -592,7 +592,7 @@ a.nw-card:hover h3 {
 /* gradient icon tiles */
 .g-emerald { background: linear-gradient(135deg, #34d399, #14b8a6); }
 .g-amber   { background: linear-gradient(135deg, #fbbf24, #f97316); }
-.g-sky     { background: linear-gradient(135deg, #38bdf8, #0076DF); }
+.g-sky     { background: linear-gradient(135deg, #38bdf8, #126ef5); }
 .g-fuchsia { background: linear-gradient(135deg, #e879f9, #a855f7); }
 .g-lime    { background: linear-gradient(135deg, #a3e635, #16a34a); }
 .g-rose    { background: linear-gradient(135deg, #fb7185, #ef4444); }
@@ -603,7 +603,7 @@ a.nw-card:hover h3 {
    both themes. Icon-color pairs mirror the .g-* tiles above. */
 .nw-card:has(.g-emerald) { --c1: #34d399; --c2: #14b8a6; }
 .nw-card:has(.g-amber)   { --c1: #fbbf24; --c2: #f97316; }
-.nw-card:has(.g-sky)     { --c1: #38bdf8; --c2: #0076DF; }
+.nw-card:has(.g-sky)     { --c1: #38bdf8; --c2: #126ef5; }
 .nw-card:has(.g-fuchsia) { --c1: #e879f9; --c2: #a855f7; }
 .nw-card:has(.g-lime)    { --c1: #a3e635; --c2: #16a34a; }
 .nw-card:has(.g-rose)    { --c1: #fb7185; --c2: #ef4444; }
@@ -954,6 +954,7 @@ a.nw-card:hover h3 {
 
 /* ============ logo marquee ============ */
 .nw-marquee {
+  margin-top: 2.5rem;
   overflow: hidden;
   mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
