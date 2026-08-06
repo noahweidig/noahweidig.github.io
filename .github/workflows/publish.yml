@@ -20,12 +20,12 @@ permissions:
   pages: write
   id-token: write
 
-#concurrency:
-#  group: ${{ github.event_name == 'pull_request' && format('pages-pr-{0}', github.event.number) || 'pages' }}
+concurrency:
+  group: ${{ github.event_name == 'pull_request' && format('pages-pr-{0}', github.event.number) || 'pages' }}
   # Cancel stale runs (not just PR previews) so an older run's deploy-pages
   # step never races a newer one and gets killed mid-flight with
   # "Deployment cancelled".
-#  cancel-in-progress: true
+  cancel-in-progress: true
 
 jobs:
   build:
