@@ -7,7 +7,7 @@ categories:
 featured: true
 ---
 
-[Launch Tool](https://www.noahweidig.com/wordcloud/){.nw-btn .nw-btn-primary target="_blank"}
+[Launch Tool](https://noahweidig.com/wordcloud/){.nw-btn .nw-btn-primary target="_blank"}
 
 ![WordCloud Studio generating a word cloud](../../assets/media/albums/projects/wordcloud.webp)
 

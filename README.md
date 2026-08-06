@@ -6,11 +6,11 @@
 </p>
 
 <p align="center">
-  <a href="https://www.noahweidig.com"><b>noahweidig.com</b></a>
+  <a href="https://noahweidig.com"><b>noahweidig.com</b></a>
   &nbsp;•&nbsp;
   <a href="https://noahweidig.substack.com/">Blog (Substack)</a>
   &nbsp;•&nbsp;
-  <a href="https://www.noahweidig.com/research">Research</a>
+  <a href="https://noahweidig.com/research">Research</a>
   &nbsp;•&nbsp;
   <a href="mailto:noah@noahweidig.com">noah@noahweidig.com</a>
 </p>
@@ -25,7 +25,7 @@ Currently a **GIS & Remote Sensing Research Associate** at the University of Flo
 
 Actively seeking **Data Scientist** or **GIS Analyst** roles.
 
-📄 [Download Resume](https://www.noahweidig.com/uploads/resume.pdf)
+📄 [Download Resume](https://noahweidig.com/uploads/resume.pdf)
 
 ---
 
@@ -43,7 +43,7 @@ Actively seeking **Data Scientist** or **GIS Analyst** roles.
 | **ChartifyR** | Tutorials for data analysis and visualization in R | [Read Blog](https://noahweidig.com/chartifyr/) |
 | **TIGER Roads** | US Census TIGER Roads in Google Earth Engine | [View Catalog](https://gee-community-catalog.org/projects/tiger_roads/) |
 | **Wildfire Risk** | Wildfire risk visualizer by state | [Launch Tool](https://rpubs.com/noahweidig/us-wildfire-risk) |
-| **WordCloud Studio** | Word cloud generator | [Launch Tool](https://www.noahweidig.com/wordcloud/) |
+| **WordCloud Studio** | Word cloud generator | [Launch Tool](https://noahweidig.com/wordcloud/) |
 | **Less.** | A personal exploration of minimalism | [View Site](https://noahweidig.com/less) |
 | **FastStats** | Fast, client-side analytics in the browser | [Open Tool](https://noahweidig.com/faststats/) |
 | **FrameLab** | A tool for browser framing | [Launch Tool](https://noahweidig.com/framelab) |
