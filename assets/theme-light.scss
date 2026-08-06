@@ -28,6 +28,9 @@ $card-bg: #ffffff;
   --nw-wash-teal: rgba(13, 179, 186, 0.15);
   --nw-wash-emerald: rgba(16, 185, 129, 0.14);
   --nw-wash-violet: rgba(124, 92, 246, 0.13);
+  /* cards sitting on a wash band go transparent and outline themselves in the
+     page foreground color instead of the usual hairline */
+  --nw-onband-border: #000000;
   --nw-grain: #1f2937;
   --nw-grain-op: 0.18;
   --nw-cta-from: #cfe6ff;
