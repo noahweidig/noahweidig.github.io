@@ -22,10 +22,12 @@ permissions:
 
 concurrency:
   group: ${{ github.event_name == 'pull_request' && format('pages-pr-{0}', github.event.number) || 'pages' }}
-  # Cancel stale runs (not just PR previews) so an older run's deploy-pages
-  # step never races a newer one and gets killed mid-flight with
-  # "Deployment cancelled".
-  cancel-in-progress: true
+  # Cancel superseded PR render checks, but never a production deploy: killing
+  # a run mid-`deploy-pages` cancels the Pages deployment it is waiting on
+  # (that is where the "Deployment cancelled" failures came from), and the
+  # queued replacement then inherits a half-finished deployment. Production
+  # runs queue instead, so each deployment finishes before the next starts.
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   build:
@@ -58,6 +60,7 @@ jobs:
     needs: build
     if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -65,3 +68,14 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@cd2ce8fcbc39b97be8ca5fce6e763baed58fa128 # v5.0.0
+        with:
+          # The action's default is 10 minutes, after which it gives up AND
+          # cancels the deployment it was polling. Pages holds a deployment in
+          # `deployment_in_progress` well past that whenever it is also syncing
+          # the custom domain or (re)issuing the domain's TLS certificate — the
+          # content is already served by then, so aborting throws away a
+          # deployment that had effectively succeeded. 25 minutes covers the
+          # domain-sync case; a deployment genuinely stuck still fails, just
+          # later. Kept under the job's 30-minute cap so the action reports the
+          # timeout itself instead of the runner killing the job.
+          timeout: 1500000
