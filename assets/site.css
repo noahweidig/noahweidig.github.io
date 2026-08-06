@@ -445,7 +445,8 @@ body.quarto-dark .quarto-navbar-tools .quarto-color-scheme-toggle:hover > .bi::b
 }
 
 #interests .nw-card .nw-icon {
-  background: var(--nw-chip);
+  background: none;
+  border: 1px solid var(--nw-border);
   color: var(--nw-fg);
 }
 
@@ -1225,7 +1226,7 @@ img.nw-detail-hero {
 /* fact chips pick up the site's chip colors instead of the card's tinted ones */
 #cta .nw-cta-facts li {
   color: var(--nw-fg);
-  background: var(--nw-chip);
+  background: none;
   border: 1px solid var(--nw-border);
 }
 
@@ -1240,25 +1241,15 @@ img.nw-detail-hero {
 #cta .nw-cta-card .nw-btn-ghost {
   border: 1px solid var(--nw-border);
   color: var(--nw-fg) !important;
-  background: var(--nw-card);
+  background: none;
 }
 
 #cta .nw-cta-card .nw-btn-ghost:hover {
   border-color: var(--nw-primary);
-  background: var(--nw-chip);
 }
 
-/* ============ buttons: filled, never transparent ============ */
-/* The outline buttons ("See All …", "View Full CV", the navbar CTA, and the
-   search / theme-toggle circles) were transparent, so whatever band they
-   happened to sit on showed through. They now carry the card surface, which
-   keeps them legible on plain background and on a gradient band alike. */
-.nw-btn-ghost {
-  background: var(--nw-card);
-}
-
+/* ============ buttons: outline only, no fill ============ */
 .nw-btn-ghost:hover {
-  background: var(--nw-chip);
   border-color: var(--nw-primary);
 }
 

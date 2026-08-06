@@ -114,3 +114,9 @@ $input-bg: #13131a;
   border-color: #ffffff;
   color: var(--nw-primary) !important;
 }
+
+/* Globe coordinate readout: accent blue instead of white, so it stands out
+   from the label's "Orlando, Florida" heading. */
+.nw-globe-label code {
+  color: var(--nw-primary);
+}
