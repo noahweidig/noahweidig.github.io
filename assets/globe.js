@@ -14,6 +14,8 @@
   var FRICTION = 0.92; // per-frame decay of flick velocity
   // Land-dot color follows --nw-globe-dot (blue in light mode, white in dark).
   var DOT_COLOR = "0, 118, 223";
+  // The Orlando marker always stays the site's accent blue, in both themes.
+  var MARKER_COLOR = "0, 118, 223";
   function readDotColor() {
     var v = getComputedStyle(document.documentElement)
       .getPropertyValue("--nw-globe-dot")
@@ -126,13 +128,13 @@
         var t = ((performance.now ? performance.now() : Date.now()) % 2000) / 2000;
         ctx.beginPath();
         ctx.arc(sx, sy, r * (1 + t * 2.4), 0, Math.PI * 2);
-        ctx.strokeStyle = "rgba(" + DOT_COLOR + "," + 0.55 * (1 - t) + ")";
+        ctx.strokeStyle = "rgba(" + MARKER_COLOR + "," + 0.55 * (1 - t) + ")";
         ctx.lineWidth = Math.max(1, r * 0.35);
         ctx.stroke();
       }
       ctx.beginPath();
       ctx.arc(sx, sy, r, 0, Math.PI * 2);
-      ctx.fillStyle = "rgb(" + DOT_COLOR + ")";
+      ctx.fillStyle = "rgb(" + MARKER_COLOR + ")";
       ctx.fill();
       ctx.lineWidth = Math.max(1.5, r * 0.4);
       ctx.strokeStyle = "#ffffff";
