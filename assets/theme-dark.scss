@@ -14,7 +14,9 @@ $input-bg: #13131a;
   --nw-bg: #0a0a0f;
   --nw-bg-alt: #0a0a0f;
   --nw-fg: #ffffff;
-  --nw-muted: #9ca3af;
+  /* Secondary copy (subheadings, meta lines, footer links) is pure white, not
+     a dimmed gray — the small type was hard to read at its old contrast. */
+  --nw-muted: #ffffff;
   --nw-card: #13131a;
   --nw-border: #26262f;
   --nw-chip: #1d1d26;

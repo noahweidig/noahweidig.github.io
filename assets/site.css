@@ -482,8 +482,7 @@ body.quarto-dark .quarto-navbar-tools .quarto-color-scheme-toggle:hover > .bi::b
 /* The .g-* icon classes are gone from the markup, so the tinted card
    background keyed to them (theme.scss, via --c1/--c2) has nothing to mix;
    pin the card and its icon tile back to the plain surface colors. */
-#interests .nw-card,
-#interests .nw-card:hover {
+#interests .nw-card {
   background: var(--nw-card);
 }
 
@@ -652,11 +651,11 @@ img.nw-detail-hero {
   letter-spacing: 0.1em;
   color: var(--nw-fg);
   margin: 0 0 1rem;
-  /* Quarto underlines every content <h2> and dims every <h3> to .9; these are
-     footer column labels, so undo the underline and keep the h3 dimming. */
+  /* Quarto underlines every content <h2>; these are footer column labels, so
+     undo the underline. No dimming — the label renders the full fg color. */
   border-bottom: 0;
   padding-bottom: 0;
-  opacity: 0.9;
+  opacity: 1;
 }
 
 .nw-footer-col ul {
@@ -942,37 +941,42 @@ img.nw-detail-hero {
    direction. The hero is deliberately left out: the particle network is
    already carrying that area.
 
-   Two layers per band, both behind the content:
-     ::before  the gradient itself, cut off square at the section's top and
-               bottom so each band reads as a distinct block
-     ::after   fine film grain, painted as a flat color masked by an SVG
-               fractal-noise tile so the same tile works in either theme */
+   The gradient is the section's own background rather than a separate
+   `z-index: -1` pseudo-element: that layer goes stale when the page is opened
+   directly at a #hash — the browser scrolls before Quarto's listings finish
+   injecting, and the band ends up painted at its pre-injection geometry (a
+   stranded sliver of color nowhere near its section). A plain background
+   repaints with the box.
+
+   The grain rides on ::after — fine film grain, a flat color masked by an SVG
+   fractal-noise tile so the same tile works in either theme — stacked above
+   the background but below the section's content, which is lifted to z-index 1
+   instead of pushing the decoration to a negative index. */
 .nw-alt {
   position: relative;
-  /* keep the z-index:-1 layers inside the section rather than letting them
-     slide behind the page background */
+  /* keep the decoration layer inside the section rather than letting it
+     interleave with anything outside */
   isolation: isolate;
+  background-image: linear-gradient(90deg, var(--nw-w1), var(--nw-w2));
 }
 
-.nw-alt::before,
+/* mirrored bands: the same two hues, swept the other way */
+.nw-alt.nw-wash-l {
+  background-image: linear-gradient(270deg, var(--nw-w1), var(--nw-w2));
+}
+
+/* section content sits above the grain */
+.nw-alt > * {
+  position: relative;
+  z-index: 1;
+}
+
 .nw-alt::after {
   content: "";
   position: absolute;
   inset: 0;
-  z-index: -1;
+  z-index: 0;
   pointer-events: none;
-}
-
-.nw-alt::before {
-  background: linear-gradient(90deg, var(--nw-w1), var(--nw-w2));
-}
-
-/* mirrored bands: the same two hues, swept the other way */
-.nw-alt.nw-wash-l::before {
-  background: linear-gradient(270deg, var(--nw-w1), var(--nw-w2));
-}
-
-.nw-alt::after {
   background: var(--nw-grain);
   opacity: var(--nw-grain-op);
   /* alpha noise tile: the grain now covers the whole band, since the color
@@ -1022,9 +1026,20 @@ img.nw-detail-hero {
 /* the wash is decoration only; drop it where the viewport is too narrow for
    the gradient to read as anything but a tint over the text column */
 @media (max-width: 560px) {
-  .nw-alt::before,
-  .nw-alt::after {
-    opacity: 0.55;
+  .nw-alt {
+    background-image: linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--nw-w1) 55%, transparent),
+      color-mix(in srgb, var(--nw-w2) 55%, transparent)
+    );
+  }
+
+  .nw-alt.nw-wash-l {
+    background-image: linear-gradient(
+      270deg,
+      color-mix(in srgb, var(--nw-w1) 55%, transparent),
+      color-mix(in srgb, var(--nw-w2) 55%, transparent)
+    );
   }
 
   .nw-alt::after {
@@ -1033,9 +1048,67 @@ img.nw-detail-hero {
 }
 
 @media (prefers-contrast: more) {
-  .nw-alt::before,
+  .nw-alt,
+  .nw-alt.nw-wash-l {
+    background-image: none;
+  }
+
   .nw-alt::after {
     display: none;
+  }
+}
+
+/* ============ closing CTA: pitch beside the globe ============ */
+/* Two columns on a full-width desktop — the pitch on the left, the dot globe
+   on the right — collapsing to one column (globe underneath) as soon as the
+   two no longer fit side by side. */
+.nw-cta-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  gap: 3rem;
+  align-items: center;
+}
+
+.nw-cta-layout .nw-cta-card {
+  margin: 0;
+  text-align: left;
+}
+
+.nw-cta-layout .nw-cta-card > p,
+.nw-cta-layout .nw-cta-card > .nw-cta-foot {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.nw-cta-layout .nw-cta-facts,
+.nw-cta-layout .nw-cta-card .nw-btns {
+  justify-content: flex-start;
+}
+
+.nw-cta-layout .nw-globe-wrap {
+  max-width: none;
+}
+
+@media (max-width: 991.98px) {
+  .nw-cta-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2.5rem;
+  }
+
+  .nw-cta-layout .nw-cta-card {
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .nw-cta-layout .nw-cta-card > p,
+  .nw-cta-layout .nw-cta-card > .nw-cta-foot {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .nw-cta-layout .nw-cta-facts,
+  .nw-cta-layout .nw-cta-card .nw-btns {
+    justify-content: center;
   }
 }
 
