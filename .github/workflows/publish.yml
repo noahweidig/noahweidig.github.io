@@ -9,10 +9,10 @@ on:
   # Re-render automatically after the Zotero sync commits new publications.
   # (Pushes made with GITHUB_TOKEN don't fire `push` workflows, so we chain
   # off the update workflow's completion instead.)
-  workflow_run:
-    workflows: ["Update Zotero"]
-    types: [completed]
-    branches: [main]
+#  workflow_run:
+#    workflows: ["Update Zotero"]
+#    types: [completed]
+#    branches: [main]
   workflow_dispatch:
 
 permissions:
