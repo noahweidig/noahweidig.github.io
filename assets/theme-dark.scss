@@ -30,6 +30,9 @@ $input-bg: #13131a;
   --nw-wash-teal: rgba(13, 179, 186, 0.24);
   --nw-wash-emerald: rgba(16, 185, 129, 0.22);
   --nw-wash-violet: rgba(124, 92, 246, 0.21);
+  /* cards sitting on a wash band go transparent and outline themselves in the
+     page foreground color instead of the usual hairline */
+  --nw-onband-border: #ffffff;
   --nw-grain: #ffffff;
   --nw-grain-op: 0.09;
   --nw-cta-from: #0a5bb0;

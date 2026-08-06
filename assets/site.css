@@ -935,11 +935,14 @@ img.nw-detail-hero {
 /* The landing page alternates plain page background and a full-bleed color
    wash: the wash rides on `.nw-alt` sections (which are otherwise
    transparent), so the rhythm is plain / gradient / plain / gradient all the
-   way down. Each band spans the full width of the page and blends its two
-   hues (`--nw-w1` / `--nw-w2`) straight across, left to right; `.nw-wash-l`
-   bands run the same blend the other way so no two bands sweep the same
-   direction. The hero is deliberately left out: the particle network is
-   already carrying that area.
+   way down. Each band spans the full width of the page and carries a mesh of
+   soft, overlapping radial blobs in three hues (`--nw-w1` / `--nw-w2` /
+   `--nw-w3`) rather than a flat left-to-right blend, so the color pools and
+   thins across the band instead of marching evenly across it. `--nw-wsh`
+   nudges every blob sideways by a per-section amount so no two bands land
+   their pools in the same places, and `.nw-wash-l` bands mirror the whole
+   mesh horizontally. The hero is deliberately left out: the particle network
+   is already carrying that area.
 
    The gradient is the section's own background rather than a separate
    `z-index: -1` pseudo-element: that layer goes stale when the page is opened
@@ -957,12 +960,82 @@ img.nw-detail-hero {
   /* keep the decoration layer inside the section rather than letting it
      interleave with anything outside */
   isolation: isolate;
-  background-image: linear-gradient(90deg, var(--nw-w1), var(--nw-w2));
+  /* per-section defaults; each band overrides them below */
+  --nw-w3: var(--nw-w1);
+  --nw-wsh: 0%;
+  /* overall wash strength; dialed down on narrow viewports */
+  --nw-wstr: 100%;
+  background-image:
+    radial-gradient(
+      68% 58% at calc(12% + var(--nw-wsh)) 20%,
+      color-mix(in srgb, var(--nw-w1) calc(0.85 * var(--nw-wstr)), transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      52% 66% at calc(41% + var(--nw-wsh)) 96%,
+      color-mix(in srgb, var(--nw-w2) calc(0.8 * var(--nw-wstr)), transparent),
+      transparent 68%
+    ),
+    radial-gradient(
+      58% 74% at calc(76% + var(--nw-wsh)) 8%,
+      color-mix(in srgb, var(--nw-w3) calc(0.8 * var(--nw-wstr)), transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      46% 58% at calc(95% + var(--nw-wsh)) 72%,
+      color-mix(in srgb, var(--nw-w1) calc(0.65 * var(--nw-wstr)), transparent),
+      transparent 66%
+    ),
+    radial-gradient(
+      36% 44% at calc(60% + var(--nw-wsh)) 54%,
+      color-mix(in srgb, var(--nw-w2) calc(0.55 * var(--nw-wstr)), transparent),
+      transparent 72%
+    ),
+    /* faint base so the corners between blobs never fall all the way back to
+       the page background */
+    linear-gradient(
+      105deg,
+      color-mix(in srgb, var(--nw-w1) calc(0.3 * var(--nw-wstr)), transparent),
+      color-mix(in srgb, var(--nw-w3) calc(0.26 * var(--nw-wstr)), transparent) 55%,
+      color-mix(in srgb, var(--nw-w2) calc(0.3 * var(--nw-wstr)), transparent)
+    );
 }
 
-/* mirrored bands: the same two hues, swept the other way */
+/* mirrored bands: the same mesh flipped left-to-right, so consecutive bands
+   never pool their color in the same corners */
 .nw-alt.nw-wash-l {
-  background-image: linear-gradient(270deg, var(--nw-w1), var(--nw-w2));
+  background-image:
+    radial-gradient(
+      68% 58% at calc(88% - var(--nw-wsh)) 20%,
+      color-mix(in srgb, var(--nw-w1) calc(0.85 * var(--nw-wstr)), transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      52% 66% at calc(59% - var(--nw-wsh)) 96%,
+      color-mix(in srgb, var(--nw-w2) calc(0.8 * var(--nw-wstr)), transparent),
+      transparent 68%
+    ),
+    radial-gradient(
+      58% 74% at calc(24% - var(--nw-wsh)) 8%,
+      color-mix(in srgb, var(--nw-w3) calc(0.8 * var(--nw-wstr)), transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      46% 58% at calc(5% - var(--nw-wsh)) 72%,
+      color-mix(in srgb, var(--nw-w1) calc(0.65 * var(--nw-wstr)), transparent),
+      transparent 66%
+    ),
+    radial-gradient(
+      36% 44% at calc(40% - var(--nw-wsh)) 54%,
+      color-mix(in srgb, var(--nw-w2) calc(0.55 * var(--nw-wstr)), transparent),
+      transparent 72%
+    ),
+    linear-gradient(
+      255deg,
+      color-mix(in srgb, var(--nw-w1) calc(0.3 * var(--nw-wstr)), transparent),
+      color-mix(in srgb, var(--nw-w3) calc(0.26 * var(--nw-wstr)), transparent) 55%,
+      color-mix(in srgb, var(--nw-w2) calc(0.3 * var(--nw-wstr)), transparent)
+    );
 }
 
 /* section content sits above the grain */
@@ -991,55 +1064,95 @@ img.nw-detail-hero {
   mask-repeat: repeat;
 }
 
-/* per-band hue pairs: cool blues and greens, rotating so no two adjacent
-   bands read the same, each one still quiet enough to sit under body copy */
+/* per-band hue sets: cool blues and greens, rotating so no two adjacent bands
+   read the same, each one still quiet enough to sit under body copy.
+   `--nw-wsh` shifts that band's whole mesh sideways so the pools land
+   somewhere different in every section. */
 #interests {
   --nw-w1: var(--nw-wash-sky);
   --nw-w2: var(--nw-wash-emerald);
+  --nw-w3: var(--nw-wash-teal);
+  --nw-wsh: 0%;
 }
 
 #publications {
   --nw-w1: var(--nw-wash-violet);
   --nw-w2: var(--nw-wash-sky);
+  --nw-w3: var(--nw-wash-emerald);
+  --nw-wsh: 9%;
 }
 
 #experience {
   --nw-w1: var(--nw-wash-emerald);
   --nw-w2: var(--nw-wash-violet);
+  --nw-w3: var(--nw-wash-sky);
+  --nw-wsh: -7%;
 }
 
-#blog {
+#awards {
   --nw-w1: var(--nw-wash-teal);
-  --nw-w2: var(--nw-wash-violet);
+  --nw-w2: var(--nw-wash-sky);
+  --nw-w3: var(--nw-wash-violet);
+  --nw-wsh: 6%;
 }
 
-#contact {
+#faq {
   --nw-w1: var(--nw-wash-violet);
   --nw-w2: var(--nw-wash-teal);
+  --nw-w3: var(--nw-wash-emerald);
+  --nw-wsh: -10%;
 }
 
 #cta {
   --nw-w1: var(--nw-wash-sky);
   --nw-w2: var(--nw-wash-emerald);
+  --nw-w3: var(--nw-wash-violet);
+  --nw-wsh: 4%;
 }
 
-/* the wash is decoration only; drop it where the viewport is too narrow for
-   the gradient to read as anything but a tint over the text column */
+/* ============ cards on a wash band go transparent ============ */
+/* A filled card punches an opaque rectangle out of the mesh underneath it,
+   which is exactly the thing the band is there to show. On a band the card
+   surface drops away entirely and the card states itself with an outline in
+   the page foreground color — white on dark, black on light — so the wash
+   runs behind the content uninterrupted. Off a band (project cards, the
+   contact card, every inner page) the cards keep their usual filled look.
+
+   The drop shadows go with the fill: a shadow with no surface above it just
+   smudges the gradient. */
+.nw-alt .nw-card,
+.nw-alt .nw-card:has(.nw-icon),
+/* research areas pin their card surface by id above; beat it on the band */
+#interests.nw-alt .nw-card,
+.nw-alt .nw-cites .nw-cite,
+.nw-alt .nw-posts .nw-post,
+.nw-alt .nw-proj-card,
+.nw-alt .nw-tl-item,
+.nw-alt .nw-faq details,
+.nw-alt .nw-contact-card {
+  background: none;
+  border-color: var(--nw-onband-border);
+  box-shadow: none;
+}
+
+.nw-alt .nw-cites .nw-cite:hover,
+.nw-alt .nw-posts .nw-post:hover,
+.nw-alt .nw-proj-card:hover,
+.nw-alt .nw-tl-item:hover {
+  border-color: var(--nw-primary);
+  box-shadow: none;
+}
+
+/* the award "card" is its image, so only its frame changes */
+.nw-alt .nw-award img {
+  border-color: var(--nw-onband-border);
+}
+
+/* the wash is decoration only; pull it back where the viewport is too narrow
+   for the mesh to read as anything but a tint over the text column */
 @media (max-width: 560px) {
   .nw-alt {
-    background-image: linear-gradient(
-      90deg,
-      color-mix(in srgb, var(--nw-w1) 55%, transparent),
-      color-mix(in srgb, var(--nw-w2) 55%, transparent)
-    );
-  }
-
-  .nw-alt.nw-wash-l {
-    background-image: linear-gradient(
-      270deg,
-      color-mix(in srgb, var(--nw-w1) 55%, transparent),
-      color-mix(in srgb, var(--nw-w2) 55%, transparent)
-    );
+    --nw-wstr: 55%;
   }
 
   .nw-alt::after {
