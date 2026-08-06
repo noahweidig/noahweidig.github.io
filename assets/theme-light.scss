@@ -13,7 +13,8 @@ $card-bg: #ffffff;
   --nw-bg: #ffffff;
   --nw-bg-alt: #ffffff;
   --nw-fg: #000000;
-  --nw-muted: #6b7280;
+  /* see theme-dark.scss: secondary copy is the pure foreground color */
+  --nw-muted: #000000;
   --nw-card: #ffffff;
   --nw-border: #e5e7eb;
   --nw-chip: #eef2f7;

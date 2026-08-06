@@ -521,29 +521,13 @@ body {
   grid-template-columns: repeat(auto-fill, minmax(min(19rem, 100%), 1fr));
 }
 
+/* Research-area cards are static: nothing to click, so no hover state and no
+   transition either. */
 .nw-card {
   background: var(--nw-card);
   border: 1px solid var(--nw-border);
   border-radius: 1rem;
   padding: 1.75rem;
-  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s, background 0.2s;
-}
-
-/* research-area cards double as links to their /interests/ detail pages */
-a.nw-card {
-  display: block;
-  color: inherit;
-  text-decoration: none;
-}
-
-a.nw-card:hover h3 {
-  color: var(--nw-primary);
-}
-
-.nw-card:hover {
-  transform: translateY(-4px);
-  border-color: var(--nw-primary);
-  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.18);
 }
 
 .nw-card .nw-icon {
@@ -566,12 +550,6 @@ a.nw-card:hover h3 {
   font-size: 1.15rem;
   font-weight: 700;
   margin: 0 0 0.5rem;
-}
-
-.nw-card p {
-  color: var(--nw-muted);
-  font-size: 0.95rem;
-  margin-bottom: 1rem;
 }
 
 .nw-chips {
@@ -613,14 +591,6 @@ a.nw-card:hover h3 {
     145deg,
     color-mix(in srgb, var(--c1) var(--nw-tint), var(--nw-card)),
     color-mix(in srgb, var(--c2) var(--nw-tint), var(--nw-card))
-  );
-}
-
-.nw-card:has(.nw-icon):hover {
-  background: linear-gradient(
-    145deg,
-    color-mix(in srgb, var(--c1) var(--nw-tint-hover), var(--nw-card)),
-    color-mix(in srgb, var(--c2) var(--nw-tint-hover), var(--nw-card))
   );
 }
 
