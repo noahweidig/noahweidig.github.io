@@ -12,7 +12,15 @@
 
   var AUTO_SPEED = 0.0015; // radians/frame auto-rotation
   var FRICTION = 0.92; // per-frame decay of flick velocity
-  var DOT_COLOR = "0, 118, 223"; // --nw-primary (#0076DF), same in both themes
+  // Land-dot color follows --nw-globe-dot (blue in light mode, white in dark).
+  var DOT_COLOR = "0, 118, 223";
+  function readDotColor() {
+    var v = getComputedStyle(document.documentElement)
+      .getPropertyValue("--nw-globe-dot")
+      .trim();
+    if (v) DOT_COLOR = v;
+  }
+  readDotColor();
   var TILT = 0.35;
   var ORLANDO = { lat: 28.5384, lon: -81.3789 };
 
@@ -63,6 +71,7 @@
   }
 
   function draw() {
+    readDotColor();
     ctx.clearRect(0, 0, size, size);
     var c = size / 2;
     var cosX = Math.cos(rotX), sinX = Math.sin(rotX);
