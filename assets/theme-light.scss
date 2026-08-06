@@ -16,7 +16,10 @@ $card-bg: #ffffff;
   /* see theme-dark.scss: secondary copy is the pure foreground color */
   --nw-muted: #000000;
   --nw-card: #ffffff;
-  --nw-border: #e5e7eb;
+  /* One outline color for every card, pill and framed image, on the plain
+     background and on a gradient band alike: dark enough to read against
+     white, light enough not to draw a hard box over a wash. */
+  --nw-border: #d3d8e0;
   --nw-chip: #eef2f7;
   --nw-globe-dot: 0, 118, 223;
   /* strength of the icon-color wash on research-area cards */
@@ -29,9 +32,9 @@ $card-bg: #ffffff;
   --nw-wash-teal: rgba(13, 179, 186, 0.15);
   --nw-wash-emerald: rgba(16, 185, 129, 0.14);
   --nw-wash-violet: rgba(124, 92, 246, 0.13);
-  /* cards sitting on a wash band go transparent and outline themselves in the
-     page foreground color instead of the usual hairline */
-  --nw-onband-border: #000000;
+  /* cards sitting on a wash band go transparent, but keep the same hairline
+     as everywhere else so no outline reads heavier than its neighbours */
+  --nw-onband-border: var(--nw-border);
   --nw-grain: #1f2937;
   --nw-grain-op: 0.18;
   --nw-cta-from: #cfe6ff;

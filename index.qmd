@@ -116,7 +116,7 @@ include-after-body:
         <a href="https://thesca.org/" target="_blank" rel="noopener"><img src="assets/media/icons/custom/sca.svg" width="622" height="849" alt="Student Conservation Association" loading="lazy"></a>
         <a href="https://boonecountyclerk.ky.gov/" target="_blank" rel="noopener"><img src="assets/media/icons/custom/boone.svg" width="600" height="600" alt="Boone County Clerk's Office" loading="lazy"></a>
         <a href="https://www.garageliving.com/f/cincinnati" target="_blank" rel="noopener"><img src="assets/media/icons/custom/garage-living.svg" width="600" height="178" alt="Garage Living" loading="lazy"></a>
-        <a href="https://ecos.fws.gov/" target="_blank" rel="noopener"><img src="assets/media/icons/custom/ecos.svg" width="148" height="161" alt="ECOS" loading="lazy"></a>
+        <a href="https://www.instagram.com/nku_ecos/" target="_blank" rel="noopener"><img src="assets/media/icons/custom/ecos.svg" width="148" height="161" alt="ECOS" loading="lazy"></a>
       </div>
     </div>
   </div>
@@ -192,43 +192,36 @@ include-after-body:
   <div class="nw-section-inner">
     <h2 class="nw-title">Tech Stack</h2>
     <p class="nw-subtitle">Technologies I use to build things</p>
-    <div class="nw-stack">
-      <div class="nw-stack-cat"><h3>Languages</h3><div class="nw-stack-items">
-        <span class="nw-stack-item"><img src="assets/media/icons/devicon/r-original.svg" width="128" height="128" alt="" loading="lazy">R</span>
-        <span class="nw-stack-item"><img src="assets/media/icons/devicon/python-original.svg" width="128" height="128" alt="" loading="lazy">Python</span>
-        <span class="nw-stack-item"><img src="assets/media/icons/devicon/javascript-original.svg" width="128" height="128" alt="" loading="lazy">JavaScript</span>
-        <span class="nw-stack-item"><img src="assets/media/icons/devicon/azuresqldatabase-original.svg" width="128" height="128" alt="" loading="lazy">SQL</span>
-      </div></div>
-      <div class="nw-stack-cat"><h3>Markup</h3><div class="nw-stack-items">
-        <span class="nw-stack-item"><img src="assets/media/icons/devicon/markdown-original.svg" width="128" height="128" alt="" loading="lazy" class="nw-inv">Markdown</span>
-        <span class="nw-stack-item"><img src="assets/media/icons/devicon/latex-original.svg" width="128" height="128" alt="" loading="lazy" class="nw-inv">LaTeX</span>
-        <span class="nw-stack-item"><img src="assets/media/icons/devicon/html5-original.svg" width="128" height="128" alt="" loading="lazy">HTML</span>
-        <span class="nw-stack-item"><img src="assets/media/icons/devicon/css3-original.svg" width="128" height="128" alt="" loading="lazy">CSS</span>
-      </div></div>
-      <div class="nw-stack-cat"><h3>Workflows</h3><div class="nw-stack-items">
-        <span class="nw-stack-item"><img src="assets/media/icons/devicon/git-original.svg" width="128" height="128" alt="" loading="lazy">Git</span>
-        <span class="nw-stack-item"><img src="assets/media/icons/devicon/github-original.svg" width="128" height="128" alt="" loading="lazy" class="nw-inv">GitHub</span>
-        <span class="nw-stack-item"><img src="assets/media/icons/devicon/githubactions-original.svg" width="128" height="128" alt="" loading="lazy">Actions</span>
-        <span class="nw-stack-item"><img src="assets/media/icons/devicon/anaconda-original.svg" width="128" height="128" alt="" loading="lazy">Conda</span>
-      </div></div>
-      <div class="nw-stack-cat"><h3>Libraries</h3><div class="nw-stack-items">
-        <span class="nw-stack-item"><img src="assets/media/icons/custom/tidyverse.svg" width="2521" height="2911" alt="" loading="lazy">tidyverse</span>
-        <span class="nw-stack-item"><img src="assets/media/icons/devicon/pandas-original.svg" width="128" height="128" alt="" loading="lazy" class="nw-inv">pandas</span>
-        <span class="nw-stack-item"><img src="assets/media/icons/devicon/numpy-original.svg" width="128" height="128" alt="" loading="lazy">NumPy</span>
-        <span class="nw-stack-item"><img src="assets/media/icons/devicon/plotly-original.svg" width="128" height="128" alt="" loading="lazy">Plotly</span>
-      </div></div>
-      <div class="nw-stack-cat"><h3>GIS</h3><div class="nw-stack-items">
-        <span class="nw-stack-item"><img src="assets/media/icons/custom/arcgis.svg" width="24" height="24" alt="" loading="lazy">ArcGIS Pro</span>
-        <span class="nw-stack-item"><img src="assets/media/icons/custom/gee.svg" width="24" height="24" alt="" loading="lazy">GEE</span>
-        <span class="nw-stack-item"><img src="assets/media/icons/custom/qgis.svg" width="256" height="256" alt="" loading="lazy">QGIS</span>
-        <span class="nw-stack-item"><img src="assets/media/icons/custom/gdal.svg" width="64" height="64" alt="" loading="lazy">GDAL</span>
-      </div></div>
-      <div class="nw-stack-cat"><h3>GIS Tools</h3><div class="nw-stack-items">
-        <span class="nw-stack-item"><img src="assets/media/icons/custom/sf.svg" width="483" height="589" alt="" loading="lazy">sf</span>
-        <span class="nw-stack-item"><img src="assets/media/icons/custom/terra.svg" width="785" height="881" alt="" loading="lazy">terra</span>
-        <span class="nw-stack-item"><img src="assets/media/icons/custom/geopandas.svg" width="314" height="314" alt="" loading="lazy">GeoPandas</span>
-        <span class="nw-stack-item"><img src="assets/media/icons/custom/openstreetmap.svg" width="260" height="260" alt="" loading="lazy">OSM</span>
-      </div></div>
+    <!-- One continuous strip rather than category cards: the tools read as a
+         single toolkit, and it matches the affiliation marquee under the
+         stats. Icons sit grey and come to full color on hover. -->
+    <div class="nw-marquee nw-marquee-tech" role="group" aria-label="Tech stack">
+      <div class="nw-marquee-track">
+        <span class="nw-tech-item"><img src="assets/media/icons/devicon/r-original.svg" width="128" height="128" alt="" loading="lazy">R</span>
+        <span class="nw-tech-item"><img src="assets/media/icons/devicon/python-original.svg" width="128" height="128" alt="" loading="lazy">Python</span>
+        <span class="nw-tech-item"><img src="assets/media/icons/devicon/javascript-original.svg" width="128" height="128" alt="" loading="lazy">JavaScript</span>
+        <span class="nw-tech-item"><img src="assets/media/icons/devicon/azuresqldatabase-original.svg" width="128" height="128" alt="" loading="lazy">SQL</span>
+        <span class="nw-tech-item"><img src="assets/media/icons/devicon/markdown-original.svg" width="128" height="128" alt="" loading="lazy" class="nw-inv">Markdown</span>
+        <span class="nw-tech-item"><img src="assets/media/icons/devicon/latex-original.svg" width="128" height="128" alt="" loading="lazy" class="nw-inv">LaTeX</span>
+        <span class="nw-tech-item"><img src="assets/media/icons/devicon/html5-original.svg" width="128" height="128" alt="" loading="lazy">HTML</span>
+        <span class="nw-tech-item"><img src="assets/media/icons/devicon/css3-original.svg" width="128" height="128" alt="" loading="lazy">CSS</span>
+        <span class="nw-tech-item"><img src="assets/media/icons/devicon/git-original.svg" width="128" height="128" alt="" loading="lazy">Git</span>
+        <span class="nw-tech-item"><img src="assets/media/icons/devicon/github-original.svg" width="128" height="128" alt="" loading="lazy" class="nw-inv">GitHub</span>
+        <span class="nw-tech-item"><img src="assets/media/icons/devicon/githubactions-original.svg" width="128" height="128" alt="" loading="lazy">Actions</span>
+        <span class="nw-tech-item"><img src="assets/media/icons/devicon/anaconda-original.svg" width="128" height="128" alt="" loading="lazy">Conda</span>
+        <span class="nw-tech-item"><img src="assets/media/icons/custom/tidyverse.svg" width="2521" height="2911" alt="" loading="lazy">tidyverse</span>
+        <span class="nw-tech-item"><img src="assets/media/icons/devicon/pandas-original.svg" width="128" height="128" alt="" loading="lazy" class="nw-inv">pandas</span>
+        <span class="nw-tech-item"><img src="assets/media/icons/devicon/numpy-original.svg" width="128" height="128" alt="" loading="lazy">NumPy</span>
+        <span class="nw-tech-item"><img src="assets/media/icons/devicon/plotly-original.svg" width="128" height="128" alt="" loading="lazy">Plotly</span>
+        <span class="nw-tech-item"><img src="assets/media/icons/custom/arcgis.svg" width="24" height="24" alt="" loading="lazy">ArcGIS Pro</span>
+        <span class="nw-tech-item"><img src="assets/media/icons/custom/gee.svg" width="24" height="24" alt="" loading="lazy">GEE</span>
+        <span class="nw-tech-item"><img src="assets/media/icons/custom/qgis.svg" width="256" height="256" alt="" loading="lazy">QGIS</span>
+        <span class="nw-tech-item"><img src="assets/media/icons/custom/gdal.svg" width="64" height="64" alt="" loading="lazy">GDAL</span>
+        <span class="nw-tech-item"><img src="assets/media/icons/custom/sf.svg" width="483" height="589" alt="" loading="lazy">sf</span>
+        <span class="nw-tech-item"><img src="assets/media/icons/custom/terra.svg" width="785" height="881" alt="" loading="lazy">terra</span>
+        <span class="nw-tech-item"><img src="assets/media/icons/custom/geopandas.svg" width="314" height="314" alt="" loading="lazy">GeoPandas</span>
+        <span class="nw-tech-item"><img src="assets/media/icons/custom/openstreetmap.svg" width="260" height="260" alt="" loading="lazy">OSM</span>
+      </div>
     </div>
   </div>
 </section>
