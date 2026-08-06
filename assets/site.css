@@ -331,7 +331,13 @@ body.quarto-dark .quarto-navbar-tools .quarto-color-scheme-toggle:hover > .bi::b
    below the stat cards. The track's own vertical padding is dropped so the
    section's bottom gap stays equal to its top gap. */
 #stats .nw-marquee {
-  margin-top: 2.5rem;
+  margin-top: 4.5rem;
+}
+
+@media (max-width: 640px) {
+  #stats .nw-marquee {
+    margin-top: 3rem;
+  }
 }
 
 #stats .nw-marquee-track {
@@ -339,66 +345,18 @@ body.quarto-dark .quarto-navbar-tools .quarto-color-scheme-toggle:hover > .bi::b
 }
 
 /* ============ tech stack ============ */
-/* The desktop mosaic (a strict 2 x 3 grid) lives in theme.scss. The card grid
-   stays even at every width: two equal columns down to the phone breakpoint,
-   then a single centred column so cards never end up ragged. */
-@media (max-width: 991.98px) {
-  .nw-stack {
-    max-width: 44rem;
-    gap: 1.25rem;
-  }
-}
-
+/* Now a single marquee (see theme.scss) rather than category cards; the
+   items shrink a little on phones so more of the strip is on screen. */
 @media (max-width: 640px) {
-  .nw-stack {
-    grid-template-columns: minmax(0, 1fr);
-    max-width: 28rem;
+  .nw-marquee-tech .nw-marquee-track {
+    gap: 2.25rem;
+  }
+
+  .nw-tech-item img {
+    width: 2.25rem;
+    height: 2.25rem;
   }
 }
-
-.nw-stack-cat {
-  text-align: center;
-}
-
-/* Each card holds exactly four items, laid out as a strict grid so the card
-   is always 4x1, 2x2, or 1x4 — never a ragged 3+1 flex wrap that spills text
-   out of the card. */
-.nw-stack-items {
-  justify-items: center;
-  gap: 1.25rem 1rem;
-}
-
-/* Two cards per row leaves each card too narrow for a 4x1 item row on small
-   tablets, so the items go 2x2 there and again on phones once the cards go
-   full width. */
-@media (min-width: 640.02px) and (max-width: 900px) {
-  .nw-stack-items {
-    grid-template-columns: repeat(2, minmax(0, 1fr)); /* 2x2 */
-  }
-}
-
-@media (max-width: 560px) {
-  .nw-stack-items {
-    grid-template-columns: repeat(2, minmax(0, 1fr)); /* 2x2 */
-  }
-}
-
-@media (max-width: 360px) {
-  .nw-stack-items {
-    grid-template-columns: minmax(0, 1fr); /* 1x4 */
-  }
-}
-
-.nw-stack-item {
-  font-size: 0.9rem;
-  gap: 0.55rem;
-}
-
-.nw-stack-item img {
-  width: 2.75rem;
-  height: 2.75rem;
-}
-
 
 /* ============ find me: dot globe with Orlando marker ============ */
 .nw-globe-wrap {
@@ -1113,10 +1071,12 @@ img.nw-detail-hero {
 /* ============ cards on a wash band go transparent ============ */
 /* A filled card punches an opaque rectangle out of the mesh underneath it,
    which is exactly the thing the band is there to show. On a band the card
-   surface drops away entirely and the card states itself with an outline in
-   the page foreground color — white on dark, black on light — so the wash
-   runs behind the content uninterrupted. Off a band (project cards, the
-   contact card, every inner page) the cards keep their usual filled look.
+   surface drops away entirely and the card states itself with an outline
+   alone, so the wash runs behind the content uninterrupted. That outline is
+   the same hairline the filled cards use (--nw-onband-border resolves to
+   --nw-border in both themes), so a card on a band and a card off one read at
+   identical weight. Off a band (project cards, the contact card, every inner
+   page) the cards keep their usual filled look.
 
    The drop shadows go with the fill: a shadow with no surface above it just
    smudges the gradient. */

@@ -18,7 +18,10 @@ $input-bg: #13131a;
      a dimmed gray — the small type was hard to read at its old contrast. */
   --nw-muted: #ffffff;
   --nw-card: #13131a;
-  --nw-border: #26262f;
+  /* One outline color for every card, pill and framed image, on the plain
+     background and on a gradient band alike: light enough to read against
+     near-black, dim enough not to glare over a wash. */
+  --nw-border: #3d3d4b;
   --nw-chip: #1d1d26;
   --nw-globe-dot: 255, 255, 255;
   /* strength of the icon-color wash on research-area cards */
@@ -31,9 +34,9 @@ $input-bg: #13131a;
   --nw-wash-teal: rgba(13, 179, 186, 0.24);
   --nw-wash-emerald: rgba(16, 185, 129, 0.22);
   --nw-wash-violet: rgba(124, 92, 246, 0.21);
-  /* cards sitting on a wash band go transparent and outline themselves in the
-     page foreground color instead of the usual hairline */
-  --nw-onband-border: #ffffff;
+  /* cards sitting on a wash band go transparent, but keep the same hairline
+     as everywhere else so no outline reads heavier than its neighbours */
+  --nw-onband-border: var(--nw-border);
   --nw-grain: #ffffff;
   --nw-grain-op: 0.09;
   --nw-cta-from: #0a5bb0;
@@ -68,13 +71,24 @@ $input-bg: #13131a;
 }
 
 /* white logos pop on dark; keep institution marks legible */
-.nw-marquee-track img {
+#affiliations .nw-marquee-track img {
   filter: brightness(0) invert(0.85);
 }
 
-/* black tech-stack marks (GitHub, Markdown, LaTeX, …) flip to white on dark;
-   hue-rotate keeps any colored parts close to their original hue */
-.nw-stack-item img.nw-inv {
+/* Tech marquee: the same flat grey as the affiliation logos at rest, full
+   color on hover. */
+.nw-marquee-tech .nw-tech-item img {
+  filter: brightness(0) invert(0.85);
+}
+
+.nw-marquee-tech .nw-tech-item:hover img {
+  filter: none;
+}
+
+/* black marks (GitHub, Markdown, LaTeX, …) would disappear against the dark
+   background once the grey wash lifts, so flip them instead; hue-rotate keeps
+   any colored parts close to their original hue */
+.nw-marquee-tech .nw-tech-item:hover img.nw-inv {
   filter: invert(1) hue-rotate(180deg);
 }
 
