@@ -32,9 +32,10 @@ $card-bg: #ffffff;
   --nw-wash-teal: rgba(13, 179, 186, 0.15);
   --nw-wash-emerald: rgba(16, 185, 129, 0.14);
   --nw-wash-violet: rgba(124, 92, 246, 0.13);
-  /* cards sitting on a wash band go transparent, but keep the same hairline
-     as everywhere else so no outline reads heavier than its neighbours */
-  --nw-onband-border: var(--nw-border);
+  /* cards sitting on a wash band go transparent, so their outline is the only
+     thing holding the card together. The plain-background hairline washes out
+     over a tint — this one is a step darker so the card edge still reads. */
+  --nw-onband-border: #b3bcc9;
   --nw-grain: #1f2937;
   --nw-grain-op: 0.18;
   --nw-cta-from: #cfe6ff;
