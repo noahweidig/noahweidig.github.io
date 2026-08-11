@@ -34,10 +34,8 @@ project:
     - "assets/fonts/**"
     - assets/nw-nav.js
     - assets/social-share.js
-    # Loaded dynamically from index.qmd's hero script, so Quarto's resource
-    # discovery can't see it — must be listed explicitly.
-    - assets/vendor/particles.min.js
-    # Fetched at runtime by assets/globe.js — same story, list explicitly.
+    # Fetched at runtime by assets/globe.js, so Quarto's resource discovery
+    # can't see it — must be listed explicitly.
     - assets/data/globe-dots.json
 
 filters:
@@ -173,6 +171,14 @@ format:
       - text: |
           <meta name="google-site-verification" content="0ktlvQnqLH01fphPI1cDMDTuQSmCG7mHBQdovXQs2TQ">
           <meta name="author" content="Noah Weidig">
+          <!--
+            `index, follow` is the default anyway; the value that earns this tag
+            is max-image-preview:large, which lets Google show the full-width
+            image preview in results and Discover instead of a thumbnail.
+            scripts/generate-og.ts overwrites this tag on 404.html, the one page
+            that must stay out of the index.
+          -->
+          <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
           <!--
             Speculation rules: start fetching a page when the visitor shows
             intent to open it (hover, or the pause before a tap), so the
