@@ -173,6 +173,39 @@ format:
       - text: |
           <meta name="google-site-verification" content="0ktlvQnqLH01fphPI1cDMDTuQSmCG7mHBQdovXQs2TQ">
           <meta name="author" content="Noah Weidig">
+          <!--
+            Speculation rules: start fetching a page when the visitor shows
+            intent to open it (hover, or the pause before a tap), so the
+            document is already in memory by the time they commit. Paired with
+            the cross-document view transitions in assets/site.css, an internal
+            navigation becomes a morph with no load behind it.
+
+            `prefetch` rather than `prerender` on purpose: prerendering runs the
+            target page's scripts ahead of time, and this site's analytics fire
+            on load — a prerender that is never navigated to would still be a
+            page it counted. Prefetch has no such interaction, is invisible to
+            the target document, and still removes the whole network round trip,
+            which is the part the visitor can feel.
+
+            Downloads and the résumé PDF are excluded: they navigate away from
+            the site, so speculating on them is wasted bandwidth. Browsers
+            without support ignore the script entirely.
+          -->
+          <script type="speculationrules">
+          {
+            "prefetch": [
+              {
+                "where": {
+                  "and": [
+                    { "href_matches": "/*" },
+                    { "not": { "href_matches": "/uploads/*" } }
+                  ]
+                },
+                "eagerness": "moderate"
+              }
+            ]
+          }
+          </script>
           <script type="application/ld+json">
           {
             "@context": "https://schema.org",

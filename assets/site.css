@@ -1270,3 +1270,265 @@ img.nw-detail-hero {
   -webkit-font-smoothing: auto;
   color: #fff !important;
 }
+
+/* ============ headline and lead wrapping ============ */
+/* Section headings are short enough that the last line regularly ends up a
+   single orphaned word; `balance` evens the lines out instead. It is capped at
+   a handful of lines by the spec, so it is only ever doing work on headings.
+   `pretty` is the cheap version for body-length text — it leaves the line
+   breaking alone and only prevents the orphan. */
+.nw-title,
+.nw-subtitle,
+#hero h1 {
+  text-wrap: balance;
+}
+
+.nw-lead,
+.nw-card p,
+.nw-faq details p {
+  text-wrap: pretty;
+}
+
+/* ============ cross-document view transitions ============ */
+/* Every internal navigation is a full document load (Quarto is a static MPA),
+   so pages used to hard-cut. `navigation: auto` hands the swap to the browser
+   compositor instead: it snapshots the old document, waits for the new one,
+   and cross-fades between them. Browsers without support ignore the whole
+   at-rule and navigate exactly as before — there is no fallback code path.
+
+   Everything here is decoration on top of a navigation that already works,
+   which is why none of it is worth a byte of JavaScript to polyfill. The
+   shared-element morph in nw-nav.js is the one part that needs script, and it
+   is guarded on `document.startViewTransition` existing. */
+@view-transition {
+  navigation: auto;
+}
+
+/* Chrome that should hold still across a navigation rather than cross-fading
+   with the body underneath it. Naming an element lifts it out of the `root`
+   snapshot into its own transition group, and because the name matches on both
+   sides the browser tweens the one box instead of dissolving two copies. */
+.navbar {
+  view-transition-name: nw-navbar;
+}
+
+.nav-footer {
+  view-transition-name: nw-footer;
+}
+
+.nw-top {
+  view-transition-name: nw-top;
+}
+
+/* The page body itself: a short fall-away, a slightly longer settle. The
+   asymmetry matters — the outgoing document should clear quickly so the new
+   page reads as the subject, and easing `out` faster than `in` is what keeps
+   the swap from feeling like a slideshow. */
+::view-transition-old(root) {
+  animation: nw-vt-out 140ms cubic-bezier(0.4, 0, 1, 1) both;
+}
+
+::view-transition-new(root) {
+  animation: nw-vt-in 260ms cubic-bezier(0, 0, 0.2, 1) both;
+}
+
+@keyframes nw-vt-out {
+  to {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes nw-vt-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+/* The card-image → detail-hero morph (named by nw-nav.js on both sides of the
+   navigation). The image is the only element whose geometry genuinely changes,
+   so it gets a longer, softer curve than the page body and is painted above
+   it for the whole transition. */
+::view-transition-group(nw-hero-img) {
+  animation-duration: 380ms;
+  animation-timing-function: cubic-bezier(0.2, 0, 0, 1);
+  z-index: 10;
+}
+
+/* Cross-fading the two copies would show the listing's cropped thumbnail
+   ghosting through the uncropped detail image. Holding both at full opacity
+   for the whole tween means only the box moves, which is the point. */
+::view-transition-old(nw-hero-img),
+::view-transition-new(nw-hero-img) {
+  animation: none;
+  mix-blend-mode: normal;
+  height: 100%;
+}
+
+/* ============ theme toggle: circular wipe ============ */
+/* nw-nav.js wraps the color-scheme swap in a view transition and records the
+   toggle's center in --nw-wipe-x / --nw-wipe-y. The new theme is then revealed
+   through a circle growing from that point, so the change reads as coming out
+   of the button that was pressed.
+
+   The old snapshot deliberately does not animate: it sits still underneath at
+   full opacity while the new one is clipped open over the top of it. Fading it
+   out as well would show the page background through the middle of the wipe.
+   150vmax is simply larger than any viewport's corner-to-corner distance, so
+   the circle always finishes off-screen. */
+html.nw-theme-wipe::view-transition-old(root) {
+  animation: none;
+  z-index: 0;
+}
+
+html.nw-theme-wipe::view-transition-new(root) {
+  animation: nw-theme-wipe 520ms cubic-bezier(0.2, 0, 0, 1) both;
+  z-index: 1;
+}
+
+/* During the wipe the whole page has to travel as one snapshot, so the
+   persistent chrome gives up its own transition groups for the duration —
+   otherwise the navbar and footer would swap theme instantly while the body
+   was still being revealed. */
+html.nw-theme-wipe .navbar,
+html.nw-theme-wipe .nav-footer,
+html.nw-theme-wipe .nw-top {
+  view-transition-name: none;
+}
+
+@keyframes nw-theme-wipe {
+  from {
+    clip-path: circle(0 at var(--nw-wipe-x, 50%) var(--nw-wipe-y, 0));
+  }
+
+  to {
+    clip-path: circle(150vmax at var(--nw-wipe-x, 50%) var(--nw-wipe-y, 0));
+  }
+}
+
+/* ============ scroll reveal, driven by the scroll itself ============ */
+/* The same effect as the `.nw-reveal` / `.nw-in` pair above, expressed as an
+   animation on a view() timeline instead of a class the page has to toggle.
+   home.js skips its IntersectionObserver block entirely when this is
+   supported (see the CSS.supports check there), so exactly one of the two
+   implementations is ever live.
+
+   This also drops the fold measurement that made the JS version safe: an
+   element already fully in view at load has, by definition, finished its
+   `entry` range, so it resolves at 100% progress and paints in its final
+   state on the first frame. Above-the-fold content — including the LCP
+   element — is never hidden, without anyone having to measure anything.
+
+   Guarded twice over: `@supports` keeps it away from browsers that would
+   otherwise apply the keyframes with no timeline to drive them (which would
+   leave content stuck at `opacity: 0`), and the reduced-motion query means
+   this block simply never exists for those users. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .nw-section .nw-title,
+    .nw-section .nw-subtitle,
+    .nw-section .nw-lead,
+    .nw-stat,
+    .nw-card,
+    .nw-proj-wrap,
+    .nw-cite,
+    .nw-post,
+    .nw-tl-item,
+    .nw-award,
+    .nw-faq details,
+    .nw-contact-card,
+    .nw-globe-wrap,
+    .nw-cta-card,
+    .nw-marquee {
+      animation: nw-rise linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 45%;
+    }
+
+    /* Cards land as a cascade rather than a wall. The JS version staggered
+       with `transition-delay`; here each column just starts a little later in
+       the same scroll range, which costs nothing and — unlike a delay — stays
+       tied to the scroll position if the reader scrubs back up. */
+    .nw-card:nth-child(3n + 2),
+    .nw-proj-wrap:nth-child(3n + 2),
+    .nw-cite:nth-child(3n + 2),
+    .nw-post:nth-child(3n + 2),
+    .nw-award:nth-child(3n + 2),
+    .nw-stat:nth-child(3n + 2) {
+      animation-range: entry 6% entry 51%;
+    }
+
+    .nw-card:nth-child(3n + 3),
+    .nw-proj-wrap:nth-child(3n + 3),
+    .nw-cite:nth-child(3n + 3),
+    .nw-post:nth-child(3n + 3),
+    .nw-award:nth-child(3n + 3),
+    .nw-stat:nth-child(3n + 3) {
+      animation-range: entry 12% entry 57%;
+    }
+  }
+}
+
+@keyframes nw-rise {
+  from {
+    opacity: 0;
+    transform: translateY(1rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ============ reading progress bar (blog posts) ============ */
+/* nw-nav.js adds `.nw-post-page` to <html> on blog detail pages; the bar
+   itself is a pseudo-element and its animation runs off the root scroller, so
+   there is no scroll listener and no per-frame JavaScript. Only `transform`
+   animates, so this stays on the compositor. */
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .nw-post-page body::after {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1100;
+      width: 100%;
+      height: 3px;
+      background: var(--nw-primary);
+      transform-origin: 0 50%;
+      transform: scaleX(0);
+      animation: nw-progress linear both;
+      animation-timeline: scroll(root block);
+    }
+  }
+}
+
+@keyframes nw-progress {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* ============ hero parallax ============ */
+/* The portrait drifts up a little slower than the page as the hero scrolls
+   away, which gives the fold some depth. Transform only — no layout, no
+   paint, no scroll listener. */
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    #hero .nw-hero-media {
+      animation: nw-hero-drift linear both;
+      animation-timeline: scroll(root block);
+      animation-range: 0 90vh;
+      will-change: transform;
+    }
+  }
+}
+
+@keyframes nw-hero-drift {
+  to {
+    transform: translateY(-2.5rem);
+  }
+}
