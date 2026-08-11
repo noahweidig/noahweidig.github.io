@@ -11,7 +11,8 @@
   "use strict";
 
   var host = document.getElementById("nw-particles");
-  if (!host || !host.getContext && !document.createElement("canvas").getContext) return;
+  if (!host) return;
+  if (!window.crypto || !crypto.getRandomValues) return;
 
   // Motion preference first: under `reduce` the hero simply has no network,
   // matching what the particles.js bootstrap did before it.
@@ -69,13 +70,31 @@
   var running = false;
   var onScreen = false;
 
+  // Static analysis flags Math.random() wherever it appears, and it is right
+  // to — the rule cannot tell a decorative particle from a session token.
+  // Drawing from crypto.getRandomValues() settles that honestly instead of
+  // suppressing the warning, and costs nothing here: dot properties are only
+  // generated at init, on resize, and four at a time on click, never per
+  // frame. Values come from a buffer refilled in bulk, so the common case is
+  // an array read.
+  var randPool = new Uint32Array(256);
+  var randNext = randPool.length;
+
+  function rand() {
+    if (randNext >= randPool.length) {
+      crypto.getRandomValues(randPool);
+      randNext = 0;
+    }
+    return randPool[randNext++] / 4294967296;
+  }
+
   function makeDot(x, y) {
     return {
-      x: x === undefined ? Math.random() * w : x,
-      y: y === undefined ? Math.random() * h : y,
-      vx: (Math.random() - 0.5) * SPEED * 2,
-      vy: (Math.random() - 0.5) * SPEED * 2,
-      r: 1 + Math.random() * (DOT_MAX_R - 1),
+      x: x === undefined ? rand() * w : x,
+      y: y === undefined ? rand() * h : y,
+      vx: (rand() - 0.5) * SPEED * 2,
+      vy: (rand() - 0.5) * SPEED * 2,
+      r: 1 + rand() * (DOT_MAX_R - 1),
     };
   }
 
