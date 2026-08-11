@@ -1,13 +1,164 @@
-// The theme toggle is an <a href="">; stop it from navigating (which jumps to the top).
+function nwReducedMotion() {
+  return (
+    window.matchMedia &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  );
+}
+
+// The theme toggle is an <a href="">; stop it from navigating (which jumps to
+// the top). When view transitions are available the swap is also wrapped in a
+// circular wipe that grows from the toggle itself, so the new theme reads as
+// spreading out from the button the visitor just pressed rather than flipping
+// the whole page at once.
+//
+// `window.quartoToggleColorScheme` is the seam Quarto exposes for exactly this
+// — it swaps the stylesheets, updates the sentinel in storage, and retints
+// giscus, all synchronously. Calling it directly is what makes the wipe
+// possible: a view transition's update callback must finish its DOM work
+// before the browser is allowed to paint again, so anything deferred to a
+// timer or requestAnimationFrame inside it would deadlock (rendering is
+// suspended for the duration, so those callbacks never run).
+//
+// If Quarto ever stops exporting it, the guard below simply falls through to
+// the plain toggle with no wipe.
 document.addEventListener(
   "click",
   function (e) {
-    if (e.target.closest && e.target.closest(".quarto-color-scheme-toggle")) {
-      e.preventDefault();
+    var toggle =
+      e.target.closest && e.target.closest(".quarto-color-scheme-toggle");
+    if (!toggle) return;
+    e.preventDefault();
+
+    if (
+      !document.startViewTransition ||
+      typeof window.quartoToggleColorScheme !== "function" ||
+      nwReducedMotion()
+    ) {
+      return;
     }
+    // Quarto's own handler must not also fire, or the theme would flip twice
+    // and land back where it started.
+    e.stopPropagation();
+
+    var root = document.documentElement;
+    var box = toggle.getBoundingClientRect();
+    root.style.setProperty("--nw-wipe-x", box.left + box.width / 2 + "px");
+    root.style.setProperty("--nw-wipe-y", box.top + box.height / 2 + "px");
+    // Set before the transition starts so the "before" snapshot is taken with
+    // the persistent-chrome names already suppressed — during a theme wipe the
+    // navbar and footer have to travel inside the root snapshot, or they would
+    // flip to the new theme instantly while the body is still being revealed.
+    root.classList.add("nw-theme-wipe");
+
+    var vt = document.startViewTransition(function () {
+      window.quartoToggleColorScheme();
+    });
+
+    vt.finished
+      .catch(function () {})
+      .then(function () {
+        root.classList.remove("nw-theme-wipe");
+      });
   },
   true
 );
+
+// Blog detail pages get a scroll-linked reading-progress bar. The bar and its
+// animation are entirely CSS (see "reading progress bar" in site.css) — all
+// that is needed here is the hook to scope them to article pages.
+if (/^\/blog\/[^/]+\//.test(location.pathname)) {
+  document.documentElement.classList.add("nw-post-page");
+}
+
+// Shared-element morph across a navigation: the image on a listing card and
+// the hero image on the detail page it opens are the same picture, so the
+// browser should move the one box rather than cross-fade two copies of it.
+//
+// Cross-document transitions make this a two-sided handshake — the outgoing
+// document names its element during `pageswap`, the incoming one names its
+// element during `pagereveal`, and a matching `view-transition-name` on both
+// ends is what pairs them up. The name is cleared once the transition
+// finishes so a second navigation never inherits a stale one.
+(function () {
+  if (!("startViewTransition" in document)) return;
+
+  var DETAIL = /^\/(projects|publications|awards|blog)\/[^/]+\//;
+  var NAME = "nw-hero-img";
+  var CARD = ".nw-proj-wrap, .nw-card, .nw-cite, .nw-post, .nw-award";
+
+  function detailImage() {
+    return (
+      document.querySelector("img.nw-detail-hero") ||
+      document.querySelector("main img")
+    );
+  }
+
+  // The card in *this* document that links to `path` — i.e. the other end of
+  // the navigation. Matching on resolved pathname rather than the raw href
+  // keeps this working whether listings emit relative or absolute links.
+  function cardImage(path) {
+    if (!path) return null;
+    var links = document.querySelectorAll("a[href]");
+    for (var i = 0; i < links.length; i++) {
+      var href;
+      try {
+        href = new URL(links[i].href).pathname;
+      } catch (err) {
+        continue;
+      }
+      if (href !== path) continue;
+      var img = (links[i].closest(CARD) || links[i]).querySelector("img");
+      if (img) return img;
+    }
+    return null;
+  }
+
+  // If this document is the detail page, its hero is the shared element;
+  // otherwise it is whichever card points at the detail page on the other
+  // side. One rule, and it holds in both directions — forward into a detail
+  // page and back out of one.
+  function tag(otherPath) {
+    var el = DETAIL.test(location.pathname) ? detailImage() : cardImage(otherPath);
+    if (el) el.style.viewTransitionName = NAME;
+    return el;
+  }
+
+  function pathOf(url) {
+    try {
+      return new URL(url, location.href).pathname;
+    } catch (err) {
+      return null;
+    }
+  }
+
+  window.addEventListener("pageswap", function (e) {
+    if (!e.viewTransition || nwReducedMotion()) return;
+    var to = e.activation && e.activation.entry && e.activation.entry.url;
+    // Only the listing↔detail pair morphs. Anything else (nav links, the CV)
+    // keeps the plain page cross-fade.
+    var path = pathOf(to);
+    if (!path || (!DETAIL.test(path) && !DETAIL.test(location.pathname))) return;
+    tag(path);
+  });
+
+  window.addEventListener("pagereveal", function (e) {
+    if (!e.viewTransition || nwReducedMotion()) return;
+    var from =
+      window.navigation &&
+      window.navigation.activation &&
+      window.navigation.activation.from &&
+      window.navigation.activation.from.url;
+    var path = pathOf(from);
+    if (!path || (!DETAIL.test(path) && !DETAIL.test(location.pathname))) return;
+    var el = tag(path);
+    if (!el) return;
+    e.viewTransition.finished
+      .catch(function () {})
+      .then(function () {
+        el.style.viewTransitionName = "";
+      });
+  });
+})();
 
 // Detail pages: Quarto points title-block category tags at whichever listing
 // the visitor came from (often the home page, where they do nothing). Send
