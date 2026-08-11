@@ -353,6 +353,24 @@ const ITEM_TYPES: Record<string, string> = {
   blog: "BlogPosting",
 };
 
+/**
+ * Plain text from a fragment of rendered markup.
+ *
+ * One pass of `replace(/<[^>]+>/g, "")` is not enough: on nested input like
+ * `<<a>script>` a single pass removes the inner tag and leaves `<script>`
+ * behind, which is what CodeQL's incomplete-multi-character-sanitization rule
+ * is about. Repeating until the string stops changing removes the whole nest,
+ * and any stray angle bracket that survives is dropped outright.
+ */
+function stripTags(s: string): string {
+  let prev: string;
+  do {
+    prev = s;
+    s = s.replace(/<[^>]*>/g, "");
+  } while (s !== prev);
+  return decodeEntities(s.replace(/[<>]/g, "")).trim();
+}
+
 function readFrontmatter(relPath: string, key: string): string | null {
   const src = path.join(
     projectRoot,
@@ -447,10 +465,10 @@ function pageSchema(opts: {
       /<details><summary>([\s\S]*?)<\/summary>\s*<p>([\s\S]*?)<\/p>/g,
     )].map(([, q, a]) => ({
       "@type": "Question",
-      name: decodeEntities(q.replace(/<[^>]+>/g, "").trim()),
+      name: stripTags(q),
       acceptedAnswer: {
         "@type": "Answer",
-        text: decodeEntities(a.replace(/<[^>]+>/g, "").trim()),
+        text: stripTags(a),
       },
     }));
     if (entries.length) {
