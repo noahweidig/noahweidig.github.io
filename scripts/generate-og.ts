@@ -328,6 +328,182 @@ function upsertLink(head: string, rel: string, href: string, extra = ""): string
   return `${head}${tag}\n`;
 }
 
+/**
+ * Insert or replace this script's own JSON-LD block. Marked with a data
+ * attribute so it never touches the site-wide Person/WebSite graph that
+ * _quarto.yml puts in every head — search engines merge multiple blocks, so
+ * the two coexist rather than compete.
+ */
+function upsertJsonLd(head: string, nodes: unknown[]): string {
+  const json = JSON.stringify({ "@context": "https://schema.org", "@graph": nodes })
+    // A literal "</" inside a script element would end it early.
+    .replace(/<\//g, "<\\/");
+  const tag = `<script type="application/ld+json" data-nw-page-schema>${json}</script>`;
+  const existing = /<script type="application\/ld\+json" data-nw-page-schema>[\s\S]*?<\/script>/;
+  if (existing.test(head)) return head.replace(existing, tag);
+  return `${head}${tag}\n`;
+}
+
+/** Schema.org type for an item page, by the section it lives in. Sections not
+ *  listed here (awards, experience, education) get breadcrumbs only: there is
+ *  no type that describes them without overstating what they are. */
+const ITEM_TYPES: Record<string, string> = {
+  publications: "ScholarlyArticle",
+  projects: "CreativeWork",
+  blog: "BlogPosting",
+};
+
+/**
+ * Plain text from a fragment of rendered markup.
+ *
+ * One pass of `replace(/<[^>]+>/g, "")` is not enough: on nested input like
+ * `<<a>script>` a single pass removes the inner tag and leaves `<script>`
+ * behind, which is what CodeQL's incomplete-multi-character-sanitization rule
+ * is about. Repeating until the string stops changing removes the whole nest,
+ * and any stray angle bracket that survives is dropped outright.
+ */
+function stripTags(s: string): string {
+  let prev: string;
+  do {
+    prev = s;
+    s = s.replace(/<[^>]*>/g, "");
+  } while (s !== prev);
+  return decodeEntities(s.replace(/[<>]/g, "")).trim();
+}
+
+function readFrontmatter(relPath: string, key: string): string | null {
+  const src = path.join(
+    projectRoot,
+    relPath.replace(/\\/g, "/").replace(/\.html$/, ".qmd"),
+  );
+  if (!fs.existsSync(src)) return null;
+  const fm = fs.readFileSync(src, "utf8").match(/^---\r?\n([\s\S]*?)\r?\n---/);
+  if (!fm) return null;
+  const m = fm[1].match(new RegExp(`^${key}:\\s*(.+)$`, "m"));
+  return m ? m[1].trim().replace(/^["']|["']$/g, "") : null;
+}
+
+/**
+ * Per-page structured data. The site-wide graph in _quarto.yml describes the
+ * person and the site; this describes the thing the page is actually about,
+ * which is what puts a publication or a post in the right place in a knowledge
+ * graph rather than looking like one more page on a personal site.
+ */
+function pageSchema(opts: {
+  rel: string;
+  html: string;
+  topDir: string;
+  isSectionIndex: boolean;
+  title: string;
+  description: string;
+  canonical: string;
+  imageUrl: string;
+}): unknown[] {
+  const { rel, html, topDir, isSectionIndex, title, description, canonical, imageUrl } = opts;
+  const nodes: unknown[] = [];
+  const personRef = { "@id": `${SITE_URL}/#person` };
+  const siteRef = { "@id": `${SITE_URL}/#website` };
+  // Only pages that live in a section directory have a section: `cv.html` and
+  // `privacy.html` sit at the root and get neither a label nor breadcrumbs.
+  const inSection = rel.includes(path.sep);
+  const sectionLabel = !inSection
+    ? ""
+    : SECTION_LABELS[topDir] ?? topDir[0].toUpperCase() + topDir.slice(1);
+  const isItem = !isSectionIndex && inSection;
+
+  if (isSectionIndex && sectionLabel) {
+    nodes.push({
+      "@type": "CollectionPage",
+      "@id": `${canonical}#page`,
+      url: canonical,
+      name: title,
+      ...(description ? { description } : {}),
+      isPartOf: siteRef,
+      about: personRef,
+    });
+  }
+
+  const itemType = isItem ? ITEM_TYPES[topDir] : undefined;
+  if (itemType) {
+    const date = readFrontmatter(rel, "date");
+    const venue = readFrontmatter(rel, "pub-venue");
+    const doi = readFrontmatter(rel, "pub-doi");
+    const pubUrl = readFrontmatter(rel, "pub-url");
+    const sameAs = [doi ? `https://doi.org/${doi}` : null, pubUrl].filter(Boolean);
+
+    nodes.push({
+      "@type": itemType,
+      "@id": `${canonical}#item`,
+      url: canonical,
+      name: title,
+      headline: title,
+      ...(description ? { description } : {}),
+      ...(date ? { datePublished: date } : {}),
+      image: imageUrl,
+      inLanguage: "en",
+      isPartOf: siteRef,
+      mainEntityOfPage: canonical,
+      // Publications are co-authored, and `pub-authors` is a formatted citation
+      // string rather than structured data — splitting "Last, F. M. & Last,
+      // F. M." back into people is guesswork, and guessing here would credit
+      // the wrong person on media coverage the site merely links to. Blog posts
+      // and projects are unambiguously Noah's, so those carry an author.
+      ...(topDir === "publications"
+        ? (venue ? { publisher: { "@type": "Organization", name: venue } } : {})
+        : { author: personRef }),
+      ...(doi ? { identifier: `https://doi.org/${doi}` } : {}),
+      ...(sameAs.length ? { sameAs } : {}),
+    });
+  }
+
+  // FAQ accordion on the landing page. Read back out of the rendered markup
+  // rather than restated here, so the answers a crawler sees and the answers a
+  // visitor reads can never drift apart.
+  if (rel === "index.html") {
+    const faq = html.match(/<div class="nw-faq">([\s\S]*?)<\/div>/)?.[1] ?? "";
+    const entries = [...faq.matchAll(
+      /<details><summary>([\s\S]*?)<\/summary>\s*<p>([\s\S]*?)<\/p>/g,
+    )].map(([, q, a]) => ({
+      "@type": "Question",
+      name: stripTags(q),
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: stripTags(a),
+      },
+    }));
+    if (entries.length) {
+      nodes.push({
+        "@type": "FAQPage",
+        "@id": `${canonical}#faq`,
+        mainEntity: entries,
+      });
+    }
+  }
+
+  // Breadcrumbs on every page below the root: Home → section → item.
+  if (rel !== "index.html" && sectionLabel) {
+    const crumbs: unknown[] = [
+      { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: sectionLabel,
+        item: `${SITE_URL}/${topDir}/`,
+      },
+    ];
+    if (isItem) {
+      crumbs.push({ "@type": "ListItem", position: 3, name: title, item: canonical });
+    }
+    nodes.push({
+      "@type": "BreadcrumbList",
+      "@id": `${canonical}#breadcrumbs`,
+      itemListElement: crumbs,
+    });
+  }
+
+  return nodes;
+}
+
 function slugFor(relPath: string): string {
   let p = relPath.replace(/\\/g, "/").replace(/\.html$/, "");
   if (p.endsWith("/index")) p = p.slice(0, -"/index".length);
@@ -426,6 +602,23 @@ async function main(): Promise<void> {
     if (description) head = upsertMeta(head, "name", "twitter:description", description);
     head = upsertMeta(head, "name", "twitter:image", imageUrl);
     head = upsertMeta(head, "name", "twitter:image:alt", imageAlt);
+
+    // Per-page structured data, alongside (not replacing) the site-wide
+    // Person/WebSite graph from _quarto.yml. Skipped on the 404 page, which is
+    // noindex — describing it to a crawler that is told to ignore it is noise.
+    if (rel !== "404.html") {
+      const nodes = pageSchema({
+        rel,
+        html,
+        topDir,
+        isSectionIndex,
+        title,
+        description,
+        canonical,
+        imageUrl,
+      });
+      if (nodes.length) head = upsertJsonLd(head, nodes);
+    }
 
     // Social metadata belongs in <head>; strip any that Quarto or a filter
     // left in the body, where no unfurler looks for it.
