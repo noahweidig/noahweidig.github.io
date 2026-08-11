@@ -223,6 +223,42 @@ document.addEventListener(
   });
 })();
 
+// Skip link: the first tab stop on the page, so a keyboard visitor can jump
+// the navbar's nine links, the search button and the theme toggle instead of
+// tabbing through all of them on every page.
+//
+// Injected here rather than written into the templates because Quarto's
+// `include-before-body` hook lands *inside* the content wrapper — after the
+// header in DOM order, which is exactly where a skip link is useless. This
+// runs at the end of the body, early enough that the link is in place well
+// before anyone can reach it.
+//
+// The target is `#quarto-content`, the one content wrapper Quarto emits on
+// every layout (the `<main>` element only exists on article and listing
+// pages, not on the custom-layout landing page or CV). Focus is moved
+// explicitly, with a temporary `tabindex`, because following a fragment link
+// to a non-focusable element leaves the keyboard focus behind in several
+// browsers — the page scrolls but the next Tab returns to the navbar.
+(function () {
+  var target = document.getElementById("quarto-content");
+  if (!target) return;
+
+  var link = document.createElement("a");
+  link.className = "nw-skip";
+  link.href = "#quarto-content";
+  link.textContent = "Skip to content";
+  link.addEventListener("click", function (e) {
+    e.preventDefault();
+    target.setAttribute("tabindex", "-1");
+    target.focus();
+    target.addEventListener("blur", function handler() {
+      target.removeAttribute("tabindex");
+      target.removeEventListener("blur", handler);
+    });
+  });
+  document.body.insertBefore(link, document.body.firstChild);
+})();
+
 // Subtle back-to-top button, shown after scrolling down a bit.
 (function () {
   var btn = document.createElement("button");

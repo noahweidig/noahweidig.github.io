@@ -63,6 +63,36 @@
     }
   });
 
+  // Pause control for the marquees (WCAG 2.2.2: anything that moves for more
+  // than five seconds needs a way to stop it). The CSS already pauses on hover
+  // and focus-within, but neither is a mechanism a touch visitor has. Built
+  // here rather than written into index.qmd so the button only exists when the
+  // animation it controls does.
+  var PAUSE_ICON = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="7" y="5" width="3.5" height="14" rx="1"/><rect x="13.5" y="5" width="3.5" height="14" rx="1"/></svg>';
+  var PLAY_ICON = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5l11 7l-11 7z"/></svg>';
+
+  document.querySelectorAll(".nw-marquee").forEach(function (marquee) {
+    if (!marquee.querySelector(".nw-marquee-track")) return;
+
+    var name = marquee.getAttribute("aria-label") || "carousel";
+    var btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "nw-marquee-pause";
+    btn.innerHTML = PAUSE_ICON;
+    btn.setAttribute("aria-label", "Pause the " + name + " animation");
+
+    btn.addEventListener("click", function () {
+      var paused = marquee.toggleAttribute("data-nw-paused");
+      btn.innerHTML = paused ? PLAY_ICON : PAUSE_ICON;
+      btn.setAttribute(
+        "aria-label",
+        (paused ? "Resume the " : "Pause the ") + name + " animation"
+      );
+    });
+
+    marquee.insertAdjacentElement("afterend", btn);
+  });
+
   // FAQ behaves as an accordion: opening one entry closes the others, so the
   // list never grows tall enough to push the answer you just opened off
   // screen. `toggle` doesn't bubble, hence the per-details listener.

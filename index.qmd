@@ -181,7 +181,7 @@ include-after-body:
         <span class="nw-tech-item"><img src="assets/media/icons/custom/gee.svg" width="24" height="24" alt="" loading="lazy">GEE</span>
         <span class="nw-tech-item"><img src="assets/media/icons/custom/qgis.svg" width="256" height="256" alt="" loading="lazy">QGIS</span>
         <span class="nw-tech-item"><img src="assets/media/icons/custom/gdal.svg" width="64" height="64" alt="" loading="lazy">GDAL</span>
-        <span class="nw-tech-item"><img src="assets/media/icons/custom/sf.svg" width="483" height="589" alt="" loading="lazy">sf</span>
+        <span class="nw-tech-item"><img src="assets/media/icons/custom/sf.webp" width="200" height="244" alt="" loading="lazy">sf</span>
         <span class="nw-tech-item"><img src="assets/media/icons/custom/terra.svg" width="785" height="881" alt="" loading="lazy">terra</span>
         <span class="nw-tech-item"><img src="assets/media/icons/custom/geopandas.svg" width="314" height="314" alt="" loading="lazy">GeoPandas</span>
         <span class="nw-tech-item"><img src="assets/media/icons/custom/openstreetmap.svg" width="260" height="260" alt="" loading="lazy">OSM</span>
@@ -239,10 +239,10 @@ include-after-body:
     <h2 class="nw-title">Featured Awards</h2>
     <p class="nw-subtitle">A selection of recent honors</p>
     <div class="nw-carousel">
-      <a class="nw-award" href="awards/outstanding-thesis-natural-resources/"><figure><img src="assets/media/albums/awards/outstanding-thesis-natural-resources.webp" width="1200" height="675" alt="Outstanding Thesis in Natural Resources" loading="lazy"><figcaption><b>Outstanding Thesis in Natural Resources</b><span>University of Florida, College of Agricultural &amp; Life Sciences</span></figcaption></figure></a>
-      <a class="nw-award" href="awards/outstanding-thesis-forest-resources/"><figure><img src="assets/media/albums/awards/outstanding-thesis-forest-resources.webp" width="1200" height="675" alt="Outstanding Thesis in Forest Resources & Conservation" loading="lazy"><figcaption><b>Outstanding Thesis in Forest Resources &amp; Conservation</b><span>University of Florida, School of Forest, Fisheries, &amp; Geomatic Sciences</span></figcaption></figure></a>
-      <a class="nw-award" href="awards/best-student-presentation/"><figure><img src="assets/media/albums/awards/best-student-presentation.webp" width="1200" height="900" alt="Best Student Presentation" loading="lazy"><figcaption><b>Best Student Presentation</b><span>International Association of Landscape Ecology – North America</span></figcaption></figure></a>
-      <a class="nw-award" href="awards/outstanding-graduate-biology/"><figure><img src="assets/media/albums/awards/outstanding-graduate-biology.webp" width="1200" height="675" alt="Outstanding Graduate in Biology" loading="lazy"><figcaption><b>Outstanding Graduate in Biology</b><span>Northern Kentucky University, Department of Biological Sciences</span></figcaption></figure></a>
+      <a class="nw-award" href="awards/outstanding-thesis-natural-resources/"><figure><img src="awards/outstanding-thesis-natural-resources/featured.webp" width="1200" height="675" alt="Outstanding Thesis in Natural Resources" loading="lazy"><figcaption><b>Outstanding Thesis in Natural Resources</b><span>University of Florida, College of Agricultural &amp; Life Sciences</span></figcaption></figure></a>
+      <a class="nw-award" href="awards/outstanding-thesis-forest-resources/"><figure><img src="awards/outstanding-thesis-forest-resources/featured.webp" width="1200" height="675" alt="Outstanding Thesis in Forest Resources & Conservation" loading="lazy"><figcaption><b>Outstanding Thesis in Forest Resources &amp; Conservation</b><span>University of Florida, School of Forest, Fisheries, &amp; Geomatic Sciences</span></figcaption></figure></a>
+      <a class="nw-award" href="awards/best-student-presentation/"><figure><img src="awards/best-student-presentation/featured.webp" width="1200" height="900" alt="Best Student Presentation" loading="lazy"><figcaption><b>Best Student Presentation</b><span>International Association of Landscape Ecology – North America</span></figcaption></figure></a>
+      <a class="nw-award" href="awards/outstanding-graduate-biology/"><figure><img src="awards/outstanding-graduate-biology/featured.webp" width="1200" height="675" alt="Outstanding Graduate in Biology" loading="lazy"><figcaption><b>Outstanding Graduate in Biology</b><span>Northern Kentucky University, Department of Biological Sciences</span></figcaption></figure></a>
     </div>
     <div class="nw-btns nw-section-more"><a class="nw-btn nw-btn-ghost" href="awards/">See All Awards →</a></div>
   </div>
@@ -299,11 +299,14 @@ include-after-body:
           </li>
         </ul>
       </div>
-      <form class="nw-form" action="https://formspree.io/f/xjgnggga" method="POST">
-        <input type="text" name="name" placeholder="Your name" autocomplete="name" required>
-        <input type="email" name="email" placeholder="Your email" autocomplete="email" required>
-        <textarea name="message" rows="5" placeholder="Your message" required></textarea>
-        <p class="nw-form-status" role="status" aria-live="polite" hidden></p>
+      <form class="nw-form" action="https://formspree.io/f/xjgnggga" method="POST" aria-describedby="nw-form-status">
+        <label class="nw-sr-only" for="nw-form-name">Your name</label>
+        <input id="nw-form-name" type="text" name="name" placeholder="Your name" autocomplete="name" required>
+        <label class="nw-sr-only" for="nw-form-email">Your email</label>
+        <input id="nw-form-email" type="email" name="email" placeholder="Your email" autocomplete="email" required>
+        <label class="nw-sr-only" for="nw-form-message">Your message</label>
+        <textarea id="nw-form-message" name="message" rows="5" placeholder="Your message" required></textarea>
+        <p class="nw-form-status" id="nw-form-status" role="status" aria-live="polite" hidden></p>
         <div class="nw-btns"><button class="nw-btn nw-btn-primary" type="submit">Send Message</button></div>
       </form>
     </div>
