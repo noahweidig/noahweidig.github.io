@@ -48,6 +48,60 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* Visually hidden, but still announced: for labels whose meaning the visual
+   design carries some other way (a placeholder, an adjacent icon). Not
+   `display: none` — that would take the element out of the accessibility tree
+   too, which is the whole thing being avoided. */
+.nw-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Skip link: the first tab stop on every page, parked off-screen until it
+   takes focus. Without it a keyboard visitor tabs the nine navbar items, the
+   search button and the theme toggle before reaching any content, on every
+   single page. */
+.nw-skip {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  z-index: 2000;
+  transform: translate(-50%, -120%);
+  padding: 0.7rem 1.2rem;
+  border-radius: 0 0 0.6rem 0.6rem;
+  background: var(--nw-primary);
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.nw-skip:focus {
+  transform: translate(-50%, 0);
+  color: #fff;
+}
+
+/* One focus ring for everything. Only the contact inputs had a focus style
+   before, so every other control fell back to whatever Bootstrap and the two
+   themes happened to produce. The white/black offset ring keeps the indicator
+   visible where the blue sits on a blue-tinted wash. */
+:focus-visible {
+  outline: 2px solid var(--nw-primary);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px var(--nw-bg);
+}
+
+::selection {
+  background: color-mix(in srgb, var(--nw-primary) 28%, transparent);
+  color: var(--nw-fg);
+}
+
 .navbar {
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
@@ -933,8 +987,43 @@ body {
   padding: 1rem 0;
 }
 
-.nw-marquee:hover .nw-marquee-track {
+/* Hover is not a mechanism a keyboard or touch visitor has, and WCAG 2.2.2
+   asks for one on anything that moves for more than five seconds. `:focus-within`
+   covers tabbing through the logos; the button injected by home.js covers
+   everyone else. */
+.nw-marquee:hover .nw-marquee-track,
+.nw-marquee:focus-within .nw-marquee-track,
+.nw-marquee[data-nw-paused] .nw-marquee-track {
   animation-play-state: paused;
+}
+
+/* The control is a sibling of the strip, not a child: `.nw-marquee` carries an
+   edge mask that fades its own contents out at the left and right, and a button
+   parked inside it would be faded away with them. */
+.nw-marquee-pause {
+  display: flex;
+  margin: 0.4rem 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 1.9rem;
+  height: 1.9rem;
+  padding: 0;
+  border: 1px solid var(--nw-border);
+  border-radius: 50%;
+  background: var(--nw-bg);
+  color: var(--nw-fg);
+  opacity: 0.45;
+  transition: opacity 0.15s ease;
+}
+
+.nw-marquee-pause:hover,
+.nw-marquee-pause:focus-visible {
+  opacity: 1;
+}
+
+.nw-marquee-pause svg {
+  width: 0.9rem;
+  height: 0.9rem;
 }
 
 @keyframes nw-scroll {
@@ -1455,6 +1544,13 @@ body {
   text-decoration: underline;
 }
 
+/* Same offset, applied to every anchor target rather than only the landing
+   page's sections: the blog posts render a table of contents whose links jump
+   to headings, and those were landing underneath the sticky navbar. */
+html {
+  scroll-padding-top: 4.5rem;
+}
+
 /* scroll offset for anchored sections under sticky navbar */
 .nw-section,
 #hero {
@@ -1930,6 +2026,13 @@ body:has(.nw-cv) #title-block-header {
 
   .nw-marquee {
     overflow-x: auto;
+  }
+
+  /* Nothing left to pause, so the control home.js injects has no meaning here.
+     `display: none` rather than a visual hide, so it leaves the tab order and
+     the accessibility tree along with the motion it controlled. */
+  .nw-marquee-pause {
+    display: none;
   }
 
   /* Caret and availability dots: hold at full opacity rather than blinking. */
