@@ -1367,18 +1367,20 @@ body {
 }
 
 /* ============ filterable listing pages (projects, publications, blog) ======
-   Quarto sizes the body-content grid track from the content it holds, so once
-   the category filter hides cards the column collapsed to the widest card that
-   was left — filtering to a single short post made every card narrower. A
-   definite width on the listing (and on the filter bar above it, so the two
-   stay aligned) pins the track. The viewport term keeps that width definite —
-   a percentage would be resolved against the very track it is meant to size —
-   so narrow screens shrink the column instead of overflowing it. */
+   Once the category filter hides cards, a grid whose width tracks its content
+   can collapse to the widest card left over — filtering to a single short
+   post made every card narrower. A definite width on the listing (and on the
+   filter bar above it, so the two stay aligned) pins the track. `main.content`
+   already has a fixed, definite width from `.page-layout-full main.content`
+   below (max-width + padding, independent of its children), so 100% of it is
+   itself definite and immune to the same collapse — no need to re-derive that
+   width from the viewport, which drifted out of sync with the parent's actual
+   padded width and let cards overflow past the right margin. */
 #listing-all-posts,
 #listing-all-pubs,
 #listing-all-projects,
 .nw-filters {
-  width: min(72rem, calc(100vw - 5rem));
+  width: 100%;
   margin-inline: auto;
 }
 
