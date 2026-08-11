@@ -1118,6 +1118,33 @@ body {
   margin: 0.75rem 0 0;
 }
 
+/* Answers slide open instead of appearing all at once. This used to require
+   measuring scrollHeight in JS and animating a pixel max-height; three CSS
+   features now cover it between them — `::details-content` gives the answer a
+   box to size, `interpolate-size` makes `auto` a real animatable value, and
+   `allow-discrete` keeps `content-visibility` from snapping the content
+   visible on frame one. Unsupported browsers just open instantly, which is
+   the behavior today.
+
+   The accordion logic in home.js is untouched; only the reveal is animated. */
+@supports (interpolate-size: allow-keywords) {
+  :root {
+    interpolate-size: allow-keywords;
+  }
+
+  .nw-faq details::details-content {
+    block-size: 0;
+    overflow: hidden;
+    transition:
+      block-size 0.28s ease,
+      content-visibility 0.28s allow-discrete;
+  }
+
+  .nw-faq details[open]::details-content {
+    block-size: auto;
+  }
+}
+
 /* ============ contact ============ */
 .nw-form {
   margin-top: 2rem;
@@ -1913,5 +1940,21 @@ body:has(.nw-cv) #title-block-header {
 
   html {
     scroll-behavior: auto;
+  }
+
+  /* View transitions: the navigation itself still happens (and still gets the
+     instant same-document swap that `@view-transition` buys), but every
+     snapshot lands on its final state immediately instead of tweening. This
+     covers the page cross-fade, the shared card→hero image morph, and the
+     theme-toggle wipe in one rule, because all three are built out of
+     `::view-transition-*` pseudo-elements.
+
+     `!important` is needed here and nowhere else in this block: the transition
+     pseudo-elements live in their own tree whose UA styles set an animation on
+     every group, and the site's own rules in site.css name specific groups. */
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
   }
 }

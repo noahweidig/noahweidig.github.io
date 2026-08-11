@@ -191,7 +191,19 @@
   // Scroll reveal: fade sections' items in as they enter the viewport.
   // Elements already on screen at load are never hidden, so first paint (and
   // the LCP element) is identical with or without this — Lighthouse-safe.
-  if (!reducedMotion && "IntersectionObserver" in window) {
+  //
+  // Browsers with scroll-driven animations run the CSS version of this instead
+  // (see "scroll reveal, driven by the scroll itself" in site.css), which is
+  // the same effect on the compositor with no observer, no per-batch delay
+  // bookkeeping, and no fold measurement. The two must never both apply: this
+  // one sets `opacity: 0` up front, so leaving it on would hide elements the
+  // CSS timeline has already resolved to their final state.
+  var cssDriven =
+    window.CSS &&
+    CSS.supports &&
+    CSS.supports("animation-timeline", "view()");
+
+  if (!reducedMotion && !cssDriven && "IntersectionObserver" in window) {
     var revealables = document.querySelectorAll(
       ".nw-section .nw-title, .nw-section .nw-subtitle, .nw-section .nw-lead, " +
         ".nw-stat, .nw-card, .nw-proj-wrap, .nw-cite, .nw-post, " +
