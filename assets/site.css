@@ -1257,11 +1257,16 @@ img.nw-detail-hero {
 /* `body { -webkit-font-smoothing: antialiased }` switches macOS to grayscale
    antialiasing, which thins these labels enough that no glyph pixel reaches
    #fff — sampling one reads about #e6e7eb. Subpixel rendering restores solid
-   white cores; the color is pinned alongside it so nothing dims it. */
-.nw-btn-primary,
-.nw-cta-card .nw-btn-primary {
+   white cores; the color is pinned alongside it so nothing dims it. Scoped to
+   the plain site-wide button only: the 404 card's dark-mode variant swaps in
+   a white button with blue text (--nw-cta-btn-fg), which this must not clobber. */
+.nw-btn-primary {
   -webkit-font-smoothing: auto;
   color: #fff !important;
+}
+
+.nw-cta-card .nw-btn-primary {
+  -webkit-font-smoothing: auto;
 }
 
 /* the navbar CTA's white-on-blue hover label, same treatment */
