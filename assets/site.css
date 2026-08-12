@@ -510,13 +510,63 @@ img.nw-detail-hero {
 
 .nw-top:hover {
   opacity: 1;
-  border-color: var(--nw-primary);
-  color: var(--nw-primary);
 }
 
-.nw-top svg {
+.nw-top-arrow {
   width: 1.15rem;
   height: 1.15rem;
+  transition: transform 0.2s ease;
+}
+
+/* On hover the arrow itself does the work the ring used to do: a small,
+   repeating hop in the direction the button takes you. */
+.nw-top:hover .nw-top-arrow,
+.nw-top:focus-visible .nw-top-arrow {
+  animation: nw-top-bounce 0.9s ease-in-out infinite;
+}
+
+@keyframes nw-top-bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-0.18rem);
+  }
+}
+
+/* Scroll progress: an arc tracing the button's own edge, closing as the page
+   bottoms out. `inset: -1px` sizes the 44-unit viewBox over the border box
+   (absolute positioning is otherwise relative to the padding box). */
+.nw-top-ring {
+  position: absolute;
+  inset: -1px;
+  transform: rotate(-90deg);
+  pointer-events: none;
+  overflow: visible;
+}
+
+.nw-top-ring-bar {
+  fill: none;
+  stroke: var(--nw-primary);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: calc(1 - var(--nw-top-progress, 0));
+  transition: stroke-dashoffset 0.1s linear;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nw-top:hover .nw-top-arrow,
+  .nw-top:focus-visible .nw-top-arrow {
+    animation: none;
+    transform: translateY(-0.18rem);
+  }
+
+  .nw-top-ring-bar {
+    transition: none;
+  }
 }
 
 /* ============ footer: topography backdrop + link columns ============ */
