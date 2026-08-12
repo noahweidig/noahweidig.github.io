@@ -265,8 +265,13 @@ document.addEventListener(
   btn.className = "nw-top";
   btn.type = "button";
   btn.setAttribute("aria-label", "Back to top");
+  // The ring is drawn with `pathLength="1"`, so the dash offset is just
+  // `1 - progress` and the geometry can change without touching the maths.
   btn.innerHTML =
-    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg>';
+    '<svg class="nw-top-ring" viewBox="0 0 44 44" aria-hidden="true">' +
+    '<circle class="nw-top-ring-bar" cx="22" cy="22" r="21" pathLength="1"/>' +
+    "</svg>" +
+    '<svg class="nw-top-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg>';
   // An explicit `behavior: "smooth"` overrides the CSS `scroll-behavior: auto`
   // set under reduced motion, so check the preference here too (live, rather
   // than cached, so a mid-session change to the setting is respected).
@@ -284,11 +289,20 @@ document.addEventListener(
     if (ticking) return;
     ticking = true;
     requestAnimationFrame(function () {
+      var doc = document.documentElement;
+      var scrollable = doc.scrollHeight - doc.clientHeight;
+      var progress = scrollable > 0 ? window.scrollY / scrollable : 0;
+      // Clamp: elastic overscroll on iOS reports values outside 0..1.
+      progress = Math.max(0, Math.min(1, progress));
+      btn.style.setProperty("--nw-top-progress", progress);
       btn.classList.toggle("show", window.scrollY > 600);
       ticking = false;
     });
   };
   window.addEventListener("scroll", onScroll, { passive: true });
+  // A resize changes the scrollable distance, so the ring has to be redrawn
+  // even when the scroll position itself hasn't moved.
+  window.addEventListener("resize", onScroll, { passive: true });
   onScroll();
 })();
 
