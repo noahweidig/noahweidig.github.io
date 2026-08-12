@@ -1409,6 +1409,18 @@ body {
   flex: none;
 }
 
+/* inline links (fact chips, foot line) default to $link-color, which reads
+   fine on the pale light-mode card but is nearly indistinguishable from the
+   saturated blue dark-mode card — pin them to the card foreground instead */
+.nw-cta-card a:not(.nw-btn) {
+  color: var(--nw-cta-fg);
+  text-decoration-color: color-mix(in srgb, var(--nw-cta-fg) 45%, transparent);
+}
+
+.nw-cta-card a:not(.nw-btn):hover {
+  text-decoration-color: currentColor;
+}
+
 /* CTA buttons: a solid inverse chip + a quiet outline, both scoped so the
    site-wide blue gradient button doesn't disappear against the blue card */
 .nw-cta-card .nw-btn-primary {
