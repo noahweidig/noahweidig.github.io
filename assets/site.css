@@ -436,20 +436,6 @@ body.quarto-dark .quarto-navbar-tools .quarto-color-scheme-toggle:hover > .bi::b
   }
 }
 
-/* ============ research areas: neutral cards, no per-card color ============ */
-/* The .g-* icon classes are gone from the markup, so the tinted card
-   background keyed to them (theme.scss, via --c1/--c2) has nothing to mix;
-   pin the card and its icon tile back to the plain surface colors. */
-#interests .nw-card {
-  background: var(--nw-card);
-}
-
-#interests .nw-card .nw-icon {
-  background: none;
-  border: 1px solid var(--nw-border);
-  color: var(--nw-fg);
-}
-
 /* ============ even breathing room top and bottom of every section ======== */
 /* Sections pad equally top and bottom, so the gap above a section's header
    matches the gap below its last card (and, on a gradient band, the distance
@@ -1133,8 +1119,7 @@ img.nw-detail-hero {
    smudges the gradient. */
 .nw-alt .nw-card,
 .nw-alt .nw-card:has(.nw-icon),
-/* research areas pin their card surface by id above; beat it on the band */
-#interests.nw-alt .nw-card,
+.nw-alt .nw-area-panel,
 .nw-alt .nw-cites .nw-cite,
 .nw-alt .nw-posts .nw-post,
 .nw-alt .nw-proj-card,
@@ -1144,6 +1129,14 @@ img.nw-detail-hero {
   background: none;
   border-color: var(--nw-onband-border);
   box-shadow: none;
+}
+
+/* Same hairline for the research-area tab pills and eyebrow tiles on the band.
+   Kept out of the block above because that one also clears `background`, which
+   the selected tab needs. */
+.nw-alt .nw-area-tabs [role="tab"]:not([aria-selected="true"]),
+.nw-alt .nw-area-eyebrow .nw-icon {
+  border-color: var(--nw-onband-border);
 }
 
 .nw-alt .nw-cites .nw-cite:hover,
@@ -1495,6 +1488,7 @@ html.nw-theme-wipe .nw-top {
     .nw-contact-card,
     .nw-globe-wrap,
     .nw-cta-card,
+    .nw-areas,
     .nw-marquee {
       animation: nw-rise linear both;
       animation-timeline: view();
