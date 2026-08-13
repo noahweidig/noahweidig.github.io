@@ -178,6 +178,90 @@
     }
   });
 
+  // Research areas: upgrade the stacked panels into a tab set. The markup ships
+  // with every panel visible and the tab strip `hidden`, so this is the only
+  // thing standing between a JS failure and a readable (if long) section.
+  var areas = document.getElementById("nw-areas");
+  if (areas) {
+    var tablist = areas.querySelector('[role="tablist"]');
+    var tabs = Array.prototype.slice.call(areas.querySelectorAll('[role="tab"]'));
+    var panels = Array.prototype.slice.call(areas.querySelectorAll('[role="tabpanel"]'));
+
+    if (tablist && tabs.length && tabs.length === panels.length) {
+      var slugOf = function (tab) {
+        return (tab.id || "").replace("nw-area-tab-", "");
+      };
+
+      var select = function (tab, moveFocus, updateHash) {
+        tabs.forEach(function (t) {
+          var on = t === tab;
+          t.setAttribute("aria-selected", on ? "true" : "false");
+          // Roving tabindex: the strip is one tab stop, arrows move within it.
+          t.tabIndex = on ? 0 : -1;
+          var panel = document.getElementById(t.getAttribute("aria-controls"));
+          if (panel) panel.hidden = !on;
+        });
+        // `nearest` on both axes: the strip may need to scroll sideways, but
+        // the page must not jump vertically just because a tab was clicked.
+        if (tab.scrollIntoView) {
+          tab.scrollIntoView({ block: "nearest", inline: "nearest" });
+        }
+        if (moveFocus) tab.focus();
+        if (updateHash && history.replaceState) {
+          history.replaceState(null, "", "#area=" + slugOf(tab));
+        }
+      };
+
+      tabs.forEach(function (tab, i) {
+        tab.addEventListener("click", function () {
+          select(tab, false, true);
+        });
+        // Arrow keys per the APG tabs pattern; Home/End jump to the ends.
+        tab.addEventListener("keydown", function (e) {
+          var next = null;
+          if (e.key === "ArrowRight") next = tabs[(i + 1) % tabs.length];
+          else if (e.key === "ArrowLeft") next = tabs[(i - 1 + tabs.length) % tabs.length];
+          else if (e.key === "Home") next = tabs[0];
+          else if (e.key === "End") next = tabs[tabs.length - 1];
+          if (!next) return;
+          e.preventDefault();
+          select(next, true, true);
+        });
+      });
+
+      areas.classList.add("js-tabs");
+      tablist.hidden = false;
+
+      // Deep link: #area=X, so a single area can be linked from a CV or email.
+      var wanted = location.hash.match(/area=([^&]*)/);
+      var start = tabs[0];
+      if (wanted) {
+        var slug = decodeURIComponent(wanted[1]);
+        tabs.forEach(function (t) {
+          if (slugOf(t) === slug) start = t;
+        });
+      }
+      select(start, false, false);
+    }
+
+    // The figure animations are scoped to `#interests.nw-in-view` in CSS, so
+    // nothing draws while the section is off screen. Same idea as the globe and
+    // the hero network, minus the rAF loop — the compositor handles the rest.
+    var interests = document.getElementById("interests");
+    if (interests && "IntersectionObserver" in window) {
+      new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            interests.classList.toggle("nw-in-view", entry.isIntersecting);
+          });
+        },
+        { rootMargin: "0px 0px -5% 0px" }
+      ).observe(interests);
+    } else if (interests) {
+      interests.classList.add("nw-in-view");
+    }
+  }
+
   // Contact form: submit to Formspree via fetch, no page reload
   var form = document.querySelector("form.nw-form");
   if (form) {
@@ -238,7 +322,7 @@
       ".nw-section .nw-title, .nw-section .nw-subtitle, .nw-section .nw-lead, " +
         ".nw-stat, .nw-card, .nw-proj-wrap, .nw-cite, .nw-post, " +
         ".nw-tl-item, .nw-award, .nw-faq details, .nw-contact-card, .nw-globe-wrap, " +
-        ".nw-cta-card, .nw-marquee"
+        ".nw-cta-card, .nw-areas, .nw-marquee"
     );
     var fold = window.innerHeight;
     var below = [];
