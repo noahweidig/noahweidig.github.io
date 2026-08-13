@@ -192,7 +192,7 @@
         return (tab.id || "").replace("nw-area-tab-", "");
       };
 
-      var select = function (tab, moveFocus, updateHash) {
+      var select = function (tab, moveFocus, updateHash, scrollStrip) {
         tabs.forEach(function (t) {
           var on = t === tab;
           t.setAttribute("aria-selected", on ? "true" : "false");
@@ -203,7 +203,9 @@
         });
         // `nearest` on both axes: the strip may need to scroll sideways, but
         // the page must not jump vertically just because a tab was clicked.
-        if (tab.scrollIntoView) {
+        // Skipped on the initial selection — with the section below the fold,
+        // even `nearest` scrolls the whole page down to it on load.
+        if (scrollStrip && tab.scrollIntoView) {
           tab.scrollIntoView({ block: "nearest", inline: "nearest" });
         }
         if (moveFocus) tab.focus();
@@ -214,7 +216,7 @@
 
       tabs.forEach(function (tab, i) {
         tab.addEventListener("click", function () {
-          select(tab, false, true);
+          select(tab, false, true, true);
         });
         // Arrow keys per the APG tabs pattern; Home/End jump to the ends.
         tab.addEventListener("keydown", function (e) {
@@ -225,7 +227,7 @@
           else if (e.key === "End") next = tabs[tabs.length - 1];
           if (!next) return;
           e.preventDefault();
-          select(next, true, true);
+          select(next, true, true, true);
         });
       });
 
