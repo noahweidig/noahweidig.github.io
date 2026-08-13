@@ -652,6 +652,268 @@ body {
   );
 }
 
+/* ============ research areas: tab strip + detail panel ============ */
+/* One area at a time: a row of pills selects which panel shows. The tab strip
+   ships `hidden` and every panel ships visible, so with no JavaScript the
+   section degrades to a readable stack instead of a row of dead buttons;
+   home.js unhides the strip, hides all but the first panel, and marks the
+   container `.js-tabs`. */
+.nw-areas {
+  max-width: 68rem;
+  margin: 0 auto;
+}
+
+.nw-area-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.nw-area-tabs [role="tab"] {
+  padding: 0.55rem 1.15rem;
+  border: 1px solid var(--nw-border);
+  border-radius: 999px;
+  background: none;
+  color: var(--nw-fg);
+  font-size: 0.9rem;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.nw-area-tabs [role="tab"]:hover {
+  border-color: var(--nw-primary);
+}
+
+.nw-area-tabs [role="tab"][aria-selected="true"] {
+  background: var(--nw-primary);
+  border-color: var(--nw-primary);
+  color: #fff;
+  /* White on blue: the same exception the primary buttons make, so the label
+     keeps its weight instead of thinning out under subpixel smoothing. */
+  -webkit-font-smoothing: auto;
+}
+
+/* Under ~768px the six labels can't wrap into anything tidy, so the strip
+   becomes a single scrollable row that snaps, with the overflowing ends faded
+   to advertise that there is more to the right. */
+@media (max-width: 767.98px) {
+  .nw-area-tabs {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+    padding-bottom: 0.25rem;
+    mask-image: linear-gradient(90deg, transparent 0, #000 1.25rem, #000 calc(100% - 1.25rem), transparent 100%);
+  }
+
+  .nw-area-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .nw-area-tabs [role="tab"] {
+    scroll-snap-align: center;
+  }
+}
+
+.nw-area-panel {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap: 2.5rem;
+  align-items: center;
+  background: var(--nw-card);
+  border: 1px solid var(--nw-border);
+  border-radius: 1rem;
+  padding: 2rem 2.25rem;
+}
+
+/* `hidden` is a UA `display: none`, and the author `display: grid` above would
+   out-cascade it — so the attribute has to be honoured explicitly. */
+.nw-area-panel[hidden] {
+  display: none;
+}
+
+/* Stacked panels (the no-JS fallback) need air between them; once tabs are
+   live only one is ever in flow, so the margin is dropped. */
+.nw-area-panel + .nw-area-panel {
+  margin-top: 1.5rem;
+}
+
+.js-tabs .nw-area-panel + .nw-area-panel {
+  margin-top: 0;
+}
+
+.nw-area-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0 0 0.75rem;
+  color: var(--nw-muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.nw-area-eyebrow .nw-icon {
+  display: inline-flex;
+  flex: none;
+  width: 2rem;
+  height: 2rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--nw-border);
+  border-radius: 0.6rem;
+  color: var(--nw-fg);
+}
+
+.nw-area-eyebrow .nw-icon svg {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+.nw-area-panel h3 {
+  margin: 0 0 0.75rem;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.nw-area-panel p:not(.nw-area-eyebrow) {
+  margin: 0 0 1.25rem;
+  max-width: 34rem;
+  color: var(--nw-muted);
+  text-wrap: pretty;
+}
+
+/* Capped and pushed to the outer edge: at full column width the 4:3 figure
+   drives the panel far taller than the copy beside it, and the panel turns
+   into a band of empty space. */
+.nw-area-fig {
+  max-width: 25rem;
+  margin-left: auto;
+}
+
+.nw-area-fig svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+@media (max-width: 880px) {
+  .nw-area-panel {
+    grid-template-columns: 1fr;
+    gap: 1.75rem;
+    padding: 1.75rem;
+  }
+
+  .nw-area-fig {
+    max-width: 24rem;
+    margin: 0 auto;
+  }
+}
+
+/* ---- figure primitives ------------------------------------------------- */
+/* Each figure is the same system diagram — one hub icon, four satellites, the
+   links between them — drawn from Tabler Icons (MIT), the set the rest of the
+   site already uses. Only the glyphs change between panels, so six
+   illustrations share one geometry and one set of keyframes.
+
+   Every hook's *base* rule is its finished state and the animations all run
+   from an empty state toward it, so the reduced-motion branch (no animation at
+   all) still leaves a complete, still illustration rather than a blank frame. */
+.nw-fig-dim {
+  opacity: 0.32;
+}
+
+.nw-fig-accent {
+  color: var(--nw-primary);
+}
+
+/* A single dash on the hub's ring, so the "orbit" is one element rather than a
+   second full circle. */
+.nw-fig-orbit {
+  stroke-dasharray: 0.1 0.9;
+  stroke-width: 2;
+}
+
+.nw-fig-flow {
+  opacity: 0.6;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Scoped to the one visible panel of an on-screen section: home.js toggles
+     `.nw-in-view`, so at most one figure is ever animating and nothing runs
+     while the section is scrolled away. */
+  #interests.nw-in-view .nw-area-panel:not([hidden]) .nw-fig-orbit {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: nw-fig-orbit 7s linear infinite;
+  }
+
+  #interests.nw-in-view .nw-area-panel:not([hidden]) .nw-fig-flow {
+    stroke-dasharray: 0.22 0.78;
+    animation: nw-fig-flow 2.4s linear infinite;
+    animation-delay: calc(var(--i) * 0.25s);
+  }
+
+  #interests.nw-in-view .nw-area-panel:not([hidden]) .nw-fig-hub {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: nw-fig-float 5s ease-in-out infinite alternate;
+  }
+
+  #interests.nw-in-view .nw-area-panel:not([hidden]) .nw-fig-pop {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: nw-fig-pop 0.5s cubic-bezier(0.2, 0.8, 0.3, 1) both;
+    animation-delay: calc(0.1s + var(--i) * 0.09s);
+  }
+
+  /* Switching tabs should read as a deliberate change rather than a jump cut,
+     so the copy re-runs the site's existing entrance keyframe (site.css). Only
+     under `.js-tabs` — the no-JS stack has nothing to switch. */
+  .js-tabs .nw-area-panel:not([hidden]) .nw-area-copy > * {
+    animation: nw-rise 0.4s ease-out both;
+  }
+
+  .js-tabs .nw-area-panel:not([hidden]) .nw-area-copy > :nth-child(2) {
+    animation-delay: 0.05s;
+  }
+
+  .js-tabs .nw-area-panel:not([hidden]) .nw-area-copy > :nth-child(3) {
+    animation-delay: 0.1s;
+  }
+
+  .js-tabs .nw-area-panel:not([hidden]) .nw-area-copy > :nth-child(4) {
+    animation-delay: 0.15s;
+  }
+}
+
+@keyframes nw-fig-orbit {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes nw-fig-flow {
+  from { stroke-dashoffset: 1; }
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes nw-fig-float {
+  from { transform: translateY(-4px); }
+  to { transform: translateY(4px); }
+}
+
+@keyframes nw-fig-pop {
+  from { opacity: 0; transform: scale(0.6); }
+  to { opacity: 1; transform: none; }
+}
+
 /* ============ project cards (listing) ============ */
 .nw-projects.quarto-listing {
   display: grid;
