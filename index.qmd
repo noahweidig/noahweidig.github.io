@@ -10,7 +10,7 @@ listing:
   - id: featured-projects
     contents: "projects/*/index.qmd"
     sort: "date desc"
-    max-items: 6
+    max-items: 7
     include:
       featured: true
     template: _ejs/project-card.ejs
@@ -26,6 +26,11 @@ listing:
     sort: "date desc"
     max-items: 3
     template: _ejs/post-row.ejs
+include-in-header:
+  - text: |
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 include-after-body:
   - text: |
       <script src="assets/home.js"></script>
@@ -67,9 +72,8 @@ include-after-body:
      time to the count of projects/*/index.qmd with `featured: true`. -->
       <div class="nw-stat"><b data-nw-stat="featured-projects">17</b><span>Featured Projects</span></div>
     </div>
-    <!-- Affiliation logos: icons only, no heading — they read as a quiet
-         credential strip under the stats. The id keeps the footer's
-         /#affiliations link pointing at them. -->
+    <!-- The id keeps the footer's /#affiliations link pointing at them. -->
+    <p class="nw-kicker">Worked with</p>
     <div class="nw-marquee" id="affiliations" role="group" aria-label="Affiliations">
       <div class="nw-marquee-track">
         <a href="https://www.ufl.edu/" target="_blank" rel="noopener"><img src="assets/media/icons/custom/uf.svg" width="800" height="600" alt="University of Florida" loading="lazy"></a>
@@ -86,11 +90,36 @@ include-after-body:
   </div>
 </section>
 
+<section id="start" class="nw-section">
+  <div class="nw-section-inner">
+    <div class="nw-start-grid">
+      <a class="nw-start-card" href="#interests">
+        <span class="nw-start-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7l6-3 6 3 6-3v13l-6 3-6-3-6 3z"/><path d="M9 4v13M15 7v13"/></svg></span>
+        <h3>Research</h3>
+        <p>Six focus areas, from WUI wildfire risk to species distribution modelling — with the papers behind each.</p>
+        <span class="nw-start-link">Read the research →</span>
+      </a>
+      <a class="nw-start-card" href="#projects">
+        <span class="nw-start-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><path d="M8 9l3 3-3 3M13 15h3"/></svg></span>
+        <h3>Tools &amp; maps</h3>
+        <p>Open tools: an R package for U.S. fire data, Earth Engine apps, interactive map galleries.</p>
+        <span class="nw-start-link">Browse the work →</span>
+      </a>
+      <a class="nw-start-card" href="#blog">
+        <span class="nw-start-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L18.5 9.5a2.83 2.83 0 0 0-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg></span>
+        <h3>Writing</h3>
+        <p>Tutorials and notes on R, spatial workflows, and doing reproducible research in the open.</p>
+        <span class="nw-start-link">Read the blog →</span>
+      </a>
+    </div>
+  </div>
+</section>
+
 <section id="interests" class="nw-section nw-alt">
   <div class="nw-section-inner">
-    <h2 class="nw-title">Research Areas</h2>
-    <p class="nw-subtitle">Where I focus my work</p>
-    <p class="nw-lead">I work at the intersection of geospatial analytics, data science, and applied AI — turning spatial and environmental data into decision-ready insight.</p>
+    <p class="nw-kicker">Research areas</p>
+    <h2 class="nw-title">Where I focus my work</h2>
+    <p class="nw-lead">Six threads that keep running into each other: what changed on the landscape, why, and what a decision-maker should do about it.</p>
     <!-- Each panel's figure is a system diagram built from Tabler Icons
          (MIT, tabler.io/icons) — the same set the section's eyebrow glyphs and
          the rest of the site draw from, scaled up and animated in CSS. Same
@@ -115,41 +144,10 @@ include-after-body:
           <p>Multi-temporal satellite imagery turned into measurable change — classification, spectral indices, and time-series analysis at landscape scale in Google Earth Engine.</p>
           <div class="nw-chips"><span class="nw-chip">Imagery Analysis</span><span class="nw-chip">Google Earth Engine</span><span class="nw-chip">Change Detection</span></div>
         </div>
-        <div class="nw-area-fig" aria-hidden="true">
-          <svg viewBox="45 44 310 212" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" role="presentation">
-            <g class="nw-fig-dim">
-              <circle cx="200" cy="150" r="62"/>
-              <circle cx="83" cy="82" r="30"/>
-              <circle cx="317" cy="82" r="30"/>
-              <circle cx="83" cy="218" r="30"/>
-              <circle cx="317" cy="218" r="30"/>
-              <path d="M146 119 L109 97"/>
-              <path d="M254 119 L291 97"/>
-              <path d="M146 181 L109 203"/>
-              <path d="M254 181 L291 203"/>
-            </g>
-            <circle class="nw-fig-orbit nw-fig-accent" cx="200" cy="150" r="62" pathLength="1"/>
-            <path class="nw-fig-flow nw-fig-accent" style="--i:0" pathLength="1" d="M146 119 L109 97"/>
-            <path class="nw-fig-flow nw-fig-accent" style="--i:1" pathLength="1" d="M254 119 L291 97"/>
-            <path class="nw-fig-flow nw-fig-accent" style="--i:2" pathLength="1" d="M146 181 L109 203"/>
-            <path class="nw-fig-flow nw-fig-accent" style="--i:3" pathLength="1" d="M254 181 L291 203"/>
-            <g class="nw-fig-hub">
-              <g transform="translate(152 102) scale(4)" stroke-width="0.375"><path d="M3.707 6.293l2.586 -2.586a1 1 0 0 1 1.414 0l5.586 5.586a1 1 0 0 1 0 1.414l-2.586 2.586a1 1 0 0 1 -1.414 0l-5.586 -5.586a1 1 0 0 1 0 -1.414" /><path d="M6 10l-3 3l3 3l3 -3" /><path d="M10 6l3 -3l3 3l-3 3" /><path d="M12 12l1.5 1.5" /><path d="M14.5 17a2.5 2.5 0 0 0 2.5 -2.5" /><path d="M15 21a6 6 0 0 0 6 -6" /></g>
-            </g>
-            <g class="nw-fig-pop" style="--i:0">
-              <g transform="translate(59 58) scale(2)" stroke-width="0.75"><path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M4.6 7l14.8 0" /><path d="M3 12l18 0" /><path d="M4.6 17l14.8 0" /></g>
-            </g>
-            <g class="nw-fig-pop" style="--i:1">
-              <g transform="translate(293 58) scale(2)" stroke-width="0.75"><path d="M15 8h.01" /><path d="M6 13l2.644 -2.644a1.21 1.21 0 0 1 1.712 0l3.644 3.644" /><path d="M13 13l1.644 -1.644a1.21 1.21 0 0 1 1.712 0l1.644 1.644" /><path d="M3 7v-2a2 2 0 0 1 2 -2h2" /><path d="M3 17v2a2 2 0 0 0 2 2h2" /><path d="M17 3h2a2 2 0 0 1 2 2v2" /><path d="M17 21h2a2 2 0 0 0 2 -2v-2" /></g>
-            </g>
-            <g class="nw-fig-pop" style="--i:2">
-              <g transform="translate(59 194) scale(2)" stroke-width="0.75"><path d="M4 5a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M11 5a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M18 5a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M4 12a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M11 12a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M18 12a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M4 19a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M11 19a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M18 19a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /></g>
-            </g>
-            <g class="nw-fig-pop" style="--i:3">
-              <g transform="translate(293 194) scale(2)" stroke-width="0.75"><path d="M4 16l6 -7l5 5l5 -6" /><path d="M14 14a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M9 9a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M3 16a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M19 8a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /></g>
-            </g>
-          </svg>
-        </div>
+        <figure class="nw-area-fig">
+          <img src="assets/media/albums/projects/roads.webp" alt="Census road network layer rendered in Google Earth Engine" width="1600" height="1000" loading="lazy">
+          <figcaption>TIGER roads &middot; Google Earth Engine</figcaption>
+        </figure>
       </div>
 
       <div class="nw-area-panel" role="tabpanel" id="nw-area-panel-land-use" aria-labelledby="nw-area-tab-land-use">
@@ -159,41 +157,10 @@ include-after-body:
           <p>Modeling how development, disturbance, and policy reshape land cover, with a focus on wildfire risk in the wildland–urban interface.</p>
           <div class="nw-chips"><span class="nw-chip">Land-Use Change</span><span class="nw-chip">Wildfire &amp; WUI</span><span class="nw-chip">Risk Assessment</span></div>
         </div>
-        <div class="nw-area-fig" aria-hidden="true">
-          <svg viewBox="45 44 310 212" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" role="presentation">
-            <g class="nw-fig-dim">
-              <circle cx="200" cy="150" r="62"/>
-              <circle cx="83" cy="82" r="30"/>
-              <circle cx="317" cy="82" r="30"/>
-              <circle cx="83" cy="218" r="30"/>
-              <circle cx="317" cy="218" r="30"/>
-              <path d="M146 119 L109 97"/>
-              <path d="M254 119 L291 97"/>
-              <path d="M146 181 L109 203"/>
-              <path d="M254 181 L291 203"/>
-            </g>
-            <circle class="nw-fig-orbit nw-fig-accent" cx="200" cy="150" r="62" pathLength="1"/>
-            <path class="nw-fig-flow nw-fig-accent" style="--i:0" pathLength="1" d="M146 119 L109 97"/>
-            <path class="nw-fig-flow nw-fig-accent" style="--i:1" pathLength="1" d="M254 119 L291 97"/>
-            <path class="nw-fig-flow nw-fig-accent" style="--i:2" pathLength="1" d="M146 181 L109 203"/>
-            <path class="nw-fig-flow nw-fig-accent" style="--i:3" pathLength="1" d="M254 181 L291 203"/>
-            <g class="nw-fig-hub">
-              <g transform="translate(152 102) scale(4)" stroke-width="0.375"><path d="M12 18.5l-3 -1.5l-6 3v-13l6 -3l6 3l6 -3v7.5" /><path d="M9 4v13" /><path d="M15 7v5.5" /><path d="M21.121 20.121a3 3 0 1 0 -4.242 0c.418 .419 1.125 1.045 2.121 1.879c1.051 -.89 1.759 -1.516 2.121 -1.879" /><path d="M19 18v.01" /></g>
-            </g>
-            <g class="nw-fig-pop" style="--i:0">
-              <g transform="translate(59 58) scale(2)" stroke-width="0.75"><path d="M8 9l5 5v7h-5v-4m0 4h-5v-7l5 -5m1 1v-6a1 1 0 0 1 1 -1h10a1 1 0 0 1 1 1v17h-8" /><path d="M13 7l0 .01" /><path d="M17 7l0 .01" /><path d="M17 11l0 .01" /><path d="M17 15l0 .01" /></g>
-            </g>
-            <g class="nw-fig-pop" style="--i:1">
-              <g transform="translate(293 58) scale(2)" stroke-width="0.75"><path d="M16 5l3 3l-2 1l4 4l-3 1l4 4h-9" /><path d="M15 21l0 -3" /><path d="M8 13l-2 -2" /><path d="M8 12l2 -2" /><path d="M8 21v-13" /><path d="M5.824 16a3 3 0 0 1 -2.743 -3.69a3 3 0 0 1 .304 -4.833a3 3 0 0 1 4.615 -3.707a3 3 0 0 1 4.614 3.707a3 3 0 0 1 .305 4.833a3 3 0 0 1 -2.919 3.695h-4l-.176 -.005" /></g>
-            </g>
-            <g class="nw-fig-pop" style="--i:2">
-              <g transform="translate(59 194) scale(2)" stroke-width="0.75"><path d="M12 10.941c2.333 -3.308 .167 -7.823 -1 -8.941c0 3.395 -2.235 5.299 -3.667 6.706c-1.43 1.408 -2.333 3.294 -2.333 5.588c0 3.704 3.134 6.706 7 6.706c3.866 0 7 -3.002 7 -6.706c0 -1.712 -1.232 -4.403 -2.333 -5.588c-2.084 3.353 -3.257 3.353 -4.667 2.235" /></g>
-            </g>
-            <g class="nw-fig-pop" style="--i:3">
-              <g transform="translate(293 194) scale(2)" stroke-width="0.75"><path d="M4 19l4 -6l4 2l4 -5l4 4l0 5l-16 0" /><path d="M4 12l3 -4l4 2l5 -6l4 4" /></g>
-            </g>
-          </svg>
-        </div>
+        <figure class="nw-area-fig">
+          <img src="assets/media/albums/projects/wuirisk.webp" alt="Wildland&ndash;urban interface wildfire risk surface" width="1600" height="1000" loading="lazy">
+          <figcaption>WUI wildfire risk &middot; thesis chapter 2</figcaption>
+        </figure>
       </div>
 
       <div class="nw-area-panel" role="tabpanel" id="nw-area-panel-spatial-stats" aria-labelledby="nw-area-tab-spatial-stats">
@@ -203,41 +170,10 @@ include-after-body:
           <p>Bayesian and spatial-statistical models that quantify what the data actually support, in reproducible pipelines anyone can rerun.</p>
           <div class="nw-chips"><span class="nw-chip">Bayesian Analysis</span><span class="nw-chip">Forecasting</span><span class="nw-chip">Reproducible Research</span></div>
         </div>
-        <div class="nw-area-fig" aria-hidden="true">
-          <svg viewBox="45 44 310 212" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" role="presentation">
-            <g class="nw-fig-dim">
-              <circle cx="200" cy="150" r="62"/>
-              <circle cx="83" cy="82" r="30"/>
-              <circle cx="317" cy="82" r="30"/>
-              <circle cx="83" cy="218" r="30"/>
-              <circle cx="317" cy="218" r="30"/>
-              <path d="M146 119 L109 97"/>
-              <path d="M254 119 L291 97"/>
-              <path d="M146 181 L109 203"/>
-              <path d="M254 181 L291 203"/>
-            </g>
-            <circle class="nw-fig-orbit nw-fig-accent" cx="200" cy="150" r="62" pathLength="1"/>
-            <path class="nw-fig-flow nw-fig-accent" style="--i:0" pathLength="1" d="M146 119 L109 97"/>
-            <path class="nw-fig-flow nw-fig-accent" style="--i:1" pathLength="1" d="M254 119 L291 97"/>
-            <path class="nw-fig-flow nw-fig-accent" style="--i:2" pathLength="1" d="M146 181 L109 203"/>
-            <path class="nw-fig-flow nw-fig-accent" style="--i:3" pathLength="1" d="M254 181 L291 203"/>
-            <g class="nw-fig-hub">
-              <g transform="translate(152 102) scale(4)" stroke-width="0.375"><path d="M3 3v18h18" /><path d="M20 18v3" /><path d="M16 16v5" /><path d="M12 13v8" /><path d="M8 16v5" /><path d="M3 11c6 0 5 -5 9 -5s3 5 9 5" /></g>
-            </g>
-            <g class="nw-fig-pop" style="--i:0">
-              <g transform="translate(59 58) scale(2)" stroke-width="0.75"><path d="M3 19a2 2 0 0 0 2 2c2 0 2 -4 3 -9s1 -9 3 -9a2 2 0 0 1 2 2" /><path d="M5 12h6" /><path d="M15 12l6 6" /><path d="M15 18l6 -6" /></g>
-            </g>
-            <g class="nw-fig-pop" style="--i:1">
-              <g transform="translate(293 58) scale(2)" stroke-width="0.75"><path d="M3 3v18h18" /><path d="M7 9a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M17 7a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M12 15a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M10.16 10.62l2.34 2.88" /><path d="M15.088 13.328l2.837 -4.586" /></g>
-            </g>
-            <g class="nw-fig-pop" style="--i:2">
-              <g transform="translate(59 194) scale(2)" stroke-width="0.75"><path d="M6 20a2 2 0 1 0 -4 0a2 2 0 0 0 4 0" /><path d="M16 4a2 2 0 1 0 -4 0a2 2 0 0 0 4 0" /><path d="M16 20a2 2 0 1 0 -4 0a2 2 0 0 0 4 0" /><path d="M11 12a2 2 0 1 0 -4 0a2 2 0 0 0 4 0" /><path d="M21 12a2 2 0 1 0 -4 0a2 2 0 0 0 4 0" /><path d="M5.058 18.306l2.88 -4.606" /><path d="M10.061 10.303l2.877 -4.604" /><path d="M10.065 13.705l2.876 4.6" /><path d="M15.063 5.7l2.881 4.61" /></g>
-            </g>
-            <g class="nw-fig-pop" style="--i:3">
-              <g transform="translate(293 194) scale(2)" stroke-width="0.75"><path d="M4 12v-3a3 3 0 0 1 3 -3h13m-3 -3l3 3l-3 3" /><path d="M20 12v3a3 3 0 0 1 -3 3h-13m3 3l-3 -3l3 -3" /></g>
-            </g>
-          </svg>
-        </div>
+        <figure class="nw-area-fig">
+          <img src="assets/media/albums/projects/dataviz.webp" alt="Statistical charts from the DataViz gallery" width="1600" height="1000" loading="lazy">
+          <figcaption>Posterior summaries &middot; R + Plotly</figcaption>
+        </figure>
       </div>
 
       <div class="nw-area-panel" role="tabpanel" id="nw-area-panel-applied-ai" aria-labelledby="nw-area-tab-applied-ai">
@@ -247,41 +183,10 @@ include-after-body:
           <p>Machine learning applied to ecological and geospatial problems, paired with visualization that makes the result legible to non-specialists.</p>
           <div class="nw-chips"><span class="nw-chip">Machine Learning</span><span class="nw-chip">Data Visualization</span><span class="nw-chip">Quantitative Ecology</span></div>
         </div>
-        <div class="nw-area-fig" aria-hidden="true">
-          <svg viewBox="45 44 310 212" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" role="presentation">
-            <g class="nw-fig-dim">
-              <circle cx="200" cy="150" r="62"/>
-              <circle cx="83" cy="82" r="30"/>
-              <circle cx="317" cy="82" r="30"/>
-              <circle cx="83" cy="218" r="30"/>
-              <circle cx="317" cy="218" r="30"/>
-              <path d="M146 119 L109 97"/>
-              <path d="M254 119 L291 97"/>
-              <path d="M146 181 L109 203"/>
-              <path d="M254 181 L291 203"/>
-            </g>
-            <circle class="nw-fig-orbit nw-fig-accent" cx="200" cy="150" r="62" pathLength="1"/>
-            <path class="nw-fig-flow nw-fig-accent" style="--i:0" pathLength="1" d="M146 119 L109 97"/>
-            <path class="nw-fig-flow nw-fig-accent" style="--i:1" pathLength="1" d="M254 119 L291 97"/>
-            <path class="nw-fig-flow nw-fig-accent" style="--i:2" pathLength="1" d="M146 181 L109 203"/>
-            <path class="nw-fig-flow nw-fig-accent" style="--i:3" pathLength="1" d="M254 181 L291 203"/>
-            <g class="nw-fig-hub">
-              <g transform="translate(152 102) scale(4)" stroke-width="0.375"><path d="M15.5 13a3.5 3.5 0 0 0 -3.5 3.5v1a3.5 3.5 0 0 0 7 0v-1.8" /><path d="M8.5 13a3.5 3.5 0 0 1 3.5 3.5v1a3.5 3.5 0 0 1 -7 0v-1.8" /><path d="M17.5 16a3.5 3.5 0 0 0 0 -7h-.5" /><path d="M19 9.3v-2.8a3.5 3.5 0 0 0 -7 0" /><path d="M6.5 16a3.5 3.5 0 0 1 0 -7h.5" /><path d="M5 9.3v-2.8a3.5 3.5 0 0 1 7 0v10" /></g>
-            </g>
-            <g class="nw-fig-pop" style="--i:0">
-              <g transform="translate(59 58) scale(2)" stroke-width="0.75"><path d="M10 19a2 2 0 1 0 -4 0a2 2 0 0 0 4 0" /><path d="M18 5a2 2 0 1 0 -4 0a2 2 0 0 0 4 0" /><path d="M10 5a2 2 0 1 0 -4 0a2 2 0 0 0 4 0" /><path d="M6 12a2 2 0 1 0 -4 0a2 2 0 0 0 4 0" /><path d="M18 19a2 2 0 1 0 -4 0a2 2 0 0 0 4 0" /><path d="M14 12a2 2 0 1 0 -4 0a2 2 0 0 0 4 0" /><path d="M22 12a2 2 0 1 0 -4 0a2 2 0 0 0 4 0" /><path d="M6 12h4" /><path d="M14 12h4" /><path d="M15 7l-2 3" /><path d="M9 7l2 3" /><path d="M11 14l-2 3" /><path d="M13 14l2 3" /></g>
-            </g>
-            <g class="nw-fig-pop" style="--i:1">
-              <g transform="translate(293 58) scale(2)" stroke-width="0.75"><path d="M3 13a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v6a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1l0 -6" /><path d="M15 9a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v10a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1l0 -10" /><path d="M9 5a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v14a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1l0 -14" /><path d="M4 20h14" /></g>
-            </g>
-            <g class="nw-fig-pop" style="--i:2">
-              <g transform="translate(59 194) scale(2)" stroke-width="0.75"><path d="M6 6a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v4a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2l0 -4" /><path d="M12 2v2" /><path d="M9 12v9" /><path d="M15 12v9" /><path d="M5 16l4 -2" /><path d="M15 14l4 2" /><path d="M9 18h6" /><path d="M10 8v.01" /><path d="M14 8v.01" /></g>
-            </g>
-            <g class="nw-fig-pop" style="--i:3">
-              <g transform="translate(293 194) scale(2)" stroke-width="0.75"><path d="M16 18a2 2 0 0 1 2 2a2 2 0 0 1 2 -2a2 2 0 0 1 -2 -2a2 2 0 0 1 -2 2m0 -12a2 2 0 0 1 2 2a2 2 0 0 1 2 -2a2 2 0 0 1 -2 -2a2 2 0 0 1 -2 2m-7 12a6 6 0 0 1 6 -6a6 6 0 0 1 -6 -6a6 6 0 0 1 -6 6a6 6 0 0 1 6 6" /></g>
-            </g>
-          </svg>
-        </div>
+        <figure class="nw-area-fig">
+          <img src="assets/media/albums/projects/maplab.webp" alt="MapLab, a simplified GIS interface" width="1600" height="1000" loading="lazy">
+          <figcaption>MapLab &middot; GIS for non-GIS users</figcaption>
+        </figure>
       </div>
 
       <div class="nw-area-panel" role="tabpanel" id="nw-area-panel-biodiversity" aria-labelledby="nw-area-tab-biodiversity">
@@ -291,41 +196,10 @@ include-after-body:
           <p>Species distribution models and habitat mapping that turn scattered occurrence records into conservation-planning inputs.</p>
           <div class="nw-chips"><span class="nw-chip">Species Distribution</span><span class="nw-chip">Habitat Mapping</span><span class="nw-chip">Conservation Planning</span></div>
         </div>
-        <div class="nw-area-fig" aria-hidden="true">
-          <svg viewBox="45 44 310 212" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" role="presentation">
-            <g class="nw-fig-dim">
-              <circle cx="200" cy="150" r="62"/>
-              <circle cx="83" cy="82" r="30"/>
-              <circle cx="317" cy="82" r="30"/>
-              <circle cx="83" cy="218" r="30"/>
-              <circle cx="317" cy="218" r="30"/>
-              <path d="M146 119 L109 97"/>
-              <path d="M254 119 L291 97"/>
-              <path d="M146 181 L109 203"/>
-              <path d="M254 181 L291 203"/>
-            </g>
-            <circle class="nw-fig-orbit nw-fig-accent" cx="200" cy="150" r="62" pathLength="1"/>
-            <path class="nw-fig-flow nw-fig-accent" style="--i:0" pathLength="1" d="M146 119 L109 97"/>
-            <path class="nw-fig-flow nw-fig-accent" style="--i:1" pathLength="1" d="M254 119 L291 97"/>
-            <path class="nw-fig-flow nw-fig-accent" style="--i:2" pathLength="1" d="M146 181 L109 203"/>
-            <path class="nw-fig-flow nw-fig-accent" style="--i:3" pathLength="1" d="M254 181 L291 203"/>
-            <g class="nw-fig-hub">
-              <g transform="translate(152 102) scale(4)" stroke-width="0.375"><path d="M7 15h10v4a2 2 0 0 1 -2 2h-6a2 2 0 0 1 -2 -2v-4" /><path d="M12 9a6 6 0 0 0 -6 -6h-3v2a6 6 0 0 0 6 6h3" /><path d="M12 11a6 6 0 0 1 6 -6h3v1a6 6 0 0 1 -6 6h-3" /><path d="M12 15l0 -6" /></g>
-            </g>
-            <g class="nw-fig-pop" style="--i:0">
-              <g transform="translate(59 58) scale(2)" stroke-width="0.75"><path d="M5 21c.5 -4.5 2.5 -8 7 -10" /><path d="M9 18c6.218 0 10.5 -3.288 11 -12v-2h-4.014c-9 0 -11.986 4 -12 9c0 1 0 3 2 5h3l.014 0" /></g>
-            </g>
-            <g class="nw-fig-pop" style="--i:1">
-              <g transform="translate(293 58) scale(2)" stroke-width="0.75"><path d="M14.7 13.5c-1.1 -2 -1.441 -2.5 -2.7 -2.5c-1.259 0 -1.736 .755 -2.836 2.747c-.942 1.703 -2.846 1.845 -3.321 3.291c-.097 .265 -.145 .677 -.143 .962c0 1.176 .787 2 1.8 2c1.259 0 3 -1 4.5 -1s3.241 1 4.5 1c1.013 0 1.8 -.823 1.8 -2c0 -.285 -.049 -.697 -.146 -.962c-.475 -1.451 -2.512 -1.835 -3.454 -3.538" /><path d="M20.188 8.082a1.039 1.039 0 0 0 -.406 -.082h-.015c-.735 .012 -1.56 .75 -1.993 1.866c-.519 1.335 -.28 2.7 .538 3.052c.129 .055 .267 .082 .406 .082c.739 0 1.575 -.742 2.011 -1.866c.516 -1.335 .273 -2.7 -.54 -3.052l-.001 0" /><path d="M9.474 9c.055 0 .109 0 .163 -.011c.944 -.128 1.533 -1.346 1.32 -2.722c-.203 -1.297 -1.047 -2.267 -1.932 -2.267c-.055 0 -.109 0 -.163 .011c-.944 .128 -1.533 1.346 -1.32 2.722c.204 1.293 1.048 2.267 1.933 2.267" /><path d="M16.456 6.733c.214 -1.376 -.375 -2.594 -1.32 -2.722a1.164 1.164 0 0 0 -.162 -.011c-.885 0 -1.728 .97 -1.93 2.267c-.214 1.376 .375 2.594 1.32 2.722c.054 .007 .108 .011 .162 .011c.885 0 1.73 -.974 1.93 -2.267" /><path d="M5.69 12.918c.816 -.352 1.054 -1.719 .536 -3.052c-.436 -1.124 -1.271 -1.866 -2.009 -1.866c-.14 0 -.277 .027 -.407 .082c-.816 .352 -1.054 1.719 -.536 3.052c.436 1.124 1.271 1.866 2.009 1.866c.14 0 .277 -.027 .407 -.082" /></g>
-            </g>
-            <g class="nw-fig-pop" style="--i:2">
-              <g transform="translate(59 194) scale(2)" stroke-width="0.75"><path d="M9 11a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" /><path d="M17.657 16.657l-4.243 4.243a2 2 0 0 1 -2.827 0l-4.244 -4.243a8 8 0 1 1 11.314 0" /></g>
-            </g>
-            <g class="nw-fig-pop" style="--i:3">
-              <g transform="translate(293 194) scale(2)" stroke-width="0.75"><path d="M4 16a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" /><path d="M14 16a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" /><path d="M16.346 9.17l-.729 -1.261c-.16 -.248 -1.056 -.203 -1.117 .091l-.177 1.38" /><path d="M19.761 14.813l-2.84 -5.133c-.189 -.31 -.592 -.68 -1.421 -.68c-.828 0 -1.5 .448 -1.5 1v6" /><path d="M7.654 9.17l.729 -1.261c.16 -.249 1.056 -.203 1.117 .091l.177 1.38" /><path d="M4.239 14.813l2.84 -5.133c.189 -.31 .592 -.68 1.421 -.68c.828 0 1.5 .448 1.5 1v6" /><path d="M10 12h4v2h-4l0 -2" /></g>
-            </g>
-          </svg>
-        </div>
+        <figure class="nw-area-fig">
+          <img src="assets/media/albums/projects/maps.webp" alt="Interactive map gallery" width="1600" height="1000" loading="lazy">
+          <figcaption>Habitat suitability &middot; map gallery</figcaption>
+        </figure>
       </div>
 
       <div class="nw-area-panel" role="tabpanel" id="nw-area-panel-geo-engineering" aria-labelledby="nw-area-tab-geo-engineering">
@@ -335,41 +209,10 @@ include-after-body:
           <p>Spatial databases, automated data pipelines, and open-source GIS tooling that keep analysis fast, current, and shareable.</p>
           <div class="nw-chips"><span class="nw-chip">Spatial Databases</span><span class="nw-chip">Data Pipelines</span><span class="nw-chip">Open Source GIS</span></div>
         </div>
-        <div class="nw-area-fig" aria-hidden="true">
-          <svg viewBox="45 44 310 212" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false" role="presentation">
-            <g class="nw-fig-dim">
-              <circle cx="200" cy="150" r="62"/>
-              <circle cx="83" cy="82" r="30"/>
-              <circle cx="317" cy="82" r="30"/>
-              <circle cx="83" cy="218" r="30"/>
-              <circle cx="317" cy="218" r="30"/>
-              <path d="M146 119 L109 97"/>
-              <path d="M254 119 L291 97"/>
-              <path d="M146 181 L109 203"/>
-              <path d="M254 181 L291 203"/>
-            </g>
-            <circle class="nw-fig-orbit nw-fig-accent" cx="200" cy="150" r="62" pathLength="1"/>
-            <path class="nw-fig-flow nw-fig-accent" style="--i:0" pathLength="1" d="M146 119 L109 97"/>
-            <path class="nw-fig-flow nw-fig-accent" style="--i:1" pathLength="1" d="M254 119 L291 97"/>
-            <path class="nw-fig-flow nw-fig-accent" style="--i:2" pathLength="1" d="M146 181 L109 203"/>
-            <path class="nw-fig-flow nw-fig-accent" style="--i:3" pathLength="1" d="M254 181 L291 203"/>
-            <g class="nw-fig-hub">
-              <g transform="translate(152 102) scale(4)" stroke-width="0.375"><path d="M4 6a8 3 0 1 0 16 0a8 3 0 1 0 -16 0" /><path d="M4 6v6a8 3 0 0 0 16 0v-6" /><path d="M4 12v6a8 3 0 0 0 16 0v-6" /></g>
-            </g>
-            <g class="nw-fig-pop" style="--i:0">
-              <g transform="translate(59 58) scale(2)" stroke-width="0.75"><path d="M4 13h5" /><path d="M12 16v-8h3a2 2 0 0 1 2 2v1a2 2 0 0 1 -2 2h-3" /><path d="M20 8v8" /><path d="M9 16v-5.5a2.5 2.5 0 0 0 -5 0v5.5" /></g>
-            </g>
-            <g class="nw-fig-pop" style="--i:1">
-              <g transform="translate(293 58) scale(2)" stroke-width="0.75"><path d="M5 18a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M5 6a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M15 6a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M7 8l0 8" /><path d="M9 18h6a2 2 0 0 0 2 -2v-5" /><path d="M14 14l3 -3l3 3" /></g>
-            </g>
-            <g class="nw-fig-pop" style="--i:2">
-              <g transform="translate(59 194) scale(2)" stroke-width="0.75"><path d="M3 7l6 -3l6 3l6 -3v13l-6 3l-6 -3l-6 3v-13" /><path d="M9 4v13" /><path d="M15 7v13" /></g>
-            </g>
-            <g class="nw-fig-pop" style="--i:3">
-              <g transform="translate(293 194) scale(2)" stroke-width="0.75"><path d="M8 9l3 3l-3 3" /><path d="M13 15l3 0" /><path d="M3 6a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2l0 -12" /></g>
-            </g>
-          </svg>
-        </div>
+        <figure class="nw-area-fig">
+          <img src="assets/media/albums/projects/firer.webp" alt="fireR package documentation" width="1600" height="1000" loading="lazy">
+          <figcaption>fireR &middot; R package for U.S. fire data</figcaption>
+        </figure>
       </div>
     </div>
   </div>
@@ -378,8 +221,8 @@ include-after-body:
 
 ::: {.nw-section #projects}
 ::: {.nw-section-inner}
-<h2 class="nw-title">Featured Projects</h2>
-<p class="nw-subtitle">A selection of my recent work</p>
+<p class="nw-kicker">Selected work</p>
+<h2 class="nw-title">Tools, maps &amp; applications</h2>
 
 ::: {#featured-projects .nw-projects}
 :::
@@ -390,21 +233,29 @@ include-after-body:
 
 ::: {.nw-section .nw-alt .nw-wash-l #publications}
 ::: {.nw-section-inner}
-<h2 class="nw-title">Featured Publications</h2>
-<p class="nw-subtitle">Recent journal articles</p>
+<div class="nw-pubs-layout">
+<div class="nw-pubs-intro">
+<p class="nw-kicker">Publications</p>
+<h2 class="nw-title">Peer-reviewed &amp; in review</h2>
+<p class="nw-subtitle">Synced from Zotero twice a month, so this list is never out of date.</p>
+<div class="nw-pubs-links">
+<a href="https://scholar.google.com/citations?hl=en&amp;user=Ml95eTwAAAAJ" target="_blank" rel="noopener">Google Scholar ↗</a>
+<a href="https://orcid.org/0000-0003-1205-3209" target="_blank" rel="noopener">ORCID ↗</a>
+<a href="publications/">All publications →</a>
+</div>
+</div>
 
 ::: {#featured-pubs .nw-cites}
 :::
-
-<div class="nw-btns nw-section-more"><a class="nw-btn nw-btn-ghost" href="publications/">See More Publications →</a></div>
+</div>
 :::
 :::
 
 ```{=html}
 <section id="skills" class="nw-section">
   <div class="nw-section-inner">
-    <h2 class="nw-title">Tech Stack</h2>
-    <p class="nw-subtitle">Technologies I use to build things</p>
+    <p class="nw-kicker">Tech stack</p>
+    <h2 class="nw-title">Technologies I use to build things</h2>
     <!-- One continuous strip rather than category cards: the tools read as a
          single toolkit, and it matches the affiliation marquee under the
          stats. Icons sit grey and come to full color on hover. -->
@@ -441,8 +292,8 @@ include-after-body:
 
 <section id="experience" class="nw-section nw-alt">
   <div class="nw-section-inner">
-    <h2 class="nw-title">Experience</h2>
-    <p class="nw-subtitle">Where I've worked and what I've built</p>
+    <p class="nw-kicker">Experience</p>
+    <h2 class="nw-title">Where I've worked and what I've built</h2>
     <div class="nw-timeline">
       <a class="nw-tl-item nw-tl-link" href="experience/uf-gis-associate/">
         <h3>GIS &amp; Remote Sensing Research Associate</h3>
@@ -463,8 +314,8 @@ include-after-body:
 
 <section id="education" class="nw-section">
   <div class="nw-section-inner">
-    <h2 class="nw-title">Education</h2>
-    <p class="nw-subtitle">Where I studied and what I learned</p>
+    <p class="nw-kicker">Education</p>
+    <h2 class="nw-title">Where I studied and what I learned</h2>
     <div class="nw-timeline">
       <a class="nw-tl-item nw-tl-link" href="education/uf-masters/">
         <h3>Master of Science, Forest Resources &amp; Conservation</h3>
@@ -485,6 +336,7 @@ include-after-body:
 
 <section id="awards" class="nw-section nw-alt nw-wash-l">
   <div class="nw-section-inner">
+    <p class="nw-kicker">Recognition</p>
     <h2 class="nw-title">Featured Awards</h2>
     <p class="nw-subtitle">A selection of recent honors</p>
     <div class="nw-carousel">
@@ -500,8 +352,8 @@ include-after-body:
 
 ::: {.nw-section #blog}
 ::: {.nw-section-inner}
-<h2 class="nw-title">Featured Posts</h2>
-<p class="nw-subtitle">Recent writing</p>
+<p class="nw-kicker">Writing</p>
+<h2 class="nw-title">Notes &amp; tutorials</h2>
 
 ::: {#featured-posts .nw-posts}
 :::
@@ -513,6 +365,7 @@ include-after-body:
 ```{=html}
 <section id="faq" class="nw-section nw-alt">
   <div class="nw-section-inner">
+    <p class="nw-kicker">FAQ</p>
     <h2 class="nw-title">About My Work</h2>
     <p class="nw-subtitle">Common questions about collaboration and what I do</p>
     <div class="nw-faq">
@@ -565,7 +418,7 @@ include-after-body:
 <section id="cta" class="nw-section nw-alt nw-wash-l">
   <div class="nw-section-inner nw-cta-layout">
     <div class="nw-cta-card">
-      <span class="nw-cta-status">Available for new roles</span>
+      <span class="nw-cta-status">Open to data science &amp; GIS roles</span>
       <h2>Open to Opportunities</h2>
       <p>I'm looking for <strong>data scientist</strong> and <strong>GIS analyst</strong> roles where rigorous spatial analysis drives real decisions. If that's the kind of work your team is doing, let's talk.</p>
       <ul class="nw-cta-facts">
