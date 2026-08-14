@@ -11,7 +11,7 @@
 // topojson-client.
 
 import { readFileSync, writeFileSync, mkdirSync, statSync } from "node:fs";
-import { dirname, extname, join, resolve } from "node:path";
+import { dirname, extname, join, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const SOURCE = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
@@ -60,10 +60,16 @@ function allRings(topo) {
 
 // Local CLI tool run by hand, but the optional path argument still gets
 // validated before it touches the filesystem: resolved to an absolute path,
-// required to exist as a plain .json file, so a stray or malformed argument
-// fails fast with a clear error instead of an arbitrary path read.
+// confirmed to stay within the current working directory (rejecting any
+// `..` traversal out of it), and required to exist as a plain .json file —
+// so a stray or malformed argument fails fast with a clear error instead of
+// an arbitrary path read.
 function readTopoJsonArg(arg) {
+  const base = resolve(process.cwd()) + sep;
   const path = resolve(process.cwd(), arg);
+  if (!path.startsWith(base)) {
+    throw new Error(`Path escapes the working directory: ${path}`);
+  }
   if (extname(path) !== ".json") {
     throw new Error(`Expected a .json file, got: ${path}`);
   }
