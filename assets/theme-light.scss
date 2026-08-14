@@ -16,28 +16,15 @@ $card-bg: #ffffff;
   /* see theme-dark.scss: secondary copy is the pure foreground color */
   --nw-muted: #000000;
   --nw-card: #ffffff;
-  /* One outline color for every card, pill and framed image, on the plain
-     background and on a gradient band alike: dark enough to read against
-     white, light enough not to draw a hard box over a wash. */
+  /* One outline color for every card, pill, framed image, and section
+     divider: dark enough to read against white. */
   --nw-border: #d3d8e0;
   --nw-chip: #eef2f7;
-  --nw-globe-dot: 0, 118, 223;
+  --nw-globe-line: 0, 0, 0;
   /* strength of the icon-color wash on research-area cards */
   --nw-tint: 7%;
   --nw-tint-hover: 12%;
   --nw-hero-glow: rgba(18, 110, 245, 0.12);
-  /* alternating full-bleed section wash: soft tints over white, plus the
-     flat color the grain tile is masked out of */
-  --nw-wash-sky: rgba(18, 110, 245, 0.16);
-  --nw-wash-teal: rgba(13, 179, 186, 0.15);
-  --nw-wash-emerald: rgba(16, 185, 129, 0.14);
-  --nw-wash-violet: rgba(124, 92, 246, 0.13);
-  /* cards sitting on a wash band go transparent, so their outline is the only
-     thing holding the card together. The plain-background hairline washes out
-     over a tint — this one is a step darker so the card edge still reads. */
-  --nw-onband-border: #b3bcc9;
-  --nw-grain: #1f2937;
-  --nw-grain-op: 0.18;
   --nw-cta-from: #cfe6ff;
   --nw-cta-via: #e4f1ff;
   --nw-cta-to: #f2f8ff;
