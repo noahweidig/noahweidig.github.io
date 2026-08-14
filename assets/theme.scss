@@ -28,6 +28,7 @@
 $web-font-path: false;
 
 $font-family-sans-serif: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !default;
+$font-family-serif: Georgia, Cambria, "Times New Roman", Times, serif !default;
 $primary: #126ef5 !default;
 $link-color: #126ef5 !default;
 $border-radius: 0.5rem !default;
@@ -166,48 +167,24 @@ body {
 }
 
 .navbar .navbar-title {
+  font-family: $font-family-serif;
   font-weight: 700;
   transition: color 0.2s ease;
 }
 
-/* Navigation hover state on desktop. */
-.navbar-expand-lg .navbar-nav .nav-link:hover {
-  color: $primary;
+/* Nav-link text: smaller and all-caps, in a color a step softer than the
+   solid black/white of the site title, so the title reads as the anchor. */
+.navbar .navbar-nav .nav-link {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--nw-navlink);
 }
 
-/* Desktop: on hover, draw a fully-rounded blue "pill" outline around the
-   nav-link text. Scoped to the left-hand text items (.me-auto) so the
-   "Book Now" CTA — which lives in .ms-auto and has its own pill styling —
-   never picks up this outline. */
-@media screen and (min-width: 992px) {
-  .navbar .navbar-nav.me-auto .nav-item {
-    position: relative;
-  }
-
-  .navbar .navbar-nav.me-auto .nav-item .nav-link {
-    position: relative;
-    z-index: 1;
-  }
-
-  .navbar .navbar-nav.me-auto .nav-item::after {
-    content: "";
-    position: absolute;
-    left: -0.1rem;
-    right: -0.1rem;
-    top: 50%;
-    height: 2rem;
-    border: 1.5px solid $primary;
-    border-radius: 999px;
-    opacity: 0;
-    transform: translateY(-50%) scale(0.92);
-    transition: opacity 0.2s ease, transform 0.2s ease;
-    pointer-events: none;
-  }
-
-  .navbar .navbar-nav.me-auto .nav-item:hover::after {
-    opacity: 1;
-    transform: translateY(-50%) scale(1);
-  }
+/* Navigation hover state on desktop: text turns blue, no pill/outline. */
+.navbar-expand-lg .navbar-nav .nav-link:hover {
+  color: $primary;
 }
 
 /* "Book Now" CTA styled as a button. Height is pinned to --nw-navctl so the
@@ -221,7 +198,10 @@ body {
   border: 1px solid var(--nw-border);
   border-radius: 999px;
   padding: 0 1.1rem !important;
+  font-size: 0.95rem;
   font-weight: 600;
+  text-transform: none;
+  letter-spacing: normal;
   margin-left: 0.5rem;
   transition: background-color 0.15s, border-color 0.15s, color 0.15s, transform 0.15s;
 }
@@ -517,6 +497,10 @@ body {
   white-space: nowrap;
 }
 
+#hero h1 .nw-line-2 {
+  font-style: italic;
+}
+
 #hero .nw-type {
   font-size: 1.35rem;
   font-weight: 600;
@@ -736,28 +720,26 @@ body {
 
 /* ============ stats ============ */
 #stats .nw-stats {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
-  gap: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0;
   text-align: center;
 }
 
 #stats .nw-stat {
-  background: var(--nw-card);
-  border: 1px solid var(--nw-border);
-  border-radius: 1rem;
-  padding: 1.75rem 1rem;
-  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+  flex: 1 1 10rem;
+  padding: 0 1.75rem;
+  border-left: 1px solid var(--nw-border);
 }
 
-#stats .nw-stat:hover {
-  transform: translateY(-4px);
-  border-color: var(--nw-primary);
-  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.18);
+#stats .nw-stat:first-child {
+  border-left: none;
 }
 
 #stats .nw-stat b {
   display: block;
+  font-family: $font-family-serif;
   font-size: 2.4rem;
   font-weight: 800;
   color: var(--nw-stat-number);
@@ -766,6 +748,26 @@ body {
 #stats .nw-stat span {
   color: var(--nw-muted);
   font-size: 0.95rem;
+}
+
+/* Narrow screens: two per row wraps the vertical dividers onto the wrong
+   edge, so stack instead and turn the dividers horizontal. */
+@media screen and (max-width: 576px) {
+  #stats .nw-stats {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  #stats .nw-stat {
+    padding: 1.5rem 0 0;
+    border-left: none;
+    border-top: 1px solid var(--nw-border);
+  }
+
+  #stats .nw-stat:first-child {
+    padding-top: 0;
+    border-top: none;
+  }
 }
 
 /* ============ card grid (research areas / projects / awards) ============ */
@@ -1646,10 +1648,9 @@ body {
   margin-bottom: 0.85rem;
 }
 
-/* The default disclosure triangle is replaced by a thin plus at the right
-   edge that rotates into an X when the answer opens. The two bars are drawn
-   as pseudo-elements on a fixed-size box so the glyph stays optically
-   centered through the rotation. */
+/* The default disclosure triangle is replaced by a tailless arrowhead — a
+   chevron with no shaft — at the right edge, pointing right when closed and
+   flipping to point down when the answer opens. */
 .nw-faq summary {
   font-weight: 700;
   cursor: pointer;
@@ -1668,14 +1669,11 @@ body {
 .nw-faq summary::after {
   content: "";
   flex: none;
-  width: 0.9rem;
-  height: 0.9rem;
-  background-image:
-    linear-gradient(var(--nw-fg), var(--nw-fg)),
-    linear-gradient(var(--nw-fg), var(--nw-fg));
-  background-size: 100% 1.5px, 1.5px 100%;
-  background-position: center, center;
-  background-repeat: no-repeat;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-right: 1.5px solid var(--nw-fg);
+  border-bottom: 1.5px solid var(--nw-fg);
+  transform: rotate(-45deg);
   transition: transform 0.2s ease;
 }
 
