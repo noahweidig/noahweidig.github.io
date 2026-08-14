@@ -10,6 +10,14 @@
   }
 }
 
+/* #title-block-header's band background breaks out to 100vw (see theme.scss)
+   to run edge-to-edge; on a platform with a reserved (non-overlay) scrollbar
+   that can read as a few px wider than the viewport. Harmless to clip — the
+   overshoot is background, not content. */
+html {
+  overflow-x: clip;
+}
+
 /* The navbar logo is emitted by Quarto, so width/height attributes can't be
    added to the markup; Bootstrap sizes it `max-height: 24px; width: auto`,
    which leaves its width unknown until the SVG loads. Declaring the intrinsic
@@ -192,21 +200,22 @@ body.quarto-dark .quarto-navbar-tools .quarto-color-scheme-toggle:hover > .bi::b
   mask-image: linear-gradient(to bottom, #000 65%, transparent 100%);
 }
 
-/* ============ hero navbar: transparent until scroll ============ */
-/* Only on pages with a hero (the landing page): the fixed navbar starts
-   transparent and borderless, so the hero's own background — which already
-   runs the full width of the page, right up to y=0 — reads as continuing
-   straight through the nav instead of stopping at a visible seam. home.js
-   flips `.nw-scrolled` on <body> once the visitor scrolls past the hero, at
-   which point the navbar reverts to its normal solid, blurred look (no rule
-   needed for that state — removing the override is enough). Every other page
-   keeps the navbar's default styling throughout. */
-body:has(#hero) .navbar {
+/* ============ top-band navbar: transparent until scroll ============ */
+/* On every page with a top band — the landing page's #hero, or any other
+   page's #title-block-header (see "page-title band" in theme.scss) — the
+   fixed navbar starts transparent and borderless, so the band's own
+   background, which already runs the full width of the page right up to
+   y=0, reads as continuing straight through the nav instead of stopping at a
+   visible seam. nw-nav.js flips `.nw-scrolled` on <body> once the visitor
+   scrolls past the band, at which point the navbar reverts to its normal
+   solid, blurred look (no rule needed for that state — removing the
+   override is enough). */
+body:has(#hero, #title-block-header, .nw-page-band) .navbar {
   transition: background-color 0.25s ease, border-color 0.25s ease,
     backdrop-filter 0.25s ease;
 }
 
-body:has(#hero):not(.nw-scrolled) .navbar {
+body:has(#hero, #title-block-header, .nw-page-band):not(.nw-scrolled) .navbar {
   background-color: transparent !important;
   border-bottom-color: transparent;
   backdrop-filter: none;
@@ -274,14 +283,58 @@ body:has(#hero):not(.nw-scrolled) .navbar {
   padding-bottom: 5rem;
 }
 
-/* Quarto reserves 64px at the top of `body.nav-fixed` for the fixed navbar,
+/* Quarto reserves the fixed navbar's height at the top of `body.nav-fixed`,
    so the hero actually started *below* the bar and its dot grid stopped at
-   the seam. Pull the hero up into that reserved strip and hand the same 64px
-   back as padding: the layout is unchanged, but the hero background and the
-   dot grid now run to y=0, behind the transparent navbar, until scroll. */
+   the seam. Pull the hero up into that reserved strip (by the navbar's real,
+   live-measured height — see nw-nav.js) and hand the same amount back as
+   padding: the layout is unchanged, but the hero background and the dot grid
+   now run to y=0, behind the transparent navbar, until scroll. */
 body.nav-fixed #hero {
-  margin-top: -72px;
-  padding-top: calc(7.5rem + 72px);
+  margin-top: calc(-1 * var(--nw-navbar-h));
+  padding-top: calc(7.5rem + var(--nw-navbar-h));
+}
+
+/* ============ .nw-page-band: #hero's look for custom-layout pages ======= */
+/* Pages that skip #title-block-header entirely (404, via `pagetitle:`
+   instead of `title:`) opt into the same top band by hand: same glow +
+   dot-grid background, same navbar pull-up. */
+.nw-page-band {
+  position: relative;
+  overflow: hidden;
+  background: none;
+  padding-top: 7rem;
+  padding-bottom: 6rem;
+}
+
+@media (max-width: 640px) {
+  .nw-page-band {
+    padding-bottom: 3.5rem;
+  }
+}
+
+.nw-page-band::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(50rem 24rem at 50% -10%, var(--nw-hero-glow), transparent 70%),
+    var(--nw-bg);
+  -webkit-mask-image: linear-gradient(to bottom, #000 65%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 65%, transparent 100%);
+  /* Same residual-gap correction as #title-block-header (see theme.scss) —
+     harmless no-op here if this band is already flush. */
+  transform: translateY(calc(-1 * var(--nw-band-lift, 0px)));
+}
+
+.nw-page-band > .nw-section-inner {
+  position: relative;
+  z-index: 1;
+}
+
+body.nav-fixed .nw-page-band {
+  margin-top: calc(-1 * var(--nw-navbar-h));
+  padding-top: calc(7rem + var(--nw-navbar-h));
 }
 
 /* desktop: larger side margins → narrower hero row brings text + portrait closer */
@@ -398,30 +451,36 @@ body.nav-fixed #hero {
   }
 }
 
-/* ============ find me: dot globe with Orlando marker ============ */
+/* ============ find me: dot globe card with Orlando marker ============ */
 .nw-globe-wrap {
   max-width: 52rem;
   margin: 0 auto;
 }
 
-.nw-globe-frame {
-  position: relative;
-  max-width: 11.25rem;
+/* Card frame around the globe, like the reference: dark card, rounded
+   corners, and — since the globe itself is now drawn zoomed in (see
+   globe.js) — `overflow: hidden` here is what crops it down to a close-up
+   on Orlando instead of showing the whole sphere. */
+.nw-globe-card {
+  max-width: 30rem;
   margin: 0 auto;
+  background: var(--nw-card);
+  border: 1px solid var(--nw-border);
+  border-radius: 1.25rem;
+  overflow: hidden;
 }
 
-/* Narrow screens: the marker label can swing past the viewport edge as the
-   globe spins; clip it at the frame instead of letting it widen the page
-   into a sideways scroll. clip (not hidden) avoids creating a scroll box,
-   and only the x axis is clipped so the label can still rise above the
-   frame. The html/body guard backstops any horizontal overflow the frame
-   clip misses; the hidden line is a fallback for browsers without clip
-   (pre-2022 Safari), and is safe because the navbar is fixed, not sticky. */
-@media (max-width: 767.98px) {
-  .nw-globe-frame {
-    overflow-x: clip;
-  }
+.nw-globe-frame {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
 
+/* Narrow screens: the marker label could in principle sit right at the
+   frame's edge; clip it there instead of letting it widen the page into a
+   sideways scroll. clip (not hidden) avoids creating a scroll box. The
+   html/body guard backstops any horizontal overflow the frame clip misses. */
+@media (max-width: 767.98px) {
   html,
   body {
     overflow-x: hidden;
@@ -628,6 +687,20 @@ img.nw-detail-hero {
   padding: 4rem 1.5rem 2.5rem;
 }
 
+/* Full-bleed divider: this row lives outside .nw-footer's 72rem column, so
+   its border-top runs the full width of the dark footer background instead
+   of stopping at the content column's edge. */
+.nw-footer-bottom-inner {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 1.75rem 1.5rem 2.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
 .nw-footer-grid {
   display: grid;
   grid-template-columns: 1.4fr repeat(4, 1fr);
@@ -722,27 +795,32 @@ img.nw-detail-hero {
 }
 
 .nw-footer-bottom {
-  display: flex;
-  justify-content: center;
-  text-align: center;
-  gap: 1rem;
-  flex-wrap: wrap;
-  margin-top: 3.5rem;
+  border-top: 1px solid var(--nw-border);
   color: var(--nw-muted);
   font-size: 0.85rem;
 }
 
+.nw-footer-bottom-left {
+  text-align: left;
+}
+
+.nw-footer-bottom-right {
+  text-align: right;
+}
+
 .nw-footer-bottom .nw-quarto-credit {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.3rem;
   color: inherit;
 }
 
-.nw-footer-bottom .nw-quarto-credit svg {
-  width: 0.9rem;
-  height: 0.9rem;
-  flex: none;
+.nw-footer-bottom a:hover {
+  color: var(--nw-primary);
+}
+
+@media (max-width: 480px) {
+  .nw-footer-bottom-left,
+  .nw-footer-bottom-right {
+    text-align: center;
+  }
 }
 
 @media (max-width: 900px) {
@@ -921,20 +999,6 @@ img.nw-detail-hero {
   display: block;
   width: 100%;
   aspect-ratio: 1;
-  cursor: grab;
-  /* keep vertical page scrolling working when touches start on the globe */
-  touch-action: pan-y;
-}
-
-#nw-globe:active {
-  cursor: grabbing;
-}
-
-.nw-globe-tag {
-  text-align: center;
-  color: var(--nw-muted);
-  font-size: 0.95rem;
-  margin: 0.75rem 0 0;
 }
 
 .nw-globe-label {
