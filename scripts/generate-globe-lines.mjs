@@ -10,8 +10,8 @@
 // minimal TopoJSON decoding is inlined below rather than pulled in from
 // topojson-client.
 
-import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
-import { dirname, join } from "node:path";
+import { readFileSync, writeFileSync, mkdirSync, statSync } from "node:fs";
+import { dirname, extname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const SOURCE = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
@@ -58,8 +58,24 @@ function allRings(topo) {
 
 // ── main ─────────────────────────────────────────────────────────────────────
 
+// Local CLI tool run by hand, but the optional path argument still gets
+// validated before it touches the filesystem: resolved to an absolute path,
+// required to exist as a plain .json file, so a stray or malformed argument
+// fails fast with a clear error instead of an arbitrary path read.
+function readTopoJsonArg(arg) {
+  const path = resolve(process.cwd(), arg);
+  if (extname(path) !== ".json") {
+    throw new Error(`Expected a .json file, got: ${path}`);
+  }
+  const stats = statSync(path);
+  if (!stats.isFile()) {
+    throw new Error(`Not a file: ${path}`);
+  }
+  return JSON.parse(readFileSync(path, "utf8"));
+}
+
 const topo = process.argv[2]
-  ? JSON.parse(readFileSync(process.argv[2], "utf8"))
+  ? readTopoJsonArg(process.argv[2])
   : await (await fetch(SOURCE)).json();
 
 const rings = allRings(topo);
