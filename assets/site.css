@@ -655,6 +655,10 @@ img.nw-detail-hero {
   font-size: 0.85rem;
 }
 
+.nw-footer-bottom a {
+  color: inherit;
+}
+
 .nw-footer-bottom .nw-quarto-credit {
   display: inline-flex;
   align-items: center;
