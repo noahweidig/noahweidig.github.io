@@ -33,6 +33,20 @@
     })();
   }
 
+  // Nav bar reads as part of the hero until the visitor actually scrolls:
+  // transparent and borderless over the hero art, then the site's normal
+  // solid navbar once scrolled past it. CSS does the actual look (see
+  // "hero navbar: transparent until scroll" in site.css) — this just flips
+  // the class scroll position decides.
+  (function () {
+    var SCROLLED_AT = 40;
+    var onNavScroll = function () {
+      document.body.classList.toggle("nw-scrolled", window.scrollY > SCROLLED_AT);
+    };
+    window.addEventListener("scroll", onNavScroll, { passive: true });
+    onNavScroll();
+  })();
+
   // Duplicate marquee content so the loop is seamless: the `nw-scroll`
   // keyframe translates by -50%, which only lines up if the row is exactly
   // doubled. The copy is decoration — hide it from assistive tech and take it
@@ -59,7 +73,7 @@
     // as items are added or removed.
     var copyWidth = track.scrollWidth / 2;
     if (copyWidth > 0) {
-      track.style.animationDuration = (copyWidth / 32) + "s";
+      track.style.animationDuration = (copyWidth / 22) + "s";
     }
   });
 
