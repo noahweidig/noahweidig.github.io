@@ -1,3 +1,40 @@
+// Navbar height, measured live rather than hard-coded: the hero (and every
+// page's title band) pulls itself up by exactly this amount so its
+// background/dot-grid always reaches y=0 behind the transparent navbar, even
+// as the navbar's real height shifts (webfont swap reflow, breakpoint change,
+// mobile menu open/close). ResizeObserver keeps --nw-navbar-h correct through
+// all of those without a resize-event poll.
+(function () {
+  var nav = document.querySelector(".navbar");
+  if (!nav) return;
+  var root = document.documentElement;
+  var set = function () {
+    var h = nav.getBoundingClientRect().height;
+    if (h > 0) root.style.setProperty("--nw-navbar-h", h + "px");
+  };
+  set();
+  if ("ResizeObserver" in window) {
+    new ResizeObserver(set).observe(nav);
+  } else {
+    window.addEventListener("resize", set);
+  }
+})();
+
+// Nav bar reads as part of the page's top "hero" band until the visitor
+// scrolls: transparent and borderless over the hero/dot-grid art, then the
+// site's normal solid navbar once scrolled past it. CSS does the actual look
+// (see "hero navbar: transparent until scroll" in site.css) — this just flips
+// the class scroll position decides. Runs on every page (not just the
+// landing page), since every page now carries the same top band.
+(function () {
+  var SCROLLED_AT = 40;
+  var onNavScroll = function () {
+    document.body.classList.toggle("nw-scrolled", window.scrollY > SCROLLED_AT);
+  };
+  window.addEventListener("scroll", onNavScroll, { passive: true });
+  onNavScroll();
+})();
+
 function nwReducedMotion() {
   return (
     window.matchMedia &&
