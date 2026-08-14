@@ -10,10 +10,10 @@
   var canvas = document.getElementById("nw-globe");
   if (!canvas || !canvas.getContext) return;
 
-  // Country border color follows --nw-globe-line (blue in light mode, white
-  // in dark). The graticule and sphere read off the theme's own border/bg
-  // tokens, so both pick up light/dark automatically.
-  var LINE_COLOR = "0, 118, 223";
+  // Country border color follows --nw-globe-line: black in light mode, white
+  // in dark, same as the page foreground. The graticule and sphere read off
+  // the theme's own border/bg tokens, so both pick up light/dark too.
+  var LINE_COLOR = "0, 0, 0";
   var SPHERE_FILL = "#0a0a0f";
   var GRATICULE_COLOR = "#3d3d4b";
   // The Orlando marker always stays the site's accent blue, in both themes.
@@ -146,8 +146,8 @@
       strokeRing(gRing, cosX, sinX, cosY, sinY);
     }
 
-    // Country borders
-    ctx.strokeStyle = "rgba(" + LINE_COLOR + ", 0.6)";
+    // Country borders: solid black in light mode, white in dark
+    ctx.strokeStyle = "rgb(" + LINE_COLOR + ")";
     ctx.lineWidth = Math.max(0.6, size * 0.0022);
     for (var lRing of lines) {
       strokeRing(lRing, cosX, sinX, cosY, sinY);

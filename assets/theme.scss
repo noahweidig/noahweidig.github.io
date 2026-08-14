@@ -233,8 +233,12 @@ body {
 }
 
 /* ============ shared section scaffolding ============ */
+/* Sections used to alternate a gradient wash band with plain background;
+   now every section is plain, and a full-bleed hairline at the top marks
+   the seam instead. */
 .nw-section {
   padding: 4rem 0;
+  border-top: 1px solid var(--nw-border);
 }
 
 .nw-section-inner {
@@ -265,10 +269,6 @@ body {
   color: var(--nw-muted);
   max-width: 46rem;
   margin: -1.5rem auto 2.5rem;
-}
-
-.nw-alt {
-  background: var(--nw-bg-alt);
 }
 
 /* ============ homepage: left-aligned section headers ============ */
@@ -1176,7 +1176,10 @@ body {
    falls back to that same prefix. */
 #listing-featured-posts.nw-posts {
   grid-template-columns: repeat(3, 1fr);
-  align-items: start;
+}
+
+#listing-featured-posts.nw-posts .nw-post {
+  height: 100%;
 }
 
 @media (max-width: 900px) {
@@ -2001,7 +2004,8 @@ body {
 }
 
 .quarto-title-block .quarto-title h1.title {
-  font-weight: 800;
+  font-family: var(--nw-font-display);
+  font-weight: 500;
   letter-spacing: -0.02em;
 }
 
@@ -2246,6 +2250,20 @@ body:has(.nw-cv) #title-block-header {
   margin-right: auto;
   padding-left: 1.25rem;
   padding-right: 1.25rem;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+/* Same fix for the other page-layout: custom page (Contact): its title block
+   otherwise inherits the zero side padding `.page-layout-custom main` sets
+   for the hero-style bands, and runs flush to the viewport edge. Match the
+   72rem/1.5rem column every .nw-section-inner below it already uses. */
+body:has(#contact) #title-block-header {
+  max-width: 72rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
   box-sizing: border-box;
   width: 100%;
 }
