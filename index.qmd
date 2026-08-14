@@ -398,7 +398,7 @@ include-after-body:
       <div class="nw-globe-card">
         <div class="nw-globe-frame">
           <canvas id="nw-globe" aria-hidden="true"></canvas>
-          <div class="nw-globe-label" id="nw-globe-label" hidden><b>Orlando, Florida</b><code>28.5384&deg; N, 81.3789&deg; W</code></div>
+          <div class="nw-globe-label" id="nw-globe-label" hidden><b>Orlando, Florida | UTC-5</b><code>28.5384&deg; N, 81.3789&deg; W</code></div>
         </div>
       </div>
     </div>
