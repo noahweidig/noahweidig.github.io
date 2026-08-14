@@ -282,6 +282,8 @@ body {
 #interests .nw-lead,
 #projects .nw-kicker,
 #projects .nw-title,
+#publications .nw-kicker,
+#publications .nw-title,
 #skills .nw-kicker,
 #skills .nw-title,
 #experience .nw-kicker,
@@ -1188,53 +1190,6 @@ body {
   }
 }
 
-/* ============ publications: intro column + list column ============ */
-.nw-pubs-layout {
-  display: grid;
-  grid-template-columns: minmax(0, 20rem) minmax(0, 1fr);
-  gap: 3rem;
-  align-items: start;
-}
-
-.nw-pubs-intro .nw-kicker,
-.nw-pubs-intro h2.nw-title,
-.nw-pubs-intro .nw-subtitle {
-  text-align: left;
-  margin-left: 0;
-  margin-right: 0;
-}
-
-.nw-pubs-intro h2.nw-title {
-  font-size: 1.9rem;
-}
-
-.nw-pubs-intro .nw-subtitle {
-  margin-bottom: 1.25rem;
-}
-
-.nw-pubs-links {
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-  font-size: 0.9rem;
-}
-
-.nw-pubs-links a {
-  color: var(--nw-primary);
-  font-weight: 600;
-  text-decoration: none;
-}
-
-.nw-pubs-links a:hover {
-  text-decoration: underline;
-}
-
-@media (max-width: 860px) {
-  .nw-pubs-layout {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-}
 
 .nw-cites .nw-cite {
   position: relative;
@@ -2081,16 +2036,36 @@ body.nav-fixed .page-layout-article main.content {
 
 #title-block-header {
   position: relative;
-  overflow: hidden;
   isolation: isolate;
   margin-top: 0;
   padding: 1.75rem 0 2.5rem;
 }
 
-#title-block-header::before {
+/* Full-bleed: break the background out of the content column to the actual
+   viewport edges (standard 100vw/-50vw technique) rather than stopping at
+   the header's own (narrower, centered) box — otherwise the band reads as a
+   boxed rectangle instead of running edge-to-edge like the home hero.
+   `--nw-band-lift` corrects for whatever residual gap is left above the
+   band after the navbar-height padding below: Quarto's own ancestor
+   wrappers (main.content, page-layout-* containers, ...) each carry their
+   own default top spacing that varies by page/layout, so rather than
+   chasing every one of them in CSS, nw-nav.js measures the actual gap once
+   the page has laid out and sets this custom property to cancel exactly
+   that, however large it turns out to be. Purely a background nudge — it
+   never moves real content, only these two decorative layers. */
+#title-block-header::before,
+#title-block-header::after {
   content: "";
   position: absolute;
-  inset: 0;
+  left: 50%;
+  width: 100vw;
+  margin-left: -50vw;
+  transform: translateY(calc(-1 * var(--nw-band-lift, 0px)));
+}
+
+#title-block-header::before {
+  top: 0;
+  bottom: 0;
   z-index: -2;
   background:
     radial-gradient(50rem 24rem at 50% -20%, var(--nw-hero-glow), transparent 70%),
@@ -2100,9 +2075,8 @@ body.nav-fixed .page-layout-article main.content {
 }
 
 #title-block-header::after {
-  content: "";
-  position: absolute;
-  inset: -2.5rem;
+  top: 0;
+  bottom: 0;
   z-index: -1;
   opacity: 0.5;
   background-image: radial-gradient(var(--nw-primary) 1px, transparent 1.4px);

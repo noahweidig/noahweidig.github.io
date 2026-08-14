@@ -232,21 +232,16 @@ include-after-body:
 
 ::: {.nw-section .nw-alt .nw-wash-l #publications}
 ::: {.nw-section-inner}
-<div class="nw-pubs-layout">
-<div class="nw-pubs-intro">
+<div class="nw-head-row">
+<div>
 <p class="nw-kicker">Publications</p>
 <h2 class="nw-title">Peer-reviewed &amp; in review</h2>
-<p class="nw-subtitle">Synced from Zotero twice a month, so this list is never out of date.</p>
-<div class="nw-pubs-links">
-<a href="https://scholar.google.com/citations?hl=en&amp;user=Ml95eTwAAAAJ" target="_blank" rel="noopener">Google Scholar ↗</a>
-<a href="https://orcid.org/0000-0003-1205-3209" target="_blank" rel="noopener">ORCID ↗</a>
-<a href="publications/">All publications →</a>
 </div>
+<a class="nw-head-link" href="publications/">All Publications →</a>
 </div>
 
 ::: {#featured-pubs .nw-cites}
 :::
-</div>
 :::
 :::
 
@@ -336,16 +331,19 @@ include-after-body:
 
 <section id="awards" class="nw-section nw-alt nw-wash-l">
   <div class="nw-section-inner">
-    <p class="nw-kicker">Recognition</p>
-    <h2 class="nw-title">Featured Awards</h2>
-    <p class="nw-subtitle">A selection of recent honors</p>
+    <div class="nw-head-row">
+      <div>
+        <p class="nw-kicker">Recognition</p>
+        <h2 class="nw-title">Featured Awards</h2>
+      </div>
+      <a class="nw-head-link" href="awards/">All Awards →</a>
+    </div>
     <div class="nw-carousel">
       <a class="nw-award" href="awards/outstanding-thesis-natural-resources/"><figure><img src="awards/outstanding-thesis-natural-resources/featured.webp" width="1200" height="675" alt="Outstanding Thesis in Natural Resources" loading="lazy"><figcaption><b>Outstanding Thesis in Natural Resources</b><span>University of Florida, College of Agricultural &amp; Life Sciences</span></figcaption></figure></a>
       <a class="nw-award" href="awards/outstanding-thesis-forest-resources/"><figure><img src="awards/outstanding-thesis-forest-resources/featured.webp" width="1200" height="675" alt="Outstanding Thesis in Forest Resources & Conservation" loading="lazy"><figcaption><b>Outstanding Thesis in Forest Resources &amp; Conservation</b><span>University of Florida, School of Forest, Fisheries, &amp; Geomatic Sciences</span></figcaption></figure></a>
       <a class="nw-award" href="awards/best-student-presentation/"><figure><img src="awards/best-student-presentation/featured.webp" width="1200" height="900" alt="Best Student Presentation" loading="lazy"><figcaption><b>Best Student Presentation</b><span>International Association of Landscape Ecology – North America</span></figcaption></figure></a>
       <a class="nw-award" href="awards/outstanding-graduate-biology/"><figure><img src="awards/outstanding-graduate-biology/featured.webp" width="1200" height="675" alt="Outstanding Graduate in Biology" loading="lazy"><figcaption><b>Outstanding Graduate in Biology</b><span>Northern Kentucky University, Department of Biological Sciences</span></figcaption></figure></a>
     </div>
-    <div class="nw-btns nw-section-more"><a class="nw-btn nw-btn-ghost" href="awards/">See All Awards →</a></div>
   </div>
 </section>
 ```

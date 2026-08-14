@@ -36,7 +36,7 @@ project:
     - assets/social-share.js
     # Fetched at runtime by assets/globe.js, so Quarto's resource discovery
     # can't see it — must be listed explicitly.
-    - assets/data/globe-dots.json
+    - assets/data/globe-lines.json
 
 filters:
   - social-share
