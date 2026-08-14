@@ -1417,6 +1417,34 @@ body {
   .nw-exp-edu-grid {
     grid-template-columns: 1fr 1fr;
   }
+
+  /* Side by side, the experience and education cards should read as rows:
+     the labels, the first cards, the second cards and the "see all" buttons
+     each share a row line across both columns. Both columns span the whole
+     row track list and re-use it with `subgrid`, so paired cards take the
+     height of the taller one instead of drifting out of step. Row gaps are
+     zeroed here because the spacing already comes from the label/card/button
+     margins; browsers without subgrid keep the previous stacked layout. */
+  @supports (grid-template-rows: subgrid) {
+    .nw-exp-edu-grid {
+      /* label · card · card · button */
+      grid-template-rows: auto repeat(2, auto) auto;
+    }
+
+    .nw-exp-edu-col {
+      display: grid;
+      grid-row: 1 / -1;
+      grid-template-rows: subgrid;
+      row-gap: 0;
+    }
+
+    .nw-exp-edu-col .nw-timeline {
+      display: grid;
+      grid-row: 2 / -2;
+      grid-template-rows: subgrid;
+      row-gap: 0;
+    }
+  }
 }
 
 /* Whole-card link variant used on the experience/education timelines. */
