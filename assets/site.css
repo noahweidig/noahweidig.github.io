@@ -10,6 +10,14 @@
   }
 }
 
+/* #title-block-header's band background breaks out to 100vw (see theme.scss)
+   to run edge-to-edge; on a platform with a reserved (non-overlay) scrollbar
+   that can read as a few px wider than the viewport. Harmless to clip — the
+   overshoot is background, not content. */
+html {
+  overflow-x: clip;
+}
+
 /* The navbar logo is emitted by Quarto, so width/height attributes can't be
    added to the markup; Bootstrap sizes it `max-height: 24px; width: auto`,
    which leaves its width unknown until the SVG loads. Declaring the intrinsic
@@ -314,6 +322,9 @@ body.nav-fixed #hero {
     var(--nw-bg);
   -webkit-mask-image: linear-gradient(to bottom, #000 65%, transparent 100%);
   mask-image: linear-gradient(to bottom, #000 65%, transparent 100%);
+  /* Same residual-gap correction as #title-block-header (see theme.scss) —
+     harmless no-op here if this band is already flush. */
+  transform: translateY(calc(-1 * var(--nw-band-lift, 0px)));
 }
 
 .nw-page-band > .nw-section-inner {

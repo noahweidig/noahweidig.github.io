@@ -20,6 +20,34 @@
   }
 })();
 
+// Every page's top band (#hero, #title-block-header, .nw-page-band) is
+// pulled up by --nw-navbar-h in CSS so its background reaches y=0 behind the
+// transparent navbar. That number alone gets #hero flush, since it sits
+// directly under <body> with nothing else adding space above it — but
+// #title-block-header sits inside Quarto's own wrappers (main.content, a
+// page-layout-* container, ...), each of which can carry its own default
+// top padding/margin that varies by page and layout. Rather than chasing
+// every one of those in CSS, measure the actual residual gap once the page
+// has laid out and set --nw-band-lift so the *background layers only* (a
+// translateY on the ::before/::after — see "page-title band" in theme.scss)
+// slide up to close it exactly, however large it turns out to be. This
+// never moves real content — only the decorative band behind it.
+(function () {
+  var band = document.querySelector("#hero, #title-block-header, .nw-page-band");
+  if (!band) return;
+  var root = document.documentElement;
+  var fix = function () {
+    var gap = band.getBoundingClientRect().top;
+    root.style.setProperty("--nw-band-lift", Math.max(0, Math.round(gap)) + "px");
+  };
+  // Run after the navbar-height var above has been applied (same tick, but
+  // after that IIFE already ran) and again once webfonts/images settle,
+  // since either can shift layout enough to change the residual gap.
+  fix();
+  window.addEventListener("load", fix);
+  window.addEventListener("resize", fix);
+})();
+
 // Nav bar reads as part of the page's top "hero" band until the visitor
 // scrolls: transparent and borderless over the hero/dot-grid art, then the
 // site's normal solid navbar once scrolled past it. CSS does the actual look
