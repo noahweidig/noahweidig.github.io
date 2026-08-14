@@ -426,7 +426,7 @@ include-after-body:
   <div class="nw-section-inner nw-cta-layout">
     <div class="nw-cta-card">
       <span class="nw-cta-status">Open to data science &amp; GIS roles</span>
-      <h2>Open to Opportunities</h2>
+      <h2>Let's talk about spatial problems worth solving.</h2>
       <p>I'm looking for <strong>data scientist</strong> and <strong>GIS analyst</strong> roles where rigorous spatial analysis drives real decisions. If that's the kind of work your team is doing, let's talk.</p>
       <ul class="nw-cta-facts">
         <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"/><path d="M17.657 16.657l-4.243 4.243a2 2 0 0 1 -2.827 0l-4.244 -4.243a8 8 0 1 1 11.314 0z"/></svg>Orlando, FL &middot; Remote-friendly</li>
