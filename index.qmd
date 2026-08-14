@@ -35,12 +35,11 @@ include-after-body:
   - text: |
       <script src="assets/home.js"></script>
       <script src="assets/globe.js"></script>
-      <script src="assets/hero-net.js"></script>
 ---
 
 ```{=html}
 <section id="hero">
-  <div id="nw-particles" aria-hidden="true"></div>
+  <div class="nw-hero-dots" aria-hidden="true"></div>
   <div class="nw-hero-inner">
   <div class="nw-hero-text">
   <h1><span class="nw-name"><span class="nw-line nw-line-1">Spatial Analysis.</span><span class="nw-line nw-line-2">Real <span class="nw-accent">Insights</span>.</span></span></h1>
