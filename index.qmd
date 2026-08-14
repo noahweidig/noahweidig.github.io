@@ -111,7 +111,7 @@ include-after-body:
   </div>
 </section>
 
-<section id="interests" class="nw-section nw-alt">
+<section id="interests" class="nw-section">
   <div class="nw-section-inner">
     <p class="nw-kicker">Research areas</p>
     <h2 class="nw-title">Where I focus my work</h2>
@@ -230,7 +230,7 @@ include-after-body:
 :::
 :::
 
-::: {.nw-section .nw-alt .nw-wash-l #publications}
+::: {.nw-section #publications}
 ::: {.nw-section-inner}
 <div class="nw-head-row">
 <div>
@@ -284,7 +284,7 @@ include-after-body:
   </div>
 </section>
 
-<section id="experience" class="nw-section nw-alt">
+<section id="experience" class="nw-section">
   <div class="nw-section-inner">
     <p class="nw-kicker">Background</p>
     <h2 class="nw-title">Where I've worked and studied</h2>
@@ -329,7 +329,7 @@ include-after-body:
   </div>
 </section>
 
-<section id="awards" class="nw-section nw-alt nw-wash-l">
+<section id="awards" class="nw-section">
   <div class="nw-section-inner">
     <div class="nw-head-row">
       <div>
@@ -364,7 +364,7 @@ include-after-body:
 :::
 
 ```{=html}
-<section id="faq" class="nw-section nw-alt">
+<section id="faq" class="nw-section">
   <div class="nw-section-inner">
     <p class="nw-kicker">FAQ</p>
     <h2 class="nw-title">About My Work</h2>
@@ -416,7 +416,7 @@ include-after-body:
   </div>
 </section>
 
-<section id="cta" class="nw-section nw-alt nw-wash-l">
+<section id="cta" class="nw-section">
   <div class="nw-section-inner nw-cta-layout">
     <div class="nw-cta-card">
       <span class="nw-cta-status">Open to data science &amp; GIS roles</span>

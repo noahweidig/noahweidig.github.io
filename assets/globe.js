@@ -33,6 +33,8 @@
   var GRATICULE_STEP = 20; // degrees between meridians/parallels
 
   var ctx = canvas.getContext("2d");
+  var card = canvas.closest(".nw-globe-card");
+  var hovered = false;
   var label = document.getElementById("nw-globe-label");
   var marker = toSphere(ORLANDO.lat, ORLANDO.lon);
   var lines = null; // [[{x,y,z}, ...], ...] unit-sphere points per ring
@@ -146,8 +148,8 @@
       strokeRing(gRing, cosX, sinX, cosY, sinY);
     }
 
-    // Country borders
-    ctx.strokeStyle = "rgba(" + LINE_COLOR + ", 0.6)";
+    // Country borders: same color as the graticule at rest, blue on hover
+    ctx.strokeStyle = hovered ? "rgba(" + LINE_COLOR + ", 0.6)" : GRATICULE_COLOR;
     ctx.lineWidth = Math.max(0.6, size * 0.0022);
     for (var lRing of lines) {
       strokeRing(lRing, cosX, sinX, cosY, sinY);
@@ -230,6 +232,17 @@
     resize();
     draw();
   });
+
+  if (card) {
+    card.addEventListener("pointerenter", function () {
+      hovered = true;
+      draw();
+    });
+    card.addEventListener("pointerleave", function () {
+      hovered = false;
+      draw();
+    });
+  }
 
   if ("IntersectionObserver" in window) {
     var loader = new IntersectionObserver(
