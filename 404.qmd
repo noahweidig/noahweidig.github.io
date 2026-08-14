@@ -9,7 +9,7 @@ The page you're looking for doesn't exist or has been moved. These are the place
 - [Projects](/projects/) — geospatial analysis, R packages, and data tools
 - [Publications](/publications/) — papers, presentations, and media coverage
 - [Blog](/blog/) — notes on R, spatial data, and working reproducibly
-- [CV](/cv) — the full record, or [get in touch](/contact)
+- [CV](/cv.html) — the full record, or [get in touch](/contact.html)
 
 ::: {.nw-btns}
 [Go Home](/){.nw-btn .nw-btn-primary}
