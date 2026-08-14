@@ -463,12 +463,6 @@ body.nav-fixed .nw-page-band {
   border: 1px solid var(--nw-border);
   border-radius: 1.25rem;
   overflow: hidden;
-  transition: border-color 0.2s, box-shadow 0.2s;
-}
-
-.nw-globe-card:hover {
-  border-color: var(--nw-primary);
-  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.18);
 }
 
 .nw-globe-frame {
@@ -496,12 +490,18 @@ body.nav-fixed .nw-page-band {
   padding: 2.5rem 1.5rem 4.5rem;
 }
 
-/* ============ awards grid: strict 2x2, or 1x4 on narrow phones ============ */
+/* ============ awards grid: 1x4, or 2x2 / 1x4 as it narrows ============ */
 .nw-carousel {
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   align-items: start;
-  max-width: 62rem;
+  max-width: 72rem;
   margin: 0 auto;
+}
+
+@media (max-width: 900px) {
+  .nw-carousel {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 @media (max-width: 575.98px) {

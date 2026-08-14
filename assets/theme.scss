@@ -2004,7 +2004,8 @@ body {
 }
 
 .quarto-title-block .quarto-title h1.title {
-  font-weight: 800;
+  font-family: var(--nw-font-display);
+  font-weight: 500;
   letter-spacing: -0.02em;
 }
 
@@ -2249,6 +2250,20 @@ body:has(.nw-cv) #title-block-header {
   margin-right: auto;
   padding-left: 1.25rem;
   padding-right: 1.25rem;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+/* Same fix for the other page-layout: custom page (Contact): its title block
+   otherwise inherits the zero side padding `.page-layout-custom main` sets
+   for the hero-style bands, and runs flush to the viewport edge. Match the
+   72rem/1.5rem column every .nw-section-inner below it already uses. */
+body:has(#contact) #title-block-header {
+  max-width: 72rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
   box-sizing: border-box;
   width: 100%;
 }
