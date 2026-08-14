@@ -173,11 +173,6 @@ body.quarto-dark .quarto-navbar-tools .quarto-color-scheme-toggle:hover > .bi::b
   padding: 0;
 }
 
-/* sections sit transparent against the page background; no gray alt bands */
-.nw-alt {
-  background: transparent;
-}
-
 /* The hero's opaque background lives on a ::before layer that fades out over
    its bottom third, so it blends gradually into the page background beneath
    the dot grid instead of ending abruptly at the stats section. */
@@ -468,6 +463,12 @@ body.nav-fixed .nw-page-band {
   border: 1px solid var(--nw-border);
   border-radius: 1.25rem;
   overflow: hidden;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.nw-globe-card:hover {
+  border-color: var(--nw-primary);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.18);
 }
 
 .nw-globe-frame {
@@ -519,9 +520,8 @@ body.nav-fixed .nw-page-band {
 
 /* ============ even breathing room top and bottom of every section ======== */
 /* Sections pad equally top and bottom, so the gap above a section's header
-   matches the gap below its last card (and, on a gradient band, the distance
-   to each edge of the gradient) — provided nothing leaves a trailing margin
-   behind. The "see all" row sits the same 2.5rem below the cards that the
+   matches the gap below its last card — provided nothing leaves a trailing
+   margin behind. The "see all" row sits the same 2.5rem below the cards that the
    subtitle sits above them. */
 .nw-section > .nw-section-inner > :last-child,
 .nw-cites .nw-cite:last-child,
@@ -1031,255 +1031,6 @@ img.nw-detail-hero {
   border-radius: 0.3rem;
 }
 
-/* ============ alternating wall-to-wall gradient bands ============ */
-/* The landing page alternates plain page background and a full-bleed color
-   wash: the wash rides on `.nw-alt` sections (which are otherwise
-   transparent), so the rhythm is plain / gradient / plain / gradient all the
-   way down. Each band spans the full width of the page and carries a mesh of
-   soft, overlapping radial blobs in three hues (`--nw-w1` / `--nw-w2` /
-   `--nw-w3`) rather than a flat left-to-right blend, so the color pools and
-   thins across the band instead of marching evenly across it. `--nw-wsh`
-   nudges every blob sideways by a per-section amount so no two bands land
-   their pools in the same places, and `.nw-wash-l` bands mirror the whole
-   mesh horizontally. The hero is deliberately left out: the particle network
-   is already carrying that area.
-
-   The gradient is the section's own background rather than a separate
-   `z-index: -1` pseudo-element: that layer goes stale when the page is opened
-   directly at a #hash — the browser scrolls before Quarto's listings finish
-   injecting, and the band ends up painted at its pre-injection geometry (a
-   stranded sliver of color nowhere near its section). A plain background
-   repaints with the box.
-
-   The grain rides on ::after — fine film grain, a flat color masked by an SVG
-   fractal-noise tile so the same tile works in either theme — stacked above
-   the background but below the section's content, which is lifted to z-index 1
-   instead of pushing the decoration to a negative index. */
-.nw-alt {
-  position: relative;
-  /* keep the decoration layer inside the section rather than letting it
-     interleave with anything outside */
-  isolation: isolate;
-  /* per-section defaults; each band overrides them below */
-  --nw-w3: var(--nw-w1);
-  --nw-wsh: 0%;
-  /* overall wash strength; dialed down on narrow viewports */
-  --nw-wstr: 100%;
-  background-image:
-    radial-gradient(
-      68% 58% at calc(12% + var(--nw-wsh)) 20%,
-      color-mix(in srgb, var(--nw-w1) calc(0.85 * var(--nw-wstr)), transparent),
-      transparent 70%
-    ),
-    radial-gradient(
-      52% 66% at calc(41% + var(--nw-wsh)) 96%,
-      color-mix(in srgb, var(--nw-w2) calc(0.8 * var(--nw-wstr)), transparent),
-      transparent 68%
-    ),
-    radial-gradient(
-      58% 74% at calc(76% + var(--nw-wsh)) 8%,
-      color-mix(in srgb, var(--nw-w3) calc(0.8 * var(--nw-wstr)), transparent),
-      transparent 70%
-    ),
-    radial-gradient(
-      46% 58% at calc(95% + var(--nw-wsh)) 72%,
-      color-mix(in srgb, var(--nw-w1) calc(0.65 * var(--nw-wstr)), transparent),
-      transparent 66%
-    ),
-    radial-gradient(
-      36% 44% at calc(60% + var(--nw-wsh)) 54%,
-      color-mix(in srgb, var(--nw-w2) calc(0.55 * var(--nw-wstr)), transparent),
-      transparent 72%
-    ),
-    /* faint base so the corners between blobs never fall all the way back to
-       the page background */
-    linear-gradient(
-      105deg,
-      color-mix(in srgb, var(--nw-w1) calc(0.3 * var(--nw-wstr)), transparent),
-      color-mix(in srgb, var(--nw-w3) calc(0.26 * var(--nw-wstr)), transparent) 55%,
-      color-mix(in srgb, var(--nw-w2) calc(0.3 * var(--nw-wstr)), transparent)
-    );
-}
-
-/* mirrored bands: the same mesh flipped left-to-right, so consecutive bands
-   never pool their color in the same corners */
-.nw-alt.nw-wash-l {
-  background-image:
-    radial-gradient(
-      68% 58% at calc(88% - var(--nw-wsh)) 20%,
-      color-mix(in srgb, var(--nw-w1) calc(0.85 * var(--nw-wstr)), transparent),
-      transparent 70%
-    ),
-    radial-gradient(
-      52% 66% at calc(59% - var(--nw-wsh)) 96%,
-      color-mix(in srgb, var(--nw-w2) calc(0.8 * var(--nw-wstr)), transparent),
-      transparent 68%
-    ),
-    radial-gradient(
-      58% 74% at calc(24% - var(--nw-wsh)) 8%,
-      color-mix(in srgb, var(--nw-w3) calc(0.8 * var(--nw-wstr)), transparent),
-      transparent 70%
-    ),
-    radial-gradient(
-      46% 58% at calc(5% - var(--nw-wsh)) 72%,
-      color-mix(in srgb, var(--nw-w1) calc(0.65 * var(--nw-wstr)), transparent),
-      transparent 66%
-    ),
-    radial-gradient(
-      36% 44% at calc(40% - var(--nw-wsh)) 54%,
-      color-mix(in srgb, var(--nw-w2) calc(0.55 * var(--nw-wstr)), transparent),
-      transparent 72%
-    ),
-    linear-gradient(
-      255deg,
-      color-mix(in srgb, var(--nw-w1) calc(0.3 * var(--nw-wstr)), transparent),
-      color-mix(in srgb, var(--nw-w3) calc(0.26 * var(--nw-wstr)), transparent) 55%,
-      color-mix(in srgb, var(--nw-w2) calc(0.3 * var(--nw-wstr)), transparent)
-    );
-}
-
-/* section content sits above the grain */
-.nw-alt > * {
-  position: relative;
-  z-index: 1;
-}
-
-.nw-alt::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background: var(--nw-grain);
-  opacity: var(--nw-grain-op);
-  /* alpha noise tile: the grain now covers the whole band, since the color
-     does too */
-  -webkit-mask-image:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  mask-image:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  -webkit-mask-size: 160px 160px;
-  mask-size: 160px 160px;
-  -webkit-mask-repeat: repeat;
-  mask-repeat: repeat;
-}
-
-/* per-band hue sets: cool blues and greens, rotating so no two adjacent bands
-   read the same, each one still quiet enough to sit under body copy.
-   `--nw-wsh` shifts that band's whole mesh sideways so the pools land
-   somewhere different in every section. */
-#interests {
-  --nw-w1: var(--nw-wash-sky);
-  --nw-w2: var(--nw-wash-emerald);
-  --nw-w3: var(--nw-wash-teal);
-  --nw-wsh: 0%;
-}
-
-#publications {
-  --nw-w1: var(--nw-wash-violet);
-  --nw-w2: var(--nw-wash-sky);
-  --nw-w3: var(--nw-wash-emerald);
-  --nw-wsh: 9%;
-}
-
-#experience {
-  --nw-w1: var(--nw-wash-emerald);
-  --nw-w2: var(--nw-wash-violet);
-  --nw-w3: var(--nw-wash-sky);
-  --nw-wsh: -7%;
-}
-
-#awards {
-  --nw-w1: var(--nw-wash-teal);
-  --nw-w2: var(--nw-wash-sky);
-  --nw-w3: var(--nw-wash-violet);
-  --nw-wsh: 6%;
-}
-
-#faq {
-  --nw-w1: var(--nw-wash-violet);
-  --nw-w2: var(--nw-wash-teal);
-  --nw-w3: var(--nw-wash-emerald);
-  --nw-wsh: -10%;
-}
-
-#cta {
-  --nw-w1: var(--nw-wash-sky);
-  --nw-w2: var(--nw-wash-emerald);
-  --nw-w3: var(--nw-wash-violet);
-  --nw-wsh: 4%;
-}
-
-/* ============ cards on a wash band go transparent ============ */
-/* A filled card punches an opaque rectangle out of the mesh underneath it,
-   which is exactly the thing the band is there to show. On a band the card
-   surface drops away entirely and the card states itself with an outline
-   alone, so the wash runs behind the content uninterrupted. That outline is
-   the same hairline the filled cards use (--nw-onband-border resolves to
-   --nw-border in both themes), so a card on a band and a card off one read at
-   identical weight. Off a band (project cards, the contact card, every inner
-   page) the cards keep their usual filled look.
-
-   The drop shadows go with the fill: a shadow with no surface above it just
-   smudges the gradient. */
-.nw-alt .nw-card,
-.nw-alt .nw-card:has(.nw-icon),
-.nw-alt .nw-area-panel,
-.nw-alt .nw-cites .nw-cite,
-.nw-alt .nw-posts .nw-post,
-.nw-alt .nw-proj-card,
-.nw-alt .nw-tl-item,
-.nw-alt .nw-faq details,
-.nw-alt .nw-contact-card {
-  background: none;
-  border-color: var(--nw-onband-border);
-  box-shadow: none;
-}
-
-/* Same hairline for the research-area tab pills and eyebrow tiles on the band.
-   Kept out of the block above because that one also clears `background`, which
-   the selected tab needs. */
-.nw-alt .nw-area-tabs [role="tab"]:not([aria-selected="true"]),
-.nw-alt .nw-area-eyebrow .nw-icon {
-  border-color: var(--nw-onband-border);
-}
-
-.nw-alt .nw-cites .nw-cite:hover,
-.nw-alt .nw-posts .nw-post:hover,
-.nw-alt .nw-proj-card:hover,
-.nw-alt .nw-tl-item:hover {
-  border-color: var(--nw-primary);
-  box-shadow: none;
-}
-
-/* the award "card" is its image, so only its frame changes */
-.nw-alt .nw-award img {
-  border-color: var(--nw-onband-border);
-}
-
-/* the wash is decoration only; pull it back where the viewport is too narrow
-   for the mesh to read as anything but a tint over the text column */
-@media (max-width: 560px) {
-  .nw-alt {
-    --nw-wstr: 55%;
-  }
-
-  .nw-alt::after {
-    opacity: calc(var(--nw-grain-op) * 0.6);
-  }
-}
-
-@media (prefers-contrast: more) {
-  .nw-alt,
-  .nw-alt.nw-wash-l {
-    background-image: none;
-  }
-
-  .nw-alt::after {
-    display: none;
-  }
-}
-
 /* ============ closing CTA: pitch beside the globe ============ */
 /* Two columns on a full-width desktop — the pitch on the left, the dot globe
    on the right — collapsing to one column (globe underneath) as soon as the
@@ -1334,13 +1085,10 @@ img.nw-detail-hero {
   }
 }
 
-/* ============ closing CTA: text straight on the gradient band ============ */
+/* ============ closing CTA: text straight on the page background ========== */
 /* The card chrome (blue panel, topography texture, glow, shadow) is dropped on
-   the landing page so the closing pitch sits directly on the section's own
-   gradient. Scoped to #cta: the 404 page still uses the card treatment. Colors
-   switch to the page foreground/muted pair, which is contrast-checked against
-   the page background in both themes — the band's wash is only a light tint
-   over it. */
+   the landing page so the closing pitch sits directly on the section's plain
+   background. Scoped to #cta: the 404 page still uses the card treatment. */
 #cta .nw-cta-card {
   max-width: 46rem;
   padding: 0;

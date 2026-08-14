@@ -18,9 +18,8 @@ $input-bg: #13131a;
      a dimmed gray — the small type was hard to read at its old contrast. */
   --nw-muted: #ffffff;
   --nw-card: #13131a;
-  /* One outline color for every card, pill and framed image, on the plain
-     background and on a gradient band alike: light enough to read against
-     near-black, dim enough not to glare over a wash. */
+  /* One outline color for every card, pill, framed image, and section
+     divider: light enough to read against near-black. */
   --nw-border: #3d3d4b;
   --nw-chip: #1d1d26;
   --nw-globe-line: 255, 255, 255;
@@ -28,18 +27,6 @@ $input-bg: #13131a;
   --nw-tint: 12%;
   --nw-tint-hover: 18%;
   --nw-hero-glow: rgba(18, 110, 245, 0.18);
-  /* alternating full-bleed section wash: the same hues pushed deeper so they
-     glow against near-black instead of washing it out */
-  --nw-wash-sky: rgba(18, 110, 245, 0.28);
-  --nw-wash-teal: rgba(13, 179, 186, 0.24);
-  --nw-wash-emerald: rgba(16, 185, 129, 0.22);
-  --nw-wash-violet: rgba(124, 92, 246, 0.21);
-  /* cards sitting on a wash band go transparent, so their outline is the only
-     thing holding the card together. The plain-background hairline sinks into
-     a lit wash — this one is a step lighter so the card edge still reads. */
-  --nw-onband-border: #5a5a6d;
-  --nw-grain: #ffffff;
-  --nw-grain-op: 0.09;
   --nw-cta-from: #0a5bb0;
   --nw-cta-via: #126ef5;
   --nw-cta-to: #1488f0;
