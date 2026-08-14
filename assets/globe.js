@@ -45,6 +45,12 @@
     };
   }
 
+  // Zoomed in, not the whole sphere: the projection's radius is well past
+  // half the canvas, and Orlando sits below center — the same crop the
+  // reference card uses — so the card reads as a close-up on one place
+  // rather than a full globe. tx/ty is the point Orlando projects to.
+  var tx = 0, ty = 0;
+
   function resize() {
     var dpr = window.devicePixelRatio || 1;
     size = canvas.clientWidth;
@@ -52,14 +58,15 @@
     canvas.width = Math.round(size * dpr);
     canvas.height = Math.round(size * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    radius = size * 0.46;
+    radius = size * 0.625;
+    tx = size * 0.5;
+    ty = size * 0.72;
   }
 
   function draw() {
     if (!dots || !size) return;
     readDotColor();
     ctx.clearRect(0, 0, size, size);
-    var c = size / 2;
     var cosX = Math.cos(rotX), sinX = Math.sin(rotX);
     var cosY = Math.cos(rotY), sinY = Math.sin(rotY);
     var projected = [];
@@ -73,7 +80,7 @@
       // Keep the rotated surface normal (x1, y2, z2) so each dot can be drawn
       // as a foreshortened disc lying flat on the sphere rather than a
       // camera-facing circle.
-      projected.push({ z: z2, nx: x1, ny: y2, sx: c + x1 * radius, sy: c - y2 * radius });
+      projected.push({ z: z2, nx: x1, ny: y2, sx: tx + x1 * radius, sy: ty - y2 * radius });
     }
     projected.sort(function (a, b) {
       return a.z - b.z;
@@ -92,18 +99,18 @@
       ctx.fillStyle = "rgba(" + DOT_COLOR + "," + (0.08 + 0.82 * depth) + ")";
       ctx.fill();
     }
-    drawMarker(c, cosX, sinX, cosY, sinY);
+    drawMarker(cosX, sinX, cosY, sinY);
   }
 
   // Static Orlando marker (glow halo + ring + dot); the coordinate label (an
   // HTML card) tracks it. Orlando is rotated to always face the camera, so
   // there is no far-side case to hide it in.
-  function drawMarker(c, cosX, sinX, cosY, sinY) {
+  function drawMarker(cosX, sinX, cosY, sinY) {
     var x1 = marker.x * cosY + marker.z * sinY;
     var z1 = -marker.x * sinY + marker.z * cosY;
     var y2 = marker.y * cosX - z1 * sinX;
-    var sx = c + x1 * radius;
-    var sy = c - y2 * radius;
+    var sx = tx + x1 * radius;
+    var sy = ty - y2 * radius;
     var r = Math.max(3.5, size * 0.011);
 
     ctx.beginPath();

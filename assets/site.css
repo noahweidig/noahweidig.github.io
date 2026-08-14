@@ -440,30 +440,36 @@ body.nav-fixed .nw-page-band {
   }
 }
 
-/* ============ find me: dot globe with Orlando marker ============ */
+/* ============ find me: dot globe card with Orlando marker ============ */
 .nw-globe-wrap {
   max-width: 52rem;
   margin: 0 auto;
 }
 
-.nw-globe-frame {
-  position: relative;
-  max-width: 11.25rem;
+/* Card frame around the globe, like the reference: dark card, rounded
+   corners, and — since the globe itself is now drawn zoomed in (see
+   globe.js) — `overflow: hidden` here is what crops it down to a close-up
+   on Orlando instead of showing the whole sphere. */
+.nw-globe-card {
+  max-width: 30rem;
   margin: 0 auto;
+  background: var(--nw-card);
+  border: 1px solid var(--nw-border);
+  border-radius: 1.25rem;
+  overflow: hidden;
 }
 
-/* Narrow screens: the marker label can swing past the viewport edge as the
-   globe spins; clip it at the frame instead of letting it widen the page
-   into a sideways scroll. clip (not hidden) avoids creating a scroll box,
-   and only the x axis is clipped so the label can still rise above the
-   frame. The html/body guard backstops any horizontal overflow the frame
-   clip misses; the hidden line is a fallback for browsers without clip
-   (pre-2022 Safari), and is safe because the navbar is fixed, not sticky. */
-@media (max-width: 767.98px) {
-  .nw-globe-frame {
-    overflow-x: clip;
-  }
+.nw-globe-frame {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
 
+/* Narrow screens: the marker label could in principle sit right at the
+   frame's edge; clip it there instead of letting it widen the page into a
+   sideways scroll. clip (not hidden) avoids creating a scroll box. The
+   html/body guard backstops any horizontal overflow the frame clip misses. */
+@media (max-width: 767.98px) {
   html,
   body {
     overflow-x: hidden;
@@ -670,6 +676,15 @@ img.nw-detail-hero {
   padding: 4rem 1.5rem 2.5rem;
 }
 
+/* Full-bleed divider: this row lives outside .nw-footer's 72rem column, so
+   its border-top runs the full width of the dark footer background instead
+   of stopping at the content column's edge. */
+.nw-footer-bottom-inner {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 1.75rem 1.5rem 2.5rem;
+}
+
 .nw-footer-grid {
   display: grid;
   grid-template-columns: 1.4fr repeat(4, 1fr);
@@ -764,16 +779,17 @@ img.nw-detail-hero {
 }
 
 .nw-footer-bottom {
+  border-top: 1px solid var(--nw-border);
+  color: var(--nw-muted);
+  font-size: 0.85rem;
+}
+
+.nw-footer-bottom-inner {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 1rem;
   flex-wrap: wrap;
-  margin-top: 2.5rem;
-  padding-top: 1.75rem;
-  border-top: 1px solid var(--nw-border);
-  color: var(--nw-muted);
-  font-size: 0.85rem;
 }
 
 .nw-footer-bottom-left {
@@ -975,13 +991,6 @@ img.nw-detail-hero {
   display: block;
   width: 100%;
   aspect-ratio: 1;
-}
-
-.nw-globe-tag {
-  text-align: center;
-  color: var(--nw-muted);
-  font-size: 0.95rem;
-  margin: 0.75rem 0 0;
 }
 
 .nw-globe-label {

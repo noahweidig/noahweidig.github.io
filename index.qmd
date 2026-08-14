@@ -435,11 +435,12 @@ include-after-body:
     <!-- The dot globe rides alongside the closing pitch: to its right on
          desktop, stacked underneath once the section goes single-column. -->
     <div class="nw-globe-wrap" id="map">
-      <div class="nw-globe-frame">
-        <canvas id="nw-globe" aria-hidden="true"></canvas>
-        <div class="nw-globe-label" id="nw-globe-label" hidden><b>Orlando, Florida</b><code>28.5384&deg; N, 81.3789&deg; W</code></div>
+      <div class="nw-globe-card">
+        <div class="nw-globe-frame">
+          <canvas id="nw-globe" aria-hidden="true"></canvas>
+          <div class="nw-globe-label" id="nw-globe-label" hidden><b>Orlando, Florida</b><code>28.5384&deg; N, 81.3789&deg; W</code></div>
+        </div>
       </div>
-      <p class="nw-globe-tag">Based in Orlando, Florida</p>
     </div>
   </div>
 </section>

@@ -141,7 +141,9 @@ website:
       </ul>
       </div>
       </div>
+      </div>
       <div class="nw-footer-bottom">
+      <div class="nw-footer-bottom-inner">
       <div class="nw-footer-bottom-left">© <span data-nw-copyright-year>2026</span> Noah Weidig · <a href="/privacy">Privacy</a></div>
       <div class="nw-footer-bottom-right">Built with <a href="https://quarto.org" class="nw-quarto-credit">Quarto</a></div>
       </div>
