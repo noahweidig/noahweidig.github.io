@@ -33,19 +33,8 @@
     })();
   }
 
-  // Nav bar reads as part of the hero until the visitor actually scrolls:
-  // transparent and borderless over the hero art, then the site's normal
-  // solid navbar once scrolled past it. CSS does the actual look (see
-  // "hero navbar: transparent until scroll" in site.css) — this just flips
-  // the class scroll position decides.
-  (function () {
-    var SCROLLED_AT = 40;
-    var onNavScroll = function () {
-      document.body.classList.toggle("nw-scrolled", window.scrollY > SCROLLED_AT);
-    };
-    window.addEventListener("scroll", onNavScroll, { passive: true });
-    onNavScroll();
-  })();
+  // Nav bar's transparent-until-scroll toggle lives in nw-nav.js (global —
+  // every page carries the same top band now, not just this one).
 
   // Duplicate marquee content so the loop is seamless: the `nw-scroll`
   // keyframe translates by -50%, which only lines up if the row is exactly

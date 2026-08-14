@@ -142,7 +142,8 @@ website:
       </div>
       </div>
       <div class="nw-footer-bottom">
-      <div><a href="/privacy">Privacy</a> · © <span data-nw-copyright-year>2026</span> Noah Weidig · Built with <a href="https://quarto.org" class="nw-quarto-credit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 4V20"/><path d="M4 12H20"/></svg>Quarto</a>. All Rights Reserved.</div>
+      <div class="nw-footer-bottom-left">© <span data-nw-copyright-year>2026</span> Noah Weidig · <a href="/privacy">Privacy</a></div>
+      <div class="nw-footer-bottom-right">Built with <a href="https://quarto.org" class="nw-quarto-credit">Quarto</a></div>
       </div>
       </div>
 
@@ -169,6 +170,9 @@ format:
     lang: en
     include-in-header:
       - text: |
+          <link rel="preconnect" href="https://fonts.googleapis.com">
+          <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+          <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
           <meta name="google-site-verification" content="0ktlvQnqLH01fphPI1cDMDTuQSmCG7mHBQdovXQs2TQ">
           <meta name="author" content="Noah Weidig">
           <!--

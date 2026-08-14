@@ -1,17 +1,14 @@
 // Decorative dot globe in the contact section ("reach me from anywhere").
 // Renders the precomputed land dots from assets/data/globe-dots.json (built
 // by scripts/generate-globe-dots.mjs) on a transparent canvas in the site's
-// accent blue. Auto-rotates, drag/flick to spin; data fetch and animation are
-// deferred until the section nears the viewport, and the loop pauses while
-// the globe is off-screen or the tab is hidden.
+// accent blue, centered on Orlando. Static: one draw call, no animation loop,
+// no drag physics — the lightest version of the globe that still reads as one.
 (function () {
   "use strict";
 
   var canvas = document.getElementById("nw-globe");
   if (!canvas || !canvas.getContext) return;
 
-  var AUTO_SPEED = 0.0015; // radians/frame auto-rotation
-  var FRICTION = 0.92; // per-frame decay of flick velocity
   // Land-dot color follows --nw-globe-dot (blue in light mode, white in dark).
   var DOT_COLOR = "0, 118, 223";
   // The Orlando marker always stays the site's accent blue, in both themes.
@@ -26,30 +23,16 @@
   var TILT = 0.35;
   var ORLANDO = { lat: 28.5384, lon: -81.3789 };
 
-  var reduceMotion =
-    window.matchMedia &&
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
   var ctx = canvas.getContext("2d");
   var label = document.getElementById("nw-globe-label");
   var marker = toSphere(ORLANDO.lat, ORLANDO.lon);
   var dots = null; // [{x, y, z} unit-sphere points]
   var size = 0; // CSS pixel size of the square canvas
   var radius = 0;
-  // Start with the marker facing the viewer: rotate about Y so Orlando's
-  // azimuth lands front-center, then apply the usual tilt.
+  // Orlando faces the viewer: rotate about Y so its azimuth lands
+  // front-center, then apply a fixed tilt. Never changes — the globe is static.
   var rotY = -Math.atan2(marker.x, marker.z);
   var rotX = TILT;
-  var velY = AUTO_SPEED;
-  var velX = 0;
-  var dragging = false;
-  var lastX = 0;
-  var lastY = 0;
-  var lastDX = 0;
-  var lastDY = 0;
-  var running = false;
-  var visible = false;
-  var rafId = 0;
 
   // Same lat/lon → unit-sphere mapping used for the precomputed land dots
   function toSphere(lat, lon) {
@@ -73,6 +56,7 @@
   }
 
   function draw() {
+    if (!dots || !size) return;
     readDotColor();
     ctx.clearRect(0, 0, size, size);
     var c = size / 2;
@@ -111,102 +95,43 @@
     drawMarker(c, cosX, sinX, cosY, sinY);
   }
 
-  // Pulsing Orlando marker drawn on top of the land dots; the coordinate
-  // label (an HTML card) tracks the marker and hides on the far side.
+  // Static Orlando marker (glow halo + ring + dot); the coordinate label (an
+  // HTML card) tracks it. Orlando is rotated to always face the camera, so
+  // there is no far-side case to hide it in.
   function drawMarker(c, cosX, sinX, cosY, sinY) {
     var x1 = marker.x * cosY + marker.z * sinY;
     var z1 = -marker.x * sinY + marker.z * cosY;
     var y2 = marker.y * cosX - z1 * sinX;
-    var z2 = marker.y * sinX + z1 * cosX;
-    var front = z2 > 0.05;
-    if (front) {
-      var sx = c + x1 * radius;
-      var sy = c - y2 * radius;
-      var r = Math.max(3.5, size * 0.011);
-      if (!reduceMotion) {
-        // expanding ring, ~2s cycle
-        var t = ((performance.now ? performance.now() : Date.now()) % 2000) / 2000;
-        ctx.beginPath();
-        ctx.arc(sx, sy, r * (1 + t * 2.4), 0, Math.PI * 2);
-        ctx.strokeStyle = "rgba(" + MARKER_COLOR + "," + 0.55 * (1 - t) + ")";
-        ctx.lineWidth = Math.max(1, r * 0.35);
-        ctx.stroke();
-      }
-      ctx.beginPath();
-      ctx.arc(sx, sy, r, 0, Math.PI * 2);
-      ctx.fillStyle = "rgb(" + MARKER_COLOR + ")";
-      ctx.fill();
-      ctx.lineWidth = Math.max(1.5, r * 0.4);
-      ctx.strokeStyle = "#ffffff";
-      ctx.stroke();
-      if (label) {
-        label.hidden = false;
-        label.style.left = canvas.offsetLeft + sx + "px";
-        label.style.top = canvas.offsetTop + sy - r * 2.2 + "px";
-      }
-    } else if (label) {
-      label.hidden = true;
+    var sx = c + x1 * radius;
+    var sy = c - y2 * radius;
+    var r = Math.max(3.5, size * 0.011);
+
+    ctx.beginPath();
+    ctx.arc(sx, sy, r * 3, 0, Math.PI * 2);
+    ctx.fillStyle = "rgba(" + MARKER_COLOR + ", 0.08)";
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.arc(sx, sy, r * 1.8, 0, Math.PI * 2);
+    ctx.fillStyle = "rgba(" + MARKER_COLOR + ", 0.15)";
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.arc(sx, sy, r, 0, Math.PI * 2);
+    ctx.fillStyle = "rgb(" + MARKER_COLOR + ")";
+    ctx.fill();
+    ctx.lineWidth = Math.max(1.5, r * 0.4);
+    ctx.strokeStyle = "#ffffff";
+    ctx.stroke();
+
+    if (label) {
+      label.hidden = false;
+      label.style.left = canvas.offsetLeft + sx + "px";
+      label.style.top = canvas.offsetTop + sy - r * 2.2 + "px";
     }
   }
 
-  function tick() {
-    if (!running) return;
-    if (!dragging) {
-      velY = velY * FRICTION + AUTO_SPEED * (1 - FRICTION);
-      velX *= FRICTION;
-      rotY += velY;
-      rotX = clampTilt(rotX + velX);
-    }
-    draw();
-    rafId = requestAnimationFrame(tick);
-  }
-
-  function clampTilt(x) {
-    return Math.max(-Math.PI / 2, Math.min(Math.PI / 2, x));
-  }
-
-  function setRunning(on) {
-    // reduced motion: never self-animate; draw stills on demand instead
-    if (reduceMotion) return;
-    if (on === running || !dots) return;
-    running = on;
-    if (on) rafId = requestAnimationFrame(tick);
-    else cancelAnimationFrame(rafId);
-  }
-
-  // ── drag / flick ───────────────────────────────────────────────────────────
-
-  canvas.addEventListener("pointerdown", function (e) {
-    if (!dots) return;
-    dragging = true;
-    lastX = e.clientX;
-    lastY = e.clientY;
-    lastDX = lastDY = 0;
-    velX = velY = 0;
-    if (canvas.setPointerCapture) canvas.setPointerCapture(e.pointerId);
-  });
-
-  canvas.addEventListener("pointermove", function (e) {
-    if (!dragging) return;
-    lastDX = e.clientX - lastX;
-    lastDY = e.clientY - lastY;
-    rotY += lastDX * 0.005;
-    rotX = clampTilt(rotX + lastDY * 0.005);
-    lastX = e.clientX;
-    lastY = e.clientY;
-    if (reduceMotion) draw(); // no loop running; redraw the still frame
-  });
-
-  function endDrag() {
-    if (!dragging) return;
-    dragging = false;
-    velY = lastDX * 0.005;
-    velX = lastDY * 0.005;
-  }
-  canvas.addEventListener("pointerup", endDrag);
-  canvas.addEventListener("pointercancel", endDrag);
-
-  // ── lazy init ──────────────────────────────────────────────────────────────
+  // ── lazy init: fetch + draw once the globe nears the viewport ────────────
 
   function start() {
     fetch("/assets/data/globe-dots.json")
@@ -225,8 +150,7 @@
           });
         }
         resize();
-        if (reduceMotion || !visible) draw();
-        if (visible) setRunning(true);
+        draw();
       })
       .catch(function (err) {
         /* decorative: never surface to visitors, the layout stands on its
@@ -237,14 +161,12 @@
       });
   }
 
+  // A resize can change the canvas's CSS size (responsive layout), so the
+  // static frame has to be redrawn at the new resolution — no loop involved.
   window.addEventListener("resize", function () {
     if (!dots) return;
     resize();
-    if (!running) draw();
-  });
-
-  document.addEventListener("visibilitychange", function () {
-    setRunning(!document.hidden && visible);
+    draw();
   });
 
   if ("IntersectionObserver" in window) {
@@ -262,14 +184,7 @@
       { rootMargin: "400px" }
     );
     loader.observe(canvas);
-    new IntersectionObserver(function (entries) {
-      visible = entries.some(function (e) {
-        return e.isIntersecting;
-      });
-      setRunning(visible && !document.hidden);
-    }).observe(canvas);
   } else {
-    visible = true;
     start();
   }
 })();
