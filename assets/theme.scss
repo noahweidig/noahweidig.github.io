@@ -1650,6 +1650,21 @@ body {
   font-size: 1.1rem;
   font-weight: 700;
   margin: 0;
+  /* keeps a long title clear of the reading-time badge pinned opposite it */
+  padding-right: 6rem;
+}
+
+/* "5 MIN READ", top right of the card — a small warm label like .nw-kicker,
+   never a click target, so it sits under the title's stretched link. */
+.nw-post-readtime {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.75rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--nw-secondary);
 }
 
 .nw-post h3 a {
@@ -2148,6 +2163,18 @@ body.nav-fixed .page-layout-article main.content {
   #title-block-header {
     padding-bottom: 2rem;
   }
+}
+
+/* Blog post pages: "X minute read", set against the top right of the article
+   column. scripts/reading-time.lua prepends it as the first block of the body,
+   so pulling it up by its own line height parks it level with the first
+   paragraph's top edge without reserving a row of its own. */
+.nw-readtime {
+  float: right;
+  margin: -0.35rem 0 0.35rem 1rem;
+  font-family: var(--nw-font-mono);
+  font-size: 0.8rem;
+  color: var(--nw-muted);
 }
 
 /* Experience/education detail pages: org · dates · location lead line. */

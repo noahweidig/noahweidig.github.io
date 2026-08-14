@@ -44,6 +44,9 @@ filters:
   # Turns code blocks tagged `.webr` into live, editable R cells that run in
   # the reader's browser via WebAssembly. No-ops on pages without such cells.
   - webr
+  # Prepends "X minute read" to blog post pages (Quarto's own reading-time
+  # estimate exists only for listing items). No-ops outside blog/*/.
+  - scripts/reading-time.lua
 
 website:
   title: "Noah Weidig"
