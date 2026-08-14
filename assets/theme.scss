@@ -1153,40 +1153,41 @@ body {
 
 /* ============ featured projects: uniform 2x3 grid, home page only ======= */
 /* Six featured cards, three per row, two rows — no spotlight card. */
-#featured-projects.nw-projects {
+#listing-featured-projects.nw-projects {
   grid-template-columns: repeat(3, 1fr);
 }
 
 @media (max-width: 900px) {
-  #featured-projects.nw-projects {
+  #listing-featured-projects.nw-projects {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (max-width: 600px) {
-  #featured-projects.nw-projects {
+  #listing-featured-projects.nw-projects {
     grid-template-columns: 1fr;
   }
 }
 
 /* ============ citations (publications listing) ============ */
 /* home page: three post cards side by side (three columns), not stacked.
-   !important guards against Quarto's own listing CSS, which sets
-   grid-template-columns on this same element for its built-in grid view. */
-#featured-posts.nw-posts {
-  grid-template-columns: repeat(3, 1fr) !important;
+   The listing's own `id:` becomes `listing-<id>` on the rendered element —
+   Quarto prefixes it — which is also why home.js's category-filter lookup
+   falls back to that same prefix. */
+#listing-featured-posts.nw-posts {
+  grid-template-columns: repeat(3, 1fr);
   align-items: start;
 }
 
 @media (max-width: 900px) {
-  #featured-posts.nw-posts {
-    grid-template-columns: repeat(2, 1fr) !important;
+  #listing-featured-posts.nw-posts {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (max-width: 600px) {
-  #featured-posts.nw-posts {
-    grid-template-columns: 1fr !important;
+  #listing-featured-posts.nw-posts {
+    grid-template-columns: 1fr;
   }
 }
 

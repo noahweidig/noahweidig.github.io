@@ -67,7 +67,7 @@
   // so no extra library or data file is needed for it.
   function buildGraticule() {
     var rings = [];
-    var lat, lon, i;
+    var lat, lon;
     for (lon = -180; lon < 180; lon += GRATICULE_STEP) {
       var meridian = [];
       for (lat = -90; lat <= 90; lat += 5) meridian.push(toSphere(lat, lon));
@@ -108,8 +108,8 @@
   // line across the visible face.
   function strokeRing(ring, cosX, sinX, cosY, sinY) {
     var open = false;
-    for (var i = 0; i < ring.length; i++) {
-      var p = project(ring[i], cosX, sinX, cosY, sinY);
+    for (var point of ring) {
+      var p = project(point, cosX, sinX, cosY, sinY);
       if (p.z > 0) {
         if (open) {
           ctx.lineTo(p.x, p.y);
@@ -142,15 +142,15 @@
     // Graticule (lat/lon grid)
     ctx.strokeStyle = GRATICULE_COLOR;
     ctx.lineWidth = Math.max(0.5, size * 0.0018);
-    for (var g = 0; g < graticule.length; g++) {
-      strokeRing(graticule[g], cosX, sinX, cosY, sinY);
+    for (var gRing of graticule) {
+      strokeRing(gRing, cosX, sinX, cosY, sinY);
     }
 
     // Country borders
     ctx.strokeStyle = "rgba(" + LINE_COLOR + ", 0.6)";
     ctx.lineWidth = Math.max(0.6, size * 0.0022);
-    for (var i = 0; i < lines.length; i++) {
-      strokeRing(lines[i], cosX, sinX, cosY, sinY);
+    for (var lRing of lines) {
+      strokeRing(lRing, cosX, sinX, cosY, sinY);
     }
 
     // Sphere outline
