@@ -38,15 +38,97 @@ $navbar-padding-y: 0.65rem !default;
 
 :root {
   --nw-primary: #126ef5;
-  --nw-secondary: #126ef5;
+  /* Warm counterpoint to the blue, used only for kicker/eyebrow labels and
+     small accents — never competes with --nw-primary for a click target. */
+  --nw-secondary: #b45309;
   --nw-grad: linear-gradient(135deg, #126ef5, #126ef5);
   /* shared height for the CTA button, so the theme-toggle and search circles
      can size their diameter to match it exactly */
   --nw-navctl: 2.4rem;
+  /* Measured live by nw-nav.js (ResizeObserver on .navbar); this is only the
+     pre-JS fallback so nothing shifts once the real value lands. */
+  --nw-navbar-h: 72px;
+  --nw-font-display: "Newsreader", Georgia, serif;
+  --nw-font-mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
+/* ============ kicker / eyebrow label ============ */
+/* Small uppercase label above a section heading, in the warm secondary
+   accent — the one place --nw-secondary is used, so headings and body copy
+   stay on the blue/ink ramp. */
+.nw-kicker {
+  display: block;
+  text-align: center;
+  margin: 0 0 0.65rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--nw-secondary);
+}
+
+.nw-area-panel h3,
+.nw-proj-spotlight h3,
+.nw-cta-card h2 {
+  font-family: var(--nw-font-display);
 }
 
 body {
   -webkit-font-smoothing: antialiased;
+}
+
+/* Visually hidden, but still announced: for labels whose meaning the visual
+   design carries some other way (a placeholder, an adjacent icon). Not
+   `display: none` — that would take the element out of the accessibility tree
+   too, which is the whole thing being avoided. */
+.nw-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Skip link: the first tab stop on every page, parked off-screen until it
+   takes focus. Without it a keyboard visitor tabs the nine navbar items, the
+   search button and the theme toggle before reaching any content, on every
+   single page. */
+.nw-skip {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  z-index: 2000;
+  transform: translate(-50%, -120%);
+  padding: 0.7rem 1.2rem;
+  border-radius: 0 0 0.6rem 0.6rem;
+  background: var(--nw-primary);
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.nw-skip:focus {
+  transform: translate(-50%, 0);
+  color: #fff;
+}
+
+/* One focus ring for everything. Only the contact inputs had a focus style
+   before, so every other control fell back to whatever Bootstrap and the two
+   themes happened to produce. The white/black offset ring keeps the indicator
+   visible where the blue sits on a blue-tinted wash. */
+:focus-visible {
+  outline: 2px solid var(--nw-primary);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px var(--nw-bg);
+}
+
+::selection {
+  background: color-mix(in srgb, var(--nw-primary) 28%, transparent);
+  color: var(--nw-fg);
 }
 
 .navbar {
@@ -131,8 +213,12 @@ body {
 }
 
 /* ============ shared section scaffolding ============ */
+/* Sections used to alternate a gradient wash band with plain background;
+   now every section is plain, and a full-bleed hairline at the top marks
+   the seam instead. */
 .nw-section {
   padding: 4rem 0;
+  border-top: 1px solid var(--nw-border);
 }
 
 .nw-section-inner {
@@ -143,8 +229,9 @@ body {
 
 .nw-section h2.nw-title {
   text-align: center;
-  font-weight: 800;
-  font-size: 2.25rem;
+  font-family: var(--nw-font-display);
+  font-weight: 500;
+  font-size: 2.5rem;
   letter-spacing: -0.02em;
   margin: 0 0 0.5rem;
   border: none;
@@ -164,8 +251,171 @@ body {
   margin: -1.5rem auto 2.5rem;
 }
 
-.nw-alt {
-  background: var(--nw-bg-alt);
+/* ============ homepage: left-aligned section headers ============ */
+/* The design reserves centered headings for the hero and the FAQ; every
+   other home-page section reads left-aligned, editorial-style. Scoped by
+   section id so the shared .nw-title/.nw-subtitle/.nw-kicker/.nw-lead
+   classes keep their centered default on /projects/, /publications/ and
+   other listing pages that reuse them. */
+#interests .nw-kicker,
+#interests .nw-title,
+#interests .nw-lead,
+#projects .nw-kicker,
+#projects .nw-title,
+#publications .nw-kicker,
+#publications .nw-title,
+#skills .nw-kicker,
+#skills .nw-title,
+#experience .nw-kicker,
+#experience .nw-title,
+#awards .nw-kicker,
+#awards .nw-title,
+#awards .nw-subtitle,
+#blog .nw-kicker,
+#blog .nw-title {
+  text-align: left;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+/* ============ affiliations: inline "Worked with" label ============ */
+.nw-affil-row {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-top: 2.5rem;
+}
+
+.nw-affil-label {
+  flex: none;
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--nw-muted);
+}
+
+.nw-affil-row .nw-marquee {
+  flex: 1;
+  min-width: 0;
+  margin-top: 0;
+}
+
+@media (max-width: 560px) {
+  .nw-affil-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+}
+
+/* ============ section header row: heading left, "see all" link right ==== */
+.nw-head-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.nw-head-row .nw-kicker {
+  margin-bottom: 0.5rem;
+}
+
+.nw-head-row h2.nw-title {
+  margin-bottom: 0;
+}
+
+.nw-head-link {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  height: 2.6rem;
+  padding: 0 1.1rem;
+  border: 1px solid var(--nw-border);
+  border-radius: 999px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--nw-fg);
+  text-decoration: none;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.nw-head-link:hover {
+  border-color: var(--nw-primary);
+  color: var(--nw-primary);
+}
+
+/* ============ "where to start" quick-nav cards ============ */
+.nw-start-grid {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+@media (max-width: 767.98px) {
+  .nw-start-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.nw-start-card {
+  display: block;
+  padding: 1.6rem 1.5rem 1.5rem;
+  border: 1px solid var(--nw-border);
+  border-radius: 1rem;
+  background: var(--nw-card);
+  color: var(--nw-fg);
+  text-decoration: none;
+  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+
+.nw-start-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--nw-primary);
+  box-shadow: 0 18px 36px -24px rgba(0, 0, 0, 0.4);
+  color: var(--nw-fg);
+}
+
+.nw-start-icon {
+  display: inline-flex;
+  width: 2.4rem;
+  height: 2.4rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.65rem;
+  margin-bottom: 1rem;
+  background: color-mix(in srgb, var(--nw-primary) 12%, transparent);
+  color: var(--nw-primary);
+}
+
+.nw-start-icon svg {
+  width: 1.2rem;
+  height: 1.2rem;
+}
+
+.nw-start-card h3 {
+  font-family: var(--nw-font-display);
+  margin: 0 0 0.4rem;
+  font-size: 1.3rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.nw-start-card p {
+  margin: 0 0 0.9rem;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: var(--nw-muted);
+}
+
+.nw-start-link {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--nw-primary);
 }
 
 /* ============ hero ============ */
@@ -216,9 +466,10 @@ body {
 }
 
 #hero h1 {
+  font-family: var(--nw-font-display);
   font-size: clamp(2.5rem, 6vw, 4rem);
-  font-weight: 900;
-  letter-spacing: -0.03em;
+  font-weight: 500;
+  letter-spacing: -0.025em;
   margin: 0 0 0.5rem;
 }
 
@@ -600,6 +851,209 @@ body {
   );
 }
 
+/* ============ research areas: tab strip + detail panel ============ */
+/* One area at a time: a row of pills selects which panel shows. The tab strip
+   ships `hidden` and every panel ships visible, so with no JavaScript the
+   section degrades to a readable stack instead of a row of dead buttons;
+   home.js unhides the strip, hides all but the first panel, and marks the
+   container `.js-tabs`. */
+.nw-areas {
+  max-width: 68rem;
+  margin: 0 auto;
+}
+
+.nw-area-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.nw-area-tabs [role="tab"] {
+  padding: 0.55rem 1.15rem;
+  border: 1px solid var(--nw-border);
+  border-radius: 999px;
+  background: none;
+  color: var(--nw-fg);
+  font-size: 0.9rem;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.nw-area-tabs [role="tab"]:hover {
+  border-color: var(--nw-primary);
+}
+
+.nw-area-tabs [role="tab"][aria-selected="true"] {
+  background: var(--nw-primary);
+  border-color: var(--nw-primary);
+  color: #fff;
+  /* White on blue: the same exception the primary buttons make, so the label
+     keeps its weight instead of thinning out under subpixel smoothing. */
+  -webkit-font-smoothing: auto;
+}
+
+/* Under ~768px the six labels can't wrap into anything tidy, so the strip
+   becomes a single scrollable row that snaps, with the overflowing ends faded
+   to advertise that there is more to the right. */
+@media (max-width: 767.98px) {
+  .nw-area-tabs {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+    padding-bottom: 0.25rem;
+    mask-image: linear-gradient(90deg, transparent 0, #000 1.25rem, #000 calc(100% - 1.25rem), transparent 100%);
+  }
+
+  .nw-area-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .nw-area-tabs [role="tab"] {
+    scroll-snap-align: center;
+  }
+}
+
+.nw-area-panel {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap: 2.5rem;
+  align-items: center;
+  background: var(--nw-card);
+  border: 1px solid var(--nw-border);
+  border-radius: 1rem;
+  padding: 2rem 2.25rem;
+}
+
+/* `hidden` is a UA `display: none`, and the author `display: grid` above would
+   out-cascade it — so the attribute has to be honoured explicitly. */
+.nw-area-panel[hidden] {
+  display: none;
+}
+
+/* Stacked panels (the no-JS fallback) need air between them; once tabs are
+   live only one is ever in flow, so the margin is dropped. */
+.nw-area-panel + .nw-area-panel {
+  margin-top: 1.5rem;
+}
+
+.js-tabs .nw-area-panel + .nw-area-panel {
+  margin-top: 0;
+}
+
+.nw-area-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0 0 0.75rem;
+  color: var(--nw-muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.nw-area-eyebrow .nw-icon {
+  display: inline-flex;
+  flex: none;
+  width: 2rem;
+  height: 2rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--nw-border);
+  border-radius: 0.6rem;
+  color: var(--nw-fg);
+}
+
+.nw-area-eyebrow .nw-icon svg {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+.nw-area-panel h3 {
+  margin: 0 0 0.75rem;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.nw-area-panel p:not(.nw-area-eyebrow) {
+  margin: 0 0 1.25rem;
+  max-width: 34rem;
+  color: var(--nw-muted);
+  text-wrap: pretty;
+}
+
+/* Capped and pushed to the outer edge: at full column width the figure
+   drives the panel far taller than the copy beside it, and the panel turns
+   into a band of empty space. */
+.nw-area-fig {
+  max-width: 25rem;
+  margin: 0 0 0 auto;
+  border: 1px solid var(--nw-border);
+  border-radius: 0.85rem;
+  overflow: hidden;
+  background: var(--nw-chip);
+}
+
+.nw-area-fig img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16/10;
+  object-fit: cover;
+}
+
+.nw-area-fig figcaption {
+  padding: 0.6rem 0.85rem;
+  font-family: var(--nw-font-mono);
+  font-size: 0.75rem;
+  color: var(--nw-muted);
+  background: var(--nw-card);
+  border-top: 1px solid var(--nw-border);
+}
+
+@media (max-width: 880px) {
+  .nw-area-panel {
+    grid-template-columns: 1fr;
+    gap: 1.75rem;
+    padding: 1.75rem;
+  }
+
+  .nw-area-fig {
+    max-width: 24rem;
+    margin: 0 auto;
+  }
+}
+
+/* Switching tabs should read as a deliberate change rather than a jump cut,
+   so the copy (and the photo) re-run the site's existing entrance keyframe
+   (site.css). Only under `.js-tabs` — the no-JS stack has nothing to switch. */
+@media (prefers-reduced-motion: no-preference) {
+  .js-tabs .nw-area-panel:not([hidden]) .nw-area-copy > *,
+  .js-tabs .nw-area-panel:not([hidden]) .nw-area-fig {
+    animation: nw-rise 0.4s ease-out both;
+  }
+
+  .js-tabs .nw-area-panel:not([hidden]) .nw-area-copy > :nth-child(2) {
+    animation-delay: 0.05s;
+  }
+
+  .js-tabs .nw-area-panel:not([hidden]) .nw-area-copy > :nth-child(3) {
+    animation-delay: 0.1s;
+  }
+
+  .js-tabs .nw-area-panel:not([hidden]) .nw-area-copy > :nth-child(4) {
+    animation-delay: 0.15s;
+  }
+}
+
 /* ============ project cards (listing) ============ */
 .nw-projects.quarto-listing {
   display: grid;
@@ -699,30 +1153,80 @@ body {
   flex: 1;
 }
 
+/* ============ featured projects: uniform 2x3 grid, home page only ======= */
+/* Six featured cards, three per row, two rows — no spotlight card. */
+#listing-featured-projects.nw-projects {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+@media (max-width: 900px) {
+  #listing-featured-projects.nw-projects {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  #listing-featured-projects.nw-projects {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* ============ citations (publications listing) ============ */
-/* home page: match featured pubs/posts width to education & experience timelines */
-#publications .nw-cites,
-#blog .nw-posts {
-  max-width: 46rem;
-  margin-left: auto;
-  margin-right: auto;
+/* home page: three post cards side by side (three columns), not stacked.
+   The listing's own `id:` becomes `listing-<id>` on the rendered element —
+   Quarto prefixes it — which is also why home.js's category-filter lookup
+   falls back to that same prefix. */
+#listing-featured-posts.nw-posts {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+#listing-featured-posts.nw-posts .nw-post {
+  height: 100%;
+}
+
+@media (max-width: 900px) {
+  #listing-featured-posts.nw-posts {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  #listing-featured-posts.nw-posts {
+    grid-template-columns: 1fr;
+  }
 }
 
 
 .nw-cites .nw-cite {
   position: relative;
-  background: var(--nw-card);
-  border: 1px solid var(--nw-border);
-  border-radius: 1rem;
-  padding: 1.25rem 1.5rem;
-  margin-bottom: 1rem;
-  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+  display: grid;
+  grid-template-columns: 3.5rem minmax(0, 1fr);
+  gap: 1.25rem;
+  padding: 1.35rem 0;
+  border-top: 1px solid var(--nw-border);
+  transition: background-color 0.15s;
+}
+
+.nw-cites .nw-cite:last-child {
+  border-bottom: 1px solid var(--nw-border);
 }
 
 .nw-cites .nw-cite:hover {
-  transform: translateY(-4px);
-  border-color: var(--nw-primary);
-  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.18);
+  background: var(--nw-bg-alt);
+}
+
+@media (max-width: 480px) {
+  .nw-cites .nw-cite {
+    grid-template-columns: 1fr;
+    gap: 0.35rem;
+  }
+}
+
+.nw-cite-year {
+  font-family: var(--nw-font-mono);
+  font-size: 0.8rem;
+  color: var(--nw-muted);
+  padding-top: 0.2rem;
 }
 
 .nw-cite-title a {
@@ -879,6 +1383,34 @@ body {
   box-shadow: 0 0 0 4px var(--nw-bg);
 }
 
+/* ============ home page: experience + education, side by side ========== */
+.nw-exp-edu-grid {
+  display: grid;
+  gap: 3rem;
+}
+
+.nw-exp-edu-col .nw-timeline,
+.nw-exp-edu-col .nw-section-more {
+  max-width: none;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.nw-exp-edu-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--nw-muted);
+  margin: 0 0 1.25rem;
+}
+
+@media (min-width: 900px) {
+  .nw-exp-edu-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
 /* Whole-card link variant used on the experience/education timelines. */
 .nw-tl-link {
   display: block;
@@ -890,7 +1422,8 @@ body {
   text-decoration: underline;
 }
 
-.nw-tl-item h3 {
+.nw-tl-item h3,
+.nw-tl-item h4 {
   font-size: 1.05rem;
   font-weight: 700;
   margin: 0;
@@ -907,7 +1440,8 @@ body {
 }
 
 .nw-tl-item .nw-tl-meta {
-  font-size: 0.85rem;
+  font-family: var(--nw-font-mono);
+  font-size: 0.8rem;
   color: var(--nw-muted);
   margin: 0.15rem 0 0.5rem;
 }
@@ -935,8 +1469,43 @@ body {
   padding: 1rem 0;
 }
 
-.nw-marquee:hover .nw-marquee-track {
+/* Hover is not a mechanism a keyboard or touch visitor has, and WCAG 2.2.2
+   asks for one on anything that moves for more than five seconds. `:focus-within`
+   covers tabbing through the logos; the button injected by home.js covers
+   everyone else. */
+.nw-marquee:hover .nw-marquee-track,
+.nw-marquee:focus-within .nw-marquee-track,
+.nw-marquee[data-nw-paused] .nw-marquee-track {
   animation-play-state: paused;
+}
+
+/* The control is a sibling of the strip, not a child: `.nw-marquee` carries an
+   edge mask that fades its own contents out at the left and right, and a button
+   parked inside it would be faded away with them. */
+.nw-marquee-pause {
+  display: flex;
+  margin: 0.4rem 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 1.9rem;
+  height: 1.9rem;
+  padding: 0;
+  border: 1px solid var(--nw-border);
+  border-radius: 50%;
+  background: var(--nw-bg);
+  color: var(--nw-fg);
+  opacity: 0.45;
+  transition: opacity 0.15s ease;
+}
+
+.nw-marquee-pause:hover,
+.nw-marquee-pause:focus-visible {
+  opacity: 1;
+}
+
+.nw-marquee-pause svg {
+  width: 0.9rem;
+  height: 0.9rem;
 }
 
 @keyframes nw-scroll {
@@ -1053,8 +1622,9 @@ body {
 }
 
 .nw-post-date {
+  font-family: var(--nw-font-mono);
   color: var(--nw-muted);
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   margin: 0.3rem 0 0.6rem;
 }
 
@@ -1114,6 +1684,33 @@ body {
 .nw-faq details p {
   color: var(--nw-muted);
   margin: 0.75rem 0 0;
+}
+
+/* Answers slide open instead of appearing all at once. This used to require
+   measuring scrollHeight in JS and animating a pixel max-height; three CSS
+   features now cover it between them — `::details-content` gives the answer a
+   box to size, `interpolate-size` makes `auto` a real animatable value, and
+   `allow-discrete` keeps `content-visibility` from snapping the content
+   visible on frame one. Unsupported browsers just open instantly, which is
+   the behavior today.
+
+   The accordion logic in home.js is untouched; only the reveal is animated. */
+@supports (interpolate-size: allow-keywords) {
+  :root {
+    interpolate-size: allow-keywords;
+  }
+
+  .nw-faq details::details-content {
+    block-size: 0;
+    overflow: hidden;
+    transition:
+      block-size 0.28s ease,
+      content-visibility 0.28s allow-discrete;
+  }
+
+  .nw-faq details[open]::details-content {
+    block-size: auto;
+  }
 }
 
 /* ============ contact ============ */
@@ -1291,6 +1888,18 @@ body {
   flex: none;
 }
 
+/* inline links (fact chips, foot line) default to $link-color, which reads
+   fine on the pale light-mode card but is nearly indistinguishable from the
+   saturated blue dark-mode card — pin them to the card foreground instead */
+.nw-cta-card a:not(.nw-btn) {
+  color: var(--nw-cta-fg);
+  text-decoration-color: color-mix(in srgb, var(--nw-cta-fg) 45%, transparent);
+}
+
+.nw-cta-card a:not(.nw-btn):hover {
+  text-decoration-color: currentColor;
+}
+
 /* CTA buttons: a solid inverse chip + a quiet outline, both scoped so the
    site-wide blue gradient button doesn't disappear against the blue card */
 .nw-cta-card .nw-btn-primary {
@@ -1338,18 +1947,20 @@ body {
 }
 
 /* ============ filterable listing pages (projects, publications, blog) ======
-   Quarto sizes the body-content grid track from the content it holds, so once
-   the category filter hides cards the column collapsed to the widest card that
-   was left — filtering to a single short post made every card narrower. A
-   definite width on the listing (and on the filter bar above it, so the two
-   stay aligned) pins the track. The viewport term keeps that width definite —
-   a percentage would be resolved against the very track it is meant to size —
-   so narrow screens shrink the column instead of overflowing it. */
+   Once the category filter hides cards, a grid whose width tracks its content
+   can collapse to the widest card left over — filtering to a single short
+   post made every card narrower. A definite width on the listing (and on the
+   filter bar above it, so the two stay aligned) pins the track. `main.content`
+   already has a fixed, definite width from `.page-layout-full main.content`
+   below (max-width + padding, independent of its children), so 100% of it is
+   itself definite and immune to the same collapse — no need to re-derive that
+   width from the viewport, which drifted out of sync with the parent's actual
+   padded width and let cards overflow past the right margin. */
 #listing-all-posts,
 #listing-all-pubs,
 #listing-all-projects,
 .nw-filters {
-  width: min(72rem, calc(100vw - 5rem));
+  width: 100%;
   margin-inline: auto;
 }
 
@@ -1391,19 +2002,95 @@ body {
 }
 
 .quarto-title-block .quarto-title h1.title {
-  font-weight: 800;
+  font-family: var(--nw-font-display);
+  font-weight: 500;
   letter-spacing: -0.02em;
 }
 
-/* Breathing room between the fixed navbar and each page's title. The home page
-   uses a custom layout with no title block, so it's unaffected. */
+/* ============ page-title band: same treatment as the home hero ========== */
+/* Every non-landing page's title block gets the landing page's hero look: a
+   soft glow + dot grid running to y=0 behind a transparent, borderless navbar
+   that only turns solid once the visitor scrolls (see "hero navbar:
+   transparent until scroll" in site.css, which now also matches this
+   selector). The landing page itself uses `pagetitle:` instead of `title:`
+   so Quarto never emits this element there — #hero is its own version of the
+   same band, so nothing doubles up.
+
+   Where the navbar-height pull-up happens depends on the page layout:
+    - `.page-layout-custom` (CV): `main` here is already zero-padded (see
+      `.page-layout-custom main` above), so #title-block-header sits exactly
+      where #hero does on the landing page — same per-element pull-up.
+    - `.page-layout-full` / `.page-layout-article` (listings, detail pages,
+      privacy...): `main.content` carries Quarto's own default top
+      padding/margin, one level above the header, so pulling only the header
+      left a residual gap. Pull `main.content` up there instead, and leave
+      the header's own margin at 0.
+   Only one of the two ever applies to a given page, so they never stack. */
+body.nav-fixed .page-layout-custom #title-block-header {
+  margin-top: calc(-1 * var(--nw-navbar-h));
+  padding-top: calc(1.75rem + var(--nw-navbar-h));
+}
+
+body.nav-fixed .page-layout-full main.content,
+body.nav-fixed .page-layout-article main.content {
+  margin-top: calc(-1 * var(--nw-navbar-h)) !important;
+  padding-top: var(--nw-navbar-h) !important;
+}
+
 #title-block-header {
-  margin-top: 1.75rem;
+  position: relative;
+  isolation: isolate;
+  margin-top: 0;
+  padding: 1.75rem 0 2.5rem;
+}
+
+/* Full-bleed: break the background out of the content column to the actual
+   viewport edges (standard 100vw/-50vw technique) rather than stopping at
+   the header's own (narrower, centered) box — otherwise the band reads as a
+   boxed rectangle instead of running edge-to-edge like the home hero.
+   `--nw-band-lift` corrects for whatever residual gap is left above the
+   band after the navbar-height padding below: Quarto's own ancestor
+   wrappers (main.content, page-layout-* containers, ...) each carry their
+   own default top spacing that varies by page/layout, so rather than
+   chasing every one of them in CSS, nw-nav.js measures the actual gap once
+   the page has laid out and sets this custom property to cancel exactly
+   that, however large it turns out to be. Purely a background nudge — it
+   never moves real content, only these two decorative layers. */
+#title-block-header::before,
+#title-block-header::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  width: 100vw;
+  margin-left: -50vw;
+  transform: translateY(calc(-1 * var(--nw-band-lift, 0px)));
+}
+
+#title-block-header::before {
+  top: 0;
+  bottom: 0;
+  z-index: -2;
+  background:
+    radial-gradient(50rem 24rem at 50% -20%, var(--nw-hero-glow), transparent 70%),
+    var(--nw-bg);
+  -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 55%, transparent 100%);
+}
+
+#title-block-header::after {
+  top: 0;
+  bottom: 0;
+  z-index: -1;
+  opacity: 0.5;
+  background-image: radial-gradient(var(--nw-primary) 1px, transparent 1.4px);
+  background-size: 34px 34px;
+  -webkit-mask-image: radial-gradient(65% 85% at 50% 15%, #000 0%, transparent 78%);
+  mask-image: radial-gradient(65% 85% at 50% 15%, #000 0%, transparent 78%);
 }
 
 @media (max-width: 640px) {
   #title-block-header {
-    margin-top: 2.5rem;
+    padding-bottom: 2rem;
   }
 }
 
@@ -1422,6 +2109,13 @@ body {
 
 .nw-detail-lead .nw-tl-org:hover {
   text-decoration: underline;
+}
+
+/* Same offset, applied to every anchor target rather than only the landing
+   page's sections: the blog posts render a table of contents whose links jump
+   to headings, and those were landing underneath the sticky navbar. */
+html {
+  scroll-padding-top: 4.5rem;
 }
 
 /* scroll offset for anchored sections under sticky navbar */
@@ -1554,6 +2248,20 @@ body:has(.nw-cv) #title-block-header {
   margin-right: auto;
   padding-left: 1.25rem;
   padding-right: 1.25rem;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+/* Same fix for the other page-layout: custom page (Contact): its title block
+   otherwise inherits the zero side padding `.page-layout-custom main` sets
+   for the hero-style bands, and runs flush to the viewport edge. Match the
+   72rem/1.5rem column every .nw-section-inner below it already uses. */
+body:has(#contact) #title-block-header {
+  max-width: 72rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
   box-sizing: border-box;
   width: 100%;
 }
@@ -1883,7 +2591,7 @@ body:has(.nw-cv) #title-block-header {
 /* ---------------------------------------------------------------------------
    Reduced motion
 
-   The JS-driven motion (particles hero, globe, scroll reveal, typewriter)
+   The JS-driven motion (globe, scroll reveal, typewriter)
    already checks `prefers-reduced-motion` at its call sites. These rules cover
    the CSS side: the infinite animations that would otherwise keep running —
    the logo marquee, the typewriter caret, and the two availability pulse dots.
@@ -1901,6 +2609,13 @@ body:has(.nw-cv) #title-block-header {
     overflow-x: auto;
   }
 
+  /* Nothing left to pause, so the control home.js injects has no meaning here.
+     `display: none` rather than a visual hide, so it leaves the tab order and
+     the accessibility tree along with the motion it controlled. */
+  .nw-marquee-pause {
+    display: none;
+  }
+
   /* Caret and availability dots: hold at full opacity rather than blinking. */
   #hero .nw-type .nw-caret,
   #hero .nw-status::before,
@@ -1911,5 +2626,21 @@ body:has(.nw-cv) #title-block-header {
 
   html {
     scroll-behavior: auto;
+  }
+
+  /* View transitions: the navigation itself still happens (and still gets the
+     instant same-document swap that `@view-transition` buys), but every
+     snapshot lands on its final state immediately instead of tweening. This
+     covers the page cross-fade, the shared card→hero image morph, and the
+     theme-toggle wipe in one rule, because all three are built out of
+     `::view-transition-*` pseudo-elements.
+
+     `!important` is needed here and nowhere else in this block: the transition
+     pseudo-elements live in their own tree whose UA styles set an animation on
+     every group, and the site's own rules in site.css name specific groups. */
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
   }
 }

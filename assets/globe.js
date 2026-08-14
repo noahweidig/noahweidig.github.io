@@ -1,57 +1,56 @@
-// Decorative dot globe in the contact section ("reach me from anywhere").
-// Renders the precomputed land dots from assets/data/globe-dots.json (built
-// by scripts/generate-globe-dots.mjs) on a transparent canvas in the site's
-// accent blue. Auto-rotates, drag/flick to spin; data fetch and animation are
-// deferred until the section nears the viewport, and the loop pauses while
-// the globe is off-screen or the tab is hidden.
+// Decorative globe card in the contact section ("reach me from anywhere").
+// Renders precomputed country-border polylines (assets/data/globe-lines.json,
+// built by scripts/generate-globe-lines.mjs) plus a procedural lat/lon
+// graticule on a transparent canvas, orthographic-projected and cropped in
+// close on Orlando. Static: one draw call, no animation loop, no drag
+// physics — the lightest version of the globe that still reads as one.
 (function () {
   "use strict";
 
   var canvas = document.getElementById("nw-globe");
   if (!canvas || !canvas.getContext) return;
 
-  var AUTO_SPEED = 0.0015; // radians/frame auto-rotation
-  var FRICTION = 0.92; // per-frame decay of flick velocity
-  // Land-dot color follows --nw-globe-dot (blue in light mode, white in dark).
-  var DOT_COLOR = "0, 118, 223";
+  // Country border color follows --nw-globe-line: black in light mode, white
+  // in dark, same as the page foreground. The graticule and sphere read off
+  // the theme's own border/bg tokens, so both pick up light/dark too.
+  var LINE_COLOR = "0, 0, 0";
+  var SPHERE_FILL = "#0a0a0f";
+  var GRATICULE_COLOR = "#3d3d4b";
   // The Orlando marker always stays the site's accent blue, in both themes.
   var MARKER_COLOR = "0, 118, 223";
-  function readDotColor() {
-    var v = getComputedStyle(document.documentElement)
-      .getPropertyValue("--nw-globe-dot")
-      .trim();
-    if (v) DOT_COLOR = v;
+  function readThemeColors() {
+    var cs = getComputedStyle(document.documentElement);
+    var line = cs.getPropertyValue("--nw-globe-line").trim();
+    if (line) LINE_COLOR = line;
+    var fill = cs.getPropertyValue("--nw-bg-alt").trim();
+    if (fill) SPHERE_FILL = fill;
+    var grid = cs.getPropertyValue("--nw-border").trim();
+    if (grid) GRATICULE_COLOR = grid;
   }
-  readDotColor();
+  readThemeColors();
   var TILT = 0.35;
   var ORLANDO = { lat: 28.5384, lon: -81.3789 };
-
-  var reduceMotion =
-    window.matchMedia &&
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var GRATICULE_STEP = 20; // degrees between meridians/parallels
 
   var ctx = canvas.getContext("2d");
   var label = document.getElementById("nw-globe-label");
   var marker = toSphere(ORLANDO.lat, ORLANDO.lon);
-  var dots = null; // [{x, y, z} unit-sphere points]
+  var lines = null; // [[{x,y,z}, ...], ...] unit-sphere points per ring
+  var graticule = buildGraticule();
   var size = 0; // CSS pixel size of the square canvas
   var radius = 0;
-  // Start with the marker facing the viewer: rotate about Y so Orlando's
-  // azimuth lands front-center, then apply the usual tilt.
+  // Orlando faces the viewer: rotate about Y so its azimuth lands
+  // front-center, then apply a fixed tilt. Never changes — the globe is static.
   var rotY = -Math.atan2(marker.x, marker.z);
   var rotX = TILT;
-  var velY = AUTO_SPEED;
-  var velX = 0;
-  var dragging = false;
-  var lastX = 0;
-  var lastY = 0;
-  var lastDX = 0;
-  var lastDY = 0;
-  var running = false;
-  var visible = false;
-  var rafId = 0;
 
-  // Same lat/lon → unit-sphere mapping used for the precomputed land dots
+  // Zoomed in, not the whole sphere: the projection's radius is well past
+  // half the canvas, and Orlando sits below center — the same crop the
+  // reference card uses — so the card reads as a close-up on one place
+  // rather than a full globe. tx/ty is the point Orlando projects to.
+  var tx = 0, ty = 0;
+
+  // Same lat/lon → unit-sphere mapping used for the precomputed border lines
   function toSphere(lat, lon) {
     var phi = ((90 - lat) * Math.PI) / 180;
     var theta = ((180 - lon) * Math.PI) / 180;
@@ -62,6 +61,26 @@
     };
   }
 
+  // Meridians every GRATICULE_STEP° (full circles, pole to pole) + parallels
+  // every GRATICULE_STEP° (latitude circles), each as a polyline of unit-
+  // sphere points — the same shape d3.geoGraticule() draws, computed by hand
+  // so no extra library or data file is needed for it.
+  function buildGraticule() {
+    var rings = [];
+    var lat, lon;
+    for (lon = -180; lon < 180; lon += GRATICULE_STEP) {
+      var meridian = [];
+      for (lat = -90; lat <= 90; lat += 5) meridian.push(toSphere(lat, lon));
+      rings.push(meridian);
+    }
+    for (lat = -80; lat <= 80; lat += GRATICULE_STEP) {
+      var parallel = [];
+      for (lon = -180; lon <= 180; lon += 5) parallel.push(toSphere(lat, lon));
+      rings.push(parallel);
+    }
+    return rings;
+  }
+
   function resize() {
     var dpr = window.devicePixelRatio || 1;
     size = canvas.clientWidth;
@@ -69,182 +88,147 @@
     canvas.width = Math.round(size * dpr);
     canvas.height = Math.round(size * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    radius = size * 0.46;
+    radius = size * 0.625;
+    tx = size * 0.5;
+    ty = size * 0.72;
+  }
+
+  // Rotate a unit-sphere point by the globe's fixed rotation and project it
+  // to canvas space. z > 0 means it's on the near (visible) hemisphere.
+  function project(p, cosX, sinX, cosY, sinY) {
+    var x1 = p.x * cosY + p.z * sinY;
+    var z1 = -p.x * sinY + p.z * cosY;
+    var y2 = p.y * cosX - z1 * sinX;
+    var z2 = p.y * sinX + z1 * cosX;
+    return { x: tx + x1 * radius, y: ty - y2 * radius, z: z2 };
+  }
+
+  // Strokes a ring of points, breaking the path wherever it crosses to the
+  // far side of the sphere so hidden segments never draw as a stretched
+  // line across the visible face.
+  function strokeRing(ring, cosX, sinX, cosY, sinY) {
+    var open = false;
+    for (var point of ring) {
+      var p = project(point, cosX, sinX, cosY, sinY);
+      if (p.z > 0) {
+        if (open) {
+          ctx.lineTo(p.x, p.y);
+        } else {
+          ctx.beginPath();
+          ctx.moveTo(p.x, p.y);
+          open = true;
+        }
+      } else if (open) {
+        ctx.stroke();
+        open = false;
+      }
+    }
+    if (open) ctx.stroke();
   }
 
   function draw() {
-    readDotColor();
+    if (!lines || !size) return;
+    readThemeColors();
     ctx.clearRect(0, 0, size, size);
-    var c = size / 2;
     var cosX = Math.cos(rotX), sinX = Math.sin(rotX);
     var cosY = Math.cos(rotY), sinY = Math.sin(rotY);
-    var projected = [];
-    for (var i = 0; i < dots.length; i++) {
-      var d = dots[i];
-      // rotate about Y (spin), then X (tilt)
-      var x1 = d.x * cosY + d.z * sinY;
-      var z1 = -d.x * sinY + d.z * cosY;
-      var y2 = d.y * cosX - z1 * sinX;
-      var z2 = d.y * sinX + z1 * cosX;
-      // Keep the rotated surface normal (x1, y2, z2) so each dot can be drawn
-      // as a foreshortened disc lying flat on the sphere rather than a
-      // camera-facing circle.
-      projected.push({ z: z2, nx: x1, ny: y2, sx: c + x1 * radius, sy: c - y2 * radius });
+
+    // Sphere fill
+    ctx.beginPath();
+    ctx.arc(tx, ty, radius, 0, Math.PI * 2);
+    ctx.fillStyle = SPHERE_FILL;
+    ctx.fill();
+
+    // Graticule (lat/lon grid)
+    ctx.strokeStyle = GRATICULE_COLOR;
+    ctx.lineWidth = Math.max(0.5, size * 0.0018);
+    for (var gRing of graticule) {
+      strokeRing(gRing, cosX, sinX, cosY, sinY);
     }
-    projected.sort(function (a, b) {
-      return a.z - b.z;
-    });
-    var dotR = Math.max(1.4, size * 0.006);
-    for (var j = 0; j < projected.length; j++) {
-      var p = projected[j];
-      const depth = (p.z + 1) / 2; // 0 = far side, 1 = near side
-      // A flat disc on the surface projects to an ellipse: its minor axis lies
-      // along the projected normal and shrinks by |normal·view| = |z2|, so
-      // dots near the limb foreshorten to slivers instead of staying round.
-      const minor = dotR * Math.abs(p.z);
-      const angle = Math.atan2(-p.ny, p.nx); // screen-space normal direction
-      ctx.beginPath();
-      ctx.ellipse(p.sx, p.sy, minor, dotR, angle, 0, Math.PI * 2);
-      ctx.fillStyle = "rgba(" + DOT_COLOR + "," + (0.08 + 0.82 * depth) + ")";
-      ctx.fill();
+
+    // Country borders: solid black in light mode, white in dark
+    ctx.strokeStyle = "rgb(" + LINE_COLOR + ")";
+    ctx.lineWidth = Math.max(0.6, size * 0.0022);
+    for (var lRing of lines) {
+      strokeRing(lRing, cosX, sinX, cosY, sinY);
     }
-    drawMarker(c, cosX, sinX, cosY, sinY);
+
+    // Sphere outline
+    ctx.beginPath();
+    ctx.arc(tx, ty, radius, 0, Math.PI * 2);
+    ctx.strokeStyle = GRATICULE_COLOR;
+    ctx.lineWidth = Math.max(0.75, size * 0.003);
+    ctx.stroke();
+
+    drawMarker(cosX, sinX, cosY, sinY);
   }
 
-  // Pulsing Orlando marker drawn on top of the land dots; the coordinate
-  // label (an HTML card) tracks the marker and hides on the far side.
-  function drawMarker(c, cosX, sinX, cosY, sinY) {
-    var x1 = marker.x * cosY + marker.z * sinY;
-    var z1 = -marker.x * sinY + marker.z * cosY;
-    var y2 = marker.y * cosX - z1 * sinX;
-    var z2 = marker.y * sinX + z1 * cosX;
-    var front = z2 > 0.05;
-    if (front) {
-      var sx = c + x1 * radius;
-      var sy = c - y2 * radius;
-      var r = Math.max(3.5, size * 0.011);
-      if (!reduceMotion) {
-        // expanding ring, ~2s cycle
-        var t = ((performance.now ? performance.now() : Date.now()) % 2000) / 2000;
-        ctx.beginPath();
-        ctx.arc(sx, sy, r * (1 + t * 2.4), 0, Math.PI * 2);
-        ctx.strokeStyle = "rgba(" + MARKER_COLOR + "," + 0.55 * (1 - t) + ")";
-        ctx.lineWidth = Math.max(1, r * 0.35);
-        ctx.stroke();
-      }
-      ctx.beginPath();
-      ctx.arc(sx, sy, r, 0, Math.PI * 2);
-      ctx.fillStyle = "rgb(" + MARKER_COLOR + ")";
-      ctx.fill();
-      ctx.lineWidth = Math.max(1.5, r * 0.4);
-      ctx.strokeStyle = "#ffffff";
-      ctx.stroke();
-      if (label) {
-        label.hidden = false;
-        label.style.left = canvas.offsetLeft + sx + "px";
-        label.style.top = canvas.offsetTop + sy - r * 2.2 + "px";
-      }
-    } else if (label) {
-      label.hidden = true;
+  // Static Orlando marker (glow halo + ring + dot); the coordinate label (an
+  // HTML card) tracks it. Orlando is rotated to always face the camera, so
+  // there is no far-side case to hide it in.
+  function drawMarker(cosX, sinX, cosY, sinY) {
+    var p = project(marker, cosX, sinX, cosY, sinY);
+    var sx = p.x, sy = p.y;
+    var r = Math.max(3.5, size * 0.011);
+
+    ctx.beginPath();
+    ctx.arc(sx, sy, r * 3, 0, Math.PI * 2);
+    ctx.fillStyle = "rgba(" + MARKER_COLOR + ", 0.08)";
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.arc(sx, sy, r * 1.8, 0, Math.PI * 2);
+    ctx.fillStyle = "rgba(" + MARKER_COLOR + ", 0.15)";
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.arc(sx, sy, r, 0, Math.PI * 2);
+    ctx.fillStyle = "rgb(" + MARKER_COLOR + ")";
+    ctx.fill();
+    ctx.lineWidth = Math.max(1.5, r * 0.4);
+    ctx.strokeStyle = "#ffffff";
+    ctx.stroke();
+
+    if (label) {
+      label.hidden = false;
+      label.style.left = canvas.offsetLeft + sx + "px";
+      label.style.top = canvas.offsetTop + sy - r * 2.2 + "px";
     }
   }
 
-  function tick() {
-    if (!running) return;
-    if (!dragging) {
-      velY = velY * FRICTION + AUTO_SPEED * (1 - FRICTION);
-      velX *= FRICTION;
-      rotY += velY;
-      rotX = clampTilt(rotX + velX);
-    }
-    draw();
-    rafId = requestAnimationFrame(tick);
-  }
-
-  function clampTilt(x) {
-    return Math.max(-Math.PI / 2, Math.min(Math.PI / 2, x));
-  }
-
-  function setRunning(on) {
-    // reduced motion: never self-animate; draw stills on demand instead
-    if (reduceMotion) return;
-    if (on === running || !dots) return;
-    running = on;
-    if (on) rafId = requestAnimationFrame(tick);
-    else cancelAnimationFrame(rafId);
-  }
-
-  // ── drag / flick ───────────────────────────────────────────────────────────
-
-  canvas.addEventListener("pointerdown", function (e) {
-    if (!dots) return;
-    dragging = true;
-    lastX = e.clientX;
-    lastY = e.clientY;
-    lastDX = lastDY = 0;
-    velX = velY = 0;
-    if (canvas.setPointerCapture) canvas.setPointerCapture(e.pointerId);
-  });
-
-  canvas.addEventListener("pointermove", function (e) {
-    if (!dragging) return;
-    lastDX = e.clientX - lastX;
-    lastDY = e.clientY - lastY;
-    rotY += lastDX * 0.005;
-    rotX = clampTilt(rotX + lastDY * 0.005);
-    lastX = e.clientX;
-    lastY = e.clientY;
-    if (reduceMotion) draw(); // no loop running; redraw the still frame
-  });
-
-  function endDrag() {
-    if (!dragging) return;
-    dragging = false;
-    velY = lastDX * 0.005;
-    velX = lastDY * 0.005;
-  }
-  canvas.addEventListener("pointerup", endDrag);
-  canvas.addEventListener("pointercancel", endDrag);
-
-  // ── lazy init ──────────────────────────────────────────────────────────────
+  // ── lazy init: fetch + draw once the globe nears the viewport ────────────
 
   function start() {
-    fetch("/assets/data/globe-dots.json")
+    fetch("/assets/data/globe-lines.json")
       .then(function (r) {
         return r.json();
       })
       .then(function (data) {
-        dots = [];
-        for (var i = 0; i < data.dots.length; i += 2) {
-          var phi = ((90 - data.dots[i]) * Math.PI) / 180;
-          var theta = ((180 - data.dots[i + 1]) * Math.PI) / 180;
-          dots.push({
-            x: Math.sin(phi) * Math.cos(theta),
-            y: Math.cos(phi),
-            z: Math.sin(phi) * Math.sin(theta),
-          });
-        }
+        lines = data.lines.map(function (flat) {
+          var ring = [];
+          for (var i = 0; i < flat.length; i += 2) {
+            ring.push(toSphere(flat[i], flat[i + 1]));
+          }
+          return ring;
+        });
         resize();
-        if (reduceMotion || !visible) draw();
-        if (visible) setRunning(true);
+        draw();
       })
       .catch(function (err) {
         /* decorative: never surface to visitors, the layout stands on its
            own — but leave a debug trace so a broken path is diagnosable. */
         if (window.console && console.debug) {
-          console.debug("[nw-globe] dot data unavailable:", err);
+          console.debug("[nw-globe] line data unavailable:", err);
         }
       });
   }
 
+  // A resize can change the canvas's CSS size (responsive layout), so the
+  // static frame has to be redrawn at the new resolution — no loop involved.
   window.addEventListener("resize", function () {
-    if (!dots) return;
+    if (!lines) return;
     resize();
-    if (!running) draw();
-  });
-
-  document.addEventListener("visibilitychange", function () {
-    setRunning(!document.hidden && visible);
+    draw();
   });
 
   if ("IntersectionObserver" in window) {
@@ -262,14 +246,7 @@
       { rootMargin: "400px" }
     );
     loader.observe(canvas);
-    new IntersectionObserver(function (entries) {
-      visible = entries.some(function (e) {
-        return e.isIntersecting;
-      });
-      setRunning(visible && !document.hidden);
-    }).observe(canvas);
   } else {
-    visible = true;
     start();
   }
 })();
