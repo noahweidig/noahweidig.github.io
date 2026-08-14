@@ -1370,6 +1370,10 @@ body {
   box-shadow: 0 14px 34px rgba(0, 0, 0, 0.18);
 }
 
+/* One dot per entry on the rail. Past entries are grey, so the single
+   current role — the one whose dates run to "Present", tagged
+   `.nw-tl-current` by the listing template and by hand in the landing page's
+   inline timeline — is the only blue dot on the line. */
 .nw-tl-item::before {
   content: "";
   position: absolute;
@@ -1379,8 +1383,12 @@ body {
   width: 0.9rem;
   height: 0.9rem;
   border-radius: 50%;
-  background: var(--nw-grad);
+  background: var(--nw-tl-dot);
   box-shadow: 0 0 0 4px var(--nw-bg);
+}
+
+.nw-tl-item.nw-tl-current::before {
+  background: var(--nw-grad);
 }
 
 /* ============ home page: experience + education, side by side ========== */
@@ -1579,13 +1587,24 @@ body {
 }
 
 /* ============ posts (blog listing) ============ */
+/* Two columns of equal-height cards: grid's default `stretch` alignment
+   already gives every card in a row the height of the tallest one, so the
+   rows stay level however long each excerpt runs. */
 .nw-posts {
   display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1.5rem;
+}
+
+@media (max-width: 700px) {
+  .nw-posts {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 
 .nw-posts .nw-post {
   position: relative;
+  height: 100%;
   background: var(--nw-card);
   border: 1px solid var(--nw-border);
   border-radius: 1rem;
@@ -2035,6 +2054,15 @@ body.nav-fixed .page-layout-full main.content,
 body.nav-fixed .page-layout-article main.content {
   margin-top: calc(-1 * var(--nw-navbar-h)) !important;
   padding-top: var(--nw-navbar-h) !important;
+  /* That padding is the entire distance between y=0 and the title block —
+     it's the first thing in `main.content` — so it is also exactly how far
+     the band's background layers have to reach back up to meet the top of
+     the page behind the navbar. Deriving the lift from the same variable
+     that creates the gap keeps the two in lockstep at every navbar height,
+     including while the webfont is still swapping in. Custom-layout pages
+     (CV, contact) pull the header itself up instead, so their gap — and
+     their lift — is 0, the default below. */
+  --nw-band-lift: var(--nw-navbar-h);
 }
 
 #title-block-header {
@@ -2048,14 +2076,17 @@ body.nav-fixed .page-layout-article main.content {
    viewport edges (standard 100vw/-50vw technique) rather than stopping at
    the header's own (narrower, centered) box — otherwise the band reads as a
    boxed rectangle instead of running edge-to-edge like the home hero.
-   `--nw-band-lift` corrects for whatever residual gap is left above the
-   band after the navbar-height padding below: Quarto's own ancestor
-   wrappers (main.content, page-layout-* containers, ...) each carry their
-   own default top spacing that varies by page/layout, so rather than
-   chasing every one of them in CSS, nw-nav.js measures the actual gap once
-   the page has laid out and sets this custom property to cancel exactly
-   that, however large it turns out to be. Purely a background nudge — it
-   never moves real content, only these two decorative layers. */
+   `--nw-band-lift` corrects for the residual gap left above the band by
+   whichever navbar pull-up applies to this page's layout: 0 where the header
+   itself is pulled up (custom layouts), the navbar's height where
+   `main.content` is pulled up instead and hands that height back as padding
+   (see above). Purely a background nudge — it never moves real content, only
+   these two decorative layers.
+
+   The lift *stretches* each layer upwards (a negative `top` against a pinned
+   `bottom: 0`) rather than translating it: a transform would slide the whole
+   layer up, closing the gap at the top only by opening an identical one at
+   the bottom of the band. */
 #title-block-header::before,
 #title-block-header::after {
   content: "";
@@ -2063,12 +2094,11 @@ body.nav-fixed .page-layout-article main.content {
   left: 50%;
   width: 100vw;
   margin-left: -50vw;
-  transform: translateY(calc(-1 * var(--nw-band-lift, 0px)));
+  top: calc(-1 * var(--nw-band-lift, 0px));
+  bottom: 0;
 }
 
 #title-block-header::before {
-  top: 0;
-  bottom: 0;
   z-index: -2;
   background:
     radial-gradient(50rem 24rem at 50% -20%, var(--nw-hero-glow), transparent 70%),
@@ -2078,8 +2108,6 @@ body.nav-fixed .page-layout-article main.content {
 }
 
 #title-block-header::after {
-  top: 0;
-  bottom: 0;
   z-index: -1;
   opacity: 0.5;
   background-image: radial-gradient(var(--nw-primary) 1px, transparent 1.4px);
@@ -2254,16 +2282,25 @@ body:has(.nw-cv) #title-block-header {
 
 /* Same fix for the other page-layout: custom page (Contact): its title block
    otherwise inherits the zero side padding `.page-layout-custom main` sets
-   for the hero-style bands, and runs flush to the viewport edge. Match the
-   72rem/1.5rem column every .nw-section-inner below it already uses. */
+   for the hero-style bands, and runs flush to the viewport edge. The width
+   is the contact card's own 62rem (plus the 1.5rem gutters the section below
+   uses) rather than the full 72rem column, so "Get In Touch" starts exactly
+   on the card's left edge instead of 60px outside it. */
 body:has(#contact) #title-block-header {
-  max-width: 72rem;
+  max-width: calc(62rem + 3rem);
   margin-left: auto;
   margin-right: auto;
   padding-left: 1.5rem;
   padding-right: 1.5rem;
   box-sizing: border-box;
   width: 100%;
+}
+
+/* The contact page is a single section directly below its title band, so the
+   section's usual full-bleed hairline reads as a stray rule across the page
+   rather than a seam between two sections. */
+#contact.nw-section {
+  border-top: 0;
 }
 
 .nw-cv-header {
@@ -2278,8 +2315,9 @@ body:has(#contact) #title-block-header {
 
 .nw-cv-name {
   margin: 0;
+  font-family: var(--nw-font-display);
   font-size: 2.4rem;
-  font-weight: 800;
+  font-weight: 600;
   letter-spacing: -0.02em;
   // The name is an <h2> so the page keeps a single <h1> (its title); Quarto
   // underlines content h2s, which this heading never had.
@@ -2356,8 +2394,9 @@ body:has(#contact) #title-block-header {
 }
 
 .nw-cv-section > h2 {
-  font-size: 1.35rem;
-  font-weight: 700;
+  font-family: var(--nw-font-display);
+  font-size: 1.5rem;
+  font-weight: 600;
   margin: 0 0 1.25rem;
   padding-bottom: 0.4rem;
   border-bottom: 1px solid var(--nw-border);
