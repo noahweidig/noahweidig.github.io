@@ -5,7 +5,7 @@ description: A GEE App for Visualizing Risk
 categories:
 - Fire
 - Geospatial
-featured: true
+featured: false
 ---
 
 [Launch Tool](https://ee-weidignc.projects.earthengine.app/view/wui-wildfire){.nw-btn .nw-btn-primary target="_blank"}

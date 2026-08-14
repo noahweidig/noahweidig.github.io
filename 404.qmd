@@ -6,7 +6,8 @@ toc: false
 ---
 
 ```{=html}
-<section class="nw-section" style="padding-top:7rem">
+<section class="nw-page-band">
+  <div class="nw-hero-dots" aria-hidden="true"></div>
   <div class="nw-section-inner">
     <div class="nw-cta-card">
       <h1>404 — Page Not Found</h1>
