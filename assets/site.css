@@ -280,8 +280,8 @@ body:has(#hero):not(.nw-scrolled) .navbar {
    back as padding: the layout is unchanged, but the hero background and the
    dot grid now run to y=0, behind the transparent navbar, until scroll. */
 body.nav-fixed #hero {
-  margin-top: -68px;
-  padding-top: calc(7.5rem + 68px);
+  margin-top: -70px;
+  padding-top: calc(7.5rem + 70px);
 }
 
 /* desktop: larger side margins → narrower hero row brings text + portrait closer */
