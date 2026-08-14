@@ -568,12 +568,31 @@ img.nw-detail-hero {
 }
 
 /* ============ footer: topography backdrop + link columns ============ */
+/* Always dark, in both themes — the footer closes the page on the same
+   near-black band the CTA card leads into, so it pins the dark-theme values
+   for the variables it uses instead of following whichever theme file
+   (theme-light.scss / theme-dark.scss) compiled into the current page. An
+   element's own declaration always wins over an inherited one regardless of
+   which theme's stylesheet is loaded, so this holds in light mode too. */
 .nav-footer {
+  --nw-fg: #ffffff;
+  --nw-muted: #ffffff;
+  --nw-border: #3d3d4b;
+  --nw-topo: rgba(229, 231, 235, 0.07);
+  --nw-footer-bg: #0d0d12;
   position: relative;
   background: var(--nw-footer-bg);
   border-top: 1px solid var(--nw-border);
   overflow: hidden;
   padding: 0;
+}
+
+/* The wordmark is a black SVG mark; light mode otherwise leaves it
+   unfiltered (correct against a white navbar) but the footer's background is
+   dark here regardless of theme, so the logo needs the same invert dark mode
+   already applies. */
+.nw-footer-logo img {
+  filter: invert(1);
 }
 
 .nav-footer::before {
