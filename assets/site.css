@@ -172,9 +172,9 @@ body.quarto-dark .quarto-navbar-tools .quarto-color-scheme-toggle:hover > .bi::b
 
 /* The hero's opaque background lives on a ::before layer that fades out over
    its bottom third, so it blends gradually into the page background beneath
-   the particle network instead of ending abruptly at the stats section. */
+   the dot grid instead of ending abruptly at the stats section. */
 #hero {
-  /* anchor for the absolutely-positioned #nw-particles canvas */
+  /* anchor for the absolutely-positioned .nw-hero-dots layer */
   position: relative;
   background: none;
   overflow: hidden;
@@ -192,31 +192,61 @@ body.quarto-dark .quarto-navbar-tools .quarto-color-scheme-toggle:hover > .bi::b
   mask-image: linear-gradient(to bottom, #000 65%, transparent 100%);
 }
 
-/* ============ hero: interactive particle-network background ============ */
-/* particles.js canvas (config in index.qmd) fills the hero behind the
-   content. pointer-events stay on so hover-repulse and click-push work in
-   the empty areas around the text and portrait. */
-#nw-particles {
+/* ============ hero navbar: transparent until scroll ============ */
+/* Only on pages with a hero (the landing page): the fixed navbar starts
+   transparent and borderless, so the hero's own background — which already
+   runs the full width of the page, right up to y=0 — reads as continuing
+   straight through the nav instead of stopping at a visible seam. home.js
+   flips `.nw-scrolled` on <body> once the visitor scrolls past the hero, at
+   which point the navbar reverts to its normal solid, blurred look (no rule
+   needed for that state — removing the override is enough). Every other page
+   keeps the navbar's default styling throughout. */
+body:has(#hero) .navbar {
+  transition: background-color 0.25s ease, border-color 0.25s ease,
+    backdrop-filter 0.25s ease;
+}
+
+body:has(#hero):not(.nw-scrolled) .navbar {
+  background-color: transparent !important;
+  border-bottom-color: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: none;
+}
+
+/* ============ hero: dot-grid background ============ */
+/* Static radial-dot grid, masked to a soft radial fade so it reads as an
+   accent behind the headline rather than a uniform tile. `inset` overshoots
+   the hero box so the slow drift never exposes a bare edge; `#hero`'s own
+   `overflow: hidden` clips it back to the section bounds. Positioned inside
+   `#hero`, which begins at the very top of the page (the navbar floats over
+   it, fixed and transparent until scroll), so the grid already extends
+   behind the navbar with no extra offset needed. */
+.nw-hero-dots {
   position: absolute;
-  inset: 0;
+  inset: -2.5rem;
   z-index: 0;
-  /* fade the network out over the same zone the hero background fades, so
-     particles dissolve into the page instead of clipping at the hero edge */
-  -webkit-mask-image: linear-gradient(to bottom, #000 70%, transparent 100%);
-  mask-image: linear-gradient(to bottom, #000 70%, transparent 100%);
+  opacity: 0.5;
+  background-image: radial-gradient(var(--nw-primary) 1px, transparent 1.4px);
+  background-size: 34px 34px;
+  -webkit-mask-image: radial-gradient(60% 55% at 60% 30%, #000 0%, transparent 78%);
+  mask-image: radial-gradient(60% 55% at 60% 30%, #000 0%, transparent 78%);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .nw-hero-dots {
+    animation: nw-hero-drift 40s linear infinite alternate;
+  }
+}
+
+@keyframes nw-hero-drift {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-60px, -40px, 0); }
 }
 
 #hero .nw-hero-inner {
   position: relative;
   z-index: 1;
-  /* let hovers over gaps in the hero row fall through to the particles */
-  pointer-events: none;
-}
-
-#hero .nw-hero-inner a,
-#hero .nw-hero-inner button,
-#hero .nw-hero-media {
-  pointer-events: auto;
 }
 
 /* ============ scroll reveal ============ */
@@ -366,7 +396,7 @@ body.quarto-dark .quarto-navbar-tools .quarto-color-scheme-toggle:hover > .bi::b
 
 .nw-globe-frame {
   position: relative;
-  max-width: 30rem;
+  max-width: 11.25rem;
   margin: 0 auto;
 }
 
@@ -417,24 +447,6 @@ body.quarto-dark .quarto-navbar-tools .quarto-color-scheme-toggle:hover > .bi::b
   display: none;
 }
 
-/* ============ featured publications: 2x2, or 1x4 on narrow phones ======== */
-#publications .nw-cites {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1.5rem;
-  max-width: 62rem;
-}
-
-/* the grid gap owns the spacing between cards now */
-#publications .nw-cites .nw-cite {
-  margin-bottom: 0;
-}
-
-@media (max-width: 640px) {
-  #publications .nw-cites {
-    grid-template-columns: 1fr;
-  }
-}
 
 /* ============ even breathing room top and bottom of every section ======== */
 /* Sections pad equally top and bottom, so the gap above a section's header
@@ -556,12 +568,31 @@ img.nw-detail-hero {
 }
 
 /* ============ footer: topography backdrop + link columns ============ */
+/* Always dark, in both themes — the footer closes the page on the same
+   near-black band the CTA card leads into, so it pins the dark-theme values
+   for the variables it uses instead of following whichever theme file
+   (theme-light.scss / theme-dark.scss) compiled into the current page. An
+   element's own declaration always wins over an inherited one regardless of
+   which theme's stylesheet is loaded, so this holds in light mode too. */
 .nav-footer {
+  --nw-fg: #ffffff;
+  --nw-muted: #ffffff;
+  --nw-border: #3d3d4b;
+  --nw-topo: rgba(229, 231, 235, 0.07);
+  --nw-footer-bg: #0d0d12;
   position: relative;
   background: var(--nw-footer-bg);
   border-top: 1px solid var(--nw-border);
   overflow: hidden;
   padding: 0;
+}
+
+/* The wordmark is a black SVG mark; light mode otherwise leaves it
+   unfiltered (correct against a white navbar) but the footer's background is
+   dark here regardless of theme, so the logo needs the same invert dark mode
+   already applies. */
+.nw-footer-logo img {
+  filter: invert(1);
 }
 
 .nav-footer::before {
