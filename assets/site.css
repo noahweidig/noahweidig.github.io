@@ -683,6 +683,11 @@ img.nw-detail-hero {
   max-width: 72rem;
   margin: 0 auto;
   padding: 1.75rem 1.5rem 2.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
 }
 
 .nw-footer-grid {
@@ -782,14 +787,6 @@ img.nw-detail-hero {
   border-top: 1px solid var(--nw-border);
   color: var(--nw-muted);
   font-size: 0.85rem;
-}
-
-.nw-footer-bottom-inner {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1rem;
-  flex-wrap: wrap;
 }
 
 .nw-footer-bottom-left {
