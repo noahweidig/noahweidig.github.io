@@ -47,7 +47,7 @@ include-after-body:
   </div>
   <div class="nw-btns">
     <a class="nw-btn nw-btn-primary" href="#projects">View My Work ↓</a>
-    <a class="nw-btn nw-btn-ghost" href="#contact">Get In Touch <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6l9 -6"/></svg></a>
+    <a class="nw-btn nw-btn-ghost" href="/contact">Get In Touch <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6l9 -6"/></svg></a>
   </div>
   </div>
   <div class="nw-hero-media">
@@ -372,46 +372,9 @@ include-after-body:
     <div class="nw-faq">
       <details><summary>What do you do?</summary><p>I work at the intersection of geospatial analytics, data science, and applied AI — building reproducible workflows that turn spatial and environmental data into decision-ready insights.</p></details>
       <details><summary>What kinds of projects are you interested in?</summary><p>I'm drawn to work involving remote sensing, land-use change, social-ecological systems, and data storytelling. I especially enjoy projects where rigorous analysis meets clear visual communication.</p></details>
-      <details><summary>Are you open to collaboration?</summary><p>Yes. I'm happy to discuss research collaborations, freelance work, and full-time opportunities in data science or GIS. The best way to start a conversation is through the contact section below.</p></details>
+      <details><summary>Are you open to collaboration?</summary><p>Yes. I'm happy to discuss research collaborations, freelance work, and full-time opportunities in data science or GIS. The best way to start a conversation is through the <a href="/contact">contact page</a>.</p></details>
       <details><summary>What tools do you typically work with?</summary><p>Mostly R and Python for analysis and modeling, alongside SQL for data wrangling and a range of GIS tools (ArcGIS Pro, QGIS, GEE, GDAL) for spatial work. See the tech stack section for the full toolkit.</p></details>
-      <details><summary>How can I get in touch?</summary><p>Email is the easiest — you'll find it in the contact section just below this one.</p></details>
-    </div>
-  </div>
-</section>
-
-<section id="contact" class="nw-section">
-  <div class="nw-section-inner">
-    <h2 class="nw-title">Get In Touch</h2>
-    <p class="nw-subtitle">Let's build something amazing together</p>
-    <div class="nw-contact-card">
-      <div class="nw-contact-info">
-        <h3>Let's start a conversation</h3>
-        <p>I'm always interested in hearing about new projects and opportunities. Whether you're looking to hire, collaborate, or just want to say hi, feel free to reach out!</p>
-        <ul class="nw-contact-list">
-          <li>
-            <span class="nw-contact-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6l9 -6"/></svg></span>
-            <span class="nw-contact-item"><small>Email</small><a href="mailto:noah@noahweidig.com">noah@noahweidig.com</a></span>
-          </li>
-          <li>
-            <span class="nw-contact-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"/><path d="M17.657 16.657l-4.243 4.243a2 2 0 0 1 -2.827 0l-4.244 -4.243a8 8 0 1 1 11.314 0z"/></svg></span>
-            <span class="nw-contact-item"><small>Location</small><span>Orlando, Florida</span></span>
-          </li>
-          <li>
-            <span class="nw-contact-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7v-2a2 2 0 0 1 2 -2h4a2 2 0 0 1 2 2v2"/><path d="M12 12v.01"/><path d="M3 13a20 20 0 0 0 18 0"/></svg></span>
-            <span class="nw-contact-item"><small>Open to</small><span>Data science &amp; GIS roles, collaborations</span></span>
-          </li>
-        </ul>
-      </div>
-      <form class="nw-form" action="https://formspree.io/f/xjgnggga" method="POST" aria-describedby="nw-form-status">
-        <label class="nw-sr-only" for="nw-form-name">Your name</label>
-        <input id="nw-form-name" type="text" name="name" placeholder="Your name" autocomplete="name" required>
-        <label class="nw-sr-only" for="nw-form-email">Your email</label>
-        <input id="nw-form-email" type="email" name="email" placeholder="Your email" autocomplete="email" required>
-        <label class="nw-sr-only" for="nw-form-message">Your message</label>
-        <textarea id="nw-form-message" name="message" rows="5" placeholder="Your message" required></textarea>
-        <p class="nw-form-status" id="nw-form-status" role="status" aria-live="polite" hidden></p>
-        <div class="nw-btns"><button class="nw-btn nw-btn-primary" type="submit">Send Message</button></div>
-      </form>
+      <details><summary>How can I get in touch?</summary><p>Email is the easiest — you'll find it on the <a href="/contact">contact page</a>.</p></details>
     </div>
   </div>
 </section>
