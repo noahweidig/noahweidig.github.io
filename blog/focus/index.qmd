@@ -1,7 +1,7 @@
 ---
 title: Focus
 date: '2026-07-16'
-description: Living in a distracted world
+description: Living in a distracted world — strategies for deep work, minimizing noise, and building sustainable research habits when modern workflows constantly fight for your attention.
 categories:
 - Tech
 draft: false
