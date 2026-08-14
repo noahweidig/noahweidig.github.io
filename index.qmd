@@ -115,7 +115,6 @@ include-after-body:
   <div class="nw-section-inner">
     <p class="nw-kicker">Research areas</p>
     <h2 class="nw-title">Where I focus my work</h2>
-    <p class="nw-lead">Six threads that keep running into each other: what changed on the landscape, why, and what a decision-maker should do about it.</p>
     <!-- Each panel's figure is a system diagram built from Tabler Icons
          (MIT, tabler.io/icons) — the same set the section's eyebrow glyphs and
          the rest of the site draw from, scaled up and animated in CSS. Same
@@ -292,7 +291,7 @@ include-after-body:
       <div class="nw-exp-edu-col">
         <h3 class="nw-exp-edu-label">Experience</h3>
         <div class="nw-timeline">
-          <a class="nw-tl-item nw-tl-link" href="experience/uf-gis-associate/">
+          <a class="nw-tl-item nw-tl-link nw-tl-current" href="experience/uf-gis-associate/">
             <h4>GIS &amp; Remote Sensing Research Associate</h4>
             <div class="nw-tl-org">University of Florida</div>
             <div class="nw-tl-meta">Aug 2025 – Present · Milton, FL</div>

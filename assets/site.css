@@ -42,9 +42,10 @@ html {
   border: 1px solid var(--nw-border);
   border-radius: 50%;
   box-sizing: border-box;
-  /* filled, like every other button on the site — see "buttons: filled,
-     never transparent" below */
-  background: var(--nw-card);
+  /* Outline only, so the band's dot grid shows through the circle; the fill
+     appears on hover (below) — same treatment as the search circle and the
+     Book Now button beside it. */
+  background: transparent;
   transition: background-color 0.15s, border-color 0.15s;
 }
 
@@ -98,7 +99,7 @@ body.quarto-dark .quarto-navbar-tools .quarto-color-scheme-toggle:hover > .bi::b
   padding: 0;
   border: 1px solid var(--nw-border);
   border-radius: 50%;
-  background: var(--nw-card);
+  background: transparent;
   color: var(--nw-navcta);
   box-shadow: none;
   transition: background-color 0.15s, border-color 0.15s, color 0.15s;
@@ -310,16 +311,20 @@ body.nav-fixed #hero {
 .nw-page-band::before {
   content: "";
   position: absolute;
-  inset: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   z-index: 0;
   background:
     radial-gradient(50rem 24rem at 50% -10%, var(--nw-hero-glow), transparent 70%),
     var(--nw-bg);
   -webkit-mask-image: linear-gradient(to bottom, #000 65%, transparent 100%);
   mask-image: linear-gradient(to bottom, #000 65%, transparent 100%);
-  /* Same residual-gap correction as #title-block-header (see theme.scss) —
-     harmless no-op here if this band is already flush. */
-  transform: translateY(calc(-1 * var(--nw-band-lift, 0px)));
+  /* Same residual-gap correction as #title-block-header (see theme.scss):
+     stretch the layer up to y=0 rather than translating it, so closing the
+     gap at the top can't open one at the bottom. Harmless no-op if this band
+     is already flush. */
+  top: calc(-1 * var(--nw-band-lift, 0px));
 }
 
 .nw-page-band > .nw-section-inner {
@@ -384,11 +389,11 @@ body.nav-fixed .nw-page-band {
 }
 
 /* ============ navbar Book Now: never wrap; hide when space is tight ============ */
-/* The fill matches the other outline buttons — see "buttons: filled, never
-   transparent" below; it lives here so the selector isn't declared twice. */
+/* Outline only — the button stays transparent so the band behind the navbar
+   reads through it, and fills blue on hover (see theme.scss). */
 .navbar .navbar-nav .nav-item a[href*="cal.com"] {
   white-space: nowrap;
-  background: var(--nw-card);
+  background: transparent;
 }
 
 @media (min-width: 992px) and (max-width: 1249.98px) {
@@ -484,7 +489,16 @@ body.nav-fixed .nw-page-band {
 }
 
 /* ============ consistent side margins on listing pages ============ */
+/* `width: 100%` is what keeps those margins *constant* while the category
+   filter hides cards. `main.content` is a grid item in Quarto's page grid,
+   and without a definite width its track is sized from its contents — so
+   filtering a listing down to a few short items shrank the column, and
+   `margin: 0 auto` re-centred it, visibly moving both page margins. A
+   definite width takes the contents out of that calculation: the column is
+   the same 72rem (or the full track below that) no matter which category is
+   selected. */
 .page-layout-full main.content {
+  width: 100%;
   max-width: 72rem;
   margin: 0 auto;
   padding: 2.5rem 1.5rem 4.5rem;
@@ -811,6 +825,14 @@ img.nw-detail-hero {
 
 .nw-footer-bottom .nw-quarto-credit {
   color: inherit;
+}
+
+/* Quarto's own `.nav-footer a` rule paints the Privacy link mid-grey, which
+   all but disappears against the footer. Take it back to the foreground
+   color, which the footer redefines as white on its own dark ground in both
+   themes (see `--nw-fg` in the `.nav-footer` block above). */
+.nw-footer-bottom .nw-footer-bottom-left a {
+  color: var(--nw-fg);
 }
 
 .nw-footer-bottom a:hover {
