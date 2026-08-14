@@ -58,6 +58,9 @@ $input-bg: #13131a;
   --nw-glass-strong: rgba(10, 10, 15, 0.96);
   --nw-stat-number: #ffffff;
   --nw-navcta: #ffffff;
+  /* nav-link text: a step softer than pure white so the (serif) site title
+     stays the visual anchor of the navbar */
+  --nw-navlink: rgba(255, 255, 255, 0.65);
   /* code-window extension: force a proper dark bg (default Canvas renders
      light because the page never declares color-scheme: dark) */
   --nw-code-bg: #14141b;
