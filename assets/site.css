@@ -172,9 +172,9 @@ body.quarto-dark .quarto-navbar-tools .quarto-color-scheme-toggle:hover > .bi::b
 
 /* The hero's opaque background lives on a ::before layer that fades out over
    its bottom third, so it blends gradually into the page background beneath
-   the particle network instead of ending abruptly at the stats section. */
+   the dot grid instead of ending abruptly at the stats section. */
 #hero {
-  /* anchor for the absolutely-positioned #nw-particles canvas */
+  /* anchor for the absolutely-positioned .nw-hero-dots layer */
   position: relative;
   background: none;
   overflow: hidden;
@@ -214,31 +214,39 @@ body:has(#hero):not(.nw-scrolled) .navbar {
   box-shadow: none;
 }
 
-/* ============ hero: interactive particle-network background ============ */
-/* particles.js canvas (config in index.qmd) fills the hero behind the
-   content. pointer-events stay on so hover-repulse and click-push work in
-   the empty areas around the text and portrait. */
-#nw-particles {
+/* ============ hero: dot-grid background ============ */
+/* Static radial-dot grid, masked to a soft radial fade so it reads as an
+   accent behind the headline rather than a uniform tile. `inset` overshoots
+   the hero box so the slow drift never exposes a bare edge; `#hero`'s own
+   `overflow: hidden` clips it back to the section bounds. Positioned inside
+   `#hero`, which begins at the very top of the page (the navbar floats over
+   it, fixed and transparent until scroll), so the grid already extends
+   behind the navbar with no extra offset needed. */
+.nw-hero-dots {
   position: absolute;
-  inset: 0;
+  inset: -2.5rem;
   z-index: 0;
-  /* fade the network out over the same zone the hero background fades, so
-     particles dissolve into the page instead of clipping at the hero edge */
-  -webkit-mask-image: linear-gradient(to bottom, #000 70%, transparent 100%);
-  mask-image: linear-gradient(to bottom, #000 70%, transparent 100%);
+  opacity: 0.5;
+  background-image: radial-gradient(var(--nw-primary) 1px, transparent 1.4px);
+  background-size: 34px 34px;
+  -webkit-mask-image: radial-gradient(60% 55% at 60% 30%, #000 0%, transparent 78%);
+  mask-image: radial-gradient(60% 55% at 60% 30%, #000 0%, transparent 78%);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .nw-hero-dots {
+    animation: nw-hero-drift 40s linear infinite alternate;
+  }
+}
+
+@keyframes nw-hero-drift {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-60px, -40px, 0); }
 }
 
 #hero .nw-hero-inner {
   position: relative;
   z-index: 1;
-  /* let hovers over gaps in the hero row fall through to the particles */
-  pointer-events: none;
-}
-
-#hero .nw-hero-inner a,
-#hero .nw-hero-inner button,
-#hero .nw-hero-media {
-  pointer-events: auto;
 }
 
 /* ============ scroll reveal ============ */

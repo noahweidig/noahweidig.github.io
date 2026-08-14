@@ -2545,7 +2545,7 @@ body:has(.nw-cv) #title-block-header {
 /* ---------------------------------------------------------------------------
    Reduced motion
 
-   The JS-driven motion (particles hero, globe, scroll reveal, typewriter)
+   The JS-driven motion (globe, scroll reveal, typewriter)
    already checks `prefers-reduced-motion` at its call sites. These rules cover
    the CSS side: the infinite animations that would otherwise keep running —
    the logo marquee, the typewriter caret, and the two availability pulse dots.
