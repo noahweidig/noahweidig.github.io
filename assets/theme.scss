@@ -268,6 +268,104 @@ body {
   background: var(--nw-bg-alt);
 }
 
+/* ============ homepage: left-aligned section headers ============ */
+/* The design reserves centered headings for the hero and the FAQ; every
+   other home-page section reads left-aligned, editorial-style. Scoped by
+   section id so the shared .nw-title/.nw-subtitle/.nw-kicker/.nw-lead
+   classes keep their centered default on /projects/, /publications/ and
+   other listing pages that reuse them. */
+#interests .nw-kicker,
+#interests .nw-title,
+#interests .nw-lead,
+#projects .nw-kicker,
+#projects .nw-title,
+#skills .nw-kicker,
+#skills .nw-title,
+#experience .nw-kicker,
+#experience .nw-title,
+#education .nw-kicker,
+#education .nw-title,
+#awards .nw-kicker,
+#awards .nw-title,
+#awards .nw-subtitle,
+#blog .nw-kicker,
+#blog .nw-title {
+  text-align: left;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+/* ============ affiliations: inline "Worked with" label ============ */
+.nw-affil-row {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-top: 2.5rem;
+}
+
+.nw-affil-label {
+  flex: none;
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--nw-muted);
+}
+
+.nw-affil-row .nw-marquee {
+  flex: 1;
+  min-width: 0;
+  margin-top: 0;
+}
+
+@media (max-width: 560px) {
+  .nw-affil-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+}
+
+/* ============ section header row: heading left, "see all" link right ==== */
+.nw-head-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.nw-head-row .nw-kicker {
+  margin-bottom: 0.5rem;
+}
+
+.nw-head-row h2.nw-title {
+  margin-bottom: 0;
+}
+
+.nw-head-link {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  height: 2.6rem;
+  padding: 0 1.1rem;
+  border: 1px solid var(--nw-border);
+  border-radius: 999px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--nw-fg);
+  text-decoration: none;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.nw-head-link:hover {
+  border-color: var(--nw-primary);
+  color: var(--nw-primary);
+}
+
 /* ============ "where to start" quick-nav cards ============ */
 .nw-start-grid {
   display: grid;

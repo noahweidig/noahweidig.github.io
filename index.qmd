@@ -73,18 +73,20 @@ include-after-body:
       <div class="nw-stat"><b data-nw-stat="featured-projects">17</b><span>Featured Projects</span></div>
     </div>
     <!-- The id keeps the footer's /#affiliations link pointing at them. -->
-    <p class="nw-kicker">Worked with</p>
-    <div class="nw-marquee" id="affiliations" role="group" aria-label="Affiliations">
-      <div class="nw-marquee-track">
-        <a href="https://www.ufl.edu/" target="_blank" rel="noopener"><img src="assets/media/icons/custom/uf.svg" width="800" height="600" alt="University of Florida" loading="lazy"></a>
-        <a href="https://www.ars.usda.gov/" target="_blank" rel="noopener"><img src="assets/media/icons/custom/ars.svg" width="800" height="600" alt="USDA Agricultural Research Service" loading="lazy"></a>
-        <a href="https://www.fs.usda.gov/" target="_blank" rel="noopener"><img src="assets/media/icons/custom/fs.svg" width="600" height="450" alt="USDA Forest Service" loading="lazy"></a>
-        <a href="https://www.uc.edu/" target="_blank" rel="noopener"><img src="assets/media/icons/custom/uc.svg" width="800" height="600" alt="University of Cincinnati" loading="lazy"></a>
-        <a href="https://www.nku.edu/" target="_blank" rel="noopener"><img src="assets/media/icons/custom/nku.svg" width="586" height="290" alt="Northern Kentucky University" loading="lazy"></a>
-        <a href="https://thesca.org/" target="_blank" rel="noopener"><img src="assets/media/icons/custom/sca.svg" width="622" height="849" alt="Student Conservation Association" loading="lazy"></a>
-        <a href="https://boonecountyclerk.ky.gov/" target="_blank" rel="noopener"><img src="assets/media/icons/custom/boone.svg" width="600" height="600" alt="Boone County Clerk's Office" loading="lazy"></a>
-        <a href="https://www.garageliving.com/f/cincinnati" target="_blank" rel="noopener"><img src="assets/media/icons/custom/garage-living.svg" width="600" height="178" alt="Garage Living" loading="lazy"></a>
-        <a href="https://www.instagram.com/nku_ecos/" target="_blank" rel="noopener"><img src="assets/media/icons/custom/ecos.svg" width="148" height="161" alt="ECOS" loading="lazy"></a>
+    <div class="nw-affil-row">
+      <p class="nw-affil-label">Worked with</p>
+      <div class="nw-marquee" id="affiliations" role="group" aria-label="Affiliations">
+        <div class="nw-marquee-track">
+          <a href="https://www.ufl.edu/" target="_blank" rel="noopener"><img src="assets/media/icons/custom/uf.svg" width="800" height="600" alt="University of Florida" loading="lazy"></a>
+          <a href="https://www.ars.usda.gov/" target="_blank" rel="noopener"><img src="assets/media/icons/custom/ars.svg" width="800" height="600" alt="USDA Agricultural Research Service" loading="lazy"></a>
+          <a href="https://www.fs.usda.gov/" target="_blank" rel="noopener"><img src="assets/media/icons/custom/fs.svg" width="600" height="450" alt="USDA Forest Service" loading="lazy"></a>
+          <a href="https://www.uc.edu/" target="_blank" rel="noopener"><img src="assets/media/icons/custom/uc.svg" width="800" height="600" alt="University of Cincinnati" loading="lazy"></a>
+          <a href="https://www.nku.edu/" target="_blank" rel="noopener"><img src="assets/media/icons/custom/nku.svg" width="586" height="290" alt="Northern Kentucky University" loading="lazy"></a>
+          <a href="https://thesca.org/" target="_blank" rel="noopener"><img src="assets/media/icons/custom/sca.svg" width="622" height="849" alt="Student Conservation Association" loading="lazy"></a>
+          <a href="https://boonecountyclerk.ky.gov/" target="_blank" rel="noopener"><img src="assets/media/icons/custom/boone.svg" width="600" height="600" alt="Boone County Clerk's Office" loading="lazy"></a>
+          <a href="https://www.garageliving.com/f/cincinnati" target="_blank" rel="noopener"><img src="assets/media/icons/custom/garage-living.svg" width="600" height="178" alt="Garage Living" loading="lazy"></a>
+          <a href="https://www.instagram.com/nku_ecos/" target="_blank" rel="noopener"><img src="assets/media/icons/custom/ecos.svg" width="148" height="161" alt="ECOS" loading="lazy"></a>
+        </div>
       </div>
     </div>
   </div>
@@ -221,13 +223,16 @@ include-after-body:
 
 ::: {.nw-section #projects}
 ::: {.nw-section-inner}
+<div class="nw-head-row">
+<div>
 <p class="nw-kicker">Selected work</p>
 <h2 class="nw-title">Tools, maps &amp; applications</h2>
+</div>
+<a class="nw-head-link" href="projects/">Browse All Projects →</a>
+</div>
 
 ::: {#featured-projects .nw-projects}
 :::
-
-<div class="nw-btns nw-section-more"><a class="nw-btn nw-btn-ghost" href="projects/">Browse All Projects →</a></div>
 :::
 :::
 
@@ -352,13 +357,16 @@ include-after-body:
 
 ::: {.nw-section #blog}
 ::: {.nw-section-inner}
+<div class="nw-head-row">
+<div>
 <p class="nw-kicker">Writing</p>
 <h2 class="nw-title">Notes &amp; tutorials</h2>
+</div>
+<a class="nw-head-link" href="blog/">Read More Posts →</a>
+</div>
 
 ::: {#featured-posts .nw-posts}
 :::
-
-<div class="nw-btns nw-section-more"><a class="nw-btn nw-btn-ghost" href="blog/">Read More Posts →</a></div>
 :::
 :::
 
