@@ -1168,20 +1168,23 @@ body {
 }
 
 /* ============ citations (publications listing) ============ */
-/* home page: three post cards side by side instead of stacked */
+/* home page: three post cards side by side (three columns), not stacked.
+   !important guards against Quarto's own listing CSS, which sets
+   grid-template-columns on this same element for its built-in grid view. */
 #featured-posts.nw-posts {
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, 1fr) !important;
+  align-items: start;
 }
 
 @media (max-width: 900px) {
   #featured-posts.nw-posts {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, 1fr) !important;
   }
 }
 
 @media (max-width: 600px) {
   #featured-posts.nw-posts {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr !important;
   }
 }
 
@@ -2053,13 +2056,35 @@ body {
    transparent until scroll" in site.css, which now also matches this
    selector). The landing page itself uses `pagetitle:` instead of `title:`
    so Quarto never emits this element there — #hero is its own version of the
-   same band, so nothing doubles up. */
+   same band, so nothing doubles up.
+
+   Where the navbar-height pull-up happens depends on the page layout:
+    - `.page-layout-custom` (CV): `main` here is already zero-padded (see
+      `.page-layout-custom main` above), so #title-block-header sits exactly
+      where #hero does on the landing page — same per-element pull-up.
+    - `.page-layout-full` / `.page-layout-article` (listings, detail pages,
+      privacy...): `main.content` carries Quarto's own default top
+      padding/margin, one level above the header, so pulling only the header
+      left a residual gap. Pull `main.content` up there instead, and leave
+      the header's own margin at 0.
+   Only one of the two ever applies to a given page, so they never stack. */
+body.nav-fixed .page-layout-custom #title-block-header {
+  margin-top: calc(-1 * var(--nw-navbar-h));
+  padding-top: calc(1.75rem + var(--nw-navbar-h));
+}
+
+body.nav-fixed .page-layout-full main.content,
+body.nav-fixed .page-layout-article main.content {
+  margin-top: calc(-1 * var(--nw-navbar-h)) !important;
+  padding-top: var(--nw-navbar-h) !important;
+}
+
 #title-block-header {
   position: relative;
   overflow: hidden;
   isolation: isolate;
-  padding: 1.75rem 0 2.5rem;
   margin-top: 0;
+  padding: 1.75rem 0 2.5rem;
 }
 
 #title-block-header::before {
@@ -2086,18 +2111,9 @@ body {
   mask-image: radial-gradient(65% 85% at 50% 15%, #000 0%, transparent 78%);
 }
 
-body.nav-fixed #title-block-header {
-  margin-top: calc(-1 * var(--nw-navbar-h));
-  padding-top: calc(1.75rem + var(--nw-navbar-h));
-}
-
 @media (max-width: 640px) {
   #title-block-header {
     padding-bottom: 2rem;
-  }
-
-  body.nav-fixed #title-block-header {
-    padding-top: calc(2.5rem + var(--nw-navbar-h));
   }
 }
 
