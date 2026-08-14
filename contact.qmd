@@ -1,6 +1,6 @@
 ---
-title: "Contact"
-description: "Get in touch about data science, GIS, or research collaboration — email, book a call, or send a message directly."
+title: "Get In Touch"
+description: "Let's build something amazing together — email, book a call, or send a message directly."
 page-layout: custom
 toc: false
 ---
@@ -8,8 +8,6 @@ toc: false
 ```{=html}
 <section id="contact" class="nw-section">
   <div class="nw-section-inner">
-    <h2 class="nw-title">Get In Touch</h2>
-    <p class="nw-subtitle">Let's build something amazing together</p>
     <div class="nw-contact-card">
       <div class="nw-contact-info">
         <h3>Let's start a conversation</h3>
