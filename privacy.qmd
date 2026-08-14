@@ -24,7 +24,7 @@ in blockers that honour it.
 
 ## Contact form
 
-The contact form on the [home page](/#contact) is handled by
+The [contact form](/contact) is handled by
 [Formspree](https://formspree.io/legal/privacy-policy). Whatever you type into
 it — your name, email address, and message — is transmitted to Formspree and
 forwarded to my inbox. It is used to reply to you and nothing else: no mailing
