@@ -205,13 +205,20 @@ body.quarto-dark .quarto-navbar-tools .quarto-color-scheme-toggle:hover > .bi::b
    visible seam. nw-nav.js flips `.nw-scrolled` on <body> once the visitor
    scrolls past the band, at which point the navbar reverts to its normal
    solid, blurred look (no rule needed for that state — removing the
-   override is enough). */
+   override is enough).
+
+   The same applies while the mobile hamburger menu is open at the top of the
+   page: an expanded menu needs a background of its own to stay readable, so
+   the transparent override drops out whenever `.navbar-collapse` is open
+   (`.show`) or mid-animation (`.collapsing`), and comes back once it has
+   finished closing. */
 body:has(#hero, #title-block-header, .nw-page-band) .navbar {
   transition: background-color 0.25s ease, border-color 0.25s ease,
     backdrop-filter 0.25s ease;
 }
 
-body:has(#hero, #title-block-header, .nw-page-band):not(.nw-scrolled) .navbar {
+body:has(#hero, #title-block-header, .nw-page-band):not(.nw-scrolled)
+  .navbar:not(:has(.navbar-collapse.show, .navbar-collapse.collapsing)) {
   background-color: transparent !important;
   border-bottom-color: transparent;
   backdrop-filter: none;
