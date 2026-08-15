@@ -342,7 +342,16 @@ document.addEventListener(
       // Clamp: elastic overscroll on iOS reports values outside 0..1.
       progress = Math.max(0, Math.min(1, progress));
       btn.style.setProperty("--nw-top-progress", progress);
-      btn.classList.toggle("show", window.scrollY > 600);
+      // Short pages (contact, 404) never scroll the flat 600px the long ones
+      // did, so the button never appeared there at all. Scale the trigger to
+      // whatever scrolling the page actually has instead: a third of the way
+      // down on a short page, still 600px on anything long enough for that to
+      // be the smaller number.
+      var threshold = Math.min(600, scrollable * 0.35);
+      btn.classList.toggle(
+        "show",
+        scrollable > 0 && window.scrollY > threshold
+      );
       ticking = false;
     });
   };
