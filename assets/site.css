@@ -863,10 +863,18 @@ img.nw-detail-hero {
 }
 
 /* ============ contact: one card, info column + form column ============ */
+/* The contact page is title block + this one section, so the section's usual
+   6rem top padding stacked on top of the card's own top margin left a screen's
+   worth of empty page between the page description and the card. The title
+   band's own bottom padding already carries most of that gap. */
+#quarto-content #contact.nw-section {
+  padding-top: 2rem;
+}
+
 .nw-contact-card {
   position: relative;
   max-width: 62rem;
-  margin: 2.5rem auto 0;
+  margin: 0 auto;
   display: grid;
   grid-template-columns: 1fr 1.15fr;
   gap: 2.5rem 3rem;
