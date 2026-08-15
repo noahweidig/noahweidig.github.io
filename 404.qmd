@@ -4,7 +4,7 @@ description: "That page doesn't exist or has moved. Head back to the home page t
 toc: false
 ---
 
-The page you're looking for doesn't exist or has been moved. These are the places most people are headed:
+These are the places most people are headed:
 
 - [Projects](/projects/) — geospatial analysis, R packages, and data tools
 - [Publications](/publications/) — papers, presentations, and media coverage
