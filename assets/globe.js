@@ -225,11 +225,22 @@
 
   // A resize can change the canvas's CSS size (responsive layout), so the
   // static frame has to be redrawn at the new resolution — no loop involved.
-  window.addEventListener("resize", function () {
+  var redraw = function () {
     if (!lines) return;
     resize();
     draw();
-  });
+  };
+  window.addEventListener("resize", redraw);
+
+  // The canvas can also change size without the window doing so — the webfont
+  // swapping in, the CTA section reflowing, an image above it settling. The
+  // first draw then leaves the marker (and the HTML label pinned to it) at
+  // coordinates computed for the old width, with no resize event to correct
+  // them, which is why the label sometimes sat away from Orlando. Watching the
+  // element itself catches every one of those cases.
+  if ("ResizeObserver" in window) {
+    new ResizeObserver(redraw).observe(canvas);
+  }
 
   if ("IntersectionObserver" in window) {
     var loader = new IntersectionObserver(

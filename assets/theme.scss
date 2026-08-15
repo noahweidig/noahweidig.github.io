@@ -278,6 +278,18 @@ body {
   margin-right: 0;
 }
 
+/* FAQ: the accordion is a 44rem column centered in the wider section, so its
+   header reads left-aligned against that column's left edge rather than the
+   section's — same max-width and centering as .nw-faq itself. */
+#faq .nw-kicker,
+#faq .nw-title,
+#faq .nw-subtitle {
+  max-width: 44rem;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: left;
+}
+
 /* ============ affiliations: inline "Worked with" label ============ */
 .nw-affil-row {
   display: flex;
@@ -2166,12 +2178,13 @@ body.nav-fixed .page-layout-article main.content {
 }
 
 /* Blog post pages: "X minute read", set against the top right of the article
-   column. scripts/reading-time.lua prepends it as the first block of the body,
-   so pulling it up by its own line height parks it level with the first
-   paragraph's top edge without reserving a row of its own. */
+   column. scripts/reading-time.lua prepends it as the first block of the body.
+   It used to float, which let the opening paragraphs wrap around it and pushed
+   the badge down into the running text; a plain right-aligned block keeps it on
+   its own line directly under the title block. */
 .nw-readtime {
-  float: right;
-  margin: -0.35rem 0 0.35rem 1rem;
+  text-align: right;
+  margin: -1.5rem 0 0.75rem;
   font-family: var(--nw-font-mono);
   font-size: 0.8rem;
   color: var(--nw-muted);
