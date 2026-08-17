@@ -8,7 +8,7 @@
  *
  *   node --experimental-strip-types scripts/optimize-output.ts
  *
- * Two jobs, both things Quarto has no setting for:
+ * Five jobs, all things Quarto has no setting for:
  *
  *  1. Intrinsic image dimensions. Markdown figures (`![alt](shot.webp)`) and
  *     EJS listing templates emit <img> without width/height, so the browser
@@ -26,7 +26,36 @@
  *     async decode path resamples visibly differently from the sync one, which
  *     is a rendering change for no measurable gain once width/height are known.
  *
- *  2. sitemap.xml URL normalisation. Quarto lists `…/index.html`; the pages
+ *  2. Responsive image variants. Listing pages ship 1600 px album screenshots
+ *     into ~286 px slots, so a phone downloads several times the pixels it can
+ *     show. For every raster image big enough to be worth it, this shells out
+ *     to `cwebp` for a few narrower copies next to the original
+ *     (`shot-480.webp`, …) and emits them as `srcset`. `sizes="auto"` lets the
+ *     browser use the image's own laid-out width — exact by construction, and
+ *     browsers without it simply fall back to 100vw and pick a larger
+ *     candidate, so no image is ever chosen too small. If `cwebp` is not
+ *     installed (Netlify's build image, a bare local render) nothing is
+ *     generated and no `srcset` is written: the site renders exactly as before.
+ *
+ *  3. Non-render-blocking alternate theme CSS. The dual-theme setup emits two
+ *     full ~536 KB Bootstrap bundles as plain stylesheets, so the browser
+ *     parses both before first paint even though a light-mode visitor never
+ *     uses the dark one. Parking the alternate sheets behind `media="not all"`
+ *     keeps them fetched but out of the critical path; a tiny inline script,
+ *     injected at the end of <head> so it sees the same stored sentinel Quarto
+ *     reads, re-arms them before paint for visitors who get the dark theme.
+ *     (Quarto layers dark *over* light and never disables the primary sheet,
+ *     so in dark mode both are still applied — the win is on the light path.)
+ *     `assets/nw-nav.js` re-arms `media` on toggle, since Quarto's own toggle
+ *     only ever flips `rel`.
+ *
+ *  4. Cloudflare Rocket Loader opt-out. noahweidig.com is proxied by
+ *     Cloudflare with Rocket Loader on, which rewrites every script's `type`
+ *     so the browser will not run it natively — including the pre-paint theme
+ *     script above and the accessibility patches in nw-nav.js. `data-cfasync`
+ *     is the documented per-script opt-out; it is inert everywhere else.
+ *
+ *  5. sitemap.xml URL normalisation. Quarto lists `…/index.html`; the pages
  *     themselves advertise the directory form as canonical (`…/`). Submitting
  *     a sitemap full of non-canonical duplicates wastes crawl budget and
  *     muddies which URL Google picks, so rewrite it to match.
@@ -34,6 +63,7 @@
  * Only the rendered output is touched — nothing under the project source.
  */
 
+import { spawnSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 import process from "node:process";
@@ -142,13 +172,138 @@ function addAttrs(tag: string, extra: string): string {
   return tag.replace(/\s*\/?>$/, ` ${extra}>`);
 }
 
+// -------------------------------------------------- responsive variants
+
+/** Candidate widths. 640 is the one that matters most: the album screenshots
+ *  and award images render at ~286-288 CSS px, i.e. ~576 device px on a phone
+ *  at DPR 2, so 640 is the first candidate wide enough to stay sharp. */
+const VARIANT_WIDTHS = [480, 640, 960];
+
+/** Below this there is nothing to save — the file is already close to the
+ *  largest size any layout on the site asks of it. */
+const MIN_SOURCE_WIDTH = 700;
+
+/** Quality for the generated copies. Downscaling hides compression artefacts,
+ *  so this sits a little under what the source assets were encoded at. */
+const VARIANT_QUALITY = "80";
+
+let encoderChecked = false;
+let encoder: string | null = null;
+
+/**
+ * `cwebp`, if this machine has it. Absence is normal and not an error: the
+ * Netlify preview build and a plain local `quarto render` have no libwebp, and
+ * a runtime that forbids spawning processes throws rather than returning — in
+ * every one of those cases the site is simply built without variants.
+ */
+function webpEncoder(): string | null {
+  if (encoderChecked) return encoder;
+  encoderChecked = true;
+  try {
+    const probe = spawnSync("cwebp", ["-version"], { stdio: "ignore" });
+    if (!probe.error && probe.status === 0) encoder = "cwebp";
+  } catch {
+    encoder = null;
+  }
+  if (!encoder) {
+    console.log("[optimize] cwebp unavailable — skipping responsive image variants");
+  }
+  return encoder;
+}
+
+const variantCache = new Map<string, number[]>();
+let variantsWritten = 0;
+
+/** Whether a variant from an earlier build can be reused as-is. Quarto leaves
+ *  the output directory in place between renders, so most builds regenerate
+ *  nothing; a re-exported source image is newer than its variants and does. */
+function upToDate(dest: string, source: string): boolean {
+  try {
+    return fs.statSync(dest).mtimeMs >= fs.statSync(source).mtimeMs;
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Narrower copies of `file`, generated on first use and cached. Returns the
+ * widths that exist on disk — empty whenever the image is too small to be
+ * worth it, is not a WebP, or no encoder is available.
+ */
+function variantWidths(file: string, size: Size): number[] {
+  const cached = variantCache.get(file);
+  if (cached) return cached;
+
+  const widths: number[] = [];
+  variantCache.set(file, widths);
+
+  // Only WebP sources: mixing formats inside one srcset would hand the
+  // browser candidates it cannot tell apart, and every image on the site
+  // that is large enough to matter is already WebP.
+  if (!/\.webp$/i.test(file) || size.w < MIN_SOURCE_WIDTH) return widths;
+  // A generated variant must never itself be a source.
+  if (/-\d+\.webp$/i.test(file)) return widths;
+  // Rendered output only — never anything outside the build directory.
+  if (path.relative(outputDir, file).startsWith("..")) return widths;
+
+  const bin = webpEncoder();
+  if (!bin) return widths;
+
+  for (const w of VARIANT_WIDTHS) {
+    if (w >= size.w) continue;
+    const dest = file.replace(/\.webp$/i, `-${w}.webp`);
+    if (!upToDate(dest, file)) {
+      let ok = false;
+      try {
+        const run = spawnSync(bin, [
+          "-quiet",
+          "-q",
+          VARIANT_QUALITY,
+          "-resize",
+          String(w),
+          "0",
+          file,
+          "-o",
+          dest,
+        ]);
+        ok = !run.error && run.status === 0 && fs.existsSync(dest);
+      } catch {
+        ok = false;
+      }
+      if (!ok) {
+        // A half-written file would be served as a broken image.
+        try {
+          fs.rmSync(dest, { force: true });
+        } catch { /* nothing to clean up */ }
+        continue;
+      }
+      variantsWritten++;
+    }
+    widths.push(w);
+  }
+  return widths;
+}
+
+/** The srcset for an <img src>, or null if it has no variants. */
+function srcsetFor(src: string, file: string, size: Size): string | null {
+  const widths = variantWidths(file, size);
+  if (!widths.length) return null;
+  const candidates = widths.map((w) => `${src.replace(/\.webp$/i, `-${w}.webp`)} ${w}w`);
+  candidates.push(`${src} ${size.w}w`);
+  return candidates.join(", ");
+}
+
 // -------------------------------------------------------------- html pass
 
 /**
  * Rewrite the <img> tags inside a page's <main>. Navigation and footer imagery
  * is left alone: it is hand-written, already sized, and always above the fold.
  */
-function processImages(html: string, file: string, stats: { sized: number; lazy: number }): string {
+function processImages(
+  html: string,
+  file: string,
+  stats: { sized: number; lazy: number; responsive: number },
+): string {
   const start = html.search(/<main[\s>]/i);
   if (start === -1) return html;
   const end = html.lastIndexOf("</main>");
@@ -163,11 +318,12 @@ function processImages(html: string, file: string, stats: { sized: number; lazy:
     let out = tag;
     const hasW = attr(tag, "width") !== null;
     const hasH = attr(tag, "height") !== null;
+    const resolved = resolveSrc(src, file);
+    const raw = resolved ? cachedSize(resolved) : null;
+    const size = raw && raw.w > 0 && raw.h > 0 ? raw : null;
 
     if (!hasW || !hasH) {
-      const resolved = resolveSrc(src, file);
-      const size = resolved ? cachedSize(resolved) : null;
-      if (size && size.w > 0 && size.h > 0) {
+      if (size) {
         if (!hasW && !hasH) {
           out = addAttrs(out, `width="${size.w}" height="${size.h}"`);
           stats.sized++;
@@ -192,6 +348,21 @@ function processImages(html: string, file: string, stats: { sized: number; lazy:
     if (index > 0 && attr(out, "loading") === null && attr(out, "fetchpriority") === null) {
       out = addAttrs(out, 'loading="lazy"');
       stats.lazy++;
+    }
+
+    // Narrower copies of oversized images, offered as a srcset. `sizes="auto"`
+    // is only defined for lazy images; on the one eager image per page the
+    // attribute is left off, so the browser assumes 100vw and errs towards the
+    // larger candidate rather than a soft one.
+    if (size && resolved && attr(out, "srcset") === null) {
+      const srcset = srcsetFor(src, resolved, size);
+      if (srcset) {
+        out = addAttrs(out, `srcset="${srcset}"`);
+        if (attr(out, "loading") === "lazy" && attr(out, "sizes") === null) {
+          out = addAttrs(out, 'sizes="auto"');
+        }
+        stats.responsive++;
+      }
     }
     return out;
   });
@@ -219,6 +390,77 @@ function ensureMainLandmark(html: string): string {
   );
 }
 
+// -------------------------------------------------------- theme styles
+
+/**
+ * Runs at the end of <head>, after the inline script in _quarto.yml has had
+ * its say on the stored sentinel, and before anything can paint. Mirrors
+ * Quarto's own reading of that sentinel exactly: a missing value means the
+ * author's default theme, which for this site (dark listed first) is the
+ * alternate one.
+ */
+const THEME_MEDIA_SCRIPT = `<script data-cfasync="false">
+(function () {
+  // The alternate (dark) sheets are parked behind media="not all" at build
+  // time so they never block first paint for a light-mode visitor. Re-arm
+  // them here when this visitor is getting the dark theme after all.
+  var stored = null;
+  try { stored = window.localStorage.getItem("quarto-color-scheme"); } catch (e) {}
+  if (stored !== null && stored !== "alternate") return;
+  var sheets = document.querySelectorAll("link.quarto-color-scheme.quarto-color-alternate");
+  for (var i = 0; i < sheets.length; i++) sheets[i].media = "all";
+})();
+</script>
+`;
+
+/**
+ * Take the inactive theme's stylesheets off the critical path. `media="not
+ * all"` keeps the sheet downloading (at low priority, so a later toggle is
+ * instant) while excluding it from the render-blocking set. `rel` is left
+ * alone: Quarto's toggle machinery keys off it, and off the class, so both
+ * must survive untouched.
+ */
+function deferAlternateStyles(html: string): string {
+  let changed = false;
+  const out = html.replace(/<link\s[^>]*>/gi, (tag) => {
+    const cls = attr(tag, "class");
+    if (!cls || !/\bquarto-color-alternate\b/.test(cls)) return tag;
+    if (attr(tag, "media") !== null) return tag;
+    if ((attr(tag, "rel") || "").toLowerCase() !== "stylesheet") return tag;
+    changed = true;
+    return addAttrs(tag, 'media="not all"');
+  });
+  if (!changed) return html;
+  const head = out.search(/<\/head>/i);
+  // Without the re-arming script the parked sheet could never come back, so
+  // a page with no </head> to put it in keeps its stylesheets as they were.
+  if (head === -1) return html;
+  return out.slice(0, head) + THEME_MEDIA_SCRIPT + out.slice(head);
+}
+
+// ------------------------------------------------------- rocket loader
+
+/**
+ * Opt every script out of Cloudflare Rocket Loader. Rocket Loader rewrites
+ * `type` on scripts it takes over and runs them itself, well after first
+ * paint — which for this site means the pre-paint theme script above and the
+ * navbar accessibility patches in nw-nav.js arrive late. `data-cfasync` is
+ * Cloudflare's documented opt-out and is ignored by every other consumer of
+ * the page, so it is safe to stamp on every script the browser executes.
+ *
+ * Data blocks (JSON-LD, speculation rules) are left alone: Rocket Loader has
+ * no interest in a script it will never run, and scripts/generate-og.ts finds
+ * the page's JSON-LD block by matching its opening tag verbatim.
+ */
+function optOutRocketLoader(html: string): string {
+  return html.replace(/<script(?=[\s>])[^>]*>/gi, (tag) => {
+    if (attr(tag, "data-cfasync") !== null) return tag;
+    const type = attr(tag, "type");
+    if (type !== null && !/javascript|module/i.test(type)) return tag;
+    return tag.replace(/^<script/i, '<script data-cfasync="false"');
+  });
+}
+
 // ------------------------------------------------------------- sitemap
 
 function normalizeSitemap(): number {
@@ -244,14 +486,19 @@ function main(): void {
     process.exit(1);
   }
 
-  const stats = { sized: 0, lazy: 0 };
+  const stats = { sized: 0, lazy: 0, responsive: 0 };
   let pages = 0;
   let landmarks = 0;
+  let deferred = 0;
   for (const file of walkHtml(outputDir)) {
     const html = fs.readFileSync(file, "utf8");
     const sized = processImages(html, file, stats);
-    const next = ensureMainLandmark(sized);
-    if (next !== sized) landmarks++;
+    const landmarked = ensureMainLandmark(sized);
+    if (landmarked !== sized) landmarks++;
+    const themed = deferAlternateStyles(landmarked);
+    if (themed !== landmarked) deferred++;
+    // Last: every script the steps above may have added is stamped too.
+    const next = optOutRocketLoader(themed);
     if (next !== html) {
       fs.writeFileSync(file, next);
       pages++;
@@ -261,6 +508,11 @@ function main(): void {
     `[optimize] ${stats.sized} image(s) given intrinsic dimensions, ` +
       `${stats.lazy} lazy-loaded across ${pages} page(s)`,
   );
+  console.log(
+    `[optimize] ${stats.responsive} image(s) given a srcset ` +
+      `(${variantsWritten} variant file(s) generated)`,
+  );
+  console.log(`[optimize] alternate theme CSS taken off the critical path on ${deferred} page(s)`);
   console.log(`[optimize] main landmark added to ${landmarks} custom-layout page(s)`);
   console.log(`[optimize] sitemap.xml: ${normalizeSitemap()} URL(s) normalised to canonical form`);
 }

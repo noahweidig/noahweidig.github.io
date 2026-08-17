@@ -52,6 +52,31 @@ function nwReducedMotion() {
   );
 }
 
+// scripts/optimize-output.ts parks the alternate (dark) stylesheets behind
+// `media="not all"` so they don't block first paint in light mode, and a
+// pre-paint script in <head> re-arms them for visitors who load straight into
+// dark. A *toggle* into dark has to do the same, and Quarto's own
+// `toggleColorMode` only ever flips `rel` — a sheet left at `media="not all"`
+// would be enabled and still apply nothing. Wrapping the exported entry point
+// covers both callers: Quarto's inline `onclick` and the wipe below, which
+// reads `window.quartoToggleColorScheme` at click time.
+//
+// Setting `media` on the way in (rather than trying to match the new state
+// afterwards) keeps this correct in both directions: enabling dark needs the
+// sheet armed, and disabling it leaves `rel="disabled-stylesheet"`, which
+// already applies nothing whatever `media` says.
+(function () {
+  var original = window.quartoToggleColorScheme;
+  if (typeof original !== "function") return;
+  window.quartoToggleColorScheme = function () {
+    var sheets = document.querySelectorAll(
+      "link.quarto-color-scheme.quarto-color-alternate"
+    );
+    for (var i = 0; i < sheets.length; i++) sheets[i].media = "all";
+    return original.apply(this, arguments);
+  };
+})();
+
 // The theme toggle is an <a href="">; stop it from navigating (which jumps to
 // the top). When view transitions are available the swap is also wrapped in a
 // circular wipe that grows from the toggle itself, so the new theme reads as
