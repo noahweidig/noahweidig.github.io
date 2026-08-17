@@ -28,14 +28,14 @@ jobs:
         run: quarto render
 
       - name: Serve site
-        run: npx --yes serve -l 4173 _site &
+        run: npx --yes serve@14.2.6 -l 4173 _site &
 
       - name: Wait for server
-        run: npx --yes wait-on http://localhost:4173/index.html
+        run: npx --yes wait-on@9.1.0 http://localhost:4173/index.html
 
       - name: Run axe-core
         run: |
-          npx --yes @axe-core/cli \
+          npx --yes @axe-core/cli@4.13.0 \
             http://localhost:4173/index.html \
             http://localhost:4173/cv.html \
             http://localhost:4173/experience/index.html \
@@ -44,5 +44,4 @@ jobs:
             http://localhost:4173/publications/index.html \
             http://localhost:4173/blog/index.html \
             http://localhost:4173/contact.html \
-            --chrome-options=no-sandbox \
             --exit
