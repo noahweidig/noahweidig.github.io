@@ -173,6 +173,23 @@ format:
     lang: en
     include-in-header:
       - text: |
+          <script>
+          (function () {
+            // First visit only (no saved toggle choice yet): seed Quarto's
+            // localStorage key from the OS preference before Quarto's own
+            // body-start script reads it, so light-preference visitors don't
+            // get dark by default. Runs before paint to avoid a flash.
+            // See https://github.com/noahweidig/noahweidig.github.io/issues/177
+            try {
+              if (
+                window.localStorage.getItem("quarto-color-scheme") === null &&
+                window.matchMedia("(prefers-color-scheme: light)").matches
+              ) {
+                window.localStorage.setItem("quarto-color-scheme", "light");
+              }
+            } catch (e) {}
+          })();
+          </script>
           <link rel="preconnect" href="https://fonts.googleapis.com">
           <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
           <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
