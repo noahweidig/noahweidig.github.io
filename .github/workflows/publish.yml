@@ -47,6 +47,13 @@ jobs:
         with:
           version: 1.9.38
 
+      # cwebp generates the narrow image variants scripts/optimize-output.ts
+      # emits as srcset. Not fatal if it can't be installed: the render simply
+      # ships the full-size images, exactly as it did before.
+      - name: Install cwebp
+        continue-on-error: true
+        run: sudo apt-get update -qq && sudo apt-get install -y --no-install-recommends webp
+
       - name: Render site
         run: quarto render
 

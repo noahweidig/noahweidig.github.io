@@ -11,7 +11,8 @@ project:
   # projects that actually have `featured: true` (scripts/update-stats.ts),
   # then regenerate the per-page Open Graph PNG cards plus the canonical/social
   # <head> tags (scripts/generate-og.ts), and finally stamp intrinsic image
-  # dimensions and lazy-loading onto the rendered pages and align sitemap.xml
+  # dimensions, lazy-loading and responsive srcsets onto the rendered pages,
+  # take the inactive theme's CSS off the critical path, and align sitemap.xml
   # with the canonical URLs (scripts/optimize-output.ts). Order matters: the
   # last two both rewrite the HTML generate-og.ts produced.
   post-render:
