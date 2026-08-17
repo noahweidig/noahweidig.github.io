@@ -33,6 +33,9 @@
     })();
   }
 
+  // Nav bar's transparent-until-scroll toggle lives in nw-nav.js (global —
+  // every page carries the same top band now, not just this one).
+
   // Duplicate marquee content so the loop is seamless: the `nw-scroll`
   // keyframe translates by -50%, which only lines up if the row is exactly
   // doubled. The copy is decoration — hide it from assistive tech and take it
@@ -59,8 +62,38 @@
     // as items are added or removed.
     var copyWidth = track.scrollWidth / 2;
     if (copyWidth > 0) {
-      track.style.animationDuration = (copyWidth / 32) + "s";
+      track.style.animationDuration = (copyWidth / 22) + "s";
     }
+  });
+
+  // Pause control for the marquees (WCAG 2.2.2: anything that moves for more
+  // than five seconds needs a way to stop it). The CSS already pauses on hover
+  // and focus-within, but neither is a mechanism a touch visitor has. Built
+  // here rather than written into index.qmd so the button only exists when the
+  // animation it controls does.
+  var PAUSE_ICON = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="7" y="5" width="3.5" height="14" rx="1"/><rect x="13.5" y="5" width="3.5" height="14" rx="1"/></svg>';
+  var PLAY_ICON = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5l11 7l-11 7z"/></svg>';
+
+  document.querySelectorAll(".nw-marquee").forEach(function (marquee) {
+    if (!marquee.querySelector(".nw-marquee-track")) return;
+
+    var name = marquee.getAttribute("aria-label") || "carousel";
+    var btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "nw-marquee-pause";
+    btn.innerHTML = PAUSE_ICON;
+    btn.setAttribute("aria-label", "Pause the " + name + " animation");
+
+    btn.addEventListener("click", function () {
+      var paused = marquee.toggleAttribute("data-nw-paused");
+      btn.innerHTML = paused ? PLAY_ICON : PAUSE_ICON;
+      btn.setAttribute(
+        "aria-label",
+        (paused ? "Resume the " : "Pause the ") + name + " animation"
+      );
+    });
+
+    marquee.insertAdjacentElement("afterend", btn);
   });
 
   // FAQ behaves as an accordion: opening one entry closes the others, so the
@@ -148,6 +181,92 @@
     }
   });
 
+  // Research areas: upgrade the stacked panels into a tab set. The markup ships
+  // with every panel visible and the tab strip `hidden`, so this is the only
+  // thing standing between a JS failure and a readable (if long) section.
+  var areas = document.getElementById("nw-areas");
+  if (areas) {
+    var tablist = areas.querySelector('[role="tablist"]');
+    var tabs = Array.prototype.slice.call(areas.querySelectorAll('[role="tab"]'));
+    var panels = Array.prototype.slice.call(areas.querySelectorAll('[role="tabpanel"]'));
+
+    if (tablist && tabs.length && tabs.length === panels.length) {
+      var slugOf = function (tab) {
+        return (tab.id || "").replace("nw-area-tab-", "");
+      };
+
+      var select = function (tab, moveFocus, updateHash, scrollStrip) {
+        tabs.forEach(function (t) {
+          var on = t === tab;
+          t.setAttribute("aria-selected", on ? "true" : "false");
+          // Roving tabindex: the strip is one tab stop, arrows move within it.
+          t.tabIndex = on ? 0 : -1;
+          var panel = document.getElementById(t.getAttribute("aria-controls"));
+          if (panel) panel.hidden = !on;
+        });
+        // `nearest` on both axes: the strip may need to scroll sideways, but
+        // the page must not jump vertically just because a tab was clicked.
+        // Skipped on the initial selection — with the section below the fold,
+        // even `nearest` scrolls the whole page down to it on load.
+        if (scrollStrip && tab.scrollIntoView) {
+          tab.scrollIntoView({ block: "nearest", inline: "nearest" });
+        }
+        if (moveFocus) tab.focus();
+        if (updateHash && history.replaceState) {
+          history.replaceState(null, "", "#area=" + slugOf(tab));
+        }
+      };
+
+      tabs.forEach(function (tab, i) {
+        tab.addEventListener("click", function () {
+          select(tab, false, true, true);
+        });
+        // Arrow keys per the APG tabs pattern; Home/End jump to the ends.
+        tab.addEventListener("keydown", function (e) {
+          var next = null;
+          if (e.key === "ArrowRight") next = tabs[(i + 1) % tabs.length];
+          else if (e.key === "ArrowLeft") next = tabs[(i - 1 + tabs.length) % tabs.length];
+          else if (e.key === "Home") next = tabs[0];
+          else if (e.key === "End") next = tabs[tabs.length - 1];
+          if (!next) return;
+          e.preventDefault();
+          select(next, true, true, true);
+        });
+      });
+
+      areas.classList.add("js-tabs");
+      tablist.hidden = false;
+
+      // Deep link: #area=X, so a single area can be linked from a CV or email.
+      var wanted = location.hash.match(/area=([^&]*)/);
+      var start = tabs[0];
+      if (wanted) {
+        var slug = decodeURIComponent(wanted[1]);
+        tabs.forEach(function (t) {
+          if (slugOf(t) === slug) start = t;
+        });
+      }
+      select(start, false, false);
+    }
+
+    // The figure animations are scoped to `#interests.nw-in-view` in CSS, so
+    // nothing draws while the section is off screen. Same idea as the globe and
+    // the hero network, minus the rAF loop — the compositor handles the rest.
+    var interests = document.getElementById("interests");
+    if (interests && "IntersectionObserver" in window) {
+      new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            interests.classList.toggle("nw-in-view", entry.isIntersecting);
+          });
+        },
+        { rootMargin: "0px 0px -5% 0px" }
+      ).observe(interests);
+    } else if (interests) {
+      interests.classList.add("nw-in-view");
+    }
+  }
+
   // Contact form: submit to Formspree via fetch, no page reload
   var form = document.querySelector("form.nw-form");
   if (form) {
@@ -191,12 +310,24 @@
   // Scroll reveal: fade sections' items in as they enter the viewport.
   // Elements already on screen at load are never hidden, so first paint (and
   // the LCP element) is identical with or without this — Lighthouse-safe.
-  if (!reducedMotion && "IntersectionObserver" in window) {
+  //
+  // Browsers with scroll-driven animations run the CSS version of this instead
+  // (see "scroll reveal, driven by the scroll itself" in site.css), which is
+  // the same effect on the compositor with no observer, no per-batch delay
+  // bookkeeping, and no fold measurement. The two must never both apply: this
+  // one sets `opacity: 0` up front, so leaving it on would hide elements the
+  // CSS timeline has already resolved to their final state.
+  var cssDriven =
+    window.CSS &&
+    CSS.supports &&
+    CSS.supports("animation-timeline", "view()");
+
+  if (!reducedMotion && !cssDriven && "IntersectionObserver" in window) {
     var revealables = document.querySelectorAll(
       ".nw-section .nw-title, .nw-section .nw-subtitle, .nw-section .nw-lead, " +
         ".nw-stat, .nw-card, .nw-proj-wrap, .nw-cite, .nw-post, " +
         ".nw-tl-item, .nw-award, .nw-faq details, .nw-contact-card, .nw-globe-wrap, " +
-        ".nw-cta-card, .nw-marquee"
+        ".nw-cta-card, .nw-areas, .nw-marquee"
     );
     var fold = window.innerHeight;
     var below = [];

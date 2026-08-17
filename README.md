@@ -45,7 +45,7 @@ Actively seeking **Data Scientist** or **GIS Analyst** roles.
 | **Wildfire Risk** | Wildfire risk visualizer by state | [Launch Tool](https://rpubs.com/noahweidig/us-wildfire-risk) |
 | **WordCloud Studio** | Word cloud generator | [Launch Tool](https://noahweidig.com/wordcloud/) |
 | **Less.** | A personal exploration of minimalism | [View Site](https://noahweidig.com/less) |
-| **FastStats** | Fast, client-side analytics in the browser | [Open Tool](https://noahweidig.com/faststats/) |
+| **FastStats** | Fast, client-side analytics in the browser | [Open Tool](https://faststats.vercel.app/) |
 | **FrameLab** | A tool for browser framing | [Launch Tool](https://noahweidig.com/framelab) |
 | **Lorem Chartsum** | A placeholder chart API | [See API](https://noahweidig.com/lorem-chartsum) |
 | **R Project Template** | A template for creating R projects | [Launch Tool](https://noahweidig.com/r-proj-template/) |

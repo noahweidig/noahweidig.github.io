@@ -34,11 +34,9 @@ project:
     - "assets/fonts/**"
     - assets/nw-nav.js
     - assets/social-share.js
-    # Loaded dynamically from index.qmd's hero script, so Quarto's resource
-    # discovery can't see it — must be listed explicitly.
-    - assets/vendor/particles.min.js
-    # Fetched at runtime by assets/globe.js — same story, list explicitly.
-    - assets/data/globe-dots.json
+    # Fetched at runtime by assets/globe.js, so Quarto's resource discovery
+    # can't see it — must be listed explicitly.
+    - assets/data/globe-lines.json
 
 filters:
   - social-share
@@ -46,6 +44,9 @@ filters:
   # Turns code blocks tagged `.webr` into live, editable R cells that run in
   # the reader's browser via WebAssembly. No-ops on pages without such cells.
   - webr
+  # Prepends "X minute read" to blog post pages (Quarto's own reading-time
+  # estimate exists only for listing items). No-ops outside blog/*/.
+  - scripts/reading-time.lua
 
 website:
   title: "Noah Weidig"
@@ -69,24 +70,22 @@ website:
     title: "Noah Weidig"
     left:
       - text: Projects
-        href: index.qmd#projects
+        href: projects/index.qmd
       - text: Publications
-        href: index.qmd#publications
-      - text: Skills
-        href: index.qmd#skills
+        href: publications/index.qmd
       - text: Experience
-        href: index.qmd#experience
+        href: experience/index.qmd
       - text: Awards
-        href: index.qmd#awards
+        href: awards/index.qmd
       - text: Blog
-        href: index.qmd#blog
+        href: blog/index.qmd
       - text: CV
         href: cv.qmd
       - text: Contact
-        href: index.qmd#contact
+        href: contact.qmd
     right:
       - text: "Book Now →"
-        href: "https://cal.com/noah-weidig/meet"
+        href: "https://cal.com/noahweidig/meet"
   search:
     location: navbar
     type: overlay
@@ -109,8 +108,8 @@ website:
       <div class="nw-footer-col">
       <h2>About</h2>
       <ul>
-      <li><a href="/#experience"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2 -2h4a2 2 0 0 1 2 2v2"/><path d="M12 12v.01"/><path d="M3 13a20 20 0 0 0 18 0"/></svg>Experience</a></li>
-      <li><a href="/#education"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M3 10h18"/><path d="M5 6l7 -3l7 3"/><path d="M4 10v11"/><path d="M20 10v11"/><path d="M8 14v3"/><path d="M12 14v3"/><path d="M16 14v3"/></svg>Education</a></li>
+      <li><a href="/experience"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2 -2h4a2 2 0 0 1 2 2v2"/><path d="M12 12v.01"/><path d="M3 13a20 20 0 0 0 18 0"/></svg>Experience</a></li>
+      <li><a href="/education"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M3 10h18"/><path d="M5 6l7 -3l7 3"/><path d="M4 10v11"/><path d="M20 10v11"/><path d="M8 14v3"/><path d="M12 14v3"/><path d="M16 14v3"/></svg>Education</a></li>
       <li><a href="/#skills"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 8l-4 4l4 4"/><path d="M17 8l4 4l-4 4"/><path d="M14 4l-4 16"/></svg>Skills</a></li>
       <li><a href="/#affiliations"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="3"/><path d="M3 20v-1a5 5 0 0 1 10 0v1"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/><path d="M21 20v-1a5 5 0 0 0 -3 -4.5"/></svg>Affiliations</a></li>
       </ul>
@@ -118,18 +117,18 @@ website:
       <div class="nw-footer-col">
       <h2>Work</h2>
       <ul>
-      <li><a href="/#projects"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13a8 8 0 0 1 7 7a6 6 0 0 0 3 -5a9 9 0 0 0 6 -8a3 3 0 0 0 -3 -3a9 9 0 0 0 -8 6a6 6 0 0 0 -5 3"/><path d="M7 14a6 6 0 0 0 -3 6a6 6 0 0 0 6 -3"/><circle cx="15" cy="9" r="1"/></svg>Projects</a></li>
+      <li><a href="/projects"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13a8 8 0 0 1 7 7a6 6 0 0 0 3 -5a9 9 0 0 0 6 -8a3 3 0 0 0 -3 -3a9 9 0 0 0 -8 6a6 6 0 0 0 -5 3"/><path d="M7 14a6 6 0 0 0 -3 6a6 6 0 0 0 6 -3"/><circle cx="15" cy="9" r="1"/></svg>Projects</a></li>
       <li><a href="https://noahweidig.com/geo-portfolio"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7l6 -3l6 3l6 -3v13l-6 3l-6 -3l-6 3z"/><path d="M9 4v13"/><path d="M15 7v13"/></svg>Geo Portfolio</a></li>
-      <li><a href="/#awards"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8"/><path d="M12 17v4"/><path d="M7 4h10v6a5 5 0 0 1 -10 0z"/><path d="M7 6h-2a2 2 0 0 0 0 4h2"/><path d="M17 6h2a2 2 0 0 1 0 4h-2"/></svg>Awards</a></li>
+      <li><a href="/awards"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8"/><path d="M12 17v4"/><path d="M7 4h10v6a5 5 0 0 1 -10 0z"/><path d="M7 6h-2a2 2 0 0 0 0 4h2"/><path d="M17 6h2a2 2 0 0 1 0 4h-2"/></svg>Awards</a></li>
       <li><a href="/#interests"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 1 4 12.7a2 2 0 0 0 -.8 1.6v.7h-6.4v-.7a2 2 0 0 0 -.8 -1.6a7 7 0 0 1 4 -12.7z"/></svg>Interests</a></li>
       </ul>
       </div>
       <div class="nw-footer-col">
       <h2>Resources</h2>
       <ul>
-      <li><a href="/#publications"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z"/><path d="M9 9h1"/><path d="M9 13h6"/><path d="M9 17h6"/></svg>Publications</a></li>
-      <li><a href="/#blog"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4l10.5 -10.5a2.83 2.83 0 0 0 -4 -4l-10.5 10.5v4"/><path d="M13.5 6.5l4 4"/></svg>Blog</a></li>
-      <li><a href="/cv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M5 21V5a2 2 0 0 1 2 -2h7l5 5v13a2 2 0 0 1 -2 2z"/><path d="M9 12h6"/><path d="M9 16h6"/><path d="M9 8h1"/></svg>CV</a></li>
+      <li><a href="/publications"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z"/><path d="M9 9h1"/><path d="M9 13h6"/><path d="M9 17h6"/></svg>Publications</a></li>
+      <li><a href="/blog"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4l10.5 -10.5a2.83 2.83 0 0 0 -4 -4l-10.5 10.5v4"/><path d="M13.5 6.5l4 4"/></svg>Blog</a></li>
+      <li><a href="/cv.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M5 21V5a2 2 0 0 1 2 -2h7l5 5v13a2 2 0 0 1 -2 2z"/><path d="M9 12h6"/><path d="M9 16h6"/><path d="M9 8h1"/></svg>CV</a></li>
       <li><a href="/#faq"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 17v.01"/><path d="M12 13.5a1.5 1.5 0 0 1 1 -1.5a2.6 2.6 0 1 0 -3 -4"/></svg>FAQ</a></li>
       </ul>
       </div>
@@ -137,14 +136,17 @@ website:
       <h2>Connect</h2>
       <ul>
       <li><a href="mailto:noah@noahweidig.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6l9 -6"/></svg>Email</a></li>
-      <li><a href="/#contact"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 9h8"/><path d="M8 13h6"/><path d="M18 4a3 3 0 0 1 3 3v8a3 3 0 0 1 -3 3h-5l-5 3v-3h-2a3 3 0 0 1 -3 -3v-8a3 3 0 0 1 3 -3h12z"/></svg>Contact</a></li>
-      <li><a href="https://cal.com/noah-weidig/meet" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="16" rx="2"/><path d="M16 3v4"/><path d="M8 3v4"/><path d="M4 11h16"/><path d="M11 15h1"/><path d="M12 15v3"/></svg>Book a Call</a></li>
+      <li><a href="/contact.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 9h8"/><path d="M8 13h6"/><path d="M18 4a3 3 0 0 1 3 3v8a3 3 0 0 1 -3 3h-5l-5 3v-3h-2a3 3 0 0 1 -3 -3v-8a3 3 0 0 1 3 -3h12z"/></svg>Contact</a></li>
+      <li><a href="https://cal.com/noahweidig/meet" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="16" rx="2"/><path d="M16 3v4"/><path d="M8 3v4"/><path d="M4 11h16"/><path d="M11 15h1"/><path d="M12 15v3"/></svg>Book a Call</a></li>
       <li><a href="https://www.linkedin.com/in/noahweidig/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 11v5"/><path d="M8 8v.01"/><path d="M12 16v-5"/><path d="M16 16v-3a2 2 0 0 0 -4 0"/></svg>LinkedIn</a></li>
       </ul>
       </div>
       </div>
+      </div>
       <div class="nw-footer-bottom">
-      <div><a href="/privacy">Privacy</a> · © <span data-nw-copyright-year>2026</span> Noah Weidig · Built with <a href="https://quarto.org" class="nw-quarto-credit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 4V20"/><path d="M4 12H20"/></svg>Quarto</a>. All Rights Reserved.</div>
+      <div class="nw-footer-bottom-inner">
+      <div class="nw-footer-bottom-left">© <span data-nw-copyright-year>2026</span> Noah Weidig · <a href="/privacy">Privacy</a></div>
+      <div class="nw-footer-bottom-right">Built with <a href="https://quarto.org" class="nw-quarto-credit">Quarto</a></div>
       </div>
       </div>
 
@@ -171,8 +173,69 @@ format:
     lang: en
     include-in-header:
       - text: |
+          <script>
+          (function () {
+            // First visit only (no saved toggle choice yet): seed Quarto's
+            // localStorage key from the OS preference before Quarto's own
+            // body-start script reads it, so light-preference visitors don't
+            // get dark by default. Runs before paint to avoid a flash.
+            // See https://github.com/noahweidig/noahweidig.github.io/issues/177
+            try {
+              if (
+                window.localStorage.getItem("quarto-color-scheme") === null &&
+                window.matchMedia("(prefers-color-scheme: light)").matches
+              ) {
+                window.localStorage.setItem("quarto-color-scheme", "light");
+              }
+            } catch (e) {}
+          })();
+          </script>
+          <link rel="preconnect" href="https://fonts.googleapis.com">
+          <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+          <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
           <meta name="google-site-verification" content="0ktlvQnqLH01fphPI1cDMDTuQSmCG7mHBQdovXQs2TQ">
           <meta name="author" content="Noah Weidig">
+          <!--
+            `index, follow` is the default anyway; the value that earns this tag
+            is max-image-preview:large, which lets Google show the full-width
+            image preview in results and Discover instead of a thumbnail.
+            scripts/generate-og.ts overwrites this tag on 404.html, the one page
+            that must stay out of the index.
+          -->
+          <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+          <!--
+            Speculation rules: start fetching a page when the visitor shows
+            intent to open it (hover, or the pause before a tap), so the
+            document is already in memory by the time they commit. Paired with
+            the cross-document view transitions in assets/site.css, an internal
+            navigation becomes a morph with no load behind it.
+
+            `prefetch` rather than `prerender` on purpose: prerendering runs the
+            target page's scripts ahead of time, and this site's analytics fire
+            on load — a prerender that is never navigated to would still be a
+            page it counted. Prefetch has no such interaction, is invisible to
+            the target document, and still removes the whole network round trip,
+            which is the part the visitor can feel.
+
+            Downloads and the résumé PDF are excluded: they navigate away from
+            the site, so speculating on them is wasted bandwidth. Browsers
+            without support ignore the script entirely.
+          -->
+          <script type="speculationrules">
+          {
+            "prefetch": [
+              {
+                "where": {
+                  "and": [
+                    { "href_matches": "/*" },
+                    { "not": { "href_matches": "/uploads/*" } }
+                  ]
+                },
+                "eagerness": "moderate"
+              }
+            ]
+          }
+          </script>
           <script type="application/ld+json">
           {
             "@context": "https://schema.org",

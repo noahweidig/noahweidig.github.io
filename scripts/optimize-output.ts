@@ -199,6 +199,26 @@ function processImages(html: string, file: string, stats: { sized: number; lazy:
   return html.slice(0, start) + main + html.slice(end);
 }
 
+/**
+ * Guarantee a main landmark. Quarto wraps article and listing pages in
+ * `<main id="quarto-document-content">`, but its custom page layout — used by
+ * the landing page, the CV, the privacy page and 404 — emits no <main> at all,
+ * leaving those pages with a header, a footer and an unnamed div between them.
+ * Screen-reader users lose the "jump to main content" shortcut there, and the
+ * skip link in assets/nw-nav.js has nothing meaningful to hand focus to.
+ *
+ * `role="main"` on the existing `#quarto-content` wrapper is the smallest fix:
+ * no markup moves, and it is only ever added to pages that have no <main> of
+ * their own, so no page ends up with two.
+ */
+function ensureMainLandmark(html: string): string {
+  if (/<main[\s>]/i.test(html)) return html;
+  return html.replace(
+    /<div id="quarto-content"(?![^>]*\brole=)/i,
+    '<div id="quarto-content" role="main"',
+  );
+}
+
 // ------------------------------------------------------------- sitemap
 
 function normalizeSitemap(): number {
@@ -226,9 +246,12 @@ function main(): void {
 
   const stats = { sized: 0, lazy: 0 };
   let pages = 0;
+  let landmarks = 0;
   for (const file of walkHtml(outputDir)) {
     const html = fs.readFileSync(file, "utf8");
-    const next = processImages(html, file, stats);
+    const sized = processImages(html, file, stats);
+    const next = ensureMainLandmark(sized);
+    if (next !== sized) landmarks++;
     if (next !== html) {
       fs.writeFileSync(file, next);
       pages++;
@@ -238,6 +261,7 @@ function main(): void {
     `[optimize] ${stats.sized} image(s) given intrinsic dimensions, ` +
       `${stats.lazy} lazy-loaded across ${pages} page(s)`,
   );
+  console.log(`[optimize] main landmark added to ${landmarks} custom-layout page(s)`);
   console.log(`[optimize] sitemap.xml: ${normalizeSitemap()} URL(s) normalised to canonical form`);
 }
 
