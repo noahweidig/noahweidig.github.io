@@ -187,6 +187,16 @@ const MIN_SOURCE_WIDTH = 700;
  *  so this sits a little under what the source assets were encoded at. */
 const VARIANT_QUALITY = "80";
 
+/** Where libwebp installs `cwebp`: Debian/Ubuntu (the CI image), a local
+ *  build, and Homebrew on Apple silicon. Absolute paths on purpose — resolving
+ *  the name through PATH would let whatever happens to be earlier on it decide
+ *  which binary the build runs. */
+const ENCODER_CANDIDATES = [
+  "/usr/bin/cwebp",
+  "/usr/local/bin/cwebp",
+  "/opt/homebrew/bin/cwebp",
+];
+
 let encoderChecked = false;
 let encoder: string | null = null;
 
@@ -199,11 +209,17 @@ let encoder: string | null = null;
 function webpEncoder(): string | null {
   if (encoderChecked) return encoder;
   encoderChecked = true;
-  try {
-    const probe = spawnSync("cwebp", ["-version"], { stdio: "ignore" });
-    if (!probe.error && probe.status === 0) encoder = "cwebp";
-  } catch {
-    encoder = null;
+  for (const bin of ENCODER_CANDIDATES) {
+    try {
+      if (!fs.existsSync(bin)) continue;
+      const probe = spawnSync(bin, ["-version"], { stdio: "ignore" });
+      if (!probe.error && probe.status === 0) {
+        encoder = bin;
+        break;
+      }
+    } catch {
+      // Not executable here, or this runtime forbids spawning at all.
+    }
   }
   if (!encoder) {
     console.log("[optimize] cwebp unavailable — skipping responsive image variants");
@@ -236,59 +252,71 @@ function variantWidths(file: string, size: Size): number[] {
 
   const widths: number[] = [];
   variantCache.set(file, widths);
-
-  // Only WebP sources: mixing formats inside one srcset would hand the
-  // browser candidates it cannot tell apart, and every image on the site
-  // that is large enough to matter is already WebP.
-  if (!/\.webp$/i.test(file) || size.w < MIN_SOURCE_WIDTH) return widths;
-  // A generated variant must never itself be a source.
-  if (/-\d+\.webp$/i.test(file)) return widths;
-  // Rendered output only — never anything outside the build directory.
-  if (path.relative(outputDir, file).startsWith("..")) return widths;
+  if (!worthResizing(file, size)) return widths;
 
   const bin = webpEncoder();
   if (!bin) return widths;
 
   for (const w of VARIANT_WIDTHS) {
     if (w >= size.w) continue;
-    const dest = file.replace(/\.webp$/i, `-${w}.webp`);
-    if (!upToDate(dest, file)) {
-      let ok = false;
-      try {
-        const run = spawnSync(bin, [
-          "-quiet",
-          "-q",
-          VARIANT_QUALITY,
-          "-resize",
-          String(w),
-          "0",
-          file,
-          "-o",
-          dest,
-        ]);
-        ok = !run.error && run.status === 0 && fs.existsSync(dest);
-      } catch {
-        ok = false;
-      }
-      if (!ok) {
-        // A half-written file would be served as a broken image.
-        try {
-          fs.rmSync(dest, { force: true });
-        } catch { /* nothing to clean up */ }
-        continue;
-      }
-      variantsWritten++;
-    }
-    widths.push(w);
+    if (writeVariant(bin, file, variantName(file, w), w)) widths.push(w);
   }
   return widths;
+}
+
+/** Whether narrower copies of this file would be used at all. */
+function worthResizing(file: string, size: Size): boolean {
+  // Only WebP sources: mixing formats inside one srcset would hand the
+  // browser candidates it cannot tell apart, and every image on the site
+  // that is large enough to matter is already WebP.
+  if (!/\.webp$/i.test(file) || size.w < MIN_SOURCE_WIDTH) return false;
+  // A generated variant must never itself be a source.
+  if (/-\d+\.webp$/i.test(file)) return false;
+  // Rendered output only — never anything outside the build directory.
+  return !path.relative(outputDir, file).startsWith("..");
+}
+
+/** `shot.webp` at 640 px is `shot-640.webp`, both on disk and in the srcset. */
+function variantName(src: string, width: number): string {
+  return src.replace(/\.webp$/i, `-${width}.webp`);
+}
+
+/** Encode one variant, reusing an up-to-date one. False if it can't be made. */
+function writeVariant(bin: string, source: string, dest: string, width: number): boolean {
+  if (upToDate(dest, source)) return true;
+  let ok = false;
+  try {
+    const run = spawnSync(bin, [
+      "-quiet",
+      "-q",
+      VARIANT_QUALITY,
+      "-resize",
+      String(width),
+      "0",
+      source,
+      "-o",
+      dest,
+    ]);
+    ok = !run.error && run.status === 0 && fs.existsSync(dest);
+  } catch {
+    ok = false;
+  }
+  if (!ok) {
+    // A half-written file would be served as a broken image.
+    try {
+      fs.rmSync(dest, { force: true });
+    } catch { /* nothing to clean up */ }
+    return false;
+  }
+  variantsWritten++;
+  return true;
 }
 
 /** The srcset for an <img src>, or null if it has no variants. */
 function srcsetFor(src: string, file: string, size: Size): string | null {
   const widths = variantWidths(file, size);
   if (!widths.length) return null;
-  const candidates = widths.map((w) => `${src.replace(/\.webp$/i, `-${w}.webp`)} ${w}w`);
+  const candidates = widths.map((w) => `${variantName(src, w)} ${w}w`);
   candidates.push(`${src} ${size.w}w`);
   return candidates.join(", ");
 }
