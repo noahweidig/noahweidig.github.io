@@ -38,6 +38,9 @@ $navbar-padding-y: 0.65rem !default;
 
 :root {
   --nw-primary: #126ef5;
+  /* text/link use of the brand blue — separate from --nw-primary so dark mode
+     can lighten it for AA contrast without touching the button fill */
+  --nw-primary-text: #126ef5;
   /* Warm counterpoint to the blue, used only for kicker/eyebrow labels and
      small accents — never competes with --nw-primary for a click target. */
   --nw-secondary: #b45309;
@@ -499,8 +502,8 @@ body {
 }
 
 #hero h1 .nw-name .nw-accent {
-  color: var(--nw-primary);
-  -webkit-text-fill-color: var(--nw-primary);
+  color: var(--nw-primary-text);
+  -webkit-text-fill-color: var(--nw-primary-text);
 }
 
 /* Each half of the headline owns a line and never wraps mid-phrase. */
@@ -522,7 +525,7 @@ body {
 }
 
 #hero .nw-type .nw-typed {
-  color: var(--nw-primary);
+  color: var(--nw-primary-text);
 }
 
 #hero .nw-type .nw-caret {
@@ -558,7 +561,7 @@ body {
 #hero .nw-socials a:hover {
   transform: translateY(-3px);
   border-color: var(--nw-primary);
-  color: var(--nw-primary);
+  color: var(--nw-primary-text);
 }
 
 #hero .nw-socials svg {
@@ -1265,7 +1268,7 @@ body {
 }
 
 .nw-cite-title a:hover {
-  color: var(--nw-primary);
+  color: var(--nw-primary-text);
 }
 
 .nw-cite-meta {
@@ -1294,7 +1297,7 @@ body {
 
 .nw-cite-links a:hover {
   border-color: var(--nw-primary);
-  color: var(--nw-primary);
+  color: var(--nw-primary-text);
 }
 
 /* ============ tech stack ============ */
@@ -1338,7 +1341,7 @@ body {
 
 .nw-tech-item:hover {
   opacity: 1;
-  color: var(--nw-primary);
+  color: var(--nw-primary-text);
 }
 
 .nw-tech-item:hover img {
@@ -1480,7 +1483,7 @@ body {
 
 .nw-tl-item .nw-tl-org {
   font-weight: 600;
-  color: var(--nw-primary);
+  color: var(--nw-primary-text);
   text-decoration: none;
 }
 
@@ -1686,7 +1689,7 @@ body {
 }
 
 .nw-post h3 a:hover {
-  color: var(--nw-primary);
+  color: var(--nw-primary-text);
 }
 
 /* stretched link: the whole card navigates to the post */
@@ -2200,7 +2203,7 @@ body.nav-fixed .page-layout-article main.content {
 
 .nw-detail-lead .nw-tl-org {
   font-weight: 600;
-  color: var(--nw-primary);
+  color: var(--nw-primary-text);
   text-decoration: none;
 }
 
@@ -2397,7 +2400,7 @@ body:has(#contact) #title-block-header {
 .nw-cv-role {
   margin: 0.25rem 0 0.5rem;
   font-weight: 600;
-  color: var(--nw-primary);
+  color: var(--nw-primary-text);
 }
 
 .nw-cv-contact {
@@ -2412,7 +2415,7 @@ body:has(#contact) #title-block-header {
 }
 
 .nw-cv-contact a:hover {
-  color: var(--nw-primary);
+  color: var(--nw-primary-text);
 }
 
 .nw-cv-sep {
@@ -2431,7 +2434,7 @@ body:has(#contact) #title-block-header {
 }
 
 .nw-cv-socials a:hover {
-  color: var(--nw-primary);
+  color: var(--nw-primary-text);
 }
 
 .nw-cv-socials svg {
@@ -2509,13 +2512,13 @@ body:has(#contact) #title-block-header {
 }
 
 .nw-cv-entry-meta {
-  color: var(--nw-primary);
+  color: var(--nw-primary-text);
   font-size: 0.92rem;
   margin-top: 0.15rem;
 }
 
 .nw-cv-entry-meta a {
-  color: var(--nw-primary);
+  color: var(--nw-primary-text);
   text-decoration: none;
 }
 
