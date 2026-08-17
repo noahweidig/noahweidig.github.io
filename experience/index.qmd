@@ -12,5 +12,10 @@ listing:
   page-size: 100
 ---
 
+<!-- The listing renders each item at heading level 3; without a level-2
+     heading between them and the page title the document skips a level.
+     Announced to screen readers, invisible on screen. -->
+<h2 class="visually-hidden">All experience</h2>
+
 ::: {#all-experience}
 :::
