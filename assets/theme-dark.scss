@@ -63,6 +63,9 @@ $input-bg: #13131a;
   --nw-code-bg: #14141b;
   --nw-code-titlebar: #1b1b23;
   --nw-code-border: #2a2a34;
+  /* brand blue at text weight fails AA (4.02–4.3:1) on the near-black dark
+     bg/card; lighten just the text/link use — button fills stay brand blue */
+  --nw-primary-text: #4d94ff;
 }
 
 /* solid mark renders black by default; flip to white on dark */
@@ -118,5 +121,5 @@ $input-bg: #13131a;
 /* Globe coordinate readout: accent blue instead of white, so it stands out
    from the label's "Orlando, Florida" heading. */
 .nw-globe-label code {
-  color: var(--nw-primary);
+  color: var(--nw-primary-text);
 }
