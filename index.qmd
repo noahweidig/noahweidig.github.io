@@ -91,19 +91,19 @@ include-after-body:
     <div class="nw-start-grid">
       <a class="nw-start-card" href="#interests">
         <span class="nw-start-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7l6-3 6 3 6-3v13l-6 3-6-3-6 3z"/><path d="M9 4v13M15 7v13"/></svg></span>
-        <h3>Research</h3>
+        <h2>Research</h2>
         <p>Six focus areas, from WUI wildfire risk to species distribution modelling — with the papers behind each.</p>
         <span class="nw-start-link">Read the research →</span>
       </a>
       <a class="nw-start-card" href="#projects">
         <span class="nw-start-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><path d="M8 9l3 3-3 3M13 15h3"/></svg></span>
-        <h3>Tools &amp; maps</h3>
+        <h2>Tools &amp; maps</h2>
         <p>Open tools: an R package for U.S. fire data, Earth Engine apps, interactive map galleries.</p>
         <span class="nw-start-link">Browse the work →</span>
       </a>
       <a class="nw-start-card" href="#blog">
         <span class="nw-start-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L18.5 9.5a2.83 2.83 0 0 0-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg></span>
-        <h3>Writing</h3>
+        <h2>Writing</h2>
         <p>Tutorials and notes on R, spatial workflows, and doing reproducible research in the open.</p>
         <span class="nw-start-link">Read the blog →</span>
       </a>

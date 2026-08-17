@@ -202,7 +202,12 @@
           // Roving tabindex: the strip is one tab stop, arrows move within it.
           t.tabIndex = on ? 0 : -1;
           var panel = document.getElementById(t.getAttribute("aria-controls"));
-          if (panel) panel.hidden = !on;
+          if (panel) {
+            panel.hidden = !on;
+            // No focusable descendants in a panel (prose + a figure), so per
+            // the APG tabs pattern the panel itself must be a tab stop.
+            panel.tabIndex = on ? 0 : -1;
+          }
         });
         // `nearest` on both axes: the strip may need to scroll sideways, but
         // the page must not jump vertically just because a tab was clicked.
@@ -236,6 +241,17 @@
 
       areas.classList.add("js-tabs");
       tablist.hidden = false;
+
+      // Mobile scroll fade: mark which end (if any) the strip is scrolled to
+      // so the CSS mask only fades the side that still has hidden tabs.
+      var updateScrollEdges = function () {
+        var max = tablist.scrollWidth - tablist.clientWidth;
+        tablist.classList.toggle("nw-at-start", tablist.scrollLeft <= 1);
+        tablist.classList.toggle("nw-at-end", tablist.scrollLeft >= max - 1);
+      };
+      updateScrollEdges();
+      tablist.addEventListener("scroll", updateScrollEdges, { passive: true });
+      window.addEventListener("resize", updateScrollEdges);
 
       // Deep link: #area=X, so a single area can be linked from a CV or email.
       var wanted = location.hash.match(/area=([^&]*)/);
