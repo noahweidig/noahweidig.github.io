@@ -27,21 +27,66 @@ jobs:
       - name: Render site
         run: quarto render
 
-      - name: Serve site
-        run: npx --yes serve@14.2.6 -l 4173 _site &
+      # Pinned, local install (not `npx`, which SonarCloud flags as
+      # arbitrary-code-execution risk: it can resolve and run an
+      # unpinned package's lifecycle scripts on demand).
+      - name: Install axe-core + puppeteer
+        run: npm install --no-save puppeteer@25.8.0 axe-core@4.10.3
 
-      - name: Wait for server
-        run: npx --yes wait-on@9.1.0 http://localhost:4173/index.html
-
+      # Puppeteer downloads its own matched Chromium build, so this
+      # sidesteps the system Chrome / chromedriver version skew that
+      # breaks selenium-based runners on this image over time. Pages are
+      # read straight off disk (file://), no local server needed.
       - name: Run axe-core
         run: |
-          npx --yes @axe-core/cli@4.13.0 \
-            http://localhost:4173/index.html \
-            http://localhost:4173/cv.html \
-            http://localhost:4173/experience/index.html \
-            http://localhost:4173/education/index.html \
-            http://localhost:4173/projects/index.html \
-            http://localhost:4173/publications/index.html \
-            http://localhost:4173/blog/index.html \
-            http://localhost:4173/contact.html \
-            --exit
+          node <<'EOF'
+          const fs = require("node:fs");
+          const path = require("node:path");
+          const puppeteer = require("puppeteer");
+
+          const axeSource = fs.readFileSync(
+            require.resolve("axe-core/axe.min.js"),
+            "utf8"
+          );
+
+          const pages = [
+            "index.html",
+            "cv.html",
+            "experience/index.html",
+            "education/index.html",
+            "projects/index.html",
+            "publications/index.html",
+            "blog/index.html",
+            "contact.html",
+          ];
+
+          (async () => {
+            const browser = await puppeteer.launch();
+            let failed = false;
+
+            for (const page of pages) {
+              const filePath = path.resolve("_site", page);
+              const tab = await browser.newPage();
+              await tab.goto("file://" + filePath, { waitUntil: "networkidle0" });
+              await tab.evaluate(axeSource);
+              const results = await tab.evaluate(() => axe.run());
+              await tab.close();
+
+              if (results.violations.length) {
+                failed = true;
+                console.log(`\n=== ${page}: ${results.violations.length} violation(s) ===`);
+                for (const v of results.violations) {
+                  console.log(`[${v.impact}] ${v.id}: ${v.help} (${v.nodes.length} node(s))`);
+                  for (const node of v.nodes) {
+                    console.log(`  - ${node.target.join(" ")}`);
+                  }
+                }
+              } else {
+                console.log(`${page}: no violations`);
+              }
+            }
+
+            await browser.close();
+            process.exit(failed ? 1 : 0);
+          })();
+          EOF
