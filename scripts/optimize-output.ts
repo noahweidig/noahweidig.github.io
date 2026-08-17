@@ -53,7 +53,11 @@
  *     Cloudflare with Rocket Loader on, which rewrites every script's `type`
  *     so the browser will not run it natively — including the pre-paint theme
  *     script above and the accessibility patches in nw-nav.js. `data-cfasync`
- *     is the documented per-script opt-out; it is inert everywhere else.
+ *     is the documented per-script opt-out; it is inert everywhere else. With
+ *     nothing left for it to run, Rocket Loader's replay of the document
+ *     lifecycle events is pure duplication — it re-ran every DOMContentLoaded
+ *     handler, which gave the navbar two search buttons — so a guard at the
+ *     top of <head> drops the replayed (untrusted) events.
  *
  *  5. sitemap.xml URL normalisation. Quarto lists `…/index.html`; the pages
  *     themselves advertise the directory form as canonical (`…/`). Submitting
@@ -489,6 +493,47 @@ function optOutRocketLoader(html: string): string {
   });
 }
 
+/**
+ * Once Rocket Loader has finished with the scripts it took over, it *replays*
+ * the document lifecycle — `readystatechange`, `DOMContentLoaded` and `load`
+ * — so the scripts it deferred still see the events they registered for after
+ * the real ones had already fired. Those replayed events are dispatched by
+ * script, so they arrive untrusted, and they reach every listener on the page,
+ * including the ones opted-out scripts registered during the *real*
+ * DOMContentLoaded. Quarto's search then builds its autocomplete a second time
+ * and the navbar ends up with two magnifiers (and listings, share buttons and
+ * anything else keyed to DOMContentLoaded run twice with it).
+ *
+ * `optOutRocketLoader` above leaves Rocket Loader nothing to run, so nothing
+ * on the page is waiting on the replay: dropping it is enough. A capture-phase
+ * listener on `window` sees a document-targeted event before any listener on
+ * the document itself, whenever it was registered, so this reliably gets in
+ * front of Quarto's handlers even though its own script tag comes after
+ * theirs. `load` targets `window` directly, where ordering *is* registration
+ * order — hence injecting this at the top of <head>, ahead of every other
+ * script on the page.
+ */
+const ROCKET_REPLAY_SCRIPT = `<script data-cfasync="false">
+(function () {
+  var drop = function (e) {
+    if (!e.isTrusted) e.stopImmediatePropagation();
+  };
+  window.addEventListener("readystatechange", drop, true);
+  window.addEventListener("DOMContentLoaded", drop, true);
+  window.addEventListener("load", drop, true);
+})();
+</script>
+`;
+
+function dropRocketLoaderReplay(html: string): string {
+  // Anchored to the <head> tag itself: a page without one has no scripts to
+  // protect either.
+  const head = html.match(/<head(?:\s[^>]*)?>/i);
+  if (!head || head.index === undefined) return html;
+  const at = head.index + head[0].length;
+  return html.slice(0, at) + "\n" + ROCKET_REPLAY_SCRIPT + html.slice(at);
+}
+
 // ------------------------------------------------------------- sitemap
 
 function normalizeSitemap(): number {
@@ -525,8 +570,9 @@ function main(): void {
     if (landmarked !== sized) landmarks++;
     const themed = deferAlternateStyles(landmarked);
     if (themed !== landmarked) deferred++;
+    const guarded = dropRocketLoaderReplay(themed);
     // Last: every script the steps above may have added is stamped too.
-    const next = optOutRocketLoader(themed);
+    const next = optOutRocketLoader(guarded);
     if (next !== html) {
       fs.writeFileSync(file, next);
       pages++;
