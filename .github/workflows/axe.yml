@@ -27,11 +27,17 @@ jobs:
       - name: Render site
         run: quarto render
 
-      # Pinned, local install (not `npx`, which SonarCloud flags as
-      # arbitrary-code-execution risk: it can resolve and run an
-      # unpinned package's lifecycle scripts on demand).
+      # Pinned, local install with lifecycle scripts disabled (not `npx`,
+      # and not a bare `npm install`, both of which SonarCloud flags as
+      # arbitrary-code-execution risk: either can run an installed
+      # package's scripts implicitly). Puppeteer's own postinstall is what
+      # downloads its matched Chromium build, so it's re-run explicitly
+      # below instead of implicitly — a script we know we asked for,
+      # against a version we pinned above.
       - name: Install axe-core + puppeteer
-        run: npm install --no-save puppeteer@25.8.0 axe-core@4.10.3
+        run: |
+          npm install --no-save --ignore-scripts puppeteer@25.8.0 axe-core@4.10.3
+          node ./node_modules/puppeteer/install.mjs
 
       # Puppeteer downloads its own matched Chromium build, so this
       # sidesteps the system Chrome / chromedriver version skew that
