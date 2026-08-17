@@ -69,10 +69,11 @@ function nwReducedMotion() {
   var original = window.quartoToggleColorScheme;
   if (typeof original !== "function") return;
   window.quartoToggleColorScheme = function () {
-    var sheets = document.querySelectorAll(
-      "link.quarto-color-scheme.quarto-color-alternate"
-    );
-    for (var i = 0; i < sheets.length; i++) sheets[i].media = "all";
+    document
+      .querySelectorAll("link.quarto-color-scheme.quarto-color-alternate")
+      .forEach(function (sheet) {
+        sheet.media = "all";
+      });
     return original.apply(this, arguments);
   };
 })();
