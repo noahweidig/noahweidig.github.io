@@ -67,7 +67,14 @@ jobs:
           ];
 
           (async () => {
-            const browser = await puppeteer.launch();
+            // The runner's container disallows unprivileged user
+            // namespaces, so Chrome's own sandbox can't initialize
+            // (zygote_host_impl_linux.cc: "No usable sandbox!"). Safe here:
+            // the browser only ever opens file:// pages rendered by this
+            // same job, no untrusted or remote content.
+            const browser = await puppeteer.launch({
+              args: ["--no-sandbox", "--disable-setuid-sandbox"],
+            });
             let failed = false;
 
             for (const page of pages) {
