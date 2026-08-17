@@ -10,7 +10,7 @@ toc: false
   <div class="nw-section-inner">
     <div class="nw-contact-card">
       <div class="nw-contact-info">
-        <h3>Let's start a conversation</h3>
+        <h2>Let's start a conversation</h2>
         <p>I'm always interested in hearing about new projects and opportunities. Whether you're looking to hire, collaborate, or just want to say hi, feel free to reach out!</p>
         <ul class="nw-contact-list">
           <li>

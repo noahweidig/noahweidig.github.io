@@ -190,9 +190,6 @@ format:
             } catch (e) {}
           })();
           </script>
-          <link rel="preconnect" href="https://fonts.googleapis.com">
-          <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-          <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
           <meta name="google-site-verification" content="0ktlvQnqLH01fphPI1cDMDTuQSmCG7mHBQdovXQs2TQ">
           <meta name="author" content="Noah Weidig">
           <!--
@@ -273,6 +270,7 @@ format:
           </script>
           <link rel="alternate" type="application/rss+xml" title="Noah Weidig — Blog" href="/blog/index.xml">
           <link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+          <link rel="preload" href="/assets/fonts/newsreader-latin.woff2" as="font" type="font/woff2" crossorigin>
           <link rel="icon" href="/favicon.ico" sizes="32x32">
           <link rel="icon" type="image/svg+xml" href="/favicon.svg">
           <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96">
