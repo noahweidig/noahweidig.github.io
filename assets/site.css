@@ -10,6 +10,14 @@
   }
 }
 
+/* #title-block-header's band background breaks out to 100vw (see theme.scss)
+   to run edge-to-edge; on a platform with a reserved (non-overlay) scrollbar
+   that can read as a few px wider than the viewport. Harmless to clip — the
+   overshoot is background, not content. */
+html {
+  overflow-x: clip;
+}
+
 /* The navbar logo is emitted by Quarto, so width/height attributes can't be
    added to the markup; Bootstrap sizes it `max-height: 24px; width: auto`,
    which leaves its width unknown until the SVG loads. Declaring the intrinsic
@@ -34,9 +42,10 @@
   border: 1px solid var(--nw-border);
   border-radius: 50%;
   box-sizing: border-box;
-  /* filled, like every other button on the site — see "buttons: filled,
-     never transparent" below */
-  background: var(--nw-card);
+  /* Outline only, so the band's dot grid shows through the circle; the fill
+     appears on hover (below) — same treatment as the search circle and the
+     Book Now button beside it. */
+  background: transparent;
   transition: background-color 0.15s, border-color 0.15s;
 }
 
@@ -90,7 +99,7 @@ body.quarto-dark .quarto-navbar-tools .quarto-color-scheme-toggle:hover > .bi::b
   padding: 0;
   border: 1px solid var(--nw-border);
   border-radius: 50%;
-  background: var(--nw-card);
+  background: transparent;
   color: var(--nw-navcta);
   box-shadow: none;
   transition: background-color 0.15s, border-color 0.15s, color 0.15s;
@@ -165,16 +174,11 @@ body.quarto-dark .quarto-navbar-tools .quarto-color-scheme-toggle:hover > .bi::b
   padding: 0;
 }
 
-/* sections sit transparent against the page background; no gray alt bands */
-.nw-alt {
-  background: transparent;
-}
-
 /* The hero's opaque background lives on a ::before layer that fades out over
    its bottom third, so it blends gradually into the page background beneath
-   the particle network instead of ending abruptly at the stats section. */
+   the dot grid instead of ending abruptly at the stats section. */
 #hero {
-  /* anchor for the absolutely-positioned #nw-particles canvas */
+  /* anchor for the absolutely-positioned .nw-hero-dots layer */
   position: relative;
   background: none;
   overflow: hidden;
@@ -192,31 +196,69 @@ body.quarto-dark .quarto-navbar-tools .quarto-color-scheme-toggle:hover > .bi::b
   mask-image: linear-gradient(to bottom, #000 65%, transparent 100%);
 }
 
-/* ============ hero: interactive particle-network background ============ */
-/* particles.js canvas (config in index.qmd) fills the hero behind the
-   content. pointer-events stay on so hover-repulse and click-push work in
-   the empty areas around the text and portrait. */
-#nw-particles {
+/* ============ top-band navbar: transparent until scroll ============ */
+/* On every page with a top band — the landing page's #hero, or any other
+   page's #title-block-header (see "page-title band" in theme.scss) — the
+   fixed navbar starts transparent and borderless, so the band's own
+   background, which already runs the full width of the page right up to
+   y=0, reads as continuing straight through the nav instead of stopping at a
+   visible seam. nw-nav.js flips `.nw-scrolled` on <body> once the visitor
+   scrolls past the band, at which point the navbar reverts to its normal
+   solid, blurred look (no rule needed for that state — removing the
+   override is enough).
+
+   The same applies while the mobile hamburger menu is open at the top of the
+   page: an expanded menu needs a background of its own to stay readable, so
+   the transparent override drops out whenever `.navbar-collapse` is open
+   (`.show`) or mid-animation (`.collapsing`), and comes back once it has
+   finished closing. */
+body:has(#hero, #title-block-header, .nw-page-band) .navbar {
+  transition: background-color 0.25s ease, border-color 0.25s ease,
+    backdrop-filter 0.25s ease;
+}
+
+body:has(#hero, #title-block-header, .nw-page-band):not(.nw-scrolled)
+  .navbar:not(:has(.navbar-collapse.show, .navbar-collapse.collapsing)) {
+  background-color: transparent !important;
+  border-bottom-color: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: none;
+}
+
+/* ============ hero: dot-grid background ============ */
+/* Static radial-dot grid, masked to a soft radial fade so it reads as an
+   accent behind the headline rather than a uniform tile. `inset` overshoots
+   the hero box so the slow drift never exposes a bare edge; `#hero`'s own
+   `overflow: hidden` clips it back to the section bounds. Positioned inside
+   `#hero`, which begins at the very top of the page (the navbar floats over
+   it, fixed and transparent until scroll), so the grid already extends
+   behind the navbar with no extra offset needed. */
+.nw-hero-dots {
   position: absolute;
-  inset: 0;
+  inset: -2.5rem;
   z-index: 0;
-  /* fade the network out over the same zone the hero background fades, so
-     particles dissolve into the page instead of clipping at the hero edge */
-  -webkit-mask-image: linear-gradient(to bottom, #000 70%, transparent 100%);
-  mask-image: linear-gradient(to bottom, #000 70%, transparent 100%);
+  opacity: 0.5;
+  background-image: radial-gradient(var(--nw-primary) 1px, transparent 1.4px);
+  background-size: 34px 34px;
+  -webkit-mask-image: radial-gradient(60% 55% at 60% 30%, #000 0%, transparent 78%);
+  mask-image: radial-gradient(60% 55% at 60% 30%, #000 0%, transparent 78%);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .nw-hero-dots {
+    animation: nw-hero-drift 40s linear infinite alternate;
+  }
+}
+
+@keyframes nw-hero-drift {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-60px, -40px, 0); }
 }
 
 #hero .nw-hero-inner {
   position: relative;
   z-index: 1;
-  /* let hovers over gaps in the hero row fall through to the particles */
-  pointer-events: none;
-}
-
-#hero .nw-hero-inner a,
-#hero .nw-hero-inner button,
-#hero .nw-hero-media {
-  pointer-events: auto;
 }
 
 /* ============ scroll reveal ============ */
@@ -242,6 +284,64 @@ body.quarto-dark .quarto-navbar-tools .quarto-color-scheme-toggle:hover > .bi::b
 #hero {
   padding-top: 7.5rem;
   padding-bottom: 5rem;
+}
+
+/* Quarto reserves the fixed navbar's height at the top of `body.nav-fixed`,
+   so the hero actually started *below* the bar and its dot grid stopped at
+   the seam. Pull the hero up into that reserved strip (by the navbar's real,
+   live-measured height — see nw-nav.js) and hand the same amount back as
+   padding: the layout is unchanged, but the hero background and the dot grid
+   now run to y=0, behind the transparent navbar, until scroll. */
+body.nav-fixed #hero {
+  margin-top: calc(-1 * var(--nw-navbar-h));
+  padding-top: calc(7.5rem + var(--nw-navbar-h));
+}
+
+/* ============ .nw-page-band: #hero's look for custom-layout pages ======= */
+/* Pages that skip #title-block-header entirely (404, via `pagetitle:`
+   instead of `title:`) opt into the same top band by hand: same glow +
+   dot-grid background, same navbar pull-up. */
+.nw-page-band {
+  position: relative;
+  overflow: hidden;
+  background: none;
+  padding-top: 7rem;
+  padding-bottom: 6rem;
+}
+
+@media (max-width: 640px) {
+  .nw-page-band {
+    padding-bottom: 3.5rem;
+  }
+}
+
+.nw-page-band::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+  background:
+    radial-gradient(50rem 24rem at 50% -10%, var(--nw-hero-glow), transparent 70%),
+    var(--nw-bg);
+  -webkit-mask-image: linear-gradient(to bottom, #000 65%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 65%, transparent 100%);
+  /* Same residual-gap correction as #title-block-header (see theme.scss):
+     stretch the layer up to y=0 rather than translating it, so closing the
+     gap at the top can't open one at the bottom. Harmless no-op if this band
+     is already flush. */
+  top: calc(-1 * var(--nw-band-lift, 0px));
+}
+
+.nw-page-band > .nw-section-inner {
+  position: relative;
+  z-index: 1;
+}
+
+body.nav-fixed .nw-page-band {
+  margin-top: calc(-1 * var(--nw-navbar-h));
+  padding-top: calc(7rem + var(--nw-navbar-h));
 }
 
 /* desktop: larger side margins → narrower hero row brings text + portrait closer */
@@ -296,11 +396,11 @@ body.quarto-dark .quarto-navbar-tools .quarto-color-scheme-toggle:hover > .bi::b
 }
 
 /* ============ navbar Book Now: never wrap; hide when space is tight ============ */
-/* The fill matches the other outline buttons — see "buttons: filled, never
-   transparent" below; it lives here so the selector isn't declared twice. */
+/* Outline only — the button stays transparent so the band behind the navbar
+   reads through it, and fills blue on hover (see theme.scss). */
 .navbar .navbar-nav .nav-item a[href*="cal.com"] {
   white-space: nowrap;
-  background: var(--nw-card);
+  background: transparent;
 }
 
 @media (min-width: 992px) and (max-width: 1249.98px) {
@@ -358,30 +458,36 @@ body.quarto-dark .quarto-navbar-tools .quarto-color-scheme-toggle:hover > .bi::b
   }
 }
 
-/* ============ find me: dot globe with Orlando marker ============ */
+/* ============ find me: dot globe card with Orlando marker ============ */
 .nw-globe-wrap {
   max-width: 52rem;
   margin: 0 auto;
 }
 
-.nw-globe-frame {
-  position: relative;
+/* Card frame around the globe, like the reference: dark card, rounded
+   corners, and — since the globe itself is now drawn zoomed in (see
+   globe.js) — `overflow: hidden` here is what crops it down to a close-up
+   on Orlando instead of showing the whole sphere. */
+.nw-globe-card {
   max-width: 30rem;
   margin: 0 auto;
+  background: var(--nw-card);
+  border: 1px solid var(--nw-border);
+  border-radius: 1.25rem;
+  overflow: hidden;
 }
 
-/* Narrow screens: the marker label can swing past the viewport edge as the
-   globe spins; clip it at the frame instead of letting it widen the page
-   into a sideways scroll. clip (not hidden) avoids creating a scroll box,
-   and only the x axis is clipped so the label can still rise above the
-   frame. The html/body guard backstops any horizontal overflow the frame
-   clip misses; the hidden line is a fallback for browsers without clip
-   (pre-2022 Safari), and is safe because the navbar is fixed, not sticky. */
-@media (max-width: 767.98px) {
-  .nw-globe-frame {
-    overflow-x: clip;
-  }
+.nw-globe-frame {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
 
+/* Narrow screens: the marker label could in principle sit right at the
+   frame's edge; clip it there instead of letting it widen the page into a
+   sideways scroll. clip (not hidden) avoids creating a scroll box. The
+   html/body guard backstops any horizontal overflow the frame clip misses. */
+@media (max-width: 767.98px) {
   html,
   body {
     overflow-x: hidden;
@@ -390,18 +496,33 @@ body.quarto-dark .quarto-navbar-tools .quarto-color-scheme-toggle:hover > .bi::b
 }
 
 /* ============ consistent side margins on listing pages ============ */
+/* `width: 100%` is what keeps those margins *constant* while the category
+   filter hides cards. `main.content` is a grid item in Quarto's page grid,
+   and without a definite width its track is sized from its contents — so
+   filtering a listing down to a few short items shrank the column, and
+   `margin: 0 auto` re-centred it, visibly moving both page margins. A
+   definite width takes the contents out of that calculation: the column is
+   the same 72rem (or the full track below that) no matter which category is
+   selected. */
 .page-layout-full main.content {
+  width: 100%;
   max-width: 72rem;
   margin: 0 auto;
   padding: 2.5rem 1.5rem 4.5rem;
 }
 
-/* ============ awards grid: strict 2x2, or 1x4 on narrow phones ============ */
+/* ============ awards grid: 1x4, or 2x2 / 1x4 as it narrows ============ */
 .nw-carousel {
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   align-items: start;
-  max-width: 62rem;
+  max-width: 72rem;
   margin: 0 auto;
+}
+
+@media (max-width: 900px) {
+  .nw-carousel {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 @media (max-width: 575.98px) {
@@ -417,44 +538,11 @@ body.quarto-dark .quarto-navbar-tools .quarto-color-scheme-toggle:hover > .bi::b
   display: none;
 }
 
-/* ============ featured publications: 2x2, or 1x4 on narrow phones ======== */
-#publications .nw-cites {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1.5rem;
-  max-width: 62rem;
-}
-
-/* the grid gap owns the spacing between cards now */
-#publications .nw-cites .nw-cite {
-  margin-bottom: 0;
-}
-
-@media (max-width: 640px) {
-  #publications .nw-cites {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* ============ research areas: neutral cards, no per-card color ============ */
-/* The .g-* icon classes are gone from the markup, so the tinted card
-   background keyed to them (theme.scss, via --c1/--c2) has nothing to mix;
-   pin the card and its icon tile back to the plain surface colors. */
-#interests .nw-card {
-  background: var(--nw-card);
-}
-
-#interests .nw-card .nw-icon {
-  background: none;
-  border: 1px solid var(--nw-border);
-  color: var(--nw-fg);
-}
 
 /* ============ even breathing room top and bottom of every section ======== */
 /* Sections pad equally top and bottom, so the gap above a section's header
-   matches the gap below its last card (and, on a gradient band, the distance
-   to each edge of the gradient) — provided nothing leaves a trailing margin
-   behind. The "see all" row sits the same 2.5rem below the cards that the
+   matches the gap below its last card — provided nothing leaves a trailing
+   margin behind. The "see all" row sits the same 2.5rem below the cards that the
    subtitle sits above them. */
 .nw-section > .nw-section-inner > :last-child,
 .nw-cites .nw-cite:last-child,
@@ -503,29 +591,98 @@ img.nw-detail-hero {
 }
 
 .nw-top.show {
-  opacity: 0.85;
+  opacity: 0.55;
   visibility: visible;
   transform: none;
 }
 
 .nw-top:hover {
   opacity: 1;
-  border-color: var(--nw-primary);
-  color: var(--nw-primary);
 }
 
-.nw-top svg {
+.nw-top-arrow {
   width: 1.15rem;
   height: 1.15rem;
+  transition: transform 0.2s ease;
+}
+
+/* On hover the arrow itself does the work the ring used to do: a small,
+   repeating hop in the direction the button takes you. */
+.nw-top:hover .nw-top-arrow,
+.nw-top:focus-visible .nw-top-arrow {
+  animation: nw-top-bounce 0.9s ease-in-out infinite;
+}
+
+@keyframes nw-top-bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-0.18rem);
+  }
+}
+
+/* Scroll progress: an arc tracing the button's own edge, closing as the page
+   bottoms out. `inset: -1px` sizes the 44-unit viewBox over the border box
+   (absolute positioning is otherwise relative to the padding box). */
+.nw-top-ring {
+  position: absolute;
+  inset: -1px;
+  transform: rotate(-90deg);
+  pointer-events: none;
+  overflow: visible;
+}
+
+.nw-top-ring-bar {
+  fill: none;
+  stroke: var(--nw-primary);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: calc(1 - var(--nw-top-progress, 0));
+  transition: stroke-dashoffset 0.1s linear;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nw-top:hover .nw-top-arrow,
+  .nw-top:focus-visible .nw-top-arrow {
+    animation: none;
+    transform: translateY(-0.18rem);
+  }
+
+  .nw-top-ring-bar {
+    transition: none;
+  }
 }
 
 /* ============ footer: topography backdrop + link columns ============ */
+/* Always dark, in both themes — the footer closes the page on the same
+   near-black band the CTA card leads into, so it pins the dark-theme values
+   for the variables it uses instead of following whichever theme file
+   (theme-light.scss / theme-dark.scss) compiled into the current page. An
+   element's own declaration always wins over an inherited one regardless of
+   which theme's stylesheet is loaded, so this holds in light mode too. */
 .nav-footer {
+  --nw-fg: #ffffff;
+  --nw-muted: #ffffff;
+  --nw-border: #3d3d4b;
+  --nw-topo: rgba(229, 231, 235, 0.07);
+  --nw-footer-bg: #0d0d12;
   position: relative;
   background: var(--nw-footer-bg);
   border-top: 1px solid var(--nw-border);
   overflow: hidden;
   padding: 0;
+}
+
+/* The wordmark is a black SVG mark; light mode otherwise leaves it
+   unfiltered (correct against a white navbar) but the footer's background is
+   dark here regardless of theme, so the logo needs the same invert dark mode
+   already applies. */
+.nw-footer-logo img {
+  filter: invert(1);
 }
 
 .nav-footer::before {
@@ -551,6 +708,20 @@ img.nw-detail-hero {
   padding: 4rem 1.5rem 2.5rem;
 }
 
+/* Full-bleed divider: this row lives outside .nw-footer's 72rem column, so
+   its border-top runs the full width of the dark footer background instead
+   of stopping at the content column's edge. */
+.nw-footer-bottom-inner {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 1.75rem 1.5rem 2.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
 .nw-footer-grid {
   display: grid;
   grid-template-columns: 1.4fr repeat(4, 1fr);
@@ -561,6 +732,7 @@ img.nw-detail-hero {
   display: inline-flex;
   align-items: center;
   gap: 0.6rem;
+  font-family: var(--nw-font-display);
   font-weight: 800;
   font-size: 1.15rem;
   color: var(--nw-fg);
@@ -645,27 +817,40 @@ img.nw-detail-hero {
 }
 
 .nw-footer-bottom {
-  display: flex;
-  justify-content: center;
-  text-align: center;
-  gap: 1rem;
-  flex-wrap: wrap;
-  margin-top: 3.5rem;
+  border-top: 1px solid var(--nw-border);
   color: var(--nw-muted);
   font-size: 0.85rem;
 }
 
+.nw-footer-bottom-left {
+  text-align: left;
+}
+
+.nw-footer-bottom-right {
+  text-align: right;
+}
+
 .nw-footer-bottom .nw-quarto-credit {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.3rem;
   color: inherit;
 }
 
-.nw-footer-bottom .nw-quarto-credit svg {
-  width: 0.9rem;
-  height: 0.9rem;
-  flex: none;
+/* Quarto's own `.nav-footer a` rule paints the Privacy link mid-grey, which
+   all but disappears against the footer. Take it back to the foreground
+   color, which the footer redefines as white on its own dark ground in both
+   themes (see `--nw-fg` in the `.nav-footer` block above). */
+.nw-footer-bottom .nw-footer-bottom-left a {
+  color: var(--nw-fg);
+}
+
+.nw-footer-bottom a:hover {
+  color: var(--nw-primary);
+}
+
+@media (max-width: 480px) {
+  .nw-footer-bottom-left,
+  .nw-footer-bottom-right {
+    text-align: center;
+  }
 }
 
 @media (max-width: 900px) {
@@ -685,10 +870,18 @@ img.nw-detail-hero {
 }
 
 /* ============ contact: one card, info column + form column ============ */
+/* The contact page is title block + this one section, so the section's usual
+   6rem top padding stacked on top of the card's own top margin left a screen's
+   worth of empty page between the page description and the card. The title
+   band's own bottom padding already carries most of that gap. */
+#quarto-content #contact.nw-section {
+  padding-top: 2rem;
+}
+
 .nw-contact-card {
   position: relative;
   max-width: 62rem;
-  margin: 2.5rem auto 0;
+  margin: 0 auto;
   display: grid;
   grid-template-columns: 1fr 1.15fr;
   gap: 2.5rem 3rem;
@@ -844,20 +1037,6 @@ img.nw-detail-hero {
   display: block;
   width: 100%;
   aspect-ratio: 1;
-  cursor: grab;
-  /* keep vertical page scrolling working when touches start on the globe */
-  touch-action: pan-y;
-}
-
-#nw-globe:active {
-  cursor: grabbing;
-}
-
-.nw-globe-tag {
-  text-align: center;
-  color: var(--nw-muted);
-  font-size: 0.95rem;
-  margin: 0.75rem 0 0;
 }
 
 .nw-globe-label {
@@ -888,248 +1067,6 @@ img.nw-detail-hero {
   color: var(--nw-fg);
   padding: 0.1rem 0.35rem;
   border-radius: 0.3rem;
-}
-
-/* ============ alternating wall-to-wall gradient bands ============ */
-/* The landing page alternates plain page background and a full-bleed color
-   wash: the wash rides on `.nw-alt` sections (which are otherwise
-   transparent), so the rhythm is plain / gradient / plain / gradient all the
-   way down. Each band spans the full width of the page and carries a mesh of
-   soft, overlapping radial blobs in three hues (`--nw-w1` / `--nw-w2` /
-   `--nw-w3`) rather than a flat left-to-right blend, so the color pools and
-   thins across the band instead of marching evenly across it. `--nw-wsh`
-   nudges every blob sideways by a per-section amount so no two bands land
-   their pools in the same places, and `.nw-wash-l` bands mirror the whole
-   mesh horizontally. The hero is deliberately left out: the particle network
-   is already carrying that area.
-
-   The gradient is the section's own background rather than a separate
-   `z-index: -1` pseudo-element: that layer goes stale when the page is opened
-   directly at a #hash — the browser scrolls before Quarto's listings finish
-   injecting, and the band ends up painted at its pre-injection geometry (a
-   stranded sliver of color nowhere near its section). A plain background
-   repaints with the box.
-
-   The grain rides on ::after — fine film grain, a flat color masked by an SVG
-   fractal-noise tile so the same tile works in either theme — stacked above
-   the background but below the section's content, which is lifted to z-index 1
-   instead of pushing the decoration to a negative index. */
-.nw-alt {
-  position: relative;
-  /* keep the decoration layer inside the section rather than letting it
-     interleave with anything outside */
-  isolation: isolate;
-  /* per-section defaults; each band overrides them below */
-  --nw-w3: var(--nw-w1);
-  --nw-wsh: 0%;
-  /* overall wash strength; dialed down on narrow viewports */
-  --nw-wstr: 100%;
-  background-image:
-    radial-gradient(
-      68% 58% at calc(12% + var(--nw-wsh)) 20%,
-      color-mix(in srgb, var(--nw-w1) calc(0.85 * var(--nw-wstr)), transparent),
-      transparent 70%
-    ),
-    radial-gradient(
-      52% 66% at calc(41% + var(--nw-wsh)) 96%,
-      color-mix(in srgb, var(--nw-w2) calc(0.8 * var(--nw-wstr)), transparent),
-      transparent 68%
-    ),
-    radial-gradient(
-      58% 74% at calc(76% + var(--nw-wsh)) 8%,
-      color-mix(in srgb, var(--nw-w3) calc(0.8 * var(--nw-wstr)), transparent),
-      transparent 70%
-    ),
-    radial-gradient(
-      46% 58% at calc(95% + var(--nw-wsh)) 72%,
-      color-mix(in srgb, var(--nw-w1) calc(0.65 * var(--nw-wstr)), transparent),
-      transparent 66%
-    ),
-    radial-gradient(
-      36% 44% at calc(60% + var(--nw-wsh)) 54%,
-      color-mix(in srgb, var(--nw-w2) calc(0.55 * var(--nw-wstr)), transparent),
-      transparent 72%
-    ),
-    /* faint base so the corners between blobs never fall all the way back to
-       the page background */
-    linear-gradient(
-      105deg,
-      color-mix(in srgb, var(--nw-w1) calc(0.3 * var(--nw-wstr)), transparent),
-      color-mix(in srgb, var(--nw-w3) calc(0.26 * var(--nw-wstr)), transparent) 55%,
-      color-mix(in srgb, var(--nw-w2) calc(0.3 * var(--nw-wstr)), transparent)
-    );
-}
-
-/* mirrored bands: the same mesh flipped left-to-right, so consecutive bands
-   never pool their color in the same corners */
-.nw-alt.nw-wash-l {
-  background-image:
-    radial-gradient(
-      68% 58% at calc(88% - var(--nw-wsh)) 20%,
-      color-mix(in srgb, var(--nw-w1) calc(0.85 * var(--nw-wstr)), transparent),
-      transparent 70%
-    ),
-    radial-gradient(
-      52% 66% at calc(59% - var(--nw-wsh)) 96%,
-      color-mix(in srgb, var(--nw-w2) calc(0.8 * var(--nw-wstr)), transparent),
-      transparent 68%
-    ),
-    radial-gradient(
-      58% 74% at calc(24% - var(--nw-wsh)) 8%,
-      color-mix(in srgb, var(--nw-w3) calc(0.8 * var(--nw-wstr)), transparent),
-      transparent 70%
-    ),
-    radial-gradient(
-      46% 58% at calc(5% - var(--nw-wsh)) 72%,
-      color-mix(in srgb, var(--nw-w1) calc(0.65 * var(--nw-wstr)), transparent),
-      transparent 66%
-    ),
-    radial-gradient(
-      36% 44% at calc(40% - var(--nw-wsh)) 54%,
-      color-mix(in srgb, var(--nw-w2) calc(0.55 * var(--nw-wstr)), transparent),
-      transparent 72%
-    ),
-    linear-gradient(
-      255deg,
-      color-mix(in srgb, var(--nw-w1) calc(0.3 * var(--nw-wstr)), transparent),
-      color-mix(in srgb, var(--nw-w3) calc(0.26 * var(--nw-wstr)), transparent) 55%,
-      color-mix(in srgb, var(--nw-w2) calc(0.3 * var(--nw-wstr)), transparent)
-    );
-}
-
-/* section content sits above the grain */
-.nw-alt > * {
-  position: relative;
-  z-index: 1;
-}
-
-.nw-alt::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background: var(--nw-grain);
-  opacity: var(--nw-grain-op);
-  /* alpha noise tile: the grain now covers the whole band, since the color
-     does too */
-  -webkit-mask-image:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  mask-image:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  -webkit-mask-size: 160px 160px;
-  mask-size: 160px 160px;
-  -webkit-mask-repeat: repeat;
-  mask-repeat: repeat;
-}
-
-/* per-band hue sets: cool blues and greens, rotating so no two adjacent bands
-   read the same, each one still quiet enough to sit under body copy.
-   `--nw-wsh` shifts that band's whole mesh sideways so the pools land
-   somewhere different in every section. */
-#interests {
-  --nw-w1: var(--nw-wash-sky);
-  --nw-w2: var(--nw-wash-emerald);
-  --nw-w3: var(--nw-wash-teal);
-  --nw-wsh: 0%;
-}
-
-#publications {
-  --nw-w1: var(--nw-wash-violet);
-  --nw-w2: var(--nw-wash-sky);
-  --nw-w3: var(--nw-wash-emerald);
-  --nw-wsh: 9%;
-}
-
-#experience {
-  --nw-w1: var(--nw-wash-emerald);
-  --nw-w2: var(--nw-wash-violet);
-  --nw-w3: var(--nw-wash-sky);
-  --nw-wsh: -7%;
-}
-
-#awards {
-  --nw-w1: var(--nw-wash-teal);
-  --nw-w2: var(--nw-wash-sky);
-  --nw-w3: var(--nw-wash-violet);
-  --nw-wsh: 6%;
-}
-
-#faq {
-  --nw-w1: var(--nw-wash-violet);
-  --nw-w2: var(--nw-wash-teal);
-  --nw-w3: var(--nw-wash-emerald);
-  --nw-wsh: -10%;
-}
-
-#cta {
-  --nw-w1: var(--nw-wash-sky);
-  --nw-w2: var(--nw-wash-emerald);
-  --nw-w3: var(--nw-wash-violet);
-  --nw-wsh: 4%;
-}
-
-/* ============ cards on a wash band go transparent ============ */
-/* A filled card punches an opaque rectangle out of the mesh underneath it,
-   which is exactly the thing the band is there to show. On a band the card
-   surface drops away entirely and the card states itself with an outline
-   alone, so the wash runs behind the content uninterrupted. That outline is
-   the same hairline the filled cards use (--nw-onband-border resolves to
-   --nw-border in both themes), so a card on a band and a card off one read at
-   identical weight. Off a band (project cards, the contact card, every inner
-   page) the cards keep their usual filled look.
-
-   The drop shadows go with the fill: a shadow with no surface above it just
-   smudges the gradient. */
-.nw-alt .nw-card,
-.nw-alt .nw-card:has(.nw-icon),
-/* research areas pin their card surface by id above; beat it on the band */
-#interests.nw-alt .nw-card,
-.nw-alt .nw-cites .nw-cite,
-.nw-alt .nw-posts .nw-post,
-.nw-alt .nw-proj-card,
-.nw-alt .nw-tl-item,
-.nw-alt .nw-faq details,
-.nw-alt .nw-contact-card {
-  background: none;
-  border-color: var(--nw-onband-border);
-  box-shadow: none;
-}
-
-.nw-alt .nw-cites .nw-cite:hover,
-.nw-alt .nw-posts .nw-post:hover,
-.nw-alt .nw-proj-card:hover,
-.nw-alt .nw-tl-item:hover {
-  border-color: var(--nw-primary);
-  box-shadow: none;
-}
-
-/* the award "card" is its image, so only its frame changes */
-.nw-alt .nw-award img {
-  border-color: var(--nw-onband-border);
-}
-
-/* the wash is decoration only; pull it back where the viewport is too narrow
-   for the mesh to read as anything but a tint over the text column */
-@media (max-width: 560px) {
-  .nw-alt {
-    --nw-wstr: 55%;
-  }
-
-  .nw-alt::after {
-    opacity: calc(var(--nw-grain-op) * 0.6);
-  }
-}
-
-@media (prefers-contrast: more) {
-  .nw-alt,
-  .nw-alt.nw-wash-l {
-    background-image: none;
-  }
-
-  .nw-alt::after {
-    display: none;
-  }
 }
 
 /* ============ closing CTA: pitch beside the globe ============ */
@@ -1186,13 +1123,10 @@ img.nw-detail-hero {
   }
 }
 
-/* ============ closing CTA: text straight on the gradient band ============ */
+/* ============ closing CTA: text straight on the page background ========== */
 /* The card chrome (blue panel, topography texture, glow, shadow) is dropped on
-   the landing page so the closing pitch sits directly on the section's own
-   gradient. Scoped to #cta: the 404 page still uses the card treatment. Colors
-   switch to the page foreground/muted pair, which is contrast-checked against
-   the page background in both themes — the band's wash is only a light tint
-   over it. */
+   the landing page so the closing pitch sits directly on the section's plain
+   background. Scoped to #cta: the 404 page still uses the card treatment. */
 #cta .nw-cta-card {
   max-width: 46rem;
   padding: 0;
@@ -1257,11 +1191,16 @@ img.nw-detail-hero {
 /* `body { -webkit-font-smoothing: antialiased }` switches macOS to grayscale
    antialiasing, which thins these labels enough that no glyph pixel reaches
    #fff — sampling one reads about #e6e7eb. Subpixel rendering restores solid
-   white cores; the color is pinned alongside it so nothing dims it. */
-.nw-btn-primary,
-.nw-cta-card .nw-btn-primary {
+   white cores; the color is pinned alongside it so nothing dims it. Scoped to
+   the plain site-wide button only: the 404 card's dark-mode variant swaps in
+   a white button with blue text (--nw-cta-btn-fg), which this must not clobber. */
+.nw-btn-primary {
   -webkit-font-smoothing: auto;
   color: #fff !important;
+}
+
+.nw-cta-card .nw-btn-primary {
+  -webkit-font-smoothing: auto;
 }
 
 /* the navbar CTA's white-on-blue hover label, same treatment */
@@ -1269,4 +1208,267 @@ img.nw-detail-hero {
   background: var(--nw-primary);
   -webkit-font-smoothing: auto;
   color: #fff !important;
+}
+
+/* ============ headline and lead wrapping ============ */
+/* Section headings are short enough that the last line regularly ends up a
+   single orphaned word; `balance` evens the lines out instead. It is capped at
+   a handful of lines by the spec, so it is only ever doing work on headings.
+   `pretty` is the cheap version for body-length text — it leaves the line
+   breaking alone and only prevents the orphan. */
+.nw-title,
+.nw-subtitle,
+#hero h1 {
+  text-wrap: balance;
+}
+
+.nw-lead,
+.nw-card p,
+.nw-faq details p {
+  text-wrap: pretty;
+}
+
+/* ============ cross-document view transitions ============ */
+/* Every internal navigation is a full document load (Quarto is a static MPA),
+   so pages used to hard-cut. `navigation: auto` hands the swap to the browser
+   compositor instead: it snapshots the old document, waits for the new one,
+   and cross-fades between them. Browsers without support ignore the whole
+   at-rule and navigate exactly as before — there is no fallback code path.
+
+   Everything here is decoration on top of a navigation that already works,
+   which is why none of it is worth a byte of JavaScript to polyfill. The
+   shared-element morph in nw-nav.js is the one part that needs script, and it
+   is guarded on `document.startViewTransition` existing. */
+@view-transition {
+  navigation: auto;
+}
+
+/* Chrome that should hold still across a navigation rather than cross-fading
+   with the body underneath it. Naming an element lifts it out of the `root`
+   snapshot into its own transition group, and because the name matches on both
+   sides the browser tweens the one box instead of dissolving two copies. */
+.navbar {
+  view-transition-name: nw-navbar;
+}
+
+.nav-footer {
+  view-transition-name: nw-footer;
+}
+
+.nw-top {
+  view-transition-name: nw-top;
+}
+
+/* The page body itself: a short fall-away, a slightly longer settle. The
+   asymmetry matters — the outgoing document should clear quickly so the new
+   page reads as the subject, and easing `out` faster than `in` is what keeps
+   the swap from feeling like a slideshow. */
+::view-transition-old(root) {
+  animation: nw-vt-out 140ms cubic-bezier(0.4, 0, 1, 1) both;
+}
+
+::view-transition-new(root) {
+  animation: nw-vt-in 260ms cubic-bezier(0, 0, 0.2, 1) both;
+}
+
+@keyframes nw-vt-out {
+  to {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes nw-vt-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+/* The card-image → detail-hero morph (named by nw-nav.js on both sides of the
+   navigation). The image is the only element whose geometry genuinely changes,
+   so it gets a longer, softer curve than the page body and is painted above
+   it for the whole transition. */
+::view-transition-group(nw-hero-img) {
+  animation-duration: 380ms;
+  animation-timing-function: cubic-bezier(0.2, 0, 0, 1);
+  z-index: 10;
+}
+
+/* Cross-fading the two copies would show the listing's cropped thumbnail
+   ghosting through the uncropped detail image. Holding both at full opacity
+   for the whole tween means only the box moves, which is the point. */
+::view-transition-old(nw-hero-img),
+::view-transition-new(nw-hero-img) {
+  animation: none;
+  mix-blend-mode: normal;
+  height: 100%;
+}
+
+/* ============ theme toggle: circular wipe ============ */
+/* nw-nav.js wraps the color-scheme swap in a view transition and records the
+   toggle's center in --nw-wipe-x / --nw-wipe-y. The new theme is then revealed
+   through a circle growing from that point, so the change reads as coming out
+   of the button that was pressed.
+
+   The old snapshot deliberately does not animate: it sits still underneath at
+   full opacity while the new one is clipped open over the top of it. Fading it
+   out as well would show the page background through the middle of the wipe.
+   150vmax is simply larger than any viewport's corner-to-corner distance, so
+   the circle always finishes off-screen. */
+html.nw-theme-wipe::view-transition-old(root) {
+  animation: none;
+  z-index: 0;
+}
+
+html.nw-theme-wipe::view-transition-new(root) {
+  animation: nw-theme-wipe 520ms cubic-bezier(0.2, 0, 0, 1) both;
+  z-index: 1;
+}
+
+/* During the wipe the whole page has to travel as one snapshot, so the
+   persistent chrome gives up its own transition groups for the duration —
+   otherwise the navbar and footer would swap theme instantly while the body
+   was still being revealed. */
+html.nw-theme-wipe .navbar,
+html.nw-theme-wipe .nav-footer,
+html.nw-theme-wipe .nw-top {
+  view-transition-name: none;
+}
+
+@keyframes nw-theme-wipe {
+  from {
+    clip-path: circle(0 at var(--nw-wipe-x, 50%) var(--nw-wipe-y, 0));
+  }
+
+  to {
+    clip-path: circle(150vmax at var(--nw-wipe-x, 50%) var(--nw-wipe-y, 0));
+  }
+}
+
+/* ============ scroll reveal, driven by the scroll itself ============ */
+/* The same effect as the `.nw-reveal` / `.nw-in` pair above, expressed as an
+   animation on a view() timeline instead of a class the page has to toggle.
+   home.js skips its IntersectionObserver block entirely when this is
+   supported (see the CSS.supports check there), so exactly one of the two
+   implementations is ever live.
+
+   This also drops the fold measurement that made the JS version safe: an
+   element already fully in view at load has, by definition, finished its
+   `entry` range, so it resolves at 100% progress and paints in its final
+   state on the first frame. Above-the-fold content — including the LCP
+   element — is never hidden, without anyone having to measure anything.
+
+   Guarded twice over: `@supports` keeps it away from browsers that would
+   otherwise apply the keyframes with no timeline to drive them (which would
+   leave content stuck at `opacity: 0`), and the reduced-motion query means
+   this block simply never exists for those users. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .nw-section .nw-title,
+    .nw-section .nw-subtitle,
+    .nw-section .nw-lead,
+    .nw-stat,
+    .nw-card,
+    .nw-proj-wrap,
+    .nw-cite,
+    .nw-post,
+    .nw-tl-item,
+    .nw-award,
+    .nw-faq details,
+    .nw-contact-card,
+    .nw-globe-wrap,
+    .nw-cta-card,
+    .nw-areas,
+    .nw-marquee {
+      animation: nw-rise linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 45%;
+    }
+
+    /* Cards land as a cascade rather than a wall. The JS version staggered
+       with `transition-delay`; here each column just starts a little later in
+       the same scroll range, which costs nothing and — unlike a delay — stays
+       tied to the scroll position if the reader scrubs back up. */
+    .nw-card:nth-child(3n + 2),
+    .nw-proj-wrap:nth-child(3n + 2),
+    .nw-cite:nth-child(3n + 2),
+    .nw-post:nth-child(3n + 2),
+    .nw-award:nth-child(3n + 2),
+    .nw-stat:nth-child(3n + 2) {
+      animation-range: entry 6% entry 51%;
+    }
+
+    .nw-card:nth-child(3n + 3),
+    .nw-proj-wrap:nth-child(3n + 3),
+    .nw-cite:nth-child(3n + 3),
+    .nw-post:nth-child(3n + 3),
+    .nw-award:nth-child(3n + 3),
+    .nw-stat:nth-child(3n + 3) {
+      animation-range: entry 12% entry 57%;
+    }
+  }
+}
+
+@keyframes nw-rise {
+  from {
+    opacity: 0;
+    transform: translateY(1rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ============ reading progress bar (blog posts) ============ */
+/* nw-nav.js adds `.nw-post-page` to <html> on blog detail pages; the bar
+   itself is a pseudo-element and its animation runs off the root scroller, so
+   there is no scroll listener and no per-frame JavaScript. Only `transform`
+   animates, so this stays on the compositor. */
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .nw-post-page body::after {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1100;
+      width: 100%;
+      height: 3px;
+      background: var(--nw-primary);
+      transform-origin: 0 50%;
+      transform: scaleX(0);
+      animation: nw-progress linear both;
+      animation-timeline: scroll(root block);
+    }
+  }
+}
+
+@keyframes nw-progress {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* ============ hero parallax ============ */
+/* The portrait drifts up a little slower than the page as the hero scrolls
+   away, which gives the fold some depth. Transform only — no layout, no
+   paint, no scroll listener. */
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    #hero .nw-hero-media {
+      animation: nw-hero-drift linear both;
+      animation-timeline: scroll(root block);
+      animation-range: 0 90vh;
+      will-change: transform;
+    }
+  }
+}
+
+@keyframes nw-hero-drift {
+  to {
+    transform: translateY(-2.5rem);
+  }
 }

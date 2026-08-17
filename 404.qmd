@@ -1,18 +1,17 @@
 ---
-pagetitle: "Page Not Found"
+title: "Page Not Found"
 description: "That page doesn't exist or has moved. Head back to the home page to find projects, publications, and posts."
-page-layout: custom
 toc: false
 ---
 
-```{=html}
-<section class="nw-section" style="padding-top:7rem">
-  <div class="nw-section-inner">
-    <div class="nw-cta-card">
-      <h1>404 — Page Not Found</h1>
-      <p>The page you're looking for doesn't exist or has been moved.</p>
-      <div class="nw-btns"><a class="nw-btn nw-btn-primary nw-btn-resume" href="/">Go Home</a></div>
-    </div>
-  </div>
-</section>
-```
+These are the places most people are headed:
+
+- [Projects](/projects/) — geospatial analysis, R packages, and data tools
+- [Publications](/publications/) — papers, presentations, and media coverage
+- [Blog](/blog/) — notes on R, spatial data, and working reproducibly
+- [CV](/cv.html) — the full record, or [get in touch](/contact.html)
+
+::: {.nw-btns}
+[Go Home](/){.nw-btn .nw-btn-primary}
+[Browse Projects](/projects/){.nw-btn .nw-btn-ghost}
+:::

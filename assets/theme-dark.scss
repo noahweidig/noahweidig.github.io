@@ -18,28 +18,18 @@ $input-bg: #13131a;
      a dimmed gray — the small type was hard to read at its old contrast. */
   --nw-muted: #ffffff;
   --nw-card: #13131a;
-  /* One outline color for every card, pill and framed image, on the plain
-     background and on a gradient band alike: light enough to read against
-     near-black, dim enough not to glare over a wash. */
+  /* One outline color for every card, pill, framed image, and section
+     divider: light enough to read against near-black. */
   --nw-border: #3d3d4b;
   --nw-chip: #1d1d26;
-  --nw-globe-dot: 255, 255, 255;
+  /* timeline rail dots for past entries — grey, so only the current role
+     carries the blue accent */
+  --nw-tl-dot: #8a91a0;
+  --nw-globe-line: 255, 255, 255;
   /* strength of the icon-color wash on research-area cards */
   --nw-tint: 12%;
   --nw-tint-hover: 18%;
   --nw-hero-glow: rgba(18, 110, 245, 0.18);
-  /* alternating full-bleed section wash: the same hues pushed deeper so they
-     glow against near-black instead of washing it out */
-  --nw-wash-sky: rgba(18, 110, 245, 0.28);
-  --nw-wash-teal: rgba(13, 179, 186, 0.24);
-  --nw-wash-emerald: rgba(16, 185, 129, 0.22);
-  --nw-wash-violet: rgba(124, 92, 246, 0.21);
-  /* cards sitting on a wash band go transparent, so their outline is the only
-     thing holding the card together. The plain-background hairline sinks into
-     a lit wash — this one is a step lighter so the card edge still reads. */
-  --nw-onband-border: #5a5a6d;
-  --nw-grain: #ffffff;
-  --nw-grain-op: 0.09;
   --nw-cta-from: #0a5bb0;
   --nw-cta-via: #126ef5;
   --nw-cta-to: #1488f0;
@@ -58,6 +48,9 @@ $input-bg: #13131a;
   --nw-glass-strong: rgba(10, 10, 15, 0.96);
   --nw-stat-number: #ffffff;
   --nw-navcta: #ffffff;
+  /* nav-link text: a step softer than pure white so the (serif) site title
+     stays the visual anchor of the navbar */
+  --nw-navlink: rgba(255, 255, 255, 0.65);
   /* code-window extension: force a proper dark bg (default Canvas renders
      light because the page never declares color-scheme: dark) */
   --nw-code-bg: #14141b;
@@ -66,6 +59,9 @@ $input-bg: #13131a;
   /* brand blue at text weight fails AA (4.02–4.3:1) on the near-black dark
      bg/card; lighten just the text/link use — button fills stay brand blue */
   --nw-primary-text: #4d94ff;
+  /* amber kicker/eyebrow label fails AA (3.93:1) on the near-black dark bg;
+     lighten it the same way — it's only ever used as text */
+  --nw-secondary: #e08c2e;
 }
 
 /* solid mark renders black by default; flip to white on dark */
