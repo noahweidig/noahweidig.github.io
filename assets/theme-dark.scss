@@ -17,6 +17,8 @@ $input-bg: #13131a;
   /* Secondary copy (subheadings, meta lines, footer links) is pure white, not
      a dimmed gray — the small type was hard to read at its old contrast. */
   --nw-muted: #ffffff;
+  /* contact-form placeholder / hint text — 6.1:1 on the #0a0a0f input background */
+  --nw-placeholder: #8f8f8f;
   --nw-card: #13131a;
   /* One outline color for every card, pill, framed image, and section
      divider: light enough to read against near-black. */

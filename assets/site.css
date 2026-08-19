@@ -754,14 +754,24 @@ img.nw-detail-hero {
   max-width: 14rem;
 }
 
+/* The gap is 0.4rem rather than the 0.9rem it looks like: each icon link pads
+   its own hit area out to the 24x24 px minimum (WCAG 2.5.8), and the 0.25rem
+   of padding on each side makes up the rest of the visual spacing. */
 .nw-footer-socials {
   display: flex;
-  gap: 0.9rem;
+  gap: 0.4rem;
 }
 
 .nw-footer-socials a {
   color: var(--nw-muted);
   display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* icon stays 1.2rem; only the tappable box grows */
+  min-width: 1.5rem;
+  min-height: 1.5rem;
+  padding: 0.25rem;
+  margin: -0.25rem 0;
 }
 
 .nw-footer-socials a:hover {
@@ -804,6 +814,9 @@ img.nw-detail-hero {
   color: var(--nw-muted);
   font-size: 0.92rem;
   text-decoration: none;
+  /* 0.92rem type sat 23 px tall, a pixel under the 24x24 px minimum; the type
+     and the row rhythm are unchanged (the list gap absorbs the extra pixel). */
+  min-height: 1.5rem;
 }
 
 .nw-footer-col a:hover {

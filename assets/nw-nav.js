@@ -388,19 +388,24 @@ document.addEventListener(
   onScroll();
 })();
 
-// Mobile hamburger menu: close after clicking a nav item, or when clicking outside it.
+// Mobile hamburger menu: close after clicking a nav item, when clicking
+// outside it, or on Escape — the same dismiss affordance the search overlay
+// already has. Escape also returns focus to the toggler, so a keyboard
+// visitor lands back on the control they opened the menu with rather than at
+// the top of the document.
 (function () {
   var collapseEl = document.querySelector(".navbar-collapse");
   var toggler = document.querySelector(".navbar-toggler");
   if (!collapseEl) return;
 
-  function closeMenu() {
+  function closeMenu(refocus) {
     if (!collapseEl.classList.contains("show")) return;
     if (window.bootstrap && window.bootstrap.Collapse) {
       window.bootstrap.Collapse.getOrCreateInstance(collapseEl, { toggle: false }).hide();
     } else {
       collapseEl.classList.remove("show");
     }
+    if (refocus && toggler) toggler.focus();
   }
 
   collapseEl.addEventListener("click", function (e) {
@@ -417,6 +422,12 @@ document.addEventListener(
     },
     true
   );
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key !== "Escape" && e.key !== "Esc") return;
+    if (!collapseEl.classList.contains("show")) return;
+    closeMenu(true);
+  });
 })();
 
 // Publication detail pages: the auto-generated `description` (a truncated
