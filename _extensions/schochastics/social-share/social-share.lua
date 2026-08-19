@@ -19,7 +19,11 @@ local function ensureHtmlDeps()
 end
 
 function Meta(m)
-    if m.share == nil then
+    -- `share: false` in a document's front matter opts that page out even
+    -- though the directory's _metadata.yml turns sharing on (listing index
+    -- pages do this). Without the boolean check the filter would try to index
+    -- a boolean below and error out.
+    if m.share == nil or m.share == false then
         return
     end
     ensureHtmlDeps()

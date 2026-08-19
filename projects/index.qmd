@@ -2,6 +2,9 @@
 title: "Selected Projects"
 description: "I build tools and turn ideas into reality. Here's a selection of projects I've created over the years."
 page-layout: full
+# Listing page: the share buttons in this directory's _metadata.yml are meant
+# for the detail pages, not this index.
+share: false
 toc: false
 listing:
   id: all-projects

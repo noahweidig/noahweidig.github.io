@@ -4,7 +4,10 @@
 // each share link from window.location on load instead.
 (function () {
   function build() {
-    var containers = document.querySelectorAll(".social-share");
+    var containers = Array.prototype.filter.call(
+      document.querySelectorAll(".social-share"),
+      function (c) { return c.querySelector("a"); }
+    );
     if (!containers.length) return;
 
     var url = window.location.href.split("#")[0];
@@ -56,12 +59,18 @@
   }
 
   // The Lua filter injects the share markup `after-body`, which lands *after*
-  // the page footer. Move each block to just before the footer (bottom of the
-  // page content) and prepend a "Share on:" label.
+  // the page footer — outside <main> and outside every other landmark, which
+  // axe flags as `region`. Move each block to the end of the page content
+  // (inside the main landmark, still visually just above the footer) and
+  // prepend a "Share on:" label.
   function relocate(containers) {
+    var host = document.querySelector("main#quarto-document-content") ||
+      document.querySelector("main") ||
+      document.querySelector("#quarto-content[role='main']") ||
+      document.querySelector("#quarto-content");
     var footer = document.querySelector("#quarto-footer") ||
       document.querySelector("footer.footer");
-    if (!footer) return;
+    if (!host && !footer) return;
 
     containers.forEach(function (c) {
       if (c.dataset.relocated) return;
@@ -78,7 +87,11 @@
       var block = c.parentElement && c.parentElement !== document.body
         ? c.parentElement
         : c;
-      footer.parentNode.insertBefore(block, footer);
+      if (host) {
+        host.appendChild(block);
+      } else {
+        footer.parentNode.insertBefore(block, footer);
+      }
     });
   }
 

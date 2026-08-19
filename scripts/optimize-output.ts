@@ -410,16 +410,64 @@ function processImages(
  * Screen-reader users lose the "jump to main content" shortcut there, and the
  * skip link in assets/nw-nav.js has nothing meaningful to hand focus to.
  *
- * `role="main"` on the existing `#quarto-content` wrapper is the smallest fix:
- * no markup moves, and it is only ever added to pages that have no <main> of
- * their own, so no page ends up with two.
+ * The wrapper is retagged `<div id="quarto-content">` → `<main id="quarto-content">`
+ * rather than given `role="main"`: per the HTML-AAM a <header> only stops
+ * mapping to `banner` when it descends from a real sectioning element, so a
+ * `role="main"` div left the CV and contact page-title headers computing as
+ * banners *inside* a main landmark (axe `landmark-banner-is-top-level`). The
+ * id and classes are untouched, and <main> is display:block like the div, so
+ * nothing moves visually.
  */
 function ensureMainLandmark(html: string): string {
   if (/<main[\s>]/i.test(html)) return html;
-  return html.replace(
-    /<div id="quarto-content"(?![^>]*\brole=)/i,
-    '<div id="quarto-content" role="main"',
+  const open = /<div id="quarto-content"[^>]*>/i.exec(html);
+  if (!open) return html;
+  const close = matchingCloseTag(html, open.index + open[0].length, "div");
+  if (close === -1) return html;
+  const opened = open[0].replace(/^<div/i, "<main");
+  // The close tag may carry whitespace (`</div >`), so measure it rather than
+  // assuming six characters.
+  const closeLen = (/^<\/div\s*>/i.exec(html.slice(close)) || ["</div>"])[0].length;
+  return (
+    html.slice(0, open.index) + opened +
+    html.slice(open.index + open[0].length, close) + "</main>" +
+    html.slice(close + closeLen)
   );
+}
+
+/**
+ * Index of the `</tag>` that closes the element whose content starts at
+ * `from`, or -1 if the document is unbalanced. Comments and the raw-text
+ * contents of <script>/<style> are skipped so markup inside them cannot
+ * throw the nesting count off.
+ */
+function matchingCloseTag(html: string, from: number, tag: string): number {
+  const scanner = new RegExp(
+    `<!--|<script\\b|<style\\b|<${tag}\\b|</${tag}\\s*>`,
+    "gi",
+  );
+  scanner.lastIndex = from;
+  let depth = 0;
+  let m: RegExpExecArray | null;
+  while ((m = scanner.exec(html)) !== null) {
+    const token = m[0].toLowerCase();
+    if (token === "<!--") {
+      const end = html.indexOf("-->", m.index);
+      if (end === -1) return -1;
+      scanner.lastIndex = end + 3;
+    } else if (token === "<script" || token === "<style") {
+      const name = token.slice(1);
+      const end = html.toLowerCase().indexOf(`</${name}`, m.index);
+      if (end === -1) return -1;
+      scanner.lastIndex = end + name.length + 2;
+    } else if (token.startsWith("</")) {
+      if (depth === 0) return m.index;
+      depth--;
+    } else {
+      depth++;
+    }
+  }
+  return -1;
 }
 
 // -------------------------------------------------------- theme styles

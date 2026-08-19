@@ -7,6 +7,11 @@ $navbar-fg: #ffffff;
 $footer-bg: #0d0d12;
 $card-bg: #13131a;
 $input-bg: #13131a;
+// Bootstrap's link color still resolved to raw brand blue (#126ef5 → 4.3:1 on
+// the near-black page), so prose, callout and TOC links missed AA even after
+// the component-level --nw-primary-text fix. Button fills stay brand blue.
+$link-color: #4d94ff;
+$link-hover-color: #80b4ff;
 
 /*-- scss:rules --*/
 
@@ -36,6 +41,9 @@ $input-bg: #13131a;
   --nw-cta-via: #126ef5;
   --nw-cta-to: #1488f0;
   --nw-cta-fg: #ffffff;
+  /* the saturated blue CTA card keeps the brighter green */
+  --nw-status-fg: #10b981;
+  --nw-cta-accent: #cfe6ff;
   /* solid "inverse" CTA button: white chip with blue label so it stays
      visible on the blue card (the site-wide blue gradient button would
      vanish here) */
@@ -58,6 +66,12 @@ $input-bg: #13131a;
   --nw-code-bg: #14141b;
   --nw-code-titlebar: #1b1b23;
   --nw-code-border: #2a2a34;
+  /* prose code on the dark surface: light-mode purple (#7d12ba) hit 2.89:1 on
+     the grey pill it used to inherit; this reads 7.6:1 on --nw-code-bg */
+  --nw-code-inline-fg: #c792ea;
+  /* keep the dark syntax sheet's own comment/string hues (a11y-dark) */
+  --nw-code-comment: #d4d0ab;
+  --nw-code-string: #abe338;
   /* brand blue at text weight fails AA (4.02–4.3:1) on the near-black dark
      bg/card; lighten just the text/link use — button fills stay brand blue */
   --nw-primary-text: #4d94ff;
@@ -119,5 +133,5 @@ $input-bg: #13131a;
 /* Globe coordinate readout: accent blue instead of white, so it stands out
    from the label's "Orlando, Florida" heading. */
 .nw-globe-label code {
-  color: var(--nw-primary-text);
+  color: var(--nw-primary-text) !important;
 }
