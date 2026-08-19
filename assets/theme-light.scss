@@ -33,6 +33,9 @@ $card-bg: #ffffff;
   --nw-cta-via: #e4f1ff;
   --nw-cta-to: #f2f8ff;
   --nw-cta-fg: #003b70;
+  /* 4.8:1 on the pill fill over the pale CTA gradient (#10b981 was 2.22:1) */
+  --nw-status-fg: #047857;
+  --nw-cta-accent: #0a5bb0;
   /* solid "inverse" CTA button: deep-blue chip with white label */
   --nw-cta-btn-bg: #126ef5;
   --nw-cta-btn-fg: #ffffff;
@@ -52,6 +55,12 @@ $card-bg: #ffffff;
   --nw-code-bg: #e8ebef;
   --nw-code-titlebar: #dde1e7;
   --nw-code-border: #cbd2da;
+  /* prose code: 6.6:1 on --nw-code-bg */
+  --nw-code-inline-fg: #7d12ba;
+  /* darkened from the default #657422 / #20794d, which land at 4.31:1 and
+     4.50:1 on --nw-code-bg */
+  --nw-code-comment: #5c6b1f;
+  --nw-code-string: #146c43;
 }
 
 /* solid mark stays black on light */
