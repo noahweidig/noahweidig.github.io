@@ -117,6 +117,10 @@ $navbar-padding-y: 0.65rem !default;
   /* Warm counterpoint to the blue, used only for kicker/eyebrow labels and
      small accents — never competes with --nw-primary for a click target. */
   --nw-secondary: #b45309;
+  /* availability-pill label; each theme file overrides it */
+  --nw-status-fg: #047857;
+  /* accent word inside the CTA heading */
+  --nw-cta-accent: #0a5bb0;
   --nw-grad: linear-gradient(135deg, #126ef5, #126ef5);
   /* shared height for the CTA button, so the theme-toggle and search circles
      can size their diameter to match it exactly */
@@ -126,6 +130,11 @@ $navbar-padding-y: 0.65rem !default;
   --nw-navbar-h: 72px;
   --nw-font-display: "Newsreader", Georgia, serif;
   --nw-font-mono: "JetBrains Mono", ui-monospace, monospace;
+  /* prose-code colors; each theme file overrides these (see theme-light.scss
+     / theme-dark.scss) */
+  --nw-code-inline-fg: #7d12ba;
+  --nw-code-comment: #5c6b1f;
+  --nw-code-string: #146c43;
 }
 
 /* ============ kicker / eyebrow label ============ */
@@ -503,7 +512,8 @@ body {
 .nw-start-link {
   font-size: 0.85rem;
   font-weight: 600;
-  color: var(--nw-primary);
+  /* text-weight use of the brand blue: --nw-primary is 4.02:1 on the dark card */
+  color: var(--nw-primary-text);
 }
 
 /* ============ hero ============ */
@@ -2022,12 +2032,22 @@ body {
   font-size: 0.8rem;
   font-weight: 700;
   letter-spacing: 0.01em;
-  color: #10b981;
+  /* always-on green, but keyed per theme: the light CTA gradient made the
+     #10b981 it used to hard-code a 2.22:1 read */
+  color: var(--nw-status-fg);
   background: rgba(16, 185, 129, 0.14);
   border: 1px solid rgba(16, 185, 129, 0.4);
   border-radius: 999px;
   padding: 0.35rem 0.95rem;
   margin-bottom: 1.4rem;
+}
+
+/* Accent word inside the CTA heading. Used to be an inline
+   `style="font-style: italic; color: #126ef5"` in index.qmd — the one color on
+   the site that bypassed the theme tokens. */
+.nw-cta-accent {
+  font-style: italic;
+  color: var(--nw-cta-accent);
 }
 
 .nw-cta-status::before {
@@ -2847,6 +2867,71 @@ body:has(#contact) #title-block-header {
 .code-with-filename .code-copy-outer-scaffold pre,
 .code-with-filename > pre {
   background-color: var(--nw-code-bg) !important;
+}
+
+/* Prose code: Bootstrap paints `code` and Quarto paints `div.sourceCode` with
+   light-mode values that are never re-declared for the dark theme, so in dark
+   mode every code window kept a light-grey inset and every inline snippet a
+   light-grey pill (1.31–2.89:1 against the dark syntax colors). Key all three
+   surfaces — the wrapper, the <pre>, and inline <code> — to the same
+   theme-aware vars the code-window extension already uses. `!important` for
+   the same reason the code-window block below uses it: Quarto's own generated
+   sheet sets these at equal specificity and lands after this one. */
+div.sourceCode,
+pre.sourceCode,
+pre:not(.sourceCode) {
+  background-color: var(--nw-code-bg) !important;
+  border-color: var(--nw-code-border);
+}
+
+div.sourceCode > pre,
+div.sourceCode pre.sourceCode {
+  background-color: var(--nw-code-bg) !important;
+}
+
+/* Inline code only — `code` inside a highlighted block keeps the block's own
+   background and token colors. */
+code:not(.sourceCode),
+p code,
+li code,
+td code {
+  background-color: var(--nw-code-bg) !important;
+  color: var(--nw-code-inline-fg) !important;
+}
+
+pre code,
+div.sourceCode code {
+  background-color: transparent !important;
+  color: inherit;
+}
+
+/* The globe's coordinate readout is a chip, not prose code — keep it on the
+   chip surface (theme-dark.scss recolors the text on top of this). */
+.nw-globe-label code {
+  background-color: var(--nw-chip) !important;
+  color: var(--nw-fg) !important;
+}
+
+/* Two default syntax tokens miss AA against the light code background:
+   comments (#657422, 4.31:1) and strings (#20794d, 4.50:1, borderline). The
+   vars carry each theme's own value, so the dark sheet's a11y-dark hues are
+   preserved. */
+code span.co,
+code.sourceCode span.co,
+code span.do,
+code.sourceCode span.do,
+code span.cv,
+code.sourceCode span.cv {
+  color: var(--nw-code-comment);
+}
+
+code span.st,
+code.sourceCode span.st,
+code span.ss,
+code.sourceCode span.ss,
+code span.vs,
+code.sourceCode span.vs {
+  color: var(--nw-code-string);
 }
 
 /* ---------------------------------------------------------------------------
