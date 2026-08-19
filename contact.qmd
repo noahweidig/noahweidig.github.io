@@ -28,13 +28,19 @@ toc: false
         </ul>
       </div>
       <form class="nw-form" action="https://formspree.io/f/xjgnggga" method="POST" aria-describedby="nw-form-status">
-        <label class="nw-sr-only" for="nw-form-name">Your name</label>
-        <input id="nw-form-name" type="text" name="name" placeholder="Your name" autocomplete="name" required>
-        <label class="nw-sr-only" for="nw-form-email">Your email</label>
-        <input id="nw-form-email" type="email" name="email" placeholder="Your email" autocomplete="email" required>
-        <label class="nw-sr-only" for="nw-form-message">Your message</label>
-        <textarea id="nw-form-message" name="message" rows="5" placeholder="Your message" required></textarea>
-        <p class="nw-form-status" id="nw-form-status" role="status" aria-live="polite" hidden></p>
+        <div class="nw-field">
+          <label for="nw-form-name">Your name</label>
+          <input id="nw-form-name" type="text" name="name" placeholder="Jane Doe" autocomplete="name" required>
+        </div>
+        <div class="nw-field">
+          <label for="nw-form-email">Your email</label>
+          <input id="nw-form-email" type="email" name="email" placeholder="jane@example.com" autocomplete="email" required>
+        </div>
+        <div class="nw-field">
+          <label for="nw-form-message">Your message</label>
+          <textarea id="nw-form-message" name="message" rows="5" placeholder="What you're working on, and how I can help" required></textarea>
+        </div>
+        <p class="nw-form-status" id="nw-form-status" role="status" aria-live="polite" tabindex="-1" hidden></p>
         <div class="nw-btns"><button class="nw-btn nw-btn-primary" type="submit">Send Message</button></div>
       </form>
     </div>
