@@ -8,7 +8,7 @@
  *
  *   node --experimental-strip-types scripts/optimize-output.ts
  *
- * Five jobs, all things Quarto has no setting for:
+ * Six jobs, all things Quarto has no setting for:
  *
  *  1. Intrinsic image dimensions. Markdown figures (`![alt](shot.webp)`) and
  *     EJS listing templates emit <img> without width/height, so the browser
@@ -59,7 +59,13 @@
  *     handler, which gave the navbar two search buttons — so a guard at the
  *     top of <head> drops the replayed (untrusted) events.
  *
- *  5. sitemap.xml URL normalisation. Quarto lists `…/index.html`; the pages
+ *  5. Deferred Quarto bundles. Quarto emits its ~11 site_libs scripts as
+ *     classic, parser-blocking <script src> in <head>, though every one of
+ *     them works from a DOMContentLoaded handler. Stamping `defer` keeps
+ *     their order and their timing relative to DOMContentLoaded while taking
+ *     them off the parsing (and first-paint) critical path.
+ *
+ *  6. sitemap.xml URL normalisation. Quarto lists `…/index.html`; the pages
  *     themselves advertise the directory form as canonical (`…/`). Submitting
  *     a sitemap full of non-canonical duplicates wastes crawl budget and
  *     muddies which URL Google picks, so rewrite it to match.
@@ -599,6 +605,53 @@ function normalizeSitemap(): number {
   return changed;
 }
 
+/**
+ * Stamp `defer` on Quarto's own bundles in <head>. Quarto emits them as
+ * classic, non-deferred <script src>, so each one blocks HTML parsing — and
+ * therefore first paint — while it downloads, parses and runs, even though
+ * every one of them does its work from a DOMContentLoaded handler.
+ *
+ * `defer` keeps their relative order and still runs them before
+ * DOMContentLoaded, so the handlers they register (and the inline scripts
+ * Quarto emits in <body>, which use `List`, `ClipboardJS`, `tippy` and
+ * `bootstrap` only from inside their own DOMContentLoaded callbacks) see
+ * exactly what they see today. Scripts already marked `async`, `defer` or
+ * `type="module"` are left alone — module scripts are deferred by definition —
+ * as is anything outside <head> and anything not served from site_libs.
+ */
+function deferSiteLibs(html: string): string {
+  const end = html.search(/<\/head>/i);
+  if (end === -1) return html;
+  const head = html.slice(0, end).replace(/<script\s[^>]*>/gi, (tag) => {
+    const src = attr(tag, "src");
+    if (!src || !/(^|\/)site_libs\//.test(src)) return tag;
+    // Valueless attributes, so matched directly rather than via attr(): a
+    // re-run over output an earlier build already stamped must be a no-op.
+    if (/\s(?:defer|async)(?=[\s>=\/])/i.test(tag)) return tag;
+    if (/module/i.test(attr(tag, "type") || "")) return tag;
+    return addAttrs(tag, "defer");
+  });
+  return head + html.slice(end);
+}
+
+/**
+ * Guard for #202: the home page is the site's busiest page and its images are
+ * exactly the ones worth shrinking, so a build that leaves it without a single
+ * srcset while other pages got one means the image pass skipped it again.
+ * Builds where no page gets a srcset (no cwebp — Netlify previews, a bare
+ * local render) are the documented no-op path and are left alone.
+ */
+function checkHomeSrcset(responsive: number): void {
+  if (responsive === 0) return;
+  const home = path.join(outputDir, "index.html");
+  if (!fs.existsSync(home)) return;
+  if (/\ssrcset=/i.test(fs.readFileSync(home, "utf8"))) return;
+  console.error(
+    "[optimize] index.html has no srcset — the image pass skipped the home page (see #202)",
+  );
+  process.exit(1);
+}
+
 // ----------------------------------------------------------------- main
 
 function main(): void {
@@ -611,14 +664,21 @@ function main(): void {
   let pages = 0;
   let landmarks = 0;
   let deferred = 0;
+  let deferredScripts = 0;
   for (const file of walkHtml(outputDir)) {
     const html = fs.readFileSync(file, "utf8");
-    const sized = processImages(html, file, stats);
-    const landmarked = ensureMainLandmark(sized);
-    if (landmarked !== sized) landmarks++;
-    const themed = deferAlternateStyles(landmarked);
-    if (themed !== landmarked) deferred++;
-    const guarded = dropRocketLoaderReplay(themed);
+    // Landmark first: processImages only rewrites what is inside <main>, and
+    // custom-layout pages (index, cv, contact, privacy, 404) have no <main>
+    // until ensureMainLandmark makes one. Running the image pass first skipped
+    // those pages entirely — see issue #202.
+    const landmarked = ensureMainLandmark(html);
+    if (landmarked !== html) landmarks++;
+    const sized = processImages(landmarked, file, stats);
+    const themed = deferAlternateStyles(sized);
+    if (themed !== sized) deferred++;
+    const scripted = deferSiteLibs(themed);
+    if (scripted !== themed) deferredScripts++;
+    const guarded = dropRocketLoaderReplay(scripted);
     // Last: every script the steps above may have added is stamped too.
     const next = optOutRocketLoader(guarded);
     if (next !== html) {
@@ -636,6 +696,8 @@ function main(): void {
   );
   console.log(`[optimize] alternate theme CSS taken off the critical path on ${deferred} page(s)`);
   console.log(`[optimize] main landmark added to ${landmarks} custom-layout page(s)`);
+  console.log(`[optimize] site_libs scripts deferred on ${deferredScripts} page(s)`);
+  checkHomeSrcset(stats.responsive);
   console.log(`[optimize] sitemap.xml: ${normalizeSitemap()} URL(s) normalised to canonical form`);
 }
 
