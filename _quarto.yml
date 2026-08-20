@@ -35,6 +35,9 @@ project:
     - "assets/fonts/**"
     - assets/nw-nav.js
     - assets/social-share.js
+    # Referenced root-relative from contact.qmd's include-after-body, which
+    # Quarto's resource discovery doesn't follow — must be listed explicitly.
+    - assets/contact-form.js
     # Fetched at runtime by assets/globe.js, so Quarto's resource discovery
     # can't see it — must be listed explicitly.
     - assets/data/globe-lines.json

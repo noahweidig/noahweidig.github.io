@@ -35,6 +35,10 @@ $card-bg: #ffffff;
   --nw-cta-fg: #003b70;
   /* 4.8:1 on the pill fill over the pale CTA gradient (#10b981 was 2.22:1) */
   --nw-status-fg: #047857;
+  /* contact-form outcome row — 4.8:1 and 5.6:1 as text on the pale tinted
+     plate they sit on (the old #10b981 / #ef4444 read 2.2:1 and 3.4:1 here) */
+  --nw-ok-fg: #047857;
+  --nw-err-fg: #b42318;
   --nw-cta-accent: #0a5bb0;
   /* solid "inverse" CTA button: deep-blue chip with white label */
   --nw-cta-btn-bg: #126ef5;

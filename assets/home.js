@@ -283,64 +283,6 @@
     }
   }
 
-  // Contact form: submit to Formspree via fetch, no page reload
-  var form = document.querySelector("form.nw-form");
-  if (form) {
-    var status = form.querySelector(".nw-form-status");
-    // state: "busy" while the request is in flight, then "ok" or "err".
-    var show = function (msg, state) {
-      if (!status) return;
-      status.textContent = msg;
-      status.classList.toggle("busy", state === "busy");
-      status.classList.toggle("ok", state === "ok");
-      status.classList.toggle("err", state === "err");
-      status.hidden = false;
-    };
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
-      var btn = form.querySelector('button[type="submit"]');
-      var label = btn ? btn.textContent : "";
-      // A greyed-out button on its own is indistinguishable from a dead one on
-      // a slow connection, so the in-flight state is also said in the button
-      // label and in the live region.
-      if (btn) {
-        btn.disabled = true;
-        btn.textContent = "Sending…";
-      }
-      show("Sending your message…", "busy");
-      fetch(form.action, {
-        method: "POST",
-        body: new FormData(form),
-        headers: { Accept: "application/json" },
-      })
-        .then(function (res) {
-          if (res.ok) {
-            form.reset();
-            show("Thanks! Your message has been sent.", "ok");
-            return;
-          }
-          return res.json().then(function (data) {
-            var msg = (data.errors || []).map(function (err) { return err.message; }).join(", ");
-            show(msg || "Oops! Something went wrong — please try again.", "err");
-          });
-        })
-        .catch(function () {
-          show("Network error — please try again, or email me directly.", "err");
-        })
-        .finally(function () {
-          // Restored on every path, including the network-error one above.
-          if (btn) {
-            btn.disabled = false;
-            btn.textContent = label;
-          }
-          // Sighted keyboard users would otherwise be left on the button with
-          // the outcome rendered above it; the message is focusable
-          // (tabindex="-1") purely so it can receive this.
-          if (status) status.focus();
-        });
-    });
-  }
-
   // Scroll reveal: fade sections' items in as they enter the viewport.
   // Elements already on screen at load are never hidden, so first paint (and
   // the LCP element) is identical with or without this — Lighthouse-safe.

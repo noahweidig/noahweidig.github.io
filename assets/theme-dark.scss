@@ -43,6 +43,10 @@ $link-hover-color: #80b4ff;
   --nw-cta-fg: #ffffff;
   /* the saturated blue CTA card keeps the brighter green */
   --nw-status-fg: #10b981;
+  /* contact-form outcome row — 8.2:1 and 5.9:1 as text on the dark tinted
+     plate over --nw-card */
+  --nw-ok-fg: #34d399;
+  --nw-err-fg: #f97066;
   --nw-cta-accent: #cfe6ff;
   /* solid "inverse" CTA button: white chip with blue label so it stays
      visible on the blue card (the site-wide blue gradient button would
