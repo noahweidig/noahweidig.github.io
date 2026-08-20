@@ -3,6 +3,9 @@ title: "Get In Touch"
 description: "Let's build something amazing together — email, book a call, or send a message directly."
 page-layout: custom
 toc: false
+include-after-body:
+  - text: |
+      <script src="/assets/contact-form.js"></script>
 ---
 
 ```{=html}
@@ -27,7 +30,7 @@ toc: false
           </li>
         </ul>
       </div>
-      <form class="nw-form" action="https://formspree.io/f/xjgnggga" method="POST" aria-describedby="nw-form-status">
+      <form class="nw-form" action="https://formspree.io/f/mnjggoke" method="POST" aria-describedby="nw-form-status">
         <div class="nw-field">
           <label for="nw-form-name">Your name</label>
           <input id="nw-form-name" type="text" name="name" placeholder="Jane Doe" autocomplete="name" required>
@@ -41,7 +44,12 @@ toc: false
           <textarea id="nw-form-message" name="message" rows="5" placeholder="What you're working on, and how I can help" required></textarea>
         </div>
         <p class="nw-form-status" id="nw-form-status" role="status" aria-live="polite" tabindex="-1" hidden></p>
-        <div class="nw-btns"><button class="nw-btn nw-btn-primary" type="submit">Send Message</button></div>
+        <div class="nw-btns">
+          <button class="nw-btn nw-btn-primary nw-form-submit" type="submit">
+            <span class="nw-btn-spinner" aria-hidden="true"></span>
+            <span class="nw-btn-label">Send Message</span>
+          </button>
+        </div>
       </form>
     </div>
   </div>
