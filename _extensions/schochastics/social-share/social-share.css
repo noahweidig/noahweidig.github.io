@@ -116,6 +116,6 @@
 }
 
 .social-share a.bsky:hover {
-    border-color: #0A7AFF;
+    background: #0A7AFF;
     color: white;
 }
