@@ -15,6 +15,8 @@
   <a href="mailto:noah@noahweidig.com">noah@noahweidig.com</a>
 </p>
 
+![demo](https://raw.githubusercontent.com/noahweidig/noahweidig.github.io/main/assets/media/noahweidigcom.webp)
+
 ---
 
 ## Forking This Repository
