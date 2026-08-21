@@ -17,6 +17,18 @@
 
 ---
 
+## Forking This Repository
+
+Yes, you’re welcome to fork and use this code for your own website. I’m happy to keep the project open source and encourage others to build on it.
+
+However, please don’t present the design or code as your own. I put a significant amount of time and effort into creating this site, and I’d really appreciate it if you kept the original attribution intact.
+
+## TL;DR
+
+Feel free to fork and customize this repository. Just give proper credit by linking back to [noahweidig.com](noahweidig.com).
+
+Thanks for respecting the work and helping keep the project open source!
+
 ## About
 
 I leverage remote sensing, GIS, and data science to translate complex data into clear insight about how our world changes. I believe understanding patterns through time gives people the power to see beyond the moment and shape a more intentional world.
