@@ -1,0 +1,14 @@
+---
+title: "Fueling the Fire: Predicting Cogongrass (Imperata cylindrica) Impacts on Fire Behavior Across Environmental and Seasonal Gradients"
+date: "2026-01-01"
+description: "Journal Article by Ivory II, A. A., Wonkka, C. L., McGranahan, D. A., Akpejeluh, P., Kincy, S., Weidig, N. C., Roberts, C. P., Brock, K. M., Silva, C. A. & Donovan, V. M. (2026). Fire Ecology."
+categories: ["Journal Article"]
+pub-authors: "Ivory II, A. A., Wonkka, C. L., McGranahan, D. A., Akpejeluh, P., Kincy, S., **Weidig, N. C.**, Roberts, C. P., Brock, K. M., Silva, C. A. & Donovan, V. M."
+pub-venue: "Fire Ecology"
+---
+
+::: {.nw-cite-meta}
+Ivory II, A. A., Wonkka, C. L., McGranahan, D. A., Akpejeluh, P., Kincy, S., **Weidig, N. C.**, Roberts, C. P., Brock, K. M., Silva, C. A. & Donovan, V. M. (2026). *Fire Ecology*.
+:::
+
+[BibTeX](cite.bib){.nw-btn .nw-btn-ghost}
