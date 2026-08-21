@@ -1386,10 +1386,18 @@ html.nw-theme-wipe .nw-top {
    state on the first frame. Above-the-fold content — including the LCP
    element — is never hidden, without anyone having to measure anything.
 
+   A scroll timeline is bidirectional: its progress is the scroll position,
+   not a one-shot "has been seen" latch, so anything it animates un-animates
+   on the way back up (and resolves at whatever the scroll position happens
+   to be when the page is printed). That's why this branch drives
+   `nw-rise-scroll` — transform only — instead of the `nw-rise` used by the
+   JS/IntersectionObserver path: scrolling back up re-slides an element a
+   little, but text never fades out again and never prints blank.
+
    Guarded twice over: `@supports` keeps it away from browsers that would
-   otherwise apply the keyframes with no timeline to drive them (which would
-   leave content stuck at `opacity: 0`), and the reduced-motion query means
-   this block simply never exists for those users. */
+   otherwise apply the keyframes with no timeline to drive them, and the
+   reduced-motion query means this block simply never exists for those
+   users. */
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
     .nw-section .nw-title,
@@ -1408,7 +1416,7 @@ html.nw-theme-wipe .nw-top {
     .nw-cta-card,
     .nw-areas,
     .nw-marquee {
-      animation: nw-rise linear both;
+      animation: nw-rise-scroll linear both;
       animation-timeline: view();
       animation-range: entry 0% entry 45%;
     }
@@ -1445,6 +1453,18 @@ html.nw-theme-wipe .nw-top {
 
   to {
     opacity: 1;
+    transform: none;
+  }
+}
+
+/* Transform-only twin of `nw-rise`, for the scroll-timeline branch above.
+   Leaving opacity alone is what makes the reveal safe to run in reverse. */
+@keyframes nw-rise-scroll {
+  from {
+    transform: translateY(1rem);
+  }
+
+  to {
     transform: none;
   }
 }
@@ -1497,5 +1517,35 @@ html.nw-theme-wipe .nw-top {
 @keyframes nw-hero-drift {
   to {
     transform: translateY(-2.5rem);
+  }
+}
+
+/* ============ print ============ */
+/* Backstop for both reveal implementations: printing resolves a scroll
+   timeline at the current scroll position, and the JS path may not have
+   flipped `.nw-in` on yet, either of which would print content at
+   `opacity: 0`. Nothing below the fold should ever reach paper invisible. */
+@media print {
+  .nw-reveal,
+  .nw-section .nw-title,
+  .nw-section .nw-subtitle,
+  .nw-section .nw-lead,
+  .nw-stat,
+  .nw-card,
+  .nw-proj-wrap,
+  .nw-cite,
+  .nw-post,
+  .nw-tl-item,
+  .nw-award,
+  .nw-faq details,
+  .nw-contact-card,
+  .nw-globe-wrap,
+  .nw-cta-card,
+  .nw-areas,
+  .nw-marquee {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
   }
 }

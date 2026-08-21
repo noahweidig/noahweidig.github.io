@@ -28,3 +28,37 @@ quarto render"""
 [build.environment]
   QUARTO_VERSION = "1.9.38"
   QUARTO_SHA256 = "ea8c897368791ad9f200010c087ea3111b2e556b12a960487dd4e216902aa102"
+
+# ---------------------------------------------------------------------------
+# Caching (issue #205, partial).
+#
+# These rules apply to Netlify deploy previews only. Production is GitHub
+# Pages behind Cloudflare, which serves every static asset with the Pages
+# default `max-age=14400`; that TTL can't be set from this repo, so the
+# production half of #205 is a Cloudflare cache rule with the same three
+# path patterns below.
+#
+# Only content-addressed paths get the one-year `immutable` lifetime:
+# `site_libs/**` is Quarto's hash-named bundle output, `assets/fonts/**` are
+# pinned woff2 subsets, and `assets/media/**` holds the generated responsive
+# image variants. `assets/site.css` and `assets/*.js` are deliberately absent
+# — their URLs are stable across deploys, so a long TTL there would serve
+# stale CSS after a render until they carry a content hash themselves.
+[[headers]]
+  for = "/site_libs/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/assets/fonts/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/assets/media/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# HTML is deliberately left alone: Netlify already serves it revalidated per
+# deploy, and on production the Pages default (`max-age=600`) is what the
+# issue asks for.
