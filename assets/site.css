@@ -679,8 +679,8 @@ img.nw-detail-hero {
    element's own declaration always wins over an inherited one regardless of
    which theme's stylesheet is loaded, so this holds in light mode too. */
 .nav-footer {
-  --nw-fg: #ffffff;
-  --nw-muted: #ffffff;
+  --nw-fg: #e8eaef;
+  --nw-muted: #e8eaef;
   --nw-border: #3d3d4b;
   --nw-topo: rgba(229, 231, 235, 0.07);
   --nw-footer-bg: #0d0d12;

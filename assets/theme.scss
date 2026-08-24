@@ -301,15 +301,60 @@ body {
 }
 
 /* ============ shared section scaffolding ============ */
-/* Sections used to alternate a gradient wash band with plain background;
-   now every section is plain, and a full-bleed hairline at the top marks
-   the seam instead. */
+/* Most sections are plain, with a full-bleed hairline at the top marking the
+   seam; a small number sit on --nw-bg-alt instead (see below). Alternating
+   every other section — the old behaviour — reads dated. */
 .nw-section {
   padding: 4rem 0;
   border-top: 1px solid var(--nw-border);
 }
 
+/* Three of the homepage's sections sit on a second plane so the long scroll
+   reads in movements instead of one continuous field: the stats band that
+   opens it, the skills marquee in the middle, and the FAQ that closes it.
+   Deliberately chosen, not alternating. */
+#stats.nw-section,
+#skills.nw-section,
+#faq.nw-section {
+  position: relative;
+  /* rebinding --nw-bg locally means anything inside that paints "the page
+     background" (the marquee pause button, for one) picks up this plane
+     instead of punching a hole back through to the page's own color */
+  --nw-bg: var(--nw-bg-alt);
+  background: var(--nw-bg-alt);
+  padding: 5rem 0;
+}
+
+/* The seam gets more than the hairline: a survey-contour band bleeding off
+   the top edge of each alt section, fading out before the content starts.
+   The topographic asset is the site's own motif — already used in the footer
+   and on the CTA card — so the section break is on-brand in a way a plain
+   grey band would not be. The second mask layer is the fade; browsers without
+   mask-composite simply get the full band, which is faint either way. */
+#stats.nw-section::before,
+#skills.nw-section::before,
+#faq.nw-section::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 11rem;
+  background: var(--nw-topo);
+  opacity: 0.55;
+  -webkit-mask:
+    url(/assets/media/topography.svg) 0 0 / 30rem 30rem repeat,
+    linear-gradient(to bottom, #000 0%, transparent 100%);
+  mask:
+    url(/assets/media/topography.svg) 0 0 / 30rem 30rem repeat,
+    linear-gradient(to bottom, #000 0%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+  pointer-events: none;
+}
+
+/* content sits above the contour band */
 .nw-section-inner {
+  position: relative;
+  z-index: 1;
   max-width: 72rem;
   margin: 0 auto;
   padding: 0 1.5rem;
@@ -2730,6 +2775,14 @@ nav[role="doc-toc"] img {
 
 @media (max-width: 640px) {
   .nw-section { padding: 3rem 0; }
+
+  #stats.nw-section,
+  #skills.nw-section,
+  #faq.nw-section { padding: 3.75rem 0; }
+
+  #stats.nw-section::before,
+  #skills.nw-section::before,
+  #faq.nw-section::before { height: 8rem; }
 }
 
 /* mobile: overlay the expanded hamburger menu instead of pushing content down;
