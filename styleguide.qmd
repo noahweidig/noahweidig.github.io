@@ -1,0 +1,244 @@
+---
+title: "Styleguide"
+description: "The site's design tokens rendered live — type scale, color with computed contrast ratios, spacing, radius, shadow, motion — plus every component in one place."
+search: false
+toc: false
+---
+
+Every design primitive the site is built from, rendered from the live
+`--nw-*` custom properties in [`assets/_tokens.scss`](https://github.com/noahweidig/noahweidig.github.io/blob/main/assets/_tokens.scss)
+— so this page can't drift from the stylesheet: change a token and everything
+below changes with it. Contrast ratios are computed in your browser against
+the current theme's surfaces; use the navbar toggle to audit the other theme.
+This is a working tool, deliberately out of the sitemap and the navbar.
+
+```{=html}
+<style>
+/* Scoped scaffolding for the specimen grids only — visual styling of the
+   specimens themselves comes from the site's own classes and tokens, which
+   is the point: this page must show the system, not restyle it. */
+.sg-section { margin: var(--nw-space-8) 0; }
+.sg-section h2 { margin-bottom: var(--nw-space-4); }
+.sg-note { color: var(--nw-muted); font-size: var(--nw-text-md); max-width: 62ch; }
+.sg-grid { display: grid; gap: var(--nw-space-3); margin-top: var(--nw-space-4); }
+.sg-row { display: flex; align-items: center; gap: var(--nw-space-4); flex-wrap: wrap; }
+.sg-token { font-family: var(--nw-font-mono); font-size: var(--nw-text-sm); color: var(--nw-muted); min-width: 11rem; }
+.sg-val { font-family: var(--nw-font-mono); font-size: var(--nw-text-2xs); color: var(--nw-muted); }
+.sg-swatches { grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); }
+.sg-swatch { border: 1px solid var(--nw-border); border-radius: var(--nw-radius-md); overflow: hidden; }
+.sg-swatch-chip { height: 3.2rem; }
+.sg-swatch-body { padding: var(--nw-space-2) var(--nw-space-3); display: grid; gap: 0.15rem; }
+.sg-ratios { display: flex; gap: var(--nw-space-2); flex-wrap: wrap; }
+.sg-ratio { font-family: var(--nw-font-mono); font-size: var(--nw-text-2xs); border: 1px solid var(--nw-border); border-radius: var(--nw-radius-sm); padding: 0 0.35rem; }
+.sg-ratio.pass { color: var(--nw-ok-fg); }
+.sg-ratio.fail { color: var(--nw-err-fg); }
+.sg-bar { background: var(--nw-primary); height: 1rem; border-radius: var(--nw-radius-sm); }
+.sg-box { width: 7rem; height: 4.5rem; background: var(--nw-card); border: 1px solid var(--nw-border); }
+.sg-shadow-box { width: 9rem; height: 5.5rem; background: var(--nw-card); border-radius: var(--nw-radius-lg); }
+.sg-motion-dot { width: 1.6rem; height: 1.6rem; border-radius: var(--nw-radius-circle); background: var(--nw-primary); }
+.sg-motion-track { flex: 1; min-width: 10rem; max-width: 22rem; border: 1px dashed var(--nw-border); border-radius: var(--nw-radius-pill); padding: 0.25rem; }
+.sg-motion-track:hover .sg-motion-dot { transform: translateX(calc(100% * 5)); }
+.sg-components > div { margin-top: var(--nw-space-5); }
+.sg-type-specimen { line-height: 1.15; margin: 0; }
+</style>
+
+<section class="sg-section" id="sg-type">
+<h2>Type scale</h2>
+<p class="sg-note">Newsreader carries display sizes, Inter carries UI and body,
+JetBrains Mono carries code and meta. Each step below is set at its token's
+live value.</p>
+<div class="sg-grid" id="sg-type-grid"></div>
+</section>
+
+<section class="sg-section" id="sg-color">
+<h2>Color</h2>
+<p class="sg-note">Each swatch shows its resolved value in the active theme,
+with WCAG contrast ratios computed against the page background
+(<code>--nw-bg</code>) and the card surface (<code>--nw-card</code>).
+Green = AA for normal text (≥ 4.5:1); ratios on colors used only as
+surfaces or fills are informational.</p>
+<div class="sg-grid sg-swatches" id="sg-color-grid"></div>
+</section>
+
+<section class="sg-section" id="sg-spacing">
+<h2>Spacing</h2>
+<div class="sg-grid" id="sg-space-grid"></div>
+</section>
+
+<section class="sg-section" id="sg-radius">
+<h2>Radius</h2>
+<div class="sg-row" id="sg-radius-grid" style="align-items: flex-start;"></div>
+</section>
+
+<section class="sg-section" id="sg-shadow">
+<h2>Shadow</h2>
+<div class="sg-row" id="sg-shadow-grid" style="gap: var(--nw-space-6); align-items: flex-start;"></div>
+</section>
+
+<section class="sg-section" id="sg-motion">
+<h2>Motion</h2>
+<p class="sg-note">Hover a track to run its duration with the standard easing.</p>
+<div class="sg-grid" id="sg-motion-grid"></div>
+</section>
+
+<section class="sg-section sg-components" id="sg-components">
+<h2>Components</h2>
+<p class="sg-note">The site's building blocks, in their real markup and
+classes — two cards rounding differently is visible here in a way it never is
+across twenty pages.</p>
+
+<div>
+<div class="nw-kicker">Kicker label</div>
+<div class="nw-btns" style="margin-top: var(--nw-space-4);">
+<a class="nw-btn nw-btn-primary" href="#sg-components">Primary button</a>
+<a class="nw-btn nw-btn-ghost" href="#sg-components">Ghost button</a>
+</div>
+</div>
+
+<div class="nw-chips">
+<span class="nw-chip">Chip</span>
+<span class="nw-chip">Google Earth Engine</span>
+<span class="nw-chip">Change Detection</span>
+</div>
+
+<div class="nw-stats" style="display: flex; gap: var(--nw-space-6); flex-wrap: wrap;">
+<div class="nw-stat"><b>25+</b><span>Papers &amp; Talks</span></div>
+<div class="nw-stat"><b>8+</b><span>Years Research Experience</span></div>
+</div>
+
+<div class="nw-timeline">
+<a class="nw-tl-item nw-tl-link nw-tl-current" href="#sg-components"><h3>Current timeline entry</h3><div class="nw-tl-org">Organization</div><div class="nw-tl-meta">2024 – Present · Gainesville, FL</div><p>The current role carries the blue rail dot; past entries go grey.</p></a>
+<a class="nw-tl-item nw-tl-link" href="#sg-components"><h3>Past timeline entry</h3><div class="nw-tl-org">Organization</div><div class="nw-tl-meta">2021 – 2024 · Cincinnati, OH</div><p>Description copy at the timeline's body size.</p></a>
+</div>
+</section>
+
+<script>
+(() => {
+  "use strict";
+
+  const TYPE = ["--nw-text-2xs","--nw-text-xs","--nw-text-sm","--nw-text-md","--nw-text-base","--nw-text-lg","--nw-text-xl","--nw-text-2xl","--nw-text-3xl","--nw-text-4xl","--nw-text-hero"];
+  const COLOR = ["--nw-bg","--nw-bg-alt","--nw-fg","--nw-muted","--nw-card","--nw-border","--nw-chip","--nw-primary","--nw-primary-text","--nw-secondary","--nw-status-fg","--nw-ok-fg","--nw-err-fg","--nw-cta-accent","--nw-code-inline-fg","--nw-code-comment","--nw-code-string"];
+  const SPACE = ["--nw-space-1","--nw-space-2","--nw-space-3","--nw-space-4","--nw-space-5","--nw-space-6","--nw-space-7","--nw-space-8","--nw-space-9","--nw-space-10"];
+  const RADIUS = ["--nw-radius-sm","--nw-radius-md","--nw-radius-lg","--nw-radius-xl","--nw-radius-pill","--nw-radius-circle"];
+  const SHADOW = ["--nw-shadow-sm","--nw-shadow-md","--nw-shadow-lg","--nw-shadow-primary","--nw-shadow-focus"];
+  const DUR = ["--nw-dur-fast","--nw-dur-base","--nw-dur-slow","--nw-dur-slower"];
+
+  const raw = (name) =>
+    getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+
+  // Resolve any CSS color (hex, named, var) to [r,g,b] by letting the engine
+  // compute it on a probe element — no hand-rolled color parsing.
+  const probe = document.createElement("div");
+  probe.style.display = "none";
+  document.body.appendChild(probe);
+  function rgb(cssColor) {
+    probe.style.color = "rgb(0 0 0)";
+    probe.style.color = cssColor;
+    const m = getComputedStyle(probe).color.match(/[\d.]+/g);
+    return m ? m.slice(0, 3).map(Number) : [0, 0, 0];
+  }
+
+  // WCAG 2.x relative luminance + contrast ratio.
+  function contrast(a, b) {
+    const lum = (c) => {
+      const [r, g, b2] = c.map((v) => {
+        v /= 255;
+        return v <= 0.04045 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+      });
+      return 0.2126 * r + 0.7152 * g + 0.0722 * b2;
+    };
+    const [hi, lo] = [lum(a), lum(b)].sort((x, y) => y - x);
+    return (hi + 0.05) / (lo + 0.05);
+  }
+
+  const el = (tag, cls, text) => {
+    const n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text !== undefined) n.textContent = text;
+    return n;
+  };
+
+  function render() {
+    // -- type
+    const tg = document.getElementById("sg-type-grid");
+    tg.replaceChildren(...TYPE.map((t) => {
+      const row = el("div", "sg-row");
+      row.append(el("code", "sg-token", t), el("span", "sg-val", raw(t)));
+      const spec = el("p", "sg-type-specimen", "Geospatial data science");
+      spec.style.fontSize = `var(${t})`;
+      if (["--nw-text-3xl", "--nw-text-4xl", "--nw-text-hero"].includes(t))
+        spec.style.fontFamily = "var(--nw-font-display)";
+      row.append(spec);
+      return row;
+    }));
+
+    // -- color
+    const bg = rgb(raw("--nw-bg")), card = rgb(raw("--nw-card"));
+    const cg = document.getElementById("sg-color-grid");
+    cg.replaceChildren(...COLOR.map((t) => {
+      const v = raw(t), c = rgb(v);
+      const sw = el("div", "sg-swatch");
+      const chip = el("div", "sg-swatch-chip");
+      chip.style.background = v;
+      const body = el("div", "sg-swatch-body");
+      body.append(el("code", "sg-token", t), el("span", "sg-val", v));
+      const ratios = el("div", "sg-ratios");
+      for (const [label, surf] of [["bg", bg], ["card", card]]) {
+        const r = contrast(c, surf);
+        ratios.append(el("span", "sg-ratio " + (r >= 4.5 ? "pass" : "fail"),
+          `${label} ${r.toFixed(2)}:1`));
+      }
+      body.append(ratios);
+      sw.append(chip, body);
+      return sw;
+    }));
+
+    // -- spacing
+    document.getElementById("sg-space-grid").replaceChildren(...SPACE.map((t) => {
+      const row = el("div", "sg-row");
+      const bar = el("div", "sg-bar");
+      bar.style.width = `var(${t})`;
+      row.append(el("code", "sg-token", t), el("span", "sg-val", raw(t)), bar);
+      return row;
+    }));
+
+    // -- radius
+    document.getElementById("sg-radius-grid").replaceChildren(...RADIUS.map((t) => {
+      const wrap = el("div", "sg-grid");
+      const box = el("div", "sg-box");
+      box.style.borderRadius = `var(${t})`;
+      if (t.endsWith("circle")) box.style.width = "4.5rem";
+      wrap.append(box, el("code", "sg-token", t), el("span", "sg-val", raw(t)));
+      return wrap;
+    }));
+
+    // -- shadow
+    document.getElementById("sg-shadow-grid").replaceChildren(...SHADOW.map((t) => {
+      const wrap = el("div", "sg-grid");
+      const box = el("div", "sg-shadow-box");
+      box.style.boxShadow = `var(${t})`;
+      wrap.append(box, el("code", "sg-token", t));
+      return wrap;
+    }));
+
+    // -- motion
+    document.getElementById("sg-motion-grid").replaceChildren(...DUR.map((t) => {
+      const row = el("div", "sg-row");
+      const track = el("div", "sg-motion-track");
+      const dot = el("div", "sg-motion-dot");
+      dot.style.transition = `transform var(${t}) var(--nw-ease-standard)`;
+      track.append(dot);
+      row.append(el("code", "sg-token", t), el("span", "sg-val", raw(t)), track);
+      return row;
+    }));
+  }
+
+  render();
+  // Re-resolve everything when the reader flips the theme toggle: Quarto
+  // swaps body classes (quarto-light/quarto-dark) when switching stylesheets.
+  new MutationObserver(render).observe(document.body, {
+    attributes: true, attributeFilter: ["class"],
+  });
+})();
+</script>
+```
