@@ -5,6 +5,8 @@ description: Living in a distracted world — strategies for deep work, minimizi
 categories:
 - Tech
 draft: false
+image: cover.webp
+image-alt: "Cover card reading “Focus” over the site's topographic contour texture"
 ---
 
 ## The Problem

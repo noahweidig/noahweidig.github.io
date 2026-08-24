@@ -160,6 +160,15 @@ quarto render                  # build to _site/
 node scripts/update-pubs.js    # refresh publications from Zotero
 ```
 
+### Blog cover images
+
+Every post carries a 1200×675 cover, shown on the card in the homepage writing section and on `/blog/`, and referenced from the post's front matter as `image: cover.webp`.
+
+- `scripts/generate-post-covers.ts` draws them: the brand amber → magenta → teal gradient under the site's own `assets/media/topography.svg` texture, with the post's first category and its title in bold white Inter. Each post's gradient angle and hue order are derived from its slug, so the cards read as a family without looking identical.
+- It is **not** part of `quarto render` — covers are committed next to the post they belong to. Run it by hand when adding a post: `node --experimental-strip-types scripts/generate-post-covers.ts` (add `--force` to redraw covers that already exist; without it, existing artwork is never overwritten).
+- Rasterization reuses the resvg WebAssembly build and the vendored Inter faces from `scripts/vendor/`. resvg emits PNG, so the result is re-encoded to WebP (~50 KB a card) with `cwebp` or, failing that, Pillow via `python3`; with neither installed the script stops rather than committing a heavyweight PNG.
+- A post with no `image:` still renders — the card simply falls back to the text-only layout.
+
 ### Open Graph cards
 
 Every page gets a 1200×630 social-preview card, generated automatically as part of `quarto render` — nothing to update by hand when titles or descriptions change.
