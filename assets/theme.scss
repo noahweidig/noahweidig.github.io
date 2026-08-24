@@ -1432,6 +1432,13 @@ body {
   border-bottom: 1px solid var(--nw-border);
 }
 
+/* The heading's underline already separates the section, so the first row's
+   own top border would double it. */
+.nw-pubs .nw-cites .nw-cite:first-child {
+  border-top: none;
+  padding-top: 0.35rem;
+}
+
 /* Impact strip above the list. Same treatment as the home page stats, but it
    is its own class: `#stats` also carries the affiliation marquee rules. */
 .nw-pubstats {
