@@ -207,6 +207,54 @@ function buildSlug(creators, title, year) {
   return `${last}-${words.length ? words.join("-") : "untitled"}-${year ? String(year).slice(-2) : "nd"}`;
 }
 
+// ---------------------------------------------------------------------------
+// Citation counts (OpenAlex).
+//
+// OpenAlex is free and needs no key; a single filtered request covers every
+// DOI in the library. Best-effort by design: if the lookup fails, the numbers
+// already committed in the frontmatter are kept, so a bad API day can never
+// wipe the impact numbers off the publications page. Entries without a DOI —
+// talks, media, most presentations — simply have no count.
+const OPENALEX_MAILTO = process.env.OPENALEX_MAILTO || "noah@noahweidig.com";
+
+const normalizeDoi = (doi) => String(doi || "").trim().toLowerCase().replace(/^https?:\/\/(dx\.)?doi\.org\//, "");
+
+async function fetchCitationCounts(dois) {
+  const unique = [...new Set(dois.map(normalizeDoi).filter(Boolean))];
+  if (!unique.length) return new Map();
+  const out = new Map();
+  for (let i = 0; i < unique.length; i += 40) {
+    const chunk = unique.slice(i, i + 40);
+    const url = `https://api.openalex.org/works?per-page=50&select=doi,cited_by_count,open_access` +
+      `&filter=doi:${chunk.map(encodeURIComponent).join("|")}&mailto=${encodeURIComponent(OPENALEX_MAILTO)}`;
+    const res = await fetch(url, { signal: AbortSignal.timeout(30000) });
+    if (!res.ok) throw new Error(`OpenAlex API error (${res.status})`);
+    const page = await res.json();
+    for (const work of page?.results || []) {
+      const key = normalizeDoi(work.doi);
+      if (!key) continue;
+      out.set(key, {
+        citations: Number.isFinite(work.cited_by_count) ? work.cited_by_count : 0,
+        oa: !!work.open_access?.is_oa,
+      });
+    }
+  }
+  return out;
+}
+
+// Whatever the last successful run wrote, so a failed lookup keeps the page
+// as it was instead of blanking it.
+function readExistingMetrics(file) {
+  if (!fs.existsSync(file)) return {};
+  const fm = fs.readFileSync(file, "utf8").match(/^---\r?\n([\s\S]*?)\r?\n---/);
+  if (!fm) return {};
+  const cites = fm[1].match(/^pub-citations:\s*(\d+)\s*$/m);
+  return {
+    citations: cites ? Number(cites[1]) : undefined,
+    oa: /^pub-oa:\s*true\s*$/m.test(fm[1]) || undefined,
+  };
+}
+
 // Minimal YAML scalar quoting: always double-quote and escape.
 const yq = (s) => `"${String(s).replace(/\\/g, "\\\\").replace(/"/g, '\\"')}"`;
 
@@ -239,6 +287,14 @@ async function main() {
     it.__slug = slugCounts.get(it.__base) === 1
       ? it.__base
       : `${it.__base}-${it.key.toLowerCase().slice(0, 4)}`;
+  }
+
+  let metrics = null;
+  try {
+    metrics = await fetchCitationCounts(entries.map((it) => it.data.DOI));
+    console.log(`OpenAlex: citation counts for ${metrics.size} of ${entries.length} items.`);
+  } catch (err) {
+    console.warn(`OpenAlex lookup failed (${err?.message ?? err}); keeping the counts already on disk.`);
   }
 
   let written = 0;
@@ -293,6 +349,15 @@ async function main() {
     if (detailBits.length) fm.push(`pub-details: ${yq(detailBits.join(", "))}`);
     if (doi) fm.push(`pub-doi: ${yq(doi)}`);
     if (link) fm.push(`pub-url: ${yq(link)}`);
+
+    const previous = readExistingMetrics(path.join(pubsDir, slug, "index.qmd"));
+    // A fresh lookup wins; anything it didn't cover (lookup failed, or the DOI
+    // isn't in OpenAlex yet) keeps whatever the last run committed.
+    const fetched = metrics?.get(normalizeDoi(doi));
+    const citations = fetched?.citations ?? previous.citations;
+    const openAccess = fetched?.oa ?? previous.oa;
+    if (citations > 0) fm.push(`pub-citations: ${citations}`);
+    if (openAccess) fm.push("pub-oa: true");
     fm.push("---", "");
 
     const body = [];

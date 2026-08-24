@@ -6,18 +6,184 @@ page-layout: full
 # for the detail pages, not this index.
 share: false
 toc: false
+# One listing per publication type, journal articles first, so the strongest
+# work reads as a section rather than as a row somewhere in a date-sorted
+# wall. Same pattern cv.qmd uses. Types with no entries render an empty
+# section, which the `:has()` rule in theme.scss hides — so a new Zotero item
+# type can never fall off this page.
 listing:
-  id: all-pubs
-  contents: "*/index.qmd"
-  sort: "date desc"
-  template: ../_ejs/citation.ejs
-  page-size: 100
+  - id: pubs-journal
+    contents: "*/index.qmd"
+    sort: "date desc"
+    include:
+      categories: "Journal Article"
+    template: ../_ejs/citation.ejs
+    page-size: 100
+  - id: pubs-preprint
+    contents: "*/index.qmd"
+    sort: "date desc"
+    include:
+      categories: "Preprint"
+    template: ../_ejs/citation.ejs
+    page-size: 100
+  - id: pubs-thesis
+    contents: "*/index.qmd"
+    sort: "date desc"
+    include:
+      categories: "Thesis"
+    template: ../_ejs/citation.ejs
+    page-size: 100
+  - id: pubs-book
+    contents: "*/index.qmd"
+    sort: "date desc"
+    include:
+      categories: "Book"
+    template: ../_ejs/citation.ejs
+    page-size: 100
+  - id: pubs-chapter
+    contents: "*/index.qmd"
+    sort: "date desc"
+    include:
+      categories: "Book Chapter"
+    template: ../_ejs/citation.ejs
+    page-size: 100
+  - id: pubs-report
+    contents: "*/index.qmd"
+    sort: "date desc"
+    include:
+      categories: "Report"
+    template: ../_ejs/citation.ejs
+    page-size: 100
+  - id: pubs-presentation
+    contents: "*/index.qmd"
+    sort: "date desc"
+    include:
+      categories: "Presentation"
+    template: ../_ejs/citation.ejs
+    page-size: 100
+  - id: pubs-webinar
+    contents: "*/index.qmd"
+    sort: "date desc"
+    include:
+      categories: "Webinar"
+    template: ../_ejs/citation.ejs
+    page-size: 100
+  - id: pubs-media
+    contents: "*/index.qmd"
+    sort: "date desc"
+    include:
+      categories: "Media Coverage"
+    template: ../_ejs/citation.ejs
+    page-size: 100
+  - id: pubs-review
+    contents: "*/index.qmd"
+    sort: "date desc"
+    include:
+      categories: "Peer Review"
+    template: ../_ejs/citation.ejs
+    page-size: 100
+  - id: pubs-other
+    contents: "*/index.qmd"
+    sort: "date desc"
+    include:
+      categories: "Publication"
+    template: ../_ejs/citation.ejs
+    page-size: 100
 include-after-body:
   - text: |
       <script src="../assets/home.js"></script>
 ---
 
-<div class="nw-filters" data-nw-filter-for="all-pubs" data-nw-filter-noun="publications"></div>
+```{=html}
+<!-- The numbers are fallbacks: scripts/update-stats.ts rewrites them at render
+     time from the publications/*/index.qmd frontmatter, so they can't drift as
+     the Zotero sync adds entries. The citations block is dropped entirely when
+     no entry carries a `pub-citations` count yet. -->
+<div class="nw-stats nw-pubstats">
+<div class="nw-stat"><b data-nw-stat="pub-total">30</b><span>Publications &amp; Talks</span></div>
+<div class="nw-stat"><b data-nw-stat="pub-journal">5</b><span>Journal Articles</span></div>
+<div class="nw-stat"><b data-nw-stat="pub-first">12</b><span>First-Author Works</span></div>
+<div class="nw-stat" data-nw-stat-block="pub-citations"><b data-nw-stat="pub-citations">14</b><span>Citations</span></div>
+</div>
+```
 
-::: {#all-pubs .nw-cites}
+::: {.nw-pubs}
+
+::: {.nw-pub-section}
+## Journal Articles
+
+::: {#pubs-journal .nw-cites}
+:::
+:::
+
+::: {.nw-pub-section}
+## Preprints
+
+::: {#pubs-preprint .nw-cites}
+:::
+:::
+
+::: {.nw-pub-section}
+## Thesis
+
+::: {#pubs-thesis .nw-cites}
+:::
+:::
+
+::: {.nw-pub-section}
+## Books
+
+::: {#pubs-book .nw-cites}
+:::
+:::
+
+::: {.nw-pub-section}
+## Book Chapters
+
+::: {#pubs-chapter .nw-cites}
+:::
+:::
+
+::: {.nw-pub-section}
+## Reports
+
+::: {#pubs-report .nw-cites}
+:::
+:::
+
+::: {.nw-pub-section}
+## Presentations
+
+::: {#pubs-presentation .nw-cites}
+:::
+:::
+
+::: {.nw-pub-section}
+## Webinars
+
+::: {#pubs-webinar .nw-cites}
+:::
+:::
+
+::: {.nw-pub-section}
+## Media Coverage
+
+::: {#pubs-media .nw-cites}
+:::
+:::
+
+::: {.nw-pub-section}
+## Peer Review
+
+::: {#pubs-review .nw-cites}
+:::
+:::
+
+::: {.nw-pub-section}
+## Other
+
+::: {#pubs-other .nw-cites}
+:::
+:::
+
 :::
