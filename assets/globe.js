@@ -13,8 +13,8 @@
   // Country border color follows --nw-globe-line: black in light mode, white
   // in dark, same as the page foreground. The graticule and sphere read off
   // the theme's own border/bg tokens, so both pick up light/dark too.
-  var LINE_COLOR = "0, 0, 0";
-  var SPHERE_FILL = "#0a0a0f";
+  var LINE_COLOR = "20, 24, 31";
+  var SPHERE_FILL = "#0b0d12";
   var GRATICULE_COLOR = "#3d3d4b";
   // The Orlando marker always stays the site's accent blue, in both themes.
   var MARKER_COLOR = "0, 118, 223";
@@ -22,7 +22,7 @@
     var cs = getComputedStyle(document.documentElement);
     var line = cs.getPropertyValue("--nw-globe-line").trim();
     if (line) LINE_COLOR = line;
-    var fill = cs.getPropertyValue("--nw-bg-alt").trim();
+    var fill = cs.getPropertyValue("--nw-bg").trim();
     if (fill) SPHERE_FILL = fill;
     var grid = cs.getPropertyValue("--nw-border").trim();
     if (grid) GRATICULE_COLOR = grid;

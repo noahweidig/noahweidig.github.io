@@ -1,20 +1,24 @@
 /*-- scss:defaults --*/
 
-$body-bg: #ffffff;
-$body-color: #000000;
-$navbar-bg: rgba(255, 255, 255, 0.85);
-$navbar-fg: #000000;
+$body-bg: #fcfcfb;
+$body-color: #14181f;
+$navbar-bg: rgba(252, 252, 251, 0.85);
+$navbar-fg: #14181f;
 $footer-bg: #fafafa;
 $card-bg: #ffffff;
 
 /*-- scss:rules --*/
 
 :root {
-  --nw-bg: #ffffff;
-  --nw-bg-alt: #ffffff;
-  --nw-fg: #000000;
-  /* see theme-dark.scss: secondary copy is the pure foreground color */
-  --nw-muted: #000000;
+  /* Off-white paper and near-ink text rather than #fff/#000: 17.3:1, still
+     far above AAA, without the halation pure black on pure white produces. */
+  --nw-bg: #fcfcfb;
+  /* a second, slightly cooler plane — a few homepage sections sit on it so
+     the long scroll reads in movements instead of one continuous field */
+  --nw-bg-alt: #f2f3f6;
+  --nw-fg: #14181f;
+  /* see theme-dark.scss: secondary copy is the foreground color */
+  --nw-muted: #14181f;
   /* contact-form placeholder / hint text — 5.0:1 on the #ffffff input background */
   --nw-placeholder: #6f6f6f;
   --nw-card: #ffffff;
@@ -24,7 +28,7 @@ $card-bg: #ffffff;
   --nw-chip: #eef2f7;
   /* see theme-dark.scss: grey rail dot for past timeline entries */
   --nw-tl-dot: #9aa2b1;
-  --nw-globe-line: 0, 0, 0;
+  --nw-globe-line: 20, 24, 31;
   /* strength of the icon-color wash on research-area cards */
   --nw-tint: 7%;
   --nw-tint-hover: 12%;
@@ -48,13 +52,13 @@ $card-bg: #ffffff;
   --nw-cta-glow: rgba(18, 110, 245, 0.18);
   --nw-topo: rgba(31, 41, 55, 0.08);
   --nw-footer-bg: #fafafa;
-  --nw-glass: rgba(255, 255, 255, 0.85);
-  --nw-glass-strong: rgba(255, 255, 255, 0.96);
-  --nw-stat-number: #000000;
-  --nw-navcta: #000000;
-  /* nav-link text: a step softer than pure black so the (serif) site title
+  --nw-glass: rgba(252, 252, 251, 0.85);
+  --nw-glass-strong: rgba(252, 252, 251, 0.96);
+  --nw-stat-number: #14181f;
+  --nw-navcta: #14181f;
+  /* nav-link text: a step softer than the body ink so the (serif) site title
      stays the visual anchor of the navbar */
-  --nw-navlink: rgba(0, 0, 0, 0.65);
+  --nw-navlink: rgba(20, 24, 31, 0.65);
   /* code-window extension: light but darker than the near-white default */
   --nw-code-bg: #e8ebef;
   --nw-code-titlebar: #dde1e7;
