@@ -1401,6 +1401,169 @@ body {
   color: var(--nw-primary-text);
 }
 
+/* ============ publications page ============ */
+/* The page is one listing per publication type (see publications/index.qmd),
+   so the reader sees journal articles as journal articles without touching a
+   filter. Everything here is scoped to `.nw-pubs` or `.nw-cites` so the same
+   citation template stays a flat, print-friendly row on the CV. */
+
+.nw-pubs .nw-pub-section {
+  margin-top: 3rem;
+}
+
+.nw-pubs .nw-pub-section:first-child {
+  margin-top: 1.5rem;
+}
+
+/* A type with no entries still renders its (empty) listing, so hide the whole
+   section. That way a Zotero item type nobody has published yet can sit in the
+   page without leaving a bare heading behind — and a new type never silently
+   drops off the page either. */
+.nw-pubs .nw-pub-section:not(:has(.nw-cite)) {
+  display: none;
+}
+
+.nw-pubs .nw-pub-section > h2 {
+  font-family: var(--nw-font-display);
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0 0 0.75rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--nw-border);
+}
+
+/* Impact strip above the list. Same treatment as the home page stats, but it
+   is its own class: `#stats` also carries the affiliation marquee rules. */
+.nw-pubstats {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0;
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.nw-pubstats .nw-stat {
+  flex: 1 1 10rem;
+  padding: 0 1.75rem;
+  border-left: 1px solid var(--nw-border);
+}
+
+.nw-pubstats .nw-stat:first-child {
+  border-left: none;
+}
+
+.nw-pubstats .nw-stat b {
+  display: block;
+  font-family: $font-family-serif;
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--nw-stat-number);
+}
+
+.nw-pubstats .nw-stat span {
+  color: var(--nw-muted);
+  font-size: 0.95rem;
+}
+
+@media screen and (max-width: 576px) {
+  .nw-pubstats {
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .nw-pubstats .nw-stat {
+    /* `flex: 1 1 10rem` sizes along the main axis, which is vertical here, so
+       leaving it in place would make every stat 10rem tall. */
+    flex: 0 0 auto;
+    padding: 1.25rem 0 0;
+    border-left: none;
+    border-top: 1px solid var(--nw-border);
+  }
+
+  .nw-pubstats .nw-stat:first-child {
+    padding-top: 0;
+    border-top: none;
+  }
+}
+
+/* One quiet, tinted glyph per publication type — the visual anchor the list
+   was missing. Off by default so the CV keeps its plain rows; the accent is a
+   single custom property per type, tinted for the badge background. */
+.nw-cite-icon {
+  display: none;
+}
+
+.nw-cites .nw-cite-year {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.nw-cites .nw-cite-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 1.9rem;
+  height: 1.9rem;
+  border-radius: 0.6rem;
+  color: var(--nw-cite-accent, var(--nw-muted));
+  background: color-mix(in srgb, var(--nw-cite-accent, var(--nw-muted)) 14%, transparent);
+}
+
+.nw-cites .nw-cite-icon svg {
+  width: 1.05rem;
+  height: 1.05rem;
+}
+
+/* Stack the badge above the year in the 3.5rem gutter; on the single-column
+   phone layout the row reads better with the two side by side. */
+@media (min-width: 481px) {
+  .nw-cites .nw-cite-year {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.45rem;
+  }
+}
+
+.nw-cite[data-cite-type="journal-article"] { --nw-cite-accent: #3b82f6; }
+.nw-cite[data-cite-type="preprint"]        { --nw-cite-accent: #6366f1; }
+.nw-cite[data-cite-type="thesis"]          { --nw-cite-accent: #a855f7; }
+.nw-cite[data-cite-type="book"],
+.nw-cite[data-cite-type="book-chapter"]    { --nw-cite-accent: #8b5cf6; }
+.nw-cite[data-cite-type="report"]          { --nw-cite-accent: #0ea5e9; }
+.nw-cite[data-cite-type="presentation"]    { --nw-cite-accent: #f59e0b; }
+.nw-cite[data-cite-type="webinar"]         { --nw-cite-accent: #14b8a6; }
+.nw-cite[data-cite-type="media-coverage"]  { --nw-cite-accent: #f43f5e; }
+.nw-cite[data-cite-type="peer-review"]     { --nw-cite-accent: #10b981; }
+
+/* One plain-language line per entry, taken from the abstract's opening
+   sentence by _ejs/citation.ejs. Only on the publications page: the home page
+   shows four citations in a tight block and the CV prints as a reference list. */
+.nw-cite-summary {
+  display: none;
+}
+
+.nw-pubs .nw-cite-summary {
+  display: block;
+  margin: 0.4rem 0 0;
+  color: var(--nw-muted);
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+/* The section heading already names the type, so the per-row category chip is
+   noise here (it still earns its place on the home page and the CV). */
+.nw-pubs .nw-cite-cat {
+  display: none;
+}
+
+.nw-cite-oa {
+  border-color: color-mix(in srgb, #10b981 45%, var(--nw-border));
+  color: var(--nw-status-fg);
+}
+
 /* ============ tech stack ============ */
 /* One scrolling strip instead of category cards, sharing the marquee
    machinery (and the seamless duplication in home.js) with the affiliation
@@ -2360,7 +2523,7 @@ body {
    width from the viewport, which drifted out of sync with the parent's actual
    padded width and let cards overflow past the right margin. */
 #listing-all-posts,
-#listing-all-pubs,
+.nw-pubs .nw-cites,
 #listing-all-projects,
 .nw-filters {
   width: 100%;

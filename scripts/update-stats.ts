@@ -61,7 +61,77 @@ function main(): void {
   if (out !== html) fs.writeFileSync(home, out);
   console.log(`[stats] featured projects: ${featured}`);
 
+  stampPublicationStats(projectRoot, outputDir);
   stampCopyrightYear(outputDir);
+}
+
+/**
+ * Publications page impact strip.
+ *
+ * Counts what publications/*index.qmd actually contains — total entries,
+ * journal articles, works where the owner is first author (the citation
+ * string starts with the bolded owner name), and the citation total that
+ * scripts/update-pubs.js pulls from OpenAlex into `pub-citations`. The
+ * numbers in the source are only fallbacks, same as the featured-projects
+ * stat above.
+ *
+ * Non-fatal by design: the site renders fine with the fallback numbers, so a
+ * missing page or marker warns rather than failing the whole render.
+ */
+function stampPublicationStats(projectRoot: string, outputDir: string): void {
+  const pubsDir = path.join(projectRoot, "publications");
+  if (!fs.existsSync(pubsDir)) return;
+
+  let total = 0;
+  let journal = 0;
+  let first = 0;
+  let citations = 0;
+  for (const entry of fs.readdirSync(pubsDir, { withFileTypes: true })) {
+    if (!entry.isDirectory()) continue;
+    const page = path.join(pubsDir, entry.name, "index.qmd");
+    if (!fs.existsSync(page)) continue;
+    const fm = frontmatter(page);
+    total++;
+    if (/^categories:.*"Journal Article"/m.test(fm)) journal++;
+    // "pub-authors: \"**Weidig, N. C.**, ...\"" — owner first means the
+    // bolded name opens the author string.
+    if (/^pub-authors:\s*"\*\*/m.test(fm)) first++;
+    const cited = fm.match(/^pub-citations:\s*(\d+)\s*$/m);
+    if (cited) citations += Number(cited[1]);
+  }
+
+  const page = path.join(outputDir, "publications", "index.html");
+  if (!fs.existsSync(page)) {
+    console.warn(`[stats] rendered publications page not found: ${page}`);
+    return;
+  }
+  let html = fs.readFileSync(page, "utf8");
+  const before = html;
+  const set = (key: string, value: number) => {
+    const re = new RegExp(`(<b data-nw-stat="${key}">)[^<]*(</b>)`);
+    if (!re.test(html)) {
+      console.warn(`[stats] publications stat marker "${key}" not found`);
+      return;
+    }
+    html = html.replace(re, `$1${value}$2`);
+  };
+  set("pub-total", total);
+  set("pub-journal", journal);
+  set("pub-first", first);
+  if (citations > 0) {
+    set("pub-citations", citations);
+  } else {
+    // No citation counts synced yet (or the OpenAlex lookup came back empty):
+    // drop the stat rather than advertising a zero.
+    html = html.replace(
+      /<div class="nw-stat" data-nw-stat-block="pub-citations">[\s\S]*?<\/div>\s*<\/div>/,
+      "</div>",
+    );
+  }
+  if (html !== before) fs.writeFileSync(page, html);
+  console.log(
+    `[stats] publications: ${total} total, ${journal} journal, ${first} first-author, ${citations} citations`,
+  );
 }
 
 function* htmlFiles(dir: string): Generator<string> {
