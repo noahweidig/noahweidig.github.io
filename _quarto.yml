@@ -149,7 +149,7 @@ website:
       </div>
       <div class="nw-footer-bottom">
       <div class="nw-footer-bottom-inner">
-      <div class="nw-footer-bottom-left">© <span data-nw-copyright-year>2026</span> Noah Weidig · <a href="/privacy">Privacy</a></div>
+      <div class="nw-footer-bottom-left">© <span data-nw-copyright-year>2026</span> Noah Weidig · <a href="/privacy">Privacy</a> · <a href="/styleguide">Styleguide</a></div>
       <div class="nw-footer-bottom-right">Built with <a href="https://quarto.org" class="nw-quarto-credit">Quarto</a></div>
       </div>
       </div>
@@ -159,8 +159,11 @@ format:
     grid:
       body-width: 1150px
     theme:
-      dark: [cosmo, assets/theme.scss, assets/theme-dark.scss]
-      light: [cosmo, assets/theme.scss, assets/theme-light.scss]
+      # _tokens.scss first: it declares every design primitive (the --nw-*
+      # custom properties); theme.scss consumes them and the theme files
+      # override the color layer only. See #222.
+      dark: [cosmo, assets/_tokens.scss, assets/theme.scss, assets/theme-dark.scss]
+      light: [cosmo, assets/_tokens.scss, assets/theme.scss, assets/theme-light.scss]
     css: assets/site.css
     lightbox: auto
     include-after-body:

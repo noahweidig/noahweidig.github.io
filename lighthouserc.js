@@ -33,6 +33,10 @@ module.exports = {
         "projects/index.html",
         "publications/index.html",
         "blog/index.html",
+        // One URL that exercises every component and token (#222): a
+        // contrast or a11y regression in any component shows up here
+        // regardless of which page it ships on.
+        "styleguide.html",
         ...firstDetailPage("projects"),
         ...firstDetailPage("publications"),
         ...firstDetailPage("blog"),
