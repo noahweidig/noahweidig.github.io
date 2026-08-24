@@ -1294,27 +1294,22 @@ body {
 }
 
 /* ============ citations (publications listing) ============ */
-/* home page: three post cards side by side (three columns), not stacked.
+/* home page: the newest post leads full width (see `.nw-post:first-child`
+   below), the other two sit side by side beneath it.
    The listing's own `id:` becomes `listing-<id>` on the rendered element —
    Quarto prefixes it — which is also why home.js's category-filter lookup
    falls back to that same prefix. */
 #listing-featured-posts.nw-posts {
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 #listing-featured-posts.nw-posts .nw-post {
   height: 100%;
 }
 
-@media (max-width: 900px) {
-  #listing-featured-posts.nw-posts {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
 @media (max-width: 600px) {
   #listing-featured-posts.nw-posts {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 
@@ -1754,12 +1749,20 @@ body {
 
 .nw-posts .nw-post {
   position: relative;
+  display: flex;
+  flex-direction: column;
   height: 100%;
   background: var(--nw-card);
   border: 1px solid var(--nw-border);
   border-radius: 1rem;
-  padding: 1.5rem 1.75rem;
+  overflow: hidden;
   transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+
+/* A post with no cover image keeps the old text-only card: the padding its
+   body would otherwise carry sits on the card itself. */
+.nw-posts .nw-post:not(.nw-has-cover) {
+  padding: 1.5rem 1.75rem;
 }
 
 .nw-posts .nw-post:hover {
@@ -1768,16 +1771,54 @@ body {
   box-shadow: 0 14px 34px rgba(0, 0, 0, 0.18);
 }
 
+/* Cover art, in the same 16/9 media box the project cards use so the two card
+   types read as one family. `--nw-chip` shows through while it decodes. */
+.nw-post-media {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 16/9;
+  overflow: hidden;
+  background: var(--nw-chip);
+}
+
+.nw-post-cover {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.nw-post:hover .nw-post-cover {
+  transform: scale(1.03);
+}
+
+.nw-post-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  flex: 1;
+}
+
+.nw-has-cover .nw-post-body {
+  padding: 1.25rem 1.5rem 1.5rem;
+}
+
 .nw-post h3 {
   font-size: 1.1rem;
   font-weight: 700;
   margin: 0;
-  /* keeps a long title clear of the reading-time badge pinned opposite it */
+}
+
+/* the text-only card still keeps a long title clear of its badge */
+.nw-post:not(.nw-has-cover) h3 {
   padding-right: 6rem;
 }
 
-/* "5 MIN READ", top right of the card — a small warm label like .nw-kicker,
-   never a click target, so it sits under the title's stretched link. */
+/* "5 MIN READ" — a pill over the top right of the cover, or on a card with no
+   cover the same small warm label as before, top right of the card. Never a
+   click target either way, so it sits under the title's stretched link. */
 .nw-post-readtime {
   position: absolute;
   top: 1.5rem;
@@ -1787,6 +1828,15 @@ body {
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--nw-secondary);
+}
+
+.nw-post-media .nw-post-readtime {
+  top: 0.75rem;
+  right: 0.75rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
 }
 
 .nw-post h3 a {
@@ -1816,6 +1866,45 @@ body {
   margin: 0;
   color: var(--nw-muted);
   font-size: 0.92rem;
+  flex: 1;
+}
+
+/* the same category pills the project and publication cards carry */
+.nw-post .nw-chips {
+  margin-top: 0.9rem;
+}
+
+/* Lead post: cover beside the text, spanning the full width of the grid, with
+   the remaining posts below as ordinary cards — so the section opens with
+   something instead of an awkward hole in a 2-up grid of three. The category
+   filter hides cards with `display: none` rather than removing them, so this
+   stays keyed to the first card in source order (the newest post). */
+@media (min-width: 780px) {
+  .nw-posts .nw-post:first-child {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    align-items: stretch;
+  }
+
+  .nw-posts .nw-post:first-child .nw-post-media {
+    flex: none;
+    width: 46%;
+    aspect-ratio: auto;
+  }
+
+  .nw-posts .nw-post:first-child .nw-post-body {
+    justify-content: center;
+    padding: 1.75rem 2rem;
+  }
+
+  .nw-posts .nw-post:first-child h3 {
+    font-size: 1.5rem;
+  }
+
+  .nw-posts .nw-post:first-child p {
+    flex: none;
+    font-size: 1rem;
+  }
 }
 
 /* ============ FAQ ============ */
