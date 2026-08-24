@@ -65,15 +65,40 @@ function main(): void {
   stampCopyrightYear(outputDir);
 }
 
+interface PublicationTotals {
+  total: number;
+  journal: number;
+  first: number;
+  citations: number;
+}
+
+/** Tallies read straight out of the publications/*\/index.qmd frontmatter. */
+function countPublications(pubsDir: string): PublicationTotals {
+  const totals: PublicationTotals = { total: 0, journal: 0, first: 0, citations: 0 };
+  for (const entry of fs.readdirSync(pubsDir, { withFileTypes: true })) {
+    if (!entry.isDirectory()) continue;
+    const page = path.join(pubsDir, entry.name, "index.qmd");
+    if (!fs.existsSync(page)) continue;
+    const fm = frontmatter(page);
+    totals.total++;
+    if (/^categories:.*"Journal Article"/m.test(fm)) totals.journal++;
+    // "pub-authors: \"**Weidig, N. C.**, ...\"" — owner first means the
+    // bolded name opens the author string.
+    if (/^pub-authors:\s*"\*\*/m.test(fm)) totals.first++;
+    const cited = /^pub-citations:\s*(\d+)\s*$/m.exec(fm);
+    if (cited) totals.citations += Number(cited[1]);
+  }
+  return totals;
+}
+
 /**
  * Publications page impact strip.
  *
- * Counts what publications/*index.qmd actually contains — total entries,
- * journal articles, works where the owner is first author (the citation
- * string starts with the bolded owner name), and the citation total that
- * scripts/update-pubs.js pulls from OpenAlex into `pub-citations`. The
- * numbers in the source are only fallbacks, same as the featured-projects
- * stat above.
+ * Stamps the counts from countPublications() — total entries, journal
+ * articles, works where the owner is first author, and the citation total
+ * scripts/update-pubs.js pulls from OpenAlex into `pub-citations` — over the
+ * fallback numbers in the page source, same as the featured-projects stat
+ * above.
  *
  * Non-fatal by design: the site renders fine with the fallback numbers, so a
  * missing page or marker warns rather than failing the whole render.
@@ -82,23 +107,7 @@ function stampPublicationStats(projectRoot: string, outputDir: string): void {
   const pubsDir = path.join(projectRoot, "publications");
   if (!fs.existsSync(pubsDir)) return;
 
-  let total = 0;
-  let journal = 0;
-  let first = 0;
-  let citations = 0;
-  for (const entry of fs.readdirSync(pubsDir, { withFileTypes: true })) {
-    if (!entry.isDirectory()) continue;
-    const page = path.join(pubsDir, entry.name, "index.qmd");
-    if (!fs.existsSync(page)) continue;
-    const fm = frontmatter(page);
-    total++;
-    if (/^categories:.*"Journal Article"/m.test(fm)) journal++;
-    // "pub-authors: \"**Weidig, N. C.**, ...\"" — owner first means the
-    // bolded name opens the author string.
-    if (/^pub-authors:\s*"\*\*/m.test(fm)) first++;
-    const cited = fm.match(/^pub-citations:\s*(\d+)\s*$/m);
-    if (cited) citations += Number(cited[1]);
-  }
+  const { total, journal, first, citations } = countPublications(pubsDir);
 
   const page = path.join(outputDir, "publications", "index.html");
   if (!fs.existsSync(page)) {
@@ -109,7 +118,7 @@ function stampPublicationStats(projectRoot: string, outputDir: string): void {
   const before = html;
   const set = (key: string, value: number) => {
     const re = new RegExp(`(<b data-nw-stat="${key}">)[^<]*(</b>)`);
-    if (!re.test(html)) {
+    if (!re.exec(html)) {
       console.warn(`[stats] publications stat marker "${key}" not found`);
       return;
     }
