@@ -50,6 +50,36 @@ function variantFor(slug: string) {
   return VARIANTS[h % VARIANTS.length];
 }
 
+/** A YAML scalar with its surrounding quotes, if any, taken off. */
+function unquote(value: string): string {
+  const v = value.trim();
+  const quoted = v.length > 1 && (v.startsWith('"') && v.endsWith('"') ||
+    v.startsWith("'") && v.endsWith("'"));
+  return quoted ? v.slice(1, -1) : v;
+}
+
+/** `key: rest` at the very start of a line, or null. Indented lines have no
+ *  bare key, so a nested mapping never matches. */
+function splitEntry(line: string): [string, string] | null {
+  const colon = line.indexOf(":");
+  if (colon < 1) return null;
+  const key = line.slice(0, colon);
+  if (!/^[A-Za-z0-9_-]+$/.test(key)) return null;
+  return [key, line.slice(colon + 1).trim()];
+}
+
+/** The value of a `- item` line in a YAML block sequence, or null. */
+function listItem(line: string): string | null {
+  const trimmed = line.trim();
+  return trimmed.startsWith("- ") ? unquote(trimmed.slice(2)) : null;
+}
+
+/** The values of an inline `[a, b]` sequence. */
+function inlineList(value: string): string[] {
+  const inner = value.slice(1, value.endsWith("]") ? -1 : undefined);
+  return inner.split(",").map(unquote).filter(Boolean);
+}
+
 /**
  * Title and categories out of a post's YAML front matter. Scanned line by
  * line rather than matched with one big regex: the block form of
@@ -60,37 +90,28 @@ function readFrontMatter(file: string): { title: string; categories: string[] } 
   const lines = fs.readFileSync(file, "utf8").split(/\r?\n/);
   if (lines[0].trim() !== "---") throw new Error(`[covers] no front matter in ${file}`);
 
-  const unquote = (v: string) => v.trim().replace(/^["']/, "").replace(/["']$/, "");
   let title = "";
   const categories: string[] = [];
   let inCategories = false;
 
   for (const line of lines.slice(1)) {
     if (line.trim() === "---") break;
-    if (inCategories) {
-      const item = line.match(/^\s*-\s*(.*)$/);
-      if (item) {
-        const value = unquote(item[1]);
-        if (value) categories.push(value);
-        continue;
-      }
-      inCategories = false;
+
+    const item = inCategories ? listItem(line) : null;
+    if (item) {
+      categories.push(item);
+      continue;
     }
-    const entry = line.match(/^([A-Za-z0-9_-]+):\s*(.*)$/);
+    const entry = splitEntry(line);
     if (!entry) continue;
-    const [, key, rest] = entry;
+
+    inCategories = false;
+    const [key, rest] = entry;
     if (key === "title") title = unquote(rest);
-    if (key !== "categories") continue;
     // Either `categories: [a, b]` on one line, or a block of `- a` below it.
-    const inline = rest.trim();
-    if (inline.startsWith("[")) {
-      for (const c of inline.replace(/^\[/, "").replace(/\]$/, "").split(",")) {
-        const value = unquote(c);
-        if (value) categories.push(value);
-      }
-    } else if (!inline) {
-      inCategories = true;
-    }
+    if (key !== "categories") continue;
+    if (rest.startsWith("[")) categories.push(...inlineList(rest));
+    else if (!rest) inCategories = true;
   }
   return { title, categories };
 }
