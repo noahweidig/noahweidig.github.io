@@ -34,8 +34,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import process from "node:process";
-import { pathToFileURL } from "node:url";
-import zlib from "node:zlib";
+import { BRAND, esc, FONT, initRasterizer, rasterize, topoPath, wrap } from "./brand-art.ts";
 import { outputDir, projectRoot, walkHtml } from "./site-output.ts";
 
 // ---------------------------------------------------------------- config
@@ -43,20 +42,9 @@ import { outputDir, projectRoot, walkHtml } from "./site-output.ts";
 const W = 1200;
 const H = 630;
 
-/** Brand background + card palette. Text is white by design: the gradient is
- *  saturated, so anything else loses legibility at preview thumbnail size. */
-const BRAND = {
-  gradFrom: "#efa30d", // amber, top-left corner
-  gradMid: "#c22fc7", // magenta, left third
-  gradTo: "#15a473", // teal, right edge
-  contour: "#1b2430", // topo line ink, drawn at low opacity
-  fg: "#ffffff",
-  accent: "#ffffff",
-};
-
-const FONT = "Inter";
-
-const vendorDir = path.join(projectRoot, "scripts", "vendor");
+/* The brand palette, the Inter family name, the topo texture, the word-wrap
+   estimate and the resvg rasterizer are shared with scripts/generate-post-covers.ts
+   and live in scripts/brand-art.ts. */
 
 const SITE_NAME = "Noah Weidig";
 /**
@@ -98,15 +86,6 @@ const INDEX_CTA_LABELS: Record<string, string> = {
 
 // -------------------------------------------------------------- helpers
 
-function esc(s: string): string {
-  return s
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;");
-}
-
 function decodeEntities(s: string): string {
   return s
     .replace(/&#(\d+);/g, (_, n) => String.fromCodePoint(Number(n)))
@@ -118,24 +97,10 @@ function decodeEntities(s: string): string {
     .replace(/&amp;/g, "&");
 }
 
-/** Greedy word wrap using an average-glyph-width estimate for Inter. */
-function wrap(text: string, fontSize: number, widthFactor: number, maxWidth: number, maxLines: number): string[] {
+/** The shared greedy wrap, plus an ellipsis when the text did not fit. */
+function wrapClipped(text: string, fontSize: number, widthFactor: number, maxWidth: number, maxLines: number): string[] {
   const maxChars = Math.max(8, Math.floor(maxWidth / (fontSize * widthFactor)));
-  const words = text.split(/\s+/).filter(Boolean);
-  const lines: string[] = [];
-  let line = "";
-  for (const word of words) {
-    const candidate = line ? `${line} ${word}` : word;
-    if (candidate.length <= maxChars || !line) {
-      line = candidate;
-    } else {
-      lines.push(line);
-      line = word;
-    }
-    if (lines.length === maxLines) break;
-  }
-  if (lines.length < maxLines && line) lines.push(line);
-  // Ellipsize if the text didn't fit.
+  const lines = wrap(text, fontSize, widthFactor, maxWidth, maxLines);
   const used = lines.join(" ").length;
   if (used < text.replace(/\s+/g, " ").trim().length && lines.length > 0) {
     const last = lines[lines.length - 1];
@@ -145,18 +110,6 @@ function wrap(text: string, fontSize: number, widthFactor: number, maxWidth: num
 }
 
 // -------------------------------------------------------- background art
-
-/**
- * The topographic texture is the site's own artwork (assets/media/topography.svg,
- * the same tile theme.scss masks behind cards and the footer), tiled as an SVG
- * pattern rather than redrawn — one background, identical on every card.
- */
-function topoPath(): string {
-  const svg = fs.readFileSync(path.join(projectRoot, "assets", "media", "topography.svg"), "utf8");
-  const d = svg.match(/<path[^>]*\sd="([^"]+)"/);
-  if (!d) throw new Error("[og-cards] no path found in assets/media/topography.svg");
-  return d[1];
-}
 
 /** The brand background: gradient wash, topo texture, then a contrast scrim. */
 function background(): string {
@@ -191,7 +144,7 @@ const FOOTER_Y = 560; // baseline
 
 function renderCardSvg(meta: CardMeta, topo: string): string {
   const title = meta.title || SITE_NAME;
-  const descLines = meta.description ? wrap(meta.description, 28, 0.5, TEXT_W, 2) : [];
+  const descLines = meta.description ? wrapClipped(meta.description, 28, 0.5, TEXT_W, 2) : [];
 
   // With a description the text block hangs upward off the CTA; without one
   // the title sits just under the kicker. Either way, pick the largest size
@@ -202,12 +155,12 @@ function renderCardSvg(meta: CardMeta, topo: string): string {
   const titleTop = KICKER_Y + 104; // first baseline when top-anchored
 
   let fs_ = 76;
-  let titleLines = wrap(title, fs_, 0.53, TEXT_W, 3);
+  let titleLines = wrapClipped(title, fs_, 0.53, TEXT_W, 3);
   let lineH = Math.round(fs_ * 1.14);
   for (const size of [76, 62, 52, 44]) {
     fs_ = size;
     lineH = Math.round(size * 1.14);
-    titleLines = wrap(title, size, 0.53, TEXT_W, 3);
+    titleLines = wrapClipped(title, size, 0.53, TEXT_W, 3);
     const span = (titleLines.length - 1) * lineH;
     const fits = descLines.length
       ? titleBottom - span - size >= KICKER_Y + 18
@@ -271,34 +224,6 @@ function renderCardSvg(meta: CardMeta, topo: string): string {
   <text x="${W - M}" y="${FOOTER_Y}" text-anchor="end" font-family="${FONT}" font-size="26" font-weight="800" fill="${BRAND.fg}" fill-opacity="0.95">noahweidig.com</text>
 </svg>
 `;
-}
-
-// ------------------------------------------------------------ rasterizer
-
-// deno-lint-ignore no-explicit-any
-let Resvg: any;
-
-async function initRasterizer(): Promise<Uint8Array[]> {
-  const mod = await import(pathToFileURL(path.join(vendorDir, "resvg", "resvg.mjs")).href);
-  const wasm = zlib.gunzipSync(fs.readFileSync(path.join(vendorDir, "resvg", "resvg.wasm.gz")));
-  await mod.initWasm(wasm);
-  Resvg = mod.Resvg;
-  return [
-    new Uint8Array(fs.readFileSync(path.join(vendorDir, "fonts", "inter-400.ttf"))),
-    new Uint8Array(fs.readFileSync(path.join(vendorDir, "fonts", "inter-800.ttf"))),
-  ];
-}
-
-function rasterize(svg: string, fontBuffers: Uint8Array[]): Uint8Array {
-  const resvg = new Resvg(svg, {
-    fitTo: { mode: "width", value: W },
-    font: {
-      fontBuffers,
-      defaultFontFamily: { sansSerif: FONT },
-      loadSystemFonts: false,
-    },
-  });
-  return resvg.render().asPng();
 }
 
 // ------------------------------------------------------- html handling
@@ -557,7 +482,7 @@ async function main(): Promise<void> {
     // ---- card ----
     const slug = slugFor(rel);
     const svg = renderCardSvg({ title, description, author, section, cta }, topo);
-    const png = rasterize(svg, fontBuffers);
+    const png = rasterize(svg, fontBuffers, W);
     fs.writeFileSync(path.join(ogDir, `${slug}.png`), png);
 
     // ---- <head> metadata ----

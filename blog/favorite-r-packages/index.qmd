@@ -7,8 +7,8 @@ categories:
 - Data Science
 - Tidyverse
 draft: false
-image: logos/tidyverse.webp
-image-alt: The tidyverse hexagonal logo
+image: cover.webp
+image-alt: "Cover card reading “My Favorite R Packages” over the site's topographic contour texture"
 toc: true
 toc-depth: 3
 # The R in this post is never executed at render time — the site still builds
