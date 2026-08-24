@@ -1,7 +1,7 @@
 /**
  * generate-post-covers.ts — on-brand cover art for blog posts.
  *
- * Run by hand when a post is added; the PNGs it writes are committed next to
+ * Run by hand when a post is added; the covers it writes are committed next to
  * the post they belong to, so `quarto render` stays the only build step and
  * nothing here runs in CI:
  *
@@ -25,29 +25,16 @@
  * artwork for a post is never overwritten.
  */
 
-import { execFileSync, spawnSync } from "node:child_process";
+import { execFileSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 import process from "node:process";
-import { pathToFileURL } from "node:url";
-import zlib from "node:zlib";
+import { BRAND, esc, FONT, initRasterizer, rasterize, topoPath, wrap } from "./brand-art.ts";
 import { projectRoot } from "./site-output.ts";
 
 const W = 1200;
 const H = 675;
-const FONT = "Inter";
 const M = 78; // safe-area margin
-
-const vendorDir = path.join(projectRoot, "scripts", "vendor");
-
-/** Brand hues, straight off the OG cards. */
-const BRAND = {
-  gradFrom: "#efa30d",
-  gradMid: "#c22fc7",
-  gradTo: "#15a473",
-  contour: "#1b2430",
-  fg: "#ffffff",
-};
 
 /** Per-post variation: gradient direction plus which brand hue leads. */
 const VARIANTS = [
@@ -59,62 +46,53 @@ const VARIANTS = [
 
 function variantFor(slug: string) {
   let h = 0;
-  for (const ch of slug) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
+  for (const ch of slug) h = (h * 31 + (ch.codePointAt(0) ?? 0)) >>> 0;
   return VARIANTS[h % VARIANTS.length];
 }
 
-function esc(s: string): string {
-  return s
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;");
-}
-
-/** Greedy word wrap using an average-glyph-width estimate for Inter. */
-function wrap(text: string, fontSize: number, widthFactor: number, maxWidth: number, maxLines: number): string[] {
-  const maxChars = Math.max(8, Math.floor(maxWidth / (fontSize * widthFactor)));
-  const words = text.split(/\s+/).filter(Boolean);
-  const lines: string[] = [];
-  let line = "";
-  for (const word of words) {
-    const candidate = line ? `${line} ${word}` : word;
-    if (candidate.length <= maxChars || !line) {
-      line = candidate;
-    } else {
-      lines.push(line);
-      line = word;
-    }
-    if (lines.length === maxLines) break;
-  }
-  if (lines.length < maxLines && line) lines.push(line);
-  return lines;
-}
-
-/** The topo tile the site already draws behind cards and the footer. */
-function topoPath(): string {
-  const svg = fs.readFileSync(path.join(projectRoot, "assets", "media", "topography.svg"), "utf8");
-  const d = svg.match(/<path[^>]*\sd="([^"]+)"/);
-  if (!d) throw new Error("[covers] no path found in assets/media/topography.svg");
-  return d[1];
-}
-
-/** Title and first category out of a post's YAML front matter. */
+/**
+ * Title and categories out of a post's YAML front matter. Scanned line by
+ * line rather than matched with one big regex: the block form of
+ * `categories:` is a repeated group, and a regex for it backtracks badly on a
+ * long front matter.
+ */
 function readFrontMatter(file: string): { title: string; categories: string[] } {
-  const text = fs.readFileSync(file, "utf8");
-  const fm = text.match(/^---\r?\n([\s\S]*?)\r?\n---/);
-  if (!fm) throw new Error(`[covers] no front matter in ${file}`);
-  const body = fm[1];
-  const title = (body.match(/^title:\s*(.+)$/m)?.[1] ?? "").trim().replace(/^["']|["']$/g, "");
-  const catBlock = body.match(/^categories:\s*\n((?:\s*-\s*.+\n?)+)/m);
-  const inline = body.match(/^categories:\s*\[([^\]]*)\]/m);
-  const categories = catBlock
-    ? catBlock[1].split("\n").map((l) => l.replace(/^\s*-\s*/, "").trim()).filter(Boolean)
-    : inline
-    ? inline[1].split(",").map((c) => c.trim().replace(/^["']|["']$/g, "")).filter(Boolean)
-    : [];
-  return { title, categories: categories.map((c) => c.replace(/^["']|["']$/g, "")) };
+  const lines = fs.readFileSync(file, "utf8").split(/\r?\n/);
+  if (lines[0].trim() !== "---") throw new Error(`[covers] no front matter in ${file}`);
+
+  const unquote = (v: string) => v.trim().replace(/^["']/, "").replace(/["']$/, "");
+  let title = "";
+  const categories: string[] = [];
+  let inCategories = false;
+
+  for (const line of lines.slice(1)) {
+    if (line.trim() === "---") break;
+    if (inCategories) {
+      const item = line.match(/^\s*-\s*(.*)$/);
+      if (item) {
+        const value = unquote(item[1]);
+        if (value) categories.push(value);
+        continue;
+      }
+      inCategories = false;
+    }
+    const entry = line.match(/^([A-Za-z0-9_-]+):\s*(.*)$/);
+    if (!entry) continue;
+    const [, key, rest] = entry;
+    if (key === "title") title = unquote(rest);
+    if (key !== "categories") continue;
+    // Either `categories: [a, b]` on one line, or a block of `- a` below it.
+    const inline = rest.trim();
+    if (inline.startsWith("[")) {
+      for (const c of inline.replace(/^\[/, "").replace(/\]$/, "").split(",")) {
+        const value = unquote(c);
+        if (value) categories.push(value);
+      }
+    } else if (!inline) {
+      inCategories = true;
+    }
+  }
+  return { title, categories };
 }
 
 function renderCoverSvg(title: string, kicker: string, slug: string, topo: string): string {
@@ -164,45 +142,31 @@ function renderCoverSvg(title: string, kicker: string, slug: string, topo: strin
 `;
 }
 
-// deno-lint-ignore no-explicit-any
-let Resvg: any;
-
-async function initRasterizer(): Promise<Uint8Array[]> {
-  const mod = await import(pathToFileURL(path.join(vendorDir, "resvg", "resvg.mjs")).href);
-  const wasm = zlib.gunzipSync(fs.readFileSync(path.join(vendorDir, "resvg", "resvg.wasm.gz")));
-  await mod.initWasm(wasm);
-  Resvg = mod.Resvg;
-  return [
-    new Uint8Array(fs.readFileSync(path.join(vendorDir, "fonts", "inter-400.ttf"))),
-    new Uint8Array(fs.readFileSync(path.join(vendorDir, "fonts", "inter-800.ttf"))),
-  ];
-}
-
-function rasterize(svg: string, fontBuffers: Uint8Array[]): Uint8Array {
-  const resvg = new Resvg(svg, {
-    fitTo: { mode: "width", value: W },
-    font: { fontBuffers, defaultFontFamily: { sansSerif: FONT }, loadSystemFonts: false },
-  });
-  return resvg.render().asPng();
-}
-
-/** Where libwebp installs `cwebp` — the same lookup optimize-output.ts uses. */
+/** Where libwebp installs `cwebp` — the same lookup optimize-output.ts uses —
+ *  and where a python3 carrying Pillow is likely to be. Both lists are
+ *  absolute: an encoder is never resolved through PATH. */
 const CWEBP_PATHS = ["/usr/bin/cwebp", "/usr/local/bin/cwebp", "/opt/homebrew/bin/cwebp"];
+const PYTHON_PATHS = ["/usr/bin/python3", "/usr/local/bin/python3", "/opt/homebrew/bin/python3"];
+
+const PILLOW_ENCODE =
+  "import sys;from PIL import Image;Image.open(sys.argv[1]).convert('RGB')" +
+  ".save(sys.argv[2],'WEBP',quality=82,method=6)";
 
 /** Re-encode `png` as WebP at `out`, via cwebp or Pillow, whichever exists. */
 function toWebp(png: string, out: string): void {
-  const bin = CWEBP_PATHS.find((p) => fs.existsSync(p));
-  if (bin) {
-    execFileSync(bin, ["-quiet", "-q", "82", "-m", "6", png, "-o", out]);
+  const cwebp = CWEBP_PATHS.find((p) => fs.existsSync(p));
+  if (cwebp) {
+    execFileSync(cwebp, ["-quiet", "-q", "82", "-m", "6", png, "-o", out]);
     return;
   }
-  const pillow = spawnSync("python3", [
-    "-c",
-    "import sys;from PIL import Image;Image.open(sys.argv[1]).convert('RGB').save(sys.argv[2],'WEBP',quality=82,method=6)",
-    png,
-    out,
-  ]);
-  if (pillow.status === 0 && fs.existsSync(out)) return;
+  for (const python of PYTHON_PATHS.filter((p) => fs.existsSync(p))) {
+    try {
+      execFileSync(python, ["-c", PILLOW_ENCODE, png, out], { stdio: "ignore" });
+      if (fs.existsSync(out)) return;
+    } catch {
+      // no Pillow in this interpreter — try the next one
+    }
+  }
   fs.rmSync(png, { force: true });
   throw new Error(
     "[covers] no WebP encoder found — install libwebp (cwebp) or python3 Pillow and re-run",
@@ -228,7 +192,7 @@ async function main() {
     const { title, categories } = readFrontMatter(qmd);
     const svg = renderCoverSvg(title, categories[0] || "Writing", slug, topo);
     const png = path.join(postDir, "cover.png");
-    fs.writeFileSync(png, rasterize(svg, fonts));
+    fs.writeFileSync(png, rasterize(svg, fonts, W));
     toWebp(png, out);
     fs.rmSync(png);
     console.log(`[covers] wrote blog/${slug}/cover.webp`);
