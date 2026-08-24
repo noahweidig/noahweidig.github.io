@@ -1,9 +1,9 @@
 /*-- scss:defaults --*/
 
-$body-bg: #0a0a0f;
-$body-color: #ffffff;
-$navbar-bg: rgba(10, 10, 15, 0.85);
-$navbar-fg: #ffffff;
+$body-bg: #0b0d12;
+$body-color: #e8eaef;
+$navbar-bg: rgba(11, 13, 18, 0.85);
+$navbar-fg: #e8eaef;
 $footer-bg: #0d0d12;
 $card-bg: #13131a;
 $input-bg: #13131a;
@@ -16,13 +16,18 @@ $link-hover-color: #80b4ff;
 /*-- scss:rules --*/
 
 :root {
-  --nw-bg: #0a0a0f;
-  --nw-bg-alt: #0a0a0f;
-  --nw-fg: #ffffff;
-  /* Secondary copy (subheadings, meta lines, footer links) is pure white, not
-     a dimmed gray — the small type was hard to read at its old contrast. */
-  --nw-muted: #ffffff;
-  /* contact-form placeholder / hint text — 6.1:1 on the #0a0a0f input background */
+  /* Near-black page and a soft white ink rather than #0a0a0f/#fff: ~16:1,
+     still far above AAA, without the bloom pure white produces on OLED screens. */
+  --nw-bg: #0b0d12;
+  /* a second plane, lifted rather than darkened (near-black can't go lower) —
+     a few homepage sections sit on it to pace the long scroll */
+  --nw-bg-alt: #14161d;
+  --nw-fg: #e8eaef;
+  /* Secondary copy (subheadings, meta lines, footer links) is the same soft
+     white, not a dimmed gray — the small type was hard to read at its old
+     contrast. */
+  --nw-muted: #e8eaef;
+  /* contact-form placeholder / hint text — 5.7:1 on the #13131a input background */
   --nw-placeholder: #8f8f8f;
   --nw-card: #13131a;
   /* One outline color for every card, pill, framed image, and section
@@ -32,7 +37,7 @@ $link-hover-color: #80b4ff;
   /* timeline rail dots for past entries — grey, so only the current role
      carries the blue accent */
   --nw-tl-dot: #8a91a0;
-  --nw-globe-line: 255, 255, 255;
+  --nw-globe-line: 232, 234, 239;
   /* strength of the icon-color wash on research-area cards */
   --nw-tint: 12%;
   --nw-tint-hover: 18%;
@@ -58,13 +63,13 @@ $link-hover-color: #80b4ff;
   --nw-cta-glow: rgba(255, 255, 255, 0.16);
   --nw-topo: rgba(229, 231, 235, 0.07);
   --nw-footer-bg: #0d0d12;
-  --nw-glass: rgba(10, 10, 15, 0.85);
-  --nw-glass-strong: rgba(10, 10, 15, 0.96);
-  --nw-stat-number: #ffffff;
-  --nw-navcta: #ffffff;
-  /* nav-link text: a step softer than pure white so the (serif) site title
+  --nw-glass: rgba(11, 13, 18, 0.85);
+  --nw-glass-strong: rgba(11, 13, 18, 0.96);
+  --nw-stat-number: #e8eaef;
+  --nw-navcta: #e8eaef;
+  /* nav-link text: a step softer than the body ink so the (serif) site title
      stays the visual anchor of the navbar */
-  --nw-navlink: rgba(255, 255, 255, 0.65);
+  --nw-navlink: rgba(232, 234, 239, 0.65);
   /* code-window extension: force a proper dark bg (default Canvas renders
      light because the page never declares color-scheme: dark) */
   --nw-code-bg: #14141b;
