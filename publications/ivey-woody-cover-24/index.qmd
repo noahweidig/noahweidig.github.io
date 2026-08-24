@@ -8,6 +8,8 @@ pub-venue: "Geophysical Research Letters"
 pub-details: "vol. 51, no. e2024GL110586"
 pub-doi: "10.1029/2024GL110586"
 pub-url: "https://doi.org/10.1029/2024GL110586"
+pub-citations: 9
+pub-oa: true
 ---
 
 ::: {.nw-cite-meta}
