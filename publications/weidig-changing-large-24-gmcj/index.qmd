@@ -8,6 +8,8 @@ pub-venue: "International Journal of Wildland Fire"
 pub-details: "vol. 33, no. 12"
 pub-doi: "10.1071/WF24110"
 pub-url: "https://www.publish.csiro.au/WF/WF24110"
+pub-citations: 3
+pub-oa: true
 ---
 
 ::: {.nw-cite-meta}
