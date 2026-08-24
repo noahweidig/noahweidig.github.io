@@ -109,36 +109,10 @@ $navbar-padding-y: 0.65rem !default;
 
 /*-- scss:rules --*/
 
-:root {
-  --nw-primary: #126ef5;
-  /* text/link use of the brand blue — separate from --nw-primary so dark mode
-     can lighten it for AA contrast without touching the button fill */
-  --nw-primary-text: #126ef5;
-  /* Warm counterpoint to the blue, used only for kicker/eyebrow labels and
-     small accents — never competes with --nw-primary for a click target. */
-  --nw-secondary: #b45309;
-  /* availability-pill label; each theme file overrides it */
-  --nw-status-fg: #047857;
-  /* contact-form outcome colors; each theme file overrides them */
-  --nw-ok-fg: #047857;
-  --nw-err-fg: #b42318;
-  /* accent word inside the CTA heading */
-  --nw-cta-accent: #0a5bb0;
-  --nw-grad: linear-gradient(135deg, #126ef5, #126ef5);
-  /* shared height for the CTA button, so the theme-toggle and search circles
-     can size their diameter to match it exactly */
-  --nw-navctl: 2.4rem;
-  /* Measured live by nw-nav.js (ResizeObserver on .navbar); this is only the
-     pre-JS fallback so nothing shifts once the real value lands. */
-  --nw-navbar-h: 72px;
-  --nw-font-display: "Newsreader", Georgia, serif;
-  --nw-font-mono: "JetBrains Mono", ui-monospace, monospace;
-  /* prose-code colors; each theme file overrides these (see theme-light.scss
-     / theme-dark.scss) */
-  --nw-code-inline-fg: #7d12ba;
-  --nw-code-comment: #5c6b1f;
-  --nw-code-string: #146c43;
-}
+/* All design primitives — the :root custom-property block that used to live
+   here included — are declared in assets/_tokens.scss, which loads before
+   this file (see the `theme:` lists in _quarto.yml). Rules here consume
+   tokens; they don't declare them. */
 
 /* ============ kicker / eyebrow label ============ */
 /* Small uppercase label above a section heading, in the warm secondary

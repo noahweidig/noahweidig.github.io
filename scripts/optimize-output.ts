@@ -593,8 +593,19 @@ function dropRocketLoaderReplay(html: string): string {
 function normalizeSitemap(): number {
   const file = path.join(outputDir, "sitemap.xml");
   if (!fs.existsSync(file)) return 0;
-  const xml = fs.readFileSync(file, "utf8");
+  let xml = fs.readFileSync(file, "utf8");
   let changed = 0;
+  // /styleguide is a working tool (renders the design tokens for auditing),
+  // not a destination — keep it out of the sitemap so crawl budget goes to
+  // real pages. It stays rendered, linked from the footer, and covered by
+  // the axe/Lighthouse CI runs. See #222.
+  xml = xml.replace(
+    /<url>(?:(?!<\/url>)[\s\S])*?<loc>[^<]*\/styleguide\.html<\/loc>[\s\S]*?<\/url>\s*/g,
+    () => {
+      changed++;
+      return "";
+    },
+  );
   const out = xml.replace(/<loc>([^<]+)<\/loc>/g, (whole, url: string) => {
     const next = url.replace(/(^|\/)index\.html$/, "$1");
     if (next === url) return whole;

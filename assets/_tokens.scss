@@ -1,0 +1,126 @@
+/*-- scss:defaults --*/
+
+/*-- scss:rules --*/
+
+/* ============ design tokens ============
+   The single source of truth for every primitive the site's styles are built
+   from: color, type scale, spacing, radius, shadow, motion and z-index. This
+   file loads before theme.scss (see the `theme:` lists in _quarto.yml), and
+   the two theme files override the *color* layer only — never the scales.
+
+   The color block below is the model the rest follows: it predates this file
+   (it moved here from theme.scss unchanged) and is fully adopted. The scale
+   blocks are newer; existing rules in theme.scss / site.css migrate onto them
+   per-dimension in #209–#213 — until then a raw value in those files is a
+   migration TODO, not an alternative system.
+
+   /styleguide renders everything declared here live, with contrast ratios
+   computed against both surfaces. */
+
+:root {
+  /* ---- color (overridden per theme; ratios recorded in the theme files) */
+  --nw-primary: #126ef5;
+  /* text/link use of the brand blue — separate from --nw-primary so dark mode
+     can lighten it for AA contrast without touching the button fill */
+  --nw-primary-text: #126ef5;
+  /* Warm counterpoint to the blue, used only for kicker/eyebrow labels and
+     small accents — never competes with --nw-primary for a click target. */
+  --nw-secondary: #b45309;
+  /* availability-pill label; each theme file overrides it */
+  --nw-status-fg: #047857;
+  /* contact-form outcome colors; each theme file overrides them */
+  --nw-ok-fg: #047857;
+  --nw-err-fg: #b42318;
+  /* accent word inside the CTA heading */
+  --nw-cta-accent: #0a5bb0;
+  --nw-grad: linear-gradient(135deg, #126ef5, #126ef5);
+  /* prose-code colors; each theme file overrides these (see theme-light.scss
+     / theme-dark.scss) */
+  --nw-code-inline-fg: #7d12ba;
+  --nw-code-comment: #5c6b1f;
+  --nw-code-string: #146c43;
+
+  /* ---- type: families */
+  --nw-font-display: "Newsreader", Georgia, serif;
+  --nw-font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  /* ---- type: scale (#211)
+     Fixed steps cover UI/meta/body type; the fluid steps cover headings.
+     Steps are the consolidation targets for the 24 ad-hoc sizes in use. */
+  --nw-text-2xs: 0.72rem;   /* smallest legal meta (chip counts, fine print) */
+  --nw-text-xs: 0.78rem;    /* kickers, uppercase labels */
+  --nw-text-sm: 0.85rem;    /* meta lines, chips, captions */
+  --nw-text-md: 0.92rem;    /* card body, secondary copy */
+  --nw-text-base: 1rem;     /* prose */
+  --nw-text-lg: 1.1rem;     /* leads, card titles */
+  --nw-text-xl: 1.35rem;    /* small headings */
+  --nw-text-2xl: 1.5rem;    /* section sub-heads */
+  --nw-text-3xl: clamp(1.5rem, 3vw, 2rem);      /* card/detail headings */
+  --nw-text-4xl: clamp(2rem, 4.2vw, 2.9rem);    /* section headings */
+  --nw-text-hero: clamp(2.5rem, 6vw, 4rem);     /* hero display */
+
+  /* ---- spacing (#212)
+     4px base, doubling past 1rem. Consolidation targets for the ~30 ad-hoc
+     gaps/paddings/margins in use. */
+  --nw-space-1: 0.25rem;
+  --nw-space-2: 0.5rem;
+  --nw-space-3: 0.75rem;
+  --nw-space-4: 1rem;
+  --nw-space-5: 1.5rem;
+  --nw-space-6: 2rem;
+  --nw-space-7: 2.5rem;
+  --nw-space-8: 3rem;
+  --nw-space-9: 4rem;   /* section padding */
+  --nw-space-10: 6rem;  /* hero / page-band breathing room */
+
+  /* ---- radius (#212) */
+  --nw-radius-sm: 0.3rem;   /* inline chips, small tags */
+  --nw-radius-md: 0.6rem;   /* buttons, inputs, nested media */
+  --nw-radius-lg: 1rem;     /* cards */
+  --nw-radius-xl: 1.5rem;   /* hero media, spotlight panels */
+  --nw-radius-pill: 999px;
+  --nw-radius-circle: 50%;
+
+  /* ---- shadow (#210)
+     Neutral-ink shadows; themes may retint or mute (dark mode currently
+     no-ops most shadows — that's #210's call to make, on one token). */
+  --nw-shadow-sm: 0 3px 14px rgba(0, 0, 0, 0.12);
+  --nw-shadow-md: 0 12px 24px rgba(0, 0, 0, 0.15);
+  --nw-shadow-lg: 0 14px 34px rgba(0, 0, 0, 0.18);
+  /* brand-tinted lift under the primary CTA button */
+  --nw-shadow-primary: 0 8px 24px rgba(18, 110, 245, 0.35);
+  /* focus ring — pairs with the site-wide :focus-visible outline */
+  --nw-shadow-focus: 0 0 0 3px rgba(18, 110, 245, 0.25);
+
+  /* ---- motion
+     Durations first, easings second; every transition/animation should be
+     `var(--nw-dur-*) var(--nw-ease-*)`. Site-wide reduced-motion handling
+     stays where it is (site.css) — these are primitives, not policy. */
+  --nw-dur-fast: 0.15s;   /* hovers: color, border, opacity */
+  --nw-dur-base: 0.2s;    /* transforms: lifts, slides */
+  --nw-dur-slow: 0.3s;    /* panels, reveals */
+  --nw-dur-slower: 0.55s; /* full-surface effects (theme wipe) */
+  --nw-ease: ease;
+  --nw-ease-standard: cubic-bezier(0.2, 0, 0, 1);  /* enter/settle */
+  --nw-ease-decel: cubic-bezier(0, 0, 0.2, 1);     /* arrive on screen */
+  --nw-ease-accel: cubic-bezier(0.4, 0, 1, 1);     /* leave the screen */
+
+  /* ---- z-index
+     Named layers, spaced so a new layer never means renumbering. Bootstrap's
+     navbar sits at 1030; site overlays must clear it, toasts clear those. */
+  --nw-z-below: -1;       /* decorative backdrops behind their section */
+  --nw-z-base: 0;
+  --nw-z-raised: 1;       /* content lifted above a backdrop */
+  --nw-z-sticky: 10;      /* in-page sticky elements */
+  --nw-z-navbar: 1030;    /* matches Bootstrap $zindex-fixed */
+  --nw-z-overlay: 1100;   /* search overlay, back-to-top */
+  --nw-z-max: 2000;       /* skip link, theme wipe */
+
+  /* ---- component metrics (not part of a scale, but still tokens) */
+  /* shared height for the CTA button, so the theme-toggle and search circles
+     can size their diameter to match it exactly */
+  --nw-navctl: 2.4rem;
+  /* Measured live by nw-nav.js (ResizeObserver on .navbar); this is only the
+     pre-JS fallback so nothing shifts once the real value lands. */
+  --nw-navbar-h: 72px;
+}
