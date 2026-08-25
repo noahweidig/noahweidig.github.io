@@ -57,7 +57,10 @@
   --nw-text-2xl: 1.5rem;    /* section sub-heads */
   --nw-text-3xl: clamp(1.5rem, 3vw, 2rem);      /* card/detail headings */
   --nw-text-4xl: clamp(2rem, 4.2vw, 2.9rem);    /* section headings */
-  --nw-text-hero: clamp(2.5rem, 6vw, 4rem);     /* hero display */
+  /* hero display — one ramp for every width; it replaced three per-breakpoint
+     #hero h1 overrides, so it has to stay clearly above --nw-text-4xl (the
+     section-heading step) at both ends */
+  --nw-text-hero: clamp(2.5rem, 4.4vw, 3.5rem);
 
   /* ---- spacing (#212)
      4px base, doubling past 1rem. Consolidation targets for the ~30 ad-hoc
