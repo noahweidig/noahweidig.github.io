@@ -104,7 +104,10 @@ $font-family-sans-serif: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
 $font-family-serif: Georgia, Cambria, "Times New Roman", Times, serif !default;
 $primary: #126ef5 !default;
 $link-color: #126ef5 !default;
-$border-radius: 0.5rem !default;
+// Bootstrap Sass variables, resolved at compile time — they can't reference the
+// CSS custom properties in _tokens.scss, so these two stay literal. $border-radius
+// mirrors --nw-radius-md so Bootstrap-rendered controls round like site ones.
+$border-radius: 0.6rem !default;
 $navbar-padding-y: 0.65rem !default;
 
 /*-- scss:rules --*/
@@ -121,8 +124,8 @@ $navbar-padding-y: 0.65rem !default;
 .nw-kicker {
   display: block;
   text-align: center;
-  margin: 0 0 0.65rem;
-  font-size: 0.78rem;
+  margin: 0 0 var(--nw-space-3);
+  font-size: var(--nw-text-xs);
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -165,8 +168,8 @@ body {
   left: 50%;
   z-index: 2000;
   transform: translate(-50%, -120%);
-  padding: 0.7rem 1.2rem;
-  border-radius: 0 0 0.6rem 0.6rem;
+  padding: var(--nw-space-3) var(--nw-space-4);
+  border-radius: 0 0 var(--nw-radius-md) var(--nw-radius-md);
   background: var(--nw-primary);
   color: #fff;
   font-weight: 600;
@@ -237,7 +240,7 @@ body {
 /* Nav-link text: smaller and all-caps, in a color a step softer than the
    solid black/white of the site title, so the title reads as the anchor. */
 .navbar .navbar-nav .nav-link {
-  font-size: 0.8rem;
+  font-size: var(--nw-text-xs);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.06em;
@@ -258,13 +261,13 @@ body {
   background: transparent;
   color: var(--nw-navcta) !important;
   border: 1px solid var(--nw-border);
-  border-radius: 999px;
-  padding: 0 1.1rem !important;
-  font-size: 0.95rem;
+  border-radius: var(--nw-radius-pill);
+  padding: 0 var(--nw-space-4) !important;
+  font-size: var(--nw-text-md);
   font-weight: 600;
   text-transform: none;
   letter-spacing: normal;
-  margin-left: 0.5rem;
+  margin-left: var(--nw-space-2);
   transition: background-color 0.15s, border-color 0.15s, color 0.15s, transform 0.15s;
 }
 
@@ -279,7 +282,9 @@ body {
    seam; a small number sit on --nw-bg-alt instead (see below). Alternating
    every other section — the old behaviour — reads dated. */
 .nw-section {
-  padding: 4rem 0;
+  /* fluid rhythm (#212): sections breathe on desktop and tighten on phones
+     instead of holding one flat value at every width */
+  padding: clamp(var(--nw-space-8), 8vw, var(--nw-space-10)) 0;
   border-top: 1px solid var(--nw-border);
 }
 
@@ -296,7 +301,7 @@ body {
      instead of punching a hole back through to the page's own color */
   --nw-bg: var(--nw-bg-alt);
   background: var(--nw-bg-alt);
-  padding: 5rem 0;
+  padding: var(--nw-space-10) 0;
 }
 
 /* The seam gets more than the hairline: a survey-contour band bleeding off
@@ -331,23 +336,23 @@ body {
   z-index: 1;
   max-width: 72rem;
   margin: 0 auto;
-  padding: 0 1.5rem;
+  padding: 0 var(--nw-space-5);
 }
 
 .nw-section h2.nw-title {
   text-align: center;
   font-family: var(--nw-font-display);
   font-weight: 500;
-  font-size: 2.5rem;
+  font-size: var(--nw-text-4xl);
   letter-spacing: -0.02em;
-  margin: 0 0 0.5rem;
+  margin: 0 0 var(--nw-space-2);
   border: none;
 }
 
 .nw-subtitle {
   text-align: center;
   color: var(--nw-muted);
-  margin: 0 auto 2.5rem;
+  margin: 0 auto var(--nw-space-7);
   max-width: 44rem;
 }
 
@@ -355,7 +360,7 @@ body {
   text-align: center;
   color: var(--nw-muted);
   max-width: 46rem;
-  margin: -1.5rem auto 2.5rem;
+  margin: -1.5rem auto var(--nw-space-7);
 }
 
 /* ============ homepage: left-aligned section headers ============ */
@@ -401,14 +406,14 @@ body {
 .nw-affil-row {
   display: flex;
   align-items: center;
-  gap: 2rem;
-  margin-top: 2.5rem;
+  gap: var(--nw-space-6);
+  margin-top: var(--nw-space-7);
 }
 
 .nw-affil-label {
   flex: none;
   margin: 0;
-  font-size: 0.75rem;
+  font-size: var(--nw-text-xs);
   font-weight: 700;
   letter-spacing: 0.09em;
   text-transform: uppercase;
@@ -425,7 +430,7 @@ body {
   .nw-affil-row {
     flex-direction: column;
     align-items: flex-start;
-    gap: 0.75rem;
+    gap: var(--nw-space-3);
   }
 }
 
@@ -435,12 +440,12 @@ body {
   flex-wrap: wrap;
   align-items: flex-end;
   justify-content: space-between;
-  gap: 1.25rem;
-  margin-bottom: 2rem;
+  gap: var(--nw-space-4);
+  margin-bottom: var(--nw-space-6);
 }
 
 .nw-head-row .nw-kicker {
-  margin-bottom: 0.5rem;
+  margin-bottom: var(--nw-space-2);
 }
 
 .nw-head-row h2.nw-title {
@@ -451,12 +456,12 @@ body {
   flex: none;
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: var(--nw-space-2);
   height: 2.6rem;
-  padding: 0 1.1rem;
+  padding: 0 var(--nw-space-4);
   border: 1px solid var(--nw-border);
-  border-radius: 999px;
-  font-size: 0.88rem;
+  border-radius: var(--nw-radius-pill);
+  font-size: var(--nw-text-sm);
   font-weight: 600;
   color: var(--nw-fg);
   text-decoration: none;
@@ -471,7 +476,7 @@ body {
 /* ============ "where to start" quick-nav cards ============ */
 .nw-start-grid {
   display: grid;
-  gap: 1.25rem;
+  gap: var(--nw-space-4);
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
@@ -483,19 +488,22 @@ body {
 
 .nw-start-card {
   display: block;
-  padding: 1.6rem 1.5rem 1.5rem;
+  padding: var(--nw-space-5);
   border: 1px solid var(--nw-border);
-  border-radius: 1rem;
+  border-radius: var(--nw-radius-lg);
   background: var(--nw-card);
   color: var(--nw-fg);
   text-decoration: none;
+  /* rest state carries the rim only: invisible in light, a hairline
+     highlight in dark so the card reads as raised before any hover */
+  box-shadow: var(--nw-shadow-rim);
   transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
 }
 
 .nw-start-card:hover {
   transform: translateY(-4px);
   border-color: var(--nw-primary);
-  box-shadow: 0 18px 36px -24px rgba(0, 0, 0, 0.4);
+  box-shadow: var(--nw-shadow-md);
   color: var(--nw-fg);
 }
 
@@ -505,8 +513,8 @@ body {
   height: 2.4rem;
   align-items: center;
   justify-content: center;
-  border-radius: 0.65rem;
-  margin-bottom: 1rem;
+  border-radius: var(--nw-radius-md);
+  margin-bottom: var(--nw-space-4);
   background: color-mix(in srgb, var(--nw-primary) 12%, transparent);
   color: var(--nw-primary);
 }
@@ -518,21 +526,21 @@ body {
 
 .nw-start-card h2 {
   font-family: var(--nw-font-display);
-  margin: 0 0 0.4rem;
-  font-size: 1.3rem;
+  margin: 0 0 var(--nw-space-2);
+  font-size: var(--nw-text-xl);
   font-weight: 600;
   letter-spacing: -0.01em;
 }
 
 .nw-start-card p {
-  margin: 0 0 0.9rem;
-  font-size: 0.92rem;
+  margin: 0 0 var(--nw-space-4);
+  font-size: var(--nw-text-md);
   line-height: 1.6;
   color: var(--nw-muted);
 }
 
 .nw-start-link {
-  font-size: 0.85rem;
+  font-size: var(--nw-text-sm);
   font-weight: 600;
   /* text-weight use of the brand blue: --nw-primary is 4.02:1 on the dark card */
   color: var(--nw-primary-text);
@@ -540,7 +548,7 @@ body {
 
 /* ============ hero ============ */
 #hero {
-  padding: 7rem 1.5rem 4.5rem;
+  padding: 7rem var(--nw-space-5) var(--nw-space-9);
   text-align: center;
   position: relative;
   background:
@@ -551,32 +559,32 @@ body {
 #hero .nw-avatar {
   width: 9.5rem;
   height: 9.5rem;
-  border-radius: 50%;
+  border-radius: var(--nw-radius-circle);
   object-fit: cover;
   border: 2px solid var(--nw-border);
-  box-shadow: 0 0 0 3px rgba(18, 110, 245, 0.25);
-  margin-bottom: 1.5rem;
+  box-shadow: var(--nw-shadow-focus);
+  margin-bottom: var(--nw-space-5);
 }
 
 #hero .nw-status {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  font-size: 0.85rem;
+  gap: var(--nw-space-2);
+  font-size: var(--nw-text-sm);
   font-weight: 600;
   color: #10b981;
   background: rgba(16, 185, 129, 0.1);
   border: 1px solid rgba(16, 185, 129, 0.3);
-  border-radius: 999px;
-  padding: 0.3rem 0.9rem;
-  margin-bottom: 1.25rem;
+  border-radius: var(--nw-radius-pill);
+  padding: var(--nw-space-1) var(--nw-space-4);
+  margin-bottom: var(--nw-space-4);
 }
 
 #hero .nw-status::before {
   content: "";
   width: 0.5rem;
   height: 0.5rem;
-  border-radius: 50%;
+  border-radius: var(--nw-radius-circle);
   background: #10b981;
   animation: nw-pulse 2s infinite;
 }
@@ -587,19 +595,19 @@ body {
 
 #hero h1 {
   font-family: var(--nw-font-display);
-  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-size: var(--nw-text-hero);
   font-weight: 500;
   letter-spacing: -0.025em;
-  margin: 0 0 0.5rem;
+  margin: 0 0 var(--nw-space-2);
 }
 
 #hero h1 .nw-hi {
   display: block;
-  font-size: 1rem;
+  font-size: var(--nw-text-base);
   font-weight: 400;
   letter-spacing: 0.02em;
   color: var(--nw-muted);
-  margin-bottom: 0.5rem;
+  margin-bottom: var(--nw-space-2);
 }
 
 #hero h1 .nw-name {
@@ -622,11 +630,11 @@ body {
 }
 
 #hero .nw-type {
-  font-size: 1.35rem;
+  font-size: var(--nw-text-xl);
   font-weight: 600;
   line-height: 1.3;
   min-height: 2lh;
-  margin-bottom: 1.75rem;
+  margin-bottom: var(--nw-space-5);
 }
 
 #hero .nw-type .nw-typed {
@@ -646,9 +654,9 @@ body {
 
 #hero .nw-socials {
   display: flex;
-  gap: 1rem;
+  gap: var(--nw-space-4);
   justify-content: center;
-  margin-bottom: 2rem;
+  margin-bottom: var(--nw-space-6);
 }
 
 #hero .nw-socials a {
@@ -657,7 +665,7 @@ body {
   height: 3.5rem;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
+  border-radius: var(--nw-radius-circle);
   border: 1px solid var(--nw-border);
   color: var(--nw-fg);
   transition: transform 0.15s, border-color 0.15s;
@@ -676,7 +684,7 @@ body {
 
 .nw-btns {
   display: flex;
-  gap: 1rem;
+  gap: var(--nw-space-4);
   justify-content: center;
   flex-wrap: wrap;
 }
@@ -687,10 +695,10 @@ body {
 .nw-btn {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.7rem 1.6rem;
+  gap: var(--nw-space-2);
+  padding: var(--nw-space-3) var(--nw-space-5);
   border: 1px solid transparent;
-  border-radius: 999px;
+  border-radius: var(--nw-radius-pill);
   font-weight: 600;
   text-decoration: none !important;
   cursor: pointer;
@@ -709,7 +717,7 @@ body {
 .nw-btn-primary {
   background: var(--nw-grad);
   color: #fff !important;
-  box-shadow: 0 8px 24px rgba(18, 110, 245, 0.35);
+  box-shadow: var(--nw-shadow-primary);
 }
 
 .nw-btn-ghost {
@@ -729,7 +737,7 @@ body {
   display: flex;
   flex-direction: column-reverse;
   align-items: center;
-  gap: 2rem;
+  gap: var(--nw-space-6);
 }
 
 .nw-hero-media {
@@ -742,7 +750,7 @@ body {
   content: "";
   position: absolute;
   inset: -15%;
-  border-radius: 50%;
+  border-radius: var(--nw-radius-circle);
   background: radial-gradient(circle, var(--nw-hero-glow), transparent 70%);
   z-index: 0;
 }
@@ -758,7 +766,7 @@ body {
   .nw-hero-inner {
     flex-direction: row;
     justify-content: space-between;
-    gap: 3rem;
+    gap: var(--nw-space-8);
   }
 
   #hero {
@@ -770,11 +778,11 @@ body {
   }
 
   #hero h1 {
-    font-size: clamp(2rem, 4.2vw, 2.9rem);
+    font-size: var(--nw-text-4xl);
   }
 
   #hero .nw-status {
-    margin-bottom: 1rem;
+    margin-bottom: var(--nw-space-4);
   }
 
   #hero .nw-socials,
@@ -794,7 +802,7 @@ body {
 @media (min-width: 768px) and (max-width: 991.98px) {
   .nw-hero-inner {
     justify-content: center;
-    gap: 1.75rem;
+    gap: var(--nw-space-5);
   }
 
   #hero .nw-hero-text {
@@ -802,11 +810,11 @@ body {
   }
 
   #hero h1 {
-    font-size: clamp(2.2rem, 4.6vw, 2.9rem);
+    font-size: var(--nw-text-4xl);
   }
 
   #hero .nw-type {
-    font-size: 1.45rem;
+    font-size: var(--nw-text-xl);
   }
 }
 
@@ -822,15 +830,15 @@ body {
   }
 
   #hero h1 {
-    font-size: clamp(2.5rem, 4vw, 3.5rem);
+    font-size: var(--nw-text-4xl);
   }
 
   #hero h1 .nw-hi {
-    font-size: 1.2rem;
+    font-size: var(--nw-text-lg);
   }
 
   #hero .nw-type {
-    font-size: 1.6rem;
+    font-size: var(--nw-text-2xl);
     min-height: 2.6rem;
   }
 
@@ -850,7 +858,7 @@ body {
 
 #stats .nw-stat {
   flex: 1 1 10rem;
-  padding: 0 1.75rem;
+  padding: 0 var(--nw-space-5);
   border-left: 1px solid var(--nw-border);
 }
 
@@ -861,14 +869,14 @@ body {
 #stats .nw-stat b {
   display: block;
   font-family: $font-family-serif;
-  font-size: 2.4rem;
+  font-size: var(--nw-text-4xl);
   font-weight: 800;
   color: var(--nw-stat-number);
 }
 
 #stats .nw-stat span {
   color: var(--nw-muted);
-  font-size: 0.95rem;
+  font-size: var(--nw-text-md);
 }
 
 /* Narrow screens: two per row wraps the vertical dividers onto the wrong
@@ -876,11 +884,11 @@ body {
 @media screen and (max-width: 576px) {
   #stats .nw-stats {
     flex-direction: column;
-    gap: 1.5rem;
+    gap: var(--nw-space-5);
   }
 
   #stats .nw-stat {
-    padding: 1.5rem 0 0;
+    padding: var(--nw-space-5) 0 0;
     border-left: none;
     border-top: 1px solid var(--nw-border);
   }
@@ -894,7 +902,7 @@ body {
 /* ============ card grid (research areas / projects / awards) ============ */
 .nw-grid {
   display: grid;
-  gap: 1.5rem;
+  gap: var(--nw-space-5);
   grid-template-columns: repeat(auto-fill, minmax(min(19rem, 100%), 1fr));
 }
 
@@ -903,8 +911,8 @@ body {
 .nw-card {
   background: var(--nw-card);
   border: 1px solid var(--nw-border);
-  border-radius: 1rem;
-  padding: 1.75rem;
+  border-radius: var(--nw-radius-lg);
+  padding: var(--nw-space-5);
 }
 
 .nw-card .nw-icon {
@@ -913,9 +921,9 @@ body {
   height: 3rem;
   align-items: center;
   justify-content: center;
-  border-radius: 0.75rem;
+  border-radius: var(--nw-radius-md);
   color: #fff;
-  margin-bottom: 1rem;
+  margin-bottom: var(--nw-space-4);
 }
 
 .nw-card .nw-icon svg {
@@ -924,22 +932,22 @@ body {
 }
 
 .nw-card h3 {
-  font-size: 1.15rem;
+  font-size: var(--nw-text-lg);
   font-weight: 700;
-  margin: 0 0 0.5rem;
+  margin: 0 0 var(--nw-space-2);
 }
 
 .nw-chips {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.4rem;
+  gap: var(--nw-space-2);
 }
 
 .nw-chip {
-  font-size: 0.75rem;
+  font-size: var(--nw-text-xs);
   font-weight: 600;
-  padding: 0.2rem 0.65rem;
-  border-radius: 999px;
+  padding: var(--nw-space-1) var(--nw-space-3);
+  border-radius: var(--nw-radius-pill);
   background: none;
   border: 1px solid var(--nw-border);
   color: var(--nw-muted);
@@ -987,17 +995,17 @@ body {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 0.5rem;
-  margin-bottom: 2rem;
+  gap: var(--nw-space-2);
+  margin-bottom: var(--nw-space-6);
 }
 
 .nw-area-tabs [role="tab"] {
-  padding: 0.55rem 1.15rem;
+  padding: var(--nw-space-2) var(--nw-space-4);
   border: 1px solid var(--nw-border);
-  border-radius: 999px;
+  border-radius: var(--nw-radius-pill);
   background: none;
   color: var(--nw-fg);
-  font-size: 0.9rem;
+  font-size: var(--nw-text-md);
   font-weight: 600;
   white-space: nowrap;
   cursor: pointer;
@@ -1031,7 +1039,7 @@ body {
     overflow-x: auto;
     scroll-snap-type: x proximity;
     scrollbar-width: none;
-    padding-bottom: 0.25rem;
+    padding-bottom: var(--nw-space-1);
     -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 1.25rem, #000 calc(100% - 1.25rem), transparent 100%);
     mask-image: linear-gradient(90deg, transparent 0, #000 1.25rem, #000 calc(100% - 1.25rem), transparent 100%);
   }
@@ -1063,12 +1071,12 @@ body {
 .nw-area-panel {
   display: grid;
   grid-template-columns: 1.05fr 1fr;
-  gap: 2.5rem;
+  gap: var(--nw-space-7);
   align-items: center;
   background: var(--nw-card);
   border: 1px solid var(--nw-border);
-  border-radius: 1rem;
-  padding: 2rem 2.25rem;
+  border-radius: var(--nw-radius-lg);
+  padding: var(--nw-space-6);
 }
 
 /* `hidden` is a UA `display: none`, and the author `display: grid` above would
@@ -1080,7 +1088,7 @@ body {
 /* Stacked panels (the no-JS fallback) need air between them; once tabs are
    live only one is ever in flow, so the margin is dropped. */
 .nw-area-panel + .nw-area-panel {
-  margin-top: 1.5rem;
+  margin-top: var(--nw-space-5);
 }
 
 .js-tabs .nw-area-panel + .nw-area-panel {
@@ -1090,10 +1098,10 @@ body {
 .nw-area-eyebrow {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
-  margin: 0 0 0.75rem;
+  gap: var(--nw-space-3);
+  margin: 0 0 var(--nw-space-3);
   color: var(--nw-muted);
-  font-size: 0.78rem;
+  font-size: var(--nw-text-xs);
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -1107,7 +1115,7 @@ body {
   align-items: center;
   justify-content: center;
   border: 1px solid var(--nw-border);
-  border-radius: 0.6rem;
+  border-radius: var(--nw-radius-md);
   color: var(--nw-fg);
 }
 
@@ -1117,15 +1125,15 @@ body {
 }
 
 .nw-area-panel h3 {
-  margin: 0 0 0.75rem;
-  font-size: clamp(1.5rem, 3vw, 2rem);
+  margin: 0 0 var(--nw-space-3);
+  font-size: var(--nw-text-3xl);
   font-weight: 800;
   letter-spacing: -0.02em;
   text-wrap: balance;
 }
 
 .nw-area-panel p:not(.nw-area-eyebrow) {
-  margin: 0 0 1.25rem;
+  margin: 0 0 var(--nw-space-4);
   max-width: 34rem;
   color: var(--nw-muted);
   text-wrap: pretty;
@@ -1138,7 +1146,7 @@ body {
   max-width: 25rem;
   margin: 0 0 0 auto;
   border: 1px solid var(--nw-border);
-  border-radius: 0.85rem;
+  border-radius: var(--nw-radius-lg);
   overflow: hidden;
   background: var(--nw-chip);
 }
@@ -1152,9 +1160,9 @@ body {
 }
 
 .nw-area-fig figcaption {
-  padding: 0.6rem 0.85rem;
+  padding: var(--nw-space-3);
   font-family: var(--nw-font-mono);
-  font-size: 0.75rem;
+  font-size: var(--nw-text-xs);
   color: var(--nw-muted);
   background: var(--nw-card);
   border-top: 1px solid var(--nw-border);
@@ -1163,8 +1171,8 @@ body {
 @media (max-width: 880px) {
   .nw-area-panel {
     grid-template-columns: 1fr;
-    gap: 1.75rem;
-    padding: 1.75rem;
+    gap: var(--nw-space-5);
+    padding: var(--nw-space-5);
   }
 
   .nw-area-fig {
@@ -1198,7 +1206,7 @@ body {
 /* ============ project cards (listing) ============ */
 .nw-projects.quarto-listing {
   display: grid;
-  gap: 1.5rem;
+  gap: var(--nw-space-5);
   grid-template-columns: repeat(auto-fill, minmax(min(19rem, 100%), 1fr));
 }
 
@@ -1207,8 +1215,11 @@ body {
   flex-direction: column;
   background: var(--nw-card);
   border: 1px solid var(--nw-border);
-  border-radius: 1rem;
+  border-radius: var(--nw-radius-lg);
   overflow: hidden;
+  /* rest state carries the rim only: invisible in light, a hairline
+     highlight in dark so the card reads as raised before any hover */
+  box-shadow: var(--nw-shadow-rim);
   transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
   height: 100%;
 }
@@ -1216,7 +1227,7 @@ body {
 .nw-proj-card:hover {
   transform: translateY(-4px);
   border-color: var(--nw-primary);
-  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.18);
+  box-shadow: var(--nw-shadow-lg);
 }
 
 .nw-proj-card .nw-proj-media {
@@ -1234,7 +1245,7 @@ body {
   height: 3.5rem;
   align-items: center;
   justify-content: center;
-  border-radius: 0.85rem;
+  border-radius: var(--nw-radius-lg);
   color: #fff;
   transition: transform 0.2s;
 }
@@ -1269,15 +1280,15 @@ body {
 }
 
 .nw-proj-card .nw-proj-body {
-  padding: 1.25rem 1.5rem 1.5rem;
+  padding: var(--nw-space-4) var(--nw-space-5) var(--nw-space-5);
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
+  gap: var(--nw-space-3);
   flex: 1;
 }
 
 .nw-proj-card h3 {
-  font-size: 1.1rem;
+  font-size: var(--nw-text-lg);
   font-weight: 700;
   margin: 0;
 }
@@ -1289,7 +1300,7 @@ body {
 
 .nw-proj-card p {
   color: var(--nw-muted);
-  font-size: 0.92rem;
+  font-size: var(--nw-text-md);
   margin: 0;
   flex: 1;
 }
@@ -1337,8 +1348,8 @@ body {
   position: relative;
   display: grid;
   grid-template-columns: 3.5rem minmax(0, 1fr);
-  gap: 1.25rem;
-  padding: 1.35rem 0;
+  gap: var(--nw-space-4);
+  padding: var(--nw-space-5) 0;
   border-top: 1px solid var(--nw-border);
   transition: background-color 0.15s;
 }
@@ -1354,15 +1365,15 @@ body {
 @media (max-width: 480px) {
   .nw-cites .nw-cite {
     grid-template-columns: 1fr;
-    gap: 0.35rem;
+    gap: var(--nw-space-1);
   }
 }
 
 .nw-cite-year {
   font-family: var(--nw-font-mono);
-  font-size: 0.8rem;
+  font-size: var(--nw-text-xs);
   color: var(--nw-muted);
-  padding-top: 0.2rem;
+  padding-top: var(--nw-space-1);
 }
 
 .nw-cite-title a {
@@ -1393,25 +1404,25 @@ body {
 
 .nw-cite-meta {
   color: var(--nw-muted);
-  font-size: 0.92rem;
-  margin-top: 0.25rem;
+  font-size: var(--nw-text-md);
+  margin-top: var(--nw-space-1);
 }
 
 .nw-cite-links {
-  margin-top: 0.5rem;
+  margin-top: var(--nw-space-2);
   display: flex;
-  gap: 0.75rem;
+  gap: var(--nw-space-3);
   flex-wrap: wrap;
   align-items: center;
 }
 
 .nw-cite-links a {
-  font-size: 0.8rem;
+  font-size: var(--nw-text-xs);
   font-weight: 600;
   text-decoration: none;
   border: 1px solid var(--nw-border);
-  border-radius: 999px;
-  padding: 0.15rem 0.7rem;
+  border-radius: var(--nw-radius-pill);
+  padding: var(--nw-space-1) var(--nw-space-3);
   color: var(--nw-muted);
 }
 
@@ -1427,11 +1438,11 @@ body {
    citation template stays a flat, print-friendly row on the CV. */
 
 .nw-pubs .nw-pub-section {
-  margin-top: 3rem;
+  margin-top: var(--nw-space-8);
 }
 
 .nw-pubs .nw-pub-section:first-child {
-  margin-top: 1.5rem;
+  margin-top: var(--nw-space-5);
 }
 
 /* A type with no entries still renders its (empty) listing, so hide the whole
@@ -1444,10 +1455,10 @@ body {
 
 .nw-pubs .nw-pub-section > h2 {
   font-family: var(--nw-font-display);
-  font-size: 1.5rem;
+  font-size: var(--nw-text-2xl);
   font-weight: 600;
-  margin: 0 0 0.75rem;
-  padding-bottom: 0.4rem;
+  margin: 0 0 var(--nw-space-3);
+  padding-bottom: var(--nw-space-2);
   border-bottom: 1px solid var(--nw-border);
 }
 
@@ -1455,7 +1466,7 @@ body {
    own top border would double it. */
 .nw-pubs .nw-cites .nw-cite:first-child {
   border-top: none;
-  padding-top: 0.35rem;
+  padding-top: var(--nw-space-1);
 }
 
 /* Impact strip above the list. Same treatment as the home page stats, but it
@@ -1466,12 +1477,12 @@ body {
   justify-content: center;
   gap: 0;
   text-align: center;
-  margin-bottom: 2.5rem;
+  margin-bottom: var(--nw-space-7);
 }
 
 .nw-pubstats .nw-stat {
   flex: 1 1 10rem;
-  padding: 0 1.75rem;
+  padding: 0 var(--nw-space-5);
   border-left: 1px solid var(--nw-border);
 }
 
@@ -1482,27 +1493,27 @@ body {
 .nw-pubstats .nw-stat b {
   display: block;
   font-family: $font-family-serif;
-  font-size: 2.2rem;
+  font-size: var(--nw-text-4xl);
   font-weight: 800;
   color: var(--nw-stat-number);
 }
 
 .nw-pubstats .nw-stat span {
   color: var(--nw-muted);
-  font-size: 0.95rem;
+  font-size: var(--nw-text-md);
 }
 
 @media screen and (max-width: 576px) {
   .nw-pubstats {
     flex-direction: column;
-    gap: 1.25rem;
+    gap: var(--nw-space-4);
   }
 
   .nw-pubstats .nw-stat {
     /* `flex: 1 1 10rem` sizes along the main axis, which is vertical here, so
        leaving it in place would make every stat 10rem tall. */
     flex: 0 0 auto;
-    padding: 1.25rem 0 0;
+    padding: var(--nw-space-4) 0 0;
     border-left: none;
     border-top: 1px solid var(--nw-border);
   }
@@ -1523,7 +1534,7 @@ body {
 .nw-cites .nw-cite-year {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: var(--nw-space-3);
 }
 
 .nw-cites .nw-cite-icon {
@@ -1533,7 +1544,7 @@ body {
   flex: 0 0 auto;
   width: 1.9rem;
   height: 1.9rem;
-  border-radius: 0.6rem;
+  border-radius: var(--nw-radius-md);
   color: var(--nw-cite-accent, var(--nw-muted));
   background: color-mix(in srgb, var(--nw-cite-accent, var(--nw-muted)) 14%, transparent);
 }
@@ -1549,7 +1560,7 @@ body {
   .nw-cites .nw-cite-year {
     flex-direction: column;
     align-items: flex-start;
-    gap: 0.45rem;
+    gap: var(--nw-space-2);
   }
 }
 
@@ -1573,9 +1584,9 @@ body {
 
 .nw-pubs .nw-cite-summary {
   display: block;
-  margin: 0.4rem 0 0;
+  margin: var(--nw-space-2) 0 0;
   color: var(--nw-muted);
-  font-size: 0.92rem;
+  font-size: var(--nw-text-md);
   line-height: 1.55;
 }
 
@@ -1604,7 +1615,7 @@ body {
    pace; home.js replaces it with a duration measured off the real track width
    so both marquees move at the same px/s. */
 .nw-marquee-tech .nw-marquee-track {
-  gap: 3rem;
+  gap: var(--nw-space-8);
   animation-duration: 75s;
 }
 
@@ -1612,8 +1623,8 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.55rem;
-  font-size: 0.8rem;
+  gap: var(--nw-space-2);
+  font-size: var(--nw-text-xs);
   font-weight: 600;
   white-space: nowrap;
   color: var(--nw-muted);
@@ -1643,7 +1654,7 @@ body {
   position: relative;
   max-width: 46rem;
   margin: 0 auto;
-  padding-left: 2.25rem;
+  padding-left: var(--nw-space-6);
 }
 
 .nw-timeline::before {
@@ -1660,9 +1671,12 @@ body {
   position: relative;
   background: var(--nw-card);
   border: 1px solid var(--nw-border);
-  border-radius: 1rem;
-  padding: 1.5rem 1.75rem;
-  margin-bottom: 1.5rem;
+  border-radius: var(--nw-radius-lg);
+  padding: var(--nw-space-5);
+  margin-bottom: var(--nw-space-5);
+  /* rest state carries the rim only: invisible in light, a hairline
+     highlight in dark so the card reads as raised before any hover */
+  box-shadow: var(--nw-shadow-rim);
   transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
 }
 
@@ -1673,7 +1687,7 @@ body {
 .nw-tl-item:hover {
   transform: translateY(-4px);
   border-color: var(--nw-primary);
-  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.18);
+  box-shadow: var(--nw-shadow-lg);
 }
 
 /* One dot per entry on the rail. Past entries are grey, so the single
@@ -1688,7 +1702,7 @@ body {
   transform: translateY(-50%);
   width: 0.9rem;
   height: 0.9rem;
-  border-radius: 50%;
+  border-radius: var(--nw-radius-circle);
   background: var(--nw-tl-dot);
   box-shadow: 0 0 0 4px var(--nw-bg);
 }
@@ -1700,7 +1714,7 @@ body {
 /* ============ home page: experience + education, side by side ========== */
 .nw-exp-edu-grid {
   display: grid;
-  gap: 3rem;
+  gap: var(--nw-space-8);
 }
 
 .nw-exp-edu-col .nw-timeline,
@@ -1711,12 +1725,12 @@ body {
 }
 
 .nw-exp-edu-label {
-  font-size: 0.78rem;
+  font-size: var(--nw-text-xs);
   font-weight: 700;
   letter-spacing: 0.09em;
   text-transform: uppercase;
   color: var(--nw-muted);
-  margin: 0 0 1.25rem;
+  margin: 0 0 var(--nw-space-4);
 }
 
 @media (min-width: 900px) {
@@ -1766,7 +1780,7 @@ body {
 
 .nw-tl-item h3,
 .nw-tl-item h4 {
-  font-size: 1.05rem;
+  font-size: var(--nw-text-base);
   font-weight: 700;
   margin: 0;
 }
@@ -1783,20 +1797,20 @@ body {
 
 .nw-tl-item .nw-tl-meta {
   font-family: var(--nw-font-mono);
-  font-size: 0.8rem;
+  font-size: var(--nw-text-xs);
   color: var(--nw-muted);
-  margin: 0.15rem 0 0.5rem;
+  margin: var(--nw-space-1) 0 var(--nw-space-2);
 }
 
 .nw-tl-item p {
   color: var(--nw-muted);
-  font-size: 0.95rem;
+  font-size: var(--nw-text-md);
   margin: 0;
 }
 
 /* ============ logo marquee ============ */
 .nw-marquee {
-  margin-top: 2.5rem;
+  margin-top: var(--nw-space-7);
   overflow: hidden;
   mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
@@ -1804,11 +1818,11 @@ body {
 
 .nw-marquee-track {
   display: flex;
-  gap: 4rem;
+  gap: var(--nw-space-9);
   align-items: center;
   width: max-content;
   animation: nw-scroll 40s linear infinite;
-  padding: 1rem 0;
+  padding: var(--nw-space-4) 0;
 }
 
 /* Hover is not a mechanism a keyboard or touch visitor has, and WCAG 2.2.2
@@ -1826,14 +1840,14 @@ body {
    parked inside it would be faded away with them. */
 .nw-marquee-pause {
   display: flex;
-  margin: 0.4rem 0 0 auto;
+  margin: var(--nw-space-2) 0 0 auto;
   align-items: center;
   justify-content: center;
   width: 1.9rem;
   height: 1.9rem;
   padding: 0;
   border: 1px solid var(--nw-border);
-  border-radius: 50%;
+  border-radius: var(--nw-radius-circle);
   background: var(--nw-bg);
   color: var(--nw-fg);
   opacity: 0.45;
@@ -1875,7 +1889,7 @@ body {
 /* ============ gallery / awards carousel ============ */
 .nw-carousel {
   display: grid;
-  gap: 1.5rem;
+  gap: var(--nw-space-5);
   grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
 }
 
@@ -1897,7 +1911,7 @@ body {
   height: auto;
   aspect-ratio: 4/3;
   object-fit: cover;
-  border-radius: 1rem;
+  border-radius: var(--nw-radius-lg);
   border: 1px solid var(--nw-border);
   transition: transform 0.2s;
 }
@@ -1907,16 +1921,16 @@ body {
 }
 
 .nw-award figcaption {
-  padding-top: 0.6rem;
+  padding-top: var(--nw-space-3);
 }
 
 .nw-award b {
   display: block;
-  font-size: 0.95rem;
+  font-size: var(--nw-text-md);
 }
 
 .nw-award span {
-  font-size: 0.8rem;
+  font-size: var(--nw-text-xs);
   color: var(--nw-muted);
 }
 
@@ -1927,7 +1941,7 @@ body {
 .nw-posts {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1.5rem;
+  gap: var(--nw-space-5);
 }
 
 @media (max-width: 700px) {
@@ -1943,21 +1957,24 @@ body {
   height: 100%;
   background: var(--nw-card);
   border: 1px solid var(--nw-border);
-  border-radius: 1rem;
+  border-radius: var(--nw-radius-lg);
   overflow: hidden;
+  /* rest state carries the rim only: invisible in light, a hairline
+     highlight in dark so the card reads as raised before any hover */
+  box-shadow: var(--nw-shadow-rim);
   transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
 }
 
 /* A post with no cover image keeps the old text-only card: the padding its
    body would otherwise carry sits on the card itself. */
 .nw-posts .nw-post:not(.nw-has-cover) {
-  padding: 1.5rem 1.75rem;
+  padding: var(--nw-space-5);
 }
 
 .nw-posts .nw-post:hover {
   transform: translateY(-4px);
   border-color: var(--nw-primary);
-  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.18);
+  box-shadow: var(--nw-shadow-lg);
 }
 
 /* Cover art, in the same 16/9 media box the project cards use so the two card
@@ -1986,23 +2003,23 @@ body {
 .nw-post-body {
   display: flex;
   flex-direction: column;
-  gap: 0.1rem;
+  gap: var(--nw-space-1);
   flex: 1;
 }
 
 .nw-has-cover .nw-post-body {
-  padding: 1.25rem 1.5rem 1.5rem;
+  padding: var(--nw-space-4) var(--nw-space-5) var(--nw-space-5);
 }
 
 .nw-post h3 {
-  font-size: 1.1rem;
+  font-size: var(--nw-text-lg);
   font-weight: 700;
   margin: 0;
 }
 
 /* the text-only card still keeps a long title clear of its badge */
 .nw-post:not(.nw-has-cover) h3 {
-  padding-right: 6rem;
+  padding-right: var(--nw-space-10);
 }
 
 /* "5 MIN READ" — a pill over the top right of the cover, or on a card with no
@@ -2012,7 +2029,7 @@ body {
   position: absolute;
   top: 1.5rem;
   right: 1.75rem;
-  font-size: 0.68rem;
+  font-size: var(--nw-text-2xs);
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -2022,8 +2039,8 @@ body {
 .nw-post-media .nw-post-readtime {
   top: 0.75rem;
   right: 0.75rem;
-  padding: 0.25rem 0.6rem;
-  border-radius: 999px;
+  padding: var(--nw-space-1) var(--nw-space-3);
+  border-radius: var(--nw-radius-pill);
   background: rgba(0, 0, 0, 0.55);
   color: #fff;
 }
@@ -2047,20 +2064,20 @@ body {
 .nw-post-date {
   font-family: var(--nw-font-mono);
   color: var(--nw-muted);
-  font-size: 0.8rem;
-  margin: 0.3rem 0 0.6rem;
+  font-size: var(--nw-text-xs);
+  margin: var(--nw-space-1) 0 var(--nw-space-3);
 }
 
 .nw-post p {
   margin: 0;
   color: var(--nw-muted);
-  font-size: 0.92rem;
+  font-size: var(--nw-text-md);
   flex: 1;
 }
 
 /* the same category pills the project and publication cards carry */
 .nw-post .nw-chips {
-  margin-top: 0.9rem;
+  margin-top: var(--nw-space-4);
 }
 
 /* Lead post: cover beside the text, spanning the full width of the grid, with
@@ -2083,16 +2100,16 @@ body {
 
   .nw-posts .nw-post:first-child .nw-post-body {
     justify-content: center;
-    padding: 1.75rem 2rem;
+    padding: var(--nw-space-5) var(--nw-space-6);
   }
 
   .nw-posts .nw-post:first-child h3 {
-    font-size: 1.5rem;
+    font-size: var(--nw-text-2xl);
   }
 
   .nw-posts .nw-post:first-child p {
     flex: none;
-    font-size: 1rem;
+    font-size: var(--nw-text-base);
   }
 }
 
@@ -2105,9 +2122,9 @@ body {
 .nw-faq details {
   background: var(--nw-card);
   border: 1px solid var(--nw-border);
-  border-radius: 0.9rem;
-  padding: 1rem 1.4rem;
-  margin-bottom: 0.85rem;
+  border-radius: var(--nw-radius-lg);
+  padding: var(--nw-space-4) var(--nw-space-5);
+  margin-bottom: var(--nw-space-3);
 }
 
 /* The default disclosure triangle is replaced by a tailless arrowhead — a
@@ -2120,7 +2137,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
+  gap: var(--nw-space-4);
   list-style: none;
 }
 
@@ -2145,7 +2162,7 @@ body {
 
 .nw-faq details p {
   color: var(--nw-muted);
-  margin: 0.75rem 0 0;
+  margin: var(--nw-space-3) 0 0;
 }
 
 /* Answers slide open instead of appearing all at once. This used to require
@@ -2177,25 +2194,25 @@ body {
 
 /* ============ contact ============ */
 .nw-form {
-  margin-top: 2rem;
+  margin-top: var(--nw-space-6);
   text-align: left;
   display: grid;
-  gap: 1rem;
+  gap: var(--nw-space-4);
   background: var(--nw-card);
   border: 1px solid var(--nw-border);
-  border-radius: 1rem;
-  padding: 1.75rem;
+  border-radius: var(--nw-radius-lg);
+  padding: var(--nw-space-5);
 }
 
 /* Each field is label + control, so the label stays on screen once there is
    text in the box — the placeholder is example text now, not the only label. */
 .nw-form .nw-field {
   display: grid;
-  gap: 0.35rem;
+  gap: var(--nw-space-1);
 }
 
 .nw-form label {
-  font-size: 0.9rem;
+  font-size: var(--nw-text-md);
   font-weight: 600;
   color: var(--nw-fg);
   margin: 0;
@@ -2206,14 +2223,14 @@ body {
   width: 100%;
   background: var(--nw-bg);
   border: 1px solid var(--nw-border);
-  border-radius: 0.6rem;
-  padding: 0.7rem 1rem;
+  border-radius: var(--nw-radius-md);
+  padding: var(--nw-space-3) var(--nw-space-4);
   color: var(--nw-fg);
   font: inherit;
   /* floor stays at 16px: iOS Safari zooms the viewport on focus of any
      input/textarea sized below that, which would be worse than the
      crowding this is meant to fix. */
-  font-size: clamp(1rem, 3.6vw, 1.05rem);
+  font-size: var(--nw-text-base);
 }
 
 .nw-form input::placeholder,
@@ -2238,7 +2255,7 @@ body {
   width: 1.05em;
   height: 1.05em;
   flex: none;
-  border-radius: 50%;
+  border-radius: var(--nw-radius-circle);
   /* the ring rides on the button's white label color, so it reads on the
      brand-blue fill in both themes */
   border: 2px solid rgba(255, 255, 255, 0.4);
@@ -2273,13 +2290,13 @@ body {
    drift apart between themes. */
 .nw-form-status {
   margin: 0;
-  font-size: 0.92rem;
+  font-size: var(--nw-text-md);
   font-weight: 600;
   display: flex;
   align-items: center;
-  gap: 0.6rem;
-  padding: 0.7rem 0.9rem;
-  border-radius: 0.6rem;
+  gap: var(--nw-space-3);
+  padding: var(--nw-space-3) var(--nw-space-4);
+  border-radius: var(--nw-radius-md);
   border: 1px solid color-mix(in srgb, currentColor 35%, transparent);
   background: color-mix(in srgb, currentColor 10%, var(--nw-card));
 }
@@ -2316,7 +2333,7 @@ body {
   background: none;
   mask: none;
   -webkit-mask: none;
-  border-radius: 50%;
+  border-radius: var(--nw-radius-circle);
   border: 2px solid color-mix(in srgb, currentColor 35%, transparent);
   border-top-color: currentColor;
   animation: nw-spin 0.7s linear infinite;
@@ -2348,15 +2365,15 @@ body {
   max-width: 56rem;
   margin: 0 auto;
   text-align: center;
-  border-radius: 1.5rem;
-  padding: 3.5rem 2.5rem;
+  border-radius: var(--nw-radius-xl);
+  padding: var(--nw-space-8) var(--nw-space-7);
   overflow: hidden;
   isolation: isolate;
   border: 1px solid color-mix(in srgb, var(--nw-cta-fg) 14%, transparent);
   background: linear-gradient(135deg, var(--nw-cta-from), var(--nw-cta-via), var(--nw-cta-to));
   color: var(--nw-cta-fg);
   box-shadow:
-    0 1.75rem 3.5rem -1.75rem rgba(0, 60, 120, 0.45),
+    var(--nw-shadow-lg),
     inset 0 1px 0 var(--nw-cta-glow);
 }
 
@@ -2393,8 +2410,8 @@ body {
 .nw-cta-status {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  font-size: 0.8rem;
+  gap: var(--nw-space-2);
+  font-size: var(--nw-text-xs);
   font-weight: 700;
   letter-spacing: 0.01em;
   /* always-on green, but keyed per theme: the light CTA gradient made the
@@ -2402,9 +2419,9 @@ body {
   color: var(--nw-status-fg);
   background: rgba(16, 185, 129, 0.14);
   border: 1px solid rgba(16, 185, 129, 0.4);
-  border-radius: 999px;
-  padding: 0.35rem 0.95rem;
-  margin-bottom: 1.4rem;
+  border-radius: var(--nw-radius-pill);
+  padding: var(--nw-space-1) var(--nw-space-4);
+  margin-bottom: var(--nw-space-5);
 }
 
 /* Accent word inside the CTA heading. Used to be an inline
@@ -2419,9 +2436,9 @@ body {
   content: "";
   width: 0.5rem;
   height: 0.5rem;
-  border-radius: 50%;
+  border-radius: var(--nw-radius-circle);
   background: #10b981;
-  box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5);
+  box-shadow: 0 0 0 0 color-mix(in srgb, var(--nw-status-fg) 50%, transparent);
   animation: nw-pulse 2s infinite;
 }
 
@@ -2430,44 +2447,44 @@ body {
 // the <h2> every other CTA card uses.
 .nw-cta-card :is(h1, h2) {
   font-weight: 800;
-  font-size: clamp(2rem, 4vw, 2.75rem);
+  font-size: var(--nw-text-4xl);
   letter-spacing: -0.02em;
   line-height: 1.1;
   border: none;
   // Quarto's own h2 rule contributes this; state it so the 404 page's <h1>
   // lands on exactly the same baseline as every other card's <h2>.
-  padding-bottom: 0.5rem;
-  margin: 0 0 0.85rem;
+  padding-bottom: var(--nw-space-2);
+  margin: 0 0 var(--nw-space-3);
   color: inherit;
 }
 
 .nw-cta-card > p {
   opacity: 0.92;
   max-width: 40rem;
-  margin: 0 auto 1.9rem;
-  font-size: 1.05rem;
+  margin: 0 auto var(--nw-space-6);
+  font-size: var(--nw-text-base);
   line-height: 1.6;
 }
 
 /* quick-fact chips: location / focus / availability */
 .nw-cta-facts {
   list-style: none;
-  margin: 0 0 2rem;
+  margin: 0 0 var(--nw-space-6);
   padding: 0;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 0.6rem;
+  gap: var(--nw-space-3);
 }
 
 .nw-cta-facts li {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  font-size: 0.85rem;
+  gap: var(--nw-space-2);
+  font-size: var(--nw-text-sm);
   font-weight: 600;
-  padding: 0.4rem 0.9rem;
-  border-radius: 999px;
+  padding: var(--nw-space-2) var(--nw-space-4);
+  border-radius: var(--nw-radius-pill);
   color: var(--nw-cta-fg);
   background: color-mix(in srgb, var(--nw-cta-fg) 7%, transparent);
   border: 1px solid color-mix(in srgb, var(--nw-cta-fg) 16%, transparent);
@@ -2497,7 +2514,7 @@ body {
 .nw-cta-card .nw-btn-primary {
   background: var(--nw-cta-btn-bg);
   color: var(--nw-cta-btn-fg) !important;
-  box-shadow: 0 0.75rem 1.75rem -0.75rem rgba(0, 40, 90, 0.55);
+  box-shadow: var(--nw-shadow-md);
 }
 
 .nw-cta-card .nw-btn-ghost {
@@ -2514,14 +2531,14 @@ body {
 /* scoped to out-specify `.nw-cta-card > p` above, which otherwise zeroes the
    top margin and collapses this line onto the button row */
 .nw-cta-card > .nw-cta-foot {
-  margin: 2.25rem auto 0;
-  font-size: 0.82rem;
+  margin: var(--nw-space-6) auto 0;
+  font-size: var(--nw-text-xs);
   opacity: 0.75;
 }
 
 @media (max-width: 560px) {
   .nw-cta-card {
-    padding: 2.75rem 1.5rem;
+    padding: var(--nw-space-7) var(--nw-space-5);
   }
 }
 
@@ -2560,18 +2577,18 @@ body {
 .nw-filters {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: var(--nw-space-2);
   justify-content: center;
-  margin-bottom: 2rem;
+  margin-bottom: var(--nw-space-6);
 }
 
 .nw-filters button {
   border: 1px solid var(--nw-border);
   background: transparent;
   color: var(--nw-muted);
-  border-radius: 999px;
-  padding: 0.35rem 1rem;
-  font-size: 0.85rem;
+  border-radius: var(--nw-radius-pill);
+  padding: var(--nw-space-1) var(--nw-space-4);
+  font-size: var(--nw-text-sm);
   font-weight: 600;
   cursor: pointer;
 }
@@ -2589,8 +2606,8 @@ body {
   aspect-ratio: 4 / 3;
   max-height: 38rem;
   object-fit: contain;
-  border-radius: 1rem;
-  margin-bottom: 1.5rem;
+  border-radius: var(--nw-radius-lg);
+  margin-bottom: var(--nw-space-5);
 }
 
 .quarto-title-block .quarto-title h1.title {
@@ -2620,7 +2637,7 @@ body {
    Only one of the two ever applies to a given page, so they never stack. */
 body.nav-fixed .page-layout-custom #title-block-header {
   margin-top: calc(-1 * var(--nw-navbar-h));
-  padding-top: calc(1.75rem + var(--nw-navbar-h));
+  padding-top: calc(var(--nw-space-5) + var(--nw-navbar-h));
 }
 
 body.nav-fixed .page-layout-full main.content,
@@ -2642,7 +2659,7 @@ body.nav-fixed .page-layout-article main.content {
   position: relative;
   isolation: isolate;
   margin-top: 0;
-  padding: 1.75rem 0 2.5rem;
+  padding: var(--nw-space-5) 0 var(--nw-space-7);
 }
 
 /* Full-bleed: break the background out of the content column to the actual
@@ -2691,7 +2708,7 @@ body.nav-fixed .page-layout-article main.content {
 
 @media (max-width: 640px) {
   #title-block-header {
-    padding-bottom: 2rem;
+    padding-bottom: var(--nw-space-6);
   }
 }
 
@@ -2702,17 +2719,17 @@ body.nav-fixed .page-layout-article main.content {
    its own line directly under the title block. */
 .nw-readtime {
   text-align: right;
-  margin: -1.5rem 0 0.75rem;
+  margin: -1.5rem 0 var(--nw-space-3);
   font-family: var(--nw-font-mono);
-  font-size: 0.8rem;
+  font-size: var(--nw-text-xs);
   color: var(--nw-muted);
 }
 
 /* Experience/education detail pages: org · dates · location lead line. */
 .nw-detail-lead {
   color: var(--nw-muted);
-  font-size: 1.05rem;
-  margin-bottom: 1.5rem;
+  font-size: var(--nw-text-base);
+  margin-bottom: var(--nw-space-5);
 }
 
 .nw-detail-lead .nw-tl-org {
@@ -2729,13 +2746,13 @@ body.nav-fixed .page-layout-article main.content {
    page's sections: the blog posts render a table of contents whose links jump
    to headings, and those were landing underneath the sticky navbar. */
 html {
-  scroll-padding-top: 4.5rem;
+  scroll-padding-top: var(--nw-space-9);
 }
 
 /* scroll offset for anchored sections under sticky navbar */
 .nw-section,
 #hero {
-  scroll-margin-top: 4.5rem;
+  scroll-margin-top: var(--nw-space-9);
 }
 
 /* Package hex logos are placed inline in section headings (e.g. `### dplyr
@@ -2748,11 +2765,9 @@ nav[role="doc-toc"] img {
 }
 
 @media (max-width: 640px) {
-  .nw-section { padding: 3rem 0; }
-
   #stats.nw-section,
   #skills.nw-section,
-  #faq.nw-section { padding: 3.75rem 0; }
+  #faq.nw-section { padding: var(--nw-space-9) 0; }
 
   #stats.nw-section::before,
   #skills.nw-section::before,
@@ -2783,8 +2798,8 @@ nav[role="doc-toc"] img {
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--nw-border);
-    padding: 0.5rem 1rem 1rem;
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+    padding: var(--nw-space-2) var(--nw-space-4) var(--nw-space-4);
+    box-shadow: var(--nw-shadow-md);
   }
 
   /* The 4%-transparent glass tint is right for the navbar strip, which only
@@ -2805,7 +2820,7 @@ nav[role="doc-toc"] img {
     display: inline-flex;
     width: fit-content;
     margin-left: 0;
-    margin-top: 0.5rem;
+    margin-top: var(--nw-space-2);
   }
 
   /* Keep the compact mobile navbar clear, whether or not its menu is open. */
@@ -2856,7 +2871,7 @@ nav[role="doc-toc"] img {
 /* very narrow screens: shrink the site title so it isn't cut off */
 @media (max-width: 400px) {
   .navbar .navbar-title {
-    font-size: 0.85rem;
+    font-size: var(--nw-text-sm);
   }
 }
 
@@ -2871,7 +2886,7 @@ nav[role="doc-toc"] img {
 .nw-cv {
   max-width: 60rem;
   margin: 0 auto;
-  padding: 2.5rem 1.25rem 4rem;
+  padding: var(--nw-space-7) var(--nw-space-4) var(--nw-space-9);
 }
 
 /* The custom-layout title block ("Curriculum Vitae" + description) spans the
@@ -2881,8 +2896,8 @@ body:has(.nw-cv) #title-block-header {
   max-width: 60rem;
   margin-left: auto;
   margin-right: auto;
-  padding-left: 1.25rem;
-  padding-right: 1.25rem;
+  padding-left: var(--nw-space-4);
+  padding-right: var(--nw-space-4);
   box-sizing: border-box;
   width: 100%;
 }
@@ -2897,8 +2912,8 @@ body:has(#contact) #title-block-header {
   max-width: calc(62rem + 3rem);
   margin-left: auto;
   margin-right: auto;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
+  padding-left: var(--nw-space-5);
+  padding-right: var(--nw-space-5);
   box-sizing: border-box;
   width: 100%;
 }
@@ -2913,7 +2928,7 @@ body:has(#contact) #title-block-header {
 /* Promoted from h3 to h2 (fixes a heading-order skip after the page's h1);
    frozen at the old h3 size so nothing shifts visually. */
 .nw-contact-info h2 {
-  font-size: 1.75rem;
+  font-size: var(--nw-text-3xl);
   font-weight: 500;
   line-height: 1.2;
 }
@@ -2921,17 +2936,17 @@ body:has(#contact) #title-block-header {
 .nw-cv-header {
   display: flex;
   flex-wrap: wrap;
-  gap: 1.25rem;
+  gap: var(--nw-space-4);
   align-items: flex-start;
   justify-content: space-between;
-  padding-bottom: 1.5rem;
+  padding-bottom: var(--nw-space-5);
   border-bottom: 2px solid var(--nw-border);
 }
 
 .nw-cv-name {
   margin: 0;
   font-family: var(--nw-font-display);
-  font-size: 2.4rem;
+  font-size: var(--nw-text-4xl);
   font-weight: 600;
   letter-spacing: -0.02em;
   // The name is an <h2> so the page keeps a single <h1> (its title); Quarto
@@ -2941,7 +2956,7 @@ body:has(#contact) #title-block-header {
 }
 
 .nw-cv-role {
-  margin: 0.25rem 0 0.5rem;
+  margin: var(--nw-space-1) 0 var(--nw-space-2);
   font-weight: 600;
   color: var(--nw-primary-text);
 }
@@ -2949,7 +2964,7 @@ body:has(#contact) #title-block-header {
 .nw-cv-contact {
   margin: 0;
   color: var(--nw-muted);
-  font-size: 0.95rem;
+  font-size: var(--nw-text-md);
 }
 
 .nw-cv-contact a {
@@ -2962,14 +2977,14 @@ body:has(#contact) #title-block-header {
 }
 
 .nw-cv-sep {
-  margin: 0 0.4rem;
+  margin: 0 var(--nw-space-2);
   opacity: 0.5;
 }
 
 .nw-cv-socials {
   display: flex;
-  gap: 0.75rem;
-  margin-top: 0.75rem;
+  gap: var(--nw-space-3);
+  margin-top: var(--nw-space-3);
 }
 
 .nw-cv-socials a {
@@ -2988,46 +3003,46 @@ body:has(#contact) #title-block-header {
 .nw-cv-actions {
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
+  gap: var(--nw-space-3);
 }
 
 .nw-cv-actions .nw-btn {
-  padding: 0.55rem 1.2rem;
-  font-size: 0.9rem;
+  padding: var(--nw-space-2) var(--nw-space-4);
+  font-size: var(--nw-text-md);
   justify-content: center;
 }
 
 .nw-cv-summary {
-  margin: 1.5rem 0 0;
+  margin: var(--nw-space-5) 0 0;
   color: var(--nw-muted);
-  font-size: 1.05rem;
+  font-size: var(--nw-text-base);
   line-height: 1.6;
 }
 
 .nw-cv-section {
-  margin-top: 2.5rem;
+  margin-top: var(--nw-space-7);
 }
 
 .nw-cv-section > h2 {
   font-family: var(--nw-font-display);
-  font-size: 1.5rem;
+  font-size: var(--nw-text-2xl);
   font-weight: 600;
-  margin: 0 0 1.25rem;
-  padding-bottom: 0.4rem;
+  margin: 0 0 var(--nw-space-4);
+  padding-bottom: var(--nw-space-2);
   border-bottom: 1px solid var(--nw-border);
 }
 
 .nw-cv-section > h3 {
-  font-size: 1rem;
+  font-size: var(--nw-text-base);
   font-weight: 700;
   color: var(--nw-muted);
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  margin: 1.5rem 0 0.75rem;
+  margin: var(--nw-space-5) 0 var(--nw-space-3);
 }
 
 .nw-cv-entry {
-  padding: 0.9rem 0;
+  padding: var(--nw-space-4) 0;
   border-bottom: 1px solid var(--nw-border);
 }
 
@@ -3037,7 +3052,7 @@ body:has(#contact) #title-block-header {
 
 .nw-cv-entry-head {
   display: flex;
-  gap: 1rem;
+  gap: var(--nw-space-4);
   justify-content: space-between;
   align-items: baseline;
 }
@@ -3050,14 +3065,14 @@ body:has(#contact) #title-block-header {
 .nw-cv-entry-date {
   flex: 0 0 auto;
   color: var(--nw-muted);
-  font-size: 0.9rem;
+  font-size: var(--nw-text-md);
   white-space: nowrap;
 }
 
 .nw-cv-entry-meta {
   color: var(--nw-primary-text);
-  font-size: 0.92rem;
-  margin-top: 0.15rem;
+  font-size: var(--nw-text-md);
+  margin-top: var(--nw-space-1);
 }
 
 .nw-cv-entry-meta a {
@@ -3070,9 +3085,9 @@ body:has(#contact) #title-block-header {
 }
 
 .nw-cv-entry-desc {
-  margin: 0.4rem 0 0;
+  margin: var(--nw-space-2) 0 0;
   color: var(--nw-muted);
-  font-size: 0.95rem;
+  font-size: var(--nw-text-md);
   line-height: 1.55;
 }
 
@@ -3080,7 +3095,7 @@ body:has(#contact) #title-block-header {
    contains any stretched-link ::after so it can never cover the page */
 .nw-cv .nw-cite {
   position: relative;
-  padding: 0.7rem 0;
+  padding: var(--nw-space-3) 0;
   border-bottom: 1px solid var(--nw-border);
 }
 
@@ -3091,12 +3106,12 @@ body:has(#contact) #title-block-header {
 .nw-cv-skills {
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
+  gap: var(--nw-space-3);
 }
 
 .nw-cv-skill-row {
   display: flex;
-  gap: 1rem;
+  gap: var(--nw-space-4);
   align-items: baseline;
 }
 
@@ -3108,7 +3123,7 @@ body:has(#contact) #title-block-header {
 
 @media (max-width: 640px) {
   .nw-cv-name {
-    font-size: 1.9rem;
+    font-size: var(--nw-text-3xl);
   }
   .nw-cv-actions {
     flex-direction: row;
@@ -3116,7 +3131,7 @@ body:has(#contact) #title-block-header {
   }
   .nw-cv-skill-row {
     flex-direction: column;
-    gap: 0.15rem;
+    gap: var(--nw-space-1);
   }
   .nw-cv-skill-cat {
     flex-basis: auto;
