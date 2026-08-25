@@ -69,6 +69,11 @@ $card-bg: #ffffff;
      4.50:1 on --nw-code-bg */
   --nw-code-comment: #5c6b1f;
   --nw-code-string: #146c43;
+
+  /* elevation (#210): a cool ink rather than pure black, so a card's shadow
+     sits in the same color family as the page. Geometry is in _tokens.scss. */
+  --nw-shadow-c1: rgba(15, 23, 42, 0.06);
+  --nw-shadow-c2: rgba(15, 23, 42, 0.14);
 }
 
 /* solid mark stays black on light */

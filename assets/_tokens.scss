@@ -8,11 +8,11 @@
    file loads before theme.scss (see the `theme:` lists in _quarto.yml), and
    the two theme files override the *color* layer only — never the scales.
 
-   The color block below is the model the rest follows: it predates this file
-   (it moved here from theme.scss unchanged) and is fully adopted. The scale
-   blocks are newer; existing rules in theme.scss / site.css migrate onto them
-   per-dimension in #209–#213 — until then a raw value in those files is a
-   migration TODO, not an alternative system.
+   The color, type, spacing, radius and elevation blocks are fully adopted:
+   theme.scss and site.css reference them rather than restating values, so a
+   raw literal for one of those dimensions is a migration TODO, not an
+   alternative system. The handful that remain carry a comment saying why.
+   Motion and z-index are still migrating (#209, #213).
 
    /styleguide renders everything declared here live, with contrast ratios
    computed against both surfaces. */
@@ -82,11 +82,23 @@
   --nw-radius-circle: 50%;
 
   /* ---- shadow (#210)
-     Neutral-ink shadows; themes may retint or mute (dark mode currently
-     no-ops most shadows — that's #210's call to make, on one token). */
-  --nw-shadow-sm: 0 3px 14px rgba(0, 0, 0, 0.12);
-  --nw-shadow-md: 0 12px 24px rgba(0, 0, 0, 0.15);
-  --nw-shadow-lg: 0 14px 34px rgba(0, 0, 0, 0.18);
+     Geometry lives here; the two color stops and the rim highlight are set
+     per theme (see theme-light.scss / theme-dark.scss). Every level is two
+     layers — a tight contact shadow plus a wide diffuse one — which reads far
+     more like real light than a single blur. The rim comes first so a card can
+     opt into it alone, at rest, without carrying a drop shadow. */
+  --nw-shadow-c1: rgba(15, 23, 42, 0.06);
+  --nw-shadow-c2: rgba(15, 23, 42, 0.14);
+  /* hairline top highlight: invisible in light, a faint white in dark, where
+     a surface reads as raised because it catches light — a black blur on a
+     near-black page is a no-op */
+  --nw-shadow-rim: inset 0 1px 0 rgba(255, 255, 255, 0);
+  --nw-shadow-sm: var(--nw-shadow-rim), 0 1px 2px var(--nw-shadow-c1),
+    0 2px 8px -2px var(--nw-shadow-c2);
+  --nw-shadow-md: var(--nw-shadow-rim), 0 2px 4px var(--nw-shadow-c1),
+    0 12px 28px -8px var(--nw-shadow-c2);
+  --nw-shadow-lg: var(--nw-shadow-rim), 0 4px 8px var(--nw-shadow-c1),
+    0 24px 48px -12px var(--nw-shadow-c2);
   /* brand-tinted lift under the primary CTA button */
   --nw-shadow-primary: 0 8px 24px rgba(18, 110, 245, 0.35);
   /* focus ring — pairs with the site-wide :focus-visible outline */

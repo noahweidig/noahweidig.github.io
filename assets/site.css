@@ -37,10 +37,10 @@ html {
   width: var(--nw-navctl);
   height: var(--nw-navctl);
   padding: 0 !important;
-  margin-left: 0.5rem !important;
+  margin-left: var(--nw-space-2) !important;
   margin-right: 0 !important;
   border: 1px solid var(--nw-border);
-  border-radius: 50%;
+  border-radius: var(--nw-radius-circle);
   box-sizing: border-box;
   /* Outline only, so the band's dot grid shows through the circle; the fill
      appears on hover (below) — same treatment as the search circle and the
@@ -98,7 +98,7 @@ body.quarto-dark .quarto-navbar-tools .quarto-color-scheme-toggle:hover > .bi::b
   min-width: var(--nw-navctl);
   padding: 0;
   border: 1px solid var(--nw-border);
-  border-radius: 50%;
+  border-radius: var(--nw-radius-circle);
   background: transparent;
   color: var(--nw-navcta);
   box-shadow: none;
@@ -292,12 +292,15 @@ body:has(#hero, #title-block-header, .nw-page-band):not(.nw-scrolled)
 
 /* ============ premium whitespace between sections ============ */
 .nw-section {
-  padding: 6rem 0;
+  /* fluid rhythm (#212): same clamp as the theme layer, restated here because
+     site.css wins the cascade */
+  padding: clamp(var(--nw-space-8), 8vw, var(--nw-space-10)) 0;
 }
 
 #hero {
-  padding-top: 7.5rem;
-  padding-bottom: 5rem;
+  /* 6rem + 1.5rem: the hero clears the navbar and still opens on air */
+  padding-top: calc(var(--nw-space-10) + var(--nw-space-5));
+  padding-bottom: var(--nw-space-10);
 }
 
 /* Quarto reserves the fixed navbar's height at the top of `body.nav-fixed`,
@@ -308,7 +311,7 @@ body:has(#hero, #title-block-header, .nw-page-band):not(.nw-scrolled)
    now run to y=0, behind the transparent navbar, until scroll. */
 body.nav-fixed #hero {
   margin-top: calc(-1 * var(--nw-navbar-h));
-  padding-top: calc(7.5rem + var(--nw-navbar-h));
+  padding-top: calc(var(--nw-space-10) + var(--nw-space-5) + var(--nw-navbar-h));
 }
 
 /* ============ .nw-page-band: #hero's look for custom-layout pages ======= */
@@ -319,13 +322,13 @@ body.nav-fixed #hero {
   position: relative;
   overflow: hidden;
   background: none;
-  padding-top: 7rem;
-  padding-bottom: 6rem;
+  padding-top: calc(var(--nw-space-10) + var(--nw-space-4));
+  padding-bottom: var(--nw-space-10);
 }
 
 @media (max-width: 640px) {
   .nw-page-band {
-    padding-bottom: 3.5rem;
+    padding-bottom: var(--nw-space-8);
   }
 }
 
@@ -355,7 +358,7 @@ body.nav-fixed #hero {
 
 body.nav-fixed .nw-page-band {
   margin-top: calc(-1 * var(--nw-navbar-h));
-  padding-top: calc(7rem + var(--nw-navbar-h));
+  padding-top: calc(var(--nw-space-10) + var(--nw-space-4) + var(--nw-navbar-h));
 }
 
 /* desktop: larger side margins → narrower hero row brings text + portrait closer */
@@ -367,7 +370,7 @@ body.nav-fixed .nw-page-band {
 
 @media (max-width: 640px) {
   .nw-section {
-    padding: 3.5rem 0;
+    padding: var(--nw-space-8) 0;
   }
 }
 
@@ -376,12 +379,12 @@ body.nav-fixed .nw-page-band {
    sections were keeping their bottom padding while losing the top entirely.
    Restore the symmetric padding from a selector that outranks Quarto's. */
 #quarto-content > .nw-section {
-  padding-top: 6rem;
+  padding-top: var(--nw-space-10);
 }
 
 @media (max-width: 640px) {
   #quarto-content > .nw-section {
-    padding-top: 3.5rem;
+    padding-top: var(--nw-space-8);
   }
 }
 
@@ -396,7 +399,7 @@ body.nav-fixed .nw-page-band {
    to phone widths: the tablet/desktop rules set their own sizes. */
 @media (max-width: 767.98px) {
   #hero h1 {
-    font-size: min(clamp(2.5rem, 6vw, 4rem), calc((100vw - 3rem) / 7.6));
+    font-size: min(var(--nw-text-hero), calc((100vw - var(--nw-space-8)) / 7.6));
   }
 }
 
@@ -445,12 +448,12 @@ body.nav-fixed .nw-page-band {
    below the stat cards. The track's own vertical padding is dropped so the
    section's bottom gap stays equal to its top gap. */
 #stats .nw-marquee {
-  margin-top: 6.5rem;
+  margin-top: calc(var(--nw-space-10) + var(--nw-space-2));
 }
 
 @media (max-width: 640px) {
   #stats .nw-marquee {
-    margin-top: 4.5rem;
+    margin-top: var(--nw-space-9);
   }
 }
 
@@ -463,7 +466,7 @@ body.nav-fixed .nw-page-band {
    items shrink a little on phones so more of the strip is on screen. */
 @media (max-width: 640px) {
   .nw-marquee-tech .nw-marquee-track {
-    gap: 2.25rem;
+    gap: var(--nw-space-6);
   }
 
   .nw-tech-item img {
@@ -487,7 +490,7 @@ body.nav-fixed .nw-page-band {
   margin: 0 auto;
   background: var(--nw-card);
   border: 1px solid var(--nw-border);
-  border-radius: 1.25rem;
+  border-radius: var(--nw-radius-xl);
   overflow: hidden;
 }
 
@@ -522,7 +525,7 @@ body.nav-fixed .nw-page-band {
   width: 100%;
   max-width: 72rem;
   margin: 0 auto;
-  padding: 2.5rem 1.5rem 4.5rem;
+  padding: var(--nw-space-7) var(--nw-space-5) var(--nw-space-9);
 }
 
 /* ============ awards grid: 1x4, or 2x2 / 1x4 as it narrows ============ */
@@ -566,7 +569,7 @@ body.nav-fixed .nw-page-band {
 }
 
 .nw-btns.nw-section-more {
-  margin-top: 2.5rem;
+  margin-top: var(--nw-space-7);
 }
 
 /* ============ detail pages: hero image injected from page metadata ============ */
@@ -577,9 +580,9 @@ img.nw-detail-hero {
   max-height: 38rem;
   object-fit: contain;
   background: var(--nw-card);
-  border-radius: 1rem;
+  border-radius: var(--nw-radius-lg);
   border: 1px solid var(--nw-border);
-  margin-bottom: 1.5rem;
+  margin-bottom: var(--nw-space-5);
 }
 
 /* ============ back-to-top ============ */
@@ -593,7 +596,7 @@ img.nw-detail-hero {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
+  border-radius: var(--nw-radius-circle);
   border: 1px solid var(--nw-border);
   background: var(--nw-card);
   color: var(--nw-muted);
@@ -719,7 +722,7 @@ img.nw-detail-hero {
 .nw-footer {
   max-width: 72rem;
   margin: 0 auto;
-  padding: 4rem 1.5rem 2.5rem;
+  padding: var(--nw-space-9) var(--nw-space-5) var(--nw-space-7);
 }
 
 /* Full-bleed divider: this row lives outside .nw-footer's 72rem column, so
@@ -728,27 +731,27 @@ img.nw-detail-hero {
 .nw-footer-bottom-inner {
   max-width: 72rem;
   margin: 0 auto;
-  padding: 1.75rem 1.5rem 2.5rem;
+  padding: var(--nw-space-5) var(--nw-space-5) var(--nw-space-7);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 1rem;
+  gap: var(--nw-space-4);
   flex-wrap: wrap;
 }
 
 .nw-footer-grid {
   display: grid;
   grid-template-columns: 1.4fr repeat(4, 1fr);
-  gap: 2.5rem;
+  gap: var(--nw-space-7);
 }
 
 .nw-footer-brand .nw-footer-logo {
   display: inline-flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: var(--nw-space-3);
   font-family: var(--nw-font-display);
   font-weight: 800;
-  font-size: 1.15rem;
+  font-size: var(--nw-text-lg);
   color: var(--nw-fg);
   text-decoration: none;
 }
@@ -763,8 +766,8 @@ img.nw-detail-hero {
 
 .nw-footer-brand p {
   color: var(--nw-muted);
-  font-size: 0.9rem;
-  margin: 0.75rem 0 1rem;
+  font-size: var(--nw-text-md);
+  margin: var(--nw-space-3) 0 var(--nw-space-4);
   max-width: 14rem;
 }
 
@@ -773,7 +776,7 @@ img.nw-detail-hero {
    of padding on each side makes up the rest of the visual spacing. */
 .nw-footer-socials {
   display: flex;
-  gap: 0.4rem;
+  gap: var(--nw-space-2);
 }
 
 .nw-footer-socials a {
@@ -784,8 +787,8 @@ img.nw-detail-hero {
   /* icon stays 1.2rem; only the tappable box grows */
   min-width: 1.5rem;
   min-height: 1.5rem;
-  padding: 0.25rem;
-  margin: -0.25rem 0;
+  padding: var(--nw-space-1);
+  margin: calc(-1 * var(--nw-space-1)) 0;
 }
 
 .nw-footer-socials a:hover {
@@ -800,12 +803,12 @@ img.nw-detail-hero {
 /* h2, not h3: the footer columns are the page's second-level landmarks, and
    an <h3> straight after the page <h1> is a skipped level. Same type. */
 .nw-footer-col h2 {
-  font-size: 0.75rem;
+  font-size: var(--nw-text-xs);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--nw-fg);
-  margin: 0 0 1rem;
+  margin: 0 0 var(--nw-space-4);
   /* Quarto underlines every content <h2>; these are footer column labels, so
      undo the underline. No dimming — the label renders the full fg color. */
   border-bottom: 0;
@@ -818,15 +821,15 @@ img.nw-detail-hero {
   margin: 0;
   padding: 0;
   display: grid;
-  gap: 0.7rem;
+  gap: var(--nw-space-3);
 }
 
 .nw-footer-col a {
   display: inline-flex;
   align-items: center;
-  gap: 0.55rem;
+  gap: var(--nw-space-2);
   color: var(--nw-muted);
-  font-size: 0.92rem;
+  font-size: var(--nw-text-md);
   text-decoration: none;
   /* 0.92rem type sat 23 px tall, a pixel under the 24x24 px minimum; the type
      and the row rhythm are unchanged (the list gap absorbs the extra pixel). */
@@ -846,7 +849,7 @@ img.nw-detail-hero {
 .nw-footer-bottom {
   border-top: 1px solid var(--nw-border);
   color: var(--nw-muted);
-  font-size: 0.85rem;
+  font-size: var(--nw-text-sm);
 }
 
 .nw-footer-bottom-left {
@@ -902,7 +905,7 @@ img.nw-detail-hero {
    worth of empty page between the page description and the card. The title
    band's own bottom padding already carries most of that gap. */
 #quarto-content #contact.nw-section {
-  padding-top: 2rem;
+  padding-top: var(--nw-space-6);
 }
 
 .nw-contact-card {
@@ -911,14 +914,14 @@ img.nw-detail-hero {
   margin: 0 auto;
   display: grid;
   grid-template-columns: 1fr 1.15fr;
-  gap: 2.5rem 3rem;
+  gap: var(--nw-space-7) var(--nw-space-8);
   text-align: left;
   background: var(--nw-card);
   border: 1px solid var(--nw-border);
-  border-radius: 1.25rem;
-  padding: 2.75rem;
+  border-radius: var(--nw-radius-xl);
+  padding: var(--nw-space-7);
   overflow: hidden;
-  box-shadow: 0 1.25rem 2.5rem -1.75rem rgba(0, 0, 0, 0.35);
+  box-shadow: var(--nw-shadow-md);
 }
 
 /* hairline accent along the top edge — quiet premium, no extra chrome */
@@ -934,15 +937,15 @@ img.nw-detail-hero {
 }
 
 .nw-contact-info h3 {
-  font-size: 1.35rem;
+  font-size: var(--nw-text-xl);
   font-weight: 800;
   letter-spacing: -0.01em;
-  margin: 0 0 0.75rem;
+  margin: 0 0 var(--nw-space-3);
 }
 
 .nw-contact-info > p {
   color: var(--nw-muted);
-  margin: 0 0 1.75rem;
+  margin: 0 0 var(--nw-space-5);
 }
 
 .nw-contact-list {
@@ -950,13 +953,13 @@ img.nw-detail-hero {
   margin: 0;
   padding: 0;
   display: grid;
-  gap: 1.15rem;
+  gap: var(--nw-space-4);
 }
 
 .nw-contact-list li {
   display: flex;
   align-items: center;
-  gap: 0.9rem;
+  gap: var(--nw-space-4);
 }
 
 .nw-contact-icon {
@@ -966,7 +969,7 @@ img.nw-detail-hero {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 0.75rem;
+  border-radius: var(--nw-radius-md);
   border: 1px solid var(--nw-border);
   background: var(--nw-bg);
   color: var(--nw-primary);
@@ -979,9 +982,9 @@ img.nw-detail-hero {
 
 .nw-contact-item {
   display: grid;
-  gap: 0.1rem;
+  gap: var(--nw-space-1);
   min-width: 0;
-  font-size: clamp(0.85rem, 3.2vw, 0.95rem);
+  font-size: var(--nw-text-sm);
   font-weight: 600;
 }
 
@@ -991,7 +994,7 @@ img.nw-detail-hero {
 }
 
 .nw-contact-item small {
-  font-size: 0.72rem;
+  font-size: var(--nw-text-2xs);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -1019,15 +1022,15 @@ img.nw-detail-hero {
 @media (min-width: 861px) {
   .nw-contact-card .nw-form {
     border-left: 1px solid var(--nw-border);
-    padding-left: 3rem;
+    padding-left: var(--nw-space-8);
   }
 }
 
 @media (max-width: 860px) {
   .nw-contact-card {
     grid-template-columns: 1fr;
-    padding: 2rem 1.5rem;
-    gap: 2rem;
+    padding: var(--nw-space-6) var(--nw-space-5);
+    gap: var(--nw-space-6);
     text-align: center;
   }
 
@@ -1047,15 +1050,15 @@ img.nw-detail-hero {
    progressively (clamp) rather than letting it crowd the card edge. */
 @media (max-width: 480px) {
   .nw-contact-card {
-    padding: 1.5rem 1.1rem;
+    padding: var(--nw-space-5) var(--nw-space-4);
   }
 
   .nw-contact-info h3 {
-    font-size: clamp(1.05rem, 5.5vw, 1.35rem);
+    font-size: var(--nw-text-xl);
   }
 
   .nw-contact-info > p {
-    font-size: clamp(0.85rem, 3.6vw, 0.95rem);
+    font-size: var(--nw-text-sm);
   }
 }
 
@@ -1070,17 +1073,17 @@ img.nw-detail-hero {
   position: absolute;
   transform: translate(-50%, -100%);
   display: grid;
-  gap: 0.15rem;
+  gap: var(--nw-space-1);
   justify-items: center;
   pointer-events: none;
   white-space: nowrap;
   background: var(--nw-card);
   color: var(--nw-fg);
   border: 1px solid var(--nw-border);
-  border-radius: 0.6rem;
-  padding: 0.45rem 0.75rem;
-  font-size: 0.85rem;
-  box-shadow: 0 3px 14px rgba(0, 0, 0, 0.25);
+  border-radius: var(--nw-radius-md);
+  padding: var(--nw-space-2) var(--nw-space-3);
+  font-size: var(--nw-text-sm);
+  box-shadow: var(--nw-shadow-sm);
 }
 
 /* display:grid above beats the UA [hidden] rule; restore it explicitly */
@@ -1089,11 +1092,11 @@ img.nw-detail-hero {
 }
 
 .nw-globe-label code {
-  font-size: 0.75rem;
+  font-size: var(--nw-text-xs);
   background: var(--nw-chip);
   color: var(--nw-fg);
-  padding: 0.1rem 0.35rem;
-  border-radius: 0.3rem;
+  padding: var(--nw-space-1);
+  border-radius: var(--nw-radius-sm);
 }
 
 /* ============ closing CTA: pitch beside the globe ============ */
@@ -1103,7 +1106,7 @@ img.nw-detail-hero {
 .nw-cta-layout {
   display: grid;
   grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
-  gap: 3rem;
+  gap: var(--nw-space-8);
   align-items: center;
 }
 
@@ -1130,7 +1133,7 @@ img.nw-detail-hero {
 @media (max-width: 991.98px) {
   .nw-cta-layout {
     grid-template-columns: minmax(0, 1fr);
-    gap: 2.5rem;
+    gap: var(--nw-space-7);
   }
 
   .nw-cta-layout .nw-cta-card {
@@ -1196,7 +1199,7 @@ img.nw-detail-hero {
 #cta .nw-cta-card .nw-btn-primary {
   background: var(--nw-grad);
   color: #fff !important;
-  box-shadow: 0 8px 24px rgba(0, 118, 223, 0.35);
+  box-shadow: var(--nw-shadow-primary);
 }
 
 #cta .nw-cta-card .nw-btn-ghost {
