@@ -1054,7 +1054,8 @@ img.nw-detail-hero {
   }
 
   .nw-contact-info h3 {
-    font-size: var(--nw-text-xl);
+    /* one step down on phones, as the old clamp did */
+    font-size: var(--nw-text-lg);
   }
 
   .nw-contact-info > p {
