@@ -777,10 +777,6 @@ body {
     max-width: 38rem;
   }
 
-  #hero h1 {
-    font-size: var(--nw-text-4xl);
-  }
-
   #hero .nw-status {
     margin-bottom: var(--nw-space-4);
   }
@@ -809,10 +805,6 @@ body {
     max-width: none;
   }
 
-  #hero h1 {
-    font-size: var(--nw-text-4xl);
-  }
-
   #hero .nw-type {
     font-size: var(--nw-text-xl);
   }
@@ -827,10 +819,6 @@ body {
   /* fill the dead space between text and portrait: bigger type, narrower row */
   .nw-hero-inner {
     max-width: 66rem;
-  }
-
-  #hero h1 {
-    font-size: var(--nw-text-4xl);
   }
 
   #hero h1 .nw-hi {
