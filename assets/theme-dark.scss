@@ -87,6 +87,12 @@ $link-hover-color: #80b4ff;
   /* amber kicker/eyebrow label fails AA (3.93:1) on the near-black dark bg;
      lighten it the same way — it's only ever used as text */
   --nw-secondary: #e08c2e;
+  /* elevation (#210): on a near-black page a black blur is invisible, so the
+     drop goes deeper *and* every raised surface gets a hairline top highlight
+     — the rim is what actually reads as "above the page" here. */
+  --nw-shadow-c1: rgba(0, 0, 0, 0.6);
+  --nw-shadow-c2: rgba(0, 0, 0, 0.8);
+  --nw-shadow-rim: inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
 /* solid mark renders black by default; flip to white on dark */
