@@ -628,7 +628,8 @@ function normalizeSitemap(): number {
  * `bootstrap` only from inside their own DOMContentLoaded callbacks) see
  * exactly what they see today. Scripts already marked `async`, `defer` or
  * `type="module"` are left alone — module scripts are deferred by definition —
- * as is anything outside <head> and anything not served from site_libs.
+ * as is anything outside <head>, anything not served from site_libs, and
+ * GLightbox (see below).
  */
 function deferSiteLibs(html: string): string {
   const end = html.search(/<\/head>/i);
@@ -636,6 +637,11 @@ function deferSiteLibs(html: string): string {
   const head = html.slice(0, end).replace(/<script\s[^>]*>/gi, (tag) => {
     const src = attr(tag, "src");
     if (!src || !/(^|\/)site_libs\//.test(src)) return tag;
+    // GLightbox is the one exception: Quarto's lightbox filter emits an
+    // inline <body> script that calls GLightbox() at parse time, not from a
+    // DOMContentLoaded handler, so deferring the bundle leaves the global
+    // undefined and every lightbox link falls back to navigating to the image.
+    if (/(^|\/)glightbox\//.test(src)) return tag;
     // Valueless attributes, so matched directly rather than via attr(): a
     // re-run over output an earlier build already stamped must be a no-op.
     if (/\s(?:defer|async)(?=[\s>=\/])/i.test(tag)) return tag;
