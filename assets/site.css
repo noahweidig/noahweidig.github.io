@@ -642,11 +642,20 @@ img.nw-detail-hero {
 }
 
 /* Scroll progress: an arc tracing the button's own edge, closing as the page
-   bottoms out. `inset: -1px` sizes the 44-unit viewBox over the border box
-   (absolute positioning is otherwise relative to the padding box). */
+   bottoms out. The -1px offsets size the 44-unit viewBox over the border box
+   (absolute positioning is otherwise relative to the padding box). The offsets
+   are written longhand and paired with an explicit size: where the `inset`
+   shorthand isn't understood (older iOS Safari), the SVG would otherwise fall
+   back to its default 300x150 replaced size at its static position inside the
+   flex row, drawing an oversized ring well off the button. */
 .nw-top-ring {
   position: absolute;
-  inset: -1px;
+  top: -1px;
+  right: -1px;
+  bottom: -1px;
+  left: -1px;
+  width: calc(100% + 2px);
+  height: calc(100% + 2px);
   transform: rotate(-90deg);
   pointer-events: none;
   overflow: visible;
