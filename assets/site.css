@@ -514,7 +514,9 @@ body.nav-fixed .nw-page-band {
 /* ============ awards grid: 1x4, or 2x2 / 1x4 as it narrows ============ */
 .nw-carousel {
   grid-template-columns: repeat(4, 1fr);
-  align-items: start;
+  /* stretch, not start: the cards in a row share the tallest one's height, so
+     a two-line title doesn't leave its neighbours a row short. */
+  align-items: stretch;
   max-width: 72rem;
   margin: 0 auto;
 }
