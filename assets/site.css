@@ -511,6 +511,20 @@ body.nav-fixed .nw-page-band {
   padding: var(--nw-space-7) var(--nw-space-5) var(--nw-space-9);
 }
 
+/* Below Quarto's md breakpoint the page grid collapses to a single body column
+   between two 1.5em screen gutters, and those gutters then stack on top of the
+   side padding above — listing pages ended up with ~51px of side margin where
+   the home page (custom layout, no grid gutters, 1.5rem of inner padding) has
+   ~26px. Drop the padding on phones and let the grid gutter be the whole
+   margin, which is what the article-layout pages (privacy, styleguide) already
+   do, so every page lines up with the home page's sections. */
+@media (max-width: 767.98px) {
+  .page-layout-full main.content {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
 /* ============ awards grid: 1x4, or 2x2 / 1x4 as it narrows ============ */
 .nw-carousel {
   grid-template-columns: repeat(4, 1fr);
