@@ -111,15 +111,55 @@
     });
   });
 
+  // Filter helpers. Neither closes over a particular bar, so they live out
+  // here rather than being rebuilt per filter bar.
+  var rowsIn = function (g) {
+    return Array.from(g.querySelectorAll("[data-cats]"));
+  };
+  // A project card is filtered by hiding its wrapper, a citation row by hiding
+  // itself — one predicate for both.
+  var isShown = function (c) {
+    return (c.closest(".nw-proj-wrap") || c).style.display !== "none";
+  };
+
   // Category filter buttons for card grids (projects, publications)
   document.querySelectorAll("[data-nw-filter-for]").forEach(function (bar) {
-    var grid = document.getElementById(bar.dataset.nwFilterFor) ||
-      document.getElementById("listing-" + bar.dataset.nwFilterFor);
-    if (!grid) return;
+    // One bar can drive several listings (publications splits its rows into a
+    // featured journal-article section and everything else), so the attribute
+    // takes a comma-separated list of listing ids.
+    var grids = bar.dataset.nwFilterFor.split(",").map(function (id) {
+      id = id.trim();
+      return document.getElementById(id) || document.getElementById("listing-" + id);
+    }).filter(Boolean);
+    if (!grids.length) return;
     var cards = function () {
-      return grid.querySelectorAll("[data-cats]");
+      return grids.reduce(function (out, g) { return out.concat(rowsIn(g)); }, []);
     };
-    // Build buttons from the categories present in the grid
+    // The row directly under a section heading skips its own top border, or it
+    // doubles the heading's underline. Filtered-out rows stay in the DOM at
+    // display:none, so `:first-child` keeps pointing at a hidden row — mark the
+    // first *visible* one instead and let the stylesheet key off the class.
+    // `.nw-cites-marked` tells the stylesheet this is now under JS control.
+    var markFirstVisible = function () {
+      grids.forEach(function (g) {
+        g.classList.add("nw-cites-marked");
+        var seen = false;
+        rowsIn(g).forEach(function (c) {
+          c.classList.toggle("nw-cite-first", isShown(c) && !seen);
+          if (isShown(c)) seen = true;
+        });
+      });
+    };
+    // A section whose every row is filtered out would otherwise leave a bare
+    // heading behind. The CSS `:has()` rule can't do this: the rows are still
+    // in the DOM, just display:none.
+    var syncSections = function () {
+      grids.forEach(function (g) {
+        var section = g.closest(".nw-pub-section");
+        if (section) section.hidden = !rowsIn(g).some(isShown);
+      });
+    };
+    // Build buttons from the categories present in the grids
     var cats = new Set();
     cards().forEach(function (c) {
       (c.dataset.cats || "").split("|").filter(Boolean).forEach(function (t) { cats.add(t); });
@@ -160,6 +200,8 @@
           total++;
           if (show) shown++;
         });
+        markFirstVisible();
+        syncSections();
         status.textContent = "Showing " + shown + " of " + total + " " + noun +
           (cat ? " in " + label : "");
       };
@@ -170,6 +212,10 @@
     all.classList.add("active");
     all.setAttribute("aria-pressed", "true");
     Array.from(cats).sort().forEach(function (c) { mk(c, c); });
+    // Nothing is filtered yet, but hand the stylesheet the same marked state it
+    // will be in from the first click onward, so the unfiltered page and the
+    // "All" view are drawn by one code path rather than two.
+    markFirstVisible();
 
     // Deep link: #category=X (used by tags on detail pages)
     var m = location.hash.match(/category=([^&]*)/);

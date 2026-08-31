@@ -720,8 +720,10 @@ body {
   box-shadow: var(--nw-shadow-primary);
 }
 
+/* An outlined button is the boundary of a UI component, so it takes the
+   3:1 token rather than the decorative hairline (#236). */
 .nw-btn-ghost {
-  border: 1px solid var(--nw-border);
+  border: 1px solid var(--nw-border-strong);
   color: var(--nw-fg) !important;
 }
 
@@ -931,13 +933,16 @@ body {
   gap: var(--nw-space-2);
 }
 
+/* A chip is a UI-level object, not decoration: give it a fill and the
+   interactive-weight hairline (#236). Outlined in --nw-border at 1.39:1 it
+   read as a bare word with odd spacing rather than as a tag. */
 .nw-chip {
   font-size: var(--nw-text-xs);
   font-weight: 600;
   padding: var(--nw-space-1) var(--nw-space-3);
   border-radius: var(--nw-radius-pill);
-  background: none;
-  border: 1px solid var(--nw-border);
+  background: var(--nw-chip-fill);
+  border: 1px solid var(--nw-border-strong);
   color: var(--nw-muted);
 }
 
@@ -989,7 +994,8 @@ body {
 
 .nw-area-tabs [role="tab"] {
   padding: var(--nw-space-2) var(--nw-space-4);
-  border: 1px solid var(--nw-border);
+  /* a tab is a UI component: 3:1 boundary (#236) */
+  border: 1px solid var(--nw-border-strong);
   border-radius: var(--nw-radius-pill);
   background: none;
   color: var(--nw-fg);
@@ -1342,7 +1348,10 @@ body {
   transition: background-color 0.15s;
 }
 
-.nw-cites .nw-cite:last-child {
+/* Closing rule under the list. On the container rather than the last row: the
+   publications filter hides rows with display:none, so `:last-child` would
+   take the bottom border off screen with it. */
+.nw-cites:has(.nw-cite) {
   border-bottom: 1px solid var(--nw-border);
 }
 
@@ -1408,7 +1417,8 @@ body {
   font-size: var(--nw-text-xs);
   font-weight: 600;
   text-decoration: none;
-  border: 1px solid var(--nw-border);
+  /* DOI / Source pills are links drawn as controls: 3:1 boundary (#236) */
+  border: 1px solid var(--nw-border-strong);
   border-radius: var(--nw-radius-pill);
   padding: var(--nw-space-1) var(--nw-space-3);
   color: var(--nw-muted);
@@ -1420,10 +1430,10 @@ body {
 }
 
 /* ============ publications page ============ */
-/* The page is one listing per publication type (see publications/index.qmd),
-   so the reader sees journal articles as journal articles without touching a
-   filter. Everything here is scoped to `.nw-pubs` or `.nw-cites` so the same
-   citation template stays a flat, print-friendly row on the CV. */
+/* Two sections (see publications/index.qmd): peer-reviewed journal articles,
+   then everything else under a category filter. Everything here is scoped to
+   `.nw-pubs` or `.nw-cites` so the same citation template stays a flat,
+   print-friendly row on the CV. */
 
 .nw-pubs .nw-pub-section {
   margin-top: var(--nw-space-8);
@@ -1433,10 +1443,9 @@ body {
   margin-top: var(--nw-space-5);
 }
 
-/* A type with no entries still renders its (empty) listing, so hide the whole
-   section. That way a Zotero item type nobody has published yet can sit in the
-   page without leaving a bare heading behind — and a new type never silently
-   drops off the page either. */
+/* A section whose listing came back empty at build time would otherwise leave
+   a bare heading behind. (The filter hides sections at runtime by setting
+   `hidden` in home.js — `:has()` can't see through display:none rows.) */
 .nw-pubs .nw-pub-section:not(:has(.nw-cite)) {
   display: none;
 }
@@ -1450,11 +1459,61 @@ body {
   border-bottom: 1px solid var(--nw-border);
 }
 
-/* The heading's underline already separates the section, so the first row's
-   own top border would double it. */
-.nw-pubs .nw-cites .nw-cite:first-child {
+/* The heading's underline already separates the section, so the row sitting
+   directly under it must not draw its own top border as well.
+
+   `:first-child` alone can't express that once the filter is in play: filtered
+   rows stay in the DOM at `display: none`, so the DOM first child keeps the
+   pseudo-class while some later row is the one actually under the heading —
+   which is how every filter except the two whose first row happens to lead the
+   list drew a double line. So home.js marks the first *visible* row and the
+   cascade below hands the exemption to it.
+
+   Order matters: the plain `:first-child` rule is the pre-JS default (the page
+   is readable if home.js never loads), `.nw-cites-marked` — set by home.js the
+   moment it takes over — withdraws it, and `.nw-cite-first` grants it to
+   whichever row is on top now. Scoped away from the featured section, whose
+   rows are self-contained cards that keep all four edges. */
+.nw-pubs .nw-pub-section:not(.nw-pub-featured) .nw-cites .nw-cite:first-child {
   border-top: none;
   padding-top: var(--nw-space-1);
+}
+
+.nw-pubs .nw-pub-section:not(.nw-pub-featured) .nw-cites.nw-cites-marked .nw-cite:first-child {
+  border-top: 1px solid var(--nw-border);
+  padding-top: var(--nw-space-5);
+}
+
+.nw-pubs .nw-pub-section:not(.nw-pub-featured) .nw-cites.nw-cites-marked .nw-cite.nw-cite-first {
+  border-top: none;
+  padding-top: var(--nw-space-1);
+}
+
+/* The five peer-reviewed papers carried exactly the same row treatment as a
+   conference talk, so the hierarchy existed in the document order and nowhere
+   in the design (#240). Give the featured section's rows a card surface and
+   the type's own accent rule down the left edge. */
+.nw-pubs .nw-pub-featured .nw-cites .nw-cite {
+  background: var(--nw-card);
+  border: 1px solid var(--nw-border);
+  border-left: 3px solid var(--nw-cite-accent, var(--nw-primary));
+  border-radius: var(--nw-radius-md);
+  padding: var(--nw-space-5) var(--nw-space-5) var(--nw-space-5) var(--nw-space-4);
+  margin-bottom: var(--nw-space-3);
+  box-shadow: var(--nw-shadow-sm);
+}
+
+.nw-pubs .nw-pub-featured .nw-cites .nw-cite:hover {
+  box-shadow: var(--nw-shadow-md);
+}
+
+.nw-pubs .nw-pub-featured .nw-cite-title {
+  font-size: var(--nw-text-lg);
+}
+
+/* the cards carry their own edges, so the list's closing rule is redundant */
+.nw-pubs .nw-pub-featured .nw-cites {
+  border-bottom: none;
 }
 
 /* Impact strip above the list. Same treatment as the home page stats, but it
@@ -1578,14 +1637,16 @@ body {
   line-height: 1.55;
 }
 
-/* The section heading already names the type, so the per-row category chip is
-   noise here (it still earns its place on the home page and the CV). */
-.nw-pubs .nw-cite-cat {
+/* In the featured section every row is a journal article and the heading says
+   so, so the chip is noise. In the combined list below it, the type chip is
+   how you tell a talk from a webinar — and it names the filter chip that
+   selects it — so it stays. */
+.nw-pubs .nw-pub-featured .nw-cite-cat {
   display: none;
 }
 
 .nw-cite-oa {
-  border-color: color-mix(in srgb, #10b981 45%, var(--nw-border));
+  border-color: color-mix(in srgb, #10b981 45%, var(--nw-border-strong));
   color: var(--nw-status-fg);
 }
 
@@ -1875,6 +1936,9 @@ body {
 }
 
 /* ============ gallery / awards carousel ============ */
+/* `.nw-carousel` is a historical name: this is a static auto-fit grid, and
+   that is the intended behavior — there is no scroll, snap or control to
+   implement. Kept because the class is referenced from the awards markup. */
 .nw-carousel {
   display: grid;
   gap: var(--nw-space-5);
@@ -1886,12 +1950,26 @@ body {
   color: inherit;
 }
 
+/* framed like a card: same 1px hairline, same corner radius. The frame lives
+   on the <figure>, not on the image (#239) — scaling the bordered element
+   itself swelled the card past its grid gap on hover, blurred the 1px
+   hairline to ~1.03px and loosened the corner radius. Frame here, transform
+   on the child, clip between them. */
 .nw-award figure {
   margin: 0;
+  border-radius: var(--nw-radius-lg);
+  border: 1px solid var(--nw-border);
+  overflow: hidden;
+  /* WebKit ignores overflow clipping on a transformed child unless the
+     ancestor establishes a stacking context, so the zoomed image would paint
+     over the rounded corners on Safari without this. */
+  isolation: isolate;
 }
 
-/* framed like a card: same 1px hairline, same corner radius */
 .nw-award img {
+  /* inline layout would otherwise leave a baseline sliver of card background
+     between the image and the bottom of the new frame */
+  display: block;
   width: 100%;
   /* Required now that the markup carries width/height attributes: without it
      the height attribute is used as a presentational hint, which specifies
@@ -1899,9 +1977,7 @@ body {
   height: auto;
   aspect-ratio: 4/3;
   object-fit: cover;
-  border-radius: var(--nw-radius-lg);
-  border: 1px solid var(--nw-border);
-  transition: transform 0.2s;
+  transition: transform var(--nw-dur-base) var(--nw-ease-standard);
 }
 
 .nw-award:hover img {
@@ -2207,10 +2283,13 @@ body {
 }
 
 .nw-form input,
-.nw-form textarea {
+.nw-form textarea,
+.nw-form select {
   width: 100%;
   background: var(--nw-bg);
-  border: 1px solid var(--nw-border);
+  /* The fill is the page color, so this hairline is the only thing marking
+     where the field is — it has to clear 3:1 (WCAG 2.1 SC 1.4.11, #236). */
+  border: 1px solid var(--nw-border-strong);
   border-radius: var(--nw-radius-md);
   padding: var(--nw-space-3) var(--nw-space-4);
   color: var(--nw-fg);
@@ -2231,7 +2310,8 @@ body {
 }
 
 .nw-form input:focus,
-.nw-form textarea:focus {
+.nw-form textarea:focus,
+.nw-form select:focus {
   outline: 2px solid var(--nw-primary);
   border-color: transparent;
 }
@@ -2571,7 +2651,8 @@ body {
 }
 
 .nw-filters button {
-  border: 1px solid var(--nw-border);
+  /* toggle buttons: interactive boundary, so the 3:1 token (#236) */
+  border: 1px solid var(--nw-border-strong);
   background: transparent;
   color: var(--nw-muted);
   border-radius: var(--nw-radius-pill);
