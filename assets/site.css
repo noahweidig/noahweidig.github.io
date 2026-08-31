@@ -426,23 +426,6 @@ body.nav-fixed .nw-page-band {
   }
 }
 
-/* ============ stats: only 4x1, 2x2, or 1x4 ============ */
-#stats .nw-stats {
-  grid-template-columns: repeat(4, 1fr);
-}
-
-@media (max-width: 860px) {
-  #stats .nw-stats {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 430px) {
-  #stats .nw-stats {
-    grid-template-columns: 1fr;
-  }
-}
-
 /* ============ affiliation logos: icon strip under the stats ============ */
 /* No heading of its own — the moving logos read as a quiet credential strip
    below the stat cards. The track's own vertical padding is dropped so the
