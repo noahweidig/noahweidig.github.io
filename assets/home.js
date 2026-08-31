@@ -121,12 +121,16 @@
       return document.getElementById(id) || document.getElementById("listing-" + id);
     }).filter(Boolean);
     if (!grids.length) return;
+    var rowsIn = function (g) {
+      return Array.from(g.querySelectorAll("[data-cats]"));
+    };
+    // A project card is filtered by hiding its wrapper, a citation row by
+    // hiding itself — one predicate for both.
+    var isShown = function (c) {
+      return (c.closest(".nw-proj-wrap") || c).style.display !== "none";
+    };
     var cards = function () {
-      var out = [];
-      grids.forEach(function (g) {
-        out.push.apply(out, g.querySelectorAll("[data-cats]"));
-      });
-      return out;
+      return grids.reduce(function (out, g) { return out.concat(rowsIn(g)); }, []);
     };
     // The row directly under a section heading skips its own top border, or it
     // doubles the heading's underline. Filtered-out rows stay in the DOM at
@@ -137,11 +141,19 @@
       grids.forEach(function (g) {
         g.classList.add("nw-cites-marked");
         var seen = false;
-        g.querySelectorAll("[data-cats]").forEach(function (c) {
-          var shown = (c.closest(".nw-proj-wrap") || c).style.display !== "none";
-          c.classList.toggle("nw-cite-first", shown && !seen);
-          if (shown) seen = true;
+        rowsIn(g).forEach(function (c) {
+          c.classList.toggle("nw-cite-first", isShown(c) && !seen);
+          if (isShown(c)) seen = true;
         });
+      });
+    };
+    // A section whose every row is filtered out would otherwise leave a bare
+    // heading behind. The CSS `:has()` rule can't do this: the rows are still
+    // in the DOM, just display:none.
+    var syncSections = function () {
+      grids.forEach(function (g) {
+        var section = g.closest(".nw-pub-section");
+        if (section) section.hidden = !rowsIn(g).some(isShown);
       });
     };
     // Build buttons from the categories present in the grids
@@ -186,18 +198,7 @@
           if (show) shown++;
         });
         markFirstVisible();
-        // A section whose every row is filtered out would otherwise leave a
-        // bare heading behind. The CSS `:has()` rule can't do this: the rows
-        // are still in the DOM, just display:none.
-        grids.forEach(function (g) {
-          var section = g.closest(".nw-pub-section");
-          if (!section) return;
-          var live = Array.prototype.some.call(
-            g.querySelectorAll("[data-cats]"),
-            function (c) { return c.style.display !== "none"; }
-          );
-          section.hidden = !live;
-        });
+        syncSections();
         status.textContent = "Showing " + shown + " of " + total + " " + noun +
           (cat ? " in " + label : "");
       };
