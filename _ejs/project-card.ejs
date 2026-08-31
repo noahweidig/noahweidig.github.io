@@ -2,35 +2,44 @@
 // Inline <svg> gets mangled by the listing pipeline (child <path> tags are
 // escaped), so icons live as standalone files in assets/media/icons/projects/
 // and are referenced by <img>. One unique icon per project slug.
-const nwProjGrads = {
-  'chartifyr':      'g-sky',
-  'dataviz':        'g-fuchsia',
-  'faststats':      'g-amber',
-  'firer':          'g-rose',
-  'framelab':       'g-sky',
-  'imagestudio':    'g-fuchsia',
-  'less':           'g-lime',
-  'lorem-chartsum': 'g-amber',
-  'maplab':         'g-emerald',
-  'maps':           'g-sky',
-  'quickplot':      'g-rose',
-  'r-proj-template':'g-amber',
-  'roads':          'g-emerald',
-  'shelf':          'g-lime',
-  'wildfire':       'g-rose',
-  'wordcloud':      'g-sky',
-  'wuirisk':        'g-amber'
+// Tile color is derived from the project's own `categories` front matter, not
+// from a per-slug lookup: a new project picks up the right color with no edit
+// here (#213). Categories are checked most-specific-first, because a project
+// can carry several — `wuirisk` is Fire *and* Geospatial, and Fire is the more
+// telling of the two. Anything unmatched lands on the data-science green.
+const nwCatOrder = [
+  ['Fire', 'nw-cat-fire'],
+  ['Geospatial', 'nw-cat-geospatial'],
+  ['R', 'nw-cat-tooling'],
+  ['APIs', 'nw-cat-tooling'],
+  ['Creative', 'nw-cat-tooling'],
+  ['Data Science', 'nw-cat-data']
+];
+const nwCatClass = (cats) => {
+  const have = (cats || []).map((c) => String(c).trim().toLowerCase());
+  const hit = nwCatOrder.find(([name]) => have.includes(name.toLowerCase()));
+  return hit ? hit[1] : 'nw-cat-data';
 };
+
+// Every project with a captured screenshot under albums/projects, and every
+// project with an icon of its own under assets/media/icons/projects. Slugs
+// outside this list fall back to the shared default icon.
+const nwProjSlugs = [
+  'chartifyr', 'dataviz', 'faststats', 'firer', 'framelab', 'imagestudio',
+  'less', 'lorem-chartsum', 'maplab', 'maps', 'quickplot', 'r-proj-template',
+  'roads', 'shelf', 'wildfire', 'wordcloud', 'wuirisk'
+];
 %>
 ```{=html}
 <% for (const item of items) { %>
 <%
 const nwSegs = String(item.path).split('/').filter(Boolean);
 const nwSlug = nwSegs.length > 1 ? nwSegs[nwSegs.length - 2] : nwSegs[0];
-const nwGrad = nwProjGrads[nwSlug] || 'g-sky';
-const nwIconSrc = '/assets/media/icons/projects/' + (nwProjGrads[nwSlug] ? nwSlug : 'default') + '.svg';
-// Every slug in nwProjGrads has a captured screenshot under albums/projects.
-const nwHasShot = Object.prototype.hasOwnProperty.call(nwProjGrads, nwSlug);
+const nwKnown = nwProjSlugs.includes(nwSlug);
+const nwCat = nwCatClass(item.categories);
+const nwIconSrc = '/assets/media/icons/projects/' + (nwKnown ? nwSlug : 'default') + '.svg';
+// Every slug in nwProjSlugs has a captured screenshot under albums/projects.
+const nwHasShot = nwKnown;
 const nwShotSrc = '/assets/media/albums/projects/' + nwSlug + '.webp';
 %>
 <div class="nw-proj-wrap">
@@ -44,7 +53,7 @@ const nwShotSrc = '/assets/media/albums/projects/' + nwSlug + '.webp';
 <% if (nwHasShot) { %>
 <a class="nw-proj-media nw-has-shot" href="<%- item.path %>" tabindex="-1" aria-hidden="true"><img class="nw-proj-shot" src="<%= nwShotSrc %>" alt="Screenshot of <%= item.title %>" width="1600" height="1000" loading="lazy"></a>
 <% } else { %>
-<a class="nw-proj-media" href="<%- item.path %>" tabindex="-1" aria-hidden="true"><span class="nw-icon <%= nwGrad %>"><img src="<%= nwIconSrc %>" alt="" width="24" height="24" loading="lazy"></span></a>
+<a class="nw-proj-media" href="<%- item.path %>" tabindex="-1" aria-hidden="true"><span class="nw-icon nw-cat-tile <%= nwCat %>"><img src="<%= nwIconSrc %>" alt="" width="24" height="24" loading="lazy"></span></a>
 <% } %>
 <div class="nw-proj-body">
 <h3><a href="<%- item.path %>"><%= item.title %></a></h3>

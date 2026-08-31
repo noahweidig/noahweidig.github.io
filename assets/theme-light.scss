@@ -22,8 +22,14 @@ $card-bg: #ffffff;
      the long scroll reads in movements instead of one continuous field */
   --nw-bg-alt: #f2f3f6;
   --nw-fg: #14181f;
-  /* see theme-dark.scss: secondary copy is the foreground color */
-  --nw-muted: #14181f;
+  /* A real second tier of ink, not a dimmed one (#209). The token feeds the 30-odd
+     secondary-copy call sites — card descriptions, timeline meta, chips, footer
+     links — and flattening it to --nw-fg removed the hierarchy instead of fixing
+     the contrast it was meant to fix. This measures 8.6:1 on --nw-bg, 8.8:1 on
+     --nw-card, 7.9:1 on --nw-bg-alt and 6.6:1 on --nw-chip-fill: far past AA at
+     the 0.75–0.92 rem sizes it is mostly set at, while still reading a clear
+     step below the foreground. */
+  --nw-muted: #444b57;
   /* contact-form placeholder / hint text — 5.0:1 on the #ffffff input background */
   --nw-placeholder: #6f6f6f;
   --nw-card: #ffffff;

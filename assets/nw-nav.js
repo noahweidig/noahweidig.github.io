@@ -74,7 +74,22 @@ function nwReducedMotion() {
       .forEach(function (sheet) {
         sheet.media = "all";
       });
-    return original.apply(this, arguments);
+    var result = original.apply(this, arguments);
+    // The <meta name="theme-color"> tag tints the browser chrome (Android
+    // Chrome's address + status bars, iOS Safari's top and bottom bars, an
+    // installed PWA's title bar). It carries no `media` attribute — the theme
+    // is the toggle's choice, not the OS preference — so it has to be
+    // rewritten here, or the chrome keeps the color of the theme the visitor
+    // just left (#234). Quarto has already flipped body.quarto-dark by now,
+    // and both values match --nw-bg in the theme files.
+    var meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) {
+      meta.setAttribute(
+        "content",
+        document.body.classList.contains("quarto-dark") ? "#0b0d12" : "#fcfcfb"
+      );
+    }
+    return result;
   };
 })();
 

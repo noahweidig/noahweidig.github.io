@@ -77,8 +77,23 @@ surfaces or fills are informational.</p>
 
 <section class="sg-section" id="sg-motion">
 <h2>Motion</h2>
-<p class="sg-note">Hover a track to run its duration with the standard easing.</p>
+<p class="sg-note">Hover a track to run its duration with the standard easing.
+Every transition in the stylesheets names one of these four durations; the
+literals that remain are ambient loops (marquee drift, spinners, pulses) that
+sit outside this scale on purpose.</p>
 <div class="sg-grid" id="sg-motion-grid"></div>
+<p class="sg-note" style="margin-top: var(--nw-space-6);">The same distance at
+<code>--nw-dur-slower</code>, once per easing curve — hover to compare how each
+one enters and settles.</p>
+<div class="sg-grid" id="sg-ease-grid"></div>
+</section>
+
+<section class="sg-section" id="sg-layer">
+<h2>Layering</h2>
+<p class="sg-note">The stacking order, named. Every <code>z-index</code> in the
+stylesheets resolves to one of these, so the order is readable here rather than
+by grepping for magic numbers.</p>
+<div class="sg-grid" id="sg-layer-grid"></div>
 </section>
 
 <section class="sg-section sg-components" id="sg-components">
@@ -117,11 +132,13 @@ across twenty pages.</p>
   "use strict";
 
   const TYPE = ["--nw-text-2xs","--nw-text-xs","--nw-text-sm","--nw-text-md","--nw-text-base","--nw-text-lg","--nw-text-xl","--nw-text-2xl","--nw-text-3xl","--nw-text-4xl","--nw-text-hero"];
-  const COLOR = ["--nw-bg","--nw-bg-alt","--nw-fg","--nw-muted","--nw-card","--nw-border","--nw-border-strong","--nw-chip","--nw-chip-fill","--nw-primary","--nw-primary-text","--nw-secondary","--nw-status-fg","--nw-ok-fg","--nw-err-fg","--nw-cta-accent","--nw-code-inline-fg","--nw-code-comment","--nw-code-string"];
+  const COLOR = ["--nw-bg","--nw-bg-alt","--nw-fg","--nw-muted","--nw-card","--nw-border","--nw-border-strong","--nw-chip","--nw-chip-fill","--nw-primary","--nw-primary-text","--nw-secondary","--nw-status-fg","--nw-ok-fg","--nw-err-fg","--nw-cta-accent","--nw-code-inline-fg","--nw-code-comment","--nw-code-string","--nw-cat-geospatial","--nw-cat-fire","--nw-cat-data","--nw-cat-tooling"];
   const SPACE = ["--nw-space-1","--nw-space-2","--nw-space-3","--nw-space-4","--nw-space-5","--nw-space-6","--nw-space-7","--nw-space-8","--nw-space-9","--nw-space-10"];
   const RADIUS = ["--nw-radius-sm","--nw-radius-md","--nw-radius-lg","--nw-radius-xl","--nw-radius-pill","--nw-radius-circle"];
   const SHADOW = ["--nw-shadow-sm","--nw-shadow-md","--nw-shadow-lg","--nw-shadow-primary","--nw-shadow-focus"];
   const DUR = ["--nw-dur-fast","--nw-dur-base","--nw-dur-slow","--nw-dur-slower"];
+  const EASE = ["--nw-ease-standard","--nw-ease-decel","--nw-ease-accel"];
+  const ZINDEX = ["--nw-z-below","--nw-z-base","--nw-z-raised","--nw-z-sticky","--nw-z-navbar","--nw-z-overlay","--nw-z-max"];
 
   const raw = (name) =>
     getComputedStyle(document.documentElement).getPropertyValue(name).trim();
@@ -229,6 +246,24 @@ across twenty pages.</p>
       dot.style.transition = `transform var(${t}) var(--nw-ease-standard)`;
       track.append(dot);
       row.append(el("code", "sg-token", t), el("span", "sg-val", raw(t)), track);
+      return row;
+    }));
+
+    // -- easing
+    document.getElementById("sg-ease-grid").replaceChildren(...EASE.map((t) => {
+      const row = el("div", "sg-row");
+      const track = el("div", "sg-motion-track");
+      const dot = el("div", "sg-motion-dot");
+      dot.style.transition = `transform var(--nw-dur-slower) var(${t})`;
+      track.append(dot);
+      row.append(el("code", "sg-token", t), el("span", "sg-val", raw(t)), track);
+      return row;
+    }));
+
+    // -- z-index
+    document.getElementById("sg-layer-grid").replaceChildren(...ZINDEX.map((t) => {
+      const row = el("div", "sg-row");
+      row.append(el("code", "sg-token", t), el("span", "sg-val", raw(t)));
       return row;
     }));
   }

@@ -180,6 +180,17 @@ format:
     lang: en
     include-in-header:
       - text: |
+          <!--
+            The single theme-color tag. It carries no `media` attribute on
+            purpose: the site's theme is chosen by the toggle (which writes
+            `quarto-color-scheme` to localStorage and swaps stylesheets), not
+            by prefers-color-scheme, so a media-keyed pair would leave the
+            browser chrome showing the OS theme while the page shows the
+            toggled one (#234). The script below stamps the right value before
+            paint; assets/nw-nav.js rewrites it on every toggle. The two values
+            are --nw-bg in theme-light.scss / theme-dark.scss.
+          -->
+          <meta name="theme-color" content="#fcfcfb">
           <script>
           (function () {
             // First visit only (no saved toggle choice yet): seed Quarto's
@@ -187,14 +198,28 @@ format:
             // body-start script reads it, so light-preference visitors don't
             // get dark by default. Runs before paint to avoid a flash.
             // See https://github.com/noahweidig/noahweidig.github.io/issues/177
+            var scheme = null;
             try {
+              scheme = window.localStorage.getItem("quarto-color-scheme");
               if (
-                window.localStorage.getItem("quarto-color-scheme") === null &&
+                scheme === null &&
                 window.matchMedia("(prefers-color-scheme: light)").matches
               ) {
+                scheme = "light";
                 window.localStorage.setItem("quarto-color-scheme", "light");
               }
             } catch (e) {}
+            // Same pass, same source of truth: stamp the browser chrome to
+            // match the theme this page is about to render in, so the address
+            // bar never flashes the wrong color (#234). A null sentinel means
+            // no stored choice and no light OS preference, i.e. dark.
+            var meta = document.querySelector('meta[name="theme-color"]');
+            if (meta) {
+              meta.setAttribute(
+                "content",
+                scheme === "dark" || scheme === null ? "#0b0d12" : "#fcfcfb"
+              );
+            }
           })();
           </script>
           <meta name="google-site-verification" content="0ktlvQnqLH01fphPI1cDMDTuQSmCG7mHBQdovXQs2TQ">
@@ -285,8 +310,6 @@ format:
           <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
           <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#0076DF">
           <link rel="manifest" href="/site.webmanifest">
-          <meta name="theme-color" content="#fcfcfb" media="(prefers-color-scheme: light)">
-          <meta name="theme-color" content="#0b0d12" media="(prefers-color-scheme: dark)">
 
 execute:
   freeze: true
