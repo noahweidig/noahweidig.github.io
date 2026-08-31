@@ -111,6 +111,17 @@
     });
   });
 
+  // Filter helpers. Neither closes over a particular bar, so they live out
+  // here rather than being rebuilt per filter bar.
+  var rowsIn = function (g) {
+    return Array.from(g.querySelectorAll("[data-cats]"));
+  };
+  // A project card is filtered by hiding its wrapper, a citation row by hiding
+  // itself — one predicate for both.
+  var isShown = function (c) {
+    return (c.closest(".nw-proj-wrap") || c).style.display !== "none";
+  };
+
   // Category filter buttons for card grids (projects, publications)
   document.querySelectorAll("[data-nw-filter-for]").forEach(function (bar) {
     // One bar can drive several listings (publications splits its rows into a
@@ -121,14 +132,6 @@
       return document.getElementById(id) || document.getElementById("listing-" + id);
     }).filter(Boolean);
     if (!grids.length) return;
-    var rowsIn = function (g) {
-      return Array.from(g.querySelectorAll("[data-cats]"));
-    };
-    // A project card is filtered by hiding its wrapper, a citation row by
-    // hiding itself — one predicate for both.
-    var isShown = function (c) {
-      return (c.closest(".nw-proj-wrap") || c).style.display !== "none";
-    };
     var cards = function () {
       return grids.reduce(function (out, g) { return out.concat(rowsIn(g)); }, []);
     };
