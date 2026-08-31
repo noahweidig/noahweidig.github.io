@@ -113,9 +113,10 @@ $link-hover-color: #80b4ff;
   --nw-shadow-rim: inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
-/* solid mark renders black by default; flip to white on dark */
-.navbar .navbar-brand img,
-.nw-footer-logo img {
+/* solid mark renders black by default; flip to white on dark. The footer
+   logo is handled unconditionally in assets/site.css — the footer is dark in
+   both themes. */
+.navbar .navbar-brand img {
   filter: invert(1);
 }
 
