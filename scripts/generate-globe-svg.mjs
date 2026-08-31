@@ -138,6 +138,22 @@ function extent(points) {
   return Math.hypot(maxX - minX, maxY - minY);
 }
 
+/** One simplified run of points → an `M x y L x y …` subpath, or "". */
+function toSubpath(points) {
+  let d = "";
+  let prevX = null;
+  let prevY = null;
+  for (const p of points) {
+    const x = Math.round(p.x);
+    const y = Math.round(p.y);
+    if (x === prevX && y === prevY) continue; // rounding collapsed it
+    d += (d ? "L" : "M") + x + " " + y;
+    prevX = x;
+    prevY = y;
+  }
+  return d.includes("L") ? d : "";
+}
+
 /** Rings of lat/lon pairs → one `d` attribute, integer-rounded. */
 function toPathData(rings) {
   const parts = [];
@@ -145,17 +161,8 @@ function toPathData(rings) {
     for (const run of visibleRuns(ring)) {
       const points = simplify(run, TOLERANCE);
       if (points.length < 2 || extent(points) < MIN_EXTENT) continue;
-      let d = "";
-      let prevX = null, prevY = null;
-      for (const p of points) {
-        const x = Math.round(p.x);
-        const y = Math.round(p.y);
-        if (x === prevX && y === prevY) continue; // rounding collapsed it
-        d += (d ? "L" : "M") + x + " " + y;
-        prevX = x;
-        prevY = y;
-      }
-      if (d.includes("L")) parts.push(d);
+      const d = toSubpath(points);
+      if (d) parts.push(d);
     }
   }
   return parts.join("");

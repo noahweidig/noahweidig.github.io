@@ -8,8 +8,10 @@ on:
     - cron: "0 0 1,15 * *"
   workflow_dispatch:
   
+# The sync job is the only one that writes; verify-deploy declares its own
+# read-only set below.
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: update-pubs-${{ github.ref }}
@@ -19,6 +21,8 @@ jobs:
   update:
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    permissions:
+      contents: write
     outputs:
       committed: ${{ steps.commit.outputs.committed }}
     steps:
