@@ -28,10 +28,12 @@ $link-hover-color: #80b4ff;
      a few homepage sections sit on it to pace the long scroll */
   --nw-bg-alt: #14161d;
   --nw-fg: #e8eaef;
-  /* Secondary copy (subheadings, meta lines, footer links) is the same soft
-     white, not a dimmed gray — the small type was hard to read at its old
-     contrast. */
-  --nw-muted: #e8eaef;
+  /* Secondary copy (subheadings, meta lines, footer links): a real second tier
+     rather than the foreground repeated (#209). 10.0:1 on --nw-bg, 9.5:1 on
+     --nw-card, 9.3:1 on --nw-bg-alt and 7.7:1 on --nw-chip-fill — the old
+     contrast problem was that the muted value was too dim, not that a muted
+     value was wrong. */
+  --nw-muted: #b4bac6;
   /* contact-form placeholder / hint text — 5.7:1 on the #13131a input background */
   --nw-placeholder: #8f8f8f;
   --nw-card: #13131a;

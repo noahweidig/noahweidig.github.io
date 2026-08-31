@@ -12,7 +12,11 @@
    theme.scss and site.css reference them rather than restating values, so a
    raw literal for one of those dimensions is a migration TODO, not an
    alternative system. The handful that remain carry a comment saying why.
-   Motion and z-index are still migrating (#209, #213).
+   Motion and z-index are adopted on the same terms (#235): every transition
+   names a --nw-dur-* and a --nw-ease-*, and every z-index names a --nw-z-*.
+   The few remaining literals are ambient loops (marquee drift, spinners,
+   pulses) and stagger offsets, which sit outside the interaction scale by
+   design; each says so where it stands.
 
    /styleguide renders everything declared here live, with contrast ratios
    computed against both surfaces. */
@@ -34,6 +38,21 @@
   /* accent word inside the CTA heading */
   --nw-cta-accent: #0a5bb0;
   --nw-grad: linear-gradient(135deg, #126ef5, #126ef5);
+
+  /* ---- project categories (#213)
+     Four hues, one per category family, so a tile's color *means* something:
+     two projects in the same family match, two in different families don't.
+     All four are deep and low-chroma — they share a lightness band, so no tile
+     shouts louder than another, they stay legible under the white line-icons
+     they carry, and none of them competes with --nw-primary the way the stock
+     saturated ramp they replaced did. Distinguishable under deuteranopia and
+     protanopia (blue / orange / green / violet, separated in lightness as well
+     as hue). Assignment lives in _ejs/project-card.ejs, derived from each
+     project's `categories` front matter. */
+  --nw-cat-geospatial: #126ef5; /* the brand blue */
+  --nw-cat-fire: #c2410c;       /* the brand amber, deepened */
+  --nw-cat-data: #047857;       /* the green --nw-ok-fg already uses */
+  --nw-cat-tooling: #4c1d95;    /* R packages, APIs, creative tools */
   /* prose-code colors; each theme file overrides these (see theme-light.scss
      / theme-dark.scss) */
   --nw-code-inline-fg: #7d12ba;
