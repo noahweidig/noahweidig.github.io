@@ -18,13 +18,8 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      - name: Set up Quarto
-        uses: quarto-dev/quarto-actions/setup@8a96df13519ee81fd526f2dfca5962811136661b # v2
-        with:
-          version: 1.9.38
-
-      - name: Render site
-        run: quarto render
+      - name: Build site
+        uses: ./.github/actions/build-site
 
       - name: Run lychee
         uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2.9.0

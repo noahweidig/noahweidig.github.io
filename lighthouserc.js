@@ -23,7 +23,35 @@ function firstDetailPage(section) {
   return slug ? [`${section}/${slug}/index.html`] : [];
 }
 
+// Resource budgets, in bytes. These are ceilings, not targets: each sits
+// just above the site's current worst case (the 528 KB render-blocking
+// bundle of #187, the 273 KB icon font of #188) so today's build passes and
+// any *new* weight fails. Ratchet them down as those issues land — that is
+// the mechanism that keeps a fix fixed.
+const BUDGETS = {
+  document: 150 * 1024,
+  script: 700 * 1024,
+  stylesheet: 700 * 1024,
+  font: 500 * 1024,
+  image: 1500 * 1024,
+  total: 3000 * 1024,
+};
+
+const ASSERTIONS = {
+  "categories:performance": ["error", { minScore: 0.8 }],
+  "categories:accessibility": ["error", { minScore: 0.9 }],
+  "categories:best-practices": ["error", { minScore: 0.9 }],
+  "categories:seo": ["error", { minScore: 0.9 }],
+  ...Object.fromEntries(
+    Object.entries(BUDGETS).map(([type, maxNumericValue]) => [
+      `resource-summary:${type}:size`,
+      ["error", { maxNumericValue }],
+    ])
+  ),
+};
+
 module.exports = {
+  ASSERTIONS,
   ci: {
     collect: {
       staticDistDir: DIST,
@@ -46,16 +74,11 @@ module.exports = {
       target: "temporary-public-storage",
     },
     assert: {
-      // No preset: only the four category scores are checked, and only as
-      // warnings, so PRs get visible Lighthouse scores without the build
-      // failing on pre-existing site issues that are out of scope for
-      // whatever the PR itself changes.
-      assertions: {
-        "categories:performance": ["warn", { minScore: 0.8 }],
-        "categories:accessibility": ["warn", { minScore: 0.9 }],
-        "categories:best-practices": ["warn", { minScore: 0.9 }],
-        "categories:seo": ["warn", { minScore: 0.9 }],
-      },
+      // Promoted from `warn` to `error` (#256): an advisory gate is not a
+      // gate, and the regressions #187/#188/#205 describe all produced a
+      // green check. Exported below so lighthouserc.production.js holds the
+      // live site to the same bar.
+      assertions: ASSERTIONS,
     },
   },
 };

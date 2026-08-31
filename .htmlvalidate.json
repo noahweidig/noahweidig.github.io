@@ -1,0 +1,19 @@
+{
+  "root": true,
+  "extends": ["html-validate:recommended"],
+  "rules": {
+    "//": "Quarto and the site's own templates own these; the point of this check is structural markup errors (duplicate ids, unclosed or misnested tags, malformed attributes), not house style.",
+    "attribute-boolean-style": "off",
+    "attr-quotes": "off",
+    "void-style": "off",
+    "no-inline-style": "off",
+    "no-trailing-whitespace": "off",
+    "long-title": "off",
+    "wcag/h30": "off",
+    "wcag/h63": "off",
+    "wcag/h71": "off",
+    "prefer-native-element": "off",
+    "require-sri": "off",
+    "no-implicit-button-type": "off"
+  }
+}

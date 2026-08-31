@@ -1,0 +1,70 @@
+name: Production audit
+
+# Every other check in this repo runs on a PR, against a build. Nothing has
+# ever looked at what visitors actually get: a Cloudflare cache rule, a Pages
+# header change, a third-party embed going bad, or a Zotero sync commit are
+# all invisible to a PR check (#256). This is the one job that sees
+# production.
+on:
+  schedule:
+    # Weekly, Monday 07:00 UTC.
+    - cron: "0 7 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  SITE_URL: https://noahweidig.com
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Run Lighthouse CI against production
+        uses: treosh/lighthouse-ci-action@3e7e23fb74242897f95c0ba9cabad3d0227b9b18 # v12
+        with:
+          configPath: ./lighthouserc.production.js
+          runs: 3
+
+  axe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install toolchain
+        run: |
+          npm ci --ignore-scripts
+          node ./node_modules/puppeteer/install.mjs
+
+      - name: Run axe-core against production
+        run: node scripts/axe-audit.mjs --base "$SITE_URL"
+
+  links:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Crawl production for dead links
+        uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2.9.0
+        with:
+          # Same accepted codes and exclusions as links.yml, which explains
+          # each of them; this one follows the live site instead of _site.
+          args: >-
+            --no-progress
+            --max-depth 2
+            --accept '100..=103,200..=299,403,405,415,429,999'
+            --exclude 'ecos\.fws\.gov'
+            --exclude 'victoriamdonovan\.org'
+            ${{ env.SITE_URL }}
+          fail: true

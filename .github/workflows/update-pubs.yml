@@ -2,8 +2,10 @@ name: Update Zotero
 
 on:
   schedule:
-    # At 00:00 UTC every 5th day of the month: 1st, 6th, 11th, etc.
-    - cron: "0 0 */5 * *"
+    # 00:00 UTC on the 1st and the 15th. One cadence, stated the same way in
+    # publications/index.qmd, README.md and here (#247) — the old
+    # "0 0 */5 * *" matched none of the three descriptions of it.
+    - cron: "0 0 1,15 * *"
   workflow_dispatch:
   
 permissions:
@@ -17,6 +19,8 @@ jobs:
   update:
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    outputs:
+      committed: ${{ steps.commit.outputs.committed }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
@@ -28,6 +32,7 @@ jobs:
         run: node scripts/update-pubs.js
 
       - name: Commit changes
+        id: commit
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
@@ -35,10 +40,12 @@ jobs:
           git add publications
           if git diff --cached --quiet; then
             echo "No publication changes to commit."
+            echo "committed=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
+          echo "committed=true" >> "$GITHUB_OUTPUT"
           git commit -m "Auto-update Zotero publications"
-          # Retry the push so a transient failure doesn't silently drop a biweekly update.
+          # Retry the push so a transient failure doesn't silently drop an update.
           for i in 1 2 3 4; do
             if git push; then
               echo "pushed"; exit 0
@@ -47,3 +54,41 @@ jobs:
             git pull --rebase || true
           done
           echo "::error::git push failed after retries"; exit 1
+
+  # The push above is made with GITHUB_TOKEN, which cannot fire `push`
+  # workflows — the deploy happens through publish.yml's `workflow_run`
+  # trigger instead. That chain was commented out for a while and nobody
+  # noticed, because a sync that never deploys looks exactly like a sync with
+  # nothing to publish (#247). This job is the alarm: if we committed and no
+  # publish run appears, it fails.
+  verify-deploy:
+    needs: update
+    if: needs.update.outputs.committed == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      actions: read
+    steps:
+      - name: Wait for the publish run chained off this sync
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          # Only runs created after this job started count — an older chained
+          # run from a previous sync must not be mistaken for this one's.
+          since="$(date -u -d '-10 minutes' +%Y-%m-%dT%H:%M:%SZ)"
+          for attempt in $(seq 1 12); do
+            count="$(gh run list --repo "$REPO" --workflow publish.yml \
+              --event workflow_run --branch main --limit 20 \
+              --json createdAt --jq "[.[] | select(.createdAt > \"$since\")] | length")"
+            if [ "$count" -gt 0 ]; then
+              echo "Publish workflow was triggered by the sync."
+              exit 0
+            fi
+            echo "No chained publish run yet (attempt $attempt/12); waiting 60s."
+            sleep 60
+          done
+          echo "::error::Zotero sync committed to main but no publish run followed."
+          echo "Check that publish.yml's workflow_run trigger is enabled."
+          exit 1
