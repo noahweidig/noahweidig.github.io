@@ -83,8 +83,8 @@ const POST_ASSERTIONS = assertions({
 
 // A URL matching several patterns has to satisfy all of them, so the default
 // pattern excludes what the post pattern covers rather than overlapping it.
-const POST_URL = ".*/blog/[^/]+/index\\.html$";
-const NON_POST_URL = "^(?!.*/blog/[^/]+/index\\.html$).*$";
+const POST_URL = String.raw`.*/blog/[^/]+/index\.html$`;
+const NON_POST_URL = String.raw`^(?!.*/blog/[^/]+/index\.html$).*$`;
 
 module.exports = {
   ASSERTIONS,
