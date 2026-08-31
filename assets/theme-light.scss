@@ -97,8 +97,9 @@ $card-bg: #ffffff;
   --nw-shadow-c2: rgba(15, 23, 42, 0.14);
 }
 
-/* solid mark stays black on light */
-.navbar .navbar-brand img,
-.nw-footer-logo img {
+/* solid mark stays black on light. The footer logo is deliberately absent
+   from this list: the footer background is dark in both themes, so its filter
+   is set unconditionally in assets/site.css. */
+.navbar .navbar-brand img {
   filter: none;
 }
