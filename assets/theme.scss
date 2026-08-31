@@ -1954,11 +1954,17 @@ body {
   display: grid;
   gap: var(--nw-space-5);
   grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  /* every card in a row is as tall as the tallest one: the grid item, the
+     link, the figure and the caption all stretch, so a two-line title never
+     leaves its neighbours short a row. */
+  align-items: stretch;
 }
 
 .nw-award {
   text-decoration: none !important;
   color: inherit;
+  display: flex;
+  height: 100%;
 }
 
 /* framed like a card: same 1px hairline, same corner radius. The frame lives
@@ -1971,6 +1977,12 @@ body {
   border-radius: var(--nw-radius-lg);
   border: 1px solid var(--nw-border);
   overflow: hidden;
+  /* the caption lives inside the frame, so the figure is the card: it carries
+     the surface and stacks image over caption at full column height. */
+  background: var(--nw-card);
+  display: flex;
+  flex-direction: column;
+  width: 100%;
   /* WebKit ignores overflow clipping on a transformed child unless the
      ancestor establishes a stacking context, so the zoomed image would paint
      over the rounded corners on Safari without this. */
@@ -1988,6 +2000,8 @@ body {
   height: auto;
   aspect-ratio: 4/3;
   object-fit: cover;
+  /* the caption grows to equalize the cards; the image keeps its ratio */
+  flex: none;
   transition: transform var(--nw-dur-base) var(--nw-ease-standard);
 }
 
@@ -1995,17 +2009,26 @@ body {
   transform: scale(1.03);
 }
 
+/* Padded on all four sides now that the frame encloses it — with only a top
+   pad the title and source ran into the card's own hairline. */
 .nw-award figcaption {
-  padding-top: var(--nw-space-3);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--nw-space-1);
+  padding: var(--nw-space-4);
 }
 
 .nw-award b {
   display: block;
   font-size: var(--nw-text-md);
+  line-height: 1.35;
 }
 
 .nw-award span {
+  display: block;
   font-size: var(--nw-text-xs);
+  line-height: 1.45;
   color: var(--nw-muted);
 }
 
