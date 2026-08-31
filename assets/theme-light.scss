@@ -10,6 +10,11 @@ $card-bg: #ffffff;
 /*-- scss:rules --*/
 
 :root {
+  /* #233: tell the UA which palette to resolve native controls against —
+     scrollbars, caret, selection, autofill wash, Canvas/CanvasText. Declared
+     per theme file (not via prefers-color-scheme) so it tracks Quarto's
+     manual toggle, which swaps whole stylesheets, rather than the OS. */
+  color-scheme: light;
   /* Off-white paper and near-ink text rather than #fff/#000: 17.3:1, still
      far above AAA, without the halation pure black on pure white produces. */
   --nw-bg: #fcfcfb;
@@ -22,10 +27,20 @@ $card-bg: #ffffff;
   /* contact-form placeholder / hint text — 5.0:1 on the #ffffff input background */
   --nw-placeholder: #6f6f6f;
   --nw-card: #ffffff;
-  /* One outline color for every card, pill, framed image, and section
-     divider: dark enough to read against white. */
-  --nw-border: #d3d8e0;
+  /* Two outline colors, split by job (#236). Decorative: card edges, framed
+     media, section dividers. Lifted from #d3d8e0 (1.39:1, too faint to draw
+     an edge at all) to 1.86:1 on --nw-bg / 1.90:1 on --nw-card, where the
+     hairline actually structures the page. */
+  --nw-border: #b5bcc9;
+  /* Interactive: the visual boundary of a UI component — inputs, textarea,
+     select, ghost buttons, chips. WCAG 2.1 SC 1.4.11 requires 3:1 for these;
+     this measures 3.09:1 on --nw-bg (the input fill) and 3.17:1 on --nw-card. */
+  --nw-border-strong: #8a919e;
+  /* soft plane behind decoding images (project/post media, area figures) */
   --nw-chip: #eef2f7;
+  /* chip/tag fill — 1.31:1 on the page, carrying a --nw-border-strong hairline
+     so a tag reads as a tag rather than as a floating word */
+  --nw-chip-fill: #d8dfe9;
   /* see theme-dark.scss: grey rail dot for past timeline entries */
   --nw-tl-dot: #9aa2b1;
   --nw-globe-line: 20, 24, 31;
