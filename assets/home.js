@@ -128,6 +128,22 @@
       });
       return out;
     };
+    // The row directly under a section heading skips its own top border, or it
+    // doubles the heading's underline. Filtered-out rows stay in the DOM at
+    // display:none, so `:first-child` keeps pointing at a hidden row — mark the
+    // first *visible* one instead and let the stylesheet key off the class.
+    // `.nw-cites-marked` tells the stylesheet this is now under JS control.
+    var markFirstVisible = function () {
+      grids.forEach(function (g) {
+        g.classList.add("nw-cites-marked");
+        var seen = false;
+        g.querySelectorAll("[data-cats]").forEach(function (c) {
+          var shown = (c.closest(".nw-proj-wrap") || c).style.display !== "none";
+          c.classList.toggle("nw-cite-first", shown && !seen);
+          if (shown) seen = true;
+        });
+      });
+    };
     // Build buttons from the categories present in the grids
     var cats = new Set();
     cards().forEach(function (c) {
@@ -169,6 +185,7 @@
           total++;
           if (show) shown++;
         });
+        markFirstVisible();
         // A section whose every row is filtered out would otherwise leave a
         // bare heading behind. The CSS `:has()` rule can't do this: the rows
         // are still in the DOM, just display:none.
@@ -191,6 +208,10 @@
     all.classList.add("active");
     all.setAttribute("aria-pressed", "true");
     Array.from(cats).sort().forEach(function (c) { mk(c, c); });
+    // Nothing is filtered yet, but hand the stylesheet the same marked state it
+    // will be in from the first click onward, so the unfiltered page and the
+    // "All" view are drawn by one code path rather than two.
+    markFirstVisible();
 
     // Deep link: #category=X (used by tags on detail pages)
     var m = location.hash.match(/category=([^&]*)/);
