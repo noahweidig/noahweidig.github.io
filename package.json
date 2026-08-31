@@ -1,0 +1,21 @@
+{
+  "name": "noahweidig-site",
+  "private": true,
+  "description": "Build and quality-check tooling for noahweidig.com (the site itself is rendered by Quarto).",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "build": "quarto render",
+    "preview": "quarto preview",
+    "globe": "node scripts/generate-globe-svg.mjs",
+    "a11y": "node scripts/axe-audit.mjs",
+    "validate:html": "html-validate \"_site/**/*.html\"",
+    "check:quarto-pin": "./scripts/check-quarto-pin.sh"
+  },
+  "devDependencies": {
+    "axe-core": "4.10.3",
+    "html-validate": "9.7.1",
+    "puppeteer": "25.8.0"
+  }
+}
