@@ -46,7 +46,9 @@ html {
      appears on hover (below) — same treatment as the search circle and the
      Book Now button beside it. */
   background: transparent;
-  transition: background-color 0.15s, border-color 0.15s;
+  transition:
+    background-color var(--nw-dur-fast) var(--nw-ease-standard),
+    border-color var(--nw-dur-fast) var(--nw-ease-standard);
 }
 
 .quarto-navbar-tools .quarto-color-scheme-toggle:hover {
@@ -102,7 +104,10 @@ body.quarto-dark .quarto-navbar-tools .quarto-color-scheme-toggle:hover > .bi::b
   background: transparent;
   color: var(--nw-navcta);
   box-shadow: none;
-  transition: background-color 0.15s, border-color 0.15s, color 0.15s;
+  transition:
+    background-color var(--nw-dur-fast) var(--nw-ease-standard),
+    border-color var(--nw-dur-fast) var(--nw-ease-standard),
+    color var(--nw-dur-fast) var(--nw-ease-standard);
 }
 
 #quarto-search.type-overlay .aa-DetachedSearchButton:hover,
@@ -202,7 +207,7 @@ main#quarto-content {
   content: "";
   position: absolute;
   inset: 0;
-  z-index: 0;
+  z-index: var(--nw-z-base);
   background:
     radial-gradient(60rem 30rem at 50% -10%, var(--nw-hero-glow), transparent 70%),
     var(--nw-bg);
@@ -227,8 +232,10 @@ main#quarto-content {
    (`.show`) or mid-animation (`.collapsing`), and comes back once it has
    finished closing. */
 body:has(#hero, #title-block-header, .nw-page-band) .navbar {
-  transition: background-color 0.25s ease, border-color 0.25s ease,
-    backdrop-filter 0.25s ease;
+  transition:
+    background-color var(--nw-dur-base) var(--nw-ease-standard),
+    border-color var(--nw-dur-base) var(--nw-ease-standard),
+    backdrop-filter var(--nw-dur-base) var(--nw-ease-standard);
 }
 
 body:has(#hero, #title-block-header, .nw-page-band):not(.nw-scrolled)
@@ -251,7 +258,7 @@ body:has(#hero, #title-block-header, .nw-page-band):not(.nw-scrolled)
 .nw-hero-dots {
   position: absolute;
   inset: -2.5rem;
-  z-index: 0;
+  z-index: var(--nw-z-base);
   opacity: 0.5;
   background-image: radial-gradient(var(--nw-primary) 1px, transparent 1.4px);
   background-size: 34px 34px;
@@ -261,6 +268,8 @@ body:has(#hero, #title-block-header, .nw-page-band):not(.nw-scrolled)
 
 @media (prefers-reduced-motion: no-preference) {
   .nw-hero-dots {
+    /* ambient drift, far outside the interaction scale — see the note on
+       --nw-dur-* in _tokens.scss */
     animation: nw-hero-drift 40s linear infinite alternate;
   }
 }
@@ -272,7 +281,7 @@ body:has(#hero, #title-block-header, .nw-page-band):not(.nw-scrolled)
 
 #hero .nw-hero-inner {
   position: relative;
-  z-index: 1;
+  z-index: var(--nw-z-raised);
 }
 
 /* ============ scroll reveal ============ */
@@ -282,7 +291,9 @@ body:has(#hero, #title-block-header, .nw-page-band):not(.nw-scrolled)
 .nw-reveal {
   opacity: 0;
   transform: translateY(1rem);
-  transition: opacity 0.55s ease-out, transform 0.55s ease-out;
+  transition:
+    opacity var(--nw-dur-slower) var(--nw-ease-decel),
+    transform var(--nw-dur-slower) var(--nw-ease-decel);
 }
 
 .nw-reveal.nw-in {
@@ -338,7 +349,7 @@ body.nav-fixed #hero {
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 0;
+  z-index: var(--nw-z-base);
   background:
     radial-gradient(50rem 24rem at 50% -10%, var(--nw-hero-glow), transparent 70%),
     var(--nw-bg);
@@ -353,7 +364,7 @@ body.nav-fixed #hero {
 
 .nw-page-band > .nw-section-inner {
   position: relative;
-  z-index: 1;
+  z-index: var(--nw-z-raised);
 }
 
 body.nav-fixed .nw-page-band {
@@ -589,7 +600,9 @@ img.nw-detail-hero {
   position: fixed;
   right: 1.5rem;
   bottom: 1.5rem;
-  z-index: 1030;
+  /* the overlay step, the one --nw-z-* names for exactly this and the search
+     overlay — it used to be the navbar's 1030 by accident */
+  z-index: var(--nw-z-overlay);
   width: 2.75rem;
   height: 2.75rem;
   display: inline-flex;
@@ -603,7 +616,12 @@ img.nw-detail-hero {
   opacity: 0;
   visibility: hidden;
   transform: translateY(0.5rem);
-  transition: opacity 0.25s, transform 0.25s, visibility 0.25s, border-color 0.15s, color 0.15s;
+  transition:
+    opacity var(--nw-dur-base) var(--nw-ease-standard),
+    transform var(--nw-dur-base) var(--nw-ease-standard),
+    visibility var(--nw-dur-base) var(--nw-ease-standard),
+    border-color var(--nw-dur-fast) var(--nw-ease-standard),
+    color var(--nw-dur-fast) var(--nw-ease-standard);
 }
 
 .nw-top.show {
@@ -619,13 +637,14 @@ img.nw-detail-hero {
 .nw-top-arrow {
   width: 1.15rem;
   height: 1.15rem;
-  transition: transform 0.2s ease;
+  transition: transform var(--nw-dur-base) var(--nw-ease-standard);
 }
 
 /* On hover the arrow itself does the work the ring used to do: a small,
    repeating hop in the direction the button takes you. */
 .nw-top:hover .nw-top-arrow,
 .nw-top:focus-visible .nw-top-arrow {
+  /* hop period for an infinite loop, not a one-shot duration */
   animation: nw-top-bounce 0.9s ease-in-out infinite;
 }
 
@@ -667,6 +686,9 @@ img.nw-detail-hero {
   stroke-linecap: round;
   stroke-dasharray: 1;
   stroke-dashoffset: calc(1 - var(--nw-top-progress, 0));
+  /* Deliberately under --nw-dur-fast and linear: this only smooths the
+     scroll-progress ring between frames; a token-length ease would make the
+     ring visibly trail the scroll. */
   transition: stroke-dashoffset 0.1s linear;
 }
 
@@ -691,7 +713,10 @@ img.nw-detail-hero {
    which theme's stylesheet is loaded, so this holds in light mode too. */
 .nav-footer {
   --nw-fg: #e8eaef;
-  --nw-muted: #e8eaef;
+  /* the dark theme's real muted step (#209), not the foreground repeated —
+     9.9:1 on --nw-footer-bg, and it is what separates the four link columns
+     from their headings */
+  --nw-muted: #b4bac6;
   --nw-border: #3d3d4b;
   --nw-topo: rgba(229, 231, 235, 0.07);
   --nw-footer-bg: #0d0d12;
@@ -1303,11 +1328,11 @@ img.nw-detail-hero {
    page reads as the subject, and easing `out` faster than `in` is what keeps
    the swap from feeling like a slideshow. */
 ::view-transition-old(root) {
-  animation: nw-vt-out 140ms cubic-bezier(0.4, 0, 1, 1) both;
+  animation: nw-vt-out var(--nw-dur-fast) var(--nw-ease-accel) both;
 }
 
 ::view-transition-new(root) {
-  animation: nw-vt-in 260ms cubic-bezier(0, 0, 0.2, 1) both;
+  animation: nw-vt-in var(--nw-dur-slow) var(--nw-ease-decel) both;
 }
 
 @keyframes nw-vt-out {
@@ -1329,8 +1354,11 @@ img.nw-detail-hero {
    so it gets a longer, softer curve than the page body and is painted above
    it for the whole transition. */
 ::view-transition-group(nw-hero-img) {
-  animation-duration: 380ms;
-  animation-timing-function: cubic-bezier(0.2, 0, 0, 1);
+  animation-duration: var(--nw-dur-slow);
+  animation-timing-function: var(--nw-ease-standard);
+  /* The view-transition pseudo tree is its own stacking context, unrelated to
+     the page's --nw-z-* scale: these values only order the snapshots against
+     each other, so they stay literal. */
   z-index: 10;
 }
 
@@ -1357,11 +1385,13 @@ img.nw-detail-hero {
    the circle always finishes off-screen. */
 html.nw-theme-wipe::view-transition-old(root) {
   animation: none;
+  /* snapshot ordering inside the view-transition tree, not the page's scale */
   z-index: 0;
 }
 
 html.nw-theme-wipe::view-transition-new(root) {
-  animation: nw-theme-wipe 520ms cubic-bezier(0.2, 0, 0, 1) both;
+  animation: nw-theme-wipe var(--nw-dur-slower) var(--nw-ease-standard) both;
+  /* snapshot ordering inside the view-transition tree, not the page's scale */
   z-index: 1;
 }
 
@@ -1493,7 +1523,7 @@ html.nw-theme-wipe .nw-top {
       position: fixed;
       top: 0;
       left: 0;
-      z-index: 1100;
+      z-index: var(--nw-z-overlay);
       width: 100%;
       height: 3px;
       background: var(--nw-primary);
