@@ -23,7 +23,71 @@ function firstDetailPage(section) {
   return slug ? [`${section}/${slug}/index.html`] : [];
 }
 
+// Thresholds and budgets measured from this site as it stands (the numbers
+// in the table below are the worst of three Lighthouse runs per URL, from the
+// first run of this config). They are ceilings and floors, not targets: each
+// sits just past today's worst case so the current site passes and any
+// regression fails. Ratchet them tighter as #187 (render-blocking bundle) and
+// #188 (icon font) land — that is the mechanism that keeps a fix fixed.
+//
+//   page                    perf   script     font     total
+//   /                       0.74
+//   /cv                     0.75
+//   /projects               0.72
+//   /publications           0.75
+//   /blog                   0.73
+//   /projects/chartifyr     0.74
+//   /publications/…-25      0.76
+//   /blog/favorite-r-…      0.38   1.30 MB  671 KB   15.2 MB
+//
+// Accessibility clears 0.9 everywhere, so that one keeps its intended bar.
+const KB = 1024;
+
+function assertions({ performance, bestPractices, seo, script, font, total }) {
+  return {
+    "categories:performance": ["error", { minScore: performance }],
+    "categories:accessibility": ["error", { minScore: 0.9 }],
+    "categories:best-practices": ["error", { minScore: bestPractices }],
+    "categories:seo": ["error", { minScore: seo }],
+    "resource-summary:document:size": ["error", { maxNumericValue: 150 * KB }],
+    "resource-summary:script:size": ["error", { maxNumericValue: script }],
+    "resource-summary:font:size": ["error", { maxNumericValue: font }],
+    "resource-summary:total:size": ["error", { maxNumericValue: total }],
+  };
+}
+
+// Every page except a blog post.
+const ASSERTIONS = assertions({
+  performance: 0.7,
+  bestPractices: 0.9,
+  seo: 0.9,
+  script: 700 * KB,
+  font: 500 * KB,
+  total: 3000 * KB,
+});
+
+// Blog posts carry full-width imagery and the code-block fonts, so one of
+// them (favorite-r-packages) is far heavier than anything else on the site:
+// 15 MB total against 3 MB elsewhere, and a 0.38 performance score. Holding
+// the whole site to that number would make the gate meaningless everywhere
+// else, so posts get their own floor — still enforced, just set where they
+// actually are today.
+const POST_ASSERTIONS = assertions({
+  performance: 0.33,
+  bestPractices: 0.85,
+  seo: 0.84,
+  script: 1400 * KB,
+  font: 700 * KB,
+  total: 16000 * KB,
+});
+
+// A URL matching several patterns has to satisfy all of them, so the default
+// pattern excludes what the post pattern covers rather than overlapping it.
+const POST_URL = String.raw`.*/blog/[^/]+/index\.html$`;
+const NON_POST_URL = String.raw`^(?!.*/blog/[^/]+/index\.html$).*$`;
+
 module.exports = {
+  ASSERTIONS,
   ci: {
     collect: {
       staticDistDir: DIST,
@@ -46,16 +110,13 @@ module.exports = {
       target: "temporary-public-storage",
     },
     assert: {
-      // No preset: only the four category scores are checked, and only as
-      // warnings, so PRs get visible Lighthouse scores without the build
-      // failing on pre-existing site issues that are out of scope for
-      // whatever the PR itself changes.
-      assertions: {
-        "categories:performance": ["warn", { minScore: 0.8 }],
-        "categories:accessibility": ["warn", { minScore: 0.9 }],
-        "categories:best-practices": ["warn", { minScore: 0.9 }],
-        "categories:seo": ["warn", { minScore: 0.9 }],
-      },
+      // Promoted from `warn` to `error` (#256): an advisory gate is not a
+      // gate, and the regressions #187/#188/#205 describe all produced a
+      // green check.
+      assertMatrix: [
+        { matchingUrlPattern: NON_POST_URL, assertions: ASSERTIONS },
+        { matchingUrlPattern: POST_URL, assertions: POST_ASSERTIONS },
+      ],
     },
   },
 };
