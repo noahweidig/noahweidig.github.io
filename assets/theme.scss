@@ -166,7 +166,7 @@ body {
   position: absolute;
   top: 0;
   left: 50%;
-  z-index: 2000;
+  z-index: var(--nw-z-max);
   transform: translate(-50%, -120%);
   padding: var(--nw-space-3) var(--nw-space-4);
   border-radius: 0 0 var(--nw-radius-md) var(--nw-radius-md);
@@ -212,7 +212,7 @@ body {
 .navbar .navbar-brand img {
   height: 2.25rem;
   max-height: 2.25rem;
-  transition: filter 0.2s ease;
+  transition: filter var(--nw-dur-base) var(--nw-ease-standard);
 }
 
 /* Logo + site title turn blue together on brand hover. Quarto renders them
@@ -234,7 +234,7 @@ body {
 .navbar .navbar-title {
   font-family: $font-family-serif;
   font-weight: 700;
-  transition: color 0.2s ease;
+  transition: color var(--nw-dur-base) var(--nw-ease-standard);
 }
 
 /* Nav-link text: smaller and all-caps, in a color a step softer than the
@@ -268,7 +268,11 @@ body {
   text-transform: none;
   letter-spacing: normal;
   margin-left: var(--nw-space-2);
-  transition: background-color 0.15s, border-color 0.15s, color 0.15s, transform 0.15s;
+  transition:
+    background-color var(--nw-dur-fast) var(--nw-ease-standard),
+    border-color var(--nw-dur-fast) var(--nw-ease-standard),
+    color var(--nw-dur-fast) var(--nw-ease-standard),
+    transform var(--nw-dur-fast) var(--nw-ease-standard);
 }
 
 .navbar .navbar-nav .nav-item a[href*="cal.com"]:hover {
@@ -333,7 +337,7 @@ body {
 /* content sits above the contour band */
 .nw-section-inner {
   position: relative;
-  z-index: 1;
+  z-index: var(--nw-z-raised);
   max-width: 72rem;
   margin: 0 auto;
   padding: 0 var(--nw-space-5);
@@ -465,7 +469,9 @@ body {
   font-weight: 600;
   color: var(--nw-fg);
   text-decoration: none;
-  transition: border-color 0.15s, color 0.15s;
+  transition:
+    border-color var(--nw-dur-fast) var(--nw-ease-standard),
+    color var(--nw-dur-fast) var(--nw-ease-standard);
 }
 
 .nw-head-link:hover {
@@ -497,7 +503,10 @@ body {
   /* rest state carries the rim only: invisible in light, a hairline
      highlight in dark so the card reads as raised before any hover */
   box-shadow: var(--nw-shadow-rim);
-  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+  transition:
+    transform var(--nw-dur-base) var(--nw-ease-standard),
+    border-color var(--nw-dur-base) var(--nw-ease-standard),
+    box-shadow var(--nw-dur-base) var(--nw-ease-standard);
 }
 
 .nw-start-card:hover {
@@ -586,6 +595,8 @@ body {
   height: 0.5rem;
   border-radius: var(--nw-radius-circle);
   background: #10b981;
+  /* ambient loop, an order of magnitude past the interaction scale — see
+     the note on --nw-dur-* in _tokens.scss */
   animation: nw-pulse 2s infinite;
 }
 
@@ -645,6 +656,7 @@ body {
   display: inline-block;
   width: 2px;
   background: var(--nw-primary);
+  /* caret blink: a 1s cadence is the platform convention, not a token */
   animation: nw-blink 1s step-end infinite;
 }
 
@@ -668,7 +680,9 @@ body {
   border-radius: var(--nw-radius-circle);
   border: 1px solid var(--nw-border);
   color: var(--nw-fg);
-  transition: transform 0.15s, border-color 0.15s;
+  transition:
+    transform var(--nw-dur-fast) var(--nw-ease-standard),
+    border-color var(--nw-dur-fast) var(--nw-ease-standard);
 }
 
 #hero .nw-socials a:hover {
@@ -702,7 +716,9 @@ body {
   font-weight: 600;
   text-decoration: none !important;
   cursor: pointer;
-  transition: transform 0.15s, box-shadow 0.15s;
+  transition:
+    transform var(--nw-dur-fast) var(--nw-ease-standard),
+    box-shadow var(--nw-dur-fast) var(--nw-ease-standard);
 }
 
 .nw-btn svg {
@@ -754,12 +770,12 @@ body {
   inset: -15%;
   border-radius: var(--nw-radius-circle);
   background: radial-gradient(circle, var(--nw-hero-glow), transparent 70%);
-  z-index: 0;
+  z-index: var(--nw-z-base);
 }
 
 .nw-hero-media .nw-avatar {
   position: relative;
-  z-index: 1;
+  z-index: var(--nw-z-raised);
   display: block;
   margin-bottom: 0;
 }
@@ -1006,30 +1022,44 @@ body {
   color: var(--nw-muted);
 }
 
-/* gradient icon tiles */
-.g-emerald { background: linear-gradient(135deg, #34d399, #14b8a6); }
-.g-amber   { background: linear-gradient(135deg, #fbbf24, #f97316); }
-.g-sky     { background: linear-gradient(135deg, #38bdf8, #126ef5); }
-.g-fuchsia { background: linear-gradient(135deg, #e879f9, #a855f7); }
-.g-lime    { background: linear-gradient(135deg, #a3e635, #16a34a); }
-.g-rose    { background: linear-gradient(135deg, #fb7185, #ef4444); }
+/* Category icon tiles (#213). One flat hue per category family rather than six
+   stock saturated gradients assigned by slug: the color now encodes what the
+   project *is*, so two fire projects match and a fire project and a mapping
+   project don't. The faint 135° lift keeps the tile from reading as a flat
+   sticker without introducing a second hue. --nw-cat-* is declared in
+   _tokens.scss; the class comes from each project's categories, so a new
+   project is colored without editing anything. */
+.nw-cat-tile {
+  --nw-cat: var(--nw-cat-tooling);
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, #fff 12%, var(--nw-cat)),
+    var(--nw-cat)
+  );
+}
 
-/* Research-area cards: a subtle two-tone wash keyed to each card's icon
-   colors. The two hues are mixed into the card background by --nw-tint
-   (small in light, a touch stronger in dark) so the tint stays gentle in
-   both themes. Icon-color pairs mirror the .g-* tiles above. */
-.nw-card:has(.g-emerald) { --c1: #34d399; --c2: #14b8a6; }
-.nw-card:has(.g-amber)   { --c1: #fbbf24; --c2: #f97316; }
-.nw-card:has(.g-sky)     { --c1: #38bdf8; --c2: #126ef5; }
-.nw-card:has(.g-fuchsia) { --c1: #e879f9; --c2: #a855f7; }
-.nw-card:has(.g-lime)    { --c1: #a3e635; --c2: #16a34a; }
-.nw-card:has(.g-rose)    { --c1: #fb7185; --c2: #ef4444; }
+.nw-cat-geospatial { --nw-cat: var(--nw-cat-geospatial); }
+.nw-cat-fire       { --nw-cat: var(--nw-cat-fire); }
+.nw-cat-data       { --nw-cat: var(--nw-cat-data); }
+.nw-cat-tooling    { --nw-cat: var(--nw-cat-tooling); }
 
+/* Custom properties inherit downward only, so a card that wants to wash itself
+   in its tile's hue has to resolve the same category itself. */
+.nw-card:has(.nw-cat-geospatial) { --nw-cat: var(--nw-cat-geospatial); }
+.nw-card:has(.nw-cat-fire)       { --nw-cat: var(--nw-cat-fire); }
+.nw-card:has(.nw-cat-data)       { --nw-cat: var(--nw-cat-data); }
+.nw-card:has(.nw-cat-tooling)    { --nw-cat: var(--nw-cat-tooling); }
+
+/* Cards carrying a category tile take a whisper of the same hue as a
+   background wash. --nw-tint is small in light and a touch stronger in dark so
+   it stays gentle in both themes; the fallbacks keep a card whose icon has no
+   category (the research-area cards on the homepage) on the plain card
+   surface rather than dropping the declaration entirely. */
 .nw-card:has(.nw-icon) {
   background: linear-gradient(
     145deg,
-    color-mix(in srgb, var(--c1) var(--nw-tint), var(--nw-card)),
-    color-mix(in srgb, var(--c2) var(--nw-tint), var(--nw-card))
+    color-mix(in srgb, var(--nw-cat, var(--nw-card)) var(--nw-tint), var(--nw-card)),
+    var(--nw-card)
   );
 }
 
@@ -1063,7 +1093,10 @@ body {
   font-weight: 600;
   white-space: nowrap;
   cursor: pointer;
-  transition: background 0.15s, border-color 0.15s, color 0.15s;
+  transition:
+    background var(--nw-dur-fast) var(--nw-ease-standard),
+    border-color var(--nw-dur-fast) var(--nw-ease-standard),
+    color var(--nw-dur-fast) var(--nw-ease-standard);
 }
 
 .nw-area-tabs [role="tab"]:hover {
@@ -1241,10 +1274,12 @@ body {
 @media (prefers-reduced-motion: no-preference) {
   .js-tabs .nw-area-panel:not([hidden]) .nw-area-copy > *,
   .js-tabs .nw-area-panel:not([hidden]) .nw-area-fig {
-    animation: nw-rise 0.4s ease-out both;
+    animation: nw-rise var(--nw-dur-slow) var(--nw-ease-decel) both;
   }
 
   .js-tabs .nw-area-panel:not([hidden]) .nw-area-copy > :nth-child(2) {
+    /* Stagger offsets, not durations: they step the same reveal apart in
+       time, so they are deliberately off the duration scale. */
     animation-delay: 0.05s;
   }
 
@@ -1274,7 +1309,10 @@ body {
   /* rest state carries the rim only: invisible in light, a hairline
      highlight in dark so the card reads as raised before any hover */
   box-shadow: var(--nw-shadow-rim);
-  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+  transition:
+    transform var(--nw-dur-base) var(--nw-ease-standard),
+    border-color var(--nw-dur-base) var(--nw-ease-standard),
+    box-shadow var(--nw-dur-base) var(--nw-ease-standard);
   height: 100%;
 }
 
@@ -1301,7 +1339,7 @@ body {
   justify-content: center;
   border-radius: var(--nw-radius-lg);
   color: #fff;
-  transition: transform 0.2s;
+  transition: transform var(--nw-dur-base) var(--nw-ease-standard);
 }
 
 .nw-proj-card .nw-proj-media .nw-icon svg,
@@ -1326,7 +1364,7 @@ body {
   object-fit: cover;
   object-position: top center;
   display: block;
-  transition: transform 0.3s ease;
+  transition: transform var(--nw-dur-slow) var(--nw-ease-standard);
 }
 
 .nw-proj-card:hover .nw-proj-shot {
@@ -1405,7 +1443,7 @@ body {
   gap: var(--nw-space-4);
   padding: var(--nw-space-5) 0;
   border-top: 1px solid var(--nw-border);
-  transition: background-color 0.15s;
+  transition: background-color var(--nw-dur-fast) var(--nw-ease-standard);
 }
 
 /* Closing rule under the list. On the container rather than the last row: the
@@ -1676,6 +1714,7 @@ body {
    so both marquees move at the same px/s. */
 .nw-marquee-tech .nw-marquee-track {
   gap: var(--nw-space-8);
+  /* marquee drift: an ambient scroll, far outside the interaction scale */
   animation-duration: 75s;
 }
 
@@ -1689,7 +1728,9 @@ body {
   white-space: nowrap;
   color: var(--nw-muted);
   opacity: 0.7;
-  transition: opacity 0.15s, color 0.15s;
+  transition:
+    opacity var(--nw-dur-fast) var(--nw-ease-standard),
+    color var(--nw-dur-fast) var(--nw-ease-standard);
 }
 
 .nw-tech-item img {
@@ -1697,7 +1738,7 @@ body {
   height: 2.75rem;
   object-fit: contain;
   filter: grayscale(1);
-  transition: filter 0.15s;
+  transition: filter var(--nw-dur-fast) var(--nw-ease-standard);
 }
 
 .nw-tech-item:hover {
@@ -1737,7 +1778,10 @@ body {
   /* rest state carries the rim only: invisible in light, a hairline
      highlight in dark so the card reads as raised before any hover */
   box-shadow: var(--nw-shadow-rim);
-  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+  transition:
+    transform var(--nw-dur-base) var(--nw-ease-standard),
+    border-color var(--nw-dur-base) var(--nw-ease-standard),
+    box-shadow var(--nw-dur-base) var(--nw-ease-standard);
 }
 
 .nw-tl-item:last-child {
@@ -1881,6 +1925,7 @@ body {
   gap: var(--nw-space-9);
   align-items: center;
   width: max-content;
+  /* marquee drift: an ambient scroll, far outside the interaction scale */
   animation: nw-scroll 40s linear infinite;
   padding: var(--nw-space-4) 0;
 }
@@ -1911,7 +1956,7 @@ body {
   background: var(--nw-bg);
   color: var(--nw-fg);
   opacity: 0.45;
-  transition: opacity 0.15s ease;
+  transition: opacity var(--nw-dur-fast) var(--nw-ease-standard);
 }
 
 .nw-marquee-pause:hover,
@@ -1932,7 +1977,7 @@ body {
   display: inline-flex;
   align-items: center;
   opacity: 0.75;
-  transition: opacity 0.15s;
+  transition: opacity var(--nw-dur-fast) var(--nw-ease-standard);
 }
 
 .nw-marquee-track a:hover {
@@ -2060,7 +2105,10 @@ body {
   /* rest state carries the rim only: invisible in light, a hairline
      highlight in dark so the card reads as raised before any hover */
   box-shadow: var(--nw-shadow-rim);
-  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+  transition:
+    transform var(--nw-dur-base) var(--nw-ease-standard),
+    border-color var(--nw-dur-base) var(--nw-ease-standard),
+    box-shadow var(--nw-dur-base) var(--nw-ease-standard);
 }
 
 /* A post with no cover image keeps the old text-only card: the padding its
@@ -2091,7 +2139,7 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.3s ease;
+  transition: transform var(--nw-dur-slow) var(--nw-ease-standard);
 }
 
 .nw-post:hover .nw-post-cover {
@@ -2251,7 +2299,7 @@ body {
   border-right: 1.5px solid var(--nw-fg);
   border-bottom: 1.5px solid var(--nw-fg);
   transform: rotate(-45deg);
-  transition: transform 0.2s ease;
+  transition: transform var(--nw-dur-base) var(--nw-ease-standard);
 }
 
 .nw-faq details[open] summary::after {
@@ -2281,8 +2329,8 @@ body {
     block-size: 0;
     overflow: hidden;
     transition:
-      block-size 0.28s ease,
-      content-visibility 0.28s allow-discrete;
+      block-size var(--nw-dur-slow) var(--nw-ease-standard),
+      content-visibility var(--nw-dur-slow) var(--nw-ease-standard) allow-discrete;
   }
 
   .nw-faq details[open]::details-content {
@@ -2362,6 +2410,7 @@ body {
      brand-blue fill in both themes */
   border: 2px solid rgba(255, 255, 255, 0.4);
   border-top-color: #fff;
+  /* spinner revolution: a loop period, not a transition duration */
   animation: nw-spin 0.7s linear infinite;
 }
 
@@ -2438,6 +2487,7 @@ body {
   border-radius: var(--nw-radius-circle);
   border: 2px solid color-mix(in srgb, currentColor 35%, transparent);
   border-top-color: currentColor;
+  /* spinner revolution: a loop period, not a transition duration */
   animation: nw-spin 0.7s linear infinite;
 }
 
@@ -2485,7 +2535,7 @@ body {
   content: "";
   position: absolute;
   inset: 0;
-  z-index: -1;
+  z-index: var(--nw-z-below);
   background: var(--nw-cta-line);
   -webkit-mask: url(/assets/media/topography.svg) 0 0 / 30rem 30rem repeat;
   mask: url(/assets/media/topography.svg) 0 0 / 30rem 30rem repeat;
@@ -2502,7 +2552,7 @@ body {
   width: 42rem;
   height: 42rem;
   transform: translateX(-50%);
-  z-index: -1;
+  z-index: var(--nw-z-below);
   background: radial-gradient(closest-side, var(--nw-cta-glow), transparent 70%);
   pointer-events: none;
 }
@@ -2541,6 +2591,8 @@ body {
   border-radius: var(--nw-radius-circle);
   background: #10b981;
   box-shadow: 0 0 0 0 color-mix(in srgb, var(--nw-status-fg) 50%, transparent);
+  /* ambient loop, an order of magnitude past the interaction scale — see
+     the note on --nw-dur-* in _tokens.scss */
   animation: nw-pulse 2s infinite;
 }
 
@@ -2792,6 +2844,9 @@ body.nav-fixed .page-layout-article main.content {
 }
 
 #title-block-header::before {
+  /* One step below --nw-z-below: this band sits behind the ::after wash that
+     is itself at --nw-z-below, and the scale has no named step for a second
+     backdrop layer. */
   z-index: -2;
   background:
     radial-gradient(50rem 24rem at 50% -20%, var(--nw-hero-glow), transparent 70%),
@@ -2801,7 +2856,7 @@ body.nav-fixed .page-layout-article main.content {
 }
 
 #title-block-header::after {
-  z-index: -1;
+  z-index: var(--nw-z-below);
   opacity: 0.5;
   background-image: radial-gradient(var(--nw-primary) 1px, transparent 1.4px);
   background-size: 34px 34px;
@@ -2939,7 +2994,7 @@ nav[role="doc-toc"] img {
     display: inline-block;
     /* middle bar (the shorthand also clears Bootstrap's default icon image) */
     background: linear-gradient(var(--nw-fg), var(--nw-fg)) center / 100% 2px no-repeat;
-    transition: background 0.2s ease;
+    transition: background var(--nw-dur-base) var(--nw-ease-standard);
   }
 
   .navbar .navbar-toggler .navbar-toggler-icon::before,
@@ -2951,7 +3006,9 @@ nav[role="doc-toc"] img {
     height: 2px;
     background: var(--nw-fg);
     border-radius: 2px;
-    transition: transform 0.2s ease, top 0.2s ease;
+    transition:
+      transform var(--nw-dur-base) var(--nw-ease-standard),
+      top var(--nw-dur-base) var(--nw-ease-standard);
   }
 
   .navbar .navbar-toggler .navbar-toggler-icon::before { top: 0.25rem; }
