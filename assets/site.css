@@ -727,11 +727,15 @@ img.nw-detail-hero {
   padding: 0;
 }
 
-/* The wordmark is a black SVG mark; light mode otherwise leaves it
-   unfiltered (correct against a white navbar) but the footer's background is
-   dark here regardless of theme, so the logo needs the same invert dark mode
-   already applies. */
-.nw-footer-logo img {
+/* The wordmark is a black SVG mark and the footer background is dark in both
+   themes, so the invert is unconditional — neither theme sheet overrides it
+   any more. The selector is scoped through .nav-footer so it outranks any
+   single-class rule that lands later in the cascade: both theme bundles are
+   in the document (the inactive one parked behind media="not all" by
+   scripts/optimize-output.ts), and Safari on iOS was applying the light
+   sheet's `filter: none` over this rule, leaving the mark black in both
+   themes. */
+.nav-footer .nw-footer-logo img {
   filter: invert(1);
 }
 
