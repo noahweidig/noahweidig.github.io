@@ -6,14 +6,14 @@ on:
   # Render-only check for PRs so a broken site never reaches main.
   pull_request:
     branches: [main]
-  # Re-render automatically after the Zotero sync commits new publications.
-  # (Pushes made with GITHUB_TOKEN don't fire `push` workflows, so we chain
-  # off the update workflow's completion instead. Without this the bot's
-  # commit sits on main undeployed until someone happens to push — #247.)
-  workflow_run:
-    workflows: ["Update Zotero"]
-    types: [completed]
-    branches: [main]
+  # Called by update-pubs.yml after the Zotero sync commits new publications.
+  # Pushes made with GITHUB_TOKEN don't fire `push` workflows, so without this
+  # the bot's commit sits on main undeployed until someone happens to push
+  # (#247). A `workflow_call` keeps the deploy inside the sync's own run — it
+  # fails there if it fails — and avoids the `workflow_run` + checkout-a-ref
+  # pattern, which grants write credentials to a checkout of code the trigger
+  # doesn't control.
+  workflow_call:
   workflow_dispatch:
 
 # Least privilege at the workflow level: only the deploy job needs to write
@@ -49,14 +49,10 @@ jobs:
     timeout-minutes: 10
     permissions:
       contents: read
-    # Skip the chained run if the Zotero sync itself failed.
-    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     steps:
+      # No `ref:` — every event that reaches this workflow (push, PR,
+      # dispatch, and the sync's workflow_call) checks out its own ref.
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          # workflow_run events carry no useful ref; render main. All other
-          # events (push, PR, dispatch) check out their default ref.
-          ref: ${{ github.event_name == 'workflow_run' && 'main' || '' }}
 
       - name: Build site
         uses: ./.github/actions/build-site
