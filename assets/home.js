@@ -113,13 +113,22 @@
 
   // Category filter buttons for card grids (projects, publications)
   document.querySelectorAll("[data-nw-filter-for]").forEach(function (bar) {
-    var grid = document.getElementById(bar.dataset.nwFilterFor) ||
-      document.getElementById("listing-" + bar.dataset.nwFilterFor);
-    if (!grid) return;
+    // One bar can drive several listings (publications splits its rows into a
+    // featured journal-article section and everything else), so the attribute
+    // takes a comma-separated list of listing ids.
+    var grids = bar.dataset.nwFilterFor.split(",").map(function (id) {
+      id = id.trim();
+      return document.getElementById(id) || document.getElementById("listing-" + id);
+    }).filter(Boolean);
+    if (!grids.length) return;
     var cards = function () {
-      return grid.querySelectorAll("[data-cats]");
+      var out = [];
+      grids.forEach(function (g) {
+        out.push.apply(out, g.querySelectorAll("[data-cats]"));
+      });
+      return out;
     };
-    // Build buttons from the categories present in the grid
+    // Build buttons from the categories present in the grids
     var cats = new Set();
     cards().forEach(function (c) {
       (c.dataset.cats || "").split("|").filter(Boolean).forEach(function (t) { cats.add(t); });
@@ -159,6 +168,18 @@
           (c.closest(".nw-proj-wrap") || c).style.display = show ? "" : "none";
           total++;
           if (show) shown++;
+        });
+        // A section whose every row is filtered out would otherwise leave a
+        // bare heading behind. The CSS `:has()` rule can't do this: the rows
+        // are still in the DOM, just display:none.
+        grids.forEach(function (g) {
+          var section = g.closest(".nw-pub-section");
+          if (!section) return;
+          var live = Array.prototype.some.call(
+            g.querySelectorAll("[data-cats]"),
+            function (c) { return c.style.display !== "none"; }
+          );
+          section.hidden = !live;
         });
         status.textContent = "Showing " + shown + " of " + total + " " + noun +
           (cat ? " in " + label : "");

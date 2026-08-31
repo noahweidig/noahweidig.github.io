@@ -16,6 +16,11 @@ $link-hover-color: #80b4ff;
 /*-- scss:rules --*/
 
 :root {
+  /* #233: the counterpart to theme-light.scss. With this set the root and
+     overflow scrollbars, the text caret and selection, Chrome's autofill wash
+     and the Canvas/CanvasText system colors all resolve dark instead of
+     painting a light-mode control onto a near-black page. */
+  color-scheme: dark;
   /* Near-black page and a soft white ink rather than #0a0a0f/#fff: ~16:1,
      still far above AAA, without the bloom pure white produces on OLED screens. */
   --nw-bg: #0b0d12;
@@ -30,10 +35,19 @@ $link-hover-color: #80b4ff;
   /* contact-form placeholder / hint text — 5.7:1 on the #13131a input background */
   --nw-placeholder: #8f8f8f;
   --nw-card: #13131a;
-  /* One outline color for every card, pill, framed image, and section
-     divider: light enough to read against near-black. */
-  --nw-border: #3d3d4b;
+  /* Two outline colors, split by job (#236). Decorative: card edges, framed
+     media, section dividers. Lifted from #3d3d4b (1.82:1) to 2.11:1 on
+     --nw-bg / 1.99:1 on --nw-card. */
+  --nw-border: #464658;
+  /* Interactive: the visual boundary of a UI component — inputs, textarea,
+     select, ghost buttons, chips. WCAG 2.1 SC 1.4.11 wants 3:1 for these;
+     this measures 3.17:1 on --nw-bg (the input fill) and 3.01:1 on --nw-card. */
+  --nw-border-strong: #606074;
+  /* soft plane behind decoding images (project/post media, area figures) */
   --nw-chip: #1d1d26;
+  /* chip/tag fill — 1.30:1 on the page, carrying a --nw-border-strong hairline
+     so a tag reads as a tag rather than as a floating word */
+  --nw-chip-fill: #262633;
   /* timeline rail dots for past entries — grey, so only the current role
      carries the blue accent */
   --nw-tl-dot: #8a91a0;
@@ -70,8 +84,10 @@ $link-hover-color: #80b4ff;
   /* nav-link text: a step softer than the body ink so the (serif) site title
      stays the visual anchor of the navbar */
   --nw-navlink: rgba(232, 234, 239, 0.65);
-  /* code-window extension: force a proper dark bg (default Canvas renders
-     light because the page never declares color-scheme: dark) */
+  /* code-window extension: the page now declares `color-scheme: dark` (#233),
+     so `Canvas` resolves dark on its own — but to a UA-chosen grey that
+     doesn't match the page. Keep the explicit values so the code window sits
+     on our surface rather than Chrome's. */
   --nw-code-bg: #14141b;
   --nw-code-titlebar: #1b1b23;
   --nw-code-border: #2a2a34;

@@ -117,7 +117,7 @@ across twenty pages.</p>
   "use strict";
 
   const TYPE = ["--nw-text-2xs","--nw-text-xs","--nw-text-sm","--nw-text-md","--nw-text-base","--nw-text-lg","--nw-text-xl","--nw-text-2xl","--nw-text-3xl","--nw-text-4xl","--nw-text-hero"];
-  const COLOR = ["--nw-bg","--nw-bg-alt","--nw-fg","--nw-muted","--nw-card","--nw-border","--nw-chip","--nw-primary","--nw-primary-text","--nw-secondary","--nw-status-fg","--nw-ok-fg","--nw-err-fg","--nw-cta-accent","--nw-code-inline-fg","--nw-code-comment","--nw-code-string"];
+  const COLOR = ["--nw-bg","--nw-bg-alt","--nw-fg","--nw-muted","--nw-card","--nw-border","--nw-border-strong","--nw-chip","--nw-chip-fill","--nw-primary","--nw-primary-text","--nw-secondary","--nw-status-fg","--nw-ok-fg","--nw-err-fg","--nw-cta-accent","--nw-code-inline-fg","--nw-code-comment","--nw-code-string"];
   const SPACE = ["--nw-space-1","--nw-space-2","--nw-space-3","--nw-space-4","--nw-space-5","--nw-space-6","--nw-space-7","--nw-space-8","--nw-space-9","--nw-space-10"];
   const RADIUS = ["--nw-radius-sm","--nw-radius-md","--nw-radius-lg","--nw-radius-xl","--nw-radius-pill","--nw-radius-circle"];
   const SHADOW = ["--nw-shadow-sm","--nw-shadow-md","--nw-shadow-lg","--nw-shadow-primary","--nw-shadow-focus"];
