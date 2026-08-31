@@ -6,11 +6,11 @@ page-layout: full
 # for the detail pages, not this index.
 share: false
 toc: false
-# One listing per publication type, journal articles first, so the strongest
-# work reads as a section rather than as a row somewhere in a date-sorted
-# wall. Same pattern cv.qmd uses. Types with no entries render an empty
-# section, which the `:has()` rule in theme.scss hides — so a new Zotero item
-# type can never fall off this page.
+# Two listings, not eleven (#240). The peer-reviewed papers lead in their own
+# section so the record is the first thing read, and everything else — talks,
+# webinars, coverage, review service — sits in one date-sorted list under a
+# category filter, rather than in nine stacked headings nobody can navigate.
+# The filter bar spans both listings; see assets/home.js.
 listing:
   - id: pubs-journal
     contents: "*/index.qmd"
@@ -19,74 +19,11 @@ listing:
       categories: "Journal Article"
     template: ../_ejs/citation.ejs
     page-size: 100
-  - id: pubs-preprint
-    contents: "*/index.qmd"
-    sort: "date desc"
-    include:
-      categories: "Preprint"
-    template: ../_ejs/citation.ejs
-    page-size: 100
-  - id: pubs-thesis
-    contents: "*/index.qmd"
-    sort: "date desc"
-    include:
-      categories: "Thesis"
-    template: ../_ejs/citation.ejs
-    page-size: 100
-  - id: pubs-book
-    contents: "*/index.qmd"
-    sort: "date desc"
-    include:
-      categories: "Book"
-    template: ../_ejs/citation.ejs
-    page-size: 100
-  - id: pubs-chapter
-    contents: "*/index.qmd"
-    sort: "date desc"
-    include:
-      categories: "Book Chapter"
-    template: ../_ejs/citation.ejs
-    page-size: 100
-  - id: pubs-report
-    contents: "*/index.qmd"
-    sort: "date desc"
-    include:
-      categories: "Report"
-    template: ../_ejs/citation.ejs
-    page-size: 100
-  - id: pubs-presentation
-    contents: "*/index.qmd"
-    sort: "date desc"
-    include:
-      categories: "Presentation"
-    template: ../_ejs/citation.ejs
-    page-size: 100
-  - id: pubs-webinar
-    contents: "*/index.qmd"
-    sort: "date desc"
-    include:
-      categories: "Webinar"
-    template: ../_ejs/citation.ejs
-    page-size: 100
-  - id: pubs-media
-    contents: "*/index.qmd"
-    sort: "date desc"
-    include:
-      categories: "Media Coverage"
-    template: ../_ejs/citation.ejs
-    page-size: 100
-  - id: pubs-review
-    contents: "*/index.qmd"
-    sort: "date desc"
-    include:
-      categories: "Peer Review"
-    template: ../_ejs/citation.ejs
-    page-size: 100
   - id: pubs-other
     contents: "*/index.qmd"
     sort: "date desc"
-    include:
-      categories: "Publication"
+    exclude:
+      categories: "Journal Article"
     template: ../_ejs/citation.ejs
     page-size: 100
 include-after-body:
@@ -109,78 +46,21 @@ include-after-body:
 
 ::: {.nw-pubs}
 
-::: {.nw-pub-section}
-## Journal Articles
+```{=html}
+<!-- Chips are built from the categories actually present in the two grids, so
+     a new Zotero item type appears in the filter without a code change. -->
+<div class="nw-filters" data-nw-filter-for="pubs-journal,pubs-other" data-nw-filter-noun="publications"></div>
+```
+
+::: {.nw-pub-section .nw-pub-featured}
+## Peer-Reviewed Journal Articles
 
 ::: {#pubs-journal .nw-cites}
 :::
 :::
 
 ::: {.nw-pub-section}
-## Preprints
-
-::: {#pubs-preprint .nw-cites}
-:::
-:::
-
-::: {.nw-pub-section}
-## Thesis
-
-::: {#pubs-thesis .nw-cites}
-:::
-:::
-
-::: {.nw-pub-section}
-## Books
-
-::: {#pubs-book .nw-cites}
-:::
-:::
-
-::: {.nw-pub-section}
-## Book Chapters
-
-::: {#pubs-chapter .nw-cites}
-:::
-:::
-
-::: {.nw-pub-section}
-## Reports
-
-::: {#pubs-report .nw-cites}
-:::
-:::
-
-::: {.nw-pub-section}
-## Presentations
-
-::: {#pubs-presentation .nw-cites}
-:::
-:::
-
-::: {.nw-pub-section}
-## Webinars
-
-::: {#pubs-webinar .nw-cites}
-:::
-:::
-
-::: {.nw-pub-section}
-## Media Coverage
-
-::: {#pubs-media .nw-cites}
-:::
-:::
-
-::: {.nw-pub-section}
-## Peer Review
-
-::: {#pubs-review .nw-cites}
-:::
-:::
-
-::: {.nw-pub-section}
-## Other
+## Other Research Output
 
 ::: {#pubs-other .nw-cites}
 :::
