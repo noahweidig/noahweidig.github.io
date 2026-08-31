@@ -838,25 +838,32 @@ body {
 }
 
 /* ============ stats ============ */
-#stats .nw-stats {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0;
+/* Grid, not a wrapping flex row: at intermediate widths flex wrapping leaves
+   an orphan on the last line (3 + 1) and drops a divider on the wrong edge.
+   The track count is locked to 4, 2 or 1, so the layout is only ever 4x1,
+   2x2 or 1x4 and the dividers always sit between columns. The same rules
+   serve the publications impact strip (.nw-pubstats). */
+#stats .nw-stats,
+.nw-pubstats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--nw-space-6) 0;
   text-align: center;
 }
 
-#stats .nw-stat {
-  flex: 1 1 10rem;
+#stats .nw-stat,
+.nw-pubstats .nw-stat {
   padding: 0 var(--nw-space-5);
   border-left: 1px solid var(--nw-border);
 }
 
-#stats .nw-stat:first-child {
+#stats .nw-stat:nth-child(4n + 1),
+.nw-pubstats .nw-stat:nth-child(4n + 1) {
   border-left: none;
 }
 
-#stats .nw-stat b {
+#stats .nw-stat b,
+.nw-pubstats .nw-stat b {
   display: block;
   font-family: $font-family-serif;
   font-size: var(--nw-text-4xl);
@@ -864,26 +871,79 @@ body {
   color: var(--nw-stat-number);
 }
 
-#stats .nw-stat span {
+#stats .nw-stat span,
+.nw-pubstats .nw-stat span {
   color: var(--nw-muted);
   font-size: var(--nw-text-md);
 }
 
-/* Narrow screens: two per row wraps the vertical dividers onto the wrong
-   edge, so stack instead and turn the dividers horizontal. */
-@media screen and (max-width: 576px) {
-  #stats .nw-stats {
-    flex-direction: column;
+/* Two per row: the divider moves to the start of every odd cell. */
+@media screen and (max-width: 860px) {
+  #stats .nw-stats,
+  .nw-pubstats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  #stats .nw-stat:nth-child(4n + 1),
+  .nw-pubstats .nw-stat:nth-child(4n + 1) {
+    border-left: 1px solid var(--nw-border);
+  }
+
+  #stats .nw-stat:nth-child(2n + 1),
+  .nw-pubstats .nw-stat:nth-child(2n + 1) {
+    border-left: none;
+  }
+}
+
+/* The citations stat is dropped when nothing has been cited yet, leaving
+   three cards: three tracks then, so the row never ends in a hole. Two per
+   row would orphan one, so this strip goes straight to a stack. */
+.nw-pubstats:not(:has(> .nw-stat:nth-child(4))) {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.nw-pubstats:not(:has(> .nw-stat:nth-child(4))) > .nw-stat:nth-child(3n + 1) {
+  border-left: none;
+}
+
+@media screen and (max-width: 860px) {
+  .nw-pubstats:not(:has(> .nw-stat:nth-child(4))) {
+    grid-template-columns: 1fr;
     gap: var(--nw-space-5);
   }
 
-  #stats .nw-stat {
+  .nw-pubstats:not(:has(> .nw-stat:nth-child(4))) > .nw-stat {
     padding: var(--nw-space-5) 0 0;
     border-left: none;
     border-top: 1px solid var(--nw-border);
   }
 
-  #stats .nw-stat:first-child {
+  .nw-pubstats:not(:has(> .nw-stat:nth-child(4))) > .nw-stat:first-child {
+    padding-top: 0;
+    border-top: none;
+  }
+}
+
+/* One per row: vertical dividers can't separate a stack, so turn them
+   horizontal. */
+@media screen and (max-width: 430px) {
+  #stats .nw-stats,
+  .nw-pubstats {
+    grid-template-columns: 1fr;
+    gap: var(--nw-space-5);
+  }
+
+  #stats .nw-stat,
+  .nw-pubstats .nw-stat,
+  #stats .nw-stat:nth-child(4n + 1),
+  .nw-pubstats .nw-stat:nth-child(4n + 1) {
+    padding: var(--nw-space-5) 0 0;
+    border-left: none;
+    border-top: 1px solid var(--nw-border);
+  }
+
+  #stats .nw-stat:first-child,
+  .nw-pubstats .nw-stat:first-child {
     padding-top: 0;
     border-top: none;
   }
@@ -1516,59 +1576,10 @@ body {
   border-bottom: none;
 }
 
-/* Impact strip above the list. Same treatment as the home page stats, but it
-   is its own class: `#stats` also carries the affiliation marquee rules. */
+/* Impact strip above the list. Shares the home page stats layout (see the
+   stats block above); only the trailing gap is its own. */
 .nw-pubstats {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0;
-  text-align: center;
   margin-bottom: var(--nw-space-7);
-}
-
-.nw-pubstats .nw-stat {
-  flex: 1 1 10rem;
-  padding: 0 var(--nw-space-5);
-  border-left: 1px solid var(--nw-border);
-}
-
-.nw-pubstats .nw-stat:first-child {
-  border-left: none;
-}
-
-.nw-pubstats .nw-stat b {
-  display: block;
-  font-family: $font-family-serif;
-  font-size: var(--nw-text-4xl);
-  font-weight: 800;
-  color: var(--nw-stat-number);
-}
-
-.nw-pubstats .nw-stat span {
-  color: var(--nw-muted);
-  font-size: var(--nw-text-md);
-}
-
-@media screen and (max-width: 576px) {
-  .nw-pubstats {
-    flex-direction: column;
-    gap: var(--nw-space-4);
-  }
-
-  .nw-pubstats .nw-stat {
-    /* `flex: 1 1 10rem` sizes along the main axis, which is vertical here, so
-       leaving it in place would make every stat 10rem tall. */
-    flex: 0 0 auto;
-    padding: var(--nw-space-4) 0 0;
-    border-left: none;
-    border-top: 1px solid var(--nw-border);
-  }
-
-  .nw-pubstats .nw-stat:first-child {
-    padding-top: 0;
-    border-top: none;
-  }
 }
 
 /* One quiet, tinted glyph per publication type — the visual anchor the list
