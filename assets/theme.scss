@@ -1459,9 +1459,32 @@ body {
   border-bottom: 1px solid var(--nw-border);
 }
 
-/* The heading's underline already separates the section, so the first row's
-   own top border would double it. */
-.nw-pubs .nw-cites .nw-cite:first-child {
+/* The heading's underline already separates the section, so the row sitting
+   directly under it must not draw its own top border as well.
+
+   `:first-child` alone can't express that once the filter is in play: filtered
+   rows stay in the DOM at `display: none`, so the DOM first child keeps the
+   pseudo-class while some later row is the one actually under the heading —
+   which is how every filter except the two whose first row happens to lead the
+   list drew a double line. So home.js marks the first *visible* row and the
+   cascade below hands the exemption to it.
+
+   Order matters: the plain `:first-child` rule is the pre-JS default (the page
+   is readable if home.js never loads), `.nw-cites-marked` — set by home.js the
+   moment it takes over — withdraws it, and `.nw-cite-first` grants it to
+   whichever row is on top now. Scoped away from the featured section, whose
+   rows are self-contained cards that keep all four edges. */
+.nw-pubs .nw-pub-section:not(.nw-pub-featured) .nw-cites .nw-cite:first-child {
+  border-top: none;
+  padding-top: var(--nw-space-1);
+}
+
+.nw-pubs .nw-pub-section:not(.nw-pub-featured) .nw-cites.nw-cites-marked .nw-cite:first-child {
+  border-top: 1px solid var(--nw-border);
+  padding-top: var(--nw-space-5);
+}
+
+.nw-pubs .nw-pub-section:not(.nw-pub-featured) .nw-cites.nw-cites-marked .nw-cite.nw-cite-first {
   border-top: none;
   padding-top: var(--nw-space-1);
 }
