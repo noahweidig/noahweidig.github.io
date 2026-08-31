@@ -1,6 +1,6 @@
 ---
 title: "Publications"
-description: "A live feed of my research output, pulled automatically from Zotero. Updated every two weeks."
+description: "A live feed of my research output, pulled automatically from Zotero. Updated on the 1st and 15th of each month."
 page-layout: full
 # Listing page: the share buttons in this directory's _metadata.yml are meant
 # for the detail pages, not this index.

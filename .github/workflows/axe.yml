@@ -17,99 +17,22 @@ jobs:
 
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
-          node-version: 24
+          node-version-file: .nvmrc
+          cache: npm
 
-      - name: Set up Quarto
-        uses: quarto-dev/quarto-actions/setup@8a96df13519ee81fd526f2dfca5962811136661b # v2
-        with:
-          version: 1.9.38
+      # Same build as publish.yml, cwebp included, so axe audits the site
+      # with the responsive image variants that actually ship (#249).
+      - name: Build site
+        uses: ./.github/actions/build-site
 
-      - name: Render site
-        run: quarto render
-
-      # Pinned, local install with lifecycle scripts disabled (not `npx`,
-      # and not a bare `npm install`, both of which SonarCloud flags as
-      # arbitrary-code-execution risk: either can run an installed
-      # package's scripts implicitly). Puppeteer's own postinstall is what
-      # downloads its matched Chromium build, so it's re-run explicitly
-      # below instead of implicitly — a script we know we asked for,
-      # against a version we pinned above.
-      - name: Install axe-core + puppeteer
+      # Lifecycle scripts stay off (SonarCloud flags implicit script
+      # execution on install); puppeteer's postinstall is what fetches its
+      # matched Chromium build, so it is re-run explicitly — a script we know
+      # we asked for, at the version package-lock.json pins.
+      - name: Install toolchain
         run: |
-          npm install --no-save --ignore-scripts puppeteer@25.8.0 axe-core@4.10.3
+          npm ci --ignore-scripts
           node ./node_modules/puppeteer/install.mjs
 
-      # Puppeteer downloads its own matched Chromium build, so this
-      # sidesteps the system Chrome / chromedriver version skew that
-      # breaks selenium-based runners on this image over time. Pages are
-      # read straight off disk (file://), no local server needed.
       - name: Run axe-core
-        run: |
-          node <<'EOF'
-          const fs = require("node:fs");
-          const path = require("node:path");
-          const puppeteer = require("puppeteer");
-
-          const axeSource = fs.readFileSync(
-            require.resolve("axe-core/axe.min.js"),
-            "utf8"
-          );
-
-          const pages = [
-            "index.html",
-            "cv.html",
-            "experience/index.html",
-            "education/index.html",
-            "projects/index.html",
-            "publications/index.html",
-            "blog/index.html",
-            "contact.html",
-            // Renders every token and component on one page (#222), so a
-            // regression in any component fails here regardless of which
-            // page it ships on.
-            "styleguide.html",
-          ];
-
-          (async () => {
-            // The runner's container disallows unprivileged user
-            // namespaces, so Chrome's own sandbox can't initialize
-            // (zygote_host_impl_linux.cc: "No usable sandbox!"). Safe here:
-            // the browser only ever opens file:// pages rendered by this
-            // same job, no untrusted or remote content.
-            const browser = await puppeteer.launch({
-              args: ["--no-sandbox", "--disable-setuid-sandbox"],
-            });
-            let failed = false;
-
-            for (const page of pages) {
-              const filePath = path.resolve("_site", page);
-              const tab = await browser.newPage();
-              await tab.goto("file://" + filePath, { waitUntil: "networkidle0" });
-              await tab.evaluate(axeSource);
-              // Scoped to heading-order rather than a full axe scan: the
-              // site currently has other, pre-existing violations (color
-              // contrast, landmark structure) that are out of scope here.
-              // Broadening this to the full rule set is a separate task.
-              const results = await tab.evaluate(() =>
-                axe.run({ runOnly: { type: "rule", values: ["heading-order"] } })
-              );
-              await tab.close();
-
-              if (results.violations.length) {
-                failed = true;
-                console.log(`\n=== ${page}: ${results.violations.length} violation(s) ===`);
-                for (const v of results.violations) {
-                  console.log(`[${v.impact}] ${v.id}: ${v.help} (${v.nodes.length} node(s))`);
-                  for (const node of v.nodes) {
-                    console.log(`  - ${node.target.join(" ")}`);
-                  }
-                }
-              } else {
-                console.log(`${page}: no violations`);
-              }
-            }
-
-            await browser.close();
-            process.exit(failed ? 1 : 0);
-          })();
-          EOF
+        run: npm run a11y

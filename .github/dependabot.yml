@@ -14,3 +14,20 @@ updates:
     labels:
       - dependencies
       - github-actions
+
+  # The build tooling (puppeteer, axe-core, html-validate) is pinned in
+  # package.json / package-lock.json, so an ecosystem manager can watch it
+  # (#249). Quarto itself is not covered by any of these — .quarto-version is
+  # watched by .github/workflows/quarto-release.yml instead.
+  - package-ecosystem: npm
+    directory: "/"
+    schedule:
+      interval: weekly
+
+    open-pull-requests-limit: 5
+
+    commit-message:
+      prefix: "chore"
+
+    labels:
+      - dependencies
