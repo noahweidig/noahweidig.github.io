@@ -476,9 +476,9 @@ body.nav-fixed .nw-page-band {
 }
 
 /* Card frame around the globe, like the reference: dark card, rounded
-   corners, and — since the globe itself is now drawn zoomed in (see
-   globe.js) — `overflow: hidden` here is what crops it down to a close-up
-   on Orlando instead of showing the whole sphere. */
+   corners, and — since the globe SVG is drawn zoomed in (see
+   scripts/generate-globe-svg.mjs) — `overflow: hidden` here is what crops it
+   down to a close-up on Orlando instead of showing the whole sphere. */
 .nw-globe-card {
   max-width: 30rem;
   margin: 0 auto;
@@ -1100,13 +1100,15 @@ img.nw-detail-hero {
   }
 }
 
-/* ============ dot globe canvas + marker label ============ */
+/* ============ dot globe SVG + marker label ============ */
 #nw-globe {
   display: block;
   width: 100%;
   aspect-ratio: 1;
 }
 
+/* Pinned to Orlando. The globe is static, so left/top are constants written
+   into index.qmd by scripts/generate-globe-svg.mjs rather than measured. */
 .nw-globe-label {
   position: absolute;
   transform: translate(-50%, -100%);
@@ -1122,11 +1124,6 @@ img.nw-detail-hero {
   padding: var(--nw-space-2) var(--nw-space-3);
   font-size: var(--nw-text-sm);
   box-shadow: var(--nw-shadow-sm);
-}
-
-/* display:grid above beats the UA [hidden] rule; restore it explicitly */
-.nw-globe-label[hidden] {
-  display: none;
 }
 
 .nw-globe-label code {
