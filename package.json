@@ -14,7 +14,7 @@
     "check:quarto-pin": "./scripts/check-quarto-pin.sh"
   },
   "devDependencies": {
-    "axe-core": "4.10.3",
+    "axe-core": "4.13.0",
     "html-validate": "9.7.1",
     "puppeteer": "25.8.0"
   }
