@@ -1,8 +1,9 @@
 {
   "root": true,
-  "extends": ["html-validate:recommended"],
+  "extends": [
+    "html-validate:recommended"
+  ],
   "rules": {
-    "//": "Quarto and the site's own templates own these; the point of this check is structural markup errors (duplicate ids, unclosed or misnested tags, malformed attributes), not house style.",
     "attribute-boolean-style": "off",
     "attr-quotes": "off",
     "void-style": "off",
