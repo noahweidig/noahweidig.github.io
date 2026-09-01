@@ -2929,7 +2929,8 @@ body {
 // h1 as well as h2: the 404 page's card carries the page's only top-level
 // heading, so it has to be an <h1> — with exactly the same type treatment as
 // the <h2> every other CTA card uses.
-.nw-cta-card :is(h1, h2) {
+.nw-cta-card h1,
+.nw-cta-card h2 {
   font-weight: 800;
   font-size: var(--nw-text-4xl);
   letter-spacing: -0.02em;
