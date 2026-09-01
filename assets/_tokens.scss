@@ -24,17 +24,22 @@
 :root {
   /* ---- color (overridden per theme; ratios recorded in the theme files) */
   --nw-primary: #126ef5;
+
   /* text/link use of the brand blue — separate from --nw-primary so dark mode
      can lighten it for AA contrast without touching the button fill */
   --nw-primary-text: #126ef5;
+
   /* Warm counterpoint to the blue, used only for kicker/eyebrow labels and
      small accents — never competes with --nw-primary for a click target. */
   --nw-secondary: #b45309;
+
   /* availability-pill label; each theme file overrides it */
   --nw-status-fg: #047857;
+
   /* contact-form outcome colors; each theme file overrides them */
   --nw-ok-fg: #047857;
   --nw-err-fg: #b42318;
+
   /* accent word inside the CTA heading */
   --nw-cta-accent: #0a5bb0;
   --nw-grad: linear-gradient(135deg, #126ef5, #126ef5);
@@ -50,9 +55,10 @@
      as hue). Assignment lives in _ejs/project-card.ejs, derived from each
      project's `categories` front matter. */
   --nw-cat-geospatial: #126ef5; /* the brand blue */
-  --nw-cat-fire: #c2410c;       /* the brand amber, deepened */
-  --nw-cat-data: #047857;       /* the green --nw-ok-fg already uses */
-  --nw-cat-tooling: #4c1d95;    /* R packages, APIs, creative tools */
+  --nw-cat-fire: #c2410c; /* the brand amber, deepened */
+  --nw-cat-data: #047857; /* the green --nw-ok-fg already uses */
+  --nw-cat-tooling: #4c1d95; /* R packages, APIs, creative tools */
+
   /* prose-code colors; each theme file overrides these (see theme-light.scss
      / theme-dark.scss) */
   --nw-code-inline-fg: #7d12ba;
@@ -66,16 +72,17 @@
   /* ---- type: scale (#211)
      Fixed steps cover UI/meta/body type; the fluid steps cover headings.
      Steps are the consolidation targets for the 24 ad-hoc sizes in use. */
-  --nw-text-2xs: 0.72rem;   /* smallest legal meta (chip counts, fine print) */
-  --nw-text-xs: 0.78rem;    /* kickers, uppercase labels */
-  --nw-text-sm: 0.85rem;    /* meta lines, chips, captions */
-  --nw-text-md: 0.92rem;    /* card body, secondary copy */
-  --nw-text-base: 1rem;     /* prose */
-  --nw-text-lg: 1.1rem;     /* leads, card titles */
-  --nw-text-xl: 1.35rem;    /* small headings */
-  --nw-text-2xl: 1.5rem;    /* section sub-heads */
-  --nw-text-3xl: clamp(1.5rem, 3vw, 2rem);      /* card/detail headings */
-  --nw-text-4xl: clamp(2rem, 4.2vw, 2.9rem);    /* section headings */
+  --nw-text-2xs: 0.72rem; /* smallest legal meta (chip counts, fine print) */
+  --nw-text-xs: 0.78rem; /* kickers, uppercase labels */
+  --nw-text-sm: 0.85rem; /* meta lines, chips, captions */
+  --nw-text-md: 0.92rem; /* card body, secondary copy */
+  --nw-text-base: 1rem; /* prose */
+  --nw-text-lg: 1.1rem; /* leads, card titles */
+  --nw-text-xl: 1.35rem; /* small headings */
+  --nw-text-2xl: 1.5rem; /* section sub-heads */
+  --nw-text-3xl: clamp(1.5rem, 3vw, 2rem); /* card/detail headings */
+  --nw-text-4xl: clamp(2rem, 4.2vw, 2.9rem); /* section headings */
+
   /* hero display — one ramp for every width; it replaced three per-breakpoint
      #hero h1 overrides, so it has to stay clearly above --nw-text-4xl (the
      section-heading step) at both ends */
@@ -92,14 +99,14 @@
   --nw-space-6: 2rem;
   --nw-space-7: 2.5rem;
   --nw-space-8: 3rem;
-  --nw-space-9: 4rem;   /* section padding */
-  --nw-space-10: 6rem;  /* hero / page-band breathing room */
+  --nw-space-9: 4rem; /* section padding */
+  --nw-space-10: 6rem; /* hero / page-band breathing room */
 
   /* ---- radius (#212) */
-  --nw-radius-sm: 0.3rem;   /* inline chips, small tags */
-  --nw-radius-md: 0.6rem;   /* buttons, inputs, nested media */
-  --nw-radius-lg: 1rem;     /* cards */
-  --nw-radius-xl: 1.5rem;   /* hero media, spotlight panels */
+  --nw-radius-sm: 0.3rem; /* inline chips, small tags */
+  --nw-radius-md: 0.6rem; /* buttons, inputs, nested media */
+  --nw-radius-lg: 1rem; /* cards */
+  --nw-radius-xl: 1.5rem; /* hero media, spotlight panels */
   --nw-radius-pill: 999px;
   --nw-radius-circle: 50%;
 
@@ -111,18 +118,21 @@
      opt into it alone, at rest, without carrying a drop shadow. */
   --nw-shadow-c1: rgba(15, 23, 42, 0.06);
   --nw-shadow-c2: rgba(15, 23, 42, 0.14);
+
   /* hairline top highlight: invisible in light, a faint white in dark, where
      a surface reads as raised because it catches light — a black blur on a
      near-black page is a no-op */
   --nw-shadow-rim: inset 0 1px 0 rgba(255, 255, 255, 0);
-  --nw-shadow-sm: var(--nw-shadow-rim), 0 1px 2px var(--nw-shadow-c1),
-    0 2px 8px -2px var(--nw-shadow-c2);
-  --nw-shadow-md: var(--nw-shadow-rim), 0 2px 4px var(--nw-shadow-c1),
-    0 12px 28px -8px var(--nw-shadow-c2);
-  --nw-shadow-lg: var(--nw-shadow-rim), 0 4px 8px var(--nw-shadow-c1),
-    0 24px 48px -12px var(--nw-shadow-c2);
+  --nw-shadow-sm:
+    var(--nw-shadow-rim), 0 1px 2px var(--nw-shadow-c1), 0 2px 8px -2px var(--nw-shadow-c2);
+  --nw-shadow-md:
+    var(--nw-shadow-rim), 0 2px 4px var(--nw-shadow-c1), 0 12px 28px -8px var(--nw-shadow-c2);
+  --nw-shadow-lg:
+    var(--nw-shadow-rim), 0 4px 8px var(--nw-shadow-c1), 0 24px 48px -12px var(--nw-shadow-c2);
+
   /* brand-tinted lift under the primary CTA button */
   --nw-shadow-primary: 0 8px 24px rgba(18, 110, 245, 0.35);
+
   /* focus ring — pairs with the site-wide :focus-visible outline */
   --nw-shadow-focus: 0 0 0 3px rgba(18, 110, 245, 0.25);
 
@@ -130,30 +140,32 @@
      Durations first, easings second; every transition/animation should be
      `var(--nw-dur-*) var(--nw-ease-*)`. Site-wide reduced-motion handling
      stays where it is (site.css) — these are primitives, not policy. */
-  --nw-dur-fast: 0.15s;   /* hovers: color, border, opacity */
-  --nw-dur-base: 0.2s;    /* transforms: lifts, slides */
-  --nw-dur-slow: 0.3s;    /* panels, reveals */
+  --nw-dur-fast: 0.15s; /* hovers: color, border, opacity */
+  --nw-dur-base: 0.2s; /* transforms: lifts, slides */
+  --nw-dur-slow: 0.3s; /* panels, reveals */
   --nw-dur-slower: 0.55s; /* full-surface effects (theme wipe) */
   --nw-ease: ease;
-  --nw-ease-standard: cubic-bezier(0.2, 0, 0, 1);  /* enter/settle */
-  --nw-ease-decel: cubic-bezier(0, 0, 0.2, 1);     /* arrive on screen */
-  --nw-ease-accel: cubic-bezier(0.4, 0, 1, 1);     /* leave the screen */
+  --nw-ease-standard: cubic-bezier(0.2, 0, 0, 1); /* enter/settle */
+  --nw-ease-decel: cubic-bezier(0, 0, 0.2, 1); /* arrive on screen */
+  --nw-ease-accel: cubic-bezier(0.4, 0, 1, 1); /* leave the screen */
 
   /* ---- z-index
      Named layers, spaced so a new layer never means renumbering. Bootstrap's
      navbar sits at 1030; site overlays must clear it, toasts clear those. */
-  --nw-z-below: -1;       /* decorative backdrops behind their section */
+  --nw-z-below: -1; /* decorative backdrops behind their section */
   --nw-z-base: 0;
-  --nw-z-raised: 1;       /* content lifted above a backdrop */
-  --nw-z-sticky: 10;      /* in-page sticky elements */
-  --nw-z-navbar: 1030;    /* matches Bootstrap $zindex-fixed */
-  --nw-z-overlay: 1100;   /* search overlay, back-to-top */
-  --nw-z-max: 2000;       /* skip link, theme wipe */
+  --nw-z-raised: 1; /* content lifted above a backdrop */
+  --nw-z-sticky: 10; /* in-page sticky elements */
+  --nw-z-navbar: 1030; /* matches Bootstrap $zindex-fixed */
+  --nw-z-overlay: 1100; /* search overlay, back-to-top */
+  --nw-z-max: 2000; /* skip link, theme wipe */
 
   /* ---- component metrics (not part of a scale, but still tokens) */
+
   /* shared height for the CTA button, so the theme-toggle and search circles
      can size their diameter to match it exactly */
   --nw-navctl: 2.4rem;
+
   /* Measured live by nw-nav.js (ResizeObserver on .navbar); this is only the
      pre-JS fallback so nothing shifts once the real value lands. */
   --nw-navbar-h: 72px;

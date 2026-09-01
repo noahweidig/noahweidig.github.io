@@ -44,6 +44,25 @@ jobs:
       - name: Check netlify.toml matches .quarto-version
         run: ./scripts/check-quarto-pin.sh
 
+  # Every other gate in this repo checks the *output* — html-validate, axe and
+  # Lighthouse all run against rendered pages. This one checks the input: the
+  # ~5,500 lines of hand-written CSS, SCSS and JS that nothing else reads
+  # (#267). Same `npm ci --ignore-scripts` as the build job, for the same
+  # reason: none of these three needs a lifecycle script.
+  lint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - name: Install toolchain
+        run: npm ci --ignore-scripts
+      - name: Lint sources
+        run: npm run lint
+
   build:
     runs-on: ubuntu-latest
     timeout-minutes: 10
