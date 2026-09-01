@@ -1,11 +1,12 @@
 ---
 title: "Increasing Large Wildfires in the Eastern United States"
 date: "2024-03-28"
-description: "This webinar provides an overview of changing large wildfire regimes in the eastern U.S., highlighting increasing wildfire number, size, and total area burned within regions of the southeast. In addition, the presentation will discuss how…"
+description: "This webinar provides an overview of changing large wildfire regimes in the eastern U.S., highlighting increasing wildfire number, size, and total area burned within regions of the southeast."
 categories: ["Webinar"]
 pub-authors: "Donovan, V. M., Crandall, R. M., Fill, J. M., Ivey, M. A., **Weidig, N. C.** & Wonkka, C. L."
 pub-venue: "Southern Fire Exchange"
 pub-url: "https://www.youtube.com/watch?v=vdZSXsaz7c0"
+pub-listed: "yes"
 ---
 
 ::: {.nw-cite-meta}

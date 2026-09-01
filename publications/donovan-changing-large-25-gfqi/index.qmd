@@ -1,10 +1,12 @@
 ---
 title: "Changing large wildfire regime dynamics in the eastern United States"
 date: "2025-10-01"
-description: "Dr. Donovan will provide a summary of her lab’s ongoing research investigations into changes in large (>200 ha) wildfire activity across multiple scales in the eastern U.S. and the interacting factors affecting wildfire risk. Specifically…"
+description: "Dr. Donovan will provide a summary of her lab’s ongoing research investigations into changes in large (>200 ha) wildfire activity across multiple scales in the eastern U.S. and the interacting factors affecting wildfire risk."
 categories: ["Presentation"]
 pub-authors: "Donovan, V. M., **Weidig, N. C.**, Ivey, M. A., Crandall, R. M., Fill, J. M. & Wonkka, C. L."
 pub-venue: "Oak Woodlands & Forests Fire Consortium"
+pub-appearance-of: "../donovan-changing-large-25-gkcz/"
+pub-appearance-count: 2
 ---
 
 ::: {.nw-cite-meta}
@@ -12,6 +14,10 @@ Donovan, V. M., **Weidig, N. C.**, Ivey, M. A., Crandall, R. M., Fill, J. M. & W
 :::
 
 [BibTeX](cite.bib){.nw-btn .nw-btn-ghost}
+
+::: {.callout-note appearance="simple"}
+One of 2 appearances of the same work. [See the full record and the other venues](../donovan-changing-large-25-gkcz/).
+:::
 
 ## Abstract
 

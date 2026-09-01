@@ -5,6 +5,7 @@ description: "Journal Article by Ivory II, A. A., Wonkka, C. L., McGranahan, D. 
 categories: ["Journal Article"]
 pub-authors: "Ivory II, A. A., Wonkka, C. L., McGranahan, D. A., Akpejeluh, P., Kincy, S., **Weidig, N. C.**, Roberts, C. P., Brock, K. M., Silva, C. A. & Donovan, V. M."
 pub-venue: "Fire Ecology"
+pub-listed: "yes"
 ---
 
 ::: {.nw-cite-meta}

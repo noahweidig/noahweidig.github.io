@@ -5,6 +5,7 @@ description: "Aortic valve replacement (AVR) remains the only definitive and eff
 categories: ["Presentation"]
 pub-authors: "**Weidig, N. C.**, Niang, D., Williams, M., Porema, K., Palumbo, J., Weyrich, A., Smyth, S. & Lynch, D. R."
 pub-venue: "International Society for Applied Cardiovascular Biology Biennial Meeting"
+pub-listed: "yes"
 ---
 
 ::: {.nw-cite-meta}

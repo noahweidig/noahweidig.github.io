@@ -1962,6 +1962,21 @@ body {
   line-height: 1.55;
 }
 
+/* The venue run for a work presented more than once (#253): one row carries
+   every appearance, so the interesting fact — four venues, not four papers —
+   is the line the reader gets. */
+.nw-cite-appearances {
+  display: none;
+}
+
+.nw-pubs .nw-cite-appearances {
+  display: block;
+  margin: var(--nw-space-2) 0 0;
+  color: var(--nw-muted);
+  font-size: var(--nw-text-sm);
+  line-height: 1.5;
+}
+
 /* In the featured section every row is a journal article and the heading says
    so, so the chip is noise. In the combined list below it, the type chip is
    how you tell a talk from a webinar — and it names the filter chip that
