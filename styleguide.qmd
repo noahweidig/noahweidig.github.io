@@ -141,6 +141,39 @@ across twenty pages.</p>
 </div>
 </section>
 
+<section class="sg-section" id="sg-writing">
+<h2>Writing</h2>
+<p class="sg-note">The tokens below the fold keep the visuals consistent; these
+three rules do the same job for the prose. They are enforced on every pull
+request by <code>npm run lint:prose</code>
+(<code>scripts/prose-lint.mjs</code> plus <code>cspell</code>), which reads the
+<code>.qmd</code> sources and skips code blocks and inline code.</p>
+
+<div class="sg-grid">
+<div>
+<h3>US English spelling</h3>
+<p class="sg-note"><code>Modeling</code>, <code>color</code>, <code>behavior</code>, <code>analyze</code> — not the
+<code>-ise</code>/<code>-our</code> forms. Code is exempt: R's
+<code>colour =</code> argument is spelled the way R spells it, and belongs in
+backticks or a fenced block.</p>
+</div>
+<div>
+<h3>Sentence case for headings and labels</h3>
+<p class="sg-note">"Featured awards", not "Featured Awards"; "Browse all
+projects →", not "Browse All Projects →". Proper nouns keep their own
+capitalization and live in <code>prose.config.json</code>. Page titles are
+exempt: an award or a job title is a name, not a sentence.</p>
+</div>
+<div>
+<h3>Plain, specific, first person</h3>
+<p class="sg-note">Say the concrete thing and say it as yourself. The linter
+rejects the usual filler — <code>amazing</code>, <code>cutting-edge</code>,
+<code>feel free</code> — and every exclamation mark. "I reply within 24 hours"
+is the kind of sentence that replaces them.</p>
+</div>
+</div>
+</section>
+
 <script>
 (() => {
   "use strict";

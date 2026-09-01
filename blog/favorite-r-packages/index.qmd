@@ -435,7 +435,7 @@ want from parts.
 Every ggplot is built from the same components:
 
 1. **Data** — a data frame (usually tidy/long).
-2. **Aesthetic mappings** (`aes()`) — which variables map to x, y, colour, size,
+2. **Aesthetic mappings** (`aes()`) — which variables map to x, y, `colour`, `size`,
    shape, fill.
 3. **Geoms** — the geometric objects drawn: points, lines, bars, boxplots.
 4. **Scales** — how data values translate to visual values (axis breaks, color
@@ -468,7 +468,7 @@ determines *what* it affects — that control is the heart of the grammar.
 ### Scales
 
 Scales govern the translation from data to pixels: axis limits and breaks, and
-the palettes behind colour, fill, size, and shape. You rarely need them for a
+the palettes behind `colour`, `fill`, `size`, and `shape`. You rarely need them for a
 quick look, but they are how you go from "fine" to "polished."
 
 ```{.r .webr}

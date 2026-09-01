@@ -1,6 +1,6 @@
 ---
-title: "Get In Touch"
-description: "Let's build something amazing together — email, book a call, or send a message directly."
+title: "Get in touch"
+description: "Email me, book a call, or send a message — I reply within 24 hours."
 page-layout: custom
 toc: false
 include-after-body:
@@ -13,8 +13,8 @@ include-after-body:
   <div class="nw-section-inner">
     <div class="nw-contact-card">
       <div class="nw-contact-info">
-        <h2>Let's start a conversation</h2>
-        <p>I'm always interested in hearing about new projects and opportunities. Whether you're looking to hire, collaborate, or just want to say hi, feel free to reach out!</p>
+        <h2>Start a conversation</h2>
+        <p>I work on wildfire risk, remote sensing and the tools that put a model in front of someone who has to decide something. If you are hiring, planning a collaboration, or stuck on a spatial problem, tell me what you are working on and I will reply within 24 hours.</p>
         <ul class="nw-contact-list">
           <li>
             <span class="nw-contact-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6l9 -6"/></svg></span>
@@ -49,7 +49,7 @@ include-after-body:
              bots skip hidden inputs; aria-hidden + tabindex="-1" keep it away
              from screen readers and the tab order. The timestamp is stamped by
              contact-form.js on load, so a sub-second submission (a bot posting
-             the form the instant it parses it) can be recognised. -->
+             the form the instant it parses it) can be recognized. -->
         <div class="nw-form-trap" aria-hidden="true">
           <label for="nw-form-company">Company — leave this field empty</label>
           <input id="nw-form-company" type="text" name="_gotcha" tabindex="-1" autocomplete="off">
@@ -59,7 +59,7 @@ include-after-body:
         <div class="nw-btns">
           <button class="nw-btn nw-btn-primary nw-form-submit" type="submit">
             <span class="nw-btn-spinner" aria-hidden="true"></span>
-            <span class="nw-btn-label">Send Message</span>
+            <span class="nw-btn-label">Send message</span>
           </button>
         </div>
       </form>
