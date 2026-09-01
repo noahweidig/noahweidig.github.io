@@ -54,8 +54,7 @@ function trimToSentence(text, budget = 240) {
   if (!s || s.length <= budget) return s;
   const head = s.slice(0, budget + 1);
   let end = -1;
-  const re = /[.!?](?=["'’”)\]]*(\s|$))/g;
-  for (let m; (m = re.exec(head));) end = m.index + 1;
+  for (const m of head.matchAll(/[.!?](?=["'’”)\]]{0,3}(?:\s|$))/g)) end = m.index + 1;
   // A single very short opening sentence would throw the blurb away, so only
   // accept a sentence cut that keeps a useful amount of text.
   if (end >= Math.min(80, budget)) return s.slice(0, end);
@@ -427,6 +426,81 @@ function groupAppearances(records) {
   }
 }
 
+// The venue line: whichever of Zotero's many container fields this item type
+// actually fills.
+function venueOf(data) {
+  const isThesis = data.itemType === "thesis";
+  return (
+    data.publicationTitle ||
+    data.bookTitle ||
+    data.proceedingsTitle ||
+    data.meetingName ||
+    data.event ||
+    (isThesis ? data.university || data.publisher : data.place || data.publisher) ||
+    ""
+  );
+}
+
+// Not every Zotero record carries an abstract, and a page with no
+// `description` gets no <meta name="description"> and no Open Graph blurb —
+// it just shows up bare in search results. Fall back to the citation the page
+// already displays, which is at least an accurate summary.
+function citationBlurb(category, authorsHtml, year, venue) {
+  const who = stripHtml(authorsHtml).replace(/\*\*/g, "").replace(/\s+/g, " ").trim();
+  return [
+    `${category}${who ? ` by ${who}` : ""}${year ? ` (${year})` : ""}.`,
+    venue ? `${venue.replace(/\*/g, "")}.` : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
+}
+
+// "vol. 12, no. 3, pp. 1-20", from whichever parts the record has.
+function detailsOf(data) {
+  const str = (v) => (v == null ? "" : String(v).trim());
+  const bits = [];
+  if (str(data.volume)) bits.push(`vol. ${str(data.volume)}`);
+  if (str(data.issue)) bits.push(`no. ${str(data.issue)}`);
+  if (str(data.pages)) bits.push(`pp. ${str(data.pages)}`);
+  return bits;
+}
+
+// One entry's page data. Nothing is written here: groupAppearances() needs to
+// see every record before any page is built.
+function buildRecord(it) {
+  const parsed = parseZoteroDate(it.data.date);
+  const year = parsed ? parsed.y : extractYear(it.data.date);
+  let date = "";
+  if (parsed) date = `${parsed.y}-${pad2(parsed.m)}-${pad2(parsed.d)}`;
+  else if (year) date = `${year}-01-01`;
+  const doi = it.data.DOI || "";
+  const venue = venueOf(it.data);
+  const abstract = stripHtml(it.data.abstractNote || "");
+  const category = categorize(it);
+  const authorsHtml = joinAuthors(
+    (it.data.creators || []).filter((c) => c && (c.lastName || c.name)).map(citeName),
+  );
+
+  return {
+    it,
+    slug: it.__slug,
+    title: stripHtml(it.data.title || "Untitled"),
+    date,
+    year,
+    doi,
+    link: it.data.url || (doi ? `https://doi.org/${doi}` : ""),
+    venue,
+    abstract,
+    summary: trimToSentence(abstract) || citationBlurb(category, authorsHtml, year, venue),
+    category,
+    categories: [category],
+    authorsHtml,
+    detailBits: detailsOf(it.data),
+    appearances: null,
+    appearanceOf: null,
+  };
+}
+
 async function main() {
   const items = await fetchAllItems(
     `https://api.zotero.org/users/${userID}/publications/items?format=json&include=data,bibtex&limit=100`,
@@ -477,72 +551,7 @@ async function main() {
   // Pass 1: derive each entry's page data (nothing is written yet — the
   // grouping pass below needs to see every entry before any page is built).
   // ---------------------------------------------------------------------
-  const records = entries.map((it) => {
-    const title = stripHtml(it.data.title || "Untitled");
-    const parsed = parseZoteroDate(it.data.date);
-    const year = parsed ? parsed.y : extractYear(it.data.date);
-    const date = parsed
-      ? `${parsed.y}-${pad2(parsed.m)}-${pad2(parsed.d)}`
-      : year
-        ? `${year}-01-01`
-        : "";
-    const doi = it.data.DOI || "";
-    const link = it.data.url || (doi ? `https://doi.org/${doi}` : "");
-    const isThesis = it.data.itemType === "thesis";
-    const venue =
-      it.data.publicationTitle ||
-      it.data.bookTitle ||
-      it.data.proceedingsTitle ||
-      it.data.meetingName ||
-      it.data.event ||
-      (isThesis ? it.data.university || it.data.publisher : it.data.place || it.data.publisher) ||
-      "";
-    const abstract = stripHtml(it.data.abstractNote || "");
-    const category = categorize(it);
-    const authorsHtml = joinAuthors(
-      (it.data.creators || []).filter((c) => c && (c.lastName || c.name)).map(citeName),
-    );
-
-    let summary = trimToSentence(abstract);
-    // Not every Zotero record carries an abstract, and a page with no
-    // `description` gets no <meta name="description"> and no Open Graph blurb —
-    // it just shows up bare in search results. Fall back to the citation the
-    // page already displays, which is at least an accurate summary.
-    if (!summary) {
-      const who = stripHtml(authorsHtml).replace(/\*\*/g, "").replace(/\s+/g, " ").trim();
-      summary = [
-        `${category}${who ? ` by ${who}` : ""}${year ? ` (${year})` : ""}.`,
-        venue ? `${venue.replace(/\*/g, "")}.` : "",
-      ]
-        .filter(Boolean)
-        .join(" ");
-    }
-
-    const detailBits = [];
-    const str = (v) => (v == null ? "" : String(v).trim());
-    if (str(it.data.volume)) detailBits.push(`vol. ${str(it.data.volume)}`);
-    if (str(it.data.issue)) detailBits.push(`no. ${str(it.data.issue)}`);
-    if (str(it.data.pages)) detailBits.push(`pp. ${str(it.data.pages)}`);
-
-    return {
-      it,
-      slug: it.__slug,
-      title,
-      date,
-      year,
-      doi,
-      link,
-      venue,
-      abstract,
-      summary,
-      category,
-      categories: [category],
-      authorsHtml,
-      detailBits,
-      appearances: null,
-      appearanceOf: null,
-    };
-  });
+  const records = entries.map(buildRecord);
 
   groupAppearances(records);
 
