@@ -89,7 +89,7 @@ listing:
     </div>
   </div>
   <div class="nw-cv-actions">
-    <button type="button" class="nw-btn nw-btn-primary nw-cv-print">Print / Save as PDF</button>
+    <button type="button" class="nw-btn nw-btn-primary nw-cv-print">Print / save as PDF</button>
     <a class="nw-btn nw-btn-ghost" href="/uploads/resume.pdf" target="_blank" rel="noopener">One-page Résumé</a>
   </div>
 </header>
@@ -113,7 +113,7 @@ listing:
 
 ::: {.nw-cv-section}
 ## Publications
-### Journal Articles
+### Journal articles
 ::: {#cv-pubs-journal}
 :::
 ### Thesis
@@ -134,20 +134,20 @@ listing:
 :::
 
 ::: {.nw-cv-section}
-## Media Coverage
+## Media coverage
 ::: {#cv-pubs-media}
 :::
 :::
 
 ::: {.nw-cv-section}
 ## Service
-### Peer Review
+### Peer review
 ::: {#cv-pubs-service}
 :::
 :::
 
 ::: {.nw-cv-section}
-## Awards &amp; Honors
+## Awards &amp; honors
 ::: {#cv-awards}
 :::
 :::
