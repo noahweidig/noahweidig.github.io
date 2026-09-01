@@ -45,12 +45,11 @@
   onNavScroll();
 })();
 
-function nwReducedMotion() {
-  return (
-    window.matchMedia &&
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches
-  );
-}
+// Shared by the scroll, view-transition and nav IIFEs below, so it is an
+// explicit property of `window` rather than an implicit global.
+window.nwReducedMotion = function () {
+  return window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+};
 
 // scripts/optimize-output.ts parks the alternate (dark) stylesheets behind
 // `media="not all"` so they don't block first paint in light mode, and a
@@ -86,7 +85,7 @@ function nwReducedMotion() {
     if (meta) {
       meta.setAttribute(
         "content",
-        document.body.classList.contains("quarto-dark") ? "#0b0d12" : "#fcfcfb"
+        document.body.classList.contains("quarto-dark") ? "#0b0d12" : "#fcfcfb",
       );
     }
     return result;
@@ -112,15 +111,14 @@ function nwReducedMotion() {
 document.addEventListener(
   "click",
   function (e) {
-    var toggle =
-      e.target.closest && e.target.closest(".quarto-color-scheme-toggle");
+    var toggle = e.target.closest && e.target.closest(".quarto-color-scheme-toggle");
     if (!toggle) return;
     e.preventDefault();
 
     if (
       !document.startViewTransition ||
       typeof window.quartoToggleColorScheme !== "function" ||
-      nwReducedMotion()
+      window.nwReducedMotion()
     ) {
       return;
     }
@@ -148,7 +146,7 @@ document.addEventListener(
         root.classList.remove("nw-theme-wipe");
       });
   },
-  true
+  true,
 );
 
 // Blog detail pages get a scroll-linked reading-progress bar. The bar and its
@@ -175,10 +173,7 @@ if (/^\/blog\/[^/]+\//.test(location.pathname)) {
   var CARD = ".nw-proj-wrap, .nw-card, .nw-cite, .nw-post, .nw-award";
 
   function detailImage() {
-    return (
-      document.querySelector("img.nw-detail-hero") ||
-      document.querySelector("main img")
-    );
+    return document.querySelector("img.nw-detail-hero") || document.querySelector("main img");
   }
 
   // The card in *this* document that links to `path` — i.e. the other end of
@@ -191,7 +186,7 @@ if (/^\/blog\/[^/]+\//.test(location.pathname)) {
       var href;
       try {
         href = new URL(links[i].href).pathname;
-      } catch (err) {
+      } catch {
         continue;
       }
       if (href !== path) continue;
@@ -214,13 +209,13 @@ if (/^\/blog\/[^/]+\//.test(location.pathname)) {
   function pathOf(url) {
     try {
       return new URL(url, location.href).pathname;
-    } catch (err) {
+    } catch {
       return null;
     }
   }
 
   window.addEventListener("pageswap", function (e) {
-    if (!e.viewTransition || nwReducedMotion()) return;
+    if (!e.viewTransition || window.nwReducedMotion()) return;
     var to = e.activation && e.activation.entry && e.activation.entry.url;
     // Only the listing↔detail pair morphs. Anything else (nav links, the CV)
     // keeps the plain page cross-fade.
@@ -230,7 +225,7 @@ if (/^\/blog\/[^/]+\//.test(location.pathname)) {
   });
 
   window.addEventListener("pagereveal", function (e) {
-    if (!e.viewTransition || nwReducedMotion()) return;
+    if (!e.viewTransition || window.nwReducedMotion()) return;
     var from =
       window.navigation &&
       window.navigation.activation &&
@@ -292,7 +287,7 @@ document.addEventListener(
     e.stopPropagation();
     window.print();
   },
-  true
+  true,
 );
 
 // CV page: defensively unwrap any anchor that ends up wrapping the CV header
@@ -364,9 +359,7 @@ document.addEventListener(
   // set under reduced motion, so check the preference here too (live, rather
   // than cached, so a mid-session change to the setting is respected).
   btn.addEventListener("click", function () {
-    var reduce =
-      window.matchMedia &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
   });
   document.body.appendChild(btn);
@@ -389,10 +382,7 @@ document.addEventListener(
       // down on a short page, still 600px on anything long enough for that to
       // be the smaller number.
       var threshold = Math.min(600, scrollable * 0.35);
-      btn.classList.toggle(
-        "show",
-        scrollable > 0 && window.scrollY > threshold
-      );
+      btn.classList.toggle("show", scrollable > 0 && window.scrollY > threshold);
       ticking = false;
     });
   };
@@ -435,7 +425,7 @@ document.addEventListener(
       if (toggler && toggler.contains(e.target)) return;
       closeMenu();
     },
-    true
+    true,
   );
 
   document.addEventListener("keydown", function (e) {

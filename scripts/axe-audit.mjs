@@ -71,7 +71,7 @@ for (const page of PAGES) {
     await tab.evaluate(axeSource);
     const results = await tab.evaluate(
       (values) => axe.run({ runOnly: { type: "rule", values } }),
-      RULES
+      RULES,
     );
 
     if (results.violations.length) {

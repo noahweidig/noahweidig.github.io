@@ -54,8 +54,10 @@ function toSphere(lat, lon) {
 const marker = toSphere(ORLANDO.lat, ORLANDO.lon);
 // Rotate about Y so Orlando's azimuth lands front-center, then tilt.
 const ROT_Y = -Math.atan2(marker.x, marker.z);
-const cosX = Math.cos(TILT), sinX = Math.sin(TILT);
-const cosY = Math.cos(ROT_Y), sinY = Math.sin(ROT_Y);
+const cosX = Math.cos(TILT),
+  sinX = Math.sin(TILT);
+const cosY = Math.cos(ROT_Y),
+  sinY = Math.sin(ROT_Y);
 
 /** Unit-sphere point → canvas space. `z > 0` is the near (visible) side. */
 function project(p) {
@@ -78,11 +80,7 @@ function visibleRuns(ring) {
   for (const [lat, lon] of ring) {
     const p = project(toSphere(lat, lon));
     const inside =
-      p.z > 0 &&
-      p.x >= -MARGIN &&
-      p.x <= VIEW + MARGIN &&
-      p.y >= -MARGIN &&
-      p.y <= VIEW + MARGIN;
+      p.z > 0 && p.x >= -MARGIN && p.x <= VIEW + MARGIN && p.y >= -MARGIN && p.y <= VIEW + MARGIN;
     if (inside) {
       run.push(p);
     } else if (run.length) {
@@ -128,7 +126,10 @@ function simplify(points, tolerance) {
 }
 
 function extent(points) {
-  let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+  let minX = Infinity,
+    minY = Infinity,
+    maxX = -Infinity,
+    maxY = -Infinity;
   for (const p of points) {
     if (p.x < minX) minX = p.x;
     if (p.x > maxX) maxX = p.x;
@@ -173,7 +174,8 @@ function toPathData(rings) {
 function decodeArcs(topo) {
   const { scale = [1, 1], translate = [0, 0] } = topo.transform ?? {};
   return topo.arcs.map((arc) => {
-    let x = 0, y = 0;
+    let x = 0,
+      y = 0;
     return arc.map(([dx, dy]) => {
       x += dx;
       y += dy;
@@ -302,5 +304,5 @@ const block = `${START}\n          ${svg}\n          ${label}\n          `;
 writeFileSync(page, html.slice(0, from) + block + html.slice(to), "utf8");
 console.log(
   `wrote ${(svg.length / 1024).toFixed(1)} KB of SVG (borders ${borders.length} B, ` +
-    `graticule ${graticule.length} B) into ${page}`
+    `graticule ${graticule.length} B) into ${page}`,
 );

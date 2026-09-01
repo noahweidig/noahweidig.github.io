@@ -23,7 +23,8 @@ import fs from "node:fs";
 import path from "node:path";
 import process from "node:process";
 
-const projectRoot = process.env.QUARTO_PROJECT_DIR ??
+const projectRoot =
+  process.env.QUARTO_PROJECT_DIR ??
   path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
 const outputDir = process.env.QUARTO_PROJECT_OUTPUT_DIR
   ? path.resolve(projectRoot, process.env.QUARTO_PROJECT_OUTPUT_DIR)

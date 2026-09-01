@@ -16,7 +16,8 @@ import process from "node:process";
 
 /** Project root. Quarto sets QUARTO_PROJECT_DIR when it runs a post-render
  *  script; falling back to this file's parent keeps direct invocation working. */
-export const projectRoot: string = process.env.QUARTO_PROJECT_DIR ??
+export const projectRoot: string =
+  process.env.QUARTO_PROJECT_DIR ??
   path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
 
 /** The rendered site (`_site` unless the project overrides `output-dir`). */

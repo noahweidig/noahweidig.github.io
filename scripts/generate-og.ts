@@ -61,8 +61,11 @@ function canonicalSiteUrl(): string {
   if (!m) throw new Error("[og-cards] no site-url found in _quarto.yml");
   return m[1].replace(/\/+$/, "");
 }
-const SITE_URL = (process.env.CONTEXT && process.env.CONTEXT !== "production" &&
-  process.env.DEPLOY_PRIME_URL?.replace(/\/+$/, "")) || canonicalSiteUrl();
+const SITE_URL =
+  (process.env.CONTEXT &&
+    process.env.CONTEXT !== "production" &&
+    process.env.DEPLOY_PRIME_URL?.replace(/\/+$/, "")) ||
+  canonicalSiteUrl();
 const SECTION_LABELS: Record<string, string> = {
   blog: "Blog",
   projects: "Projects",
@@ -98,13 +101,20 @@ function decodeEntities(s: string): string {
 }
 
 /** The shared greedy wrap, plus an ellipsis when the text did not fit. */
-function wrapClipped(text: string, fontSize: number, widthFactor: number, maxWidth: number, maxLines: number): string[] {
+function wrapClipped(
+  text: string,
+  fontSize: number,
+  widthFactor: number,
+  maxWidth: number,
+  maxLines: number,
+): string[] {
   const maxChars = Math.max(8, Math.floor(maxWidth / (fontSize * widthFactor)));
   const lines = wrap(text, fontSize, widthFactor, maxWidth, maxLines);
   const used = lines.join(" ").length;
   if (used < text.replace(/\s+/g, " ").trim().length && lines.length > 0) {
     const last = lines[lines.length - 1];
-    lines[lines.length - 1] = last.slice(0, Math.max(1, maxChars - 1)).replace(/[ ,.;:]+$/, "") + "…";
+    lines[lines.length - 1] =
+      last.slice(0, Math.max(1, maxChars - 1)).replace(/[ ,.;:]+$/, "") + "…";
   }
   return lines;
 }
@@ -167,9 +177,7 @@ function renderCardSvg(meta: CardMeta, topo: string): string {
       : titleTop + span <= CTA_Y - 42;
     if (fits) break;
   }
-  const titleY = descLines.length
-    ? titleBottom - (titleLines.length - 1) * lineH
-    : titleTop;
+  const titleY = descLines.length ? titleBottom - (titleLines.length - 1) * lineH : titleTop;
 
   const kicker = meta.section
     ? `${SITE_NAME.toUpperCase()}  ·  ${meta.section.toUpperCase()}`
@@ -188,8 +196,7 @@ function renderCardSvg(meta: CardMeta, topo: string): string {
   const ctaW = Math.round(meta.cta.length * 15.2) + 116;
   const arrowX = M + ctaW - 62;
   const arrowY = CTA_Y + CTA_H / 2;
-  const arrow =
-    `<path d="M ${arrowX} ${arrowY} h 26 m -10 -9 l 10 9 l -10 9" fill="none" stroke="${BRAND.fg}" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>`;
+  const arrow = `<path d="M ${arrowX} ${arrowY} h 26 m -10 -9 l 10 9 l -10 9" fill="none" stroke="${BRAND.fg}" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>`;
 
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(title)}">
   <defs>
@@ -297,10 +304,7 @@ function stripTags(s: string): string {
 }
 
 function readFrontmatter(relPath: string, key: string): string | null {
-  const src = path.join(
-    projectRoot,
-    relPath.replace(/\\/g, "/").replace(/\.html$/, ".qmd"),
-  );
+  const src = path.join(projectRoot, relPath.replace(/\\/g, "/").replace(/\.html$/, ".qmd"));
   if (!fs.existsSync(src)) return null;
   const fm = fs.readFileSync(src, "utf8").match(/^---\r?\n([\s\S]*?)\r?\n---/);
   if (!fm) return null;
@@ -333,7 +337,7 @@ function pageSchema(opts: {
   const inSection = rel.includes(path.sep);
   const sectionLabel = !inSection
     ? ""
-    : SECTION_LABELS[topDir] ?? topDir[0].toUpperCase() + topDir.slice(1);
+    : (SECTION_LABELS[topDir] ?? topDir[0].toUpperCase() + topDir.slice(1));
   const isItem = !isSectionIndex && inSection;
 
   if (isSectionIndex && sectionLabel) {
@@ -374,7 +378,9 @@ function pageSchema(opts: {
       // the wrong person on media coverage the site merely links to. Blog posts
       // and projects are unambiguously Noah's, so those carry an author.
       ...(topDir === "publications"
-        ? (venue ? { publisher: { "@type": "Organization", name: venue } } : {})
+        ? venue
+          ? { publisher: { "@type": "Organization", name: venue } }
+          : {}
         : { author: personRef }),
       ...(doi ? { identifier: `https://doi.org/${doi}` } : {}),
       ...(sameAs.length ? { sameAs } : {}),
@@ -386,9 +392,9 @@ function pageSchema(opts: {
   // visitor reads can never drift apart.
   if (rel === "index.html") {
     const faq = html.match(/<div class="nw-faq">([\s\S]*?)<\/div>/)?.[1] ?? "";
-    const entries = [...faq.matchAll(
-      /<details><summary>([\s\S]*?)<\/summary>\s*<p>([\s\S]*?)<\/p>/g,
-    )].map(([, q, a]) => ({
+    const entries = [
+      ...faq.matchAll(/<details><summary>([\s\S]*?)<\/summary>\s*<p>([\s\S]*?)<\/p>/g),
+    ].map(([, q, a]) => ({
       "@type": "Question",
       name: stripTags(q),
       acceptedAnswer: {
@@ -466,11 +472,15 @@ async function main(): Promise<void> {
     const headEnd = html.search(/<\/head>/i);
     if (headEnd === -1) continue; // fragment, not a page
 
-    const rawTitle = readMeta(html, "property", "og:title") ??
-      decodeEntities((html.match(/<title>([^<]*)<\/title>/) ?? [, ""])[1]!);
+    const rawTitle =
+      readMeta(html, "property", "og:title") ??
+      decodeEntities((html.match(/<title>([^<]*)<\/title>/) ?? ["", ""])[1]!);
     const title = rawTitle.replace(/\s+[–—-]\s+Noah Weidig$/, "").trim();
-    const description = (readMeta(html, "property", "og:description") ??
-      readMeta(html, "name", "description") ?? "").trim();
+    const description = (
+      readMeta(html, "property", "og:description") ??
+      readMeta(html, "name", "description") ??
+      ""
+    ).trim();
     const author = readMeta(html, "name", "author") ?? SITE_NAME;
 
     const topDir = rel.split(path.sep)[0];
@@ -547,10 +557,12 @@ async function main(): Promise<void> {
 
     // Social metadata belongs in <head>; strip any that Quarto or a filter
     // left in the body, where no unfurler looks for it.
-    const body = html.slice(headEnd).replace(
-      /[ \t]*<meta\s+(?:property|name)="(?:og:|twitter:)[^"]*"\s+content="[^"]*"\s*\/?>\n?/gi,
-      "",
-    );
+    const body = html
+      .slice(headEnd)
+      .replace(
+        /[ \t]*<meta\s+(?:property|name)="(?:og:|twitter:)[^"]*"\s+content="[^"]*"\s*\/?>\n?/gi,
+        "",
+      );
 
     fs.writeFileSync(file, head + body);
     count++;
