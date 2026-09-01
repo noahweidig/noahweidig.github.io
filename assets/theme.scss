@@ -2910,7 +2910,7 @@ body {
    the site that bypassed the theme tokens. */
 .nw-cta-accent {
   font-style: italic;
-  color: var(--nw-cta-accent);
+  color: var(--nw-primary-text);
 }
 
 .nw-cta-status::before {
@@ -2941,6 +2941,12 @@ body {
   padding-bottom: var(--nw-space-2);
   margin: 0 0 var(--nw-space-3);
   color: inherit;
+}
+
+// the index page's closing CTA heading only — the 404 card's h1 keeps the
+// bold weight above
+.nw-cta-card h2 {
+  font-weight: 400;
 }
 
 .nw-cta-card > p {
