@@ -84,7 +84,10 @@ jobs:
           set -euo pipefail
           # Read the endpoint out of the page rather than repeating it here,
           # so this checks the URL visitors actually post to.
-          action=$(curl -fsSL "$SITE_URL/contact" \
+          # --proto '=https' on the request and on any redirect it follows:
+          # this reads a URL out of the response and then calls it, so a
+          # downgrade to plain HTTP anywhere in the chain must fail loudly.
+          action=$(curl -fsSL --proto '=https' --proto-redir '=https' "$SITE_URL/contact" \
             | grep -o 'action="https://formspree.io/f/[^"]*"' \
             | head -1 | cut -d'"' -f2)
           if [ -z "$action" ]; then
@@ -95,7 +98,8 @@ jobs:
           # A CORS preflight: it exercises the real endpoint and tells a live
           # form apart from a deleted or disabled one, without delivering a
           # test message to the inbox on every scheduled run.
-          code=$(curl -s -o /dev/null -w '%{http_code}' -X OPTIONS "$action" \
+          code=$(curl -s -o /dev/null -w '%{http_code}' -X OPTIONS \
+            --proto '=https' --proto-redir '=https' "$action" \
             -H "Origin: $SITE_URL" \
             -H "Access-Control-Request-Method: POST" \
             -H "Access-Control-Request-Headers: content-type")
