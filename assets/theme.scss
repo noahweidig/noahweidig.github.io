@@ -2297,7 +2297,12 @@ body {
 .nw-carousel {
   display: grid;
   gap: var(--nw-space-5);
-  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  /* `min(15rem, 100%)` rather than a bare `15rem`: inside Quarto's
+     `page-columns` grid the available space this resolves against is wider
+     than the track's own content box between 992px and ~1250px, so a bare
+     minimum picked four columns for a 890px-wide grid and the cards spilled
+     past the viewport. Same idiom as the project and post grids above. */
+  grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr));
 
   /* every card in a row is as tall as the tallest one: the grid item, the
      link, the figure and the caption all stretch, so a two-line title never
