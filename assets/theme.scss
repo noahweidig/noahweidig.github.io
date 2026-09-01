@@ -2910,7 +2910,7 @@ body {
    the site that bypassed the theme tokens. */
 .nw-cta-accent {
   font-style: italic;
-  color: var(--nw-cta-accent);
+  color: var(--nw-primary-text);
 }
 
 .nw-cta-status::before {
@@ -2929,7 +2929,8 @@ body {
 // h1 as well as h2: the 404 page's card carries the page's only top-level
 // heading, so it has to be an <h1> — with exactly the same type treatment as
 // the <h2> every other CTA card uses.
-.nw-cta-card :is(h1, h2) {
+.nw-cta-card h1,
+.nw-cta-card h2 {
   font-weight: 800;
   font-size: var(--nw-text-4xl);
   letter-spacing: -0.02em;
@@ -2941,6 +2942,15 @@ body {
   padding-bottom: var(--nw-space-2);
   margin: 0 0 var(--nw-space-3);
   color: inherit;
+}
+
+// the index page's closing CTA heading only — matches #hero h1's type
+// treatment; the 404 card's h1 keeps the bold weight above
+.nw-cta-card h2 {
+  font-family: var(--nw-font-display);
+  font-size: var(--nw-text-hero);
+  font-weight: 500;
+  letter-spacing: -0.025em;
 }
 
 .nw-cta-card > p {
