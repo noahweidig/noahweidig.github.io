@@ -65,10 +65,10 @@ function maskCode(src) {
         inFrontMatter = false;
         return "";
       }
-      if (/^\s*#/.test(line) || /^title:/.test(line)) return "";
+      if (line.trimStart().startsWith("#") || line.startsWith("title:")) return "";
       return line;
     }
-    const open = /^\s*(`{3,}|~{3,})\s*(.*)$/.exec(line);
+    const open = FENCE.exec(line);
     if (fence) {
       if (open && line.trim().startsWith(fence)) {
         fence = null;
@@ -102,7 +102,14 @@ function maskSpans(line) {
  * spelling and voice rules. The heading and label rules need the attributes
  * intact to find their elements, so only the line-by-line pass masks them.
  */
-const maskAttributes = (line) => line.replace(/\w+="[^"]*"/g, (m) => " ".repeat(m.length));
+const maskAttributes = (line) => line.replaceAll(HTML_ATTR, (m) => " ".repeat(m.length));
+
+// Declared once: each is used per line of every file.
+const FENCE = /^[ \t]{0,3}(`{3,}|~{3,})[ \t]*(.*)$/;
+const ATX_HEADING = /^[ \t]{0,3}#{1,6}[ \t]+(.*)$/;
+const ATX_ATTRS = /\{[^{}]*\}[ \t]*$/;
+const HTML_ATTR = /[\w-]+="[^"]*"/g;
+const CLASS_ATTR = /class="([^"]*)"/;
 
 const problems = [];
 const flag = (file, lineNo, rule, message) =>
@@ -126,7 +133,7 @@ function titleCaseOffenders(text) {
     if (i === 0) continue;
     if (!/^[A-Z][a-z]/.test(word)) continue; // ALLCAPS and lowercase are fine
     if (TITLE_CASE_EXEMPT.test(word)) continue;
-    if (PROPER.has(word.toLowerCase().replace(/[.,:;]+$/, ""))) continue;
+    if (PROPER.has(word.toLowerCase().replaceAll(/[.,:;]/g, ""))) continue;
     // "U.S." style and hyphenated proper nouns ("Wildland-Urban") are checked
     // piecewise so "Wildland-Urban Interface" still needs its allowlist entry.
     bad.push(word);
@@ -159,7 +166,7 @@ function checkLabel(file, lineNo, kind, text) {
 // headings are h2/h3, either bare or carrying one of the section classes.
 const HTML_HEADING = /<h([23])\b([^>]*)>([\s\S]*?)<\/h\2?[23]>/gi;
 const LABELLED = new RegExp(
-  `<(a|button|span)\\b[^>]*class="[^"]*\\b(?:${config.labelClasses.join("|")})\\b[^"]*"[^>]*>([\\s\\S]*?)</\\1>`,
+  String.raw`<(a|button|span)\b[^>]*class="[^"]*\b(?:${config.labelClasses.join("|")})\b[^"]*"[^>]*>([^]*?)</\1>`,
   "gi",
 );
 
@@ -171,13 +178,12 @@ function checkFile(file) {
     const line = maskAttributes(rawLine);
     const lineNo = i + 1;
     for (const [wrong, right] of Object.entries(BRITISH)) {
-      const re = new RegExp(`\\b${wrong}\\b`, "gi");
-      if (re.test(line)) {
+      if (new RegExp(String.raw`\b${wrong}\b`, "i").test(line)) {
         flag(file, lineNo, "us-spelling", `"${wrong}" is the British form — use "${right}".`);
       }
     }
     for (const phrase of BANNED) {
-      if (new RegExp(`\\b${phrase}\\b`, "i").test(line)) {
+      if (new RegExp(String.raw`\b${phrase}\b`, "i").test(line)) {
         flag(file, lineNo, "voice", `"${phrase}" is filler — say the specific thing instead.`);
       }
     }
@@ -186,8 +192,10 @@ function checkFile(file) {
     if (/!(?=\s|$|["'”’)])/.test(line.replace(/<[^>]*>/g, " "))) {
       flag(file, lineNo, "voice", "Exclamation mark — the site's voice is plain and specific.");
     }
-    const atx = /^\s{0,3}#{1,6}\s+(.*?)\s*(?:\{.*\})?\s*$/.exec(line);
-    if (atx && atx[1]) checkLabel(file, lineNo, "Heading", atx[1]);
+    const atx = ATX_HEADING.exec(line);
+    // Pandoc heading attributes ("## Awards {#sec-awards}") are markup.
+    const heading = atx?.[1].replace(ATX_ATTRS, "").trim();
+    if (heading) checkLabel(file, lineNo, "Heading", heading);
   });
 
   // Multi-line HTML: match on the whole (masked) document, then map the offset
@@ -195,8 +203,7 @@ function checkFile(file) {
   const doc = masked.join("\n");
   const lineOf = (index) => doc.slice(0, index).split("\n").length;
   for (const m of doc.matchAll(HTML_HEADING)) {
-    const cls = /class="([^"]*)"/.exec(m[2])?.[1] || "";
-    const classes = cls.split(/\s+/).filter(Boolean);
+    const classes = (CLASS_ATTR.exec(m[2])?.[1] ?? "").split(/[ \t]+/).filter(Boolean);
     if (classes.length && !classes.some((c) => config.headingClasses.includes(c))) continue;
     checkLabel(file, lineOf(m.index), "Heading", m[3]);
   }
