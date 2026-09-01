@@ -6,6 +6,7 @@ categories: ["Media Coverage"]
 pub-authors: "Lester, L."
 pub-venue: "AGU News"
 pub-url: "https://news.agu.org/press-release/shrub-growth-fuels-eastern-wildfires/"
+pub-listed: "yes"
 ---
 
 ::: {.nw-cite-meta}

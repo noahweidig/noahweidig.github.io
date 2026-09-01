@@ -1,13 +1,14 @@
 ---
 title: "The Goldilocks principle: Finding the balance between water volume and nutrients for ovipositing Culex mosquitoes (Diptera: Culicidae)"
 date: "2022-11-10"
-description: "Females of container-breeding mosquito species use visual and chemical cues to determine suitable habitats to oviposit their eggs. Female Culex mosquitoes oviposit single egg rafts containing hundreds of eggs on the surface of water in…"
+description: "Females of container-breeding mosquito species use visual and chemical cues to determine suitable habitats to oviposit their eggs."
 categories: ["Journal Article"]
 pub-authors: "**Weidig, N. C.**, Miller, A. L. & Parker, A. T."
 pub-venue: "PLOS ONE"
 pub-details: "vol. 17, no. 11, pp. e0277237"
 pub-doi: "10.1371/journal.pone.0277237"
 pub-url: "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0277237"
+pub-listed: "yes"
 pub-citations: 2
 pub-oa: true
 ---

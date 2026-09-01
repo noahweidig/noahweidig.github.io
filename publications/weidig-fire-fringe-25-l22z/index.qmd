@@ -1,11 +1,13 @@
 ---
 title: "Fire at the fringe: Drivers of large wildfires in and near the wildland-urban interface of the eastern United States"
 date: "2025-04-01"
-description: "Large wildfires are increasing in the eastern U.S., which contains the greatest amount of WUI compared to the rest of the country. Wildfires in and near the WUI pose the greatest risk to human life and property. However, the spatial…"
+description: "Large wildfires are increasing in the eastern U.S., which contains the greatest amount of WUI compared to the rest of the country. Wildfires in and near the WUI pose the greatest risk to human life and property."
 categories: ["Presentation"]
 pub-authors: "**Weidig, N. C.**, Wonkka, C. L., Ivey, M. A., Johnson, D. J. & Donovan, V. M."
 pub-venue: "International Association for Landscape Ecology - North America Annual Conference"
 pub-url: "https://www.ialena.org/uploads/9/4/8/2/94821076/iale_program_handout_final.pdf"
+pub-appearance-of: "../weidig-fire-fringe-25-f839/"
+pub-appearance-count: 2
 ---
 
 ::: {.nw-cite-meta}
@@ -13,6 +15,10 @@ pub-url: "https://www.ialena.org/uploads/9/4/8/2/94821076/iale_program_handout_f
 :::
 
 [Source](https://www.ialena.org/uploads/9/4/8/2/94821076/iale_program_handout_final.pdf){.nw-btn .nw-btn-primary target="_blank"} [BibTeX](cite.bib){.nw-btn .nw-btn-ghost}
+
+::: {.callout-note appearance="simple"}
+One of 2 appearances of the same work. [See the full record and the other venues](../weidig-fire-fringe-25-f839/).
+:::
 
 ## Abstract
 

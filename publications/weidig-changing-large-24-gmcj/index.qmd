@@ -1,13 +1,14 @@
 ---
 title: "Changing large wildfire dynamics in the wildland–urban interface of the eastern United States"
 date: "2024-11-22"
-description: "The recent increase in large wildfires in the eastern United States makes it crucial to examine the subsequent risk to human life and property. In the eastern US, the wildland–urban interface (WUI), where wildfire risk is greatest, has…"
+description: "The recent increase in large wildfires in the eastern United States makes it crucial to examine the subsequent risk to human life and property."
 categories: ["Journal Article"]
 pub-authors: "**Weidig, N. C.**, Wonkka, C. L., Ivey, M. A. & Donovan, V. M."
 pub-venue: "International Journal of Wildland Fire"
 pub-details: "vol. 33, no. 12"
 pub-doi: "10.1071/WF24110"
 pub-url: "https://www.publish.csiro.au/WF/WF24110"
+pub-listed: "yes"
 pub-citations: 3
 pub-oa: true
 ---

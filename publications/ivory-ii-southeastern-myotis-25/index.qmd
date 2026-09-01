@@ -1,10 +1,11 @@
 ---
 title: "Southeastern Myotis (Myotis austroriparius) Use of Stormwater Sewer Systems"
 date: "2025-04-01"
-description: "As urbanization continues, animals are increasingly compelled to navigate human-altered environments. Here we investigate wildlife use of stormwater sewer systems (SSS), a widespread, subterranean environment resulting from urbanization…"
+description: "As urbanization continues, animals are increasingly compelled to navigate human-altered environments. Here we investigate wildlife use of stormwater sewer systems (SSS), a widespread, subterranean environment resulting from urbanization."
 categories: ["Presentation"]
 pub-authors: "Ivory II, A. A., Brock, K. M., Johnson, S. A., **Weidig, N. C.**, Hallett, M. T., Acevedo, M. A. & Scheffers, B. R."
 pub-venue: "Florida Bat Working Group Annual Meeting; Southeastern Bat Diversity Network"
+pub-listed: "yes"
 ---
 
 ::: {.nw-cite-meta}

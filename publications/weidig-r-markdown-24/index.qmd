@@ -1,10 +1,11 @@
 ---
 title: "R Markdown: A Reproducible Workflow"
 date: "2024-06-01"
-description: "This talk covers the fundamentals of using R Markdown to create reproducible workflows that seamlessly integrate code, results, and narrative. It will demonstrate how R Markdown enables efficient documentation and sharing of data analyses…"
+description: "This talk covers the fundamentals of using R Markdown to create reproducible workflows that seamlessly integrate code, results, and narrative."
 categories: ["Presentation"]
 pub-authors: "**Weidig, N. C.**"
 pub-venue: "University of Florida West Florida Research and Education Center Invited Seminar"
+pub-listed: "yes"
 ---
 
 ::: {.nw-cite-meta}

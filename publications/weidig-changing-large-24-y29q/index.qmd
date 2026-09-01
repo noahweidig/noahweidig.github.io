@@ -1,10 +1,11 @@
 ---
 title: "Changing Large Wildfire Patterns in the Eastern United States Wildland-Urban Interface"
 date: "2024-11-01"
-description: "The recent increase in large wildfires in the eastern United States makes it crucial to examine the subsequent risk to human life and property. In the eastern US, the wildland–urban interface (WUI), where wildfire risk is greatest, has…"
+description: "The recent increase in large wildfires in the eastern United States makes it crucial to examine the subsequent risk to human life and property."
 categories: ["Presentation"]
 pub-authors: "**Weidig, N. C.**, Wonkka, C. L., Ivey, M. A. & Donovan, V. M."
 pub-venue: "Northwest Florida Association of Environmental Practitioners Symposium"
+pub-listed: "yes"
 ---
 
 ::: {.nw-cite-meta}
