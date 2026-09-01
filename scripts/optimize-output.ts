@@ -108,7 +108,8 @@ function imageSize(file: string): Size | null {
   // WebP: RIFF container; the dimensions live in whichever of the three
   // bitstream chunks the encoder chose.
   if (
-    buf.length > 30 && buf.toString("ascii", 0, 4) === "RIFF" &&
+    buf.length > 30 &&
+    buf.toString("ascii", 0, 4) === "RIFF" &&
     buf.toString("ascii", 8, 12) === "WEBP"
   ) {
     const chunk = buf.toString("ascii", 12, 16);
@@ -201,11 +202,7 @@ const VARIANT_QUALITY = "80";
  *  build, and Homebrew on Apple silicon. Absolute paths on purpose — resolving
  *  the name through PATH would let whatever happens to be earlier on it decide
  *  which binary the build runs. */
-const ENCODER_CANDIDATES = [
-  "/usr/bin/cwebp",
-  "/usr/local/bin/cwebp",
-  "/opt/homebrew/bin/cwebp",
-];
+const ENCODER_CANDIDATES = ["/usr/bin/cwebp", "/usr/local/bin/cwebp", "/opt/homebrew/bin/cwebp"];
 
 let encoderChecked = false;
 let encoder: string | null = null;
@@ -294,7 +291,7 @@ function variantName(src: string, width: number): string {
 /** Encode one variant, reusing an up-to-date one. False if it can't be made. */
 function writeVariant(bin: string, source: string, dest: string, width: number): boolean {
   if (upToDate(dest, source)) return true;
-  let ok = false;
+  let ok: boolean;
   try {
     const run = spawnSync(bin, [
       "-quiet",
@@ -315,7 +312,9 @@ function writeVariant(bin: string, source: string, dest: string, width: number):
     // A half-written file would be served as a broken image.
     try {
       fs.rmSync(dest, { force: true });
-    } catch { /* nothing to clean up */ }
+    } catch {
+      /* nothing to clean up */
+    }
     return false;
   }
   variantsWritten++;
@@ -435,8 +434,10 @@ function ensureMainLandmark(html: string): string {
   // assuming six characters.
   const closeLen = (/^<\/div\s*>/i.exec(html.slice(close)) || ["</div>"])[0].length;
   return (
-    html.slice(0, open.index) + opened +
-    html.slice(open.index + open[0].length, close) + "</main>" +
+    html.slice(0, open.index) +
+    opened +
+    html.slice(open.index + open[0].length, close) +
+    "</main>" +
     html.slice(close + closeLen)
   );
 }
@@ -448,10 +449,7 @@ function ensureMainLandmark(html: string): string {
  * throw the nesting count off.
  */
 function matchingCloseTag(html: string, from: number, tag: string): number {
-  const scanner = new RegExp(
-    `<!--|<script\\b|<style\\b|<${tag}\\b|</${tag}\\s*>`,
-    "gi",
-  );
+  const scanner = new RegExp(`<!--|<script\\b|<style\\b|<${tag}\\b|</${tag}\\s*>`, "gi");
   scanner.lastIndex = from;
   let depth = 0;
   let m: RegExpExecArray | null;
@@ -644,7 +642,7 @@ function deferSiteLibs(html: string): string {
     if (/(^|\/)glightbox\//.test(src)) return tag;
     // Valueless attributes, so matched directly rather than via attr(): a
     // re-run over output an earlier build already stamped must be a no-op.
-    if (/\s(?:defer|async)(?=[\s>=\/])/i.test(tag)) return tag;
+    if (/\s(?:defer|async)(?=[\s>=/])/i.test(tag)) return tag;
     if (/module/i.test(attr(tag, "type") || "")) return tag;
     return addAttrs(tag, "defer");
   });

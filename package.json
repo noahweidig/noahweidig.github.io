@@ -11,11 +11,25 @@
     "globe": "node scripts/generate-globe-svg.mjs",
     "a11y": "node scripts/axe-audit.mjs",
     "validate:html": "html-validate \"_site/**/*.html\"",
-    "check:quarto-pin": "./scripts/check-quarto-pin.sh"
+    "check:quarto-pin": "./scripts/check-quarto-pin.sh",
+    "lint": "npm run lint:js && npm run lint:css && npm run lint:format",
+    "lint:js": "eslint .",
+    "lint:css": "stylelint \"assets/**/*.{css,scss}\"",
+    "lint:format": "prettier --check .",
+    "format": "prettier --write .",
+    "report:css": "node scripts/css-coverage.mjs"
   },
   "devDependencies": {
+    "@eslint/js": "10.0.1",
     "axe-core": "4.13.0",
+    "eslint": "10.9.1",
+    "globals": "17.12.0",
     "html-validate": "11.10.0",
-    "puppeteer": "25.9.0"
+    "postcss-scss": "4.0.9",
+    "prettier": "3.9.6",
+    "puppeteer": "25.9.0",
+    "stylelint": "17.14.1",
+    "stylelint-config-standard-scss": "17.0.0",
+    "typescript-eslint": "^8.69.0"
   }
 }

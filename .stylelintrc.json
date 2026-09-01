@@ -1,0 +1,39 @@
+{
+  "extends": "stylelint-config-standard-scss",
+  "ignoreFiles": ["_site/**", "node_modules/**", "assets/**/*.min.css"],
+  "rules": {
+    "custom-property-pattern": null,
+    "selector-class-pattern": null,
+    "keyframes-name-pattern": null,
+    "scss/dollar-variable-pattern": null,
+    "scss/at-mixin-pattern": null,
+
+    "no-descending-specificity": null,
+    "declaration-block-no-redundant-longhand-properties": null,
+
+    "custom-property-empty-line-before": null,
+    "declaration-empty-line-before": null,
+    "scss/dollar-variable-empty-line-before": null,
+
+    "media-feature-range-notation": null,
+    "alpha-value-notation": null,
+    "color-function-notation": null,
+    "value-keyword-case": null,
+
+    "scss/operator-no-unspaced": null,
+    "property-no-vendor-prefix": null,
+    "property-no-deprecated": null,
+    "selector-id-pattern": null,
+
+    "scss/comment-no-empty": null,
+
+    "comment-whitespace-inside": null,
+
+    "rule-empty-line-before": null,
+    "at-rule-empty-line-before": null,
+    "scss/double-slash-comment-empty-line-before": null,
+    "comment-empty-line-before": null,
+
+    "color-function-alias-notation": null
+  }
+}

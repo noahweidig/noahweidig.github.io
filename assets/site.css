@@ -27,6 +27,7 @@ html {
 }
 
 /* ============ color-scheme toggle: sun / moon icons ============ */
+
 /* Circle around the toggle, sized to match the CTA button height, with the
    same hover animation as the CTA and search: fills blue and the icon turns
    white in both light and dark mode. */
@@ -42,6 +43,7 @@ html {
   border: 1px solid var(--nw-border);
   border-radius: var(--nw-radius-circle);
   box-sizing: border-box;
+
   /* Outline only, so the band's dot grid shows through the circle; the fill
      appears on hover (below) — same treatment as the search circle and the
      Book Now button beside it. */
@@ -89,6 +91,7 @@ body.quarto-dark .quarto-navbar-tools .quarto-color-scheme-toggle:hover > .bi::b
 }
 
 /* ============ navbar search: circle matching the toggle & CTA ============ */
+
 /* Overlay search renders a button.aa-DetachedSearchButton whose magnifier svg
    paints with currentColor, so the hover just recolors it white. */
 #quarto-search.type-overlay .aa-DetachedSearchButton {
@@ -209,13 +212,13 @@ main#quarto-content {
   inset: 0;
   z-index: var(--nw-z-base);
   background:
-    radial-gradient(60rem 30rem at 50% -10%, var(--nw-hero-glow), transparent 70%),
-    var(--nw-bg);
+    radial-gradient(60rem 30rem at 50% -10%, var(--nw-hero-glow), transparent 70%), var(--nw-bg);
   -webkit-mask-image: linear-gradient(to bottom, #000 65%, transparent 100%);
   mask-image: linear-gradient(to bottom, #000 65%, transparent 100%);
 }
 
 /* ============ top-band navbar: transparent until scroll ============ */
+
 /* On every page with a top band — the landing page's #hero, or any other
    page's #title-block-header (see "page-title band" in theme.scss) — the
    fixed navbar starts transparent and borderless, so the band's own
@@ -248,6 +251,7 @@ body:has(#hero, #title-block-header, .nw-page-band):not(.nw-scrolled)
 }
 
 /* ============ hero: dot-grid background ============ */
+
 /* Static radial-dot grid, masked to a soft radial fade so it reads as an
    accent behind the headline rather than a uniform tile. `inset` overshoots
    the hero box so the slow drift never exposes a bare edge; `#hero`'s own
@@ -275,8 +279,12 @@ body:has(#hero, #title-block-header, .nw-page-band):not(.nw-scrolled)
 }
 
 @keyframes nw-hero-drift {
-  from { transform: translate3d(0, 0, 0); }
-  to { transform: translate3d(-60px, -40px, 0); }
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-60px, -40px, 0);
+  }
 }
 
 #hero .nw-hero-inner {
@@ -285,6 +293,7 @@ body:has(#hero, #title-block-header, .nw-page-band):not(.nw-scrolled)
 }
 
 /* ============ scroll reveal ============ */
+
 /* home.js tags below-the-fold elements with .nw-reveal (so no-JS visitors and
    everything visible at load stay untouched) and flips on .nw-in as they
    scroll into view. Opacity + transform only: no layout shift. */
@@ -326,6 +335,7 @@ body.nav-fixed #hero {
 }
 
 /* ============ .nw-page-band: #hero's look for custom-layout pages ======= */
+
 /* Pages that skip #title-block-header entirely (404, via `pagetitle:`
    instead of `title:`) opt into the same top band by hand: same glow +
    dot-grid background, same navbar pull-up. */
@@ -351,10 +361,10 @@ body.nav-fixed #hero {
   bottom: 0;
   z-index: var(--nw-z-base);
   background:
-    radial-gradient(50rem 24rem at 50% -10%, var(--nw-hero-glow), transparent 70%),
-    var(--nw-bg);
+    radial-gradient(50rem 24rem at 50% -10%, var(--nw-hero-glow), transparent 70%), var(--nw-bg);
   -webkit-mask-image: linear-gradient(to bottom, #000 65%, transparent 100%);
   mask-image: linear-gradient(to bottom, #000 65%, transparent 100%);
+
   /* Same residual-gap correction as #title-block-header (see theme.scss):
      stretch the layer up to y=0 rather than translating it, so closing the
      gap at the top can't open one at the bottom. Harmless no-op if this band
@@ -400,6 +410,7 @@ body.nav-fixed .nw-page-band {
 }
 
 /* ============ hero headline: never wider than the page margins ============ */
+
 /* Both halves of the headline are `white-space: nowrap`, and the longer one
    ("Spatial Analysis.") measures ~6.6em in Inter at this weight and letter
    spacing — ~7.4em in a system fallback while the webfont swaps in — so the
@@ -424,6 +435,7 @@ body.nav-fixed .nw-page-band {
 }
 
 /* ============ navbar Book Now: never wrap; hide when space is tight ============ */
+
 /* Outline only — the button stays transparent so the band behind the navbar
    reads through it, and fills blue on hover (see theme.scss). */
 .navbar .navbar-nav .nav-item a[href*="cal.com"] {
@@ -438,6 +450,7 @@ body.nav-fixed .nw-page-band {
 }
 
 /* ============ affiliation logos: icon strip under the stats ============ */
+
 /* No heading of its own — the moving logos read as a quiet credential strip
    below the stat cards. The track's own vertical padding is dropped so the
    section's bottom gap stays equal to its top gap. */
@@ -456,6 +469,7 @@ body.nav-fixed .nw-page-band {
 }
 
 /* ============ tech stack ============ */
+
 /* Now a single marquee (see theme.scss) rather than category cards; the
    items shrink a little on phones so more of the strip is on screen. */
 @media (max-width: 640px) {
@@ -507,6 +521,7 @@ body.nav-fixed .nw-page-band {
 }
 
 /* ============ consistent side margins on listing pages ============ */
+
 /* `width: 100%` is what keeps those margins *constant* while the category
    filter hides cards. `main.content` is a grid item in Quarto's page grid,
    and without a definite width its track is sized from its contents — so
@@ -539,6 +554,7 @@ body.nav-fixed .nw-page-band {
 /* ============ awards grid: 1x4, or 2x2 / 1x4 as it narrows ============ */
 .nw-carousel {
   grid-template-columns: repeat(4, 1fr);
+
   /* stretch, not start: the cards in a row share the tallest one's height, so
      a two-line title doesn't leave its neighbours a row short. */
   align-items: stretch;
@@ -565,8 +581,8 @@ body.nav-fixed .nw-page-band {
   display: none;
 }
 
-
 /* ============ even breathing room top and bottom of every section ======== */
+
 /* Sections pad equally top and bottom, so the gap above a section's header
    matches the gap below its last card — provided nothing leaves a trailing
    margin behind. The "see all" row sits the same 2.5rem below the cards that the
@@ -583,6 +599,7 @@ body.nav-fixed .nw-page-band {
 }
 
 /* ============ detail pages: hero image injected from page metadata ============ */
+
 /* taller frame + contain so the full image is visible without cropping */
 img.nw-detail-hero {
   width: 100%;
@@ -600,6 +617,7 @@ img.nw-detail-hero {
   position: fixed;
   right: 1.5rem;
   bottom: 1.5rem;
+
   /* the overlay step, the one --nw-z-* names for exactly this and the search
      overlay — it used to be the navbar's 1030 by accident */
   z-index: var(--nw-z-overlay);
@@ -686,6 +704,7 @@ img.nw-detail-hero {
   stroke-linecap: round;
   stroke-dasharray: 1;
   stroke-dashoffset: calc(1 - var(--nw-top-progress, 0));
+
   /* Deliberately under --nw-dur-fast and linear: this only smooths the
      scroll-progress ring between frames; a token-length ease would make the
      ring visibly trail the scroll. */
@@ -705,6 +724,7 @@ img.nw-detail-hero {
 }
 
 /* ============ footer: topography backdrop + link columns ============ */
+
 /* Always dark, in both themes — the footer closes the page on the same
    near-black band the CTA card leads into, so it pins the dark-theme values
    for the variables it uses instead of following whichever theme file
@@ -713,6 +733,7 @@ img.nw-detail-hero {
    which theme's stylesheet is loaded, so this holds in light mode too. */
 .nav-footer {
   --nw-fg: #e8eaef;
+
   /* the dark theme's real muted step (#209), not the foreground repeated —
      9.9:1 on --nw-footer-bg, and it is what separates the four link columns
      from their headings */
@@ -744,8 +765,8 @@ img.nw-detail-hero {
   position: absolute;
   inset: 0;
   background: var(--nw-topo);
-  -webkit-mask: url(media/topography.svg) 0 0 / 37.5rem 37.5rem repeat;
-  mask: url(media/topography.svg) 0 0 / 37.5rem 37.5rem repeat;
+  -webkit-mask: url("media/topography.svg") 0 0 / 37.5rem 37.5rem repeat;
+  mask: url("media/topography.svg") 0 0 / 37.5rem 37.5rem repeat;
   pointer-events: none;
 }
 
@@ -795,6 +816,7 @@ img.nw-detail-hero {
 
 .nw-footer-brand .nw-footer-logo img {
   height: 1.75rem;
+
   /* Required now that the markup carries width/height attributes: the width
      attribute would otherwise act as a presentational hint and size the logo
      at its intrinsic 920px. */
@@ -821,6 +843,7 @@ img.nw-detail-hero {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+
   /* icon stays 1.2rem; only the tappable box grows */
   min-width: 1.5rem;
   min-height: 1.5rem;
@@ -846,6 +869,7 @@ img.nw-detail-hero {
   letter-spacing: 0.1em;
   color: var(--nw-fg);
   margin: 0 0 var(--nw-space-4);
+
   /* Quarto underlines every content <h2>; these are footer column labels, so
      undo the underline. No dimming — the label renders the full fg color. */
   border-bottom: 0;
@@ -868,6 +892,7 @@ img.nw-detail-hero {
   color: var(--nw-muted);
   font-size: var(--nw-text-md);
   text-decoration: none;
+
   /* 0.92rem type sat 23 px tall, a pixel under the 24x24 px minimum; the type
      and the row rhythm are unchanged (the list gap absorbs the extra pixel). */
   min-height: 1.5rem;
@@ -937,6 +962,7 @@ img.nw-detail-hero {
 }
 
 /* ============ contact: one card, info column + form column ============ */
+
 /* The contact page is title block + this one section, so the section's usual
    6rem top padding stacked on top of the card's own top margin left a screen's
    worth of empty page between the page description and the card. The title
@@ -1135,6 +1161,7 @@ img.nw-detail-hero {
 }
 
 /* ============ closing CTA: pitch beside the globe ============ */
+
 /* Two columns on a full-width desktop — the pitch on the left, the dot globe
    on the right — collapsing to one column (globe underneath) as soon as the
    two no longer fit side by side. */
@@ -1189,6 +1216,7 @@ img.nw-detail-hero {
 }
 
 /* ============ closing CTA: text straight on the page background ========== */
+
 /* The card chrome (blue panel, topography texture, glow, shadow) is dropped on
    the landing page so the closing pitch sits directly on the section's plain
    background. Scoped to #cta: the 404 page still uses the card treatment. */
@@ -1253,6 +1281,7 @@ img.nw-detail-hero {
 }
 
 /* ============ white labels render pure white ============ */
+
 /* `body { -webkit-font-smoothing: antialiased }` switches macOS to grayscale
    antialiasing, which thins these labels enough that no glyph pixel reaches
    #fff — sampling one reads about #e6e7eb. Subpixel rendering restores solid
@@ -1276,6 +1305,7 @@ img.nw-detail-hero {
 }
 
 /* ============ headline and lead wrapping ============ */
+
 /* Section headings are short enough that the last line regularly ends up a
    single orphaned word; `balance` evens the lines out instead. It is capped at
    a handful of lines by the spec, so it is only ever doing work on headings.
@@ -1294,6 +1324,7 @@ img.nw-detail-hero {
 }
 
 /* ============ cross-document view transitions ============ */
+
 /* Every internal navigation is a full document load (Quarto is a static MPA),
    so pages used to hard-cut. `navigation: auto` hands the swap to the browser
    compositor instead: it snapshots the old document, waits for the new one,
@@ -1357,6 +1388,7 @@ img.nw-detail-hero {
 ::view-transition-group(nw-hero-img) {
   animation-duration: var(--nw-dur-slow);
   animation-timing-function: var(--nw-ease-standard);
+
   /* The view-transition pseudo tree is its own stacking context, unrelated to
      the page's --nw-z-* scale: these values only order the snapshots against
      each other, so they stay literal. */
@@ -1374,6 +1406,7 @@ img.nw-detail-hero {
 }
 
 /* ============ theme toggle: circular wipe ============ */
+
 /* nw-nav.js wraps the color-scheme swap in a view transition and records the
    toggle's center in --nw-wipe-x / --nw-wipe-y. The new theme is then revealed
    through a circle growing from that point, so the change reads as coming out
@@ -1386,12 +1419,14 @@ img.nw-detail-hero {
    the circle always finishes off-screen. */
 html.nw-theme-wipe::view-transition-old(root) {
   animation: none;
+
   /* snapshot ordering inside the view-transition tree, not the page's scale */
   z-index: 0;
 }
 
 html.nw-theme-wipe::view-transition-new(root) {
   animation: nw-theme-wipe var(--nw-dur-slower) var(--nw-ease-standard) both;
+
   /* snapshot ordering inside the view-transition tree, not the page's scale */
   z-index: 1;
 }
@@ -1417,6 +1452,7 @@ html.nw-theme-wipe .nw-top {
 }
 
 /* ============ scroll reveal, driven by the scroll itself ============ */
+
 /* The same effect as the `.nw-reveal` / `.nw-in` pair above, expressed as an
    animation on a view() timeline instead of a class the page has to toggle.
    home.js skips its IntersectionObserver block entirely when this is
@@ -1513,6 +1549,7 @@ html.nw-theme-wipe .nw-top {
 }
 
 /* ============ reading progress bar (blog posts) ============ */
+
 /* nw-nav.js adds `.nw-post-page` to <html> on blog detail pages; the bar
    itself is a pseudo-element and its animation runs off the root scroller, so
    there is no scroll listener and no per-frame JavaScript. Only `transform`
@@ -1543,6 +1580,7 @@ html.nw-theme-wipe .nw-top {
 }
 
 /* ============ hero parallax ============ */
+
 /* The portrait drifts up a little slower than the page as the hero scrolls
    away, which gives the fold some depth. Transform only — no layout, no
    paint, no scroll listener. */
@@ -1564,6 +1602,7 @@ html.nw-theme-wipe .nw-top {
 }
 
 /* ============ print ============ */
+
 /* Backstop for both reveal implementations: printing resolves a scroll
    timeline at the current scroll position, and the JS path may not have
    flipped `.nw-in` on yet, either of which would print content at

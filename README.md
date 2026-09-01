@@ -50,15 +50,15 @@ Quarto from the front matter in this repo, so the site is always the current
 version of them. This README used to keep a second, hand-typed copy of each
 one; those copies drifted, so they are now links (#252):
 
-| | |
-|---|---|
-| Projects | <https://noahweidig.com/projects> |
-| Publications | <https://noahweidig.com/publications> |
-| Experience | <https://noahweidig.com/experience> |
-| Education | <https://noahweidig.com/education> |
-| Awards & grants | <https://noahweidig.com/awards> |
-| CV | <https://noahweidig.com/cv> |
-| Writing | <https://noahweidig.com/blog> |
+|                 |                                       |
+| --------------- | ------------------------------------- |
+| Projects        | <https://noahweidig.com/projects>     |
+| Publications    | <https://noahweidig.com/publications> |
+| Experience      | <https://noahweidig.com/experience>   |
+| Education       | <https://noahweidig.com/education>    |
+| Awards & grants | <https://noahweidig.com/awards>       |
+| CV              | <https://noahweidig.com/cv>           |
+| Writing         | <https://noahweidig.com/blog>         |
 
 ---
 
@@ -70,12 +70,12 @@ Publications under `publications/` are regenerated from Zotero on the **1st and 
 
 ### Toolchain
 
-| Tool | Pinned in | Used for |
-|---|---|---|
-| Quarto | `.quarto-version` (mirrored in `netlify.toml`) | the render itself |
-| Node | `.nvmrc` | the `scripts/*.ts` / `*.mjs` tooling |
-| npm devDependencies | `package.json` + `package-lock.json` | puppeteer, axe-core, html-validate |
-| cwebp | `.github/actions/build-site` | responsive image variants |
+| Tool                | Pinned in                                      | Used for                             |
+| ------------------- | ---------------------------------------------- | ------------------------------------ |
+| Quarto              | `.quarto-version` (mirrored in `netlify.toml`) | the render itself                    |
+| Node                | `.nvmrc`                                       | the `scripts/*.ts` / `*.mjs` tooling |
+| npm devDependencies | `package.json` + `package-lock.json`           | puppeteer, axe-core, html-validate   |
+| cwebp               | `.github/actions/build-site`                   | responsive image variants            |
 
 `scripts/check-quarto-pin.sh` (the `quarto-pin` job in `publish.yml`) fails if `netlify.toml` drifts from `.quarto-version`, and `quarto-release.yml` opens an issue when a newer Quarto is released.
 
@@ -88,19 +88,30 @@ npm run build                  # build to _site/
 npm run a11y                   # axe-core over _site (or --base https://noahweidig.com)
 npm run validate:html          # html-validate over _site
 npm run globe                  # redraw the homepage globe SVG
+npm run lint                   # eslint + stylelint + prettier --check over the sources
+npm run format                 # prettier --write
+npm run report:css             # unused-CSS report over _site (advisory)
 node scripts/update-pubs.js    # refresh publications from Zotero
 ```
 
+Every other gate here checks the rendered output; `npm run lint` is the one
+that checks the input — the hand-written CSS, SCSS and JS in `assets/` and the
+tooling in `scripts/` (#267). It runs as the `lint` job in `publish.yml`.
+Formatting is Prettier's (`.prettierrc.json`, `.editorconfig`), correctness is
+ESLint's (`eslint.config.mjs`) and Stylelint's (`.stylelintrc.json`); the
+vendored `_extensions/` and the `.qmd` files, whose front matter and raw-HTML
+blocks Prettier reflows badly, are left alone.
+
 ### Continuous integration
 
-| Workflow | Runs on | Does |
-|---|---|---|
-| `publish.yml` | push to `main`, PR, called by the Zotero sync | renders, validates the HTML, deploys to Pages |
-| `axe.yml` | PR | axe-core (`heading-order`) over the built site |
-| `lighthouse.yml` | PR | Lighthouse with score assertions and resource budgets (`lighthouserc.js`) |
-| `links.yml` | PR, monthly | lychee over the built site |
-| `production-audit.yml` | weekly | Lighthouse, axe and lychee against the **live** site |
-| `quarto-release.yml` | weekly | opens an issue when the Quarto pin falls behind |
+| Workflow               | Runs on                                       | Does                                                                      |
+| ---------------------- | --------------------------------------------- | ------------------------------------------------------------------------- |
+| `publish.yml`          | push to `main`, PR, called by the Zotero sync | renders, validates the HTML, deploys to Pages                             |
+| `axe.yml`              | PR                                            | axe-core (`heading-order`) over the built site                            |
+| `lighthouse.yml`       | PR                                            | Lighthouse with score assertions and resource budgets (`lighthouserc.js`) |
+| `links.yml`            | PR, monthly                                   | lychee over the built site                                                |
+| `production-audit.yml` | weekly                                        | Lighthouse, axe and lychee against the **live** site                      |
+| `quarto-release.yml`   | weekly                                        | opens an issue when the Quarto pin falls behind                           |
 
 All four rendering workflows build through the `.github/actions/build-site` composite action, so every check scores the same bytes that get deployed.
 

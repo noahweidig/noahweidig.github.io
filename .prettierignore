@@ -1,0 +1,20 @@
+# Build output and vendored code — not ours to format.
+_site/
+_freeze/
+.quarto/
+node_modules/
+scripts/vendor/
+uploads/
+package-lock.json
+
+# Quarto documents: the YAML front matter and the raw-HTML blocks are one file
+# to Prettier's Markdown parser, and it reflows both. Formatting is enforced on
+# the assets and scripts that hold the hand-written code instead.
+*.qmd
+
+# Quarto owns the shape of these; a reflow here is a diff against upstream.
+_extensions/
+_ejs/
+
+# Agent/skill configuration — not site source.
+.claude/

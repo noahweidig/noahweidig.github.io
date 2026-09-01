@@ -1,18 +1,21 @@
 // Landing-page interactivity: typewriter, project filters, marquee duplication.
 (function () {
   var reducedMotion =
-    window.matchMedia &&
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   // Typewriter. Under reduced motion the first string is rendered statically
   // instead of being typed, so the heading never animates its text.
   var el = document.querySelector("#hero .nw-typed");
   if (el && reducedMotion) {
-    el.textContent = (JSON.parse(el.dataset.strings || "[]")[0]) || "";
+    el.textContent = JSON.parse(el.dataset.strings || "[]")[0] || "";
   } else if (el) {
     var strings = JSON.parse(el.dataset.strings || "[]");
-    var typeSpeed = 70, deleteSpeed = 40, pauseTime = 2500;
-    var idx = 0, pos = 0, deleting = false;
+    var typeSpeed = 70,
+      deleteSpeed = 40,
+      pauseTime = 2500;
+    var idx = 0,
+      pos = 0,
+      deleting = false;
     (function tick() {
       var s = strings[idx] || "";
       el.textContent = s.slice(0, pos);
@@ -52,7 +55,9 @@
       });
       return clone;
     });
-    copies.forEach(function (clone) { track.appendChild(clone); });
+    copies.forEach(function (clone) {
+      track.appendChild(clone);
+    });
 
     // Both marquees scroll at the same speed rather than the same duration:
     // the CSS duration is fixed, so a longer strip (the tech stack carries
@@ -62,7 +67,7 @@
     // as items are added or removed.
     var copyWidth = track.scrollWidth / 2;
     if (copyWidth > 0) {
-      track.style.animationDuration = (copyWidth / 22) + "s";
+      track.style.animationDuration = copyWidth / 22 + "s";
     }
   });
 
@@ -71,8 +76,10 @@
   // and focus-within, but neither is a mechanism a touch visitor has. Built
   // here rather than written into index.qmd so the button only exists when the
   // animation it controls does.
-  var PAUSE_ICON = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="7" y="5" width="3.5" height="14" rx="1"/><rect x="13.5" y="5" width="3.5" height="14" rx="1"/></svg>';
-  var PLAY_ICON = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5l11 7l-11 7z"/></svg>';
+  var PAUSE_ICON =
+    '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="7" y="5" width="3.5" height="14" rx="1"/><rect x="13.5" y="5" width="3.5" height="14" rx="1"/></svg>';
+  var PLAY_ICON =
+    '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5l11 7l-11 7z"/></svg>';
 
   document.querySelectorAll(".nw-marquee").forEach(function (marquee) {
     if (!marquee.querySelector(".nw-marquee-track")) return;
@@ -87,10 +94,7 @@
     btn.addEventListener("click", function () {
       var paused = marquee.toggleAttribute("data-nw-paused");
       btn.innerHTML = paused ? PLAY_ICON : PAUSE_ICON;
-      btn.setAttribute(
-        "aria-label",
-        (paused ? "Resume the " : "Pause the ") + name + " animation"
-      );
+      btn.setAttribute("aria-label", (paused ? "Resume the " : "Pause the ") + name + " animation");
     });
 
     marquee.insertAdjacentElement("afterend", btn);
@@ -127,13 +131,18 @@
     // One bar can drive several listings (publications splits its rows into a
     // featured journal-article section and everything else), so the attribute
     // takes a comma-separated list of listing ids.
-    var grids = bar.dataset.nwFilterFor.split(",").map(function (id) {
-      id = id.trim();
-      return document.getElementById(id) || document.getElementById("listing-" + id);
-    }).filter(Boolean);
+    var grids = bar.dataset.nwFilterFor
+      .split(",")
+      .map(function (id) {
+        id = id.trim();
+        return document.getElementById(id) || document.getElementById("listing-" + id);
+      })
+      .filter(Boolean);
     if (!grids.length) return;
     var cards = function () {
-      return grids.reduce(function (out, g) { return out.concat(rowsIn(g)); }, []);
+      return grids.reduce(function (out, g) {
+        return out.concat(rowsIn(g));
+      }, []);
     };
     // The row directly under a section heading skips its own top border, or it
     // doubles the heading's underline. Filtered-out rows stay in the DOM at
@@ -162,7 +171,12 @@
     // Build buttons from the categories present in the grids
     var cats = new Set();
     cards().forEach(function (c) {
-      (c.dataset.cats || "").split("|").filter(Boolean).forEach(function (t) { cats.add(t); });
+      (c.dataset.cats || "")
+        .split("|")
+        .filter(Boolean)
+        .forEach(function (t) {
+          cats.add(t);
+        });
     });
     // The bar is a labelled group of toggle buttons, and filtering changes the
     // grid without moving focus — so the result count is announced through a
@@ -186,45 +200,100 @@
       // links keep working if the visible label is ever reformatted.
       if (cat) b.dataset.cat = cat;
       b.setAttribute("aria-pressed", "false");
-      b.onclick = function () {
-        bar.querySelectorAll("button").forEach(function (x) {
-          x.classList.remove("active");
-          x.setAttribute("aria-pressed", "false");
-        });
-        b.classList.add("active");
-        b.setAttribute("aria-pressed", "true");
-        var shown = 0, total = 0;
-        cards().forEach(function (c) {
-          var show = !cat || (c.dataset.cats || "").split("|").indexOf(cat) !== -1;
-          (c.closest(".nw-proj-wrap") || c).style.display = show ? "" : "none";
-          total++;
-          if (show) shown++;
-        });
-        markFirstVisible();
-        syncSections();
-        status.textContent = "Showing " + shown + " of " + total + " " + noun +
-          (cat ? " in " + label : "");
-      };
+      // addEventListener rather than `onclick`, so a second handler (a future
+      // analytics hook, another script) can never silently clobber this one.
+      b.addEventListener("click", function () {
+        apply(b, true);
+      });
       bar.appendChild(b);
       return b;
     };
+
+    // The one place a filter is actually applied: every entry point — a click,
+    // the load-time deep link, Back and Forward — comes through here, so the
+    // grid, the buttons, the announcement and the URL can never disagree.
+    // `writeUrl` is false for the two paths where the URL is already right.
+    var apply = function (b, writeUrl) {
+      var cat = b.dataset.cat || null;
+      var label = b.textContent;
+      bar.querySelectorAll("button").forEach(function (x) {
+        x.classList.remove("active");
+        x.setAttribute("aria-pressed", "false");
+      });
+      b.classList.add("active");
+      b.setAttribute("aria-pressed", "true");
+      var shown = 0,
+        total = 0;
+      cards().forEach(function (c) {
+        var show = !cat || (c.dataset.cats || "").split("|").indexOf(cat) !== -1;
+        (c.closest(".nw-proj-wrap") || c).style.display = show ? "" : "none";
+        total++;
+        if (show) shown++;
+      });
+      markFirstVisible();
+      syncSections();
+      status.textContent =
+        "Showing " + shown + " of " + total + " " + noun + (cat ? " in " + label : "");
+      if (writeUrl) writeState(cat);
+    };
+
+    // A query parameter, not a fragment: `?category=Wildfire` survives being
+    // pasted into the tools that strip fragments (chat clients, mail
+    // rewriters, link shorteners), which is exactly where a filtered view gets
+    // sent from. The old `#category=` form is still read below so links
+    // already in the wild keep working.
+    var writeState = function (cat) {
+      if (!history.pushState) return;
+      var url = new URL(location.href);
+      url.hash = "";
+      if (cat) url.searchParams.set("category", cat);
+      else url.searchParams.delete("category");
+      // pushState, not replaceState: a filter is a view the visitor chose, so
+      // Back should undo it rather than leave the page.
+      if (url.href !== location.href) history.pushState({ nwCategory: cat }, "", url.href);
+    };
+
+    // Both spellings, one reader — `?category=` is what we now write, and
+    // `#category=` is what tags on detail pages and older links still use.
+    var wantedCategory = function () {
+      var q = new URL(location.href).searchParams.get("category");
+      if (q !== null) return q;
+      var m = location.hash.match(/category=([^&]*)/);
+      return m ? decodeURIComponent(m[1].replace(/\+/g, " ")) : null;
+    };
+
+    // The button for a category, falling back to "All" for an absent or
+    // unknown one, so a stale link lands on a full grid rather than nothing.
+    var buttonFor = function (cat) {
+      if (!cat) return all;
+      var found = all;
+      bar.querySelectorAll("button[data-cat]").forEach(function (b) {
+        if (b.dataset.cat === cat) found = b;
+      });
+      return found;
+    };
+
     var all = mk("All", null);
     all.classList.add("active");
     all.setAttribute("aria-pressed", "true");
-    Array.from(cats).sort().forEach(function (c) { mk(c, c); });
+    Array.from(cats)
+      .sort()
+      .forEach(function (c) {
+        mk(c, c);
+      });
     // Nothing is filtered yet, but hand the stylesheet the same marked state it
     // will be in from the first click onward, so the unfiltered page and the
     // "All" view are drawn by one code path rather than two.
     markFirstVisible();
 
-    // Deep link: #category=X (used by tags on detail pages)
-    var m = location.hash.match(/category=([^&]*)/);
-    if (m) {
-      var want = decodeURIComponent(m[1].replace(/\+/g, " "));
-      bar.querySelectorAll("button[data-cat]").forEach(function (b) {
-        if (b.dataset.cat === want) b.click();
-      });
-    }
+    // Deep link on load (used by tags on detail pages), and Back/Forward after
+    // that. Neither writes the URL: on load it is already what it should be,
+    // and popstate is the browser having set it.
+    var fromUrl = wantedCategory();
+    if (fromUrl) apply(buttonFor(fromUrl), false);
+    window.addEventListener("popstate", function () {
+      apply(buttonFor(wantedCategory()), false);
+    });
   });
 
   // Research areas: upgrade the stacked panels into a tab set. The markup ships
@@ -322,7 +391,7 @@
             interests.classList.toggle("nw-in-view", entry.isIntersecting);
           });
         },
-        { rootMargin: "0px 0px -5% 0px" }
+        { rootMargin: "0px 0px -5% 0px" },
       ).observe(interests);
     } else if (interests) {
       interests.classList.add("nw-in-view");
@@ -339,17 +408,14 @@
   // bookkeeping, and no fold measurement. The two must never both apply: this
   // one sets `opacity: 0` up front, so leaving it on would hide elements the
   // CSS timeline has already resolved to their final state.
-  var cssDriven =
-    window.CSS &&
-    CSS.supports &&
-    CSS.supports("animation-timeline", "view()");
+  var cssDriven = window.CSS && CSS.supports && CSS.supports("animation-timeline", "view()");
 
   if (!reducedMotion && !cssDriven && "IntersectionObserver" in window) {
     var revealables = document.querySelectorAll(
       ".nw-section .nw-title, .nw-section .nw-subtitle, .nw-section .nw-lead, " +
         ".nw-stat, .nw-card, .nw-proj-wrap, .nw-cite, .nw-post, " +
         ".nw-tl-item, .nw-award, .nw-faq details, .nw-contact-card, .nw-globe-wrap, " +
-        ".nw-cta-card, .nw-areas, .nw-marquee"
+        ".nw-cta-card, .nw-areas, .nw-marquee",
     );
     var fold = window.innerHeight;
     var below = [];
@@ -370,7 +436,7 @@
             delay = Math.min(delay + 70, 280);
           });
         },
-        { rootMargin: "0px 0px -8% 0px" }
+        { rootMargin: "0px 0px -8% 0px" },
       );
       below.forEach(function (el) {
         el.classList.add("nw-reveal");
@@ -378,5 +444,4 @@
       });
     }
   }
-
 })();

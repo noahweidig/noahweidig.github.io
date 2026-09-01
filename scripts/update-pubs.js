@@ -10,7 +10,15 @@ const pubsDir = path.resolve("publications");
 const OWNER_FAMILY = "weidig";
 const OWNER_GIVEN_PREFIX = "noah";
 
-const ENTITIES = { "&amp;": "&", "&lt;": "<", "&gt;": ">", "&quot;": '"', "&#39;": "'", "&apos;": "'", "&nbsp;": " " };
+const ENTITIES = {
+  "&amp;": "&",
+  "&lt;": "<",
+  "&gt;": ">",
+  "&quot;": '"',
+  "&#39;": "'",
+  "&apos;": "'",
+  "&nbsp;": " ",
+};
 
 function stripHtml(html) {
   if (!html) return "";
@@ -90,7 +98,9 @@ const TYPE_MAP = {
 };
 
 function categorize(it) {
-  const hay = [it.data.title, it.data.event, it.data.genre, it.data.presentationType].filter(Boolean).join(" ");
+  const hay = [it.data.title, it.data.event, it.data.genre, it.data.presentationType]
+    .filter(Boolean)
+    .join(" ");
   if (/\bwebinar\b/i.test(hay)) return "Webinar";
   if (/referee report/i.test(it.data.title || "")) return "Peer Review";
   return TYPE_MAP[it.data.itemType] || "Publication";
@@ -113,8 +123,11 @@ async function fetchAllItems(startUrl) {
         throw new Error(`Zotero API error (${res.status})`);
       } catch (err) {
         lastErr = err;
-        if (i < 3) { await new Promise((r) => setTimeout(r, 1000 * i)); continue; }
-        throw new Error(`Zotero API request failed: ${err?.message ?? err}`);
+        if (i < 3) {
+          await new Promise((r) => setTimeout(r, 1000 * i));
+          continue;
+        }
+        throw new Error(`Zotero API request failed: ${err?.message ?? err}`, { cause: err });
       }
     }
     if (!res?.ok) throw new Error(`Zotero API error: ${lastErr?.message || "transient failure"}`);
@@ -133,10 +146,30 @@ const extractYear = (s) => {
 };
 
 const MONTHS = {
-  jan: 1, january: 1, feb: 2, february: 2, mar: 3, march: 3,
-  apr: 4, april: 4, may: 5, jun: 6, june: 6, jul: 7, july: 7,
-  aug: 8, august: 8, sep: 9, sept: 9, september: 9,
-  oct: 10, october: 10, nov: 11, november: 11, dec: 12, december: 12,
+  jan: 1,
+  january: 1,
+  feb: 2,
+  february: 2,
+  mar: 3,
+  march: 3,
+  apr: 4,
+  april: 4,
+  may: 5,
+  jun: 6,
+  june: 6,
+  jul: 7,
+  july: 7,
+  aug: 8,
+  august: 8,
+  sep: 9,
+  sept: 9,
+  september: 9,
+  oct: 10,
+  october: 10,
+  nov: 11,
+  november: 11,
+  dec: 12,
+  december: 12,
 };
 const pad2 = (n) => String(n).padStart(2, "0");
 const daysInMonth = (y, m) => new Date(y, m, 0).getDate();
@@ -148,21 +181,29 @@ function parseZoteroDate(raw) {
   if (!s) return null;
   let m = s.match(/^(\d{4})-(\d{1,2})(?:-(\d{1,2}))?$/);
   if (m) {
-    const y = +m[1], mo = +m[2], d = m[3] ? +m[3] : 1;
+    const y = +m[1],
+      mo = +m[2],
+      d = m[3] ? +m[3] : 1;
     if (mo >= 1 && mo <= 12) return { y, m: mo, d: clampDay(y, mo, d) };
   }
-  m = s.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})$/);
+  m = s.match(/^(\d{1,2})[/-](\d{1,2})[/-](\d{4})$/);
   if (m) {
-    const mo = +m[1], d = +m[2], y = +m[3];
+    const mo = +m[1],
+      d = +m[2],
+      y = +m[3];
     if (mo >= 1 && mo <= 12) return { y, m: mo, d: clampDay(y, mo, d) };
   }
-  m = s.match(/^(\d{4})[\/\-](\d{1,2})[\/\-](\d{1,2})$/);
+  m = s.match(/^(\d{4})[/-](\d{1,2})[/-](\d{1,2})$/);
   if (m) {
-    const y = +m[1], mo = +m[2], d = +m[3];
+    const y = +m[1],
+      mo = +m[2],
+      d = +m[3];
     if (mo >= 1 && mo <= 12) return { y, m: mo, d: clampDay(y, mo, d) };
   }
   const yearM = s.match(/\b(19|20)\d{2}\b/);
-  const monthM = s.match(/\b(jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|jun(?:e)?|jul(?:y)?|aug(?:ust)?|sept?(?:ember)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)\b/i);
+  const monthM = s.match(
+    /\b(jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|jun(?:e)?|jul(?:y)?|aug(?:ust)?|sept?(?:ember)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)\b/i,
+  );
   const dayM = s.match(/\b([0-3]?\d)(?:st|nd|rd|th)?\b/);
   if (yearM) {
     const y = +yearM[0];
@@ -177,7 +218,27 @@ function parseZoteroDate(raw) {
   return null;
 }
 
-const FILLER = new Set(["a", "an", "the", "of", "and", "or", "but", "for", "to", "in", "on", "at", "by", "with", "from", "as", "is", "are", "be"]);
+const FILLER = new Set([
+  "a",
+  "an",
+  "the",
+  "of",
+  "and",
+  "or",
+  "but",
+  "for",
+  "to",
+  "in",
+  "on",
+  "at",
+  "by",
+  "with",
+  "from",
+  "as",
+  "is",
+  "are",
+  "be",
+]);
 
 function titleWords(title) {
   return String(title || "")
@@ -203,7 +264,11 @@ function firstAuthorLastName(creators) {
 
 function buildSlug(creators, title, year) {
   const last = slugify(firstAuthorLastName(creators)) || "anon";
-  const words = titleWords(title).filter((w) => !FILLER.has(w.toLowerCase())).slice(0, 2).map(slugify).filter(Boolean);
+  const words = titleWords(title)
+    .filter((w) => !FILLER.has(w.toLowerCase()))
+    .slice(0, 2)
+    .map(slugify)
+    .filter(Boolean);
   return `${last}-${words.length ? words.join("-") : "untitled"}-${year ? String(year).slice(-2) : "nd"}`;
 }
 
@@ -217,7 +282,11 @@ function buildSlug(creators, title, year) {
 // talks, media, most presentations — simply have no count.
 const OPENALEX_MAILTO = process.env.OPENALEX_MAILTO || "noah@noahweidig.com";
 
-const normalizeDoi = (doi) => String(doi || "").trim().toLowerCase().replace(/^https?:\/\/(dx\.)?doi\.org\//, "");
+const normalizeDoi = (doi) =>
+  String(doi || "")
+    .trim()
+    .toLowerCase()
+    .replace(/^https?:\/\/(dx\.)?doi\.org\//, "");
 
 async function fetchCitationCounts(dois) {
   const unique = [...new Set(dois.map(normalizeDoi).filter(Boolean))];
@@ -225,7 +294,8 @@ async function fetchCitationCounts(dois) {
   const out = new Map();
   for (let i = 0; i < unique.length; i += 40) {
     const chunk = unique.slice(i, i + 40);
-    const url = `https://api.openalex.org/works?per-page=50&select=doi,cited_by_count,open_access` +
+    const url =
+      `https://api.openalex.org/works?per-page=50&select=doi,cited_by_count,open_access` +
       `&filter=doi:${chunk.map(encodeURIComponent).join("|")}&mailto=${encodeURIComponent(OPENALEX_MAILTO)}`;
     const res = await fetch(url, { signal: AbortSignal.timeout(30000) });
     if (!res.ok) throw new Error(`OpenAlex API error (${res.status})`);
@@ -260,7 +330,7 @@ const yq = (s) => `"${String(s).replace(/\\/g, "\\\\").replace(/"/g, '\\"')}"`;
 
 async function main() {
   const items = await fetchAllItems(
-    `https://api.zotero.org/users/${userID}/publications/items?format=json&include=data,bibtex&limit=100`
+    `https://api.zotero.org/users/${userID}/publications/items?format=json&include=data,bibtex&limit=100`,
   );
   // Never prune everything on a bad/empty response.
   if (!items.length) throw new Error("Zotero returned no items; aborting before prune.");
@@ -279,14 +349,19 @@ async function main() {
   // slugs take the suffix, so the common case stays clean.
   const slugCounts = new Map();
   for (const it of entries) {
-    const base = buildSlug(it.data.creators, stripHtml(it.data.title || ""), extractYear(it.data.date));
+    const base = buildSlug(
+      it.data.creators,
+      stripHtml(it.data.title || ""),
+      extractYear(it.data.date),
+    );
     slugCounts.set(base, (slugCounts.get(base) || 0) + 1);
     it.__base = base;
   }
   for (const it of entries) {
-    it.__slug = slugCounts.get(it.__base) === 1
-      ? it.__base
-      : `${it.__base}-${it.key.toLowerCase().slice(0, 4)}`;
+    it.__slug =
+      slugCounts.get(it.__base) === 1
+        ? it.__base
+        : `${it.__base}-${it.key.toLowerCase().slice(0, 4)}`;
   }
 
   let metrics = null;
@@ -294,7 +369,9 @@ async function main() {
     metrics = await fetchCitationCounts(entries.map((it) => it.data.DOI));
     console.log(`OpenAlex: citation counts for ${metrics.size} of ${entries.length} items.`);
   } catch (err) {
-    console.warn(`OpenAlex lookup failed (${err?.message ?? err}); keeping the counts already on disk.`);
+    console.warn(
+      `OpenAlex lookup failed (${err?.message ?? err}); keeping the counts already on disk.`,
+    );
   }
 
   let written = 0;
@@ -303,13 +380,22 @@ async function main() {
     const title = stripHtml(it.data.title || "Untitled");
     const parsed = parseZoteroDate(it.data.date);
     const year = parsed ? parsed.y : extractYear(it.data.date);
-    const date = parsed ? `${parsed.y}-${pad2(parsed.m)}-${pad2(parsed.d)}` : year ? `${year}-01-01` : "";
+    const date = parsed
+      ? `${parsed.y}-${pad2(parsed.m)}-${pad2(parsed.d)}`
+      : year
+        ? `${year}-01-01`
+        : "";
     const doi = it.data.DOI || "";
     const link = it.data.url || (doi ? `https://doi.org/${doi}` : "");
     const isThesis = it.data.itemType === "thesis";
     const venue =
-      it.data.publicationTitle || it.data.bookTitle || it.data.proceedingsTitle || it.data.meetingName || it.data.event ||
-      (isThesis ? it.data.university || it.data.publisher : it.data.place || it.data.publisher) || "";
+      it.data.publicationTitle ||
+      it.data.bookTitle ||
+      it.data.proceedingsTitle ||
+      it.data.meetingName ||
+      it.data.event ||
+      (isThesis ? it.data.university || it.data.publisher : it.data.place || it.data.publisher) ||
+      "";
     const abstract = stripHtml(it.data.abstractNote || "");
     let summary = "";
     if (abstract) {
@@ -320,7 +406,9 @@ async function main() {
       } else summary = abstract;
     }
     const category = categorize(it);
-    const authorsHtml = joinAuthors((it.data.creators || []).filter((c) => c && (c.lastName || c.name)).map(citeName));
+    const authorsHtml = joinAuthors(
+      (it.data.creators || []).filter((c) => c && (c.lastName || c.name)).map(citeName),
+    );
 
     // Not every Zotero record carries an abstract, and a page with no
     // `description` gets no <meta name="description"> and no Open Graph blurb —
@@ -331,7 +419,9 @@ async function main() {
       summary = [
         `${category}${who ? ` by ${who}` : ""}${year ? ` (${year})` : ""}.`,
         venue ? `${venue.replace(/\*/g, "")}.` : "",
-      ].filter(Boolean).join(" ");
+      ]
+        .filter(Boolean)
+        .join(" ");
     }
 
     const detailBits = [];
@@ -362,7 +452,9 @@ async function main() {
 
     const body = [];
     body.push(`::: {.nw-cite-meta}`);
-    body.push(`${authorsHtml}${year ? ` (${year}).` : ""} ${venue ? `*${venue.replace(/\*/g, "")}*${detailBits.length ? ", " + detailBits.join(", ") : ""}.` : ""}`);
+    body.push(
+      `${authorsHtml}${year ? ` (${year}).` : ""} ${venue ? `*${venue.replace(/\*/g, "")}*${detailBits.length ? ", " + detailBits.join(", ") : ""}.` : ""}`,
+    );
     body.push(`:::`, "");
     const btns = [];
     if (doi) btns.push(`[DOI](https://doi.org/${doi}){.nw-btn .nw-btn-primary target="_blank"}`);

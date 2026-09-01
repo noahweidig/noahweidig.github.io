@@ -6,7 +6,9 @@
   function build() {
     var containers = Array.prototype.filter.call(
       document.querySelectorAll(".social-share"),
-      function (c) { return c.querySelector("a"); }
+      function (c) {
+        return c.querySelector("a");
+      },
     );
     if (!containers.length) return;
 
@@ -23,7 +25,7 @@
       tumblr: "https://www.tumblr.com/share/link?url=" + u + "&name=" + t,
       stumbleupon: "https://www.stumbleupon.com/submit?url=" + u + "&title=" + t,
       bsky: "https://bsky.app/intent/compose?text=" + t + "%20" + u,
-      email: "mailto:?subject=" + t + "&body=Check%20out%20this%20link:%20" + u
+      email: "mailto:?subject=" + t + "&body=Check%20out%20this%20link:%20" + u,
     };
 
     // The filter emits icon-only links, so their only accessible name is the
@@ -38,7 +40,7 @@
       tumblr: "Share on Tumblr",
       stumbleupon: "Share on StumbleUpon",
       bsky: "Share on Bluesky",
-      email: "Share by email"
+      email: "Share by email",
     };
 
     containers.forEach(function (c) {
@@ -64,12 +66,13 @@
   // (inside the main landmark, still visually just above the footer) and
   // prepend a "Share on:" label.
   function relocate(containers) {
-    var host = document.querySelector("main#quarto-document-content") ||
+    var host =
+      document.querySelector("main#quarto-document-content") ||
       document.querySelector("main") ||
       document.querySelector("#quarto-content[role='main']") ||
       document.querySelector("#quarto-content");
-    var footer = document.querySelector("#quarto-footer") ||
-      document.querySelector("footer.footer");
+    var footer =
+      document.querySelector("#quarto-footer") || document.querySelector("footer.footer");
     if (!host && !footer) return;
 
     containers.forEach(function (c) {
@@ -84,9 +87,7 @@
       }
 
       // Move the outer wrapper the filter created (falls back to the container).
-      var block = c.parentElement && c.parentElement !== document.body
-        ? c.parentElement
-        : c;
+      var block = c.parentElement && c.parentElement !== document.body ? c.parentElement : c;
       if (host) {
         host.appendChild(block);
       } else {
