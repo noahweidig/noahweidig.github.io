@@ -2,19 +2,11 @@
 title: "Changing large wildfire regime dynamics in the eastern United States"
 date: "2025-10-07"
 description: "Dr. Donovan will provide a summary of her lab’s ongoing research investigations into changes in large (>200 ha) wildfire activity across multiple scales in the eastern U.S. and the interacting factors affecting wildfire risk."
-categories: ["Webinar", "Presentation"]
+categories: ["Webinar"]
 pub-authors: "Donovan, V. M., Crandall, R. M., Fill, J. M., Ivey, M. A., **Weidig, N. C.** & Wonkka, C. L."
 pub-venue: "Oak Woodlands & Forests Fire Consortium"
 pub-url: "https://vimeo.com/1125882277"
 pub-listed: "yes"
-pub-appearances:
-  - venue: "Oak Woodlands & Forests Fire Consortium"
-    when: "Oct 2025"
-    kind: "Presentation"
-  - venue: "Oak Woodlands & Forests Fire Consortium"
-    when: "Oct 2025"
-    kind: "Webinar"
-    url: "https://vimeo.com/1125882277"
 ---
 
 ::: {.nw-cite-meta}
@@ -22,11 +14,6 @@ Donovan, V. M., Crandall, R. M., Fill, J. M., Ivey, M. A., **Weidig, N. C.** & W
 :::
 
 [Source](https://vimeo.com/1125882277){.nw-btn .nw-btn-primary target="_blank"} [BibTeX](cite.bib){.nw-btn .nw-btn-ghost}
-
-## Presented at
-
-- Oak Woodlands & Forests Fire Consortium — Oct 2025 · Presentation
-- [Oak Woodlands & Forests Fire Consortium — Oct 2025](https://vimeo.com/1125882277) · Webinar
 
 ## Abstract
 
