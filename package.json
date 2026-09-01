@@ -15,7 +15,7 @@
   },
   "devDependencies": {
     "axe-core": "4.13.0",
-    "html-validate": "9.7.1",
+    "html-validate": "11.10.0",
     "puppeteer": "25.8.0"
   }
 }
