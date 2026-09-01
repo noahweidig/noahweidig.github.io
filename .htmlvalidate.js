@@ -24,6 +24,11 @@ module.exports = {
     // scripts and a valueless `crossorigin=""` on its preconnect links.
     "script-type": "off",
     "attribute-empty-style": "off",
+    // Also Quarto's: the code-copy button it injects into every code block is
+    // an empty <i class="bi"> named by title="Copy to Clipboard". That is a
+    // real accessible name, which this rule does not count, and the button is
+    // not written here.
+    "text-content": "off",
     // Also Quarto's: it stamps `quarto-bootstrap` and
     // `quarto-text-highlighting-styles` on one <link> per theme, so a
     // light/dark site carries each id twice. Its dark-mode toggle looks those
