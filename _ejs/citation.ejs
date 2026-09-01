@@ -20,6 +20,24 @@ function citeSummary(item, category) {
   }
   return text;
 }
+
+// Repeat appearances of one work (#253). scripts/update-pubs.js lists every
+// venue the work was presented at on the one entry that gets listed, so the
+// row can say "presented at IALE-NA (Apr 2025), ESA (Aug 2025)" instead of the
+// same abstract appearing four times in the section.
+function citeAppearances(item) {
+  const raw = item['pub-appearances'];
+  if (!Array.isArray(raw) || raw.length < 2) return [];
+  return raw
+    .filter((a) => a && typeof a === 'object')
+    .map((a) => ({
+      venue: String(a.venue || '').trim(),
+      when: String(a.when || '').trim(),
+      kind: String(a.kind || '').trim(),
+      url: String(a.url || '').trim(),
+    }))
+    .filter((a) => a.venue || a.when);
+}
 %>
 <%
 // The icon paths below are written as literal markup rather than assembled in
@@ -31,6 +49,7 @@ function citeSummary(item, category) {
 const cats = item.categories || [];
 const category = cats[0] || "";
 const summary = citeSummary(item, category);
+const appearances = citeAppearances(item);
 const cites = Number(item['pub-citations'] || 0);
 %>
 <div class="nw-cite" data-cats="<%= cats.join('|') %>" data-cite-type="<%= citeSlug(category) %>">
@@ -38,6 +57,7 @@ const cites = Number(item['pub-citations'] || 0);
 <div class="nw-cite-body">
 <div class="nw-cite-title"><a href="<%- item.path %>"><%= item.title %></a></div>
 <div class="nw-cite-meta"><% for (const [i, part] of String(item['pub-authors'] || '').replace(/&lt;\/?strong&gt;|<\/?strong>/g, '**').split('**').entries()) { if (i % 2) { %><strong><%= part %></strong><% } else { %><%= part %><% } } %><% if (item['pub-venue']) { %> &middot; <em><%= item['pub-venue'] %></em><% } %></div>
+<% if (appearances.length) { %><p class="nw-cite-appearances">Presented at <% for (const [i, a] of appearances.entries()) { %><% if (i) { %>, <% } %><% if (a.url) { %><a href="<%- a.url %>" target="_blank" rel="noopener"><%= a.venue %></a><% } else { %><%= a.venue %><% } %><% if (a.when) { %> (<%= a.when %>)<% } %><% } %></p><% } %>
 <% if (summary) { %><p class="nw-cite-summary"><%= summary %></p><% } %>
 <div class="nw-cite-links">
 <% for (const c of cats.slice(0, 2)) { %><span class="nw-chip nw-cite-cat"><%= c %></span><% } %>

@@ -1,10 +1,11 @@
 ---
 title: "Key drivers of large wildfires in and near the eastern United States wildland-urban interface"
 date: "2025-04-01"
-description: "Large wildfires are increasing in the eastern U.S., which contains the greatest amount of WUI compared to the rest of the country. Wildfires in and near the WUI pose the greatest risk to human life and property. However, the spatial…"
+description: "Large wildfires are increasing in the eastern U.S., which contains the greatest amount of WUI compared to the rest of the country. Wildfires in and near the WUI pose the greatest risk to human life and property."
 categories: ["Presentation"]
 pub-authors: "**Weidig, N. C.**, Wonkka, C. L., Ivey, M. A., Johnson, D. J. & Donovan, V. M."
 pub-venue: "University of Florida Office of Graduate Professional Development Graduate Student Research Day"
+pub-listed: "yes"
 ---
 
 ::: {.nw-cite-meta}

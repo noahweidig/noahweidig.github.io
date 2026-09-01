@@ -1,13 +1,14 @@
 ---
 title: "Regional differences in infilling and land-use conversion characterize woody cover increases across the Eastern United States"
 date: "2026-03-01"
-description: "Trees and shrubs are expanding into historically open ecosystems across the globe, threatening ecological function and ecosystem services. Across much of the eastern U.S., increasing woody cover has been associated with ecological…"
+description: "Trees and shrubs are expanding into historically open ecosystems across the globe, threatening ecological function and ecosystem services."
 categories: ["Journal Article"]
 pub-authors: "Ivey, M. A., **Weidig, N. C.**, Ivory II, A. A. & Donovan, V. M."
 pub-venue: "Forest Ecology and Management"
 pub-details: "vol. 603, pp. 123446"
 pub-doi: "10.1016/j.foreco.2025.123446"
 pub-url: "https://www.sciencedirect.com/science/article/pii/S0378112725009545"
+pub-listed: "yes"
 ---
 
 ::: {.nw-cite-meta}

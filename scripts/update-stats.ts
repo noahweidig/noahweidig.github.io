@@ -81,6 +81,10 @@ function countPublications(pubsDir: string): PublicationTotals {
     const page = path.join(pubsDir, entry.name, "index.qmd");
     if (!fs.existsSync(page)) continue;
     const fm = frontmatter(page);
+    // Repeat appearances of one work keep their own page but are not listed
+    // (#253); counting them would inflate "Publications & Talks" the same way
+    // the duplicated rows used to inflate the list.
+    if (/^pub-appearance-of:/m.test(fm)) continue;
     totals.total++;
     if (/^categories:.*"Journal Article"/m.test(fm)) totals.journal++;
     // "pub-authors: \"**Weidig, N. C.**, ...\"" — owner first means the
