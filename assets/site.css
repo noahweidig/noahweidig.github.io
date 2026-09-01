@@ -1,5 +1,16 @@
 /* Minor fixes that don't belong in the SCSS theme layers */
 
+/* Breakpoints (#265): this file is plain CSS, so it cannot read the
+   `$nw-bp-*` Sass variables the theme's media queries use. Every query below
+   still names a step on the same ladder, written out as a literal:
+
+     xs  480px   sm  640px   md  768px   lg  992px   xl  1250px
+
+   A `min-width` query uses the step exactly; a `max-width` query uses
+   `step - 0.02px`, so the two halves of a boundary never overlap or leave a
+   one-pixel hole. Any other width here is a migration TODO — see the
+   breakpoint block at the top of assets/_tokens.scss for the whole rule. */
+
 /* Guarded at the point of declaration rather than overridden later: Quarto
    emits the compiled theme bundle before `css:` files, so an unconditional
    rule here would out-cascade the `prefers-reduced-motion` block in
@@ -347,7 +358,7 @@ body.nav-fixed #hero {
   padding-bottom: var(--nw-space-10);
 }
 
-@media (max-width: 640px) {
+@media (max-width: 639.98px) {
   .nw-page-band {
     padding-bottom: var(--nw-space-8);
   }
@@ -389,7 +400,7 @@ body.nav-fixed .nw-page-band {
   }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 639.98px) {
   .nw-section {
     padding: var(--nw-space-8) 0;
   }
@@ -403,7 +414,7 @@ body.nav-fixed .nw-page-band {
   padding-top: var(--nw-space-10);
 }
 
-@media (max-width: 640px) {
+@media (max-width: 639.98px) {
   #quarto-content > .nw-section {
     padding-top: var(--nw-space-8);
   }
@@ -458,7 +469,7 @@ body.nav-fixed .nw-page-band {
   margin-top: calc(var(--nw-space-10) + var(--nw-space-2));
 }
 
-@media (max-width: 640px) {
+@media (max-width: 639.98px) {
   #stats .nw-marquee {
     margin-top: var(--nw-space-9);
   }
@@ -472,7 +483,7 @@ body.nav-fixed .nw-page-band {
 
 /* Now a single marquee (see theme.scss) rather than category cards; the
    items shrink a little on phones so more of the strip is on screen. */
-@media (max-width: 640px) {
+@media (max-width: 639.98px) {
   .nw-marquee-tech .nw-marquee-track {
     gap: var(--nw-space-6);
   }
@@ -562,13 +573,13 @@ body.nav-fixed .nw-page-band {
   margin: 0 auto;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 991.98px) {
   .nw-carousel {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-@media (max-width: 575.98px) {
+@media (max-width: 639.98px) {
   .nw-carousel {
     grid-template-columns: 1fr;
   }
@@ -938,14 +949,14 @@ img.nw-detail-hero {
   color: var(--nw-primary);
 }
 
-@media (max-width: 480px) {
+@media (max-width: 479.98px) {
   .nw-footer-bottom-left,
   .nw-footer-bottom-right {
     text-align: center;
   }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 991.98px) {
   .nw-footer-grid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -955,7 +966,7 @@ img.nw-detail-hero {
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 479.98px) {
   .nw-footer-grid {
     grid-template-columns: 1fr;
   }
@@ -1082,14 +1093,14 @@ img.nw-detail-hero {
   padding: 0;
 }
 
-@media (min-width: 861px) {
+@media (min-width: 992px) {
   .nw-contact-card .nw-form {
     border-left: 1px solid var(--nw-border);
     padding-left: var(--nw-space-8);
   }
 }
 
-@media (max-width: 860px) {
+@media (max-width: 991.98px) {
   .nw-contact-card {
     grid-template-columns: 1fr;
     padding: var(--nw-space-6) var(--nw-space-5);
@@ -1111,7 +1122,7 @@ img.nw-detail-hero {
 
 /* narrow phones: give the card less padding to work with, so shrink text
    progressively (clamp) rather than letting it crowd the card edge. */
-@media (max-width: 480px) {
+@media (max-width: 479.98px) {
   .nw-contact-card {
     padding: var(--nw-space-5) var(--nw-space-4);
   }

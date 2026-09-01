@@ -1,6 +1,6 @@
 ---
 title: "Styleguide"
-description: "The site's design tokens rendered live — type scale, color with computed contrast ratios, spacing, radius, shadow, motion — plus every component in one place."
+description: "The site's design tokens rendered live — type scale, color with computed contrast ratios, spacing, radius, shadow, motion, breakpoints — plus every component in one place."
 search: false
 toc: false
 ---
@@ -39,6 +39,9 @@ This is a working tool, deliberately out of the sitemap and the navbar.
 .sg-motion-track { flex: 1; min-width: 10rem; max-width: 22rem; border: 1px dashed var(--nw-border); border-radius: var(--nw-radius-pill); padding: 0.25rem; }
 .sg-motion-track:hover .sg-motion-dot { transform: translateX(calc(100% * 5)); }
 .sg-components > div { margin-top: var(--nw-space-5); }
+.sg-bp-active { color: var(--nw-ok-fg); font-family: var(--nw-font-mono); font-size: var(--nw-text-2xs); }
+.sg-bp-track { flex: 1; min-width: 12rem; height: 0.55rem; background: var(--nw-chip); border-radius: var(--nw-radius-pill); overflow: hidden; }
+.sg-bp-fill { height: 100%; background: var(--nw-primary); border-radius: var(--nw-radius-pill); }
 .sg-type-specimen { line-height: 1.15; margin: 0; }
 </style>
 
@@ -96,6 +99,17 @@ by grepping for magic numbers.</p>
 <div class="sg-grid" id="sg-layer-grid"></div>
 </section>
 
+<section class="sg-section" id="sg-breakpoints">
+<h2>Breakpoints</h2>
+<p class="sg-note">Five steps, and every media query in the stylesheets names
+one of them. A <code>min-width</code> query uses the step exactly; a
+<code>max-width</code> query uses <code>step&nbsp;&minus;&nbsp;0.02px</code>, so
+the two halves of a boundary meet without overlapping or leaving a gap. The bar
+shows each step against the widest one; the step your window is currently at or
+above is marked. Resize to watch it move.</p>
+<div class="sg-grid" id="sg-bp-grid"></div>
+</section>
+
 <section class="sg-section sg-components" id="sg-components">
 <h2>Components</h2>
 <p class="sg-note">The site's building blocks, in their real markup and
@@ -138,6 +152,7 @@ across twenty pages.</p>
   const SHADOW = ["--nw-shadow-sm","--nw-shadow-md","--nw-shadow-lg","--nw-shadow-primary","--nw-shadow-focus"];
   const DUR = ["--nw-dur-fast","--nw-dur-base","--nw-dur-slow","--nw-dur-slower"];
   const EASE = ["--nw-ease-standard","--nw-ease-decel","--nw-ease-accel"];
+  const BP = ["--nw-bp-xs","--nw-bp-sm","--nw-bp-md","--nw-bp-lg","--nw-bp-xl"];
   const ZINDEX = ["--nw-z-below","--nw-z-base","--nw-z-raised","--nw-z-sticky","--nw-z-navbar","--nw-z-overlay","--nw-z-max"];
 
   const raw = (name) =>
@@ -260,6 +275,23 @@ across twenty pages.</p>
       return row;
     }));
 
+    // -- breakpoints: the ladder, with the step the viewport currently sits
+    // at or above marked live.
+    const bpMax = parseFloat(raw("--nw-bp-xl")) || 1;
+    document.getElementById("sg-bp-grid").replaceChildren(...BP.map((t, i) => {
+      const v = raw(t), px = parseFloat(v);
+      const row = el("div", "sg-row");
+      const track = el("div", "sg-bp-track");
+      const fill = el("div", "sg-bp-fill");
+      fill.style.width = `${(px / bpMax) * 100}%`;
+      track.append(fill);
+      const next = BP[i + 1] ? parseFloat(raw(BP[i + 1])) : Infinity;
+      const active = window.innerWidth >= px && window.innerWidth < next;
+      row.append(el("code", "sg-token", t), el("span", "sg-val", v), track,
+        el("span", "sg-bp-active", active ? "you are here" : ""));
+      return row;
+    }));
+
     // -- z-index
     document.getElementById("sg-layer-grid").replaceChildren(...ZINDEX.map((t) => {
       const row = el("div", "sg-row");
@@ -269,6 +301,14 @@ across twenty pages.</p>
   }
 
   render();
+  // The breakpoint row marks the active step from window.innerWidth, so it has
+  // to re-render on resize; the rest is idempotent, so re-running all of it is
+  // simpler than a partial update.
+  let resizeTimer;
+  window.addEventListener("resize", () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(render, 100);
+  });
   // Re-resolve everything when the reader flips the theme toggle: Quarto
   // swaps body classes (quarto-light/quarto-dark) when switching stylesheets.
   new MutationObserver(render).observe(document.body, {
