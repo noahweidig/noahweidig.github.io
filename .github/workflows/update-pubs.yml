@@ -7,7 +7,7 @@ on:
     # "0 0 */5 * *" matched none of the three descriptions of it.
     - cron: "0 0 1,15 * *"
   workflow_dispatch:
-  
+
 # The sync job is the only one that writes; verify-deploy declares its own
 # read-only set below.
 permissions:

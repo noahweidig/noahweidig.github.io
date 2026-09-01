@@ -7,6 +7,7 @@ $navbar-fg: #e8eaef;
 $footer-bg: #0d0d12;
 $card-bg: #13131a;
 $input-bg: #13131a;
+
 // Bootstrap's link color still resolved to raw brand blue (#126ef5 → 4.3:1 on
 // the near-black page), so prose, callout and TOC links missed AA even after
 // the component-level --nw-primary-text fix. Button fills stay brand blue.
@@ -21,39 +22,49 @@ $link-hover-color: #80b4ff;
      and the Canvas/CanvasText system colors all resolve dark instead of
      painting a light-mode control onto a near-black page. */
   color-scheme: dark;
+
   /* Near-black page and a soft white ink rather than #0a0a0f/#fff: ~16:1,
      still far above AAA, without the bloom pure white produces on OLED screens. */
   --nw-bg: #0b0d12;
+
   /* a second plane, lifted rather than darkened (near-black can't go lower) —
      a few homepage sections sit on it to pace the long scroll */
   --nw-bg-alt: #14161d;
   --nw-fg: #e8eaef;
+
   /* Secondary copy (subheadings, meta lines, footer links): a real second tier
      rather than the foreground repeated (#209). 10.0:1 on --nw-bg, 9.5:1 on
      --nw-card, 9.3:1 on --nw-bg-alt and 7.7:1 on --nw-chip-fill — the old
      contrast problem was that the muted value was too dim, not that a muted
      value was wrong. */
   --nw-muted: #b4bac6;
+
   /* contact-form placeholder / hint text — 5.7:1 on the #13131a input background */
   --nw-placeholder: #8f8f8f;
   --nw-card: #13131a;
+
   /* Two outline colors, split by job (#236). Decorative: card edges, framed
      media, section dividers. Lifted from #3d3d4b (1.82:1) to 2.11:1 on
      --nw-bg / 1.99:1 on --nw-card. */
   --nw-border: #464658;
+
   /* Interactive: the visual boundary of a UI component — inputs, textarea,
      select, ghost buttons, chips. WCAG 2.1 SC 1.4.11 wants 3:1 for these;
      this measures 3.17:1 on --nw-bg (the input fill) and 3.01:1 on --nw-card. */
   --nw-border-strong: #606074;
+
   /* soft plane behind decoding images (project/post media, area figures) */
   --nw-chip: #1d1d26;
+
   /* chip/tag fill — 1.30:1 on the page, carrying a --nw-border-strong hairline
      so a tag reads as a tag rather than as a floating word */
   --nw-chip-fill: #262633;
+
   /* timeline rail dots for past entries — grey, so only the current role
      carries the blue accent */
   --nw-tl-dot: #8a91a0;
   --nw-globe-line: 232, 234, 239;
+
   /* strength of the icon-color wash on research-area cards */
   --nw-tint: 12%;
   --nw-tint-hover: 18%;
@@ -61,21 +72,25 @@ $link-hover-color: #80b4ff;
   --nw-cta-from: #0a5bb0;
   --nw-cta-via: #126ef5;
   --nw-cta-to: #1488f0;
-  --nw-cta-fg: #ffffff;
+  --nw-cta-fg: #fff;
+
   /* the saturated blue CTA card keeps the brighter green */
   --nw-status-fg: #10b981;
+
   /* contact-form outcome row — 8.2:1 and 5.9:1 as text on the dark tinted
      plate over --nw-card */
   --nw-ok-fg: #34d399;
   --nw-err-fg: #f97066;
   --nw-cta-accent: #cfe6ff;
+
   /* solid "inverse" CTA button: white chip with blue label so it stays
      visible on the blue card (the site-wide blue gradient button would
      vanish here) */
-  --nw-cta-btn-bg: #ffffff;
+  --nw-cta-btn-bg: #fff;
   --nw-cta-btn-fg: #0a5bb0;
+
   /* faint texture + hairline colors keyed to the card foreground */
-  --nw-cta-line: rgba(255, 255, 255, 0.10);
+  --nw-cta-line: rgba(255, 255, 255, 0.1);
   --nw-cta-glow: rgba(255, 255, 255, 0.16);
   --nw-topo: rgba(229, 231, 235, 0.07);
   --nw-footer-bg: #0d0d12;
@@ -83,9 +98,11 @@ $link-hover-color: #80b4ff;
   --nw-glass-strong: rgba(11, 13, 18, 0.96);
   --nw-stat-number: #e8eaef;
   --nw-navcta: #e8eaef;
+
   /* nav-link text: a step softer than the body ink so the (serif) site title
      stays the visual anchor of the navbar */
   --nw-navlink: rgba(232, 234, 239, 0.65);
+
   /* code-window extension: the page now declares `color-scheme: dark` (#233),
      so `Canvas` resolves dark on its own — but to a UA-chosen grey that
      doesn't match the page. Keep the explicit values so the code window sits
@@ -93,18 +110,23 @@ $link-hover-color: #80b4ff;
   --nw-code-bg: #14141b;
   --nw-code-titlebar: #1b1b23;
   --nw-code-border: #2a2a34;
+
   /* prose code on the dark surface: light-mode purple (#7d12ba) hit 2.89:1 on
      the grey pill it used to inherit; this reads 7.6:1 on --nw-code-bg */
   --nw-code-inline-fg: #c792ea;
+
   /* keep the dark syntax sheet's own comment/string hues (a11y-dark) */
   --nw-code-comment: #d4d0ab;
   --nw-code-string: #abe338;
+
   /* brand blue at text weight fails AA (4.02–4.3:1) on the near-black dark
      bg/card; lighten just the text/link use — button fills stay brand blue */
   --nw-primary-text: #4d94ff;
+
   /* amber kicker/eyebrow label fails AA (3.93:1) on the near-black dark bg;
      lighten it the same way — it's only ever used as text */
   --nw-secondary: #e08c2e;
+
   /* elevation (#210): on a near-black page a black blur is invisible, so the
      drop goes deeper *and* every raised surface gets a hairline top highlight
      — the rim is what actually reads as "above the page" here. */
@@ -154,13 +176,13 @@ $link-hover-color: #80b4ff;
 /* Keep the resume download CTA distinct against the blue CTA panel. */
 .nw-btn-resume {
   background: var(--nw-primary);
-  border: 1px solid #ffffff;
-  color: #ffffff !important;
+  border: 1px solid #fff;
+  color: #fff !important;
 }
 
 .nw-btn-resume:hover {
-  background: #ffffff;
-  border-color: #ffffff;
+  background: #fff;
+  border-color: #fff;
   color: var(--nw-primary) !important;
 }
 

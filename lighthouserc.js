@@ -13,7 +13,7 @@ function firstDetailPage(section) {
   let entries;
   try {
     entries = fs.readdirSync(dir, { withFileTypes: true });
-  } catch (e) {
+  } catch {
     return [];
   }
   const slug = entries

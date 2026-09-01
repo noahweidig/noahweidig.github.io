@@ -43,6 +43,18 @@ include-after-body:
           <label for="nw-form-message">Your message</label>
           <textarea id="nw-form-message" name="message" rows="5" placeholder="What you're working on, and how I can help" required></textarea>
         </div>
+        <!-- Spam trap. `_gotcha` is Formspree's own convention: a submission
+             that fills it is silently dropped server-side, so this works even
+             with JS off. Off-screen rather than display:none, because some
+             bots skip hidden inputs; aria-hidden + tabindex="-1" keep it away
+             from screen readers and the tab order. The timestamp is stamped by
+             contact-form.js on load, so a sub-second submission (a bot posting
+             the form the instant it parses it) can be recognised. -->
+        <div class="nw-form-trap" aria-hidden="true">
+          <label for="nw-form-company">Company — leave this field empty</label>
+          <input id="nw-form-company" type="text" name="_gotcha" tabindex="-1" autocomplete="off">
+        </div>
+        <input type="hidden" name="nw-form-started" value="">
         <p class="nw-form-status" id="nw-form-status" role="status" aria-live="polite" tabindex="-1" hidden></p>
         <div class="nw-btns">
           <button class="nw-btn nw-btn-primary nw-form-submit" type="submit">

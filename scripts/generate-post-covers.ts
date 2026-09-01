@@ -53,8 +53,9 @@ function variantFor(slug: string) {
 /** A YAML scalar with its surrounding quotes, if any, taken off. */
 function unquote(value: string): string {
   const v = value.trim();
-  const quoted = v.length > 1 && (v.startsWith('"') && v.endsWith('"') ||
-    v.startsWith("'") && v.endsWith("'"));
+  const quoted =
+    v.length > 1 &&
+    ((v.startsWith('"') && v.endsWith('"')) || (v.startsWith("'") && v.endsWith("'")));
   return quoted ? v.slice(1, -1) : v;
 }
 

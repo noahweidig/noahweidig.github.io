@@ -69,3 +69,38 @@ jobs:
             --exclude 'original-ufdc\.uflib\.ufl\.edu'
             ${{ env.SITE_URL }}
           fail: true
+
+  # A silently dead contact form is the worst failure on this site: the form
+  # is the conversion point every page funnels toward, and nothing would
+  # notice if the endpoint were removed, disabled, or over quota (#273).
+  contact-form:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Check the form endpoint is still live
+        run: |
+          set -euo pipefail
+          # Read the endpoint out of the page rather than repeating it here,
+          # so this checks the URL visitors actually post to.
+          action=$(curl -fsSL "$SITE_URL/contact" \
+            | grep -o 'action="https://formspree.io/f/[^"]*"' \
+            | head -1 | cut -d'"' -f2)
+          if [ -z "$action" ]; then
+            echo "::error::No Formspree action found on $SITE_URL/contact"
+            exit 1
+          fi
+          echo "Endpoint: $action"
+          # A CORS preflight: it exercises the real endpoint and tells a live
+          # form apart from a deleted or disabled one, without delivering a
+          # test message to the inbox on every scheduled run.
+          code=$(curl -s -o /dev/null -w '%{http_code}' -X OPTIONS "$action" \
+            -H "Origin: $SITE_URL" \
+            -H "Access-Control-Request-Method: POST" \
+            -H "Access-Control-Request-Headers: content-type")
+          echo "Preflight: HTTP $code"
+          case "$code" in
+            200|204) ;;
+            *) echo "::error::Formspree endpoint returned HTTP $code"; exit 1 ;;
+          esac
