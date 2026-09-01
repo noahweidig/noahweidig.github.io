@@ -53,7 +53,7 @@ function merge(ranges) {
   const sorted = [...ranges].sort((a, b) => a.start - b.start);
   const out = [];
   for (const r of sorted) {
-    const last = out[out.length - 1];
+    const last = out.at(-1);
     if (last && r.start <= last.end) last.end = Math.max(last.end, r.end);
     else out.push({ start: r.start, end: r.end });
   }
@@ -96,7 +96,7 @@ let siteUsed = 0;
 let siteTotal = 0;
 const rows = [];
 
-for (const [name, rec] of [...sheets].sort()) {
+for (const [name, rec] of [...sheets].sort((a, b) => a[0].localeCompare(b[0]))) {
   const used = merge(rec.ranges).reduce((n, r) => n + (r.end - r.start), 0);
   siteUsed += used;
   siteTotal += rec.total;

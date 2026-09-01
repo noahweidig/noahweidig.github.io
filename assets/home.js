@@ -276,8 +276,12 @@
     var all = mk("All", null);
     all.classList.add("active");
     all.setAttribute("aria-pressed", "true");
+    // Explicit comparator: the default sort is by UTF-16 code unit, which
+    // mis-files anything accented (a category list is visitor-facing text).
     Array.from(cats)
-      .sort()
+      .sort(function (a, b) {
+        return a.localeCompare(b);
+      })
       .forEach(function (c) {
         mk(c, c);
       });
