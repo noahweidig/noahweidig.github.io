@@ -11,17 +11,26 @@ toc: false
 # webinars, coverage, review service — sits in one date-sorted list under a
 # category filter, rather than in nine stacked headings nobody can navigate.
 # The filter bar spans both listings; see assets/home.js.
+# Zotero exports one record per appearance, so a talk given at several venues
+# arrives as several near-identical items. scripts/update-pubs.js marks the
+# most recent of each cluster `pub-listed: "yes"` and hangs the venue run off
+# it, so a repeat run reads as one work presented four times (#253).
 listing:
   - id: pubs-journal
     contents: "*/index.qmd"
     sort: "date desc"
     include:
       categories: "Journal Article"
+      # Repeat appearances of one work carry no `pub-listed`, so the index
+      # shows one row per work while every appearance keeps its own page (#253).
+      pub-listed: "yes"
     template: ../_ejs/citation.ejs
     page-size: 100
   - id: pubs-other
     contents: "*/index.qmd"
     sort: "date desc"
+    include:
+      pub-listed: "yes"
     exclude:
       categories: "Journal Article"
     template: ../_ejs/citation.ejs

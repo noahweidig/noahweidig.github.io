@@ -39,6 +39,30 @@ function stripHtml(html) {
     .trim();
 }
 
+// Cut a blurb to `budget` characters without ending mid-sentence.
+//
+// The description this produces is used three times — the card summary, the
+// page's <meta name="description">, and the generated OG card — so a cut that
+// lands mid-word ("However, the spatial…") is visible in search results and
+// social previews (#253). Prefer the last complete sentence inside the budget;
+// only when there is no sentence break worth keeping does it fall back to a
+// word-boundary cut with an ellipsis.
+function trimToSentence(text, budget = 240) {
+  const s = String(text || "")
+    .replace(/\s+/g, " ")
+    .trim();
+  if (!s || s.length <= budget) return s;
+  const head = s.slice(0, budget + 1);
+  let end = -1;
+  for (const m of head.matchAll(/[.!?](?=["'’”)\]]{0,3}(?:\s|$))/g)) end = m.index + 1;
+  // A single very short opening sentence would throw the blurb away, so only
+  // accept a sentence cut that keeps a useful amount of text.
+  if (end >= Math.min(80, budget)) return s.slice(0, end);
+  const cut = s.slice(0, budget);
+  const sp = cut.lastIndexOf(" ");
+  return (sp > 0 ? cut.slice(0, sp) : cut).replace(/[\s.,;:]+$/, "") + "…";
+}
+
 function slugify(s) {
   return String(s)
     .normalize("NFKD")
@@ -328,6 +352,155 @@ function readExistingMetrics(file) {
 // Minimal YAML scalar quoting: always double-quote and escape.
 const yq = (s) => `"${String(s).replace(/\\/g, "\\\\").replace(/"/g, '\\"')}"`;
 
+// ---------------------------------------------------------------------------
+// Repeat appearances of one work (#253).
+//
+// Zotero exports one record per *appearance*, so a talk given at three
+// conferences — or the same talk filed once as a Presentation and once as a
+// Webinar — arrives as three separate items with the same title and the same
+// abstract. Rendered one row each, the publications page reads as padding
+// rather than as one well-travelled piece of work.
+//
+// Each cluster of same-title items therefore keeps its own page (URLs already
+// published must not 404), but only the most recent one is listed, and it
+// carries the whole run of venues in `pub-appearances`. Journal articles,
+// preprints and theses are never clustered: a paper and a talk that share a
+// title are genuinely different outputs and both belong on the page.
+const NEVER_GROUPED = new Set(["Journal Article", "Preprint", "Thesis"]);
+
+const MONTH_NAMES = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
+
+function whenLabel(date, year) {
+  const m = /^(\d{4})-(\d{2})-\d{2}$/.exec(date || "");
+  if (m) return `${MONTH_NAMES[+m[2] - 1]} ${m[1]}`;
+  return year ? String(year) : "";
+}
+
+const workKey = (title) =>
+  titleWords(title)
+    .map((w) => w.toLowerCase())
+    .join(" ");
+
+function groupAppearances(records) {
+  const groups = new Map();
+  for (const rec of records) {
+    if (NEVER_GROUPED.has(rec.category)) continue;
+    const key = workKey(rec.title);
+    if (!key) continue;
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key).push(rec);
+  }
+
+  for (const members of groups.values()) {
+    if (members.length < 2) continue;
+    members.sort(
+      (a, b) => (a.date || "").localeCompare(b.date || "") || a.slug.localeCompare(b.slug),
+    );
+    // The most recent appearance is the listed one, so the row sorts by the
+    // latest date the work was presented.
+    const canonical = members[members.length - 1];
+    canonical.appearances = members.map((m) => ({
+      venue: m.venue,
+      when: whenLabel(m.date, m.year),
+      kind: m.category,
+      url: m.link,
+    }));
+    canonical.categories = [
+      canonical.category,
+      ...members.map((m) => m.category).filter((c) => c !== canonical.category),
+    ].filter((c, i, all) => all.indexOf(c) === i);
+    for (const m of members) if (m !== canonical) m.appearanceOf = canonical;
+  }
+}
+
+// The venue line: whichever of Zotero's many container fields this item type
+// actually fills.
+function venueOf(data) {
+  const isThesis = data.itemType === "thesis";
+  return (
+    data.publicationTitle ||
+    data.bookTitle ||
+    data.proceedingsTitle ||
+    data.meetingName ||
+    data.event ||
+    (isThesis ? data.university || data.publisher : data.place || data.publisher) ||
+    ""
+  );
+}
+
+// Not every Zotero record carries an abstract, and a page with no
+// `description` gets no <meta name="description"> and no Open Graph blurb —
+// it just shows up bare in search results. Fall back to the citation the page
+// already displays, which is at least an accurate summary.
+function citationBlurb(category, authorsHtml, year, venue) {
+  const who = stripHtml(authorsHtml).replace(/\*\*/g, "").replace(/\s+/g, " ").trim();
+  return [
+    `${category}${who ? ` by ${who}` : ""}${year ? ` (${year})` : ""}.`,
+    venue ? `${venue.replace(/\*/g, "")}.` : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
+}
+
+// "vol. 12, no. 3, pp. 1-20", from whichever parts the record has.
+function detailsOf(data) {
+  const str = (v) => (v == null ? "" : String(v).trim());
+  const bits = [];
+  if (str(data.volume)) bits.push(`vol. ${str(data.volume)}`);
+  if (str(data.issue)) bits.push(`no. ${str(data.issue)}`);
+  if (str(data.pages)) bits.push(`pp. ${str(data.pages)}`);
+  return bits;
+}
+
+// One entry's page data. Nothing is written here: groupAppearances() needs to
+// see every record before any page is built.
+function buildRecord(it) {
+  const parsed = parseZoteroDate(it.data.date);
+  const year = parsed ? parsed.y : extractYear(it.data.date);
+  let date = "";
+  if (parsed) date = `${parsed.y}-${pad2(parsed.m)}-${pad2(parsed.d)}`;
+  else if (year) date = `${year}-01-01`;
+  const doi = it.data.DOI || "";
+  const venue = venueOf(it.data);
+  const abstract = stripHtml(it.data.abstractNote || "");
+  const category = categorize(it);
+  const authorsHtml = joinAuthors(
+    (it.data.creators || []).filter((c) => c && (c.lastName || c.name)).map(citeName),
+  );
+
+  return {
+    it,
+    slug: it.__slug,
+    title: stripHtml(it.data.title || "Untitled"),
+    date,
+    year,
+    doi,
+    link: it.data.url || (doi ? `https://doi.org/${doi}` : ""),
+    venue,
+    abstract,
+    summary: trimToSentence(abstract) || citationBlurb(category, authorsHtml, year, venue),
+    category,
+    categories: [category],
+    authorsHtml,
+    detailBits: detailsOf(it.data),
+    appearances: null,
+    appearanceOf: null,
+  };
+}
+
 async function main() {
   const items = await fetchAllItems(
     `https://api.zotero.org/users/${userID}/publications/items?format=json&include=data,bibtex&limit=100`,
@@ -374,71 +547,48 @@ async function main() {
     );
   }
 
+  // ---------------------------------------------------------------------
+  // Pass 1: derive each entry's page data (nothing is written yet — the
+  // grouping pass below needs to see every entry before any page is built).
+  // ---------------------------------------------------------------------
+  const records = entries.map(buildRecord);
+
+  groupAppearances(records);
+
+  // ---------------------------------------------------------------------
+  // Pass 2: write the pages.
+  // ---------------------------------------------------------------------
   let written = 0;
-  for (const it of entries) {
-    const slug = it.__slug;
-    const title = stripHtml(it.data.title || "Untitled");
-    const parsed = parseZoteroDate(it.data.date);
-    const year = parsed ? parsed.y : extractYear(it.data.date);
-    const date = parsed
-      ? `${parsed.y}-${pad2(parsed.m)}-${pad2(parsed.d)}`
-      : year
-        ? `${year}-01-01`
-        : "";
-    const doi = it.data.DOI || "";
-    const link = it.data.url || (doi ? `https://doi.org/${doi}` : "");
-    const isThesis = it.data.itemType === "thesis";
-    const venue =
-      it.data.publicationTitle ||
-      it.data.bookTitle ||
-      it.data.proceedingsTitle ||
-      it.data.meetingName ||
-      it.data.event ||
-      (isThesis ? it.data.university || it.data.publisher : it.data.place || it.data.publisher) ||
-      "";
-    const abstract = stripHtml(it.data.abstractNote || "");
-    let summary = "";
-    if (abstract) {
-      if (abstract.length > 240) {
-        const cut = abstract.slice(0, 240);
-        const sp = cut.lastIndexOf(" ");
-        summary = (sp > 0 ? cut.slice(0, sp) : cut).replace(/[\s.,;:]+$/, "") + "…";
-      } else summary = abstract;
-    }
-    const category = categorize(it);
-    const authorsHtml = joinAuthors(
-      (it.data.creators || []).filter((c) => c && (c.lastName || c.name)).map(citeName),
-    );
-
-    // Not every Zotero record carries an abstract, and a page with no
-    // `description` gets no <meta name="description"> and no Open Graph blurb —
-    // it just shows up bare in search results. Fall back to the citation the
-    // page already displays, which is at least an accurate summary.
-    if (!summary) {
-      const who = stripHtml(authorsHtml).replace(/\*\*/g, "").replace(/\s+/g, " ").trim();
-      summary = [
-        `${category}${who ? ` by ${who}` : ""}${year ? ` (${year})` : ""}.`,
-        venue ? `${venue.replace(/\*/g, "")}.` : "",
-      ]
-        .filter(Boolean)
-        .join(" ");
-    }
-
-    const detailBits = [];
-    const str = (v) => (v == null ? "" : String(v).trim());
-    if (str(it.data.volume)) detailBits.push(`vol. ${str(it.data.volume)}`);
-    if (str(it.data.issue)) detailBits.push(`no. ${str(it.data.issue)}`);
-    if (str(it.data.pages)) detailBits.push(`pp. ${str(it.data.pages)}`);
+  for (const rec of records) {
+    const { it, slug, title, date, year, doi, link, venue, abstract, summary, detailBits } = rec;
 
     const fm = ["---", `title: ${yq(title)}`];
     if (date) fm.push(`date: ${yq(date)}`);
     if (summary) fm.push(`description: ${yq(summary)}`);
-    fm.push(`categories: [${yq(category)}]`);
-    if (authorsHtml) fm.push(`pub-authors: ${yq(authorsHtml)}`);
+    fm.push(`categories: [${rec.categories.map(yq).join(", ")}]`);
+    if (rec.authorsHtml) fm.push(`pub-authors: ${yq(rec.authorsHtml)}`);
     if (venue) fm.push(`pub-venue: ${yq(venue)}`);
     if (detailBits.length) fm.push(`pub-details: ${yq(detailBits.join(", "))}`);
     if (doi) fm.push(`pub-doi: ${yq(doi)}`);
     if (link) fm.push(`pub-url: ${yq(link)}`);
+    // The listings on publications/index.qmd include `pub-listed: "yes"`, so a
+    // repeat appearance keeps its own page (and its URL) but does not add a
+    // near-identical row to the index (#253).
+    if (rec.appearanceOf) {
+      fm.push(`pub-appearance-of: ${yq(`../${rec.appearanceOf.slug}/`)}`);
+      fm.push(`pub-appearance-count: ${rec.appearanceOf.appearances.length}`);
+    } else {
+      fm.push(`pub-listed: "yes"`);
+      if (rec.appearances) {
+        fm.push("pub-appearances:");
+        for (const a of rec.appearances) {
+          fm.push(`  - venue: ${yq(a.venue)}`);
+          fm.push(`    when: ${yq(a.when)}`);
+          fm.push(`    kind: ${yq(a.kind)}`);
+          if (a.url) fm.push(`    url: ${yq(a.url)}`);
+        }
+      }
+    }
 
     const previous = readExistingMetrics(path.join(pubsDir, slug, "index.qmd"));
     // A fresh lookup wins; anything it didn't cover (lookup failed, or the DOI
@@ -453,7 +603,7 @@ async function main() {
     const body = [];
     body.push(`::: {.nw-cite-meta}`);
     body.push(
-      `${authorsHtml}${year ? ` (${year}).` : ""} ${venue ? `*${venue.replace(/\*/g, "")}*${detailBits.length ? ", " + detailBits.join(", ") : ""}.` : ""}`,
+      `${rec.authorsHtml}${year ? ` (${year}).` : ""} ${venue ? `*${venue.replace(/\*/g, "")}*${detailBits.length ? ", " + detailBits.join(", ") : ""}.` : ""}`,
     );
     body.push(`:::`, "");
     const btns = [];
@@ -461,6 +611,23 @@ async function main() {
     if (link && !doi) btns.push(`[Source](${link}){.nw-btn .nw-btn-primary target="_blank"}`);
     btns.push(`[BibTeX](cite.bib){.nw-btn .nw-btn-ghost}`);
     body.push(btns.join(" "), "");
+
+    if (rec.appearances) {
+      body.push("## Presented at", "");
+      for (const a of rec.appearances) {
+        const label = [a.venue, a.when].filter(Boolean).join(" — ");
+        body.push(`- ${a.url ? `[${label}](${a.url})` : label} · ${a.kind}`);
+      }
+      body.push("");
+    } else if (rec.appearanceOf) {
+      body.push(
+        `::: {.callout-note appearance="simple"}`,
+        `One of ${rec.appearanceOf.appearances.length} appearances of the same work. [See the full record and the other venues](../${rec.appearanceOf.slug}/).`,
+        `:::`,
+        "",
+      );
+    }
+
     if (abstract) body.push("## Abstract", "", abstract, "");
 
     const dir = path.join(pubsDir, slug);

@@ -1,11 +1,12 @@
 ---
 title: "Woody cover increases linked to forest infilling and land conversion in the eastern United States"
 date: "2025-04-01"
-description: "Woody cover increases in historically open ecosystems are occurring across the globe, leading to ecosystem degradation and increased wildfire risk. Tree and shrub cover is increasing in the eastern United States, which historically was…"
+description: "Woody cover increases in historically open ecosystems are occurring across the globe, leading to ecosystem degradation and increased wildfire risk."
 categories: ["Presentation"]
 pub-authors: "Ivey, M. A., **Weidig, N. C.**, Ivory II, A. A. & Donovan, V. M."
 pub-venue: "International Association for Landscape Ecology - North America Annual Conference"
 pub-url: "https://www.ialena.org/uploads/9/4/8/2/94821076/iale_program_handout_final.pdf"
+pub-listed: "yes"
 ---
 
 ::: {.nw-cite-meta}

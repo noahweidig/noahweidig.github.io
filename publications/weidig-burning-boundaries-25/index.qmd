@@ -1,11 +1,12 @@
 ---
 title: "Burning Boundaries: Large Wildfire Patterns and Drivers in the Eastern United States Wildland-Urban Interface"
 date: "2025-11-19"
-description: "Large wildfires are increasing in the eastern United States, raising concern about the risk to human life and property within the wildland-urban interface (WUI), where development and vegetation intermingle. In this webinar, we will…"
+description: "Large wildfires are increasing in the eastern United States, raising concern about the risk to human life and property within the wildland-urban interface (WUI), where development and vegetation intermingle."
 categories: ["Webinar"]
 pub-authors: "**Weidig, N. C.**, Wonkka, C. L., Ivey, M. A., Johnson, D. J. & Donovan, V. M."
 pub-venue: "Southern Fire Exchange"
 pub-url: "https://www.youtube.com/watch?v=HdklLrpJKkM"
+pub-listed: "yes"
 ---
 
 ::: {.nw-cite-meta}

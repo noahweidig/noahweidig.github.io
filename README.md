@@ -88,7 +88,8 @@ npm run build                  # build to _site/
 npm run a11y                   # axe-core over _site (or --base https://noahweidig.com)
 npm run validate:html          # html-validate over _site
 npm run globe                  # redraw the homepage globe SVG
-npm run lint                   # eslint + stylelint + prettier --check over the sources
+npm run lint                   # eslint + stylelint + prettier --check + prose over the sources
+npm run lint:prose             # house style over **/*.qmd (prose-lint.mjs + cspell)
 npm run format                 # prettier --write
 npm run report:css             # unused-CSS report over _site (advisory)
 node scripts/update-pubs.js    # refresh publications from Zotero
@@ -101,6 +102,14 @@ Formatting is Prettier's (`.prettierrc.json`, `.editorconfig`), correctness is
 ESLint's (`eslint.config.mjs`) and Stylelint's (`.stylelintrc.json`); the
 vendored `_extensions/` and the `.qmd` files, whose front matter and raw-HTML
 blocks Prettier reflows badly, are left alone.
+
+The prose is checked the same way (#250). `npm run lint:prose` runs
+`scripts/prose-lint.mjs` — US spelling, sentence case for every heading and
+button label, and a short list of filler phrases and exclamation marks — over
+the `.qmd` sources, skipping fenced code and inline code so R's `colour =`
+argument stays correct. Its house style lives in `prose.config.json` and is
+written down for readers on [`/styleguide`](https://noahweidig.com/styleguide.html);
+`cspell` (`cspell.json`) catches the typos a rule list cannot.
 
 ### Continuous integration
 

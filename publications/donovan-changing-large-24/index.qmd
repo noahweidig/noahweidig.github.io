@@ -1,11 +1,12 @@
 ---
 title: "Changing Large Wildfire Risk in the Southeastern U.S."
 date: "2024-02-22"
-description: "Global change is altering ecosystem structure and function including natural disturbance processes like fire that can threaten human communities. We assess changes in large (greater than 200 ha) wildfire activity across southeastern U.S…"
+description: "Global change is altering ecosystem structure and function including natural disturbance processes like fire that can threaten human communities. We assess changes in large (greater than 200 ha) wildfire activity across southeastern U.S."
 categories: ["Presentation"]
 pub-authors: "Donovan, V. M., Crandall, R. M., Fill, J. M., Ivey, M. A., **Weidig, N. C.** & Wonkka, C. L."
 pub-venue: "Gulf of Mexico Conference"
 pub-url: "https://gulfofamericaalliance.org/wp-content/uploads/2024/02/GOMCON-Schedule-of-Concurrent-Sessions-02.14.24.pdf"
+pub-listed: "yes"
 ---
 
 ::: {.nw-cite-meta}

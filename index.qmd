@@ -45,8 +45,8 @@ include-after-body:
     <a href="https://orcid.org/0000-0003-1205-3209" aria-label="ORCID" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9 10v6"/><path d="M9 7v.01"/><path d="M12.5 16v-6h2a3 3 0 0 1 0 6z"/></svg></a>
   </div>
   <div class="nw-btns">
-    <a class="nw-btn nw-btn-primary" href="#projects">View My Work ↓</a>
-    <a class="nw-btn nw-btn-ghost" href="/contact.html">Get In Touch <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6l9 -6"/></svg></a>
+    <a class="nw-btn nw-btn-primary" href="#projects">View my work ↓</a>
+    <a class="nw-btn nw-btn-ghost" href="/contact.html">Get in touch <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6l9 -6"/></svg></a>
   </div>
   </div>
   <div class="nw-hero-media">
@@ -91,7 +91,7 @@ include-after-body:
       <a class="nw-start-card" href="#interests">
         <span class="nw-start-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7l6-3 6 3 6-3v13l-6 3-6-3-6 3z"/><path d="M9 4v13M15 7v13"/></svg></span>
         <h2>Research</h2>
-        <p>Six focus areas, from WUI wildfire risk to species distribution modelling — with the papers behind each.</p>
+        <p>Six focus areas, from WUI wildfire risk to species distribution modeling — with the papers behind each.</p>
         <span class="nw-start-link">Read the research →</span>
       </a>
       <a class="nw-start-card" href="#projects">
@@ -220,7 +220,7 @@ include-after-body:
 <p class="nw-kicker">Selected work</p>
 <h2 class="nw-title">Tools, maps &amp; applications</h2>
 </div>
-<a class="nw-head-link" href="projects/">Browse All Projects →</a>
+<a class="nw-head-link" href="projects/">Browse all projects →</a>
 </div>
 
 ::: {#featured-projects .nw-projects}
@@ -235,7 +235,7 @@ include-after-body:
 <p class="nw-kicker">Publications</p>
 <h2 class="nw-title">Peer-reviewed &amp; in review</h2>
 </div>
-<a class="nw-head-link" href="publications/">All Publications →</a>
+<a class="nw-head-link" href="publications/">All publications →</a>
 </div>
 
 ::: {#featured-pubs .nw-cites}
@@ -303,7 +303,7 @@ include-after-body:
             <p>Conducted geospatial analysis to support wildland-urban interface and emergency management decision-making</p>
           </a>
         </div>
-        <div class="nw-btns nw-section-more"><a class="nw-btn nw-btn-ghost" href="experience/">See All Experience →</a></div>
+        <div class="nw-btns nw-section-more"><a class="nw-btn nw-btn-ghost" href="experience/">See all experience →</a></div>
       </div>
       <div class="nw-exp-edu-col" id="education">
         <h3 class="nw-exp-edu-label">Education</h3>
@@ -321,7 +321,7 @@ include-after-body:
             <p>Ecology, Evolution, &amp; Organismal Track, 4.0 GPA</p>
           </a>
         </div>
-        <div class="nw-btns nw-section-more"><a class="nw-btn nw-btn-ghost" href="education/">See All Education →</a></div>
+        <div class="nw-btns nw-section-more"><a class="nw-btn nw-btn-ghost" href="education/">See all education →</a></div>
       </div>
     </div>
   </div>
@@ -332,9 +332,9 @@ include-after-body:
     <div class="nw-head-row">
       <div>
         <p class="nw-kicker">Recognition</p>
-        <h2 class="nw-title">Featured Awards</h2>
+        <h2 class="nw-title">Featured awards</h2>
       </div>
-      <a class="nw-head-link" href="awards/">All Awards →</a>
+      <a class="nw-head-link" href="awards/">All awards →</a>
     </div>
     <div class="nw-carousel">
       <a class="nw-award" href="awards/outstanding-thesis-natural-resources/"><figure><img src="awards/outstanding-thesis-natural-resources/featured.webp" width="1200" height="675" alt="Outstanding Thesis in Natural Resources" loading="lazy"><figcaption><b>Outstanding Thesis in Natural Resources</b><span>University of Florida, College of Agricultural &amp; Life Sciences</span></figcaption></figure></a>
@@ -353,7 +353,7 @@ include-after-body:
 <p class="nw-kicker">Writing</p>
 <h2 class="nw-title">Notes &amp; tutorials</h2>
 </div>
-<a class="nw-head-link" href="blog/">Read More Posts →</a>
+<a class="nw-head-link" href="blog/">Read more posts →</a>
 </div>
 
 ::: {#featured-posts .nw-posts}
@@ -365,7 +365,7 @@ include-after-body:
 <section id="faq" class="nw-section">
   <div class="nw-section-inner">
     <p class="nw-kicker">FAQ</p>
-    <h2 class="nw-title">About My Work</h2>
+    <h2 class="nw-title">About my work</h2>
     <p class="nw-subtitle">Common questions about collaboration and what I do</p>
     <div class="nw-faq">
       <details><summary>What do you do?</summary><p>I work at the intersection of geospatial analytics, data science, and applied AI — building reproducible workflows that turn spatial and environmental data into decision-ready insights.</p></details>
@@ -388,7 +388,7 @@ include-after-body:
         <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 4.5v9l-8 4.5l-8 -4.5v-9z"/><path d="M12 12l8 -4.5"/><path d="M12 12v9"/><path d="M12 12l-8 -4.5"/></svg>Data science, GIS &amp; applied AI</li>
         <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 7v5l3 3"/><path d="M12 3a9 9 0 1 0 0 18a9 9 0 0 0 0 -18"/></svg>Replies within 24 hours</li>
       </ul>
-      <div class="nw-btns"><a class="nw-btn nw-btn-primary" href="uploads/resume.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2"/><path d="M7 11l5 5l5 -5"/><path d="M12 4v12"/></svg>Download Resume</a><a class="nw-btn nw-btn-ghost" href="/cv.html">View Full CV</a><a class="nw-btn nw-btn-ghost" href="mailto:noah@noahweidig.com">Get in Touch</a></div>
+      <div class="nw-btns"><a class="nw-btn nw-btn-primary" href="uploads/resume.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2"/><path d="M7 11l5 5l5 -5"/><path d="M12 4v12"/></svg>Download resume</a><a class="nw-btn nw-btn-ghost" href="/cv.html">View full CV</a><a class="nw-btn nw-btn-ghost" href="mailto:noah@noahweidig.com">Get in touch</a></div>
       <p class="nw-cta-foot">Prefer email? Reach me directly at <a href="mailto:noah@noahweidig.com" style="color:inherit;font-weight:600;">noah@noahweidig.com</a></p>
     </div>
     <!-- The dot globe rides alongside the closing pitch: to its right on

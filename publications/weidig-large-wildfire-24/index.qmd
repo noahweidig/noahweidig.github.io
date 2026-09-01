@@ -6,6 +6,7 @@ categories: ["Presentation"]
 pub-authors: "**Weidig, N. C.**, Wonkka, C. L., Ivey, M. A. & Donovan, V. M."
 pub-venue: "International Association for Landscape Ecology - North America Annual Conference"
 pub-url: "https://www.ialena.org/program-2024.html"
+pub-listed: "yes"
 ---
 
 ::: {.nw-cite-meta}
