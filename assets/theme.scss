@@ -3279,16 +3279,18 @@ body.nav-fixed .page-layout-article main.content {
 #title-block-header.nw-page-head {
   text-align: center;
 
-  /* Same distance below the navbar as #notfound's band (see .nw-page-band in
-     site.css). The navbar's own height is handed back as padding one level up
-     on `main.content` for full/article layouts, so only the band's share of
-     the gap is set here; custom layouts pull the header itself up and carry
-     the navbar height below. */
-  padding-top: calc(var(--nw-space-10) + var(--nw-space-4));
+  /* Same distance below the navbar as the 404 band: its content starts
+     `--nw-space-10` from the top of the page (`#quarto-content > .nw-section`
+     above, over a navbar-height pull-up), so the navbar's own height is the
+     part of that already spent. On full/article layouts `main.content` hands
+     the navbar height back as padding one level up, so only the remainder is
+     set here; custom layouts pull the header itself up instead and carry the
+     whole distance (see below). */
+  padding-top: calc(var(--nw-space-10) - var(--nw-navbar-h));
 }
 
 body.nav-fixed .page-layout-custom #title-block-header.nw-page-head {
-  padding-top: calc(var(--nw-space-10) + var(--nw-space-4) + var(--nw-navbar-h));
+  padding-top: var(--nw-space-10);
 }
 
 /* Matched to `.nw-section h1.nw-title` — the 404 heading — rather than left at
