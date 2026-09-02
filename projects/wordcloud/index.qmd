@@ -4,7 +4,7 @@ date: '2025-01-05'
 description: Word Cloud Generator
 categories:
 - Data Science
-featured: true
+featured: false
 ---
 
 [Launch Tool](https://noahweidig.com/wordcloud/){.nw-btn .nw-btn-primary target="_blank"}
