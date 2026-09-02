@@ -26,6 +26,8 @@ const PAGES = [
   "publications/index.html",
   "blog/index.html",
   "contact.html",
+  // The 404 page carries the site chrome now, so it gets checked like any other.
+  "404.html",
   // Renders every token and component on one page (#222), so a regression in
   // any component fails here regardless of which page it ships on.
   "styleguide.html",
