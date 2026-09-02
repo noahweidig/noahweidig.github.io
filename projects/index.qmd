@@ -22,7 +22,7 @@ include-after-body:
      projects are added, un-featured, or re-categorized. -->
 <div class="nw-stats nw-statstrip">
 <div class="nw-stat"><b data-nw-stat="project-total">17</b><span>Projects</span></div>
-<div class="nw-stat"><b data-nw-stat="project-featured">16</b><span>Featured Projects</span></div>
+<div class="nw-stat"><b data-nw-stat="project-featured">6</b><span>Featured Projects</span></div>
 <div class="nw-stat"><b data-nw-stat="project-categories">6</b><span>Topic Areas</span></div>
 <div class="nw-stat"><b data-nw-stat="project-latest">2026</b><span>Latest Release</span></div>
 </div>
