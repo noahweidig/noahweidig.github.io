@@ -1,7 +1,7 @@
 <% for (const item of items) { %>
 <div class="nw-cv-entry">
 <div class="nw-cv-entry-head">
-<div class="nw-cv-entry-title"><%= item.title %></div>
+<div class="nw-cv-entry-title"><% if (item.path) { %><a href="<%- item.path %>"><%= item.title %></a><% } else { %><%= item.title %><% } %></div>
 <% const when = item.dates || (item.date ? new Date(item.date).getUTCFullYear() : ''); %><% if (when) { %><div class="nw-cv-entry-date"><%= when %></div><% } %>
 </div>
 <% if (item.org || item.location) { %>
