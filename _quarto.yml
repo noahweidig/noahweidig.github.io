@@ -20,6 +20,11 @@ project:
     # Rebuilds the 404 page's destination cards from the navbar below, so the
     # list can't go stale when a section is added, renamed or removed.
     - scripts/build-404.ts
+    # Gives every main page (section indexes plus the root-level pages) the
+    # 404 page's centered header: kicker label above the title, centered
+    # subtitle below it. Quarto's title-block template has no slot above the
+    # <h1>, so the kicker is stamped into the rendered HTML here.
+    - scripts/page-headers.ts
     - scripts/generate-og.ts
     - scripts/optimize-output.ts
   resources:

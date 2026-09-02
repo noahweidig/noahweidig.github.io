@@ -3268,6 +3268,50 @@ body.nav-fixed .page-layout-article main.content {
   }
 }
 
+/* ============ main-page header: the 404 page's treatment ============ */
+
+/* Every main page (section indexes plus the root-level pages) is stamped
+   `.nw-page-head` by scripts/page-headers.ts, which also inserts the
+   `.nw-kicker` label above the <h1>. The result is the header the 404 page
+   writes by hand — kicker, centered title, centered subtitle — without that
+   markup being repeated in ten .qmd files. Detail pages keep Quarto's
+   left-aligned default. */
+#title-block-header.nw-page-head {
+  text-align: center;
+
+  /* Same distance below the navbar as #notfound's band (see .nw-page-band in
+     site.css). The navbar's own height is handed back as padding one level up
+     on `main.content` for full/article layouts, so only the band's share of
+     the gap is set here; custom layouts pull the header itself up and carry
+     the navbar height below. */
+  padding-top: calc(var(--nw-space-10) + var(--nw-space-4));
+}
+
+body.nav-fixed .page-layout-custom #title-block-header.nw-page-head {
+  padding-top: calc(var(--nw-space-10) + var(--nw-space-4) + var(--nw-navbar-h));
+}
+
+/* Matched to `.nw-section h1.nw-title` — the 404 heading — rather than left at
+   Quarto's own h1 size. */
+.nw-page-head .quarto-title h1.title {
+  font-size: var(--nw-text-4xl);
+  margin: 0 0 var(--nw-space-2);
+  text-wrap: balance;
+}
+
+/* The line under the title: `.nw-subtitle`'s look, capped at a readable
+   measure so it centers as a block rather than running the full column width.
+   Quarto renders the page `description:` in its own `.description` div below
+   `.quarto-title`, and a `subtitle:` inside it — both are the same line to a
+   reader, so both are styled. */
+.nw-page-head .description,
+.nw-page-head .quarto-title .subtitle {
+  max-width: 44rem;
+  margin: 0 auto;
+  color: var(--nw-muted);
+  text-wrap: pretty;
+}
+
 /* Blog post pages: "X minute read", set against the top right of the article
    column. scripts/reading-time.lua prepends it as the first block of the body.
    It used to float, which let the opening paragraphs wrap around it and pushed

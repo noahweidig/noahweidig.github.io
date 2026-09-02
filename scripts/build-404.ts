@@ -20,12 +20,14 @@
 
 import fs from "node:fs";
 import path from "node:path";
-import { outputDir, projectRoot } from "./site-output.ts";
-
-interface Destination {
-  text: string;
-  href: string;
-}
+import {
+  type Destination,
+  escapeHtml,
+  navDestinations,
+  outputDir,
+  projectRoot,
+  toUrl,
+} from "./site-output.ts";
 
 /** Per-destination chrome, keyed by the site-root URL the navbar resolves to. */
 const CARDS: Record<string, { blurb: string; icon: string }> = {
@@ -61,61 +63,6 @@ const CARDS: Record<string, { blurb: string; icon: string }> = {
 
 /** Fallback glyph for a navbar entry the table above doesn't know yet. */
 const GENERIC_ICON = '<circle cx="12" cy="12" r="9"/><path d="M12 8v4l2 2"/>';
-
-/**
- * The navbar's left-hand entries, as they appear in _quarto.yml. Parsed by
- * hand rather than with a YAML dependency: the block is a flat list of
- * `- text:` / `href:` pairs and the post-render scripts deliberately run with
- * nothing to install.
- */
-function navDestinations(yml: string): Destination[] {
-  const lines = yml.split("\n");
-  const start = lines.findIndex((line) => /^\s{4}left:\s*$/.test(line));
-  if (start < 0) return [];
-  const items: Destination[] = [];
-  let current: Partial<Destination> = {};
-  for (let i = start + 1; i < lines.length; i++) {
-    const line = lines[i];
-    if (line.trim() === "") continue;
-    // A sibling key of `left:` (same or shallower indent) ends the list.
-    if (!/^\s{6}/.test(line)) break;
-    const text = /^\s+-?\s*text:\s*(.*?)\s*$/.exec(line);
-    if (text && /^\s+-\s/.test(line)) {
-      if (current.text && current.href) items.push(current as Destination);
-      current = { text: unquote(text[1]) };
-      continue;
-    }
-    const href = /^\s+href:\s*(.*?)\s*$/.exec(line);
-    if (href) current.href = unquote(href[1]);
-  }
-  if (current.text && current.href) items.push(current as Destination);
-  return items;
-}
-
-function unquote(value: string): string {
-  return value.replace(/^["']|["']$/g, "");
-}
-
-/**
- * The site-root URL a navbar href renders to. Quarto navbars point at source
- * files; `foo/index.qmd` becomes the directory `/foo/` and `foo.qmd` becomes
- * `/foo.html` — the form the rest of the site links with, and the only one
- * that exists on disk for the link check to resolve.
- */
-function toUrl(href: string): string {
-  const clean = href.replace(/^\//, "");
-  if (clean.endsWith("/index.qmd")) return `/${clean.slice(0, -"index.qmd".length)}`;
-  return `/${clean.replace(/\.qmd$/, ".html")}`;
-}
-
-function escapeHtml(value: string): string {
-  return value
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;");
-}
 
 function card(destination: Destination): string {
   const url = toUrl(destination.href);
