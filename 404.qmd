@@ -12,7 +12,8 @@ include-after-body:
 ---
 
 ```{=html}
-<section id="notfound" class="nw-section">
+<section id="notfound" class="nw-section nw-page-band">
+  <div class="nw-hero-dots" aria-hidden="true"></div>
   <div class="nw-section-inner">
     <p class="nw-kicker">Error 404</p>
     <h1 class="nw-title">That page doesn't exist</h1>
