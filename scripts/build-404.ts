@@ -49,11 +49,11 @@ const CARDS: Record<string, { blurb: string; icon: string }> = {
     blurb: "Notes on R, spatial data, and working reproducibly.",
     icon: '<path d="M4 20h4L18.5 9.5a2.83 2.83 0 0 0-4-4L4 16z"/><path d="M13.5 6.5l4 4"/>',
   },
-  "/cv": {
+  "/cv.html": {
     blurb: "The full record — education, roles, talks, and skills.",
     icon: '<path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M17 21H7a2 2 0 0 1 -2 -2V5a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z"/><path d="M9 13h6"/><path d="M9 17h3"/>',
   },
-  "/contact": {
+  "/contact.html": {
     blurb: "Email, book a call, or send a message.",
     icon: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6l9 -6"/>',
   },
@@ -99,12 +99,13 @@ function unquote(value: string): string {
 /**
  * The site-root URL a navbar href renders to. Quarto navbars point at source
  * files; `foo/index.qmd` becomes the directory `/foo/` and `foo.qmd` becomes
- * extensionless `/foo`, which is the link style the rest of the site uses.
+ * `/foo.html` — the form the rest of the site links with, and the only one
+ * that exists on disk for the link check to resolve.
  */
 function toUrl(href: string): string {
   const clean = href.replace(/^\//, "");
   if (clean.endsWith("/index.qmd")) return `/${clean.slice(0, -"index.qmd".length)}`;
-  return `/${clean.replace(/\.qmd$/, "")}`;
+  return `/${clean.replace(/\.qmd$/, ".html")}`;
 }
 
 function escapeHtml(value: string): string {
