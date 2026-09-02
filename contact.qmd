@@ -1,6 +1,7 @@
 ---
 title: "Get in touch"
 description: "Email me, book a call, or send a message — I reply within 24 hours."
+kicker: "Contact"
 page-layout: custom
 toc: false
 include-after-body:

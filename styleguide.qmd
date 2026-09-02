@@ -1,6 +1,7 @@
 ---
 title: "Styleguide"
 description: "The site's design tokens rendered live — type scale, color with computed contrast ratios, spacing, radius, shadow, motion, breakpoints — plus every component in one place."
+kicker: "Design system"
 search: false
 toc: false
 ---

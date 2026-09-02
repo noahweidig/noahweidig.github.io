@@ -1,6 +1,8 @@
 ---
 title: "Selected Projects"
 description: "I build tools and turn ideas into reality. Here's a selection of projects I've created over the years."
+# Rendered above the page title by scripts/page-headers.ts.
+kicker: "Selected work"
 page-layout: full
 # Listing page: the share buttons in this directory's _metadata.yml are meant
 # for the detail pages, not this index.

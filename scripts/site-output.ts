@@ -3,8 +3,10 @@
  *
  * `scripts/generate-og.ts` and `scripts/optimize-output.ts` both walk the
  * rendered site and rewrite pages in place, so they both need to know where
- * Quarto put the output and how to enumerate it. That lives here rather than
- * being written twice.
+ * Quarto put the output and how to enumerate it; `scripts/build-404.ts` and
+ * `scripts/page-headers.ts` both read the navbar out of _quarto.yml and turn
+ * its hrefs into site-root URLs. All of that lives here rather than being
+ * written twice.
  *
  * Imported by scripts Quarto runs with its bundled Deno; also loadable under
  * `node --experimental-strip-types`.
@@ -40,4 +42,67 @@ export function* walkHtml(dir: string): Generator<string> {
       yield full;
     }
   }
+}
+
+/** A navbar entry: its label and the source file it points at. */
+export interface Destination {
+  text: string;
+  href: string;
+}
+
+/**
+ * The navbar's left-hand entries, as they appear in _quarto.yml. Parsed by
+ * hand rather than with a YAML dependency: the block is a flat list of
+ * `- text:` / `href:` pairs and the post-render scripts deliberately run with
+ * nothing to install.
+ */
+export function navDestinations(yml: string): Destination[] {
+  const lines = yml.split("\n");
+  const start = lines.findIndex((line) => /^\s{4}left:\s*$/.test(line));
+  if (start < 0) return [];
+  const items: Destination[] = [];
+  let current: Partial<Destination> = {};
+  for (let i = start + 1; i < lines.length; i++) {
+    const line = lines[i];
+    if (line.trim() === "") continue;
+    // A sibling key of `left:` (same or shallower indent) ends the list.
+    if (!/^\s{6}/.test(line)) break;
+    const text = /^\s+-?\s*text:\s*(.*?)\s*$/.exec(line);
+    if (text && /^\s+-\s/.test(line)) {
+      if (current.text && current.href) items.push(current as Destination);
+      current = { text: unquote(text[1]) };
+      continue;
+    }
+    const href = /^\s+href:\s*(.*?)\s*$/.exec(line);
+    if (href) current.href = unquote(href[1]);
+  }
+  if (current.text && current.href) items.push(current as Destination);
+  return items;
+}
+
+/** A YAML scalar with its surrounding quotes, if any, taken off. */
+export function unquote(value: string): string {
+  return value.replace(/^["']|["']$/g, "");
+}
+
+/**
+ * The site-root URL a navbar href renders to. Quarto navbars point at source
+ * files; `foo/index.qmd` becomes the directory `/foo/` and `foo.qmd` becomes
+ * `/foo.html` — the form the rest of the site links with, and the only one
+ * that exists on disk for the link check to resolve.
+ */
+export function toUrl(href: string): string {
+  const clean = href.replace(/^\//, "");
+  if (clean.endsWith("/index.qmd")) return `/${clean.slice(0, -"index.qmd".length)}`;
+  return `/${clean.replace(/\.qmd$/, ".html")}`;
+}
+
+/** Text destined for an HTML attribute or text node. */
+export function escapeHtml(value: string): string {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
 }

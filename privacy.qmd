@@ -1,6 +1,7 @@
 ---
 title: "Privacy"
 description: "What this site collects, why, and how to opt out — analytics, the contact form, and third-party services."
+kicker: "Legal"
 toc: false
 ---
 
