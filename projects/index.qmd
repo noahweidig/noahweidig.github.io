@@ -16,6 +16,18 @@ include-after-body:
       <script src="../assets/home.js"></script>
 ---
 
+```{=html}
+<!-- The numbers are fallbacks: scripts/update-stats.ts rewrites them at render
+     time from the projects/*/index.qmd front matter, so they can't drift as
+     projects are added, un-featured, or re-categorized. -->
+<div class="nw-stats nw-statstrip">
+<div class="nw-stat"><b data-nw-stat="project-total">17</b><span>Projects</span></div>
+<div class="nw-stat"><b data-nw-stat="project-featured">16</b><span>Featured Projects</span></div>
+<div class="nw-stat"><b data-nw-stat="project-categories">6</b><span>Topic Areas</span></div>
+<div class="nw-stat"><b data-nw-stat="project-latest">2026</b><span>Latest Release</span></div>
+</div>
+```
+
 <div class="nw-filters" data-nw-filter-for="all-projects" data-nw-filter-noun="projects"></div>
 
 <!-- The listing renders each item at heading level 3; without a level-2
