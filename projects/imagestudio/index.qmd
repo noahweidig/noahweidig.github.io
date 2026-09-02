@@ -4,7 +4,7 @@ date: '2025-03-13'
 description: A Shiny App for Image Editing
 categories:
 - Creative
-featured: true
+featured: false
 ---
 
 [Launch Tool](https://noahweidig.com/imagestudio){.nw-btn .nw-btn-primary target="_blank"}

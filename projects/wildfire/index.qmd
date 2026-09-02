@@ -5,7 +5,7 @@ description: Wildfire Risk Visualizer by State
 categories:
 - Geospatial
 - Fire
-featured: true
+featured: false
 ---
 
 [Launch Tool](https://rpubs.com/noahweidig/us-wildfire-risk){.nw-btn .nw-btn-primary target="_blank"}
