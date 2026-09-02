@@ -5,6 +5,7 @@ description: "Large wildfires are increasing in the eastern U.S., which contains
 categories: ["Presentation"]
 pub-authors: "**Weidig, N. C.**, Wonkka, C. L., Ivey, M. A., Johnson, D. J. & Donovan, V. M."
 pub-venue: "Ecological Society of America"
+pub-url: "https://events.rdmobile.com/Lists/Details/2996882"
 pub-listed: "yes"
 pub-appearances:
   - venue: "International Association for Landscape Ecology - North America Annual Conference"
@@ -14,18 +15,19 @@ pub-appearances:
   - venue: "Ecological Society of America"
     when: "Aug 2025"
     kind: "Presentation"
+    url: "https://events.rdmobile.com/Lists/Details/2996882"
 ---
 
 ::: {.nw-cite-meta}
 **Weidig, N. C.**, Wonkka, C. L., Ivey, M. A., Johnson, D. J. & Donovan, V. M. (2025). *Ecological Society of America*.
 :::
 
-[BibTeX](cite.bib){.nw-btn .nw-btn-ghost}
+[Source](https://events.rdmobile.com/Lists/Details/2996882){.nw-btn .nw-btn-primary target="_blank"} [BibTeX](cite.bib){.nw-btn .nw-btn-ghost}
 
 ## Presented at
 
 - [International Association for Landscape Ecology - North America Annual Conference — Apr 2025](https://www.ialena.org/uploads/9/4/8/2/94821076/iale_program_handout_final.pdf) · Presentation
-- Ecological Society of America — Aug 2025 · Presentation
+- [Ecological Society of America — Aug 2025](https://events.rdmobile.com/Lists/Details/2996882) · Presentation
 
 ## Abstract
 
