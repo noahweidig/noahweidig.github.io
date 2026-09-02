@@ -1,6 +1,7 @@
 ---
 title: "Awards & Honors"
 description: "Awards, scholarships, grants, and honors I've received over the years."
+kicker: "Recognition"
 page-layout: full
 # Listing page: the share buttons in this directory's _metadata.yml are meant
 # for the detail pages, not this index.
