@@ -17,6 +17,9 @@ project:
   # last two both rewrite the HTML generate-og.ts produced.
   post-render:
     - scripts/update-stats.ts
+    # Rebuilds the 404 page's destination cards from the navbar below, so the
+    # list can't go stale when a section is added, renamed or removed.
+    - scripts/build-404.ts
     - scripts/generate-og.ts
     - scripts/optimize-output.ts
   resources:
@@ -38,6 +41,8 @@ project:
     # Referenced root-relative from contact.qmd's include-after-body, which
     # Quarto's resource discovery doesn't follow — must be listed explicitly.
     - assets/contact-form.js
+    # Same for 404.qmd's include-after-body.
+    - assets/notfound.js
 
 filters:
   - social-share

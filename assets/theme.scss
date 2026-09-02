@@ -774,6 +774,61 @@ body {
   color: var(--nw-primary-text);
 }
 
+/* ============ 404 ============ */
+
+/* The one page a visitor reaches by accident, so it carries the same section
+   chrome as the rest of the site rather than the bare article default. Only
+   one section on the page, so it fills the viewport instead of leaving the
+   footer riding up under three cards. */
+#notfound {
+  border-top: none;
+  display: flex;
+  align-items: center;
+  min-height: calc(100vh - 20rem);
+}
+
+/* the inner column is a flex item here, so it has to be told to fill the row
+   rather than shrink to its content */
+#notfound .nw-section-inner {
+  width: 100%;
+}
+
+/* .nw-title is styled as an h2 elsewhere; the 404 heading is the page's h1. */
+.nw-section h1.nw-title {
+  text-align: center;
+  font-family: var(--nw-font-display);
+  font-weight: 500;
+  font-size: var(--nw-text-4xl);
+  letter-spacing: -0.02em;
+  margin: 0 0 var(--nw-space-2);
+  border: none;
+}
+
+/* The search entry point is a <button> (it opens the navbar overlay rather
+   than navigating), so it needs the type defaults a <a class="nw-btn"> never
+   picks up. */
+button.nw-btn {
+  font: inherit;
+  font-weight: 600;
+  appearance: none;
+}
+
+.nw-404-grid {
+  margin-top: var(--nw-space-8);
+}
+
+/* Quarto gives <h2> a rule underneath; the cards' headings are card titles. */
+.nw-404-grid .nw-start-card h2 {
+  border: none;
+  padding-bottom: 0;
+}
+
+/* The navbar can hold more entries than the three-up grid the homepage uses,
+   so the cards wrap on their own rather than at a fixed column count. */
+.nw-404-grid.nw-start-grid {
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+}
+
 /* ============ hero ============ */
 #hero {
   padding: 7rem var(--nw-space-5) var(--nw-space-9);
