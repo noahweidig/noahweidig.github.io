@@ -63,7 +63,7 @@ include-after-body:
       <div class="nw-stat"><b>20+</b><span>Tools Mastered</span></div>
       <!-- The number is a fallback: scripts/update-stats.ts rewrites it at render
      time to the count of projects/*/index.qmd with `featured: true`. -->
-      <div class="nw-stat"><b data-nw-stat="featured-projects">17</b><span>Featured Projects</span></div>
+      <div class="nw-stat"><b data-nw-stat="featured-projects">6</b><span>Featured Projects</span></div>
     </div>
     <!-- The id keeps the footer's /#affiliations link pointing at them. -->
     <div class="nw-affil-row">

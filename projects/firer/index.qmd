@@ -6,7 +6,7 @@ categories:
 - R
 - Data Science
 - Fire
-featured: true
+featured: false
 ---
 
 [View Package](https://noahweidig.com/fireR/){.nw-btn .nw-btn-primary target="_blank"}

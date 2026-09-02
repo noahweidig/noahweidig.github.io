@@ -5,7 +5,7 @@ description: US Census TIGER Roads in GEE
 categories:
 - Geospatial
 - Data Science
-featured: true
+featured: false
 ---
 
 [View Catalog](https://gee-community-catalog.org/projects/tiger_roads/){.nw-btn .nw-btn-primary target="_blank"}
