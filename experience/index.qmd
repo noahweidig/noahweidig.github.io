@@ -1,6 +1,7 @@
 ---
 title: "Experience"
 description: "Roles and internships across GIS, remote sensing, and ecological research."
+kicker: "Background"
 page-layout: full
 # Listing page: the share buttons in this directory's _metadata.yml are meant
 # for the detail pages, not this index.

@@ -1,6 +1,7 @@
 ---
 title: "Curriculum Vitae"
 description: "The full curriculum vitae of Noah Weidig — GIS Analyst & Data Scientist: education, experience, publications, presentations, and awards."
+kicker: "Full record"
 page-layout: custom
 toc: false
 image: assets/media/authors/me.webp
