@@ -3299,8 +3299,12 @@ body.nav-fixed .page-layout-custom #title-block-header.nw-page-head {
   text-wrap: balance;
 }
 
-/* The page `description:`, which Quarto renders as the title block's
-   subtitle: `.nw-subtitle`'s look, centered and capped at a readable measure. */
+/* The line under the title: `.nw-subtitle`'s look, capped at a readable
+   measure so it centers as a block rather than running the full column width.
+   Quarto renders the page `description:` in its own `.description` div below
+   `.quarto-title`, and a `subtitle:` inside it — both are the same line to a
+   reader, so both are styled. */
+.nw-page-head .description,
 .nw-page-head .quarto-title .subtitle {
   max-width: 44rem;
   margin: 0 auto;
