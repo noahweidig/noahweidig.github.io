@@ -1085,9 +1085,9 @@ body {
    an orphan on the last line (3 + 1) and drops a divider on the wrong edge.
    The track count is locked to 4, 2 or 1, so the layout is only ever 4x1,
    2x2 or 1x4 and the dividers always sit between columns. The same rules
-   serve the publications impact strip (.nw-pubstats). */
+   serve the publications and awards impact strips (.nw-statstrip). */
 #stats .nw-stats,
-.nw-pubstats {
+.nw-statstrip {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: var(--nw-space-6) 0;
@@ -1095,18 +1095,18 @@ body {
 }
 
 #stats .nw-stat,
-.nw-pubstats .nw-stat {
+.nw-statstrip .nw-stat {
   padding: 0 var(--nw-space-5);
   border-left: 1px solid var(--nw-border);
 }
 
 #stats .nw-stat:nth-child(4n + 1),
-.nw-pubstats .nw-stat:nth-child(4n + 1) {
+.nw-statstrip .nw-stat:nth-child(4n + 1) {
   border-left: none;
 }
 
 #stats .nw-stat b,
-.nw-pubstats .nw-stat b {
+.nw-statstrip .nw-stat b {
   display: block;
   font-family: $font-family-serif;
   font-size: var(--nw-text-4xl);
@@ -1115,7 +1115,7 @@ body {
 }
 
 #stats .nw-stat span,
-.nw-pubstats .nw-stat span {
+.nw-statstrip .nw-stat span {
   color: var(--nw-muted);
   font-size: var(--nw-text-md);
 }
@@ -1123,17 +1123,17 @@ body {
 /* Two per row: the divider moves to the start of every odd cell. */
 @media screen and (max-width: #{$nw-bp-lg - 0.02px}) {
   #stats .nw-stats,
-  .nw-pubstats {
+  .nw-statstrip {
     grid-template-columns: repeat(2, 1fr);
   }
 
   #stats .nw-stat:nth-child(4n + 1),
-  .nw-pubstats .nw-stat:nth-child(4n + 1) {
+  .nw-statstrip .nw-stat:nth-child(4n + 1) {
     border-left: 1px solid var(--nw-border);
   }
 
   #stats .nw-stat:nth-child(2n + 1),
-  .nw-pubstats .nw-stat:nth-child(2n + 1) {
+  .nw-statstrip .nw-stat:nth-child(2n + 1) {
     border-left: none;
   }
 }
@@ -1141,27 +1141,27 @@ body {
 /* The citations stat is dropped when nothing has been cited yet, leaving
    three cards: three tracks then, so the row never ends in a hole. Two per
    row would orphan one, so this strip goes straight to a stack. */
-.nw-pubstats:not(:has(> .nw-stat:nth-child(4))) {
+.nw-statstrip:not(:has(> .nw-stat:nth-child(4))) {
   grid-template-columns: repeat(3, 1fr);
 }
 
-.nw-pubstats:not(:has(> .nw-stat:nth-child(4))) > .nw-stat:nth-child(3n + 1) {
+.nw-statstrip:not(:has(> .nw-stat:nth-child(4))) > .nw-stat:nth-child(3n + 1) {
   border-left: none;
 }
 
 @media screen and (max-width: #{$nw-bp-lg - 0.02px}) {
-  .nw-pubstats:not(:has(> .nw-stat:nth-child(4))) {
+  .nw-statstrip:not(:has(> .nw-stat:nth-child(4))) {
     grid-template-columns: 1fr;
     gap: var(--nw-space-5);
   }
 
-  .nw-pubstats:not(:has(> .nw-stat:nth-child(4))) > .nw-stat {
+  .nw-statstrip:not(:has(> .nw-stat:nth-child(4))) > .nw-stat {
     padding: var(--nw-space-5) 0 0;
     border-left: none;
     border-top: 1px solid var(--nw-border);
   }
 
-  .nw-pubstats:not(:has(> .nw-stat:nth-child(4))) > .nw-stat:first-child {
+  .nw-statstrip:not(:has(> .nw-stat:nth-child(4))) > .nw-stat:first-child {
     padding-top: 0;
     border-top: none;
   }
@@ -1171,22 +1171,22 @@ body {
    horizontal. */
 @media screen and (max-width: #{$nw-bp-xs - 0.02px}) {
   #stats .nw-stats,
-  .nw-pubstats {
+  .nw-statstrip {
     grid-template-columns: 1fr;
     gap: var(--nw-space-5);
   }
 
   #stats .nw-stat,
-  .nw-pubstats .nw-stat,
+  .nw-statstrip .nw-stat,
   #stats .nw-stat:nth-child(4n + 1),
-  .nw-pubstats .nw-stat:nth-child(4n + 1) {
+  .nw-statstrip .nw-stat:nth-child(4n + 1) {
     padding: var(--nw-space-5) 0 0;
     border-left: none;
     border-top: 1px solid var(--nw-border);
   }
 
   #stats .nw-stat:first-child,
-  .nw-pubstats .nw-stat:first-child {
+  .nw-statstrip .nw-stat:first-child {
     padding-top: 0;
     border-top: none;
   }
@@ -1874,7 +1874,7 @@ body {
 
 /* Impact strip above the list. Shares the home page stats layout (see the
    stats block above); only the trailing gap is its own. */
-.nw-pubstats {
+.nw-statstrip {
   margin-bottom: var(--nw-space-7);
 }
 
