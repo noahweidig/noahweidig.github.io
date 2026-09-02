@@ -28,7 +28,15 @@
 
 import fs from "node:fs";
 import path from "node:path";
-import { outputDir, projectRoot, walkHtml } from "./site-output.ts";
+import {
+  escapeHtml,
+  navDestinations,
+  outputDir,
+  projectRoot,
+  toUrl,
+  unquote,
+  walkHtml,
+} from "./site-output.ts";
 
 /** Rendered pages that are never given the treatment, as site-root URLs. */
 const EXCLUDED = new Set(["/index.html", "/404.html"]);
@@ -49,51 +57,14 @@ function frontMatterKicker(qmd: string): string | null {
 }
 
 /**
- * The navbar's `text:` for a site-root URL, used when a page sets no kicker
- * of its own. Same flat `- text:` / `href:` list build-404.ts reads.
+ * The navbar's `text:` for each site-root URL, used when a page sets no
+ * kicker of its own.
  */
 function navLabels(yml: string): Record<string, string> {
   const labels: Record<string, string> = {};
-  const lines = yml.split("\n");
-  const start = lines.findIndex((line) => /^\s{4}left:\s*$/.test(line));
-  if (start < 0) return labels;
-  let text: string | null = null;
-  for (let i = start + 1; i < lines.length; i++) {
-    const line = lines[i];
-    if (line.trim() === "") continue;
-    if (!/^\s{6}/.test(line)) break;
-    const entry = /^\s+-\s*text:\s*(.*?)\s*$/.exec(line);
-    if (entry) {
-      text = unquote(entry[1]);
-      continue;
-    }
-    const href = /^\s+href:\s*(.*?)\s*$/.exec(line);
-    if (href && text) {
-      labels[toUrl(unquote(href[1]))] = text;
-      text = null;
-    }
-  }
+  for (const destination of navDestinations(yml))
+    labels[toUrl(destination.href)] = destination.text;
   return labels;
-}
-
-function unquote(value: string): string {
-  return value.replace(/^["']|["']$/g, "");
-}
-
-/** `foo/index.qmd` → `/foo/`, `foo.qmd` → `/foo.html` (see build-404.ts). */
-function toUrl(href: string): string {
-  const clean = href.replace(/^\//, "");
-  if (clean.endsWith("/index.qmd")) return `/${clean.slice(0, -"index.qmd".length)}`;
-  return `/${clean.replace(/\.qmd$/, ".html")}`;
-}
-
-function escapeHtml(value: string): string {
-  return value
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;");
 }
 
 /** True for `<name>.html` at the root and `<section>/index.html`, and only those. */
