@@ -45,7 +45,7 @@ include-after-body:
      time from the publications/*/index.qmd frontmatter, so they can't drift as
      the Zotero sync adds entries. The citations block is dropped entirely when
      no entry carries a `pub-citations` count yet. -->
-<div class="nw-stats nw-pubstats">
+<div class="nw-stats nw-statstrip">
 <div class="nw-stat"><b data-nw-stat="pub-total">30</b><span>Publications &amp; Talks</span></div>
 <div class="nw-stat"><b data-nw-stat="pub-journal">5</b><span>Journal Articles</span></div>
 <div class="nw-stat"><b data-nw-stat="pub-first">12</b><span>First-Author Works</span></div>
