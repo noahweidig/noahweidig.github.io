@@ -1,17 +1,52 @@
 ---
-title: "Page Not Found"
-description: "That page doesn't exist or has moved. Head back to the home page to find projects, publications, and posts."
+# `title` would render Quarto's article title block above the section; the
+# page draws its own heading, so only the meta description and tab title are
+# set here (the same pattern as index.qmd).
+description: "That page doesn't exist or has moved. Search the site, or jump to projects, publications, and posts."
+pagetitle: "Page Not Found | Noah Weidig"
+page-layout: custom
 toc: false
+include-after-body:
+  - text: |
+      <script src="/assets/notfound.js"></script>
 ---
 
-These are the places most people are headed:
-
-- [Projects](/projects/) — geospatial analysis, R packages, and data tools
-- [Publications](/publications/) — papers, presentations, and media coverage
-- [Blog](/blog/) — notes on R, spatial data, and working reproducibly
-- [CV](/cv.html) — the full record, or [get in touch](/contact.html)
-
-::: {.nw-btns}
-[Go Home](/){.nw-btn .nw-btn-primary}
-[Browse Projects](/projects/){.nw-btn .nw-btn-ghost}
-:::
+```{=html}
+<section id="notfound" class="nw-section">
+  <div class="nw-section-inner">
+    <p class="nw-kicker">Error 404</p>
+    <h1 class="nw-title">That page doesn't exist</h1>
+    <p class="nw-subtitle">The link may be out of date, or the address slightly off. Search the site for what you were after, or pick a section below.</p>
+    <!-- The search button stays hidden until assets/notfound.js finds the
+         navbar's overlay-search trigger to forward the click to: with no JS,
+         or on a build without site search, it never appears as a dead control. -->
+    <div class="nw-btns">
+      <button type="button" class="nw-btn nw-btn-primary" data-nw-404-search hidden>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10" cy="10" r="7"/><path d="M21 21l-6 -6"/></svg>
+        Search the site
+      </button>
+      <a class="nw-btn nw-btn-ghost" href="/">Go home</a>
+    </div>
+    <!-- The cards are fallbacks: scripts/build-404.ts rebuilds them at render
+         time from the navbar in _quarto.yml, so the list can't go stale when a
+         section is added, renamed or removed. -->
+    <div class="nw-start-grid nw-404-grid" data-nw-404-destinations>
+      <a class="nw-start-card" href="/projects/">
+        <h2>Projects</h2>
+        <p>Geospatial analysis, R packages, and data tools.</p>
+        <span class="nw-start-link">Go to this section →</span>
+      </a>
+      <a class="nw-start-card" href="/publications/">
+        <h2>Publications</h2>
+        <p>Papers, presentations, and media coverage.</p>
+        <span class="nw-start-link">Go to this section →</span>
+      </a>
+      <a class="nw-start-card" href="/blog/">
+        <h2>Blog</h2>
+        <p>Notes on R, spatial data, and working reproducibly.</p>
+        <span class="nw-start-link">Go to this section →</span>
+      </a>
+    </div>
+  </div>
+</section>
+```
