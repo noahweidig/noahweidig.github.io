@@ -300,7 +300,8 @@ down to Arrow.
 ### renv <img src="logos/renv.svg" alt="renv hex logo" style="float: right" width="100" height="100" loading="lazy">
 
 Gives each project an isolated package library and a lockfile
-(`renv.lock`) recording exact versions — a virtualenv/lockfile for R. Core
+(`renv.lock`) recording exact versions — like a Python virtual environment
+paired with an npm lockfile, for R. Core
 workflow: `renv::init()`, work normally, `renv::snapshot()` to record
 state, `renv::restore()` on another machine to reproduce it exactly.
 
