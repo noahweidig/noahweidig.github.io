@@ -252,6 +252,16 @@ async function loadPagefind(): Promise<Pagefind | null> {
   }
 }
 
+/**
+ * Pagefind already emits URLs carrying the site's base path, so prefixing
+ * unconditionally produced /new-website/new-website/cv/. Prefix only when it
+ * is missing, which keeps this right either way.
+ */
+const resultHref = (url: string) => {
+  const base = basePath();
+  return !base || url.startsWith(`${base}/`) ? url : `${base}${url}`;
+};
+
 /** Section first, then tags: the coarse facet reads better at the top. */
 const FILTER_ORDER = ['section', 'tag'];
 const FILTER_LABEL: Record<string, string> = { section: 'Section', tag: 'Tags' };
@@ -315,7 +325,7 @@ function initSearch() {
         const section = d.meta.section
           ? `<span class="chip shrink-0">${escapeHtml(d.meta.section)}</span>`
           : '';
-        return `<a id="search-opt-${i}" role="option" aria-selected="false" href="${basePath()}${d.url}"
+        return `<a id="search-opt-${i}" role="option" aria-selected="false" href="${resultHref(d.url)}"
           class="block rounded-md px-3 py-2.5 transition-colors hover:bg-raised">
           <span class="flex items-start justify-between gap-3">
             <span class="text-[0.95rem] font-medium text-ink">${escapeHtml(d.meta.title ?? d.url)}</span>
