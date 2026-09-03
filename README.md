@@ -66,7 +66,7 @@ one; those copies drifted, so they are now links (#252):
 
 Built with [Quarto](https://quarto.org) and deployed to GitHub Pages — no external theme dependency. The landing page, listings (custom EJS templates in `_ejs/`), and light/dark SCSS themes (`assets/`) all live in this repo.
 
-Publications under `publications/` are regenerated from Zotero on the **1st and 15th** of each month by `.github/workflows/update-pubs.yml` (do not edit by hand). That workflow pushes with `GITHUB_TOKEN`, which cannot fire a `push` event, so it calls `publish.yml` directly (`workflow_call`) once it has committed — the deploy runs inside the sync's own run and fails it if it fails, rather than depending on a trigger that can be silently disabled. Every push to `main` re-renders and publishes through the same workflow.
+Publications under `publications/` are regenerated from Zotero on the **1st and 15th** of each month by `.github/workflows/update-pubs.yml` (do not edit by hand). That workflow pushes with `GITHUB_TOKEN`, which cannot fire a `push` event, so it calls `publish.yml` directly (`workflow_call`) once it has committed — the deploy runs inside the sync's own run and fails it if it fails, rather than depending on a trigger that can be silently disabled. Every push to `main` re-renders and publishes through the same workflow. Public PDF attachments in the Zotero library are downloaded into the entry's own directory as `<slug>.pdf` and surfaced as a **View PDF** button on the publication page and in the publications listing.
 
 ### Toolchain
 
