@@ -26,7 +26,7 @@ const d = entry.data;
           alt={d['image-alt'] ?? ''}
           widths={[320, 640, 960]}
           sizes="(min-width: 1024px) 300px, (min-width: 640px) 45vw, 92vw"
-          loading={index < 4 ? 'eager' : 'lazy'}
+          loading={index === 0 ? 'eager' : 'lazy'}
           class="h-full w-full object-cover transition-transform duration-700 ease-[cubic-bezier(.22,1,.36,1)] group-hover:scale-[1.05]"
         />
         <span class="absolute top-3 left-3 chip bg-black/55 text-white backdrop-blur-md">

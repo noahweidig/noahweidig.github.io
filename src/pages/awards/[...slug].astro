@@ -19,6 +19,7 @@ const d = entry.data;
   description={d.description}
   kicker="Award"
   meta={`${d.description ?? ''}${d.description ? ' · ' : ''}${fullDate(d.date)}`}
+  section="Awards"
   backHref={u('/awards/')}
   backLabel="All awards"
   publishedTime={d.date}
