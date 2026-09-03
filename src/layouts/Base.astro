@@ -149,18 +149,32 @@ const jsonLd = {
     <style is:inline set:html={`:root{--topo-url:url("${u('/media/topography.svg')}")}`}></style>
 
     <script is:inline>
-      // Applied before first paint so the page never flashes the wrong theme.
       (function () {
-        var t = null;
-        try {
-          t = localStorage.getItem('nw-theme');
-        } catch (e) {}
-        if (t !== 'light' && t !== 'dark') {
-          t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+        function stored() {
+          try {
+            var t = localStorage.getItem('nw-theme');
+            if (t === 'light' || t === 'dark') return t;
+          } catch (e) {
+            /* private mode: fall through to the OS preference */
+          }
+          return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
         }
-        document.documentElement.dataset.theme = t;
-        var m = document.querySelector('meta[name="theme-color"]');
-        if (m) m.setAttribute('content', t === 'light' ? '#fbfaf7' : '#07080b');
+        // Applied before first paint, so the page never flashes the wrong theme.
+        function apply() {
+          var t = stored();
+          document.documentElement.dataset.theme = t;
+          var m = document.querySelector('meta[name="theme-color"]');
+          if (m) m.setAttribute('content', t === 'light' ? '#fbfaf7' : '#07080b');
+        }
+        apply();
+        // A view-transition swap copies <html>'s attributes from the incoming
+        // document, which puts data-theme back to the server-rendered default —
+        // so a reader on light mode landed on a dark page after every click.
+        // astro:after-swap runs before the new page paints.
+        if (!window.__nwThemeBound) {
+          window.__nwThemeBound = true;
+          document.addEventListener('astro:after-swap', apply);
+        }
       })();
     </script>
 
