@@ -29,6 +29,7 @@ const items = Astro.props.headings.filter((h) => h.depth === 2 || h.depth === 3)
               <a
                 href={`#${h.slug}`}
                 data-toc-link={h.slug}
+                data-tip={`Jump to “${h.text}”`}
                 class:list={[
                   'block border-l-2 border-transparent py-1.5 text-[0.82rem] leading-snug text-faint transition-colors hover:text-ink',
                   h.depth === 3 ? 'pr-2 pl-7' : 'pr-2 pl-4',

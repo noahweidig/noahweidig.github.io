@@ -45,6 +45,9 @@ const {
   headings = [],
 } = Astro.props;
 
+/* Reading mode is a blog-post affordance: strip the rails and grow the type. */
+const reading = section === 'Blog';
+
 /* The contents rail needs room beside the measure, so a page that has one
    widens from the reading shell to the full one. */
 const hasToc = headings.filter((h) => h.depth === 2 || h.depth === 3).length > 1;
@@ -61,18 +64,22 @@ const hasToc = headings.filter((h) => h.depth === 2 || h.depth === 3).length > 1
   <article>
     <header class="relative overflow-hidden border-b border-line bg-bg-deep">
       <div class="grid-bg absolute inset-0" aria-hidden="true"></div>
-      <div class="shell relative py-12 md:py-16">
-        <Breadcrumbs trail={[{ label: section, href: backHref }]} current={title} />
+      <div class="shell relative py-12 text-center md:py-16">
+        <Breadcrumbs
+          trail={[{ label: section, href: backHref }]}
+          current={title}
+          class="flex justify-center"
+        />
 
         {
           kicker && (
-            <p class="kicker mt-6" data-pagefind-ignore>
+            <p class="kicker mt-6 justify-center" data-pagefind-ignore>
               {kicker}
             </p>
           )
         }
         <h1
-          class="mt-4 max-w-4xl font-display text-[clamp(1.9rem,1.2rem+2.6vw,3.1rem)] font-medium"
+          class="mx-auto mt-4 max-w-4xl font-display text-[clamp(1.9rem,1.2rem+2.6vw,3.1rem)] font-medium"
         >
           {title}
         </h1>
@@ -86,10 +93,11 @@ const hasToc = headings.filter((h) => h.depth === 2 || h.depth === 3).length > 1
 
         {
           chips.length > 0 && (
-            <div class="mt-5 flex flex-wrap gap-1.5" data-pagefind-ignore>
+            <div class="mt-5 flex flex-wrap justify-center gap-1.5" data-pagefind-ignore>
               {chips.map((c) => (
                 <a
                   href={u(tagHref(c))}
+                  data-tip={`Browse everything tagged ${c}`}
                   class="chip transition-colors hover:border-accent hover:text-accent-ink"
                 >
                   {c}
@@ -101,7 +109,7 @@ const hasToc = headings.filter((h) => h.depth === 2 || h.depth === 3).length > 1
 
         {
           links.length > 0 && (
-            <div class="mt-7 flex flex-wrap gap-2.5" data-pagefind-ignore>
+            <div class="mt-7 flex flex-wrap justify-center gap-2.5" data-pagefind-ignore>
               {links.map((l) => (
                 <a
                   class:list={['btn', l.variant === 'primary' ? 'btn-primary' : 'btn-ghost']}
@@ -122,8 +130,25 @@ const hasToc = headings.filter((h) => h.depth === 2 || h.depth === 3).length > 1
     {
       hasToc ? (
         <div class="shell py-12 md:py-16">
-          <div class="mx-auto grid max-w-5xl gap-12 lg:grid-cols-[minmax(0,1fr)_13rem]">
+          <div
+            class="mx-auto grid max-w-5xl gap-12 lg:grid-cols-[minmax(0,1fr)_13rem]"
+            data-article-grid
+          >
             <div class="min-w-0">
+              {reading && (
+                <div class="no-print mb-6 flex justify-end" data-pagefind-ignore>
+                  <button
+                    type="button"
+                    class="btn btn-ghost btn-sm"
+                    data-reading-toggle
+                    aria-pressed="false"
+                    data-tip="Reading mode: just the article"
+                  >
+                    <Icon name="reader" size={15} />
+                    <span data-reading-label>Reading mode</span>
+                  </button>
+                </div>
+              )}
               <div class="prose-nw">
                 <slot />
               </div>
@@ -134,6 +159,20 @@ const hasToc = headings.filter((h) => h.depth === 2 || h.depth === 3).length > 1
         </div>
       ) : (
         <div class="shell-narrow py-12 md:py-16">
+          {reading && (
+            <div class="no-print mb-6 flex justify-end" data-pagefind-ignore>
+              <button
+                type="button"
+                class="btn btn-ghost btn-sm"
+                data-reading-toggle
+                aria-pressed="false"
+                data-tip="Reading mode: just the article"
+              >
+                <Icon name="reader" size={15} />
+                <span data-reading-label>Reading mode</span>
+              </button>
+            </div>
+          )}
           <div class="prose-nw">
             <slot />
           </div>

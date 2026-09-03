@@ -8,8 +8,18 @@ import Icon from './Icon.astro';
   class="m-0 h-full max-h-none w-full max-w-none bg-transparent p-0 backdrop:bg-black/70 backdrop:backdrop-blur-sm"
   aria-label="Search"
 >
-  <div class="flex min-h-full items-start justify-center p-4 pt-[10vh]" data-search-backdrop>
-    <div class="card w-full max-w-3xl overflow-hidden" data-search-panel>
+  {
+    /* Phone: the dialog is the page — a 3-inch-wide popup with a scrolling list
+      inside it wastes most of the screen. From `sm` up it returns to a panel. */
+  }
+  <div
+    class="flex min-h-full items-stretch justify-center p-0 sm:items-start sm:p-4 sm:pt-[10vh]"
+    data-search-backdrop
+  >
+    <div
+      class="card flex w-full max-w-none flex-col overflow-hidden rounded-none border-0 sm:max-w-3xl sm:rounded-[14px] sm:border"
+      data-search-panel
+    >
       <!-- query row -->
       <div class="flex items-center gap-3 border-b border-line px-4">
         <Icon name="search" size={18} class="shrink-0 text-faint" />
@@ -59,7 +69,7 @@ import Icon from './Icon.astro';
       </div>
 
       <!-- body: results + filter rail -->
-      <div class="flex max-h-[62vh] min-h-[16rem]">
+      <div class="flex min-h-[16rem] flex-1 sm:max-h-[62vh] sm:flex-none">
         <div
           class="min-w-0 flex-1 overflow-y-auto p-2"
           id="search-results"
@@ -74,7 +84,7 @@ import Icon from './Icon.astro';
         <aside
           id="search-filters"
           hidden
-          class="w-56 shrink-0 overflow-y-auto border-l border-line bg-raised/60 p-4"
+          class="w-44 shrink-0 overflow-y-auto border-l border-line bg-raised/60 p-4 sm:w-56"
           aria-label="Filters"
         >
           <div class="flex items-center justify-between">
@@ -107,3 +117,17 @@ import Icon from './Icon.astro';
     </div>
   </div>
 </dialog>
+
+<style>
+  /* Phone: the filter rail takes the whole panel instead of squeezing the
+     results into a column two words wide. */
+  @media (max-width: 39.99rem) {
+    [data-search-panel]:has(#search-filters:not([hidden])) #search-results {
+      display: none;
+    }
+    #search-filters:not([hidden]) {
+      width: 100%;
+      border-left: 0;
+    }
+  }
+</style>

@@ -56,7 +56,12 @@ const cites = d['pub-citations'] ?? 0;
 
   <div class="min-w-0">
     <h3 class="text-[1.15rem] leading-snug">
-      <a href={u(`/publications/${entry.id}/`)} class="transition-colors hover:text-accent-ink">
+      <a
+        href={u(`/publications/${entry.id}/`)}
+        data-tip-title={category || 'Publication'}
+        data-tip={summary || `${d['pub-venue'] ?? 'Open the record'} (${year(d.date)})`}
+        class="transition-colors hover:text-accent-ink"
+      >
         {d.title}
       </a>
     </h3>

@@ -6,6 +6,7 @@ export const site = {
   location: 'Orlando, FL',
   booking: 'https://cal.com/noahweidig/meet',
   resume: '/uploads/resume.pdf',
+  cv: '/uploads/cv.pdf',
   description:
     'Noah is an ecologist and GIS analyst specializing in geospatial data science, environmental modeling, and large-scale spatial analysis.',
   ogImage: '/media/authors/me.webp',
@@ -26,13 +27,13 @@ export const giscus = {
 } as const;
 
 export const nav = [
-  { text: 'Projects', href: '/projects/' },
-  { text: 'Publications', href: '/publications/' },
-  { text: 'Experience', href: '/experience/' },
-  { text: 'Awards', href: '/awards/' },
-  { text: 'Blog', href: '/blog/' },
-  { text: 'CV', href: '/cv/' },
-  { text: 'Contact', href: '/contact/' },
+  { text: 'Projects', href: '/projects/', tip: 'Open tools, maps and applications' },
+  { text: 'Publications', href: '/publications/', tip: 'Papers, talks and peer review' },
+  { text: 'Experience', href: '/experience/', tip: 'Roles, research posts and internships' },
+  { text: 'Awards', href: '/awards/', tip: 'Fellowships, scholarships and honors' },
+  { text: 'Blog', href: '/blog/', tip: 'Notes and tutorials on R and spatial work' },
+  { text: 'CV', href: '/cv/', tip: 'Full record, plus CV and résumé PDFs' },
+  { text: 'Contact', href: '/contact/', tip: 'Email, booking and the contact form' },
 ] as const;
 
 export const socials = [
@@ -50,37 +51,49 @@ export const footerColumns = [
   {
     heading: 'About',
     links: [
-      { text: 'Experience', href: '/experience/', icon: 'briefcase' },
-      { text: 'Education', href: '/education/', icon: 'school' },
-      { text: 'Skills', href: '/#skills', icon: 'code' },
-      { text: 'Affiliations', href: '/#affiliations', icon: 'users' },
+      { text: 'Experience', href: '/experience/', tip: 'Roles, research posts and internships' },
+      { text: 'Education', href: '/education/', tip: 'Degrees, theses and coursework' },
+      { text: 'Skills', href: '/#skills', tip: 'The tools I work with day to day' },
+      { text: 'Affiliations', href: '/#affiliations', tip: 'Societies and labs I belong to' },
     ],
   },
   {
     heading: 'Work',
     links: [
-      { text: 'Projects', href: '/projects/', icon: 'sparkles' },
-      { text: 'Geo Portfolio', href: 'https://noahweidig.com/geo-portfolio', icon: 'layers' },
-      { text: 'Awards', href: '/awards/', icon: 'trophy' },
-      { text: 'Interests', href: '/#interests', icon: 'bulb' },
+      { text: 'Projects', href: '/projects/', tip: 'Open tools, maps and applications' },
+      {
+        text: 'Geo Portfolio',
+        href: 'https://noahweidig.com/geo-portfolio',
+        tip: 'Interactive map gallery (opens a separate site)',
+      },
+      { text: 'Awards', href: '/awards/', tip: 'Fellowships, scholarships and honors' },
+      { text: 'Interests', href: '/#interests', tip: 'Six research focus areas' },
     ],
   },
   {
     heading: 'Resources',
     links: [
-      { text: 'Publications', href: '/publications/', icon: 'file' },
-      { text: 'Blog', href: '/blog/', icon: 'pencil' },
-      { text: 'CV', href: '/cv/', icon: 'file' },
-      { text: 'FAQ', href: '/#faq', icon: 'help' },
+      { text: 'Publications', href: '/publications/', tip: 'Papers, talks and peer review' },
+      { text: 'Blog', href: '/blog/', tip: 'Notes and tutorials on R and spatial work' },
+      { text: 'CV', href: '/cv/', tip: 'Full record, plus CV and résumé PDFs' },
+      { text: 'FAQ', href: '/#faq', tip: 'Common questions about my work' },
     ],
   },
   {
     heading: 'Connect',
     links: [
-      { text: 'Email', href: 'mailto:noah@noahweidig.com', icon: 'mail' },
-      { text: 'Contact', href: '/contact/', icon: 'message' },
-      { text: 'Book a Call', href: 'https://cal.com/noahweidig/meet', icon: 'calendar' },
-      { text: 'LinkedIn', href: 'https://www.linkedin.com/in/noahweidig/', icon: 'linkedin' },
+      { text: 'Email', href: 'mailto:noah@noahweidig.com', tip: 'Email me directly' },
+      { text: 'Contact', href: '/contact/', tip: 'Send a message through the site' },
+      {
+        text: 'Book a Call',
+        href: 'https://cal.com/noahweidig/meet',
+        tip: 'Book a 30-minute call on Cal.com',
+      },
+      {
+        text: 'LinkedIn',
+        href: 'https://www.linkedin.com/in/noahweidig/',
+        tip: 'LinkedIn profile',
+      },
     ],
   },
 ] as const;

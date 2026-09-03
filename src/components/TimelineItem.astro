@@ -13,6 +13,8 @@ const d = entry.data;
 
 <a
   href={u(`/${base}/${entry.id}/`)}
+  data-tip-title={d.title}
+  data-tip={`${d.org ?? ''}${d.dates ? ` · ${d.dates}` : ''} — open the full entry`}
   class="group relative block border-l border-line py-5 pl-7 transition-colors hover:border-accent/50"
   data-reveal
 >

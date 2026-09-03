@@ -24,6 +24,8 @@ const { prev, next, label } = Astro.props;
         {prev ? (
           <a
             href={u(prev.href)}
+            data-tip-title={prev.title}
+            data-tip={`Previous in ${label}`}
             class="group flex flex-col gap-2 px-5 py-7 transition-colors hover:bg-surface sm:px-8"
           >
             <span class="flex items-center gap-2 font-mono text-[0.68rem] tracking-[0.14em] text-faint uppercase">
@@ -41,6 +43,8 @@ const { prev, next, label } = Astro.props;
         {next ? (
           <a
             href={u(next.href)}
+            data-tip-title={next.title}
+            data-tip={`Next in ${label}`}
             class="group flex flex-col items-end gap-2 border-line px-5 py-7 text-right transition-colors hover:bg-surface sm:border-l sm:px-8"
           >
             <span class="flex items-center gap-2 font-mono text-[0.68rem] tracking-[0.14em] text-faint uppercase">
