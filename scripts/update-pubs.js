@@ -3,6 +3,7 @@
 // No npm dependencies — plain Node 20+.
 import fs from "fs";
 import path from "path";
+import crypto from "crypto";
 
 const userID = process.env.ZOTERO_USER_ID || 11988712;
 const pubsDir = path.resolve("publications");
@@ -465,6 +466,51 @@ function detailsOf(data) {
   return bits;
 }
 
+// ---------------------------------------------------------------------------
+// Attachment PDFs.
+//
+// Zotero's My Publications feed carries the child attachments alongside the
+// items, so a public PDF can be pulled straight into the publication's own
+// directory and served from the site instead of sending readers off to a
+// paywall. The file is named after the slug (weidig-fire-fringe-25.pdf), so
+// the download has a short, recognizable name and the path never moves.
+// Re-downloads are skipped when the MD5 Zotero reports already matches the
+// copy on disk, which keeps the scheduled sync from rewriting megabytes of
+// identical PDFs on every run.
+function pdfAttachments(items) {
+  const byParent = new Map();
+  for (const it of items) {
+    const d = it.data || {};
+    if (d.itemType !== "attachment" || !d.parentItem) continue;
+    if (d.contentType !== "application/pdf") continue;
+    if (d.linkMode === "linked_url") continue;
+    if (!byParent.has(d.parentItem)) byParent.set(d.parentItem, it);
+  }
+  return byParent;
+}
+
+async function downloadPdf(userID, attachment, dest) {
+  const md5 = attachment.data?.md5 || "";
+  if (md5 && fs.existsSync(dest)) {
+    // MD5 here only matches Zotero's own change-detection checksum (its API
+    // exposes no other digest) to skip an unchanged download — not a
+    // security use. NOSONAR: javascript:S4790 weak-hash warning is a false
+    // positive in this context.
+    const have = crypto.createHash("md5").update(fs.readFileSync(dest)).digest("hex"); // NOSONAR
+    if (have === md5) return false;
+  }
+  const url = `https://api.zotero.org/users/${userID}/publications/items/${attachment.key}/file`;
+  const res = await fetch(url, { redirect: "follow", signal: AbortSignal.timeout(120000) });
+  if (!res.ok) throw new Error(`Zotero file download failed (${res.status}) for ${attachment.key}`);
+  const buf = Buffer.from(await res.arrayBuffer());
+  if (!buf.subarray(0, 5).toString("latin1").startsWith("%PDF")) {
+    throw new Error(`Zotero returned a non-PDF body for ${attachment.key}`);
+  }
+  fs.mkdirSync(path.dirname(dest), { recursive: true });
+  fs.writeFileSync(dest, buf);
+  return true;
+}
+
 // One entry's page data. Nothing is written here: groupAppearances() needs to
 // see every record before any page is built.
 function buildRecord(it) {
@@ -509,6 +555,8 @@ async function main() {
   if (!items.length) throw new Error("Zotero returned no items; aborting before prune.");
 
   fs.mkdirSync(pubsDir, { recursive: true });
+
+  const pdfs = pdfAttachments(items);
 
   const entries = items
     .filter((it) => it.data.itemType !== "attachment" && it.key)
@@ -559,8 +607,32 @@ async function main() {
   // Pass 2: write the pages.
   // ---------------------------------------------------------------------
   let written = 0;
+  let fetchedPdfs = 0;
   for (const rec of records) {
     const { it, slug, title, date, year, doi, link, venue, abstract, summary, detailBits } = rec;
+
+    // The PDF has to be on disk before the frontmatter is written: `pub-pdf`
+    // is what puts the View PDF button on the page, so it is only set for a
+    // file that actually downloaded.
+    const dir = path.join(pubsDir, slug);
+    const pdfName = `${slug}.pdf`;
+    const pdfPath = path.join(dir, pdfName);
+    const attachment = pdfs.get(it.key);
+    let hasPdf = false;
+    if (attachment) {
+      try {
+        if (await downloadPdf(userID, attachment, pdfPath)) fetchedPdfs++;
+        hasPdf = true;
+      } catch (err) {
+        // A file that fails today should not drop a PDF the site already
+        // serves, so an existing copy still counts.
+        console.warn(`PDF download failed for ${slug} (${err?.message ?? err}).`);
+        hasPdf = fs.existsSync(pdfPath);
+      }
+    } else if (fs.existsSync(pdfPath)) {
+      // Attachment removed in Zotero — drop the stale copy from the repo.
+      fs.rmSync(pdfPath, { force: true });
+    }
 
     const fm = ["---", `title: ${yq(title)}`];
     if (date) fm.push(`date: ${yq(date)}`);
@@ -571,6 +643,12 @@ async function main() {
     if (detailBits.length) fm.push(`pub-details: ${yq(detailBits.join(", "))}`);
     if (doi) fm.push(`pub-doi: ${yq(doi)}`);
     if (link) fm.push(`pub-url: ${yq(link)}`);
+    // Root-relative, not a bare filename: the citation.ejs listing template
+    // renders this page's PDF link from other directories (publications/
+    // index, the homepage, the CV), where a relative name would resolve
+    // against the wrong page.
+    const pdfUrl = `/publications/${slug}/${pdfName}`;
+    if (hasPdf) fm.push(`pub-pdf: ${yq(pdfUrl)}`);
     // The listings on publications/index.qmd include `pub-listed: "yes"`, so a
     // repeat appearance keeps its own page (and its URL) but does not add a
     // near-identical row to the index (#253).
@@ -609,6 +687,7 @@ async function main() {
     const btns = [];
     if (doi) btns.push(`[DOI](https://doi.org/${doi}){.nw-btn .nw-btn-primary target="_blank"}`);
     if (link && !doi) btns.push(`[Source](${link}){.nw-btn .nw-btn-primary target="_blank"}`);
+    if (hasPdf) btns.push(`[View PDF](${pdfUrl}){.nw-btn .nw-btn-ghost target="_blank"}`);
     btns.push(`[BibTeX](cite.bib){.nw-btn .nw-btn-ghost}`);
     body.push(btns.join(" "), "");
 
@@ -630,7 +709,6 @@ async function main() {
 
     if (abstract) body.push("## Abstract", "", abstract, "");
 
-    const dir = path.join(pubsDir, slug);
     fs.mkdirSync(dir, { recursive: true });
     fs.writeFileSync(path.join(dir, "index.qmd"), fm.join("\n") + "\n" + body.join("\n"));
     if (it.bibtex) fs.writeFileSync(path.join(dir, "cite.bib"), it.bibtex.trim() + "\n");
@@ -646,7 +724,7 @@ async function main() {
     removed++;
   }
 
-  console.log(`Wrote ${written} publications; pruned ${removed}.`);
+  console.log(`Wrote ${written} publications; ${fetchedPdfs} PDFs downloaded; pruned ${removed}.`);
 }
 
 main().catch((err) => {
