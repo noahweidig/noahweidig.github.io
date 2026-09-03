@@ -1,0 +1,22 @@
+---
+import { getCollection } from 'astro:content';
+import Page from '../../layouts/Page.astro';
+import TimelineItem from '../../components/TimelineItem.astro';
+
+const items = (await getCollection('education')).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime(),
+);
+---
+
+<Page
+  title="Education"
+  kicker="Background"
+  description="Degrees and academic training in biology, ecology, and geospatial science."
+  intro="Degrees and academic training in biology, ecology, and geospatial science."
+  wide={false}
+>
+  <h2 class="sr-only-nw">All education</h2>
+  <div class="ml-1">
+    {items.map((entry, i) => <TimelineItem entry={entry} base="education" current={i === 0} />)}
+  </div>
+</Page>

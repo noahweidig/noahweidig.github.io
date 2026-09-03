@@ -1,0 +1,36 @@
+---
+import Icon from './Icon.astro';
+---
+
+<dialog
+  data-pagefind-ignore
+  id="site-search"
+  class="m-0 h-full max-h-none w-full max-w-none bg-transparent p-0 backdrop:bg-black/70 backdrop:backdrop-blur-sm"
+  aria-label="Search"
+>
+  <div class="flex min-h-full items-start justify-center p-4 pt-[12vh]" data-search-backdrop>
+    <div class="card w-full max-w-2xl overflow-hidden" role="document" data-search-panel>
+      <div class="flex items-center gap-3 border-b border-line px-4">
+        <Icon name="search" size={18} class="text-faint" />
+        <input
+          type="search"
+          id="search-input"
+          placeholder="Search projects, papers, posts…"
+          autocomplete="off"
+          class="w-full bg-transparent py-4 text-[0.95rem] text-ink outline-none placeholder:text-faint"
+        />
+        <button
+          type="button"
+          data-search-close
+          class="chip shrink-0 hover:text-ink"
+          aria-label="Close search">esc</button
+        >
+      </div>
+      <div id="search-results" class="max-h-[55vh] overflow-y-auto p-2">
+        <p class="px-3 py-6 text-center text-sm text-faint" data-search-empty>
+          Type to search the site.
+        </p>
+      </div>
+    </div>
+  </div>
+</dialog>

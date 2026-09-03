@@ -1,0 +1,16 @@
+---
+title: 'Graduate Research Assistant'
+description: 'Conducted geospatial analysis to support wildland-urban interface and emergency management decision-making.'
+org: 'University of Florida'
+org-url: 'https://www.victoriamdonovan.org/'
+date: '2023-08-01'
+dates: 'Aug 2023 – Aug 2025'
+location: 'Milton, FL'
+categories: [Experience]
+---
+
+As a graduate research assistant, I conducted the geospatial analysis behind my master's thesis on large wildfire patterns in the wildland-urban interface (WUI) of the eastern United States. The work paired spatial pattern analysis with land-use data to support emergency management decision-making.
+
+- Analyzed spatial patterns of large wildfires across the eastern U.S. WUI.
+- Combined land-use, population, and fire data to assess community and regional risk.
+- Delivered reproducible analyses and presented findings at national conferences.

@@ -1,62 +1,32 @@
 name: Build site
 description: >-
-  Set up Quarto at the repo-wide pinned version, install cwebp, and render the
-  site. Used by every workflow that needs _site so they all score the same
-  bytes that get deployed (#249).
+  Install the pinned toolchain and build the Astro site into dist/, including
+  the Pagefind search index. Used by every workflow that needs a build, so
+  they all score the same bytes that get deployed.
 
 inputs:
-  render:
-    description: Whether to run `quarto render`. Set to "false" to only set up the toolchain.
+  build:
+    description: Whether to run the build. Set to "false" to only install the toolchain.
     required: false
-    default: "true"
-
-outputs:
-  quarto-version:
-    description: The Quarto version read from .quarto-version.
-    value: ${{ steps.version.outputs.quarto }}
+    default: 'true'
 
 runs:
   using: composite
   steps:
-    # One source of truth for the Quarto pin. netlify.toml carries its own
-    # copy (Netlify cannot read a file to build its install command); the
-    # `quarto-pin` job in publish.yml fails if the two ever disagree.
-    - name: Read pinned Quarto version
-      id: version
-      shell: bash
-      run: |
-        set -eu
-        version="$(tr -d '[:space:]' < "$GITHUB_WORKSPACE/.quarto-version")"
-        [ -n "$version" ] || { echo "::error::.quarto-version is empty"; exit 1; }
-        echo "quarto=$version" >> "$GITHUB_OUTPUT"
-
-    - name: Set up Quarto
-      uses: quarto-dev/quarto-actions/setup@8a96df13519ee81fd526f2dfca5962811136661b # v2
+    - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
       with:
-        version: ${{ steps.version.outputs.quarto }}
+        node-version-file: .nvmrc
+        cache: npm
 
-    # cwebp generates the narrow image variants scripts/optimize-output.ts
-    # emits as srcset. Not fatal if it can't be installed: the render simply
-    # ships the full-size images, exactly as it did before. Composite steps
-    # have no `continue-on-error`, so the failure is swallowed here instead.
-    - name: Install cwebp
+    # --ignore-scripts: nothing in the build needs a lifecycle script, and an
+    # install that runs them is arbitrary code execution on the runner. The
+    # two packages that do ship a postinstall (sharp, pagefind) resolve their
+    # binaries lazily at first use, so skipping it costs nothing here.
+    - name: Install toolchain
       shell: bash
-      env:
-        WEBP_SHA256: f4bf49f85991f50e86a5404d16f15b72a053bb66768ed5cc0f6d042277cc2bb8
-      run: |
-        set -u
-        if curl -sSfL --proto '=https' --tlsv1.2 -o "$RUNNER_TEMP/libwebp.tar.gz" \
-             https://storage.googleapis.com/downloads.webmproject.org/releases/webp/libwebp-1.5.0-linux-x86-64.tar.gz \
-           && echo "$WEBP_SHA256  $RUNNER_TEMP/libwebp.tar.gz" | sha256sum -c - \
-           && tar -xzf "$RUNNER_TEMP/libwebp.tar.gz" --strip-components=2 \
-                -C "$RUNNER_TEMP" libwebp-1.5.0-linux-x86-64/bin/cwebp \
-           && sudo install -m 0755 "$RUNNER_TEMP/cwebp" /usr/local/bin/cwebp; then
-          cwebp -version
-        else
-          echo "::warning::cwebp unavailable; images ship at full size"
-        fi
+      run: npm ci --ignore-scripts
 
-    - name: Render site
-      if: inputs.render == 'true'
+    - name: Build site
+      if: inputs.build == 'true'
       shell: bash
-      run: quarto render
+      run: npm run build:fast

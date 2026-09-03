@@ -4,8 +4,9 @@
 //
 // The globe never moves: one fixed rotation with Orlando facing the camera,
 // one fixed crop. So there is nothing for the browser to compute — the whole
-// picture is projected here, at build time, and written into index.qmd
-// between the <!-- globe:start --> / <!-- globe:end --> markers as plain
+// picture is projected here, at build time, and written into
+// src/components/Globe.astro between the <!-- globe:start --> /
+// <!-- globe:end --> markers as plain
 // SVG path data. That replaces a 106 KB JSON fetch plus 263 lines of canvas
 // JS with markup that costs nothing at runtime and themes itself through the
 // same CSS variables the rest of the page uses (#257).
@@ -14,11 +15,11 @@
 // free: the minimal TopoJSON decoding is inlined below rather than pulled in
 // from topojson-client.
 
-import { readFileSync, writeFileSync, statSync } from "node:fs";
-import { dirname, extname, join, resolve, sep } from "node:path";
-import { fileURLToPath } from "node:url";
+import { readFileSync, writeFileSync, statSync } from 'node:fs';
+import { dirname, extname, join, resolve, sep } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-const SOURCE = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
+const SOURCE = 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json';
 
 // ── projection geometry (mirrors the crop the canvas version drew) ──────────
 
@@ -141,18 +142,18 @@ function extent(points) {
 
 /** One simplified run of points → an `M x y L x y …` subpath, or "". */
 function toSubpath(points) {
-  let d = "";
+  let d = '';
   let prevX = null;
   let prevY = null;
   for (const p of points) {
     const x = Math.round(p.x);
     const y = Math.round(p.y);
     if (x === prevX && y === prevY) continue; // rounding collapsed it
-    d += (d ? "L" : "M") + x + " " + y;
+    d += (d ? 'L' : 'M') + x + ' ' + y;
     prevX = x;
     prevY = y;
   }
-  return d.includes("L") ? d : "";
+  return d.includes('L') ? d : '';
 }
 
 /** Rings of lat/lon pairs → one `d` attribute, integer-rounded. */
@@ -166,7 +167,7 @@ function toPathData(rings) {
       if (d) parts.push(d);
     }
   }
-  return parts.join("");
+  return parts.join('');
 }
 
 // ── minimal TopoJSON decoding ───────────────────────────────────────────────
@@ -200,9 +201,9 @@ function allRings(topo) {
   const arcs = decodeArcs(topo);
   const rings = [];
   for (const geom of topo.objects.countries.geometries) {
-    if (geom.type === "Polygon") {
+    if (geom.type === 'Polygon') {
       for (const r of geom.arcs) rings.push(ringCoords(r, arcs));
-    } else if (geom.type === "MultiPolygon") {
+    } else if (geom.type === 'MultiPolygon') {
       for (const poly of geom.arcs) {
         for (const r of poly) rings.push(ringCoords(r, arcs));
       }
@@ -242,13 +243,13 @@ function readTopoJsonArg(arg) {
   if (!path.startsWith(base)) {
     throw new Error(`Path escapes the working directory: ${path}`);
   }
-  if (extname(path) !== ".json") {
+  if (extname(path) !== '.json') {
     throw new Error(`Expected a .json file, got: ${path}`);
   }
   if (!statSync(path).isFile()) {
     throw new Error(`Not a file: ${path}`);
   }
-  return JSON.parse(readFileSync(path, "utf8"));
+  return JSON.parse(readFileSync(path, 'utf8'));
 }
 
 const topo = process.argv[2]
@@ -279,29 +280,31 @@ const svg = [
   `<circle cx="${mx}" cy="${my}" r="${r}" stroke="#ffffff" stroke-width="${(r * 0.4).toFixed(1)}"/>`,
   `</g>`,
   `</svg>`,
-].join("");
+].join('');
 
 const here = dirname(fileURLToPath(import.meta.url));
-const page = join(here, "..", "index.qmd");
-const START = "<!-- globe:start -->";
-const END = "<!-- globe:end -->";
-const html = readFileSync(page, "utf8");
+const page = join(here, '..', 'src', 'components', 'Globe.astro');
+const START = '<!-- globe:start -->';
+const END = '<!-- globe:end -->';
+const html = readFileSync(page, 'utf8');
 const from = html.indexOf(START);
 const to = html.indexOf(END);
 if (from === -1 || to === -1) {
   throw new Error(`Missing ${START} / ${END} markers in ${page}`);
 }
 
-// The marker label is an HTML card pinned to Orlando. The globe is static, so
-// its position is a constant too — emitted here as percentages of the frame
-// rather than measured in the browser on every resize.
-const label =
-  `<div class="nw-globe-label" style="left:${((mx / VIEW) * 100).toFixed(2)}%;` +
-  `top:${((my / VIEW) * 100).toFixed(2)}%"><b>Orlando, Florida | UTC-5</b>` +
-  `<code>28.5384&deg; N, 81.3789&deg; W</code></div>`;
+// Palette: the component repaints with the theme, so every stroke and fill
+// names a custom property from src/styles/global.css rather than a literal.
+const themed = svg
+  .replace(/fill="#0076df"/g, 'fill="var(--c-accent)"')
+  .replace(/stroke="#ffffff"/g, 'stroke="var(--c-surface)"')
+  .replace(/var\(--nw-bg\)/g, 'var(--c-surface)')
+  .replace(/var\(--nw-border\)/g, 'var(--c-line)')
+  .replace(/rgb\(var\(--nw-globe-line\)\)/g, 'var(--c-line-strong)')
+  .replace(/<svg id="nw-globe"/, '<svg class="h-full w-full"');
 
-const block = `${START}\n          ${svg}\n          ${label}\n          `;
-writeFileSync(page, html.slice(0, from) + block + html.slice(to), "utf8");
+const block = `${START}\n    ${themed}\n    `;
+writeFileSync(page, html.slice(0, from) + block + html.slice(to), 'utf8');
 console.log(
   `wrote ${(svg.length / 1024).toFixed(1)} KB of SVG (borders ${borders.length} B, ` +
     `graticule ${graticule.length} B) into ${page}`,

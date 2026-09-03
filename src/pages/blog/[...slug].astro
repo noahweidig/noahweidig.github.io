@@ -1,0 +1,48 @@
+---
+import { getCollection, render } from 'astro:content';
+import { Image } from 'astro:assets';
+import Detail from '../../layouts/Detail.astro';
+import { fullDate, readingTime } from '../../lib/format';
+import Comments from '../../components/Comments.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  return posts.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const d = entry.data;
+const meta = `${fullDate(d.date)} · ${readingTime(entry.body)}`;
+---
+
+<Detail
+  title={d.title}
+  description={d.description}
+  kicker="Blog"
+  meta={meta}
+  backHref="/blog/"
+  backLabel="All posts"
+  chips={d.categories}
+  publishedTime={d.date}
+>
+  {
+    d.image && (
+      <Image
+        src={d.image}
+        alt={d['image-alt'] ?? ''}
+        widths={[600, 1000, 1600]}
+        sizes="(min-width: 768px) 720px, 92vw"
+        loading="eager"
+        class="mb-10 w-full rounded-lg border border-line"
+      />
+    )
+  }
+  <Content />
+
+  <Fragment slot="after">
+    <div class="shell-narrow pb-16">
+      <Comments />
+    </div>
+  </Fragment>
+</Detail>

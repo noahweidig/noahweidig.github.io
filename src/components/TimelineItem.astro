@@ -1,0 +1,37 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  entry: CollectionEntry<'experience'> | CollectionEntry<'education'>;
+  base: 'experience' | 'education';
+  current?: boolean;
+}
+const { entry, base, current = false } = Astro.props;
+const d = entry.data;
+---
+
+<a
+  href={`/${base}/${entry.id}/`}
+  class="group relative block border-l border-line py-5 pl-7 transition-colors hover:border-accent/50"
+  data-reveal
+>
+  <span
+    class:list={[
+      'absolute top-7 -left-[5px] h-2.5 w-2.5 rounded-full border-2 transition-colors',
+      current
+        ? 'border-accent bg-accent'
+        : 'border-line-strong bg-bg group-hover:border-accent group-hover:bg-accent',
+    ]}></span>
+  {
+    current && (
+      <span class="absolute top-[22px] -left-[9px] h-[18px] w-[18px] animate-ping rounded-full bg-accent/25" />
+    )
+  }
+
+  <h3 class="text-lg leading-snug transition-colors group-hover:text-accent-ink">{d.title}</h3>
+  {d.org && <p class="mt-1 text-sm font-medium text-accent-ink/85">{d.org}</p>}
+  <p class="mt-0.5 font-mono text-[0.7rem] tracking-[0.08em] text-faint uppercase">
+    {d.dates}{d.location ? ` · ${d.location}` : ''}
+  </p>
+  {d.description && <p class="mt-2 text-sm leading-relaxed text-dim">{d.description}</p>}
+</a>

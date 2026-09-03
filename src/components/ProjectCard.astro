@@ -1,0 +1,109 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Icon from './Icon.astro';
+
+interface Props {
+  entry: CollectionEntry<'projects'>;
+  index?: number;
+}
+const { entry, index = 0 } = Astro.props;
+const { title, description, categories, featured } = entry.data;
+const slug = entry.id;
+
+/* Tile hue follows the project's own category, most specific first, so a new
+   project picks up the right accent with no edit here. */
+const HUES: [string, string][] = [
+  ['fire', 'ember'],
+  ['geospatial', 'accent'],
+  ['r', 'violet'],
+  ['apis', 'violet'],
+  ['creative', 'violet'],
+  ['data science', 'moss'],
+];
+const have = categories.map((c) => c.toLowerCase());
+const hue = HUES.find(([name]) => have.includes(name))?.[1] ?? 'moss';
+
+const KNOWN = new Set([
+  'chartifyr',
+  'dataviz',
+  'faststats',
+  'firer',
+  'framelab',
+  'imagestudio',
+  'less',
+  'lorem-chartsum',
+  'maplab',
+  'maps',
+  'quickplot',
+  'r-proj-template',
+  'roads',
+  'shelf',
+  'wildfire',
+  'wordcloud',
+  'wuirisk',
+]);
+const icon = `/media/icons/projects/${KNOWN.has(slug) ? slug : 'default'}.svg`;
+const shot = KNOWN.has(slug) ? `/media/albums/projects/${slug}.webp` : null;
+---
+
+<article
+  class="card card-hover group relative flex flex-col overflow-hidden"
+  data-cats={categories.join('|')}
+  data-reveal
+  style={`--reveal-delay:${Math.min(index, 5) * 60}ms; --tile: var(--c-${hue});`}
+>
+  <a href={`/projects/${slug}/`} class="absolute inset-0 z-10" tabindex="-1" aria-hidden="true"></a>
+
+  <div class="relative aspect-16/10 overflow-hidden border-b border-line bg-raised">
+    {
+      shot ? (
+        <img
+          src={shot}
+          alt=""
+          width="1600"
+          height="1000"
+          loading={index < 3 ? 'eager' : 'lazy'}
+          decoding="async"
+          class="h-full w-full object-cover object-top transition-transform duration-700 ease-[cubic-bezier(.22,1,.36,1)] group-hover:scale-[1.04]"
+        />
+      ) : (
+        <div class="grid h-full place-items-center opacity-30">
+          <Icon name="layers" size={48} />
+        </div>
+      )
+    }
+    <div
+      class="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+      style="background: linear-gradient(to top, color-mix(in oklab, var(--tile) 26%, transparent), transparent 55%)"
+    >
+    </div>
+    <span
+      class="absolute bottom-3 left-3 grid h-10 w-10 place-items-center rounded-lg border border-white/12 shadow-lg backdrop-blur-md"
+      style="background: color-mix(in oklab, var(--tile) 82%, black)"
+    >
+      <img src={icon} alt="" width="24" height="24" class="h-5 w-5 opacity-95" loading="lazy" />
+    </span>
+    {
+      featured && (
+        <span class="absolute top-3 right-3 chip bg-black/55 text-white backdrop-blur-md">
+          Featured
+        </span>
+      )
+    }
+  </div>
+
+  <div class="flex flex-1 flex-col p-5">
+    <h3 class="text-xl leading-snug">
+      <a
+        href={`/projects/${slug}/`}
+        class="relative z-20 transition-colors group-hover:text-accent-ink"
+      >
+        {title}
+      </a>
+    </h3>
+    <p class="mt-2 flex-1 text-sm leading-relaxed text-dim">{description}</p>
+    <div class="mt-4 flex flex-wrap gap-1.5">
+      {categories.map((c) => <span class="chip">{c}</span>)}
+    </div>
+  </div>
+</article>

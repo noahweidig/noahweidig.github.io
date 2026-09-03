@@ -32,35 +32,19 @@ concurrency:
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
-  # The Quarto pin lives in .quarto-version, which .github/actions/build-site
-  # reads. netlify.toml has to repeat it (Netlify can't read a file to build
-  # its install command), so the two are compared here rather than trusted to
-  # stay in step by hand (#249).
-  quarto-pin:
-    runs-on: ubuntu-latest
-    timeout-minutes: 2
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      - name: Check netlify.toml matches .quarto-version
-        run: ./scripts/check-quarto-pin.sh
-
-  # Every other gate in this repo checks the *output* — html-validate, axe and
-  # Lighthouse all run against rendered pages. This one checks the input: the
-  # ~5,500 lines of hand-written CSS, SCSS and JS that nothing else reads
-  # (#267), and — through `lint:prose` — the writing itself, which nothing
-  # checked at all (#250). Same `npm ci --ignore-scripts` as the build job, for the same
-  # reason: none of these three needs a lifecycle script.
+  # Every other gate in this repo checks the *output* — axe and Lighthouse
+  # both run against rendered pages. This one checks the input: formatting
+  # across the source tree, plus `astro check`, which type-checks every
+  # component, page and content-collection schema.
   lint:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
-        with:
-          node-version-file: .nvmrc
-          cache: npm
       - name: Install toolchain
-        run: npm ci --ignore-scripts
+        uses: ./.github/actions/build-site
+        with:
+          build: 'false'
       - name: Lint sources
         run: npm run lint
 
@@ -77,28 +61,11 @@ jobs:
       - name: Build site
         uses: ./.github/actions/build-site
 
-      # The generated markup — six EJS templates plus three post-render
-      # scripts that rewrite tags — is the part nothing else inspects, and
-      # a duplicate id or a malformed srcset is invisible to every other
-      # check here (#256). Runs against the same _site that ships.
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
-        with:
-          node-version-file: .nvmrc
-          cache: npm
-
-      # --ignore-scripts: html-validate needs no lifecycle script, and an
-      # install that runs them is arbitrary code execution on the runner.
-      - name: Install toolchain
-        run: npm ci --ignore-scripts
-
-      - name: Validate HTML
-        run: npm run validate:html
-
       - name: Upload Pages artifact
         if: github.event_name != 'pull_request'
         uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
         with:
-          path: _site
+          path: dist
 
   deploy:
     needs: build
