@@ -54,20 +54,20 @@ const isActive = (href: string) =>
       <button
         type="button"
         data-search-open
-        class="grid h-9 w-9 place-items-center rounded-full border border-line text-dim transition-colors hover:border-line-strong hover:text-ink"
+        class="grid h-10 w-10 place-items-center rounded-lg text-ink transition-colors hover:text-accent-ink"
         aria-label="Search the site"
       >
-        <Icon name="search" size={17} />
+        <Icon name="search" size={21} stroke-width={1.8} />
       </button>
 
       <button
         type="button"
         data-theme-toggle
-        class="grid h-9 w-9 place-items-center rounded-full border border-line text-dim transition-colors hover:border-line-strong hover:text-ink"
+        class="grid h-10 w-10 place-items-center rounded-lg text-ink transition-colors hover:text-accent-ink"
         aria-label="Toggle color theme"
       >
-        <span class="hidden dark:block"><Icon name="sun" size={17} /></span>
-        <span class="block dark:hidden"><Icon name="moon" size={17} /></span>
+        <span class="hidden dark:block"><Icon name="sun" size={21} stroke-width={1.8} /></span>
+        <span class="block dark:hidden"><Icon name="moon" size={21} stroke-width={1.8} /></span>
       </button>
 
       <a
@@ -85,11 +85,11 @@ const isActive = (href: string) =>
         data-menu-toggle
         aria-expanded="false"
         aria-controls="mobile-nav"
-        class="grid h-9 w-9 place-items-center rounded-full border border-line text-dim lg:hidden"
+        class="grid h-10 w-10 place-items-center rounded-lg text-ink transition-colors hover:text-accent-ink lg:hidden"
         aria-label="Open menu"
       >
-        <span data-menu-icon-open><Icon name="menu" size={18} /></span>
-        <span data-menu-icon-close hidden><Icon name="close" size={18} /></span>
+        <span data-menu-icon-open><Icon name="menu" size={22} stroke-width={1.8} /></span>
+        <span data-menu-icon-close hidden><Icon name="close" size={22} stroke-width={1.8} /></span>
       </button>
     </div>
   </div>

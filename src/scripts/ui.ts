@@ -624,6 +624,88 @@ function initToc() {
   on(window, 'resize', sync);
 }
 
+/* ------------------------------------------------------------- carousel -- */
+/* A native scroll-snap track keeps touch and keyboard scrolling intact; the
+   dots below mirror the snapped card and advance the track on their own. */
+function initCarousels() {
+  const slow = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  document.querySelectorAll<HTMLElement>('[data-carousel]').forEach((root) => {
+    const track = root.querySelector<HTMLElement>('[data-carousel-track]');
+    const dots = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-carousel-dot]'));
+    const slides = track ? (Array.from(track.children) as HTMLElement[]) : [];
+    if (!track || dots.length < 2 || slides.length !== dots.length) return;
+
+    let current = 0;
+    let queued = false;
+
+    const nearest = () => {
+      const mid = track.getBoundingClientRect().left + track.clientWidth / 2;
+      let best = 0;
+      let bestGap = Infinity;
+      slides.forEach((s, i) => {
+        const r = s.getBoundingClientRect();
+        const gap = Math.abs(r.left + r.width / 2 - mid);
+        if (gap < bestGap) {
+          bestGap = gap;
+          best = i;
+        }
+      });
+      return best;
+    };
+
+    const sync = () => {
+      queued = false;
+      current = nearest();
+      dots.forEach((d, i) => {
+        d.setAttribute('aria-selected', String(i === current));
+        d.tabIndex = i === current ? 0 : -1;
+      });
+    };
+
+    const go = (i: number) => {
+      const pad = parseFloat(getComputedStyle(track).paddingLeft) || 0;
+      const left = track.getBoundingClientRect().left;
+      const delta = slides[i].getBoundingClientRect().left - left - pad;
+      track.scrollTo({ left: track.scrollLeft + delta, behavior: slow ? 'auto' : 'smooth' });
+    };
+
+    on(track, 'scroll', () => {
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(sync);
+    });
+    on(window, 'resize', sync);
+
+    dots.forEach((dot, i) => {
+      on(dot, 'click', () => go(i));
+      on(dot, 'keydown', (e) => {
+        const key = (e as KeyboardEvent).key;
+        const step = key === 'ArrowRight' ? 1 : key === 'ArrowLeft' ? -1 : 0;
+        if (!step) return;
+        e.preventDefault();
+        const next = (i + step + dots.length) % dots.length;
+        go(next);
+        dots[next].focus();
+      });
+    });
+
+    sync();
+
+    /* Auto-advance, paused while the reader is on it or the tab is hidden. */
+    if (slow) return;
+    let held = false;
+    const tick = () => {
+      if (held || document.hidden || root.contains(document.activeElement)) return;
+      go((current + 1) % slides.length);
+    };
+    const timer = window.setInterval(tick, 5200);
+    cleanups.push(() => window.clearInterval(timer));
+    on(root, 'pointerenter', () => (held = true));
+    on(root, 'pointerleave', () => (held = false));
+  });
+}
+
 /* ---------------------------------------------------------------- share -- */
 /* Instagram has no web share endpoint, so hand the page to the OS share sheet
    (which lists Instagram on mobile) and fall back to the clipboard. */
@@ -732,6 +814,7 @@ function boot() {
   initTypewriter();
   initCopy();
   initShare();
+  initCarousels();
   initCodeCopy();
   initToc();
   initPrint();
