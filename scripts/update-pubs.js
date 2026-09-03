@@ -643,7 +643,12 @@ async function main() {
     if (detailBits.length) fm.push(`pub-details: ${yq(detailBits.join(", "))}`);
     if (doi) fm.push(`pub-doi: ${yq(doi)}`);
     if (link) fm.push(`pub-url: ${yq(link)}`);
-    if (hasPdf) fm.push(`pub-pdf: ${yq(pdfName)}`);
+    // Root-relative, not a bare filename: the citation.ejs listing template
+    // renders this page's PDF link from other directories (publications/
+    // index, the homepage, the CV), where a relative name would resolve
+    // against the wrong page.
+    const pdfUrl = `/publications/${slug}/${pdfName}`;
+    if (hasPdf) fm.push(`pub-pdf: ${yq(pdfUrl)}`);
     // The listings on publications/index.qmd include `pub-listed: "yes"`, so a
     // repeat appearance keeps its own page (and its URL) but does not add a
     // near-identical row to the index (#253).
@@ -682,7 +687,7 @@ async function main() {
     const btns = [];
     if (doi) btns.push(`[DOI](https://doi.org/${doi}){.nw-btn .nw-btn-primary target="_blank"}`);
     if (link && !doi) btns.push(`[Source](${link}){.nw-btn .nw-btn-primary target="_blank"}`);
-    if (hasPdf) btns.push(`[View PDF](${pdfName}){.nw-btn .nw-btn-ghost target="_blank"}`);
+    if (hasPdf) btns.push(`[View PDF](${pdfUrl}){.nw-btn .nw-btn-ghost target="_blank"}`);
     btns.push(`[BibTeX](cite.bib){.nw-btn .nw-btn-ghost}`);
     body.push(btns.join(" "), "");
 
