@@ -2,6 +2,7 @@
 import { u } from '../lib/url';
 import { Image } from 'astro:assets';
 import portrait from '../assets/me.webp';
+import { PORTRAIT_SIZES, PORTRAIT_WIDTHS } from '../lib/portrait';
 import Icon from './Icon.astro';
 import { socials } from '../lib/site';
 
@@ -106,8 +107,8 @@ const typed = [
         <Image
           src={portrait}
           alt="Noah Weidig"
-          widths={[400, 700]}
-          sizes="(min-width: 1024px) 380px, (min-width: 640px) 256px, 216px"
+          widths={PORTRAIT_WIDTHS}
+          sizes={PORTRAIT_SIZES}
           loading="eager"
           fetchpriority="high"
           class="aspect-square w-full object-cover"

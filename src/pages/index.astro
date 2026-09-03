@@ -14,9 +14,15 @@ import CitationRow from '../components/CitationRow.astro';
 import TimelineItem from '../components/TimelineItem.astro';
 import Globe from '../components/Globe.astro';
 import Icon from '../components/Icon.astro';
-import { Image } from 'astro:assets';
+import { Image, getImage } from 'astro:assets';
+import portrait from '../assets/me.webp';
+import { PORTRAIT_SIZES, PORTRAIT_WIDTHS } from '../lib/portrait';
 import { readingTime, year } from '../lib/format';
 import { site } from '../lib/site';
+
+/* The hero portrait is this page's LCP element, so it is preloaded from the
+   head rather than discovered where it sits in the body. */
+const heroPortrait = await getImage({ src: portrait, widths: PORTRAIT_WIDTHS });
 
 const byDate = <T extends { data: { date: Date } }>(a: T, b: T) =>
   b.data.date.getTime() - a.data.date.getTime();
@@ -97,7 +103,15 @@ const faqs = [
 ];
 ---
 
-<Base title={site.name} filters={{ section: 'Page' }}>
+<Base
+  title={site.name}
+  filters={{ section: 'Page' }}
+  preloadImage={{
+    href: heroPortrait.src,
+    srcset: heroPortrait.srcSet.attribute,
+    sizes: PORTRAIT_SIZES,
+  }}
+>
   <Hero />
 
   <!-- stats + affiliations -->

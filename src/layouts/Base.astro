@@ -16,6 +16,8 @@ interface Props {
   publishedTime?: Date;
   /** Values Pagefind indexes as facets, so search can filter on them. */
   filters?: { section?: string; tags?: string[] };
+  /** The page's LCP image, preloaded ahead of the fonts. */
+  preloadImage?: { href: string; srcset?: string; sizes?: string };
 }
 
 const {
@@ -27,6 +29,7 @@ const {
   bodyClass = '',
   publishedTime,
   filters = {},
+  preloadImage,
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname.replace(/\/+$/, '/'), Astro.site).href;
@@ -130,6 +133,23 @@ const jsonLd = {
       title="Noah Weidig — Blog"
       href={u('/rss.xml')}
     />
+
+    {
+      /* Ahead of the fonts: on a throttled connection the two latin subsets are
+        88KB of higher-priority bytes, and the LCP image queues behind them. */
+    }
+    {
+      preloadImage && (
+        <link
+          rel="preload"
+          as="image"
+          href={preloadImage.href}
+          imagesrcset={preloadImage.srcset}
+          imagesizes={preloadImage.sizes}
+          fetchpriority="high"
+        />
+      )
+    }
 
     <link
       rel="preload"
