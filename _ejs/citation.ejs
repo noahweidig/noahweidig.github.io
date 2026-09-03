@@ -65,7 +65,7 @@ const cites = Number(item['pub-citations'] || 0);
 <% if (item['pub-oa']) { %><span class="nw-chip nw-cite-oa">Open Access</span><% } %>
 <% if (item['pub-doi']) { %><a href="https://doi.org/<%- item['pub-doi'] %>" target="_blank" rel="noopener">DOI</a><% } %>
 <% if (item['pub-url'] && !item['pub-doi']) { %><a href="<%- item['pub-url'] %>" target="_blank" rel="noopener">Source</a><% } %>
-<% if (item['pub-pdf']) { %><a class="nw-cite-pdf" href="<%- String(item.path).replace(/index\.html?$/, '') + item['pub-pdf'] %>" target="_blank" rel="noopener">View PDF</a><% } %>
+<% if (item['pub-pdf']) { %><a class="nw-cite-pdf" href="<%- item['pub-pdf'] %>" target="_blank" rel="noopener">View PDF</a><% } %>
 </div>
 </div>
 </div>
