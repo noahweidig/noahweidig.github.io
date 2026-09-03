@@ -1,0 +1,66 @@
+---
+import '../styles/global.css';
+import { site } from '../lib/site';
+
+/**
+ * The shell the PDF pipeline prints from: no header, no footer, no scripts,
+ * light theme forced. `scripts/generate-pdfs.mjs` renders these pages with
+ * Puppeteer, so anything interactive here would never survive the trip.
+ */
+interface Props {
+  title: string;
+  /** Page box, in the CSS units @page understands. */
+  size?: string;
+  margin?: string;
+}
+const { title, size = 'Letter', margin = '0.5in' } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" data-theme="light" data-print-doc>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{`${title} | ${site.name}`}</title>
+    <meta name="robots" content="noindex, nofollow" />
+    <style is:inline set:html={`@page { size: ${size}; margin: ${margin}; }`}></style>
+  </head>
+  <body class="print-doc">
+    <main><slot /></main>
+    <style is:global>
+      /* The site's screen chrome is irrelevant here; what matters is that the
+         document reads as one continuous sheet at any zoom, and that the
+         generator can shrink it with a single custom property. */
+      html[data-print-doc] {
+        scrollbar-gutter: auto;
+      }
+      body.print-doc {
+        background: #fff;
+        color: #14161c;
+        font-size: calc(1rem * var(--fit, 1));
+        line-height: 1.42;
+        overflow-x: visible;
+      }
+      body.print-doc a {
+        color: inherit;
+        text-decoration: none;
+      }
+      body.print-doc :is(h1, h2, h3) {
+        text-wrap: balance;
+      }
+      /* Nothing in a printed record should straddle a page break. */
+      body.print-doc .keep {
+        break-inside: avoid;
+      }
+      @media screen {
+        body.print-doc {
+          padding: 2rem 1.25rem;
+        }
+        body.print-doc main {
+          max-width: 7.5in;
+          margin-inline: auto;
+        }
+      }
+    </style>
+  </body>
+</html>

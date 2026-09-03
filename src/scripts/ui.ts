@@ -223,6 +223,114 @@ function initTabs() {
   });
 }
 
+/* ---------------------------------------------------------------- fuzzy -- */
+/* Pagefind matches whole words, so "wildfre" or "gldilocks" find nothing. The
+   title index in /search-index.json is scored character-by-character and fills
+   the gap: an exact run of characters is underlined solid, a loose subsequence
+   match gets the wavy underline. */
+type Doc = { t: string; u: string; s: string; d?: string; g?: string[] };
+type Span = { start: number; end: number; exact: boolean };
+type Hit = { doc: Doc; score: number; spans: Span[] };
+
+let fuzzyIndex: Doc[] | null = null;
+let fuzzyFailed = false;
+
+async function loadIndex(): Promise<Doc[]> {
+  if (fuzzyIndex || fuzzyFailed) return fuzzyIndex ?? [];
+  try {
+    const res = await fetch(`${basePath()}/search-index.json`);
+    fuzzyIndex = (await res.json()) as Doc[];
+  } catch {
+    fuzzyFailed = true;
+    fuzzyIndex = [];
+  }
+  return fuzzyIndex;
+}
+
+/** Contiguous run first, scattered subsequence second, nothing third. */
+function scoreTerm(term: string, text: string): { score: number; spans: Span[] } | null {
+  const hay = text.toLowerCase();
+  const at = hay.indexOf(term);
+  if (at >= 0) {
+    // A hit on a word boundary is worth more than one buried mid-word.
+    const boundary = at === 0 || /[^a-z0-9]/.test(hay[at - 1] ?? ' ');
+    return {
+      score: 100 + term.length * 6 + (boundary ? 30 : 0) - at * 0.4,
+      spans: [{ start: at, end: at + term.length, exact: true }],
+    };
+  }
+
+  let i = 0;
+  let gaps = 0;
+  let last = -1;
+  const spans: Span[] = [];
+  for (let c = 0; c < hay.length && i < term.length; c++) {
+    if (hay[c] !== term[i]) continue;
+    if (last >= 0) gaps += c - last - 1;
+    spans.push({ start: c, end: c + 1, exact: false });
+    last = c;
+    i++;
+  }
+  if (i < term.length) return null;
+  // A subsequence spread across the whole string is a weak match; one that is
+  // nearly contiguous is close to a typo'd exact hit.
+  return { score: Math.max(4, 46 - gaps * 1.4 - (spans[0]?.start ?? 0) * 0.3), spans };
+}
+
+function scoreDoc(query: string, doc: Doc): Hit | null {
+  const terms = query.toLowerCase().split(/\s+/).filter(Boolean);
+  if (!terms.length) return null;
+  let total = 0;
+  const spans: Span[] = [];
+  for (const term of terms) {
+    const inTitle = scoreTerm(term, doc.t);
+    const elsewhere =
+      scoreTerm(term, doc.d ?? '') ?? scoreTerm(term, `${doc.s} ${(doc.g ?? []).join(' ')}`);
+    if (!inTitle && !elsewhere) return null;
+    if (inTitle) {
+      total += inTitle.score;
+      spans.push(...inTitle.spans);
+    } else if (elsewhere) {
+      total += elsewhere.score * 0.35;
+    }
+  }
+  return { doc, score: total / terms.length, spans };
+}
+
+const fuzzySearch = (query: string, docs: Doc[], limit: number) =>
+  docs
+    .map((d) => scoreDoc(query, d))
+    .filter((h): h is Hit => h !== null && h.score > 12)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, limit);
+
+/** Wraps the scored spans; everything else is escaped as-is. */
+function markSpans(text: string, spans: Span[]): string {
+  if (!spans.length) return escapeHtml(text);
+  const merged = [...spans].sort((a, b) => a.start - b.start);
+  let out = '';
+  let at = 0;
+  for (const s of merged) {
+    if (s.start < at) continue;
+    out += escapeHtml(text.slice(at, s.start));
+    out += `<span class="${s.exact ? 'hit-exact' : 'hit-fuzzy'}">${escapeHtml(
+      text.slice(s.start, s.end),
+    )}</span>`;
+    at = s.end;
+  }
+  return out + escapeHtml(text.slice(at));
+}
+
+/** The same marking for a title Pagefind matched, which returns none of its own. */
+const markQuery = (text: string, query: string) => {
+  const spans: Span[] = [];
+  for (const term of query.toLowerCase().split(/\s+/).filter(Boolean)) {
+    const hit = scoreTerm(term, text);
+    if (hit) spans.push(...hit.spans);
+  }
+  return markSpans(text, spans);
+};
+
 /* --------------------------------------------------------------- search -- */
 type PagefindData = { url: string; meta: Record<string, string>; excerpt: string };
 type PagefindResult = { id: string; data: () => Promise<PagefindData> };
@@ -312,26 +420,67 @@ function initSearch() {
     });
   };
 
-  const renderResults = (items: PagefindData[], q: string) => {
-    if (!items.length) {
+  const renderResults = (items: PagefindData[], hits: Hit[], q: string) => {
+    /* Trailing slashes trimmed by hand: a `/+$` regex backtracks on a long
+       run of them for no gain. */
+    const key = (href: string) => {
+      let end = href.length;
+      while (end > 0 && href[end - 1] === '/') end--;
+      return `${href.slice(0, end)}/`;
+    };
+    const seen = new Set(items.map((d) => key(resultHref(d.url))));
+
+    /* One ranked list rather than two. Pagefind ranks on body text, which puts
+       a page whose only tie to the query is a stray initial above the paper the
+       reader was actually after; scoring every row's title against the query
+       and sorting on that fixes the order without discarding full-text hits. */
+    type Row = { href: string; title: string; section: string; sub: string; score: number };
+
+    const rows: Row[] = items.map((d, i) => {
+      const title = d.meta.title ?? d.url;
+      const titleScore = scoreDoc(q, { t: title, u: d.url, s: d.meta.section ?? '' })?.score ?? 0;
+      return {
+        href: resultHref(d.url),
+        title: markQuery(title, q),
+        section: d.meta.section ?? '',
+        sub: d.excerpt,
+        // A full-text hit is worth something even when the title says nothing.
+        score: titleScore + 24 - i * 0.5,
+      };
+    });
+
+    for (const h of hits) {
+      const href = resultHref(h.doc.u);
+      if (seen.has(key(href))) continue;
+      rows.push({
+        href,
+        title: markSpans(h.doc.t, h.spans),
+        section: h.doc.s,
+        sub: escapeHtml(h.doc.d ?? ''),
+        score: h.score,
+      });
+    }
+
+    if (!rows.length) {
       out.innerHTML = `<p class="px-3 py-10 text-center text-sm text-faint">No matches${
         q ? ` for &ldquo;${escapeHtml(q)}&rdquo;` : ''
       }.</p>`;
       setActive(-1);
       return;
     }
-    out.innerHTML = items
-      .map((d, i) => {
-        const section = d.meta.section
-          ? `<span class="chip shrink-0">${escapeHtml(d.meta.section)}</span>`
-          : '';
-        return `<a id="search-opt-${i}" role="option" aria-selected="false" href="${resultHref(d.url)}"
+
+    rows.sort((a, b) => b.score - a.score);
+    out.innerHTML = rows
+      .slice(0, 20)
+      .map((r, i) => {
+        const chip = r.section ? `<span class="chip shrink-0">${escapeHtml(r.section)}</span>` : '';
+        return `<a id="search-opt-${i}" role="option" aria-selected="false" href="${r.href}"
           class="block rounded-md px-3 py-2.5 transition-colors hover:bg-raised">
           <span class="flex items-start justify-between gap-3">
-            <span class="text-[0.95rem] font-medium text-ink">${escapeHtml(d.meta.title ?? d.url)}</span>
-            ${section}
+            <span class="text-[0.95rem] font-medium text-ink">${r.title}</span>
+            ${chip}
           </span>
-          <span class="mt-1 block text-[0.82rem] leading-relaxed text-dim">${d.excerpt}</span>
+          ${r.sub ? `<span class="mt-1 block text-[0.82rem] leading-relaxed text-dim">${r.sub}</span>` : ''}
         </a>`;
       })
       .join('');
@@ -389,11 +538,22 @@ function initSearch() {
   const run = async () => {
     const q = input.value.trim();
     const mine = ++token;
+    const fuzzyHits = async () => {
+      if (!q) return [];
+      const docs = (await loadIndex()).filter((d) => {
+        const bySection = selected.section?.size ? selected.section.has(d.s) : true;
+        const byTag = selected.tag?.size ? (d.g ?? []).some((t) => selected.tag!.has(t)) : true;
+        return bySection && byTag;
+      });
+      return fuzzySearch(q, docs, 8);
+    };
     const pf = await loadPagefind();
     if (mine !== token) return;
     if (!pf) {
-      out.innerHTML =
-        '<p class="px-3 py-10 text-center text-sm text-faint">Search index is only available in a production build.</p>';
+      // Dev has no Pagefind bundle; the title index still answers most queries.
+      const hits = await fuzzyHits();
+      if (mine !== token) return;
+      renderResults([], hits, q);
       return;
     }
 
@@ -413,12 +573,14 @@ function initSearch() {
     const { results, filters: counts } = await pf.search(q || null, { filters });
     if (mine !== token) return;
     const data = await Promise.all(results.slice(0, 20).map((r) => r.data()));
+    const hits = data.length >= 12 ? [] : await fuzzyHits();
     if (mine !== token) return;
-    renderResults(data, q);
+    renderResults(data, hits, q);
     renderFilters(counts);
     syncBadge();
     if (status) {
-      status.textContent = `${results.length} result${results.length === 1 ? '' : 's'}`;
+      const n = results.length + hits.length;
+      status.textContent = `${n} result${n === 1 ? '' : 's'}`;
     }
   };
 
@@ -546,6 +708,11 @@ function initTypewriter() {
 }
 
 /* ---------------------------------------------------------- code blocks -- */
+const COPY_ICON =
+  '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>';
+const CHECK_ICON =
+  '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>';
+
 function initCodeCopy() {
   const blocks = document.querySelectorAll<HTMLPreElement>('.prose-nw pre');
   blocks.forEach((pre) => {
@@ -555,30 +722,304 @@ function initCodeCopy() {
     // horizontally, and a button inside it would scroll away with the code.
     const wrap = document.createElement('div');
     wrap.dataset.codeBlock = 'true';
-    wrap.className = 'group/code relative';
+    wrap.className = 'relative';
     pre.replaceWith(wrap);
     wrap.appendChild(pre);
 
+    // Icon only — the word "Copy" sat over the first line of code. The label
+    // it replaces comes back as a tooltip on hover.
     const btn = document.createElement('button');
     btn.type = 'button';
-    btn.className =
-      'absolute top-2.5 right-2.5 rounded-md border border-line bg-raised px-2 py-1 font-mono text-[0.66rem] text-dim opacity-0 transition-all duration-200 hover:border-accent hover:text-accent-ink focus-visible:opacity-100 group-hover/code:opacity-100';
-    btn.textContent = 'Copy';
+    btn.className = 'code-copy';
+    btn.innerHTML = COPY_ICON;
+    btn.dataset.tip = 'Copy';
     btn.setAttribute('aria-label', 'Copy code to clipboard');
 
     on(btn, 'click', async () => {
+      let tip = 'Copied';
       try {
         await navigator.clipboard.writeText(pre.innerText.replace(/\n$/, ''));
-        btn.textContent = 'Copied';
+        btn.innerHTML = CHECK_ICON;
       } catch {
         // Clipboard blocked (insecure context, or a permissions policy): the
         // code is still selectable, so say what happened rather than lie.
-        btn.textContent = 'Select it';
+        tip = 'Select it and copy';
       }
-      window.setTimeout(() => (btn.textContent = 'Copy'), 1600);
+      btn.dataset.tip = tip;
+      showTip(btn);
+      window.setTimeout(() => {
+        btn.innerHTML = COPY_ICON;
+        btn.dataset.tip = 'Copy';
+        hideTip();
+      }, 1600);
     });
 
     wrap.appendChild(btn);
+  });
+}
+
+/* ------------------------------------------------------- heading anchors -- */
+/* A copy-the-anchor control per heading: hovering a heading reveals a #, and
+   clicking it copies the full URL rather than only moving the hash. */
+function initHeadingAnchors() {
+  document
+    .querySelectorAll<HTMLHeadingElement>('.prose-nw h2[id], .prose-nw h3[id], .prose-nw h4[id]')
+    .forEach((h) => {
+      if (h.querySelector('.heading-anchor')) return;
+      const a = document.createElement('a');
+      a.className = 'heading-anchor';
+      a.href = `#${h.id}`;
+      a.dataset.tip = 'Copy link to this section';
+      a.setAttribute('aria-label', `Copy link to section: ${h.textContent?.trim() ?? h.id}`);
+      a.innerHTML =
+        '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9h16"/><path d="M4 15h16"/><path d="M10 3 8 21"/><path d="M16 3l-2 18"/></svg>';
+
+      on(a, 'click', async (ev) => {
+        ev.preventDefault();
+        const url = `${location.origin}${location.pathname}#${h.id}`;
+        history.replaceState(null, '', `#${h.id}`);
+        h.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        try {
+          await navigator.clipboard.writeText(url);
+          a.dataset.tip = 'Link copied';
+        } catch {
+          a.dataset.tip = 'Copy blocked — the link is in the address bar';
+        }
+        showTip(a);
+        window.setTimeout(() => {
+          a.dataset.tip = 'Copy link to this section';
+          hideTip();
+        }, 1600);
+      });
+
+      h.prepend(a);
+    });
+}
+
+/* ---------------------------------------------------------- reading mode -- */
+/* Strips the page back to the article: rails, share row, comments and footer
+   step out and the measure grows. The choice is remembered per reader. */
+function initReadingMode() {
+  const btn = document.querySelector<HTMLButtonElement>('[data-reading-toggle]');
+  if (!btn) return;
+  const root = document.documentElement;
+
+  const set = (on_: boolean) => {
+    if (on_) root.dataset.reading = '';
+    else delete root.dataset.reading;
+    btn.setAttribute('aria-pressed', String(on_));
+    btn.dataset.tip = on_ ? 'Leave reading mode' : 'Reading mode: just the article';
+    const label = btn.querySelector('[data-reading-label]');
+    if (label) label.textContent = on_ ? 'Exit reading mode' : 'Reading mode';
+  };
+
+  let stored: string | null = null;
+  try {
+    stored = localStorage.getItem('nw-reading');
+  } catch {
+    /* private mode — the toggle still works for this page */
+  }
+  set(stored === 'on');
+
+  on(btn, 'click', () => {
+    const next = root.dataset.reading === undefined;
+    set(next);
+    try {
+      localStorage.setItem('nw-reading', next ? 'on' : 'off');
+    } catch {
+      /* nothing to persist to */
+    }
+  });
+
+  // The attribute lives on <html>, which survives a view-transition swap; a
+  // reader who left reading mode on one post should not find it on the next.
+  cleanups.push(() => {
+    if (!document.querySelector('[data-reading-toggle]')) delete root.dataset.reading;
+  });
+}
+
+/* --------------------------------------------------------------- tooltip -- */
+/* One floating element for the whole page: an ancestor with overflow hidden
+   would clip a tooltip rendered inside the trigger. */
+let tipEl: HTMLElement | null = null;
+let tipTimer: number | undefined;
+
+const tipRoot = () => {
+  if (!tipEl?.isConnected) {
+    tipEl = document.createElement('div');
+    tipEl.className = 'nw-tip';
+    tipEl.setAttribute('role', 'tooltip');
+    document.body.appendChild(tipEl);
+  }
+  return tipEl;
+};
+
+function showTip(target: HTMLElement) {
+  const text = target.dataset.tip;
+  if (!text) return;
+  const el = tipRoot();
+  const title = target.dataset.tipTitle;
+  el.innerHTML = title
+    ? `<b>${escapeHtml(title)}</b><span>${escapeHtml(text)}</span>`
+    : escapeHtml(text);
+  el.style.visibility = 'hidden';
+  el.dataset.show = '';
+
+  const r = target.getBoundingClientRect();
+  const t = el.getBoundingClientRect();
+  const margin = 8;
+  let left = r.left + r.width / 2 - t.width / 2;
+  left = Math.max(margin, Math.min(left, window.innerWidth - t.width - margin));
+  // Above the trigger where there is room, below it otherwise.
+  const above = r.top > t.height + margin * 2;
+  const top = above ? r.top - t.height - margin : r.bottom + margin;
+  el.style.left = `${Math.round(left)}px`;
+  el.style.top = `${Math.round(top)}px`;
+  el.style.visibility = '';
+}
+
+function hideTip() {
+  window.clearTimeout(tipTimer);
+  if (tipEl) delete tipEl.dataset.show;
+}
+
+function initTooltips() {
+  const enter = (ev: Event) => {
+    const target = (ev.target as HTMLElement | null)?.closest<HTMLElement>('[data-tip]');
+    if (!target) return;
+    window.clearTimeout(tipTimer);
+    tipTimer = window.setTimeout(() => showTip(target), 140);
+  };
+  const leave = (ev: Event) => {
+    const target = (ev.target as HTMLElement | null)?.closest<HTMLElement>('[data-tip]');
+    if (target) hideTip();
+  };
+
+  // Pointer tooltips only where there is a pointer to hover with; the focus
+  // pair is bound either way, so a keyboard reader still gets the label.
+  if (!window.matchMedia('(hover: none)').matches) {
+    on(document, 'pointerover', enter);
+    on(document, 'pointerout', leave);
+  }
+  on(document, 'focusin', enter);
+  on(document, 'focusout', leave);
+  on(window, 'scroll', hideTip, { passive: true } as AddEventListenerOptions);
+  on(document, 'keydown', (ev) => {
+    if ((ev as KeyboardEvent).key === 'Escape') hideTip();
+  });
+  cleanups.push(hideTip);
+}
+
+/* -------------------------------------------------------------- lightbox -- */
+/* A custom viewer rather than a library: it inherits the site's surfaces and
+   the whole thing is one dialog-less overlay with keyboard paging. */
+function initLightbox() {
+  const shots = Array.from(
+    document.querySelectorAll<HTMLImageElement>(
+      '.prose-nw img:not([data-no-zoom]), [data-zoomable] img, img[data-zoomable]',
+    ),
+  ).filter((img) => !img.closest('a'));
+  if (!shots.length) return;
+
+  shots.forEach((img, i) => {
+    img.classList.add('zoomable');
+    img.dataset.zoomIndex = String(i);
+    img.dataset.tip ??= 'Click to enlarge';
+    if (!img.hasAttribute('tabindex')) img.tabIndex = 0;
+    img.setAttribute('role', 'button');
+  });
+
+  let box: HTMLElement | null = null;
+  let index = 0;
+
+  const captionFor = (img: HTMLImageElement) =>
+    img.closest('figure')?.querySelector('figcaption')?.textContent?.trim() || img.alt || '';
+
+  const paint = () => {
+    if (!box) return;
+    const img = shots[index]!;
+    const full = box.querySelector<HTMLImageElement>('[data-lightbox-img]')!;
+    full.src = img.currentSrc || img.src;
+    full.alt = img.alt;
+    box.querySelector('[data-lightbox-caption]')!.textContent = captionFor(img);
+    box.querySelector('[data-lightbox-count]')!.textContent =
+      shots.length > 1 ? `${index + 1} / ${shots.length}` : '';
+  };
+
+  const close = () => {
+    if (!box) return;
+    const node = box;
+    box = null;
+    delete node.dataset.show;
+    document.body.style.removeProperty('overflow');
+    window.setTimeout(() => node.remove(), 220);
+    shots[index]?.focus();
+  };
+
+  const step = (delta: number) => {
+    index = (index + delta + shots.length) % shots.length;
+    paint();
+  };
+
+  const open = (i: number) => {
+    index = i;
+    box = document.createElement('div');
+    box.className = 'lightbox';
+    box.setAttribute('role', 'dialog');
+    box.setAttribute('aria-modal', 'true');
+    box.setAttribute('aria-label', 'Image viewer');
+    box.innerHTML = `
+      <div class="lightbox-bar">
+        <span data-lightbox-count class="font-mono text-[0.7rem] tracking-[0.14em] uppercase"></span>
+        <span class="ml-auto flex items-center gap-2">
+          ${
+            shots.length > 1
+              ? `<button type="button" class="icon-tile" data-lightbox-prev aria-label="Previous image" data-tip="Previous (←)"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
+                 <button type="button" class="icon-tile" data-lightbox-next aria-label="Next image" data-tip="Next (→)"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>`
+              : ''
+          }
+          <button type="button" class="icon-tile" data-lightbox-close aria-label="Close viewer" data-tip="Close (Esc)"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
+        </span>
+      </div>
+      <div class="lightbox-stage" data-lightbox-stage><img data-lightbox-img alt="" /></div>
+      <p class="lightbox-caption" data-lightbox-caption></p>`;
+    document.body.appendChild(box);
+    document.body.style.overflow = 'hidden';
+    paint();
+    requestAnimationFrame(() => {
+      if (box) box.dataset.show = '';
+    });
+    box.querySelector<HTMLButtonElement>('[data-lightbox-close]')?.focus();
+
+    box.addEventListener('click', (ev) => {
+      const el = ev.target as HTMLElement;
+      if (el.closest('[data-lightbox-close]') || el.dataset.lightboxStage !== undefined) close();
+      else if (el.closest('[data-lightbox-prev]')) step(-1);
+      else if (el.closest('[data-lightbox-next]')) step(1);
+    });
+  };
+
+  shots.forEach((img, i) => {
+    on(img, 'click', () => open(i));
+    on(img, 'keydown', (ev) => {
+      const k = (ev as KeyboardEvent).key;
+      if (k === 'Enter' || k === ' ') {
+        ev.preventDefault();
+        open(i);
+      }
+    });
+  });
+
+  on(document, 'keydown', (ev) => {
+    if (!box) return;
+    const k = (ev as KeyboardEvent).key;
+    if (k === 'Escape') close();
+    else if (k === 'ArrowLeft') step(-1);
+    else if (k === 'ArrowRight') step(1);
+  });
+
+  cleanups.push(() => {
+    if (box) close();
   });
 }
 
@@ -710,28 +1151,6 @@ function initCarousels() {
   });
 }
 
-/* ---------------------------------------------------------------- share -- */
-/* Instagram has no web share endpoint, so hand the page to the OS share sheet
-   (which lists Instagram on mobile) and fall back to the clipboard. */
-function initShare() {
-  document.querySelectorAll<HTMLButtonElement>('[data-share]').forEach((btn) => {
-    on(btn, 'click', async () => {
-      const url = btn.dataset.share ?? '';
-      const title = btn.dataset.shareTitle ?? document.title;
-      try {
-        if (navigator.share) {
-          await navigator.share({ title, url });
-          return;
-        }
-        await navigator.clipboard.writeText(url);
-        btn.title = 'Link copied — paste it into Instagram';
-      } catch {
-        /* dismissed or blocked */
-      }
-    });
-  });
-}
-
 /* ----------------------------------------------------------- copy bibtex -- */
 function initCopy() {
   document.querySelectorAll<HTMLButtonElement>('[data-copy]').forEach((btn) => {
@@ -750,11 +1169,6 @@ function initCopy() {
       }
     });
   });
-}
-
-/* ----------------------------------------------------------- print / cv -- */
-function initPrint() {
-  document.querySelectorAll('[data-print]').forEach((b) => on(b, 'click', () => window.print()));
 }
 
 /* ---------------------------------------------------------- contact form -- */
@@ -817,11 +1231,13 @@ function boot() {
   initSearch();
   initTypewriter();
   initCopy();
-  initShare();
   initCarousels();
   initCodeCopy();
+  initHeadingAnchors();
+  initReadingMode();
+  initLightbox();
+  initTooltips();
   initToc();
-  initPrint();
   initContactForm();
 }
 
