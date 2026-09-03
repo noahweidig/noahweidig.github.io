@@ -89,6 +89,11 @@ const P: Record<string, string> = {
   copy: '<rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8v-2a2 2 0 0 0 -2 -2h-8a2 2 0 0 0 -2 2v8a2 2 0 0 0 2 2h2"/>',
 };
 
+/* Glyphs that are drawn as shapes rather than lines. A stroked version of any
+   of these is unreadable at 16px. */
+const FILLED = new Set(['bluesky']);
+const filled = FILLED.has(name);
+
 const d = P[name] ?? P.arrow;
 ---
 
@@ -96,9 +101,9 @@ const d = P[name] ?? P.arrow;
   viewBox="0 0 24 24"
   width={size}
   height={size}
-  fill="none"
-  stroke="currentColor"
-  stroke-width={sw}
+  fill={filled ? 'currentColor' : 'none'}
+  stroke={filled ? 'none' : 'currentColor'}
+  stroke-width={filled ? undefined : sw}
   stroke-linecap="round"
   stroke-linejoin="round"
   aria-hidden="true"
