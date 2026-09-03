@@ -75,14 +75,17 @@ const MAP = {
   info: 'info',
 };
 
-const inner = (svg) =>
-  svg
-    .replace(/<!--[\s\S]*?-->/g, '')
-    .replace(/^[\s\S]*?<svg[^>]*>/, '')
-    .replace(/<\/svg>[\s\S]*$/, '')
+/** The children of the <svg>, whitespace collapsed. Sliced rather than matched:
+    a regex spanning the whole file backtracks for no benefit here. */
+const inner = (svg) => {
+  const open = svg.indexOf('>', svg.indexOf('<svg'));
+  const close = svg.lastIndexOf('</svg>');
+  return svg
+    .slice(open + 1, close)
     .replace(/\s+/g, ' ')
-    .replace(/\s*\/>/g, '/>')
+    .replaceAll(' />', '/>')
     .trim();
+};
 
 const entries = [];
 for (const [name, file] of Object.entries(MAP)) {

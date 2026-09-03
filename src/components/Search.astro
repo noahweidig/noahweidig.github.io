@@ -127,9 +127,11 @@ import Icon from './Icon.astro';
       inset-block: 0;
       right: 0;
       z-index: 2;
-      width: min(19rem, 82%);
+      width: min(13.5rem, 58%);
       background: var(--c-surface);
-      box-shadow: -22px 0 44px -26px rgb(0 0 0 / 0.85);
+      /* Only along the left edge, and only enough to lift the panel off the
+         list behind it. */
+      box-shadow: -6px 0 10px -8px rgb(0 0 0 / 0.45);
     }
   }
 </style>
