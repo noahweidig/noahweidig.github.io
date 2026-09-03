@@ -22,7 +22,7 @@ export async function getStaticPaths() {
 }
 
 const { entry, prev, next } = Astro.props;
-const { Content } = await render(entry);
+const { Content, headings } = await render(entry);
 const d = entry.data;
 const meta = `${fullDate(d.date)} · ${readingTime(entry.body)}`;
 ---
@@ -30,6 +30,7 @@ const meta = `${fullDate(d.date)} · ${readingTime(entry.body)}`;
 <Detail
   title={d.title}
   description={d.description}
+  headings={headings}
   kicker="Blog"
   meta={meta}
   section="Blog"

@@ -120,7 +120,7 @@ Makes dates tractable — parsing, arithmetic, time zones. [More below](#lubrida
 ymd("2026-07-20") + months(3)
 ```
 
-## ggplot2 in depth {#ggplot2-in-depth}
+## ggplot2 in depth
 
 <img src="../../media/blog/favorite-r-packages/logos/ggplot2.webp" alt="ggplot2 hex logo" class="pkg-logo" width="87" height="100" loading="lazy">
 
@@ -156,7 +156,7 @@ ggplot(penguins, aes(flipper_length_mm, body_mass_g, colour = species)) +
 Finish with `ggsave()` — vector formats for print, `.png` at 300 dpi for
 web/slides, dimensions set in the save call.
 
-## readr in depth {#readr-in-depth}
+## readr in depth
 
 <img src="../../media/blog/favorite-r-packages/logos/readr.webp" alt="readr hex logo" class="pkg-logo" width="87" height="100" loading="lazy">
 
@@ -179,7 +179,7 @@ read_csv(
 of import, and the `na = c(...)` argument to `read_csv()` declares which
 sentinel values mean missing.
 
-## purrr in depth {#purrr-in-depth}
+## purrr in depth
 
 <img src="../../media/blog/favorite-r-packages/logos/purrr.webp" alt="purrr hex logo" class="pkg-logo" width="87" height="100" loading="lazy">
 
@@ -195,7 +195,7 @@ substitutes a fallback value and `safely()` captures the error instead of
 stopping the loop. `map2()` and `pmap()` extend the same idea to two or
 more inputs.
 
-## lubridate in depth {#lubridate-in-depth}
+## lubridate in depth
 
 <img src="../../media/blog/favorite-r-packages/logos/lubridate.webp" alt="lubridate hex logo" class="pkg-logo" width="87" height="100" loading="lazy">
 
@@ -239,7 +239,7 @@ directory. `here::here()` builds paths relative to the project root (the
 folder with `.Rproj`/`.git`), unlike a hard-coded `setwd()` that only
 works on one machine.
 
-### glue <img src="../../media/blog/favorite-r-packages/logos/glue.webp" alt="glue hex logo" class="pkg-logo" width="87" height="100" loading="lazy"> {#glue}
+### glue <img src="../../media/blog/favorite-r-packages/logos/glue.webp" alt="glue hex logo" class="pkg-logo" width="87" height="100" loading="lazy">
 
 String interpolation done right — write the string once, drop
 `{expressions}` inline, vectorized.

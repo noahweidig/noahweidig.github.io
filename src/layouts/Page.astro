@@ -10,8 +10,19 @@ interface Props {
   wide?: boolean;
   noindex?: boolean;
   section?: string;
+  /** Ancestors between Home and this page; most section indexes have none. */
+  trail?: { label: string; href?: string }[];
 }
-const { title, kicker, description, intro, wide = true, noindex, section } = Astro.props;
+const {
+  title,
+  kicker,
+  description,
+  intro,
+  wide = true,
+  noindex,
+  section,
+  trail = [],
+} = Astro.props;
 ---
 
 <Base title={title} description={description} noindex={noindex} filters={{ section }}>
@@ -24,7 +35,7 @@ const { title, kicker, description, intro, wide = true, noindex, section } = Ast
     >
     </div>
     <div class="shell relative py-16 md:py-24">
-      <Breadcrumbs trail={[]} current={title} class="mb-10 flex justify-center" />
+      <Breadcrumbs trail={trail} current={title} class="mb-10 flex justify-center" />
       <div class="text-center">
         {
           kicker && (

@@ -1,0 +1,68 @@
+---
+import Page from '../../layouts/Page.astro';
+import Icon from '../../components/Icon.astro';
+import { u } from '../../lib/url';
+import { fullDate } from '../../lib/format';
+import { tagGroups } from '../../lib/tags';
+
+export async function getStaticPaths() {
+  const groups = await tagGroups();
+  return groups.map((group) => ({ params: { tag: group.slug }, props: { group } }));
+}
+
+const { group } = Astro.props;
+const sections = ['Projects', 'Publications', 'Blog'] as const;
+const count = group.items.length;
+---
+
+<Page
+  title={group.name}
+  kicker="Tag"
+  section="Tags"
+  trail={[{ label: 'Tags', href: u('/tags/') }]}
+  description={`Everything tagged ${group.name} — ${count} item${count === 1 ? '' : 's'} across projects, publications and writing.`}
+  intro={`${count} item${count === 1 ? '' : 's'} tagged ${group.name}, across projects, publications and writing.`}
+  wide={false}
+>
+  {
+    sections.map((section) => {
+      const items = group.items.filter((i) => i.section === section);
+      return items.length ? (
+        <section class="mb-12 last:mb-0">
+          <h2 class="font-mono text-[0.7rem] tracking-[0.16em] text-faint uppercase">{section}</h2>
+          <ul class="mt-4 divide-y divide-line border-y border-line">
+            {items.map((item) => (
+              <li>
+                <a href={u(item.href)} class="group flex items-baseline gap-4 py-4">
+                  <span class="min-w-0 flex-1">
+                    <span class="block text-[1.02rem] font-medium transition-colors group-hover:text-accent-ink">
+                      {item.title}
+                    </span>
+                    {item.description && (
+                      <span class="mt-1 block text-sm text-dim">{item.description}</span>
+                    )}
+                  </span>
+                  <time
+                    datetime={item.date.toISOString()}
+                    class="shrink-0 font-mono text-[0.7rem] text-faint"
+                  >
+                    {fullDate(item.date)}
+                  </time>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null;
+    })
+  }
+
+  <a
+    href={u('/tags/')}
+    class="group mt-4 inline-flex items-center gap-2 text-sm font-medium text-accent-ink"
+  >
+    <Icon name="tag" size={15} />
+    Browse all tags
+    <span class="transition-transform duration-300 group-hover:translate-x-1">→</span>
+  </a>
+</Page>
