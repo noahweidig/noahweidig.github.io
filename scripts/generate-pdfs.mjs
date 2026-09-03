@@ -34,17 +34,30 @@ const TYPES = {
   '.ico': 'image/x-icon',
 };
 
+/** Request paths this server will look at: no traversal, no odd characters. */
+const SAFE_PATH = /^[a-zA-Z0-9._/-]*$/;
+
+/** Resolves a request path to a file inside dist/, or null if it is not one. */
+function resolveFile(rawUrl) {
+  let url = (rawUrl ?? '/').split('?')[0];
+  if (url.startsWith(BASE)) url = url.slice(BASE.length) || '/';
+  if (!SAFE_PATH.test(url) || url.includes('..')) return null;
+  const rel = url.endsWith('/') ? `${url}index.html` : url;
+  const file = path.resolve(dist, `.${rel}`);
+  if (file !== dist && !file.startsWith(dist + path.sep)) return null;
+  // A directory URL written without its trailing slash still means the page.
+  if (!path.extname(file) && existsSync(path.join(file, 'index.html'))) {
+    return path.join(file, 'index.html');
+  }
+  return file;
+}
+
 /** Serves dist/ under the site's base path, the way Pages does. */
 function serve() {
   const server = createServer(async (req, res) => {
+    const file = resolveFile(req.url);
+    if (!file) return res.writeHead(403).end('forbidden');
     try {
-      let url = decodeURIComponent((req.url ?? '/').split('?')[0]);
-      if (url.startsWith(BASE)) url = url.slice(BASE.length) || '/';
-      let file = path.join(dist, url);
-      if (!file.startsWith(dist)) return res.writeHead(403).end();
-      if (url.endsWith('/')) file = path.join(file, 'index.html');
-      else if (!path.extname(file) && existsSync(`${file}/index.html`))
-        file = path.join(file, 'index.html');
       const body = await readFile(file);
       res.writeHead(200, {
         'content-type': TYPES[path.extname(file)] ?? 'application/octet-stream',

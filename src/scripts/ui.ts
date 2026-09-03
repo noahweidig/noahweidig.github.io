@@ -421,7 +421,13 @@ function initSearch() {
   };
 
   const renderResults = (items: PagefindData[], hits: Hit[], q: string) => {
-    const key = (href: string) => href.replace(/\/+$/, '/');
+    /* Trailing slashes trimmed by hand: a `/+$` regex backtracks on a long
+       run of them for no gain. */
+    const key = (href: string) => {
+      let end = href.length;
+      while (end > 0 && href[end - 1] === '/') end--;
+      return `${href.slice(0, end)}/`;
+    };
     const seen = new Set(items.map((d) => key(resultHref(d.url))));
 
     /* One ranked list rather than two. Pagefind ranks on body text, which puts
@@ -799,7 +805,8 @@ function initReadingMode() {
   const root = document.documentElement;
 
   const set = (on_: boolean) => {
-    root.toggleAttribute('data-reading', on_);
+    if (on_) root.dataset.reading = '';
+    else delete root.dataset.reading;
     btn.setAttribute('aria-pressed', String(on_));
     btn.dataset.tip = on_ ? 'Leave reading mode' : 'Reading mode: just the article';
     const label = btn.querySelector('[data-reading-label]');
@@ -815,7 +822,7 @@ function initReadingMode() {
   set(stored === 'on');
 
   on(btn, 'click', () => {
-    const next = !root.hasAttribute('data-reading');
+    const next = root.dataset.reading === undefined;
     set(next);
     try {
       localStorage.setItem('nw-reading', next ? 'on' : 'off');
@@ -827,7 +834,7 @@ function initReadingMode() {
   // The attribute lives on <html>, which survives a view-transition swap; a
   // reader who left reading mode on one post should not find it on the next.
   cleanups.push(() => {
-    if (!document.querySelector('[data-reading-toggle]')) root.removeAttribute('data-reading');
+    if (!document.querySelector('[data-reading-toggle]')) delete root.dataset.reading;
   });
 }
 
@@ -838,7 +845,7 @@ let tipEl: HTMLElement | null = null;
 let tipTimer: number | undefined;
 
 const tipRoot = () => {
-  if (!tipEl || !tipEl.isConnected) {
+  if (!tipEl?.isConnected) {
     tipEl = document.createElement('div');
     tipEl.className = 'nw-tip';
     tipEl.setAttribute('role', 'tooltip');
@@ -856,7 +863,7 @@ function showTip(target: HTMLElement) {
     ? `<b>${escapeHtml(title)}</b><span>${escapeHtml(text)}</span>`
     : escapeHtml(text);
   el.style.visibility = 'hidden';
-  el.toggleAttribute('data-show', true);
+  el.dataset.show = '';
 
   const r = target.getBoundingClientRect();
   const t = el.getBoundingClientRect();
@@ -873,7 +880,7 @@ function showTip(target: HTMLElement) {
 
 function hideTip() {
   window.clearTimeout(tipTimer);
-  tipEl?.removeAttribute('data-show');
+  if (tipEl) delete tipEl.dataset.show;
 }
 
 function initTooltips() {
@@ -943,7 +950,7 @@ function initLightbox() {
     if (!box) return;
     const node = box;
     box = null;
-    node.removeAttribute('data-show');
+    delete node.dataset.show;
     document.body.style.removeProperty('overflow');
     window.setTimeout(() => node.remove(), 220);
     shots[index]?.focus();
@@ -979,12 +986,14 @@ function initLightbox() {
     document.body.appendChild(box);
     document.body.style.overflow = 'hidden';
     paint();
-    requestAnimationFrame(() => box?.toggleAttribute('data-show', true));
+    requestAnimationFrame(() => {
+      if (box) box.dataset.show = '';
+    });
     box.querySelector<HTMLButtonElement>('[data-lightbox-close]')?.focus();
 
     box.addEventListener('click', (ev) => {
       const el = ev.target as HTMLElement;
-      if (el.closest('[data-lightbox-close]') || el.hasAttribute('data-lightbox-stage')) close();
+      if (el.closest('[data-lightbox-close]') || el.dataset.lightboxStage !== undefined) close();
       else if (el.closest('[data-lightbox-prev]')) step(-1);
       else if (el.closest('[data-lightbox-next]')) step(1);
     });

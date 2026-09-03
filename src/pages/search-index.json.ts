@@ -30,7 +30,7 @@ export const GET: APIRoute = async () => {
     for (const entry of items as { id: string; data: Record<string, unknown> }[]) {
       if (entry.data.draft) continue;
       docs.push({
-        t: String(entry.data.title ?? entry.id),
+        t: typeof entry.data.title === 'string' ? entry.data.title : entry.id,
         u: `/${path}/${entry.id}/`,
         s: section,
         d: clean(entry.data.description as string | undefined),
