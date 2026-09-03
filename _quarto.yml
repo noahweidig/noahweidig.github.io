@@ -39,6 +39,10 @@ project:
     - web-app-manifest-192x192.png
     - web-app-manifest-512x512.png
     - "uploads/**"
+    # The publication PDFs pulled from Zotero by scripts/update-pubs.js. The
+    # listing page links them from the EJS template, which Quarto's resource
+    # discovery doesn't follow.
+    - "publications/**/*.pdf"
     - "assets/media/**"
     - "assets/fonts/**"
     - assets/nw-nav.js
