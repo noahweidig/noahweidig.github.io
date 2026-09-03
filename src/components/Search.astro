@@ -69,7 +69,7 @@ import Icon from './Icon.astro';
       </div>
 
       <!-- body: results + filter rail -->
-      <div class="flex min-h-[16rem] flex-1 sm:max-h-[62vh] sm:flex-none">
+      <div class="relative flex min-h-[16rem] flex-1 sm:max-h-[62vh] sm:flex-none" data-search-body>
         <div
           class="min-w-0 flex-1 overflow-y-auto p-2"
           id="search-results"
@@ -119,15 +119,17 @@ import Icon from './Icon.astro';
 </dialog>
 
 <style>
-  /* Phone: the filter rail takes the whole panel instead of squeezing the
-     results into a column two words wide. */
+  /* Phone: the rail slides over the results rather than squeezing them into a
+     column two words wide. The filter button closes it again. */
   @media (max-width: 39.99rem) {
-    [data-search-panel]:has(#search-filters:not([hidden])) #search-results {
-      display: none;
-    }
     #search-filters:not([hidden]) {
-      width: 100%;
-      border-left: 0;
+      position: absolute;
+      inset-block: 0;
+      right: 0;
+      z-index: 2;
+      width: min(19rem, 82%);
+      background: var(--c-surface);
+      box-shadow: -22px 0 44px -26px rgb(0 0 0 / 0.85);
     }
   }
 </style>
