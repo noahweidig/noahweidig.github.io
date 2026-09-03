@@ -40,9 +40,11 @@ jobs:
       # The toolchain install skips lifecycle scripts, so Puppeteer has not
       # fetched a browser; this is the supported way to do it after the fact.
       # `npm exec --no` runs the version already in the lockfile and never
-      # fetches a package on demand.
+      # fetches a package on demand; `--ignore-scripts` keeps that from being a
+      # way to run one. The browser download is the CLI's own work, not a
+      # lifecycle script, so it still happens.
       - name: Install Chrome for Puppeteer
-        run: npm exec --no -- puppeteer browsers install chrome
+        run: npm exec --no --ignore-scripts -- puppeteer browsers install chrome
 
       - name: Render PDFs
         run: node scripts/generate-pdfs.mjs
