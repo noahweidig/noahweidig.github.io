@@ -3,6 +3,9 @@ import { u } from '../lib/url';
 import Base from './Base.astro';
 import Icon from '../components/Icon.astro';
 import ShareRow from '../components/ShareRow.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import PrevNext from '../components/PrevNext.astro';
+import type { Sibling } from '../components/PrevNext.astro';
 
 interface Props {
   title: string;
@@ -17,6 +20,8 @@ interface Props {
   type?: 'website' | 'article';
   publishedTime?: Date;
   section: string;
+  prev?: Sibling | null;
+  next?: Sibling | null;
 }
 const {
   title,
@@ -31,6 +36,8 @@ const {
   type = 'article',
   publishedTime,
   section,
+  prev,
+  next,
 } = Astro.props;
 ---
 
@@ -46,19 +53,7 @@ const {
     <header class="relative overflow-hidden border-b border-line bg-bg-deep">
       <div class="grid-bg absolute inset-0" aria-hidden="true"></div>
       <div class="shell relative py-12 md:py-16">
-        {
-          /* Block wrapper: .kicker below is inline-flex, so without one it
-            would flow onto this line instead of starting its own. */
-        }
-        <div data-pagefind-ignore>
-          <a
-            href={backHref}
-            class="group inline-flex items-center gap-1.5 font-mono text-[0.72rem] tracking-[0.12em] text-faint uppercase transition-colors hover:text-accent-ink"
-          >
-            <span class="transition-transform duration-300 group-hover:-translate-x-1">←</span>
-            {backLabel}
-          </a>
-        </div>
+        <Breadcrumbs trail={[{ label: section, href: backHref }]} current={title} />
 
         {
           kicker && (
@@ -118,5 +113,7 @@ const {
     </div>
 
     <slot name="after" />
+
+    <PrevNext prev={prev} next={next} label={backLabel.replace(/^All /i, '')} />
   </article>
 </Base>

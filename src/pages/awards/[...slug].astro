@@ -5,11 +5,21 @@ import Detail from '../../layouts/Detail.astro';
 import { fullDate } from '../../lib/format';
 
 export async function getStaticPaths() {
-  const awards = await getCollection('awards');
-  return awards.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+  // Sorted the way the listing is, so "previous" and "next" mean what a reader
+  // saw there rather than an arbitrary collection order.
+  const items = (await getCollection('awards')).sort(
+    (a, b) => b.data.date.getTime() - a.data.date.getTime(),
+  );
+  const sibling = (entry: (typeof items)[number] | undefined) =>
+    entry ? { href: `/awards/${entry.id}/`, title: entry.data.title } : null;
+
+  return items.map((entry, i) => ({
+    params: { slug: entry.id },
+    props: { entry, prev: sibling(items[i - 1]), next: sibling(items[i + 1]) },
+  }));
 }
 
-const { entry } = Astro.props;
+const { entry, prev, next } = Astro.props;
 const { Content } = await render(entry);
 const d = entry.data;
 ---
@@ -20,6 +30,8 @@ const d = entry.data;
   kicker="Award"
   meta={`${d.description ?? ''}${d.description ? ' · ' : ''}${fullDate(d.date)}`}
   section="Awards"
+  prev={prev}
+  next={next}
   backHref={u('/awards/')}
   backLabel="All awards"
   publishedTime={d.date}
