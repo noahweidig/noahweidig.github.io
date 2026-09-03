@@ -1,0 +1,60 @@
+---
+import { u } from '../lib/url';
+
+export interface Sibling {
+  href: string;
+  title: string;
+}
+
+interface Props {
+  prev?: Sibling | null;
+  next?: Sibling | null;
+  label: string;
+}
+const { prev, next, label } = Astro.props;
+---
+
+{
+  (prev || next) && (
+    <nav aria-label={`More ${label}`} class="no-print border-t border-line" data-pagefind-ignore>
+      {/* The divider is a border on the second cell, not a grid gap over a
+          tinted background: the shell's padding would show that tint as a bar
+          down each outer edge. */}
+      <div class="shell grid sm:grid-cols-2">
+        {prev ? (
+          <a
+            href={u(prev.href)}
+            class="group flex flex-col gap-2 px-5 py-7 transition-colors hover:bg-surface sm:px-8"
+          >
+            <span class="flex items-center gap-2 font-mono text-[0.68rem] tracking-[0.14em] text-faint uppercase">
+              <span class="transition-transform duration-300 group-hover:-translate-x-1">←</span>
+              Previous
+            </span>
+            <span class="font-display text-lg leading-snug transition-colors group-hover:text-accent-ink">
+              {prev.title}
+            </span>
+          </a>
+        ) : (
+          <div class="hidden sm:block" />
+        )}
+
+        {next ? (
+          <a
+            href={u(next.href)}
+            class="group flex flex-col items-end gap-2 border-line px-5 py-7 text-right transition-colors hover:bg-surface sm:border-l sm:px-8"
+          >
+            <span class="flex items-center gap-2 font-mono text-[0.68rem] tracking-[0.14em] text-faint uppercase">
+              Next
+              <span class="transition-transform duration-300 group-hover:translate-x-1">→</span>
+            </span>
+            <span class="font-display text-lg leading-snug transition-colors group-hover:text-accent-ink">
+              {next.title}
+            </span>
+          </a>
+        ) : (
+          <div class="hidden sm:block" />
+        )}
+      </div>
+    </nav>
+  )
+}

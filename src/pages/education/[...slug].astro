@@ -4,11 +4,21 @@ import { getCollection, render } from 'astro:content';
 import Detail from '../../layouts/Detail.astro';
 
 export async function getStaticPaths() {
-  const items = await getCollection('education');
-  return items.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+  // Sorted the way the listing is, so "previous" and "next" mean what a reader
+  // saw there rather than an arbitrary collection order.
+  const items = (await getCollection('education')).sort(
+    (a, b) => b.data.date.getTime() - a.data.date.getTime(),
+  );
+  const sibling = (entry: (typeof items)[number] | undefined) =>
+    entry ? { href: `/education/${entry.id}/`, title: entry.data.title } : null;
+
+  return items.map((entry, i) => ({
+    params: { slug: entry.id },
+    props: { entry, prev: sibling(items[i - 1]), next: sibling(items[i + 1]) },
+  }));
 }
 
-const { entry } = Astro.props;
+const { entry, prev, next } = Astro.props;
 const { Content } = await render(entry);
 const d = entry.data;
 const meta = [d.org, d.dates, d.location].filter(Boolean).join(' · ');
@@ -20,6 +30,8 @@ const meta = [d.org, d.dates, d.location].filter(Boolean).join(' · ');
   kicker="Education"
   meta={meta}
   section="Education"
+  prev={prev}
+  next={next}
   backHref={u('/education/')}
   backLabel="All education"
   links={d['org-url']

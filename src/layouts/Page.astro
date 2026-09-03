@@ -1,5 +1,6 @@
 ---
 import Base from './Base.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
 
 interface Props {
   title: string;
@@ -22,18 +23,21 @@ const { title, kicker, description, intro, wide = true, noindex, section } = Ast
       aria-hidden="true"
     >
     </div>
-    <div class="shell relative py-16 text-center md:py-24">
-      {
-        kicker && (
-          <p class="kicker justify-center" data-pagefind-ignore>
-            {kicker}
-          </p>
-        )
-      }
-      <h1 class="mt-4 font-display text-[clamp(2.2rem,1.3rem+3.4vw,4rem)] font-medium">
-        {title}
-      </h1>
-      {intro && <p class="lede mx-auto mt-5 text-balance">{intro}</p>}
+    <div class="shell relative py-16 md:py-24">
+      <Breadcrumbs trail={[]} current={title} class="mb-10 flex justify-center" />
+      <div class="text-center">
+        {
+          kicker && (
+            <p class="kicker justify-center" data-pagefind-ignore>
+              {kicker}
+            </p>
+          )
+        }
+        <h1 class="mt-4 font-display text-[clamp(2.2rem,1.3rem+3.4vw,4rem)] font-medium">
+          {title}
+        </h1>
+        {intro && <p class="lede mx-auto mt-5 text-balance">{intro}</p>}
+      </div>
     </div>
   </section>
 
