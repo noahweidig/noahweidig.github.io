@@ -18,7 +18,7 @@
   --c-line-strong: #2a303d;
   --c-ink: #e9ecf2;
   --c-dim: #99a1b1;
-  --c-faint: #666e7e;
+  --c-faint: #7c8494;
 
   --c-accent: #3d86ff;
   --c-accent-ink: #6ba4ff;
@@ -44,12 +44,12 @@
   --c-line-strong: #cdc8bd;
   --c-ink: #14161c;
   --c-dim: #565d6b;
-  --c-faint: #838a97;
+  --c-faint: #636a78;
 
   --c-accent: #0f62d6;
   --c-accent-ink: #0a54ba;
   --c-accent-contrast: #ffffff;
-  --c-ember: #b8531a;
+  --c-ember: #a44a16;
   --c-moss: #0f7a56;
   --c-violet: #6541c9;
 
@@ -562,6 +562,21 @@
     to {
       transform: translate3d(-50%, 0, 0);
     }
+  }
+
+  /* FAQ accordion: the vertical bar of the plus collapses to leave a minus. */
+  .faq summary::-webkit-details-marker {
+    display: none;
+  }
+  .faq .faq-bar {
+    transform-origin: center;
+    transition:
+      transform 0.3s var(--ease-out-soft),
+      opacity 0.3s var(--ease-out-soft);
+  }
+  .faq[open] .faq-bar {
+    transform: scaleY(0);
+    opacity: 0;
   }
 
   /* --- reveal on scroll --- */

@@ -8,11 +8,12 @@ interface Props {
   intro?: string;
   wide?: boolean;
   noindex?: boolean;
+  section?: string;
 }
-const { title, kicker, description, intro, wide = true, noindex } = Astro.props;
+const { title, kicker, description, intro, wide = true, noindex, section } = Astro.props;
 ---
 
-<Base title={title} description={description} noindex={noindex}>
+<Base title={title} description={description} noindex={noindex} filters={{ section }}>
   <section class="relative overflow-hidden border-b border-line bg-bg-deep">
     <div class="grid-bg absolute inset-0" aria-hidden="true"></div>
     <div
@@ -22,7 +23,13 @@ const { title, kicker, description, intro, wide = true, noindex } = Astro.props;
     >
     </div>
     <div class="shell relative py-16 text-center md:py-24">
-      {kicker && <p class="kicker justify-center">{kicker}</p>}
+      {
+        kicker && (
+          <p class="kicker justify-center" data-pagefind-ignore>
+            {kicker}
+          </p>
+        )
+      }
       <h1 class="mt-4 font-display text-[clamp(2.2rem,1.3rem+3.4vw,4rem)] font-medium">
         {title}
       </h1>

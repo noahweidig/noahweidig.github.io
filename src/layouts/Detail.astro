@@ -16,6 +16,7 @@ interface Props {
   image?: string;
   type?: 'website' | 'article';
   publishedTime?: Date;
+  section: string;
 }
 const {
   title,
@@ -29,6 +30,7 @@ const {
   image,
   type = 'article',
   publishedTime,
+  section,
 } = Astro.props;
 ---
 
@@ -38,6 +40,7 @@ const {
   image={image}
   type={type}
   publishedTime={publishedTime}
+  filters={{ section, tags: chips }}
 >
   <article>
     <header class="relative overflow-hidden border-b border-line bg-bg-deep">
@@ -47,7 +50,7 @@ const {
           /* Block wrapper: .kicker below is inline-flex, so without one it
             would flow onto this line instead of starting its own. */
         }
-        <div>
+        <div data-pagefind-ignore>
           <a
             href={backHref}
             class="group inline-flex items-center gap-1.5 font-mono text-[0.72rem] tracking-[0.12em] text-faint uppercase transition-colors hover:text-accent-ink"
@@ -57,17 +60,29 @@ const {
           </a>
         </div>
 
-        {kicker && <p class="kicker mt-6">{kicker}</p>}
+        {
+          kicker && (
+            <p class="kicker mt-6" data-pagefind-ignore>
+              {kicker}
+            </p>
+          )
+        }
         <h1
           class="mt-4 max-w-4xl font-display text-[clamp(1.9rem,1.2rem+2.6vw,3.1rem)] font-medium"
         >
           {title}
         </h1>
-        {meta && <p class="mt-4 text-sm text-dim">{meta}</p>}
+        {
+          meta && (
+            <p class="mt-4 text-sm text-dim" data-pagefind-ignore>
+              {meta}
+            </p>
+          )
+        }
 
         {
           chips.length > 0 && (
-            <div class="mt-5 flex flex-wrap gap-1.5">
+            <div class="mt-5 flex flex-wrap gap-1.5" data-pagefind-ignore>
               {chips.map((c) => (
                 <span class="chip">{c}</span>
               ))}
@@ -77,7 +92,7 @@ const {
 
         {
           links.length > 0 && (
-            <div class="mt-7 flex flex-wrap gap-2.5">
+            <div class="mt-7 flex flex-wrap gap-2.5" data-pagefind-ignore>
               {links.map((l) => (
                 <a
                   class:list={['btn', l.variant === 'primary' ? 'btn-primary' : 'btn-ghost']}

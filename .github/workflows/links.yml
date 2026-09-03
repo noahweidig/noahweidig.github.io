@@ -21,6 +21,17 @@ jobs:
       - name: Build site
         uses: ./.github/actions/build-site
 
+      # lychee resolves a root-relative link against --root-dir, and every link
+      # on this site starts with the base path, so `/new-website/projects/`
+      # would resolve to `dist/new-website/projects/`. dist IS /new-website, so
+      # the checked tree is mounted under a directory of that name and --root-dir
+      # points at its parent — the same shape the server serves.
+      - name: Mount the build under its base path
+        run: |
+          set -eu
+          mkdir -p "$RUNNER_TEMP/site"
+          ln -sfn "$GITHUB_WORKSPACE/dist" "$RUNNER_TEMP/site/new-website"
+
       - name: Run lychee
         uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2.9.0
         with:
@@ -42,7 +53,7 @@ jobs:
           # that is not one.
           args: >-
             --no-progress
-            --root-dir ${{ github.workspace }}/dist
+            --root-dir ${{ runner.temp }}/site
             --accept '100..=103,200..=299,403,405,415,429,999'
             --exclude 'noahweidig\.com'
             --exclude 'ecos\.fws\.gov'
