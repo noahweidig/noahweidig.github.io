@@ -19,6 +19,7 @@ const d = entry.data;
   description={d.description}
   kicker={d.categories[0] ?? 'Publication'}
   meta={fullDate(d.date)}
+  section="Publications"
   backHref={u('/publications/')}
   backLabel="All publications"
   chips={d.categories}

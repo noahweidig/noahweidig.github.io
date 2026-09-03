@@ -107,11 +107,40 @@ function initGlow() {
 
 /* -------------------------------------------------------------- marquee -- */
 function initMarquees() {
-  document.querySelectorAll<HTMLElement>('[data-marquee]').forEach((track) => {
-    if (track.dataset.cloned === 'true') return;
-    track.append(...Array.from(track.children).map((c) => c.cloneNode(true)));
-    track.dataset.cloned = 'true';
-  });
+  const tracks = Array.from(document.querySelectorAll<HTMLElement>('[data-marquee]'));
+  if (!tracks.length) return;
+
+  // The track is animated with a transform, so an icon that starts off-screen
+  // never satisfies a native lazy load — the browser sees it parked outside the
+  // viewport and leaves it there. Loading the whole strip when the strip itself
+  // scrolls into view keeps those ~270 KB off the initial page load.
+  const fill = (track: HTMLElement) => {
+    track.querySelectorAll<HTMLImageElement>('img[data-src]').forEach((img) => {
+      img.src = img.dataset.src!;
+      delete img.dataset.src;
+    });
+    if (track.dataset.cloned !== 'true') {
+      track.append(...Array.from(track.children).map((c) => c.cloneNode(true)));
+      track.dataset.cloned = 'true';
+    }
+  };
+
+  if (!('IntersectionObserver' in window)) {
+    tracks.forEach(fill);
+    return;
+  }
+  const io = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((e) => {
+        if (!e.isIntersecting) return;
+        fill(e.target as HTMLElement);
+        io.unobserve(e.target);
+      });
+    },
+    { rootMargin: '200px 0px' },
+  );
+  tracks.forEach((t) => io.observe(t));
+  cleanups.push(() => io.disconnect());
 }
 
 /* -------------------------------------------------------------- filters -- */
@@ -195,14 +224,17 @@ function initTabs() {
 }
 
 /* --------------------------------------------------------------- search -- */
-type PagefindResult = {
-  data: () => Promise<{
-    url: string;
-    meta: Record<string, string>;
-    excerpt: string;
-  }>;
+type PagefindData = { url: string; meta: Record<string, string>; excerpt: string };
+type PagefindResult = { id: string; data: () => Promise<PagefindData> };
+type FilterCounts = Record<string, Record<string, number>>;
+type Pagefind = {
+  search: (
+    q: string | null,
+    opts?: { filters?: Record<string, string[]> },
+  ) => Promise<{ results: PagefindResult[]; filters: FilterCounts }>;
+  filters: () => Promise<FilterCounts>;
 };
-type Pagefind = { search: (q: string) => Promise<{ results: PagefindResult[] }> };
+
 let pagefind: Pagefind | null = null;
 let pagefindFailed = false;
 
@@ -220,18 +252,172 @@ async function loadPagefind(): Promise<Pagefind | null> {
   }
 }
 
+/** Section first, then tags: the coarse facet reads better at the top. */
+const FILTER_ORDER = ['section', 'tag'];
+const FILTER_LABEL: Record<string, string> = { section: 'Section', tag: 'Tags' };
+
 function initSearch() {
   const dialog = document.getElementById('site-search') as HTMLDialogElement | null;
   if (!dialog) return;
   const input = dialog.querySelector<HTMLInputElement>('#search-input');
   const out = dialog.querySelector<HTMLElement>('#search-results');
-  if (!input || !out) return;
+  const rail = dialog.querySelector<HTMLElement>('#search-filters');
+  const groups = dialog.querySelector<HTMLElement>('[data-filter-groups]');
+  const toggle = dialog.querySelector<HTMLButtonElement>('[data-filter-toggle]');
+  const badge = dialog.querySelector<HTMLElement>('[data-filter-count]');
+  const clear = dialog.querySelector<HTMLButtonElement>('[data-filter-clear]');
+  const status = dialog.querySelector<HTMLElement>('[data-search-status]');
+  if (!input || !out || !rail || !groups || !toggle || !badge || !clear) return;
 
+  const selected: Record<string, Set<string>> = {};
+  let active = -1;
+  let token = 0;
+
+  const chosen = () => {
+    const out: Record<string, string[]> = {};
+    for (const [k, v] of Object.entries(selected)) if (v.size) out[k] = [...v];
+    return out;
+  };
+  const chosenCount = () => Object.values(selected).reduce((n, v) => n + v.size, 0);
+
+  /* ---- results list ---- */
+  const options = () => Array.from(out.querySelectorAll<HTMLAnchorElement>('[role="option"]'));
+
+  const setActive = (i: number) => {
+    const list = options();
+    if (!list.length) {
+      active = -1;
+      input.removeAttribute('aria-activedescendant');
+      return;
+    }
+    active = (i + list.length) % list.length;
+    list.forEach((el, n) => {
+      const on = n === active;
+      el.setAttribute('aria-selected', String(on));
+      el.classList.toggle('bg-raised', on);
+      if (on) {
+        input.setAttribute('aria-activedescendant', el.id);
+        el.scrollIntoView({ block: 'nearest' });
+      }
+    });
+  };
+
+  const renderResults = (items: PagefindData[], q: string) => {
+    if (!items.length) {
+      out.innerHTML = `<p class="px-3 py-10 text-center text-sm text-faint">No matches${
+        q ? ` for &ldquo;${escapeHtml(q)}&rdquo;` : ''
+      }.</p>`;
+      setActive(-1);
+      return;
+    }
+    out.innerHTML = items
+      .map((d, i) => {
+        const section = d.meta.section
+          ? `<span class="chip shrink-0">${escapeHtml(d.meta.section)}</span>`
+          : '';
+        return `<a id="search-opt-${i}" role="option" aria-selected="false" href="${basePath()}${d.url}"
+          class="block rounded-md px-3 py-2.5 transition-colors hover:bg-raised">
+          <span class="flex items-start justify-between gap-3">
+            <span class="text-[0.95rem] font-medium text-ink">${escapeHtml(d.meta.title ?? d.url)}</span>
+            ${section}
+          </span>
+          <span class="mt-1 block text-[0.82rem] leading-relaxed text-dim">${d.excerpt}</span>
+        </a>`;
+      })
+      .join('');
+    setActive(0);
+  };
+
+  /* ---- filter rail ---- */
+  const renderFilters = (counts: FilterCounts) => {
+    const keys = FILTER_ORDER.filter((k) => counts[k] && Object.keys(counts[k]!).length);
+    if (!keys.length) {
+      groups.innerHTML = '<p class="text-[0.8rem] text-faint">No filters available.</p>';
+      return;
+    }
+    groups.innerHTML = keys
+      .map((key) => {
+        const values = Object.entries(counts[key]!)
+          // A zero-count value is unreachable from the current query, but one
+          // already ticked stays listed so it can be un-ticked.
+          .filter(([v, n]) => n > 0 || selected[key]?.has(v))
+          .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+        if (!values.length) return '';
+        return `<div>
+          <h3 class="font-mono text-[0.62rem] tracking-[0.14em] text-faint uppercase">${FILTER_LABEL[key] ?? key}</h3>
+          <ul class="mt-2 grid gap-0.5">
+            ${values
+              .map(([value, n]) => {
+                const on = selected[key]?.has(value) ?? false;
+                return `<li><button type="button" data-filter-key="${escapeHtml(key)}" data-filter-value="${escapeHtml(value)}"
+                  aria-pressed="${on}"
+                  class="flex w-full items-center gap-2 rounded px-1.5 py-1 text-left text-[0.8rem] transition-colors hover:bg-line/60 ${
+                    on ? 'text-accent-ink' : 'text-dim'
+                  }">
+                  <span class="grid h-3.5 w-3.5 shrink-0 place-items-center rounded-[3px] border ${
+                    on ? 'border-accent bg-accent text-accent-contrast' : 'border-line-strong'
+                  }">${on ? '<svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5l10 -10"/></svg>' : ''}</span>
+                  <span class="min-w-0 flex-1 truncate">${escapeHtml(value)}</span>
+                  <span class="shrink-0 font-mono text-[0.68rem] text-faint">${n}</span>
+                </button></li>`;
+              })
+              .join('')}
+          </ul>
+        </div>`;
+      })
+      .join('');
+  };
+
+  const syncBadge = () => {
+    const n = chosenCount();
+    badge.hidden = n === 0;
+    badge.textContent = String(n);
+    clear.hidden = n === 0;
+  };
+
+  /* ---- the one query path ---- */
+  const run = async () => {
+    const q = input.value.trim();
+    const mine = ++token;
+    const pf = await loadPagefind();
+    if (mine !== token) return;
+    if (!pf) {
+      out.innerHTML =
+        '<p class="px-3 py-10 text-center text-sm text-faint">Search index is only available in a production build.</p>';
+      return;
+    }
+
+    const filters = chosen();
+    const hasFilters = Object.keys(filters).length > 0;
+    if (!q && !hasFilters) {
+      out.innerHTML =
+        '<p class="px-3 py-10 text-center text-sm text-faint">Type to search, or pick a filter.</p>';
+      if (status) status.textContent = '';
+      renderFilters(await pf.filters());
+      syncBadge();
+      return;
+    }
+
+    // A null query with filters set is Pagefind's "everything matching these
+    // facets", which is what an empty box plus a ticked filter should mean.
+    const { results, filters: counts } = await pf.search(q || null, { filters });
+    if (mine !== token) return;
+    const data = await Promise.all(results.slice(0, 20).map((r) => r.data()));
+    if (mine !== token) return;
+    renderResults(data, q);
+    renderFilters(counts);
+    syncBadge();
+    if (status) {
+      status.textContent = `${results.length} result${results.length === 1 ? '' : 's'}`;
+    }
+  };
+
+  /* ---- open / close ---- */
   const open = () => {
     if (!dialog.open) dialog.showModal();
     input.focus();
     input.select();
-    void loadPagefind();
+    void run();
   };
   const close = () => dialog.open && dialog.close();
 
@@ -249,53 +435,59 @@ function initSearch() {
     }
   });
 
-  let token = 0;
-  const render = (html: string) => {
-    out.innerHTML = html;
-  };
-
-  const run = async () => {
-    const q = input.value.trim();
-    const mine = ++token;
-    if (!q) {
-      render('<p class="px-3 py-6 text-center text-sm text-faint">Type to search the site.</p>');
-      return;
+  /* ---- keyboard ---- */
+  on(input, 'keydown', (ev) => {
+    const e = ev as KeyboardEvent;
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setActive(active + 1);
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setActive(active - 1);
+    } else if (e.key === 'Home' && options().length) {
+      e.preventDefault();
+      setActive(0);
+    } else if (e.key === 'End' && options().length) {
+      e.preventDefault();
+      setActive(options().length - 1);
+    } else if (e.key === 'Enter') {
+      const el = options()[active];
+      if (el) {
+        e.preventDefault();
+        el.click();
+      }
     }
-    const pf = await loadPagefind();
-    if (mine !== token) return;
-    if (!pf) {
-      render(
-        '<p class="px-3 py-6 text-center text-sm text-faint">Search index is only available in a production build.</p>',
-      );
-      return;
-    }
-    const { results } = await pf.search(q);
-    if (mine !== token) return;
-    if (!results.length) {
-      render(
-        `<p class="px-3 py-6 text-center text-sm text-faint">No matches for “${escapeHtml(q)}”.</p>`,
-      );
-      return;
-    }
-    const data = await Promise.all(results.slice(0, 8).map((r) => r.data()));
-    if (mine !== token) return;
-    render(
-      data
-        .map(
-          (d) => `
-        <a href="${basePath()}${d.url}" class="block rounded-md px-3 py-3 transition-colors hover:bg-raised">
-          <span class="block text-[0.95rem] font-medium text-ink">${escapeHtml(d.meta.title ?? d.url)}</span>
-          <span class="mt-1 block text-[0.82rem] leading-relaxed text-dim">${d.excerpt}</span>
-        </a>`,
-        )
-        .join(''),
-    );
-  };
+  });
 
   let timer: number | undefined;
   on(input, 'input', () => {
     window.clearTimeout(timer);
     timer = window.setTimeout(run, 140);
+  });
+
+  /* ---- filter rail wiring ---- */
+  const setRail = (openRail: boolean) => {
+    rail.hidden = !openRail;
+    toggle.setAttribute('aria-expanded', String(openRail));
+    if (openRail) void run();
+  };
+  on(toggle, 'click', () => setRail(rail.hidden));
+
+  on(groups, 'click', (ev) => {
+    const btn = (ev.target as HTMLElement).closest<HTMLButtonElement>('[data-filter-key]');
+    if (!btn) return;
+    const key = btn.dataset.filterKey!;
+    const value = btn.dataset.filterValue!;
+    const set = (selected[key] ??= new Set());
+    if (set.has(value)) set.delete(value);
+    else set.add(value);
+    void run();
+  });
+
+  on(clear, 'click', () => {
+    for (const k of Object.keys(selected)) selected[k]!.clear();
+    void run();
+    input.focus();
   });
 }
 

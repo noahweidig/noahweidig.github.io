@@ -8,28 +8,101 @@ import Icon from './Icon.astro';
   class="m-0 h-full max-h-none w-full max-w-none bg-transparent p-0 backdrop:bg-black/70 backdrop:backdrop-blur-sm"
   aria-label="Search"
 >
-  <div class="flex min-h-full items-start justify-center p-4 pt-[12vh]" data-search-backdrop>
-    <div class="card w-full max-w-2xl overflow-hidden" role="document" data-search-panel>
+  <div class="flex min-h-full items-start justify-center p-4 pt-[10vh]" data-search-backdrop>
+    <div class="card w-full max-w-3xl overflow-hidden" data-search-panel>
+      <!-- query row -->
       <div class="flex items-center gap-3 border-b border-line px-4">
-        <Icon name="search" size={18} class="text-faint" />
+        <Icon name="search" size={18} class="shrink-0 text-faint" />
         <input
-          type="search"
+          type="text"
           id="search-input"
+          role="combobox"
+          aria-expanded="true"
+          aria-controls="search-results"
+          aria-autocomplete="list"
           placeholder="Search projects, papers, posts…"
           autocomplete="off"
+          spellcheck="false"
           class="w-full bg-transparent py-4 text-[0.95rem] text-ink outline-none placeholder:text-faint"
         />
         <button
           type="button"
-          data-search-close
-          class="chip shrink-0 hover:text-ink"
-          aria-label="Close search">esc</button
+          data-filter-toggle
+          aria-expanded="false"
+          aria-controls="search-filters"
+          class="relative grid h-8 w-8 shrink-0 place-items-center rounded-md text-faint transition-colors hover:bg-raised hover:text-ink aria-expanded:bg-raised aria-expanded:text-accent-ink"
+          title="Filters"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            width="17"
+            height="17"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.6"
+            stroke-linecap="round"
+            aria-hidden="true"
+          >
+            <path d="M4 6h16M7 12h10M10 18h4"></path>
+          </svg>
+          <span class="sr-only-nw">Toggle filters</span>
+          <span
+            data-filter-count
+            hidden
+            class="absolute -top-1 -right-1 grid h-4 min-w-4 place-items-center rounded-full bg-accent px-1 text-[0.6rem] font-semibold text-accent-contrast"
+          ></span>
+        </button>
+        <kbd
+          class="hidden shrink-0 rounded border border-line px-1.5 py-0.5 font-mono text-[0.65rem] text-faint sm:block"
+          >esc</kbd
         >
       </div>
-      <div id="search-results" class="max-h-[55vh] overflow-y-auto p-2">
-        <p class="px-3 py-6 text-center text-sm text-faint" data-search-empty>
-          Type to search the site.
-        </p>
+
+      <!-- body: results + filter rail -->
+      <div class="flex max-h-[62vh] min-h-[16rem]">
+        <div
+          class="min-w-0 flex-1 overflow-y-auto p-2"
+          id="search-results"
+          role="listbox"
+          aria-label="Search results"
+        >
+          <p class="px-3 py-10 text-center text-sm text-faint" data-search-empty>
+            Type to search, or pick a filter.
+          </p>
+        </div>
+
+        <aside
+          id="search-filters"
+          hidden
+          class="w-56 shrink-0 overflow-y-auto border-l border-line bg-raised/60 p-4"
+          aria-label="Filters"
+        >
+          <div class="flex items-center justify-between">
+            <h2 class="font-mono text-[0.68rem] tracking-[0.16em] text-faint uppercase">Filters</h2>
+            <button
+              type="button"
+              data-filter-clear
+              hidden
+              class="text-[0.72rem] text-accent-ink hover:underline">Clear</button
+            >
+          </div>
+          <div class="mt-4 grid gap-5" data-filter-groups></div>
+        </aside>
+      </div>
+
+      <!-- hint bar -->
+      <div
+        class="flex items-center gap-4 border-t border-line px-4 py-2.5 font-mono text-[0.65rem] text-faint"
+      >
+        <span class="flex items-center gap-1.5"
+          ><kbd class="rounded border border-line px-1">↑</kbd><kbd
+            class="rounded border border-line px-1">↓</kbd
+          > navigate</span
+        >
+        <span class="flex items-center gap-1.5"
+          ><kbd class="rounded border border-line px-1">↵</kbd> open</span
+        >
+        <span class="ml-auto" data-search-status aria-live="polite"></span>
       </div>
     </div>
   </div>

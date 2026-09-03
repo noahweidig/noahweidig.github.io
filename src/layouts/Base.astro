@@ -14,6 +14,8 @@ interface Props {
   noindex?: boolean;
   bodyClass?: string;
   publishedTime?: Date;
+  /** Values Pagefind indexes as facets, so search can filter on them. */
+  filters?: { section?: string; tags?: string[] };
 }
 
 const {
@@ -24,6 +26,7 @@ const {
   noindex = false,
   bodyClass = '',
   publishedTime,
+  filters = {},
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname.replace(/\/+$/, '/'), Astro.site).href;
@@ -185,6 +188,20 @@ const jsonLd = {
     >
     <Header />
     <main id="main" data-pagefind-body>
+      {
+        /* Empty elements carrying an explicit value: Pagefind reads the facet
+          off the attribute, so nothing lands in the indexed text. */
+      }
+      {
+        filters.section && (
+          <div
+            hidden
+            data-pagefind-filter={`section:${filters.section}`}
+            data-pagefind-meta={`section:${filters.section}`}
+          />
+        )
+      }
+      {(filters.tags ?? []).map((t) => <div hidden data-pagefind-filter={`tag:${t}`} />)}
       <slot />
     </main>
     <Footer />
