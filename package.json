@@ -2,19 +2,20 @@
   "name": "noahweidig-site",
   "type": "module",
   "private": true,
-  "description": "noahweidig.com — Astro + TypeScript + Tailwind.",
+  "description": "noahweidig.com \u2014 Astro + TypeScript + Tailwind.",
   "engines": {
     "node": ">=22.12"
   },
   "scripts": {
-    "dev": "astro dev",
-    "start": "astro dev",
+    "a11y": "node scripts/axe-audit.mjs",
+    "astro": "astro",
     "build": "astro check && astro build && pagefind --site dist",
     "build:fast": "astro build && pagefind --site dist",
-    "preview": "astro preview",
-    "astro": "astro",
+    "dev": "astro dev",
+    "format": "prettier --write .",
     "lint": "prettier --check . && astro check",
-    "format": "prettier --write ."
+    "preview": "astro preview",
+    "start": "astro dev"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.19",
@@ -26,9 +27,11 @@
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
     "@types/node": "^22.10.0",
+    "axe-core": "^4.13.0",
     "pagefind": "^1.5.2",
     "prettier": "^3.9.6",
     "prettier-plugin-astro": "^0.14.1",
+    "puppeteer": "^25.9.0",
     "typescript": "^5.7.0"
   }
 }

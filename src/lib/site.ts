@@ -1,7 +1,7 @@
 export const site = {
   name: 'Noah Weidig',
   role: 'GIS Analyst & Data Scientist',
-  url: 'https://noahweidig.com',
+  url: 'https://noahweidig.com/new-website',
   email: 'noah@noahweidig.com',
   location: 'Orlando, FL',
   booking: 'https://cal.com/noahweidig/meet',

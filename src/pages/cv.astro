@@ -1,4 +1,5 @@
 ---
+import { u } from '../lib/url';
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
@@ -62,7 +63,7 @@ const skills = [
       </div>
       <div class="no-print flex shrink-0 flex-wrap gap-2.5">
         <button type="button" class="btn btn-primary btn-sm" data-print>Print / save as PDF</button>
-        <a class="btn btn-ghost btn-sm" href={site.resume} target="_blank" rel="noopener">
+        <a class="btn btn-ghost btn-sm" href={u(site.resume)} target="_blank" rel="noopener">
           One-page Résumé
         </a>
       </div>
@@ -87,7 +88,7 @@ const skills = [
                 <div class="flex flex-wrap items-baseline justify-between gap-x-4">
                   <h3 class="text-[1.05rem] font-medium">
                     <a
-                      href={`/${group.base}/${entry.id}/`}
+                      href={u(`/${group.base}/${entry.id}/`)}
                       class="transition-colors hover:text-accent-ink"
                     >
                       {entry.data.title}
@@ -153,7 +154,7 @@ const skills = [
                   {items.map((p) => (
                     <li class="border-l border-line pl-5 text-sm leading-relaxed">
                       <a
-                        href={`/publications/${p.id}/`}
+                        href={u(`/publications/${p.id}/`)}
                         class="font-medium transition-colors hover:text-accent-ink"
                       >
                         {p.data.title}
@@ -188,7 +189,7 @@ const skills = [
           awards.map((a) => (
             <div class="flex flex-wrap items-baseline justify-between gap-x-4 border-l border-line pl-5">
               <h3 class="text-[0.98rem] font-medium">
-                <a href={`/awards/${a.id}/`} class="transition-colors hover:text-accent-ink">
+                <a href={u(`/awards/${a.id}/`)} class="transition-colors hover:text-accent-ink">
                   {a.data.title}
                 </a>
                 {a.data.description && (

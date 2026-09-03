@@ -1,4 +1,5 @@
 ---
+import { u } from '../lib/url';
 import type { CollectionEntry } from 'astro:content';
 import { Image } from 'astro:assets';
 import { year } from '../lib/format';
@@ -12,7 +13,7 @@ const d = entry.data;
 ---
 
 <a
-  href={`/awards/${entry.id}/`}
+  href={u(`/awards/${entry.id}/`)}
   class="card card-hover group flex flex-col overflow-hidden"
   data-reveal
   style={`--reveal-delay:${Math.min(index, 5) * 55}ms`}

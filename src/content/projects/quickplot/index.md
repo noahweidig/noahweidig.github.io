@@ -13,7 +13,7 @@ links:
     external: true
 ---
 
-![The QuickPlot no-code plotting app](/media/albums/projects/quickplot.webp)
+<img src="../../media/albums/projects/quickplot.webp" alt="The QuickPlot no-code plotting app" width="1600" height="1000" loading="lazy" decoding="async">
 
 QuickPlot is a Shiny app for making a solid figure without writing any code. You upload a dataset, choose what goes on each axis, adjust the colors and labels, and download a publication-ready plot.
 

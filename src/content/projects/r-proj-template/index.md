@@ -13,7 +13,7 @@ links:
     external: true
 ---
 
-![The R Project Template configuration screen](/media/albums/projects/r-proj-template.webp)
+<img src="../../media/albums/projects/r-proj-template.webp" alt="The R Project Template configuration screen" width="1600" height="1000" loading="lazy" decoding="async">
 
 This is a small site that scaffolds a reproducible R project for you. You fill in your name and preferences, watch the folder structure update in a live preview, and download a ready-to-use project as a ZIP. There's no setup script to run afterward.
 

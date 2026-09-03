@@ -389,7 +389,9 @@
     position: absolute;
     inset: 0;
     pointer-events: none;
-    background: url('/media/topography.svg') center / 900px repeat;
+    /* --topo-url is stamped by src/layouts/Base.astro: a stylesheet cannot
+       read the site's base path, and this asset lives under it. */
+    background: var(--topo-url) center / 900px repeat;
     opacity: var(--topo-opacity);
   }
 

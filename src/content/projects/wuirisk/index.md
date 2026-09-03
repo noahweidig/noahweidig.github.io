@@ -13,7 +13,7 @@ links:
     external: true
 ---
 
-![The WUI Wildfire Explorer mapping large fires across the United States](/media/albums/projects/wuirisk.webp)
+<img src="../../media/albums/projects/wuirisk.webp" alt="The WUI Wildfire Explorer mapping large fires across the United States" width="1600" height="1000" loading="lazy" decoding="async">
 
 The WUI Wildfire Explorer is a Google Earth Engine app that maps large wildfires against the wildland-urban interface — the places where houses meet wildland vegetation and fire risk concentrates. It grew directly out of my master's thesis on large-fire patterns in the eastern United States.
 

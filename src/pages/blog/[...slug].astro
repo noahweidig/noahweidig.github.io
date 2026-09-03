@@ -1,4 +1,5 @@
 ---
+import { u } from '../../lib/url';
 import { getCollection, render } from 'astro:content';
 import { Image } from 'astro:assets';
 import Detail from '../../layouts/Detail.astro';
@@ -21,7 +22,7 @@ const meta = `${fullDate(d.date)} · ${readingTime(entry.body)}`;
   description={d.description}
   kicker="Blog"
   meta={meta}
-  backHref="/blog/"
+  backHref={u('/blog/')}
   backLabel="All posts"
   chips={d.categories}
   publishedTime={d.date}

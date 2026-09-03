@@ -1,4 +1,5 @@
 ---
+import { u } from '../lib/url';
 import Icon from './Icon.astro';
 
 const areas = [
@@ -128,7 +129,7 @@ const areas = [
         </div>
         <figure class="overflow-hidden rounded-xl border border-line bg-surface">
           <img
-            src={a.image}
+            src={u(a.image)}
             alt={a.alt}
             width="1600"
             height="1000"

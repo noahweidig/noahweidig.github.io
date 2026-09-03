@@ -1,4 +1,5 @@
 ---
+import { u } from '../lib/url';
 import type { CollectionEntry } from 'astro:content';
 import { Image } from 'astro:assets';
 import { fullDate } from '../lib/format';
@@ -22,7 +23,7 @@ const alt = entry.data['image-alt'] ?? '';
   {
     image && (
       <a
-        href={`/blog/${entry.id}/`}
+        href={u(`/blog/${entry.id}/`)}
         tabindex="-1"
         aria-hidden="true"
         class="relative block aspect-16/9 overflow-hidden border-b border-line"
@@ -60,7 +61,7 @@ const alt = entry.data['image-alt'] ?? '';
       }
     </div>
     <h3 class="mt-2.5 text-xl leading-snug">
-      <a href={`/blog/${entry.id}/`} class="transition-colors group-hover:text-accent-ink">
+      <a href={u(`/blog/${entry.id}/`)} class="transition-colors group-hover:text-accent-ink">
         {title}
       </a>
     </h3>

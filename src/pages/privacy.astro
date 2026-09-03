@@ -1,4 +1,5 @@
 ---
+import { u } from '../lib/url';
 import Page from '../layouts/Page.astro';
 ---
 
@@ -32,7 +33,7 @@ import Page from '../layouts/Page.astro';
 
     <h2>Contact form</h2>
     <p>
-      The <a href="/contact/">contact form</a> is handled by
+      The <a href={u('/contact/')}>contact form</a> is handled by
       <a href="https://formspree.io/legal/privacy-policy">Formspree</a>. Whatever you type into it —
       your name, email address, and message — is transmitted to Formspree and forwarded to my inbox.
       It is used to reply to you and nothing else: no mailing list, no sharing, no resale. You can

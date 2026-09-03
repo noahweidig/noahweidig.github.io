@@ -13,7 +13,7 @@ links:
     external: true
 ---
 
-![The ChartifyR tutorial site](/media/albums/projects/chartifyr.webp)
+<img src="../../media/albums/projects/chartifyr.webp" alt="The ChartifyR tutorial site" width="1600" height="1000" loading="lazy" decoding="async">
 
 ChartifyR is a growing set of R tutorials I write to answer the questions I kept running into while making figures: why my colors weren't colorblind-safe, how to line up several plots without fighting the layout, what actually causes those duplicate rows after a join.
 

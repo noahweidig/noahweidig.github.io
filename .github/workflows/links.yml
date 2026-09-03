@@ -25,8 +25,13 @@ jobs:
         uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2.9.0
         with:
           # Check the rendered site so generated links are covered too.
-          # noahweidig.com links are checked live (some are separate
-          # project-pages repos, not part of this site's render).
+          # noahweidig.com is excluded: the site's own links are absolute in
+          # every canonical and og:url tag, so checking them live would score
+          # production rather than the build under test — a renamed or added
+          # route fails here until it deploys. The build's internal links are
+          # covered anyway, through --root-dir; the handful of noahweidig.com
+          # paths served by separate project-pages repos are covered live by
+          # production-audit.yml, which crawls the deployed site weekly.
           # Accepted codes: 403/429 (bot blocking), 405 (Formspree POST
           # endpoint), 415 (oakfirescience.com's WAF rejects the CI request
           # though the page loads 200 in a browser), 999 (LinkedIn).
@@ -39,6 +44,7 @@ jobs:
             --no-progress
             --root-dir ${{ github.workspace }}/dist
             --accept '100..=103,200..=299,403,405,415,429,999'
+            --exclude 'noahweidig\.com'
             --exclude 'ecos\.fws\.gov'
             --exclude 'victoriamdonovan\.org'
             --exclude 'original-ufdc\.uflib\.ufl\.edu'
