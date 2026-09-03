@@ -539,6 +539,13 @@
     text-decoration: var(--shiki-dark-text-decoration) !important;
   }
 
+  /* The copy button reveals on hover, which a touch device never does. */
+  @media (hover: none) {
+    [data-code-block] > button {
+      opacity: 1;
+    }
+  }
+
   /* --- marquee --- */
   .marquee {
     position: relative;

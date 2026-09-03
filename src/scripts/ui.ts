@@ -545,6 +545,85 @@ function initTypewriter() {
   cleanups.push(() => window.clearTimeout(timer));
 }
 
+/* ---------------------------------------------------------- code blocks -- */
+function initCodeCopy() {
+  const blocks = document.querySelectorAll<HTMLPreElement>('.prose-nw pre');
+  blocks.forEach((pre) => {
+    if (pre.parentElement?.dataset.codeBlock === 'true') return;
+
+    // Wrapped rather than positioned on the <pre> itself: the <pre> scrolls
+    // horizontally, and a button inside it would scroll away with the code.
+    const wrap = document.createElement('div');
+    wrap.dataset.codeBlock = 'true';
+    wrap.className = 'group/code relative';
+    pre.replaceWith(wrap);
+    wrap.appendChild(pre);
+
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className =
+      'absolute top-2.5 right-2.5 rounded-md border border-line bg-raised px-2 py-1 font-mono text-[0.66rem] text-dim opacity-0 transition-all duration-200 hover:border-accent hover:text-accent-ink focus-visible:opacity-100 group-hover/code:opacity-100';
+    btn.textContent = 'Copy';
+    btn.setAttribute('aria-label', 'Copy code to clipboard');
+
+    on(btn, 'click', async () => {
+      try {
+        await navigator.clipboard.writeText(pre.innerText.replace(/\n$/, ''));
+        btn.textContent = 'Copied';
+      } catch {
+        // Clipboard blocked (insecure context, or a permissions policy): the
+        // code is still selectable, so say what happened rather than lie.
+        btn.textContent = 'Select it';
+      }
+      window.setTimeout(() => (btn.textContent = 'Copy'), 1600);
+    });
+
+    wrap.appendChild(btn);
+  });
+}
+
+/* ------------------------------------------------------------------ toc -- */
+function initToc() {
+  const nav = document.querySelector<HTMLElement>('[data-toc]');
+  if (!nav) return;
+  const links = new Map<string, HTMLAnchorElement>();
+  nav
+    .querySelectorAll<HTMLAnchorElement>('[data-toc-link]')
+    .forEach((a) => links.set(a.dataset.tocLink!, a));
+  const headings = [...links.keys()]
+    .map((id) => document.getElementById(id))
+    .filter((el): el is HTMLElement => Boolean(el));
+  if (!headings.length) return;
+
+  const mark = (id: string | null) => {
+    links.forEach((a, key) => {
+      if (key === id) a.setAttribute('aria-current', 'true');
+      else a.removeAttribute('aria-current');
+    });
+  };
+
+  // Which heading is "current" is the last one to have crossed the top of the
+  // viewport, not whatever happens to be intersecting — several are on screen
+  // at once, and the topmost visible one is the section being read.
+  const sync = () => {
+    const line = 120;
+    let current = headings[0]!.id;
+    for (const h of headings) {
+      if (h.getBoundingClientRect().top <= line) current = h.id;
+      else break;
+    }
+    // At the very bottom the last section may never reach the line.
+    if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 4) {
+      current = headings[headings.length - 1]!.id;
+    }
+    mark(current);
+  };
+
+  sync();
+  on(window, 'scroll', sync, { passive: true } as AddEventListenerOptions);
+  on(window, 'resize', sync);
+}
+
 /* ----------------------------------------------------------- copy bibtex -- */
 function initCopy() {
   document.querySelectorAll<HTMLButtonElement>('[data-copy]').forEach((btn) => {
@@ -630,6 +709,8 @@ function boot() {
   initSearch();
   initTypewriter();
   initCopy();
+  initCodeCopy();
+  initToc();
   initPrint();
   initContactForm();
 }

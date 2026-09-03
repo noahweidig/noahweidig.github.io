@@ -1,10 +1,13 @@
 ---
 import { u } from '../lib/url';
+import { tagHref } from '../lib/tags';
 import Base from './Base.astro';
 import Icon from '../components/Icon.astro';
 import ShareRow from '../components/ShareRow.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import PrevNext from '../components/PrevNext.astro';
+import Toc from '../components/Toc.astro';
+import type { Heading } from '../components/Toc.astro';
 import type { Sibling } from '../components/PrevNext.astro';
 
 interface Props {
@@ -22,6 +25,7 @@ interface Props {
   section: string;
   prev?: Sibling | null;
   next?: Sibling | null;
+  headings?: Heading[];
 }
 const {
   title,
@@ -38,7 +42,12 @@ const {
   section,
   prev,
   next,
+  headings = [],
 } = Astro.props;
+
+/* The contents rail needs room beside the measure, so a page that has one
+   widens from the reading shell to the full one. */
+const hasToc = headings.filter((h) => h.depth === 2 || h.depth === 3).length > 1;
 ---
 
 <Base
@@ -79,7 +88,12 @@ const {
           chips.length > 0 && (
             <div class="mt-5 flex flex-wrap gap-1.5" data-pagefind-ignore>
               {chips.map((c) => (
-                <span class="chip">{c}</span>
+                <a
+                  href={u(tagHref(c))}
+                  class="chip transition-colors hover:border-accent hover:text-accent-ink"
+                >
+                  {c}
+                </a>
               ))}
             </div>
           )
@@ -105,12 +119,28 @@ const {
       </div>
     </header>
 
-    <div class="shell-narrow py-12 md:py-16">
-      <div class="prose-nw">
-        <slot />
-      </div>
-      <ShareRow title={title} />
-    </div>
+    {
+      hasToc ? (
+        <div class="shell py-12 md:py-16">
+          <div class="mx-auto grid max-w-5xl gap-12 lg:grid-cols-[minmax(0,1fr)_13rem]">
+            <div class="min-w-0">
+              <div class="prose-nw">
+                <slot />
+              </div>
+              <ShareRow title={title} />
+            </div>
+            <Toc headings={headings} />
+          </div>
+        </div>
+      ) : (
+        <div class="shell-narrow py-12 md:py-16">
+          <div class="prose-nw">
+            <slot />
+          </div>
+          <ShareRow title={title} />
+        </div>
+      )
+    }
 
     <slot name="after" />
 

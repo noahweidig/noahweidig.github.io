@@ -9,11 +9,15 @@ const t = encodeURIComponent(title);
 const u = encodeURIComponent(url);
 
 const targets = [
-  { label: 'X', href: `https://twitter.com/intent/tweet?text=${t}&url=${u}` },
-  { label: 'LinkedIn', href: `https://www.linkedin.com/sharing/share-offsite/?url=${u}` },
-  { label: 'Bluesky', href: `https://bsky.app/intent/compose?text=${t}%20${u}` },
-  { label: 'Reddit', href: `https://www.reddit.com/submit?url=${u}&title=${t}` },
-  { label: 'Email', href: `mailto:?subject=${t}&body=${u}` },
+  { label: 'X', icon: 'x', href: `https://twitter.com/intent/tweet?text=${t}&url=${u}` },
+  {
+    label: 'LinkedIn',
+    icon: 'linkedin',
+    href: `https://www.linkedin.com/sharing/share-offsite/?url=${u}`,
+  },
+  { label: 'Bluesky', icon: 'bluesky', href: `https://bsky.app/intent/compose?text=${t}%20${u}` },
+  { label: 'Reddit', icon: 'reddit', href: `https://www.reddit.com/submit?url=${u}&title=${t}` },
+  { label: 'Email', icon: 'mail', href: `mailto:?subject=${t}&body=${u}` },
 ];
 ---
 
@@ -25,12 +29,14 @@ const targets = [
   {
     targets.map((s) => (
       <a
-        class="chip transition-colors hover:border-accent hover:text-accent-ink"
+        class="grid h-9 w-9 place-items-center rounded-full border border-line text-dim transition-all duration-200 hover:-translate-y-0.5 hover:border-accent hover:text-accent-ink"
         href={s.href}
         target="_blank"
         rel="noopener"
+        title={`Share on ${s.label}`}
       >
-        {s.label}
+        <Icon name={s.icon} size={16} />
+        <span class="sr-only-nw">Share on {s.label}</span>
       </a>
     ))
   }
