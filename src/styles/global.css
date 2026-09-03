@@ -342,6 +342,67 @@
     font-size: 0.8rem;
   }
 
+  /* --- portrait --- */
+  /* A light rim plus an accent bloom, so the circle reads as lit rather than
+     cut out of the page. */
+  .portrait-ring {
+    border-radius: 999px;
+    border: 2px solid color-mix(in oklab, var(--c-surface) 35%, white);
+    box-shadow:
+      0 0 0 5px color-mix(in oklab, var(--c-accent) 7%, transparent),
+      0 0 36px -12px color-mix(in oklab, var(--c-accent) 34%, transparent),
+      0 24px 60px -26px rgb(0 0 0 / 0.5);
+  }
+
+  /* --- carousel --- */
+  .carousel-track {
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    scroll-padding-inline: 1.25rem;
+  }
+  .carousel-track::-webkit-scrollbar {
+    display: none;
+  }
+  @media (min-width: 48rem) {
+    .carousel-track {
+      scroll-padding-inline: 2rem;
+    }
+  }
+
+  /* A 24px hit area around a small bar, so the dots stay tappable. */
+  .carousel-dot {
+    display: grid;
+    place-items: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    cursor: pointer;
+  }
+  .carousel-dot > span {
+    display: block;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 999px;
+    background: var(--c-line-strong);
+    transition:
+      width 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+      background-color 0.25s ease;
+  }
+  .carousel-dot:hover > span {
+    background: var(--c-dim);
+  }
+  .carousel-dot[aria-selected='true'] > span {
+    width: 1.4rem;
+    background: var(--c-accent);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .carousel-track {
+      scroll-behavior: auto;
+    }
+    .carousel-dot > span {
+      transition: none;
+    }
+  }
+
   /* --- chips --- */
   .chip {
     display: inline-flex;

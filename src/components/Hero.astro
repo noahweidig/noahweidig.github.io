@@ -92,42 +92,26 @@ const typed = [
     </div>
 
     <div
-      class="relative mx-auto w-full max-w-sm lg:max-w-none"
+      class="relative order-first mx-auto w-full max-w-[19rem] lg:order-last lg:max-w-sm"
       data-reveal
       style="--reveal-delay:160ms"
     >
       <div
-        class="absolute inset-6 rounded-full opacity-70 blur-2xl"
+        class="absolute inset-6 rounded-full opacity-35 blur-3xl"
         style="background: conic-gradient(from 210deg, var(--c-accent), transparent 40%, var(--c-ember) 70%, var(--c-accent))"
         aria-hidden="true"
       >
       </div>
-      <div class="relative overflow-hidden rounded-2xl border border-line bg-surface">
+      <div class="portrait-ring relative overflow-hidden bg-surface">
         <Image
           src={portrait}
           alt="Noah Weidig"
           widths={[400, 700]}
-          sizes="(min-width: 1024px) 420px, min(24rem, 92vw)"
+          sizes="(min-width: 1024px) 380px, min(19rem, 82vw)"
           loading="eager"
           fetchpriority="high"
           class="aspect-square w-full object-cover"
         />
-        <div
-          class="pointer-events-none absolute inset-0"
-          style="background: linear-gradient(to top, color-mix(in oklab, var(--c-bg) 55%, transparent), transparent 45%)"
-        >
-        </div>
-        <div
-          class="absolute inset-x-4 bottom-4 flex items-center gap-2.5 rounded-lg border border-line bg-bg/80 px-3.5 py-2.5 backdrop-blur-md"
-        >
-          <span class="relative flex h-2 w-2 shrink-0">
-            <span
-              class="absolute inline-flex h-full w-full animate-ping rounded-full bg-moss opacity-70"
-            ></span>
-            <span class="relative inline-flex h-2 w-2 rounded-full bg-moss"></span>
-          </span>
-          <span class="text-[0.8rem] text-dim">Open to data science &amp; GIS roles</span>
-        </div>
       </div>
     </div>
   </div>
