@@ -32,6 +32,14 @@
   --shadow-card: 0 1px 0 0 rgb(255 255 255 / 0.04) inset, 0 18px 40px -24px rgb(0 0 0 / 0.9);
   --grid-line: rgb(255 255 255 / 0.045);
   --topo-opacity: 0.05;
+  /* The hero fields are the site's own accent and violet. Prominence is dialled
+     with opacity rather than by darkening the hues, so the gradient stays part
+     of the palette instead of becoming its own pair of colours. */
+  --hero-1: var(--c-accent);
+  --hero-2: var(--c-violet);
+  --hero-opacity: 0.42;
+  --hero-blur: 70px;
+  --hero-blend: screen;
   color-scheme: dark;
 }
 
@@ -58,6 +66,13 @@
   --shadow-card: 0 1px 0 0 rgb(255 255 255 / 0.9) inset, 0 16px 34px -26px rgb(20 25 40 / 0.35);
   --grid-line: rgb(20 25 40 / 0.045);
   --topo-opacity: 0.045;
+  /* Screen on a near-white ground just bleaches; the light theme paints the
+     same fields normally, sat well back so the copy stays the loudest thing. */
+  --hero-1: var(--c-accent);
+  --hero-2: var(--c-violet);
+  --hero-opacity: 0.2;
+  --hero-blur: 90px;
+  --hero-blend: normal;
   color-scheme: light;
 }
 

@@ -16,6 +16,11 @@ const targets = [
     href: `https://www.linkedin.com/sharing/share-offsite/?url=${u}`,
   },
   { label: 'Bluesky', icon: 'bluesky', href: `https://bsky.app/intent/compose?text=${t}%20${u}` },
+  {
+    label: 'Facebook',
+    icon: 'facebook',
+    href: `https://www.facebook.com/sharer/sharer.php?u=${u}`,
+  },
   { label: 'Reddit', icon: 'reddit', href: `https://www.reddit.com/submit?url=${u}&title=${t}` },
   { label: 'Email', icon: 'mail', href: `mailto:?subject=${t}&body=${u}` },
 ];
@@ -40,6 +45,16 @@ const targets = [
       </a>
     ))
   }
+  <button
+    type="button"
+    class="grid h-9 w-9 place-items-center rounded-full border border-line text-dim transition-all duration-200 hover:-translate-y-0.5 hover:border-accent hover:text-accent-ink"
+    data-share={url}
+    data-share-title={title}
+    title="Share on Instagram"
+  >
+    <Icon name="instagram" size={16} />
+    <span class="sr-only-nw">Share on Instagram</span>
+  </button>
   <button
     type="button"
     class="chip ml-auto transition-colors hover:border-accent hover:text-accent-ink"
