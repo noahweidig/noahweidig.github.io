@@ -1,3 +1,18 @@
+const fs = require('node:fs');
+const os = require('node:os');
+const path = require('node:path');
+
+// The site is served under a base path (`base` in astro.config.mjs), and every
+// asset URL in the build carries it. staticDistDir serves the folder it is
+// given at "/", so dist has to be mounted under a directory of that name —
+// otherwise every stylesheet and script 404s and Lighthouse scores an unstyled
+// page, which is neither what ships nor comparable to anything.
+const BASE = 'new-website';
+const ROOT = fs.mkdtempSync(path.join(os.tmpdir(), 'lhci-site-'));
+fs.symlinkSync(path.resolve(__dirname, 'dist'), path.join(ROOT, BASE));
+
+const url = (p) => `http://localhost/${BASE}/${p}`;
+
 // Lighthouse CI over the built site, run per-PR by
 // .github/workflows/lighthouse.yml. lighthouserc.production.cjs imports
 // ASSERTIONS from here so production is held to the same bar as a PR.
@@ -49,20 +64,20 @@ module.exports = {
   ASSERTIONS,
   ci: {
     collect: {
-      staticDistDir: './dist',
+      staticDistDir: ROOT,
       // One detail page per section alongside the indexes, so the templates
       // that only ever appear on a child page get scored too.
       url: [
-        'http://localhost/index.html',
-        'http://localhost/cv/index.html',
-        'http://localhost/projects/index.html',
-        'http://localhost/publications/index.html',
-        'http://localhost/blog/index.html',
-        'http://localhost/contact/index.html',
-        'http://localhost/styleguide/index.html',
-        'http://localhost/projects/chartifyr/index.html',
-        'http://localhost/publications/alexander-shifting-forest-25/index.html',
-        'http://localhost/blog/favorite-r-packages/index.html',
+        url('index.html'),
+        url('cv/index.html'),
+        url('projects/index.html'),
+        url('publications/index.html'),
+        url('blog/index.html'),
+        url('contact/index.html'),
+        url('styleguide/index.html'),
+        url('projects/chartifyr/index.html'),
+        url('publications/alexander-shifting-forest-25/index.html'),
+        url('blog/favorite-r-packages/index.html'),
       ],
     },
     upload: { target: 'temporary-public-storage' },
