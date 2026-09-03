@@ -12,11 +12,11 @@ module.exports = {
     collect: {
       url: [
         `${SITE}/`,
-        `${SITE}/cv`,
-        `${SITE}/projects`,
-        `${SITE}/publications`,
-        `${SITE}/blog`,
-        `${SITE}/styleguide`,
+        `${SITE}/cv/`,
+        `${SITE}/projects/`,
+        `${SITE}/publications/`,
+        `${SITE}/blog/`,
+        `${SITE}/styleguide/`,
       ],
     },
     upload: {
