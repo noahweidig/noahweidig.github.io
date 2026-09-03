@@ -1,0 +1,184 @@
+---
+import Page from '../layouts/Page.astro';
+import Icon from '../components/Icon.astro';
+
+const palette = [
+  ['--c-bg', 'Page ground'],
+  ['--c-bg-deep', 'Recessed band'],
+  ['--c-surface', 'Card surface'],
+  ['--c-raised', 'Inset / input'],
+  ['--c-line', 'Hairline'],
+  ['--c-line-strong', 'Hairline, emphasis'],
+  ['--c-ink', 'Body text'],
+  ['--c-dim', 'Secondary text'],
+  ['--c-faint', 'Tertiary / meta'],
+  ['--c-accent', 'Accent fill'],
+  ['--c-accent-ink', 'Accent text'],
+  ['--c-ember', 'Fire work'],
+  ['--c-moss', 'Availability / success'],
+  ['--c-violet', 'Tooling'],
+];
+
+const typeScale = [
+  ['Display 1', 'clamp(2.6rem, 1.4rem + 5.2vw, 5.2rem)', 'Hero headline'],
+  ['Display 2', 'clamp(2.2rem, 1.3rem + 3.4vw, 4rem)', 'Page title'],
+  ['Section', 'clamp(1.85rem, 1.2rem + 2.2vw, 3rem)', 'Section heading'],
+  ['H3', '1.25rem', 'Card and sub-heading'],
+  ['Body', '1rem / 1.65', 'Running text'],
+  ['Meta', '0.7rem, mono, 0.18em', 'Kickers and labels'],
+];
+
+const icons = [
+  'satellite',
+  'layers',
+  'chart',
+  'ai',
+  'leaf',
+  'database',
+  'terminal',
+  'pencil',
+  'file',
+  'trophy',
+  'mail',
+  'calendar',
+  'pin',
+  'clock',
+  'download',
+  'search',
+  'sun',
+  'moon',
+  'github',
+  'linkedin',
+  'scholar',
+  'orcid',
+  'rss',
+  'shield',
+];
+---
+
+<Page
+  title="Styleguide"
+  kicker="Design system"
+  description="The tokens, type scale and components the site is built from."
+  intro="Every primitive the site is assembled from, rendered live in whichever theme you are reading in."
+>
+  <section>
+    <h2 class="font-display text-2xl">Color</h2>
+    <p class="lede mt-2 text-[0.95rem]">
+      Every semantic color is a runtime custom property, so the theme toggle repaints the whole
+      system by flipping one attribute on <code class="chip">&lt;html&gt;</code>.
+    </p>
+    <div class="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        palette.map(([token, use]) => (
+          <div class="card flex items-center gap-3.5 p-3">
+            <span
+              class="h-11 w-11 shrink-0 rounded-md border border-line-strong"
+              style={`background: var(${token})`}
+            />
+            <span class="min-w-0">
+              <code class="block font-mono text-[0.78rem] text-accent-ink">{token}</code>
+              <span class="block truncate text-[0.8rem] text-faint">{use}</span>
+            </span>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="mt-16">
+    <h2 class="font-display text-2xl">Type</h2>
+    <p class="lede mt-2 text-[0.95rem]">
+      Newsreader sets every heading, Inter carries the interface, JetBrains Mono handles labels and
+      code. All three are self-hosted subsets.
+    </p>
+    <div class="mt-6 divide-y divide-line border-y border-line">
+      {
+        typeScale.map(([name, size, use]) => (
+          <div class="grid gap-2 py-5 sm:grid-cols-[10rem_1fr] sm:gap-6">
+            <div>
+              <p class="font-mono text-[0.7rem] tracking-[0.14em] text-faint uppercase">{name}</p>
+              <p class="mt-1 text-[0.78rem] text-faint">{size}</p>
+            </div>
+            <p class="font-display text-2xl">{use}</p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="mt-16">
+    <h2 class="font-display text-2xl">Buttons &amp; chips</h2>
+    <div class="mt-6 flex flex-wrap items-center gap-3">
+      <a class="btn btn-primary" href="#">Primary<Icon name="arrow" size={15} /></a>
+      <a class="btn btn-ghost" href="#">Ghost</a>
+      <a class="btn btn-primary btn-sm" href="#">Primary small</a>
+      <a class="btn btn-ghost btn-sm" href="#">Ghost small</a>
+    </div>
+    <div class="mt-5 flex flex-wrap items-center gap-2">
+      <span class="chip">Geospatial</span>
+      <span class="chip">Fire</span>
+      <span class="chip chip-accent">Open Access</span>
+      <button type="button" class="pill" aria-pressed="true">Selected pill</button>
+      <button type="button" class="pill" aria-pressed="false">Pill</button>
+    </div>
+  </section>
+
+  <section class="mt-16">
+    <h2 class="font-display text-2xl">Surfaces</h2>
+    <div class="mt-6 grid gap-5 sm:grid-cols-3">
+      <div class="card p-6">
+        <h3 class="text-lg">Card</h3>
+        <p class="mt-2 text-sm text-dim">Flat surface with a hairline and an inset highlight.</p>
+      </div>
+      <div class="card card-hover p-6">
+        <h3 class="text-lg">Card, hover</h3>
+        <p class="mt-2 text-sm text-dim">
+          Lifts, brightens its border, and tracks the pointer with a border glow.
+        </p>
+      </div>
+      <div class="card relative overflow-hidden p-6">
+        <div class="topo-bg absolute inset-0" aria-hidden="true"></div>
+        <h3 class="relative text-lg">Card, textured</h3>
+        <p class="relative mt-2 text-sm text-dim">Contour texture behind the content.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="mt-16">
+    <h2 class="font-display text-2xl">Icons</h2>
+    <p class="lede mt-2 text-[0.95rem]">
+      Tabler geometry, inlined as path data so a glyph costs no request.
+    </p>
+    <div class="mt-6 grid grid-cols-4 gap-3 sm:grid-cols-8">
+      {
+        icons.map((name) => (
+          <div class="card grid aspect-square place-items-center gap-1.5 p-2 text-dim">
+            <Icon name={name} size={22} />
+            <code class="text-[0.6rem] text-faint">{name}</code>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="mt-16">
+    <h2 class="font-display text-2xl">Prose</h2>
+    <div class="prose-nw mt-6 rounded-lg border border-line p-6">
+      <h3>A third-level heading</h3>
+      <p>
+        Body copy runs at 17px with a 1.75 line height and a <a href="#">link treatment</a> that underlines
+        at a low-contrast accent and firms up on hover. Inline <code>code</code> sits in its own tinted
+        box.
+      </p>
+      <blockquote>
+        Pull quotes switch to the display serif, which keeps them distinct from body copy without a
+        size jump.
+      </blockquote>
+      <ul>
+        <li>Unordered lists get an accent-tinted marker.</li>
+        <li>Spacing between items stays tight.</li>
+      </ul>
+    </div>
+  </section>
+</Page>

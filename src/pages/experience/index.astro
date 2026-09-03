@@ -1,0 +1,22 @@
+---
+import { getCollection } from 'astro:content';
+import Page from '../../layouts/Page.astro';
+import TimelineItem from '../../components/TimelineItem.astro';
+
+const items = (await getCollection('experience')).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime(),
+);
+---
+
+<Page
+  title="Experience"
+  kicker="Background"
+  description="Roles and internships across GIS, remote sensing, and ecological research."
+  intro="Roles and internships across GIS, remote sensing, and ecological research."
+  wide={false}
+>
+  <h2 class="sr-only-nw">All experience</h2>
+  <div class="ml-1">
+    {items.map((entry, i) => <TimelineItem entry={entry} base="experience" current={i === 0} />)}
+  </div>
+</Page>

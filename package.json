@@ -1,37 +1,34 @@
 {
   "name": "noahweidig-site",
+  "type": "module",
   "private": true,
-  "description": "Build and quality-check tooling for noahweidig.com (the site itself is rendered by Quarto).",
+  "description": "noahweidig.com — Astro + TypeScript + Tailwind.",
   "engines": {
-    "node": ">=24"
+    "node": ">=22.12"
   },
   "scripts": {
-    "build": "quarto render",
-    "preview": "quarto preview",
-    "globe": "node scripts/generate-globe-svg.mjs",
-    "a11y": "node scripts/axe-audit.mjs",
-    "validate:html": "html-validate \"_site/**/*.html\"",
-    "check:quarto-pin": "./scripts/check-quarto-pin.sh",
-    "lint": "npm run lint:js && npm run lint:css && npm run lint:format && npm run lint:prose",
-    "lint:js": "eslint .",
-    "lint:css": "stylelint \"assets/**/*.{css,scss}\"",
-    "lint:format": "prettier --check .",
-    "format": "prettier --write .",
-    "report:css": "node scripts/css-coverage.mjs",
-    "lint:prose": "node scripts/prose-lint.mjs && cspell --no-progress \"**/*.qmd\""
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro check && astro build && pagefind --site dist",
+    "build:fast": "astro build && pagefind --site dist",
+    "preview": "astro preview",
+    "astro": "astro",
+    "lint": "prettier --check . && astro check",
+    "format": "prettier --write ."
+  },
+  "dependencies": {
+    "@astrojs/rss": "^4.0.19",
+    "@astrojs/sitemap": "^3.7.4",
+    "@tailwindcss/vite": "^4.3.3",
+    "astro": "^7.3.1",
+    "tailwindcss": "^4.3.3"
   },
   "devDependencies": {
-    "@eslint/js": "10.0.1",
-    "axe-core": "4.13.0",
-    "cspell": "^10.2.0",
-    "eslint": "10.9.1",
-    "globals": "17.12.0",
-    "html-validate": "11.11.0",
-    "postcss-scss": "4.0.9",
-    "prettier": "3.9.6",
-    "puppeteer": "25.9.0",
-    "stylelint": "17.14.1",
-    "stylelint-config-standard-scss": "17.0.0",
-    "typescript-eslint": "^8.69.0"
+    "@astrojs/check": "^0.9.10",
+    "@types/node": "^22.10.0",
+    "pagefind": "^1.5.2",
+    "prettier": "^3.9.6",
+    "prettier-plugin-astro": "^0.14.1",
+    "typescript": "^5.7.0"
   }
 }

@@ -1,0 +1,35 @@
+---
+import { getCollection, render } from 'astro:content';
+import Detail from '../../layouts/Detail.astro';
+import { fullDate, inlineMarkup } from '../../lib/format';
+
+export async function getStaticPaths() {
+  const pubs = await getCollection('publications');
+  return pubs.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const d = entry.data;
+---
+
+<Detail
+  title={d.title}
+  description={d.description}
+  kicker={d.categories[0] ?? 'Publication'}
+  meta={fullDate(d.date)}
+  backHref="/publications/"
+  backLabel="All publications"
+  chips={d.categories}
+  links={d.links}
+  publishedTime={d.date}
+>
+  {
+    d.citation && (
+      <p class="mb-8 rounded-md border-l-2 border-accent bg-raised px-4 py-3 text-sm leading-relaxed text-dim">
+        <Fragment set:html={inlineMarkup(d.citation)} />
+      </p>
+    )
+  }
+  <Content />
+</Detail>

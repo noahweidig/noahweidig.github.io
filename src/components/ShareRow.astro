@@ -1,0 +1,42 @@
+---
+import Icon from './Icon.astro';
+interface Props {
+  title: string;
+}
+const { title } = Astro.props;
+const url = new URL(Astro.url.pathname, Astro.site).href;
+const t = encodeURIComponent(title);
+const u = encodeURIComponent(url);
+
+const targets = [
+  { label: 'X', href: `https://twitter.com/intent/tweet?text=${t}&url=${u}` },
+  { label: 'LinkedIn', href: `https://www.linkedin.com/sharing/share-offsite/?url=${u}` },
+  { label: 'Bluesky', href: `https://bsky.app/intent/compose?text=${t}%20${u}` },
+  { label: 'Reddit', href: `https://www.reddit.com/submit?url=${u}&title=${t}` },
+  { label: 'Email', href: `mailto:?subject=${t}&body=${u}` },
+];
+---
+
+<div class="no-print mt-14 flex flex-wrap items-center gap-2 border-t border-line pt-6">
+  <span class="font-mono text-[0.68rem] tracking-[0.14em] text-faint uppercase">Share</span>
+  {
+    targets.map((s) => (
+      <a
+        class="chip transition-colors hover:border-accent hover:text-accent-ink"
+        href={s.href}
+        target="_blank"
+        rel="noopener"
+      >
+        {s.label}
+      </a>
+    ))
+  }
+  <button
+    type="button"
+    class="chip ml-auto transition-colors hover:border-accent hover:text-accent-ink"
+    data-copy={url}
+  >
+    <Icon name="copy" size={13} />
+    <span data-copy-label>Copy link</span>
+  </button>
+</div>

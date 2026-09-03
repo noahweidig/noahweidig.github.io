@@ -1,0 +1,130 @@
+---
+import { nav, site } from '../lib/site';
+import Icon from './Icon.astro';
+import Search from './Search.astro';
+
+const path = Astro.url.pathname;
+const isActive = (href: string) =>
+  href === '/' ? path === '/' : path === href || path.startsWith(href);
+---
+
+<header
+  data-pagefind-ignore
+  data-site-header
+  class="sticky top-0 z-50 border-b border-transparent transition-[background-color,border-color,backdrop-filter] duration-300"
+  id="site-header"
+>
+  <div class="shell flex h-16 items-center gap-4 md:h-18">
+    <a href="/" class="group flex items-center gap-2.5 shrink-0" aria-label="Noah Weidig — home">
+      <img
+        src="/media/logo.svg"
+        alt=""
+        width="920"
+        height="1079"
+        class="h-7 w-auto transition-transform duration-500 group-hover:-rotate-6"
+      />
+      <span class="font-display text-[1.05rem] font-medium tracking-tight">Noah Weidig</span>
+    </a>
+
+    <nav aria-label="Primary" class="ml-auto hidden lg:block">
+      <ul class="flex items-center gap-0.5">
+        {
+          nav.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                aria-current={isActive(item.href) ? 'page' : undefined}
+                class:list={[
+                  'relative rounded-full px-3.5 py-2 text-sm transition-colors duration-200',
+                  isActive(item.href) ? 'text-ink' : 'text-dim hover:text-ink',
+                ]}
+              >
+                {item.text}
+                {isActive(item.href) && (
+                  <span class="absolute inset-x-3.5 -bottom-px h-px bg-accent" />
+                )}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="ml-auto flex items-center gap-1.5 lg:ml-2">
+      <button
+        type="button"
+        data-search-open
+        class="grid h-9 w-9 place-items-center rounded-full border border-line text-dim transition-colors hover:border-line-strong hover:text-ink"
+        aria-label="Search the site"
+      >
+        <Icon name="search" size={17} />
+      </button>
+
+      <button
+        type="button"
+        data-theme-toggle
+        class="grid h-9 w-9 place-items-center rounded-full border border-line text-dim transition-colors hover:border-line-strong hover:text-ink"
+        aria-label="Toggle color theme"
+      >
+        <span class="hidden dark:block"><Icon name="sun" size={17} /></span>
+        <span class="block dark:hidden"><Icon name="moon" size={17} /></span>
+      </button>
+
+      <a
+        class="btn btn-primary btn-sm ml-1 hidden sm:inline-flex"
+        href={site.booking}
+        target="_blank"
+        rel="noopener"
+      >
+        Book now
+        <Icon name="arrow" size={15} />
+      </a>
+
+      <button
+        type="button"
+        data-menu-toggle
+        aria-expanded="false"
+        aria-controls="mobile-nav"
+        class="grid h-9 w-9 place-items-center rounded-full border border-line text-dim lg:hidden"
+        aria-label="Open menu"
+      >
+        <span data-menu-icon-open><Icon name="menu" size={18} /></span>
+        <span data-menu-icon-close hidden><Icon name="close" size={18} /></span>
+      </button>
+    </div>
+  </div>
+
+  <div id="mobile-nav" hidden class="border-t border-line bg-surface/95 backdrop-blur-xl lg:hidden">
+    <nav aria-label="Mobile" class="shell py-4">
+      <ul class="grid gap-1">
+        {
+          nav.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                class="flex items-center justify-between rounded-md px-3 py-2.5 text-[0.95rem] text-dim transition-colors hover:bg-raised hover:text-ink"
+                aria-current={isActive(item.href) ? 'page' : undefined}
+              >
+                {item.text}
+                <Icon name="arrow" size={16} class="opacity-40" />
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <a class="btn btn-primary mt-4 w-full" href={site.booking} target="_blank" rel="noopener">
+        Book a call
+      </a>
+    </nav>
+  </div>
+</header>
+
+<Search />
+
+<style>
+  #site-header[data-stuck] {
+    background-color: color-mix(in oklab, var(--c-bg) 78%, transparent);
+    backdrop-filter: blur(16px) saturate(1.4);
+    border-bottom-color: var(--c-line);
+  }
+</style>

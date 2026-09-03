@@ -5,7 +5,7 @@ on:
     # 00:00 UTC on the 1st and the 15th. One cadence, stated the same way in
     # publications/index.qmd, README.md and here (#247) — the old
     # "0 0 */5 * *" matched none of the three descriptions of it.
-    - cron: "0 0 1,15 * *"
+    - cron: '0 0 1,15 * *'
   workflow_dispatch:
 
 # The sync job is the only one that writes; verify-deploy declares its own

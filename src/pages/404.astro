@@ -1,0 +1,54 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { nav } from '../lib/site';
+
+const blurbs: Record<string, string> = {
+  Projects: 'Geospatial analysis, R packages, and data tools.',
+  Publications: 'Papers, presentations, and media coverage.',
+  Experience: 'Roles across GIS, remote sensing, and research.',
+  Awards: 'Scholarships, grants, and honors.',
+  Blog: 'Notes on R, spatial data, and working reproducibly.',
+  CV: 'The full record, in one page.',
+  Contact: 'Email, book a call, or send a message.',
+};
+const destinations = nav.filter((n) => ['Projects', 'Publications', 'Blog'].includes(n.text));
+---
+
+<Base title="Page Not Found" description="That page doesn't exist or has moved." noindex>
+  <section class="relative overflow-hidden">
+    <div class="grid-bg absolute inset-0" aria-hidden="true"></div>
+    <div class="shell relative py-20 text-center md:py-28">
+      <p class="kicker justify-center">Error 404</p>
+      <h1 class="mt-4 font-display text-[clamp(2.4rem,1.4rem+4vw,4.5rem)] font-medium">
+        That page doesn't exist
+      </h1>
+      <p class="lede mx-auto mt-5">
+        The link may be out of date, or the address slightly off. Search the site for what you were
+        after, or pick a section below.
+      </p>
+
+      <div class="mt-8 flex flex-wrap justify-center gap-3">
+        <button type="button" class="btn btn-primary" data-search-open>
+          <Icon name="search" size={15} />Search the site
+        </button>
+        <a class="btn btn-ghost" href="/">Go home</a>
+      </div>
+
+      <div class="mt-14 grid gap-5 text-left md:grid-cols-3">
+        {
+          destinations.map((d) => (
+            <a href={d.href} class="card card-hover group p-6">
+              <h2 class="text-xl">{d.text}</h2>
+              <p class="mt-2 text-sm text-dim">{blurbs[d.text]}</p>
+              <span class="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-accent-ink">
+                Go to this section
+                <span class="transition-transform duration-300 group-hover:translate-x-1">→</span>
+              </span>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</Base>

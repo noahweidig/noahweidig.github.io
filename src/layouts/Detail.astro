@@ -1,0 +1,100 @@
+---
+import Base from './Base.astro';
+import Icon from '../components/Icon.astro';
+import ShareRow from '../components/ShareRow.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  kicker?: string;
+  meta?: string;
+  backHref: string;
+  backLabel: string;
+  chips?: string[];
+  links?: { label: string; href: string; variant?: 'primary' | 'ghost'; external?: boolean }[];
+  image?: string;
+  type?: 'website' | 'article';
+  publishedTime?: Date;
+}
+const {
+  title,
+  description,
+  kicker,
+  meta,
+  backHref,
+  backLabel,
+  chips = [],
+  links = [],
+  image,
+  type = 'article',
+  publishedTime,
+} = Astro.props;
+---
+
+<Base
+  title={title}
+  description={description}
+  image={image}
+  type={type}
+  publishedTime={publishedTime}
+>
+  <article>
+    <header class="relative overflow-hidden border-b border-line bg-bg-deep">
+      <div class="grid-bg absolute inset-0" aria-hidden="true"></div>
+      <div class="shell relative py-12 md:py-16">
+        <a
+          href={backHref}
+          class="group inline-flex items-center gap-1.5 font-mono text-[0.72rem] tracking-[0.12em] text-faint uppercase transition-colors hover:text-accent-ink"
+        >
+          <span class="transition-transform duration-300 group-hover:-translate-x-1">←</span>
+          {backLabel}
+        </a>
+
+        {kicker && <p class="kicker mt-6">{kicker}</p>}
+        <h1
+          class="mt-4 max-w-4xl font-display text-[clamp(1.9rem,1.2rem+2.6vw,3.1rem)] font-medium"
+        >
+          {title}
+        </h1>
+        {meta && <p class="mt-4 text-sm text-dim">{meta}</p>}
+
+        {
+          chips.length > 0 && (
+            <div class="mt-5 flex flex-wrap gap-1.5">
+              {chips.map((c) => (
+                <span class="chip">{c}</span>
+              ))}
+            </div>
+          )
+        }
+
+        {
+          links.length > 0 && (
+            <div class="mt-7 flex flex-wrap gap-2.5">
+              {links.map((l) => (
+                <a
+                  class:list={['btn', l.variant === 'primary' ? 'btn-primary' : 'btn-ghost']}
+                  href={l.href}
+                  target={l.external ? '_blank' : undefined}
+                  rel={l.external ? 'noopener' : undefined}
+                >
+                  {l.label}
+                  {l.external && <Icon name="external" size={14} />}
+                </a>
+              ))}
+            </div>
+          )
+        }
+      </div>
+    </header>
+
+    <div class="shell-narrow py-12 md:py-16">
+      <div class="prose-nw">
+        <slot />
+      </div>
+      <ShareRow title={title} />
+    </div>
+
+    <slot name="after" />
+  </article>
+</Base>

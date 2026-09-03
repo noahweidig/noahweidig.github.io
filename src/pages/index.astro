@@ -1,0 +1,348 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import Affiliations from '../components/Affiliations.astro';
+import ResearchAreas from '../components/ResearchAreas.astro';
+import TechMarquee from '../components/TechMarquee.astro';
+import SectionHead from '../components/SectionHead.astro';
+import StatStrip from '../components/StatStrip.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import PostCard from '../components/PostCard.astro';
+import CitationRow from '../components/CitationRow.astro';
+import TimelineItem from '../components/TimelineItem.astro';
+import Globe from '../components/Globe.astro';
+import Icon from '../components/Icon.astro';
+import { Image } from 'astro:assets';
+import { readingTime, year } from '../lib/format';
+import { site } from '../lib/site';
+
+const byDate = <T extends { data: { date: Date } }>(a: T, b: T) =>
+  b.data.date.getTime() - a.data.date.getTime();
+
+const allProjects = (await getCollection('projects')).sort(byDate);
+const featuredProjects = allProjects.filter((p) => p.data.featured).slice(0, 6);
+const projects = featuredProjects.length ? featuredProjects : allProjects.slice(0, 6);
+
+const allPubs = (await getCollection('publications')).sort(byDate);
+/* `pub-listed` marks the one record Zotero's per-appearance export should
+   surface, so a work presented four times is one row, not four. */
+const featuredPubs = allPubs
+  .filter((p) => p.data['pub-listed'] === 'yes' && p.data.categories.includes('Journal Article'))
+  .slice(0, 4);
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(byDate).slice(0, 3);
+
+const experience = (await getCollection('experience')).sort(byDate);
+const education = (await getCollection('education')).sort(byDate);
+
+const awards = (await getCollection('awards')).sort(byDate);
+const featuredAwards = awards.filter((a) => a.data.image).slice(0, 6);
+
+const stats = [
+  { value: `${allPubs.length}+`, label: 'Papers & Talks' },
+  { value: '8+', label: 'Years Research Experience' },
+  { value: '20+', label: 'Tools Mastered' },
+  { value: featuredProjects.length, label: 'Featured Projects' },
+];
+
+const starts = [
+  {
+    href: '#interests',
+    icon: 'layers',
+    title: 'Research',
+    body: 'Six focus areas, from WUI wildfire risk to species distribution modeling — with the papers behind each.',
+    cta: 'Read the research',
+  },
+  {
+    href: '#projects',
+    icon: 'terminal',
+    title: 'Tools & maps',
+    body: 'Open tools: an R package for U.S. fire data, Earth Engine apps, interactive map galleries.',
+    cta: 'Browse the work',
+  },
+  {
+    href: '#blog',
+    icon: 'pencil',
+    title: 'Writing',
+    body: 'Tutorials and notes on R, spatial workflows, and doing reproducible research in the open.',
+    cta: 'Read the blog',
+  },
+];
+
+const faqs = [
+  {
+    q: 'What do you do?',
+    a: 'I work at the intersection of geospatial analytics, data science, and applied AI — building reproducible workflows that turn spatial and environmental data into decision-ready insights.',
+  },
+  {
+    q: 'What kinds of projects are you interested in?',
+    a: "I'm drawn to work involving remote sensing, land-use change, social-ecological systems, and data storytelling. I especially enjoy projects where rigorous analysis meets clear visual communication.",
+  },
+  {
+    q: 'Are you open to collaboration?',
+    a: "Yes. I'm happy to discuss research collaborations, freelance work, and full-time opportunities in data science or GIS. The best way to start a conversation is through the contact page.",
+    link: { href: '/contact/', text: 'contact page' },
+  },
+  {
+    q: 'What tools do you typically work with?',
+    a: 'Mostly R and Python for analysis and modeling, alongside SQL for data wrangling and a range of GIS tools (ArcGIS Pro, QGIS, GEE, GDAL) for spatial work. See the tech stack section for the full toolkit.',
+  },
+  {
+    q: 'How can I get in touch?',
+    a: "Email is the easiest — you'll find it on the contact page.",
+    link: { href: '/contact/', text: 'contact page' },
+  },
+];
+---
+
+<Base title={site.name}>
+  <Hero />
+
+  <!-- stats + affiliations -->
+  <section class="shell py-14 md:py-16">
+    <StatStrip stats={stats} />
+    <Affiliations />
+  </section>
+
+  <!-- three ways in -->
+  <section class="shell pb-4">
+    <div class="grid gap-5 md:grid-cols-3">
+      {
+        starts.map((s, i) => (
+          <a
+            href={s.href}
+            class="card card-hover group flex flex-col p-6"
+            data-reveal
+            style={`--reveal-delay:${i * 70}ms`}
+          >
+            <span class="grid h-11 w-11 place-items-center rounded-lg border border-line bg-raised text-accent-ink transition-colors group-hover:border-accent/40">
+              <Icon name={s.icon} size={20} />
+            </span>
+            <h2 class="mt-5 text-xl">{s.title}</h2>
+            <p class="mt-2 flex-1 text-sm leading-relaxed text-dim">{s.body}</p>
+            <span class="mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-accent-ink">
+              {s.cta}
+              <span class="transition-transform duration-300 group-hover:translate-x-1">→</span>
+            </span>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- research areas -->
+  <section class="shell scroll-mt-24 py-20 md:py-24" id="interests">
+    <SectionHead kicker="Research areas" title="Where I focus my work" />
+    <ResearchAreas />
+  </section>
+
+  <!-- projects -->
+  <section class="shell scroll-mt-24 py-16" id="projects">
+    <SectionHead
+      kicker="Selected work"
+      title="Tools, maps & applications"
+      href="/projects/"
+      linkText="Browse all projects"
+    />
+    <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {projects.map((entry, i) => <ProjectCard entry={entry} index={i} />)}
+    </div>
+  </section>
+
+  <!-- publications -->
+  <section class="shell scroll-mt-24 py-16" id="publications">
+    <SectionHead
+      kicker="Publications"
+      title="Peer-reviewed & in review"
+      href="/publications/"
+      linkText="All publications"
+    />
+    <div class="mt-8">
+      {featuredPubs.map((entry) => <CitationRow entry={entry} compact />)}
+    </div>
+  </section>
+
+  <!-- skills -->
+  <section class="scroll-mt-24 border-y border-line bg-bg-deep py-16" id="skills">
+    <div class="shell">
+      <SectionHead kicker="Tech stack" title="Technologies I use to build things" />
+      <TechMarquee />
+    </div>
+  </section>
+
+  <!-- experience + education -->
+  <section class="shell scroll-mt-24 py-20" id="experience">
+    <SectionHead kicker="Background" title="Where I've worked and studied" />
+    <div class="mt-10 grid gap-12 lg:grid-cols-2 lg:gap-16">
+      <div>
+        <h3 class="font-mono text-[0.7rem] tracking-[0.18em] text-faint uppercase">Experience</h3>
+        <div class="mt-5 ml-1">
+          {
+            experience
+              .slice(0, 2)
+              .map((entry, i) => <TimelineItem entry={entry} base="experience" current={i === 0} />)
+          }
+        </div>
+        <a class="btn btn-ghost btn-sm mt-6" href="/experience/">See all experience →</a>
+      </div>
+      <div id="education" class="scroll-mt-24">
+        <h3 class="font-mono text-[0.7rem] tracking-[0.18em] text-faint uppercase">Education</h3>
+        <div class="mt-5 ml-1">
+          {education.slice(0, 2).map((entry) => <TimelineItem entry={entry} base="education" />)}
+        </div>
+        <a class="btn btn-ghost btn-sm mt-6" href="/education/">See all education →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- awards -->
+  <section class="scroll-mt-24 border-y border-line bg-bg-deep py-16" id="awards">
+    <div class="shell">
+      <SectionHead
+        kicker="Recognition"
+        title="Featured awards"
+        href="/awards/"
+        linkText="All awards"
+      />
+    </div>
+    <div
+      class="mt-10 flex snap-x snap-mandatory gap-5 overflow-x-auto px-5 pb-4 md:px-8 [scrollbar-width:thin]"
+      data-reveal
+    >
+      {
+        featuredAwards.map((entry) => (
+          <a
+            href={`/awards/${entry.id}/`}
+            class="card card-hover group w-[19rem] shrink-0 snap-start overflow-hidden"
+          >
+            <div class="relative aspect-4/3 overflow-hidden border-b border-line bg-raised">
+              <Image
+                src={entry.data.image!}
+                alt={entry.data['image-alt'] ?? ''}
+                widths={[320, 640]}
+                sizes="304px"
+                loading="lazy"
+                class="h-full w-full object-cover transition-transform duration-700 ease-[cubic-bezier(.22,1,.36,1)] group-hover:scale-[1.05]"
+              />
+              <span class="absolute top-3 left-3 chip bg-black/55 text-white backdrop-blur-md">
+                {year(entry.data.date)}
+              </span>
+            </div>
+            <div class="p-5">
+              <b class="block text-[0.95rem] leading-snug font-medium transition-colors group-hover:text-accent-ink">
+                {entry.data.title}
+              </b>
+              <span class="mt-1.5 block text-[0.82rem] text-dim">{entry.data.description}</span>
+            </div>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- blog -->
+  <section class="shell scroll-mt-24 py-16" id="blog">
+    <SectionHead
+      kicker="Writing"
+      title="Notes & tutorials"
+      href="/blog/"
+      linkText="Read more posts"
+    />
+    <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        posts.map((entry, i) => (
+          <PostCard entry={entry} index={i} readingTime={readingTime(entry.body)} />
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- faq -->
+  <section class="shell scroll-mt-24 py-16" id="faq">
+    <SectionHead
+      kicker="FAQ"
+      title="About my work"
+      subtitle="Common questions about collaboration and what I do"
+    />
+    <div class="mt-9 max-w-3xl divide-y divide-line border-y border-line">
+      {
+        faqs.map((f) => (
+          <details class="group py-5" data-reveal>
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-4 text-[1.02rem] font-medium transition-colors hover:text-accent-ink">
+              {f.q}
+              <span class="grid h-6 w-6 shrink-0 place-items-center rounded-full border border-line text-faint transition-transform duration-300 group-open:rotate-45">
+                +
+              </span>
+            </summary>
+            <p class="mt-3 text-[0.95rem] leading-relaxed text-dim">
+              {f.link ? (
+                <>
+                  {f.a.split(f.link.text)[0]}
+                  <a class="text-accent-ink underline underline-offset-3" href={f.link.href}>
+                    {f.link.text}
+                  </a>
+                  {f.a.split(f.link.text)[1]}
+                </>
+              ) : (
+                f.a
+              )}
+            </p>
+          </details>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- cta -->
+  <section class="shell scroll-mt-24 py-16" id="cta">
+    <div class="grid gap-10 lg:grid-cols-[1.25fr_0.75fr] lg:items-center">
+      <div class="card relative overflow-hidden p-8 md:p-11" data-reveal>
+        <div class="topo-bg absolute inset-0" aria-hidden="true"></div>
+        <div class="relative">
+          <span
+            class="inline-flex items-center gap-2 rounded-full border border-moss/40 bg-moss/10 px-3 py-1 text-[0.75rem] font-medium text-moss"
+          >
+            <span class="h-1.5 w-1.5 rounded-full bg-moss"></span>
+            Open to data science &amp; GIS roles
+          </span>
+          <h2 class="mt-5 font-display text-[clamp(1.8rem,1.2rem+2.4vw,2.9rem)]">
+            Let's talk about spatial problems <span class="text-accent-ink">worth solving</span>.
+          </h2>
+          <p class="lede mt-4">
+            I'm looking for <strong class="text-ink">data scientist</strong> and{' '}
+            <strong class="text-ink">GIS analyst</strong> roles where rigorous spatial analysis drives
+            real decisions. If that's the kind of work your team is doing, let's talk.
+          </p>
+          <ul class="mt-6 grid gap-2.5 text-sm text-dim">
+            <li class="flex items-center gap-2.5">
+              <Icon name="pin" size={16} class="text-accent-ink" />Orlando, FL · Remote-friendly
+            </li>
+            <li class="flex items-center gap-2.5">
+              <Icon name="cube" size={16} class="text-accent-ink" />Data science, GIS &amp; applied
+              AI
+            </li>
+            <li class="flex items-center gap-2.5">
+              <Icon name="clock" size={16} class="text-accent-ink" />Replies within 24 hours
+            </li>
+          </ul>
+          <div class="mt-8 flex flex-wrap gap-2.5">
+            <a class="btn btn-primary" href={site.resume} target="_blank" rel="noopener">
+              <Icon name="download" size={15} />Download resume
+            </a>
+            <a class="btn btn-ghost" href="/cv/">View full CV</a>
+            <a class="btn btn-ghost" href="/contact/">Get in touch</a>
+          </div>
+          <p class="mt-6 text-sm text-faint">
+            Prefer email? Reach me directly at{' '}
+            <a class="font-medium text-accent-ink" href={`mailto:${site.email}`}>{site.email}</a>
+          </p>
+        </div>
+      </div>
+
+      <div id="map" class="scroll-mt-24" data-reveal style="--reveal-delay:100ms">
+        <Globe />
+      </div>
+    </div>
+  </section>
+</Base>
