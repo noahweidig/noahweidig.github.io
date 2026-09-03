@@ -1,0 +1,74 @@
+---
+import { u } from '../lib/url';
+import { site } from '../lib/site';
+
+export interface Crumb {
+  label: string;
+  href?: string;
+}
+
+interface Props {
+  /**
+   * Ancestors only; the current page's title is passed separately. Hrefs
+   * arrive ready to use — callers already run them through `u()`, so applying
+   * it again here would prefix the base path twice.
+   */
+  trail: Crumb[];
+  current: string;
+  class?: string;
+}
+const { trail, current, class: klass } = Astro.props;
+
+const items = [{ label: 'Home', href: u('/') }, ...trail];
+
+/* Search engines read the trail from JSON-LD rather than the markup, and the
+   absolute URLs have to include the base path — `u()` already adds it. */
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    ...items.map((c, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: c.label,
+      item: new URL(c.href ?? u('/'), site.url).href,
+    })),
+    {
+      '@type': 'ListItem',
+      position: items.length + 1,
+      name: current,
+      item: new URL(Astro.url.pathname, site.url).href,
+    },
+  ],
+};
+---
+
+<nav aria-label="Breadcrumb" class={klass} data-pagefind-ignore>
+  <ol
+    class="flex flex-wrap items-center gap-x-1.5 gap-y-1 font-mono text-[0.72rem] tracking-[0.1em] text-faint uppercase"
+  >
+    {
+      items.map((c) => (
+        <li class="flex items-center gap-1.5">
+          <a href={c.href ?? u('/')} class="transition-colors hover:text-accent-ink">
+            {c.label}
+          </a>
+          <span aria-hidden="true" class="text-line-strong">
+            /
+          </span>
+        </li>
+      ))
+    }
+    <li class="min-w-0">
+      {
+        /* The current page is named but not linked, which is what aria-current
+          marks; truncating keeps a long title from wrapping the whole trail. */
+      }
+      <span aria-current="page" class="block max-w-[22rem] truncate text-dim sm:max-w-[34rem]">
+        {current}
+      </span>
+    </li>
+  </ol>
+</nav>
+
+<script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />

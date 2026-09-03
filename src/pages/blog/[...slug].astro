@@ -7,11 +7,21 @@ import { fullDate, readingTime } from '../../lib/format';
 import Comments from '../../components/Comments.astro';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('blog', ({ data }) => !data.draft);
-  return posts.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+  // Sorted the way the listing is, so "previous" and "next" mean what a reader
+  // saw there rather than an arbitrary collection order.
+  const items = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+    (a, b) => b.data.date.getTime() - a.data.date.getTime(),
+  );
+  const sibling = (entry: (typeof items)[number] | undefined) =>
+    entry ? { href: `/blog/${entry.id}/`, title: entry.data.title } : null;
+
+  return items.map((entry, i) => ({
+    params: { slug: entry.id },
+    props: { entry, prev: sibling(items[i - 1]), next: sibling(items[i + 1]) },
+  }));
 }
 
-const { entry } = Astro.props;
+const { entry, prev, next } = Astro.props;
 const { Content } = await render(entry);
 const d = entry.data;
 const meta = `${fullDate(d.date)} · ${readingTime(entry.body)}`;
@@ -23,6 +33,8 @@ const meta = `${fullDate(d.date)} · ${readingTime(entry.body)}`;
   kicker="Blog"
   meta={meta}
   section="Blog"
+  prev={prev}
+  next={next}
   backHref={u('/blog/')}
   backLabel="All posts"
   chips={d.categories}
