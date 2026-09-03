@@ -492,7 +492,11 @@ function pdfAttachments(items) {
 async function downloadPdf(userID, attachment, dest) {
   const md5 = attachment.data?.md5 || "";
   if (md5 && fs.existsSync(dest)) {
-    const have = crypto.createHash("md5").update(fs.readFileSync(dest)).digest("hex");
+    // MD5 here only matches Zotero's own change-detection checksum (its API
+    // exposes no other digest) to skip an unchanged download — not a
+    // security use. NOSONAR: javascript:S4790 weak-hash warning is a false
+    // positive in this context.
+    const have = crypto.createHash("md5").update(fs.readFileSync(dest)).digest("hex"); // NOSONAR
     if (have === md5) return false;
   }
   const url = `https://api.zotero.org/users/${userID}/publications/items/${attachment.key}/file`;
