@@ -43,6 +43,10 @@ const CARDS: Record<string, { blurb: string; icon: string }> = {
     blurb: "Roles, fieldwork, and the analysis behind each.",
     icon: '<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2 -2h4a2 2 0 0 1 2 2v2"/><path d="M12 12v.01"/><path d="M3 13a20 20 0 0 0 18 0"/>',
   },
+  "/education/": {
+    blurb: "Degrees, coursework, and academic background.",
+    icon: '<path d="M3 21h18"/><path d="M3 10h18"/><path d="M5 6l7 -3l7 3"/><path d="M4 10v11"/><path d="M20 10v11"/><path d="M8 14v3"/><path d="M12 14v3"/><path d="M16 14v3"/>',
+  },
   "/awards/": {
     blurb: "Awards, scholarships, grants, and honors.",
     icon: '<circle cx="12" cy="9" r="6"/><path d="M9 14.2l-1 7.8l4 -2l4 2l-1 -7.8"/>',
@@ -90,6 +94,18 @@ function main(): void {
     console.warn("[404] no navbar destinations found in _quarto.yml; keeping fallback cards");
     return;
   }
+  // Education has its own section (linked from the footer) but isn't a
+  // navbar item, so navDestinations() never sees it. The navbar's odd item
+  // count otherwise leaves a lopsided last row in the auto-fit grid; slot
+  // Education in right after Experience, where the footer group puts it, to
+  // fill it out evenly.
+  const experienceIndex = destinations.findIndex((d) => toUrl(d.href) === "/experience/");
+  const educationDestination: Destination = { text: "Education", href: "education/index.qmd" };
+  destinations.splice(
+    experienceIndex === -1 ? destinations.length : experienceIndex + 1,
+    0,
+    educationDestination,
+  );
   if (!fs.existsSync(page)) {
     console.warn(`[404] rendered page not found: ${page}`);
     return;
