@@ -33,7 +33,7 @@ const alt = entry.data['image-alt'] ?? '';
           alt={alt}
           widths={[400, 800, 1200]}
           sizes="(min-width: 1024px) 380px, (min-width: 640px) 45vw, 92vw"
-          loading={index < 2 ? 'eager' : 'lazy'}
+          loading={index === 0 ? 'eager' : 'lazy'}
           class="h-full w-full object-cover transition-transform duration-700 ease-[cubic-bezier(.22,1,.36,1)] group-hover:scale-[1.04]"
         />
         {readingTime && (

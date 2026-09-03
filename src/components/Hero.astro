@@ -1,5 +1,7 @@
 ---
 import { u } from '../lib/url';
+import { Image } from 'astro:assets';
+import portrait from '../assets/me.webp';
 import Icon from './Icon.astro';
 import { socials } from '../lib/site';
 
@@ -13,7 +15,6 @@ const typed = [
 
 <section class="relative overflow-hidden border-b border-line" id="hero">
   <div class="grid-bg absolute inset-0" aria-hidden="true"></div>
-  <div class="topo-bg absolute inset-0" aria-hidden="true"></div>
   <div
     class="pointer-events-none absolute -top-52 -right-40 h-[46rem] w-[46rem] rounded-full opacity-60 blur-3xl"
     style="background: radial-gradient(closest-side, var(--c-glow), transparent)"
@@ -92,13 +93,13 @@ const typed = [
       >
       </div>
       <div class="relative overflow-hidden rounded-2xl border border-line bg-surface">
-        <img
-          src={u('/media/authors/me.webp')}
+        <Image
+          src={portrait}
           alt="Noah Weidig"
-          width="700"
-          height="700"
+          widths={[400, 700]}
+          sizes="(min-width: 1024px) 420px, min(24rem, 92vw)"
+          loading="eager"
           fetchpriority="high"
-          decoding="async"
           class="aspect-square w-full object-cover"
         />
         <div

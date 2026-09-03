@@ -64,7 +64,7 @@ const shot = KNOWN.has(slug) ? u(`/media/albums/projects/${slug}.webp`) : null;
           alt=""
           width="1600"
           height="1000"
-          loading={index < 3 ? 'eager' : 'lazy'}
+          loading={index === 0 ? 'eager' : 'lazy'}
           decoding="async"
           class="h-full w-full object-cover object-top transition-transform duration-700 ease-[cubic-bezier(.22,1,.36,1)] group-hover:scale-[1.04]"
         />
