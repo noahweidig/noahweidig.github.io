@@ -863,7 +863,10 @@
   }
   .lightbox .icon-tile:hover {
     border-color: rgb(255 255 255 / 0.45);
-    background: rgb(255 255 255 / 0.1);
+    /* An opaque ground rather than a white wash: white-on-white is what the
+       contrast checkers see in a translucent fill, and it is the same colour
+       against the scrim either way. */
+    background: #1b1f27;
     color: #fff;
   }
   .lightbox-caption {
