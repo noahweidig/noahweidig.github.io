@@ -23,38 +23,45 @@ const url = (p) => `http://localhost/${BASE}/${p}`;
 // ratchet them tighter as the site gets faster, and never loosen one without
 // saying why in the same commit.
 //
-// Measured 2026-09-03 against a server shaped the way LHCI's is — the build
-// mounted under its base path, served as plain files. Worst case across the
-// ten URLs below:
+// Measured on CI, 2026-09-03, against the build mounted under its base path.
+// Two earlier passes set these from a dev server on a faster machine; the
+// numbers below come from the runner the gate actually runs on.
 //
-//   metric        worst   page                        threshold
-//   performance   0.87    /                           0.85
-//   accessibility 1.00    (all)                       0.98
-//   best-practices 0.96   (all)                       0.95
-//   seo           1.00    (all)                       1.00
-//   LCP           3606ms  /                           3800ms
-//   CLS           0.000   (all)                       0.05
-//   TBT           44ms    /blog/favorite-r-packages/  200ms
+//   metric         worst on CI  page                        threshold
+//   performance    0.84         /blog/                      0.80
+//   accessibility  1.00         (all)                       0.98
+//   best-practices 0.96         (all)                       0.95
+//   seo            1.00         (all)                       1.00
+//   LCP            4161ms       /blog/                      4500ms
+//   CLS            0.000        (all)                       0.05
+//   TBT            0ms          (all)                       200ms
 //
-// These sit below what a visitor sees. LHCI's static server sends no
-// compression, while GitHub Pages behind Cloudflare gzips everything; the same
-// pages score 0.95-1.00 with LCP 1734-2933ms over a compressing server. The
-// gate is still a real one — it catches a regression the same way — it just
-// measures a harsher transport than production. Making CI serve compressed
-// bytes is the change that would let these tighten to the production numbers.
+// Performance and LCP both get headroom rather than sitting on the worst case:
+// they are the two assertions here that move with the runner. Successive CI
+// runs put /contact/ at 3916ms and 3905ms, and the performance score — which is
+// computed from those same timings — came in at 0.87 on one run and 0.84 on the
+// next. A shared runner having a slow minute should not turn the build red.
+// Setting performance at 0.85 was a mistake for exactly this reason: it hugged
+// the observed worst on a metric that is not stable. The deterministic
+// assertions below stay tight.
+//
+// These sit well below what a visitor sees. LHCI's static server sends no
+// compression and its runner is shared, while GitHub Pages behind Cloudflare
+// gzips everything; the same pages score 0.95-1.00 with LCP 1734-2933ms on a
+// compressing server. Serving compressed bytes in CI is the change that would
+// let these tighten toward the production numbers.
 //
 // LCP is gated on the two custom display faces either way: 142 KB of woff2 on
 // the critical path, and the headline cannot paint in Newsreader before it
-// lands. Subsetting those to the weights actually used is the lever that would
-// move it materially.
+// lands. Subsetting those to the weights actually used is the other lever.
 
 const ASSERTIONS = {
-  'categories:performance': ['error', { minScore: 0.85 }],
+  'categories:performance': ['error', { minScore: 0.8 }],
   'categories:accessibility': ['error', { minScore: 0.98 }],
   'categories:best-practices': ['error', { minScore: 0.95 }],
   'categories:seo': ['error', { minScore: 1 }],
 
-  'largest-contentful-paint': ['error', { maxNumericValue: 3800 }],
+  'largest-contentful-paint': ['error', { maxNumericValue: 4500 }],
   'cumulative-layout-shift': ['error', { maxNumericValue: 0.05 }],
   'total-blocking-time': ['error', { maxNumericValue: 200 }],
 

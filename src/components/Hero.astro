@@ -14,13 +14,23 @@ const typed = [
 ---
 
 <section class="relative overflow-hidden border-b border-line" id="hero">
-  <div class="grid-bg absolute inset-0" aria-hidden="true"></div>
-  <div
-    class="pointer-events-none absolute -top-52 -right-40 h-[46rem] w-[46rem] rounded-full opacity-60 blur-3xl"
-    style="background: radial-gradient(closest-side, var(--c-glow), transparent)"
-    aria-hidden="true"
-  >
+  {
+    /* Three large, heavily blurred fields rather than one glow: the colour has
+      to carry the section, and overlapping blurs are what give the soft
+      mesh-like falloff. Sized in vw so the composition holds at any width. */
+  }
+  <div class="hero-mesh" aria-hidden="true">
+    <span class="hero-blob hero-blob-1"></span>
+    <span class="hero-blob hero-blob-2"></span>
+    <span class="hero-blob hero-blob-3"></span>
   </div>
+  {
+    /* Readability scrim: the mesh at full strength put the copy on a bright
+      field and the body text stopped clearing AA. This pulls the area behind
+      the text back to near the page ground and leaves the bloom around it. */
+  }
+  <div class="hero-scrim" aria-hidden="true"></div>
+  <div class="grid-bg absolute inset-0" aria-hidden="true"></div>
 
   <div
     class="shell relative grid items-center gap-12 py-16 md:py-24 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16 lg:py-28"
@@ -124,6 +134,131 @@ const typed = [
 </section>
 
 <style>
+  .hero-mesh {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    filter: blur(var(--hero-blur));
+    opacity: var(--hero-opacity);
+  }
+
+  /* Positioned by centre and pulled back half its own size, so the bright core
+     of each field lands inside the frame. Anchoring by edge put the cores off
+     canvas and left only the falloff showing. */
+  .hero-scrim {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(
+        118% 78% at 26% 58%,
+        var(--c-bg) 0%,
+        color-mix(in oklab, var(--c-bg) 82%, transparent) 38%,
+        transparent 72%
+      ),
+      linear-gradient(to bottom, transparent 55%, var(--c-bg) 100%);
+  }
+
+  .hero-blob {
+    position: absolute;
+    display: block;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    /* Screen over the near-black ground is what makes these read as light
+       rather than paint — overlapping fields add up instead of occluding. */
+    mix-blend-mode: var(--hero-blend);
+  }
+
+  /* A plateau before the falloff: a bare closest-side gradient peaks at a
+     single point and reads as a spotlight rather than a field of colour. */
+  .hero-blob-1 {
+    top: 26%;
+    left: 14%;
+    width: 92vw;
+    height: 92vw;
+    background: radial-gradient(
+      circle at center,
+      var(--hero-1) 0%,
+      var(--hero-1) 30%,
+      transparent 68%
+    );
+  }
+
+  .hero-blob-2 {
+    top: 16%;
+    left: 88%;
+    width: 86vw;
+    height: 86vw;
+    background: radial-gradient(
+      circle at center,
+      var(--hero-2) 0%,
+      var(--hero-2) 28%,
+      transparent 66%
+    );
+  }
+
+  /* The seam between the two: without it they read as two separate lights
+     rather than one field that changes hue across the section. */
+  .hero-blob-3 {
+    top: 92%;
+    left: 52%;
+    width: 88vw;
+    height: 70vw;
+    background: radial-gradient(
+      circle at center,
+      color-mix(in oklab, var(--hero-1) 55%, var(--hero-2)) 0%,
+      color-mix(in oklab, var(--hero-1) 55%, var(--hero-2)) 26%,
+      transparent 66%
+    );
+  }
+
+  @media (min-width: 1024px) {
+    .hero-blob-1 {
+      width: 62vw;
+      height: 62vw;
+    }
+    .hero-blob-2 {
+      width: 58vw;
+      height: 58vw;
+    }
+    .hero-blob-3 {
+      width: 60vw;
+      height: 46vw;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-blob-1 {
+      animation: drift-a 26s var(--ease-in-out-soft) infinite alternate;
+    }
+    .hero-blob-2 {
+      animation: drift-b 32s var(--ease-in-out-soft) infinite alternate;
+    }
+    .hero-blob-3 {
+      animation: drift-c 38s var(--ease-in-out-soft) infinite alternate;
+    }
+  }
+
+  /* Transform only — animating the blur or the gradient would repaint the
+     whole field every frame. The translate(-50%, -50%) has to be repeated in
+     every keyframe or the blob snaps back to corner anchoring. */
+  @keyframes drift-a {
+    to {
+      transform: translate(-50%, -50%) translate3d(5%, 7%, 0) scale(1.12);
+    }
+  }
+  @keyframes drift-b {
+    to {
+      transform: translate(-50%, -50%) translate3d(-7%, 5%, 0) scale(1.08);
+    }
+  }
+  @keyframes drift-c {
+    to {
+      transform: translate(-50%, -50%) translate3d(4%, -6%, 0) scale(1.14);
+    }
+  }
+
   .caret {
     animation: blink 1.05s steps(1) infinite;
   }
