@@ -29,10 +29,12 @@ const url = (p) => `http://localhost/${BASE}/${p}`;
 //
 //   metric         worst on CI  page                        threshold
 //   performance    0.84         /blog/                      0.80
+//                  0.78         /       (homepage only)      0.75
 //   accessibility  1.00         (all)                       0.98
 //   best-practices 0.96         (all)                       0.95
 //   seo            1.00         (all)                       1.00
 //   LCP            4161ms       /blog/                      4500ms
+//                  5556ms       /       (homepage only)      6000ms
 //   CLS            0.000        (all)                       0.05
 //   TBT            0ms          (all)                       200ms
 //
@@ -54,6 +56,22 @@ const url = (p) => `http://localhost/${BASE}/${p}`;
 // LCP is gated on the two custom display faces either way: 142 KB of woff2 on
 // the critical path, and the headline cannot paint in Newsreader before it
 // lands. Subsetting those to the weights actually used is the other lever.
+//
+// 2026-09-03: the homepage — and only the homepage — got a 6000ms ceiling and a
+// 0.75 floor, because that page's LCP element changed.
+// The hero portrait now sits above the copy on mobile, so it is in the initial
+// viewport and Lighthouse measures it rather than the headline text. Three CI
+// runs put it at 5508ms, 5556ms and 5459ms; the same builds measure 3833ms
+// here, and building main from before the change measured 3834ms — the page did
+// not get slower, the element being timed changed. The breakdown is TTFB 10ms,
+// resource load delay 16ms, load duration 18ms, element render delay 1093ms:
+// the 8 KB image is not the cost, the render-blocking 59 KB stylesheet and the
+// font preloads ahead of it are. Preloading the portrait from the head bought
+// about 50ms. Inlining critical CSS is the change that would earn these back.
+//
+// The other nine URLs keep the tighter numbers: relaxing the shared set would
+// let a real regression on /blog/ or /cv/ through unnoticed, so the homepage
+// carries its own entry in the assertion matrix instead.
 
 const ASSERTIONS = {
   'categories:performance': ['error', { minScore: 0.8 }],
@@ -76,8 +94,27 @@ const ASSERTIONS = {
   'render-blocking-resources': 'warn',
 };
 
+// Everything the rest of the site is held to, with the homepage's two moved
+// metrics swapped out. See the note above for the measurements behind them.
+const HOMEPAGE_ASSERTIONS = {
+  ...ASSERTIONS,
+  'categories:performance': ['error', { minScore: 0.75 }],
+  'largest-contentful-paint': ['error', { maxNumericValue: 6000 }],
+};
+
+/* lhci applies every matrix entry whose pattern matches, so the general entry
+   has to exclude the homepage rather than merely come second. `pattern` is the
+   homepage as that config addresses it — a built file path under the base path
+   in CI, a bare origin in production. */
+const assertMatrix = (pattern) => [
+  { matchingUrlPattern: pattern, assertions: HOMEPAGE_ASSERTIONS },
+  { matchingUrlPattern: `^(?!${pattern.replace(/^\^/, '')})`, assertions: ASSERTIONS },
+];
+
 module.exports = {
   ASSERTIONS,
+  HOMEPAGE_ASSERTIONS,
+  assertMatrix,
   ci: {
     collect: {
       staticDistDir: ROOT,
@@ -97,6 +134,6 @@ module.exports = {
       ],
     },
     upload: { target: 'temporary-public-storage' },
-    assert: { assertions: ASSERTIONS },
+    assert: { assertMatrix: assertMatrix(`^https?://[^/]+/${BASE}/index\\.html$`) },
   },
 };
