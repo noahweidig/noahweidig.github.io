@@ -23,29 +23,38 @@ const url = (p) => `http://localhost/${BASE}/${p}`;
 // ratchet them tighter as the site gets faster, and never loosen one without
 // saying why in the same commit.
 //
-// Measured 2026-09-03, worst case across the URL list below:
+// Measured 2026-09-03 against a server shaped the way LHCI's is — the build
+// mounted under its base path, served as plain files. Worst case across the
+// ten URLs below:
 //
-//   metric        worst   page                 threshold
-//   performance   0.94    /                    0.90
-//   accessibility 1.00    (all)                0.98
-//   best-practices 0.96   (all)                0.95
-//   seo           1.00    (all)                1.00
-//   LCP           3006ms  /                    3200ms
-//   CLS           0.000   (all)                0.05
-//   TBT           0ms     (all)                200ms
+//   metric        worst   page                        threshold
+//   performance   0.87    /                           0.85
+//   accessibility 1.00    (all)                       0.98
+//   best-practices 0.96   (all)                       0.95
+//   seo           1.00    (all)                       1.00
+//   LCP           3606ms  /                           3800ms
+//   CLS           0.000   (all)                       0.05
+//   TBT           44ms    /blog/favorite-r-packages/  200ms
 //
-// LCP is gated on the two custom display faces: 142 KB of woff2 sits on the
-// critical path, and the headline cannot paint in Newsreader before it lands.
-// Subsetting those to the weights actually used is the lever that would move
-// this materially; until then 3200ms is where the site honestly is.
+// These sit below what a visitor sees. LHCI's static server sends no
+// compression, while GitHub Pages behind Cloudflare gzips everything; the same
+// pages score 0.95-1.00 with LCP 1734-2933ms over a compressing server. The
+// gate is still a real one — it catches a regression the same way — it just
+// measures a harsher transport than production. Making CI serve compressed
+// bytes is the change that would let these tighten to the production numbers.
+//
+// LCP is gated on the two custom display faces either way: 142 KB of woff2 on
+// the critical path, and the headline cannot paint in Newsreader before it
+// lands. Subsetting those to the weights actually used is the lever that would
+// move it materially.
 
 const ASSERTIONS = {
-  'categories:performance': ['error', { minScore: 0.9 }],
+  'categories:performance': ['error', { minScore: 0.85 }],
   'categories:accessibility': ['error', { minScore: 0.98 }],
   'categories:best-practices': ['error', { minScore: 0.95 }],
   'categories:seo': ['error', { minScore: 1 }],
 
-  'largest-contentful-paint': ['error', { maxNumericValue: 3200 }],
+  'largest-contentful-paint': ['error', { maxNumericValue: 3800 }],
   'cumulative-layout-shift': ['error', { maxNumericValue: 0.05 }],
   'total-blocking-time': ['error', { maxNumericValue: 200 }],
 
