@@ -70,7 +70,7 @@ export const footerColumns = [
     links: [
       { text: 'Publications', href: '/publications/', icon: 'file' },
       { text: 'Blog', href: '/blog/', icon: 'pencil' },
-      { text: 'CV', href: '/cv/', icon: 'file-cv' },
+      { text: 'CV', href: '/cv/', icon: 'file' },
       { text: 'FAQ', href: '/#faq', icon: 'help' },
     ],
   },
