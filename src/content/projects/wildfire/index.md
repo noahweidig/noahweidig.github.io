@@ -13,7 +13,7 @@ links:
     external: true
 ---
 
-![The Wildfire Risk report on RPubs](/media/albums/projects/wildfire.webp)
+<img src="../../media/albums/projects/wildfire.webp" alt="The Wildfire Risk report on RPubs" width="1600" height="1000" loading="lazy" decoding="async">
 
 This is an interactive report on wildfire risk in the United States, and one of the first pieces of research writing I published. It walks through why risk keeps climbing — the wildland-urban interface is growing, and with it the fatalities, the building losses, and the cost of fighting fires — and then turns to what can actually be done about it.
 

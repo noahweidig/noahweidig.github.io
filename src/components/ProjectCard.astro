@@ -1,4 +1,5 @@
 ---
+import { u } from '../lib/url';
 import type { CollectionEntry } from 'astro:content';
 import Icon from './Icon.astro';
 
@@ -42,8 +43,8 @@ const KNOWN = new Set([
   'wordcloud',
   'wuirisk',
 ]);
-const icon = `/media/icons/projects/${KNOWN.has(slug) ? slug : 'default'}.svg`;
-const shot = KNOWN.has(slug) ? `/media/albums/projects/${slug}.webp` : null;
+const icon = u(`/media/icons/projects/${KNOWN.has(slug) ? slug : 'default'}.svg`);
+const shot = KNOWN.has(slug) ? u(`/media/albums/projects/${slug}.webp`) : null;
 ---
 
 <article
@@ -52,7 +53,8 @@ const shot = KNOWN.has(slug) ? `/media/albums/projects/${slug}.webp` : null;
   data-reveal
   style={`--reveal-delay:${Math.min(index, 5) * 60}ms; --tile: var(--c-${hue});`}
 >
-  <a href={`/projects/${slug}/`} class="absolute inset-0 z-10" tabindex="-1" aria-hidden="true"></a>
+  <a href={u(`/projects/${slug}/`)} class="absolute inset-0 z-10" tabindex="-1" aria-hidden="true"
+  ></a>
 
   <div class="relative aspect-16/10 overflow-hidden border-b border-line bg-raised">
     {
@@ -95,7 +97,7 @@ const shot = KNOWN.has(slug) ? `/media/albums/projects/${slug}.webp` : null;
   <div class="flex flex-1 flex-col p-5">
     <h3 class="text-xl leading-snug">
       <a
-        href={`/projects/${slug}/`}
+        href={u(`/projects/${slug}/`)}
         class="relative z-20 transition-colors group-hover:text-accent-ink"
       >
         {title}

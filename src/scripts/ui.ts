@@ -5,6 +5,10 @@
  * survives client-side navigations.
  */
 
+/** The site's base path, read off the document rather than import.meta.env so
+    this module stays a plain script. */
+const basePath = () => (document.documentElement.dataset.base ?? '').replace(/\/+$/, '');
+
 type Cleanup = () => void;
 let cleanups: Cleanup[] = [];
 
@@ -207,7 +211,7 @@ async function loadPagefind(): Promise<Pagefind | null> {
   try {
     // Indirect so neither TS nor Vite tries to resolve a bundle that only
     // exists after `pagefind --site dist` runs.
-    const url = '/pagefind/pagefind.js';
+    const url = `${basePath()}/pagefind/pagefind.js`;
     pagefind = (await import(/* @vite-ignore */ url)) as unknown as Pagefind;
     return pagefind;
   } catch {
@@ -279,7 +283,7 @@ function initSearch() {
       data
         .map(
           (d) => `
-        <a href="${d.url}" class="block rounded-md px-3 py-3 transition-colors hover:bg-raised">
+        <a href="${basePath()}${d.url}" class="block rounded-md px-3 py-3 transition-colors hover:bg-raised">
           <span class="block text-[0.95rem] font-medium text-ink">${escapeHtml(d.meta.title ?? d.url)}</span>
           <span class="mt-1 block text-[0.82rem] leading-relaxed text-dim">${d.excerpt}</span>
         </a>`,

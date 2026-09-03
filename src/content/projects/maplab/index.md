@@ -12,7 +12,7 @@ links:
     external: true
 ---
 
-![MapLab displaying spatial data over an OpenStreetMap basemap](/media/albums/projects/maplab.webp)
+<img src="../../media/albums/projects/maplab.webp" alt="MapLab displaying spatial data over an OpenStreetMap basemap" width="1600" height="1000" loading="lazy" decoding="async">
 
 MapLab is GIS in a browser tab, meant for people who need to look at spatial data without opening ArcGIS or QGIS. You import a file, see it on the map, draw or measure, and export the result. There's no install and no account, and nothing gets uploaded — the whole thing runs on your own machine.
 

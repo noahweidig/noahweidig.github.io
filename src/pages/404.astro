@@ -1,4 +1,5 @@
 ---
+import { u } from '../lib/url';
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
 import { nav } from '../lib/site';
@@ -32,13 +33,13 @@ const destinations = nav.filter((n) => ['Projects', 'Publications', 'Blog'].incl
         <button type="button" class="btn btn-primary" data-search-open>
           <Icon name="search" size={15} />Search the site
         </button>
-        <a class="btn btn-ghost" href="/">Go home</a>
+        <a class="btn btn-ghost" href={u('/')}>Go home</a>
       </div>
 
       <div class="mt-14 grid gap-5 text-left md:grid-cols-3">
         {
           destinations.map((d) => (
-            <a href={d.href} class="card card-hover group p-6">
+            <a href={u(d.href)} class="card card-hover group p-6">
               <h2 class="text-xl">{d.text}</h2>
               <p class="mt-2 text-sm text-dim">{blurbs[d.text]}</p>
               <span class="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-accent-ink">

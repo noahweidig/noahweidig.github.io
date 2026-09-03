@@ -1,4 +1,5 @@
 ---
+import { u } from '../lib/url';
 const orgs = [
   ['University of Florida', 'https://www.ufl.edu/', '/media/icons/custom/uf.svg'],
   [
@@ -34,7 +35,7 @@ const orgs = [
         orgs.map(([name, href, src]) => (
           <a href={href} target="_blank" rel="noopener" title={name} class="shrink-0">
             <img
-              src={src}
+              src={u(src!)}
               alt={name}
               width="140"
               height="48"

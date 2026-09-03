@@ -1,4 +1,5 @@
 ---
+import { u } from '../lib/url';
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import Hero from '../components/Hero.astro';
@@ -142,7 +143,7 @@ const faqs = [
     <SectionHead
       kicker="Selected work"
       title="Tools, maps & applications"
-      href="/projects/"
+      href={u('/projects/')}
       linkText="Browse all projects"
     />
     <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -155,7 +156,7 @@ const faqs = [
     <SectionHead
       kicker="Publications"
       title="Peer-reviewed & in review"
-      href="/publications/"
+      href={u('/publications/')}
       linkText="All publications"
     />
     <div class="mt-8">
@@ -184,14 +185,14 @@ const faqs = [
               .map((entry, i) => <TimelineItem entry={entry} base="experience" current={i === 0} />)
           }
         </div>
-        <a class="btn btn-ghost btn-sm mt-6" href="/experience/">See all experience →</a>
+        <a class="btn btn-ghost btn-sm mt-6" href={u('/experience/')}>See all experience →</a>
       </div>
       <div id="education" class="scroll-mt-24">
         <h3 class="font-mono text-[0.7rem] tracking-[0.18em] text-faint uppercase">Education</h3>
         <div class="mt-5 ml-1">
           {education.slice(0, 2).map((entry) => <TimelineItem entry={entry} base="education" />)}
         </div>
-        <a class="btn btn-ghost btn-sm mt-6" href="/education/">See all education →</a>
+        <a class="btn btn-ghost btn-sm mt-6" href={u('/education/')}>See all education →</a>
       </div>
     </div>
   </section>
@@ -202,7 +203,7 @@ const faqs = [
       <SectionHead
         kicker="Recognition"
         title="Featured awards"
-        href="/awards/"
+        href={u('/awards/')}
         linkText="All awards"
       />
     </div>
@@ -213,7 +214,7 @@ const faqs = [
       {
         featuredAwards.map((entry) => (
           <a
-            href={`/awards/${entry.id}/`}
+            href={u(`/awards/${entry.id}/`)}
             class="card card-hover group w-[19rem] shrink-0 snap-start overflow-hidden"
           >
             <div class="relative aspect-4/3 overflow-hidden border-b border-line bg-raised">
@@ -246,7 +247,7 @@ const faqs = [
     <SectionHead
       kicker="Writing"
       title="Notes & tutorials"
-      href="/blog/"
+      href={u('/blog/')}
       linkText="Read more posts"
     />
     <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -279,7 +280,7 @@ const faqs = [
               {f.link ? (
                 <>
                   {f.a.split(f.link.text)[0]}
-                  <a class="text-accent-ink underline underline-offset-3" href={f.link.href}>
+                  <a class="text-accent-ink underline underline-offset-3" href={u(f.link.href)}>
                     {f.link.text}
                   </a>
                   {f.a.split(f.link.text)[1]}
@@ -327,11 +328,11 @@ const faqs = [
             </li>
           </ul>
           <div class="mt-8 flex flex-wrap gap-2.5">
-            <a class="btn btn-primary" href={site.resume} target="_blank" rel="noopener">
+            <a class="btn btn-primary" href={u(site.resume)} target="_blank" rel="noopener">
               <Icon name="download" size={15} />Download resume
             </a>
-            <a class="btn btn-ghost" href="/cv/">View full CV</a>
-            <a class="btn btn-ghost" href="/contact/">Get in touch</a>
+            <a class="btn btn-ghost" href={u('/cv/')}>View full CV</a>
+            <a class="btn btn-ghost" href={u('/contact/')}>Get in touch</a>
           </div>
           <p class="mt-6 text-sm text-faint">
             Prefer email? Reach me directly at{' '}

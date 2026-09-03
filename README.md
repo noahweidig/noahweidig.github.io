@@ -87,6 +87,24 @@ Content lives in a directory per entry (`src/content/blog/focus/index.md`), so a
 
 [`/styleguide`](https://noahweidig.com/styleguide) renders every token, the type scale, and each component live, in whichever theme you are reading in.
 
+### URLs and the base path
+
+The site is published under a path, not at the apex: **https://noahweidig.com/new-website**. That lives in one place, `base` in `astro.config.mjs`. Astro prefixes the routes and assets it generates itself; a URL written by hand needs `u()` from `src/lib/url.ts`, which reads the same value back out of `import.meta.env.BASE_URL`:
+
+```astro
+---
+import { u } from '../lib/url';
+---
+
+<a href={u('/projects/')}>Projects</a>
+```
+
+Three places can't call it, and each has its own answer. URLs inside a content file are written **relative** to the page (`../../media/…`), so they resolve under any base. The topography texture is a CSS background, and a stylesheet can't read the base, so `src/layouts/Base.astro` stamps `--topo-url`. Client-side code reads the base off `document.documentElement.dataset.base`, which the same layout sets — that's how the Pagefind bundle and its result URLs get prefixed.
+
+Section routes keep their paths. Four pages Quarto rendered as `<name>.html` are directory routes now — `/contact/`, `/cv/`, `/privacy/`, `/styleguide/` — with a redirect stub committed at each old path under `public/`. The feed is served at both `/rss.xml` and its old address, `/blog/index.xml`; a meta-refresh stub is no use to a feed reader, so `src/pages/blog/index.xml.ts` re-exports the same route.
+
+There is no `CNAME` in `public/`. A `CNAME` claims a domain's **root** for the repo that carries it, which is the opposite of serving this repo under `/new-website`; the apex belongs to the user-site repo, and this one is published as a project site beneath it.
+
 ### Search
 
 [Pagefind](https://pagefind.app) indexes the built site as a post-build step and the dialog (⌘K, or `/`) loads it on first use. The index only covers `<main>`; the header, footer and search dialog itself are marked `data-pagefind-ignore`.

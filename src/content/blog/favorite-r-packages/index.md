@@ -44,7 +44,7 @@ penguins |>
 `library(tidyverse)` attaches ggplot2, dplyr, tidyr, readr, purrr, tibble,
 stringr, forcats, and lubridate.
 
-### ggplot2 <img src="/media/blog/favorite-r-packages/logos/ggplot2.webp" alt="ggplot2 hex logo" class="pkg-logo" width="87" height="100" loading="lazy">
+### ggplot2 <img src="../../media/blog/favorite-r-packages/logos/ggplot2.webp" alt="ggplot2 hex logo" class="pkg-logo" width="87" height="100" loading="lazy">
 
 Implements the _grammar of graphics_: data mapped to visual properties
 (aesthetics), drawn with geometric objects (geoms) in layers. [More below](#ggplot2-in-depth).
@@ -55,7 +55,7 @@ ggplot(penguins, aes(flipper_length_mm, body_mass_g, colour = species)) +
   labs(title = "Flipper length predicts body mass", colour = "Species")
 ```
 
-### dplyr <img src="/media/blog/favorite-r-packages/logos/dplyr.webp" alt="dplyr hex logo" class="pkg-logo" width="87" height="100" loading="lazy">
+### dplyr <img src="../../media/blog/favorite-r-packages/logos/dplyr.webp" alt="dplyr hex logo" class="pkg-logo" width="87" height="100" loading="lazy">
 
 The grammar of data manipulation: `filter()` rows, `select()` columns,
 `mutate()` new columns, `arrange()` order, `summarise()` groups, `.by` for
@@ -73,7 +73,7 @@ Favorites: `count()`, `slice_max()`/`slice_min()`, `case_when()`, joins
 (`left_join()` etc.), and `across()` for applying one transform to many
 columns at once.
 
-### tidyr <img src="/media/blog/favorite-r-packages/logos/tidyr.webp" alt="tidyr hex logo" class="pkg-logo" width="87" height="100" loading="lazy">
+### tidyr <img src="../../media/blog/favorite-r-packages/logos/tidyr.webp" alt="tidyr hex logo" class="pkg-logo" width="87" height="100" loading="lazy">
 
 Reshapes data between wide and long with `pivot_longer()` /
 `pivot_wider()` — the most common data-cleaning task there is. Also handy:
@@ -85,34 +85,34 @@ penguins |>
   pivot_longer(cols = ends_with("_mm"), names_to = "measurement", values_to = "value")
 ```
 
-### readr <img src="/media/blog/favorite-r-packages/logos/readr.webp" alt="readr hex logo" class="pkg-logo" width="87" height="100" loading="lazy">
+### readr <img src="../../media/blog/favorite-r-packages/logos/readr.webp" alt="readr hex logo" class="pkg-logo" width="87" height="100" loading="lazy">
 
 Imports CSVs/TSVs faster and more predictably than base R, returning a
 tibble and never silently converting strings to factors. [More below](#readr-in-depth).
 
-### purrr <img src="/media/blog/favorite-r-packages/logos/purrr.webp" alt="purrr hex logo" class="pkg-logo" width="87" height="100" loading="lazy">
+### purrr <img src="../../media/blog/favorite-r-packages/logos/purrr.webp" alt="purrr hex logo" class="pkg-logo" width="87" height="100" loading="lazy">
 
 Functional iteration: `map_dbl(x, f)` applies `f` to each element and
 _guarantees_ a double vector back, erroring loudly otherwise. [More below](#purrr-in-depth).
 
-### tibble <img src="/media/blog/favorite-r-packages/logos/tibble.webp" alt="tibble hex logo" class="pkg-logo" width="87" height="100" loading="lazy">
+### tibble <img src="../../media/blog/favorite-r-packages/logos/tibble.webp" alt="tibble hex logo" class="pkg-logo" width="87" height="100" loading="lazy">
 
 A stricter, friendlier `data.frame`: no silent type coercion, no partial
 name matching, clean columnar printing, and support for list-columns for
 "nest, map a model, unnest" workflows.
 
-### stringr <img src="/media/blog/favorite-r-packages/logos/stringr.webp" alt="stringr hex logo" class="pkg-logo" width="87" height="100" loading="lazy">
+### stringr <img src="../../media/blog/favorite-r-packages/logos/stringr.webp" alt="stringr hex logo" class="pkg-logo" width="87" height="100" loading="lazy">
 
 Every function starts with `str_`, string first, pattern second. Most
 used: `str_detect()`, `str_replace_all()`, `str_extract()`, `str_c()`.
 
-### forcats <img src="/media/blog/favorite-r-packages/logos/forcats.webp" alt="forcats hex logo" class="pkg-logo" width="87" height="100" loading="lazy">
+### forcats <img src="../../media/blog/favorite-r-packages/logos/forcats.webp" alt="forcats hex logo" class="pkg-logo" width="87" height="100" loading="lazy">
 
 Makes factor level order manageable — which controls bar/legend/facet
 order everywhere. `fct_reorder()` sorts a bar chart by value instead of
 alphabetically; also `fct_infreq()`, `fct_lump_n()`, `fct_recode()`.
 
-### lubridate <img src="/media/blog/favorite-r-packages/logos/lubridate.webp" alt="lubridate hex logo" class="pkg-logo" width="87" height="100" loading="lazy">
+### lubridate <img src="../../media/blog/favorite-r-packages/logos/lubridate.webp" alt="lubridate hex logo" class="pkg-logo" width="87" height="100" loading="lazy">
 
 Makes dates tractable — parsing, arithmetic, time zones. [More below](#lubridate-in-depth).
 
@@ -122,7 +122,7 @@ ymd("2026-07-20") + months(3)
 
 ## ggplot2 in depth {#ggplot2-in-depth}
 
-<img src="/media/blog/favorite-r-packages/logos/ggplot2.webp" alt="ggplot2 hex logo" class="pkg-logo" width="87" height="100" loading="lazy">
+<img src="../../media/blog/favorite-r-packages/logos/ggplot2.webp" alt="ggplot2 hex logo" class="pkg-logo" width="87" height="100" loading="lazy">
 
 Every ggplot is built from: data, aesthetic mappings (`aes()`), geoms,
 scales, facets, and a coordinate system/theme. You assemble these with
@@ -158,7 +158,7 @@ web/slides, dimensions set in the save call.
 
 ## readr in depth {#readr-in-depth}
 
-<img src="/media/blog/favorite-r-packages/logos/readr.webp" alt="readr hex logo" class="pkg-logo" width="87" height="100" loading="lazy">
+<img src="../../media/blog/favorite-r-packages/logos/readr.webp" alt="readr hex logo" class="pkg-logo" width="87" height="100" loading="lazy">
 
 ```r
 read_csv("id,species,mass_g\n1,Adelie,3750\n2,Gentoo,5400")
@@ -181,7 +181,7 @@ sentinel values mean missing.
 
 ## purrr in depth {#purrr-in-depth}
 
-<img src="/media/blog/favorite-r-packages/logos/purrr.webp" alt="purrr hex logo" class="pkg-logo" width="87" height="100" loading="lazy">
+<img src="../../media/blog/favorite-r-packages/logos/purrr.webp" alt="purrr hex logo" class="pkg-logo" width="87" height="100" loading="lazy">
 
 ```r
 nums <- list(a = 1:5, b = 6:10, c = 11:15)
@@ -197,7 +197,7 @@ more inputs.
 
 ## lubridate in depth {#lubridate-in-depth}
 
-<img src="/media/blog/favorite-r-packages/logos/lubridate.webp" alt="lubridate hex logo" class="pkg-logo" width="87" height="100" loading="lazy">
+<img src="../../media/blog/favorite-r-packages/logos/lubridate.webp" alt="lubridate hex logo" class="pkg-logo" width="87" height="100" loading="lazy">
 
 Parsing functions are named after the order of date parts — `ymd`,
 `mdy`, `dmy` — so you never write a format string. `floor_date()` /
@@ -221,7 +221,7 @@ start + ddays(30)   # exactly 30 * 86400 seconds later
 The tidyverse gets the headlines, but reproducibility rests on a quieter
 set of tools.
 
-### fs <img src="/media/blog/favorite-r-packages/logos/fs.webp" alt="fs hex logo" class="pkg-logo" width="87" height="100" loading="lazy">
+### fs <img src="../../media/blog/favorite-r-packages/logos/fs.webp" alt="fs hex logo" class="pkg-logo" width="87" height="100" loading="lazy">
 
 A consistent, cross-platform file-system API. Functions start with
 `file_`, `dir_`, or `path_`, return tidy character vectors, and behave
@@ -239,7 +239,7 @@ directory. `here::here()` builds paths relative to the project root (the
 folder with `.Rproj`/`.git`), unlike a hard-coded `setwd()` that only
 works on one machine.
 
-### glue <img src="/media/blog/favorite-r-packages/logos/glue.webp" alt="glue hex logo" class="pkg-logo" width="87" height="100" loading="lazy"> {#glue}
+### glue <img src="../../media/blog/favorite-r-packages/logos/glue.webp" alt="glue hex logo" class="pkg-logo" width="87" height="100" loading="lazy"> {#glue}
 
 String interpolation done right — write the string once, drop
 `{expressions}` inline, vectorized.
@@ -268,7 +268,7 @@ drop-in-fast alternatives to readr for big files; `open_dataset()` lets
 dplyr verbs run lazily over a folder of files, pushing the computation
 down to Arrow.
 
-### renv <img src="/media/blog/favorite-r-packages/logos/renv.svg" alt="renv hex logo" class="pkg-logo" width="100" height="100" loading="lazy">
+### renv <img src="../../media/blog/favorite-r-packages/logos/renv.svg" alt="renv hex logo" class="pkg-logo" width="100" height="100" loading="lazy">
 
 Gives each project an isolated package library and a lockfile
 (`renv.lock`) recording exact versions — like a Python virtual environment

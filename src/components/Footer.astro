@@ -1,4 +1,5 @@
 ---
+import { u } from '../lib/url';
 import { footerColumns, socials, site } from '../lib/site';
 import Icon from './Icon.astro';
 const year = new Date().getFullYear();
@@ -13,8 +14,8 @@ const year = new Date().getFullYear();
   <div class="shell relative py-16">
     <div class="grid gap-12 lg:grid-cols-[1.4fr_repeat(4,1fr)]">
       <div>
-        <a href="/" class="flex items-center gap-2.5">
-          <img src="/media/logo.svg" alt="" width="920" height="1079" class="h-8 w-auto" />
+        <a href={u('/')} class="flex items-center gap-2.5">
+          <img src={u('/media/logo.svg')} alt="" width="920" height="1079" class="h-8 w-auto" />
           <span class="font-display text-xl">Noah Weidig</span>
         </a>
         <p class="mt-3 text-sm text-dim">{site.role}</p>
@@ -33,7 +34,7 @@ const year = new Date().getFullYear();
             ))
           }
           <a
-            href="/rss.xml"
+            href={u('/rss.xml')}
             aria-label="RSS Feed"
             class="grid h-9 w-9 place-items-center rounded-full border border-line text-dim transition-all duration-200 hover:-translate-y-0.5 hover:border-accent hover:text-accent-ink"
           >
@@ -52,7 +53,7 @@ const year = new Date().getFullYear();
               {col.links.map((l) => (
                 <li>
                   <a
-                    href={l.href}
+                    href={u(l.href)}
                     class="group inline-flex items-center gap-2 text-sm text-dim transition-colors hover:text-ink"
                   >
                     <Icon
@@ -74,8 +75,8 @@ const year = new Date().getFullYear();
       class="mt-14 flex flex-col gap-3 border-t border-line pt-6 text-xs text-faint sm:flex-row sm:items-center sm:justify-between"
     >
       <p>
-        © {year} Noah Weidig · <a class="hover:text-ink" href="/privacy/">Privacy</a> ·
-        <a class="hover:text-ink" href="/styleguide/">Styleguide</a>
+        © {year} Noah Weidig · <a class="hover:text-ink" href={u('/privacy/')}>Privacy</a> ·
+        <a class="hover:text-ink" href={u('/styleguide/')}>Styleguide</a>
       </p>
       <p>
         Built with <a

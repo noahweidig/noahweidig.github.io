@@ -1,4 +1,5 @@
 ---
+import { u } from '../lib/url';
 import type { CollectionEntry } from 'astro:content';
 import Icon from './Icon.astro';
 import { firstSentence, inlineMarkup, slugify, year } from '../lib/format';
@@ -54,7 +55,7 @@ const cites = d['pub-citations'] ?? 0;
 
   <div class="min-w-0">
     <h3 class="text-[1.15rem] leading-snug">
-      <a href={`/publications/${entry.id}/`} class="transition-colors hover:text-accent-ink">
+      <a href={u(`/publications/${entry.id}/`)} class="transition-colors hover:text-accent-ink">
         {d.title}
       </a>
     </h3>
@@ -139,7 +140,7 @@ const cites = d['pub-citations'] ?? 0;
       {
         d['pub-pdf'] && (
           <a
-            href={d['pub-pdf']}
+            href={u(d['pub-pdf'])}
             target="_blank"
             rel="noopener"
             class="font-medium text-accent-ink underline-offset-3 hover:underline"

@@ -12,7 +12,7 @@ links:
     external: true
 ---
 
-![The Image Studio editing interface](/media/albums/projects/imagestudio.webp)
+<img src="../../media/albums/projects/imagestudio.webp" alt="The Image Studio editing interface" width="1600" height="1000" loading="lazy" decoding="async">
 
 Image Studio is a small Shiny app for the image edits I make most often but never want to open Photoshop for: recoloring, resizing, cropping, and basic transforms. Everything happens through sliders and buttons, and you download the result when it looks right.
 

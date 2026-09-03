@@ -12,7 +12,7 @@ links:
     external: true
 ---
 
-![The FastStats browser-based data explorer](/media/albums/projects/faststats.webp)
+<img src="../../media/albums/projects/faststats.webp" alt="The FastStats browser-based data explorer" width="1600" height="1000" loading="lazy" decoding="async">
 
 FastStats is a data explorer that runs entirely in your browser. Drop in a CSV or Excel file — or paste a table, or point it at a URL — and it profiles the data, surfaces patterns, and lets you plot and summarize it without anything leaving your computer.
 

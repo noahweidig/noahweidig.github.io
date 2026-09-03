@@ -1,4 +1,5 @@
 ---
+import { u } from '../lib/url';
 const tech = [
   ['R', '/media/icons/devicon/r-original.svg'],
   ['Python', '/media/icons/devicon/python-original.svg'],
@@ -37,7 +38,7 @@ const invert = new Set(['Markdown', 'LaTeX', 'GitHub', 'pandas']);
       tech.map(([label, src]) => (
         <span class="flex shrink-0 items-center gap-2.5 text-sm text-dim">
           <img
-            src={src}
+            src={u(src!)}
             alt=""
             width="32"
             height="32"

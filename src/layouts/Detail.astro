@@ -1,4 +1,5 @@
 ---
+import { u } from '../lib/url';
 import Base from './Base.astro';
 import Icon from '../components/Icon.astro';
 import ShareRow from '../components/ShareRow.astro';
@@ -42,13 +43,19 @@ const {
     <header class="relative overflow-hidden border-b border-line bg-bg-deep">
       <div class="grid-bg absolute inset-0" aria-hidden="true"></div>
       <div class="shell relative py-12 md:py-16">
-        <a
-          href={backHref}
-          class="group inline-flex items-center gap-1.5 font-mono text-[0.72rem] tracking-[0.12em] text-faint uppercase transition-colors hover:text-accent-ink"
-        >
-          <span class="transition-transform duration-300 group-hover:-translate-x-1">←</span>
-          {backLabel}
-        </a>
+        {
+          /* Block wrapper: .kicker below is inline-flex, so without one it
+            would flow onto this line instead of starting its own. */
+        }
+        <div>
+          <a
+            href={backHref}
+            class="group inline-flex items-center gap-1.5 font-mono text-[0.72rem] tracking-[0.12em] text-faint uppercase transition-colors hover:text-accent-ink"
+          >
+            <span class="transition-transform duration-300 group-hover:-translate-x-1">←</span>
+            {backLabel}
+          </a>
+        </div>
 
         {kicker && <p class="kicker mt-6">{kicker}</p>}
         <h1
@@ -74,7 +81,7 @@ const {
               {links.map((l) => (
                 <a
                   class:list={['btn', l.variant === 'primary' ? 'btn-primary' : 'btn-ghost']}
-                  href={l.href}
+                  href={u(l.href)}
                   target={l.external ? '_blank' : undefined}
                   rel={l.external ? 'noopener' : undefined}
                 >

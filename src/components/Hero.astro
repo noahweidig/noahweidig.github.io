@@ -1,4 +1,5 @@
 ---
+import { u } from '../lib/url';
 import Icon from './Icon.astro';
 import { socials } from '../lib/site';
 
@@ -56,7 +57,7 @@ const typed = [
           View my work
           <Icon name="arrow" size={15} />
         </a>
-        <a class="btn btn-ghost" href="/contact/">
+        <a class="btn btn-ghost" href={u('/contact/')}>
           Get in touch
           <Icon name="mail" size={15} />
         </a>
@@ -92,7 +93,7 @@ const typed = [
       </div>
       <div class="relative overflow-hidden rounded-2xl border border-line bg-surface">
         <img
-          src="/media/authors/me.webp"
+          src={u('/media/authors/me.webp')}
           alt="Noah Weidig"
           width="700"
           height="700"

@@ -1,4 +1,5 @@
 ---
+import { u } from '../lib/url';
 import { nav, site } from '../lib/site';
 import Icon from './Icon.astro';
 import Search from './Search.astro';
@@ -15,9 +16,13 @@ const isActive = (href: string) =>
   id="site-header"
 >
   <div class="shell flex h-16 items-center gap-4 md:h-18">
-    <a href="/" class="group flex items-center gap-2.5 shrink-0" aria-label="Noah Weidig — home">
+    <a
+      href={u('/')}
+      class="group flex items-center gap-2.5 shrink-0"
+      aria-label="Noah Weidig — home"
+    >
       <img
-        src="/media/logo.svg"
+        src={u('/media/logo.svg')}
         alt=""
         width="920"
         height="1079"
@@ -32,7 +37,7 @@ const isActive = (href: string) =>
           nav.map((item) => (
             <li>
               <a
-                href={item.href}
+                href={u(item.href)}
                 aria-current={isActive(item.href) ? 'page' : undefined}
                 class:list={[
                   'relative rounded-full px-3.5 py-2 text-sm transition-colors duration-200',
@@ -101,7 +106,7 @@ const isActive = (href: string) =>
           nav.map((item) => (
             <li>
               <a
-                href={item.href}
+                href={u(item.href)}
                 class="flex items-center justify-between rounded-md px-3 py-2.5 text-[0.95rem] text-dim transition-colors hover:bg-raised hover:text-ink"
                 aria-current={isActive(item.href) ? 'page' : undefined}
               >

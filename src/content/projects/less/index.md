@@ -12,7 +12,7 @@ links:
     external: true
 ---
 
-![The Less. minimalism page](/media/albums/projects/less.webp)
+<img src="../../media/albums/projects/less.webp" alt="The Less. minimalism page" width="1600" height="1000" loading="lazy" decoding="async">
 
 Less. is a personal essay rather than a tool, a place where I wrote down what paring things back has done for how I live and work. It's about intentional living: keeping fewer, better things and making more room for what actually matters.
 
