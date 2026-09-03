@@ -346,7 +346,3 @@ they compose: readr hands a tibble to dplyr, which hands it to ggplot2,
 while here and renv keep paths and versions honest. Start with the
 tidyverse core, add here and renv on day one, and pull in easystats,
 ggdist, and patchwork as your projects demand them.
-
-```r
-sessionInfo()
-```

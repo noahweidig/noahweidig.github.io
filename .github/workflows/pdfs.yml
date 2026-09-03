@@ -1,0 +1,66 @@
+name: Generate CV & résumé PDFs
+
+on:
+  schedule:
+    # 03:00 UTC every Monday: the content that feeds these documents changes
+    # on the Zotero cadence at most, so weekly is enough to keep them current.
+    - cron: '0 3 * * 1'
+  push:
+    branches: [main]
+    paths:
+      - 'src/content/education/**'
+      - 'src/content/experience/**'
+      - 'src/pages/cv.astro'
+      - 'src/pages/print/**'
+      - 'src/layouts/Print.astro'
+      - 'src/lib/site.ts'
+      - 'scripts/generate-pdfs.mjs'
+      - '.github/workflows/pdfs.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pdfs
+  cancel-in-progress: false
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Build site
+        uses: ./.github/actions/build-site
+
+      # The toolchain install skips lifecycle scripts, so Puppeteer has not
+      # fetched a browser; this is the supported way to do it after the fact.
+      - name: Install Chrome for Puppeteer
+        run: npx puppeteer browsers install chrome
+
+      - name: Render PDFs
+        run: node scripts/generate-pdfs.mjs
+
+      - name: Commit PDFs
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/uploads/cv.pdf public/uploads/resume.pdf
+          if git diff --cached --quiet; then
+            echo "PDFs unchanged."
+            exit 0
+          fi
+          git commit -m "Regenerate CV and résumé PDFs from site content"
+          for i in 1 2 3 4; do
+            if git push; then
+              echo "pushed"; exit 0
+            fi
+            echo "push failed, retrying in $((2**i))s"; sleep $((2**i))
+            git pull --rebase || true
+          done
+          echo "::error::git push failed after retries"; exit 1

@@ -1,0 +1,239 @@
+---
+import { getCollection } from 'astro:content';
+import Print from '../../layouts/Print.astro';
+import { site, socials } from '../../lib/site';
+import { year } from '../../lib/format';
+
+/**
+ * The one-page résumé, printed to public/uploads/resume.pdf by
+ * scripts/generate-pdfs.mjs. Summary, education, experience and skills only —
+ * publications live on the CV.
+ */
+const byDate = <T extends { data: { date: Date } }>(a: T, b: T) =>
+  b.data.date.getTime() - a.data.date.getTime();
+
+const education = (await getCollection('education')).sort(byDate);
+const experience = (await getCollection('experience')).sort(byDate);
+
+/** The markdown bullets under a role, which read better than its abstract. */
+const bullets = (body = '', max = 2) =>
+  body
+    .split('\n')
+    .filter((l) => l.trimStart().startsWith('- '))
+    .map((l) => l.trim().slice(2).trim())
+    .slice(0, max);
+
+const summary =
+  'GIS & Remote Sensing Research Associate using remote sensing, GIS, and data science to turn complex geospatial data into clear insight about how our world changes. Focused on wildland-urban interface wildfire risk, land-use change, and spatial decision-making.';
+
+const skills: [string, string][] = [
+  ['Languages', 'R, Python, JavaScript, SQL'],
+  ['Markup', 'Markdown, LaTeX, HTML, CSS'],
+  ['Libraries', 'tidyverse, pandas, NumPy, Plotly'],
+  ['GIS & Remote Sensing', 'ArcGIS Pro, Google Earth Engine, QGIS, GDAL, sf, terra, GeoPandas'],
+  ['Workflows', 'Git, GitHub, GitHub Actions, Conda, renv'],
+];
+---
+
+<Print title="Résumé">
+  <header class="head keep">
+    <h1>Noah Weidig</h1>
+    <p class="role">{site.role}</p>
+    <p class="contact">
+      <span>{site.email}</span><span>{site.location}</span><span>noahweidig.com</span>
+      {socials.map((s) => <span>{s.label}</span>)}
+    </p>
+    <p class="summary">{summary}</p>
+  </header>
+
+  <section class="keep">
+    <h2>Education</h2>
+    {
+      education.map((e) => (
+        <div class="entry keep">
+          <div class="row">
+            <h3>{e.data.title}</h3>
+            <span class="when">{e.data.dates ?? year(e.data.date)}</span>
+          </div>
+          <p class="org">
+            {e.data.org}
+            {e.data.location ? ` · ${e.data.location}` : ''}
+          </p>
+          {e.data.description && <p class="note">{e.data.description}</p>}
+        </div>
+      ))
+    }
+  </section>
+
+  <section>
+    <h2>Experience</h2>
+    {
+      experience.map((e, i) => {
+        const points = bullets(e.body, i < 3 ? 2 : 0);
+        return (
+          <div class="entry keep">
+            <div class="row">
+              <h3>{e.data.title}</h3>
+              <span class="when">{e.data.dates ?? year(e.data.date)}</span>
+            </div>
+            <p class="org">
+              {e.data.org}
+              {e.data.location ? ` · ${e.data.location}` : ''}
+            </p>
+            {points.length ? (
+              <ul>
+                {points.map((p) => (
+                  <li>{p}</li>
+                ))}
+              </ul>
+            ) : (
+              e.data.description && <p class="note">{e.data.description}</p>
+            )}
+          </div>
+        );
+      })
+    }
+  </section>
+
+  <section class="keep">
+    <h2>Skills</h2>
+    <dl class="skills">
+      {
+        skills.map(([cat, list]) => (
+          <div class="skill-row">
+            <dt>{cat}</dt>
+            <dd>{list}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </section>
+</Print>
+
+<style>
+  /* Type and rhythm follow the site: Newsreader for the name, Inter for the
+     record itself, the accent used only as a rule and for section labels. */
+  .head {
+    text-align: center;
+    border-bottom: 1.5px solid var(--c-accent);
+    padding-bottom: 0.5rem;
+  }
+  h1 {
+    font-family: var(--font-display);
+    font-size: 1.85em;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin: 0;
+  }
+  .role {
+    margin: 0.1em 0 0;
+    color: var(--c-accent);
+    font-size: 0.92em;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+  .contact {
+    margin: 0.32em 0 0;
+    font-size: 0.72em;
+    color: #4b5260;
+  }
+  .contact span + span::before {
+    content: '·';
+    margin: 0 0.45em;
+    color: #a3a9b5;
+  }
+  .summary {
+    margin: 0.5em auto 0;
+    max-width: 46em;
+    font-size: 0.78em;
+    line-height: 1.5;
+    color: #33383f;
+    text-align: center;
+    text-wrap: pretty;
+  }
+
+  section {
+    margin-top: 0.85em;
+  }
+  h2 {
+    font-family: var(--font-mono);
+    font-size: 0.66em;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--c-accent);
+    border-bottom: 1px solid #dcdfe5;
+    padding-bottom: 0.25em;
+    margin: 0 0 0.45em;
+  }
+
+  .entry + .entry {
+    margin-top: 0.5em;
+  }
+  .row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1em;
+  }
+  h3 {
+    font-family: var(--font-sans);
+    font-size: 0.86em;
+    font-weight: 650;
+    margin: 0;
+    letter-spacing: -0.005em;
+  }
+  .when {
+    font-family: var(--font-mono);
+    font-size: 0.66em;
+    color: #5b6270;
+    white-space: nowrap;
+  }
+  .org {
+    margin: 0.05em 0 0;
+    font-size: 0.76em;
+    color: #3f4652;
+  }
+  .note {
+    margin: 0.12em 0 0;
+    font-size: 0.74em;
+    color: #4b5260;
+  }
+  ul {
+    margin: 0.18em 0 0;
+    padding-left: 1.05em;
+    list-style: disc;
+  }
+  li {
+    font-size: 0.74em;
+    color: #3f4652;
+    margin-top: 0.08em;
+  }
+  li::marker {
+    color: var(--c-accent);
+  }
+
+  .skills {
+    margin: 0;
+    display: grid;
+    gap: 0.18em;
+  }
+  .skill-row {
+    display: grid;
+    grid-template-columns: 9.5em 1fr;
+    gap: 0.6em;
+  }
+  dt {
+    font-family: var(--font-mono);
+    font-size: 0.64em;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #5b6270;
+    padding-top: 0.15em;
+  }
+  dd {
+    margin: 0;
+    font-size: 0.76em;
+    color: #3f4652;
+  }
+</style>

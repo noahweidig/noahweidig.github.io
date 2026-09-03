@@ -13,22 +13,23 @@ const year = new Date().getFullYear();
 >
   <div class="topo-bg absolute inset-0" aria-hidden="true"></div>
   <div class="shell relative py-16">
-    <div class="grid gap-12 lg:grid-cols-[1.4fr_repeat(4,1fr)]">
+    <div class="grid gap-10 sm:gap-12 lg:grid-cols-[1.4fr_repeat(4,1fr)]">
       <div>
         <a href={u('/')} class="flex items-center gap-2.5">
           <Logo class="h-8 w-auto" />
           <span class="font-display text-xl">Noah Weidig</span>
         </a>
-        <p class="mt-3 text-sm text-dim">{site.role}</p>
+        <p class="mt-3 text-[0.95rem] text-dim">{site.role}</p>
         <div class="mt-5 flex gap-2">
           {
             socials.map((s) => (
               <a
                 href={s.href}
                 aria-label={s.label}
+                data-tip={`${s.label} profile`}
                 target="_blank"
                 rel="noopener"
-                class="grid h-9 w-9 place-items-center rounded-full border border-line text-dim transition-all duration-200 hover:-translate-y-0.5 hover:border-accent hover:text-accent-ink"
+                class="icon-tile"
               >
                 <Icon name={s.icon} size={17} />
               </a>
@@ -37,51 +38,53 @@ const year = new Date().getFullYear();
           <a
             href={u('/rss.xml')}
             aria-label="RSS Feed"
-            class="grid h-9 w-9 place-items-center rounded-full border border-line text-dim transition-all duration-200 hover:-translate-y-0.5 hover:border-accent hover:text-accent-ink"
+            data-tip="Subscribe to the blog feed"
+            class="icon-tile"
           >
             <Icon name="rss" size={17} />
           </a>
         </div>
       </div>
 
-      {
-        footerColumns.map((col) => (
-          <div>
-            <h2 class="font-mono text-[0.68rem] font-medium tracking-[0.18em] text-faint uppercase">
-              {col.heading}
-            </h2>
-            <ul class="mt-4 grid gap-2.5">
-              {col.links.map((l) => (
-                <li>
-                  <a
-                    href={u(l.href)}
-                    class="group inline-flex items-center gap-2 text-sm text-dim transition-colors hover:text-ink"
-                  >
-                    <Icon
-                      name={l.icon}
-                      size={15}
-                      class="text-faint transition-colors group-hover:text-accent-ink"
-                    />
-                    {l.text}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))
-      }
+      <div class="grid grid-cols-2 gap-x-8 gap-y-10 sm:gap-x-10 lg:contents">
+        {
+          footerColumns.map((col) => (
+            <div>
+              <h2 class="font-mono text-[0.72rem] font-medium tracking-[0.18em] text-dim uppercase">
+                {col.heading}
+              </h2>
+              <ul class="mt-4 grid gap-2.5">
+                {col.links.map((l) => (
+                  <li>
+                    <a
+                      href={u(l.href)}
+                      data-tip={l.tip}
+                      class="inline-flex items-center text-[0.95rem] text-dim transition-colors hover:text-accent-ink"
+                    >
+                      {l.text}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+      </div>
     </div>
 
     <div
-      class="mt-14 flex flex-col gap-3 border-t border-line pt-6 text-xs text-faint sm:flex-row sm:items-center sm:justify-between"
+      class="mt-14 flex flex-col gap-3 border-t border-line pt-6 text-[0.85rem] text-dim sm:flex-row sm:items-center sm:justify-between"
     >
       <p>
-        © {year} Noah Weidig · <a class="hover:text-ink" href={u('/privacy/')}>Privacy</a> ·
-        <a class="hover:text-ink" href={u('/styleguide/')}>Styleguide</a>
+        © {year} Noah Weidig
+        <span class="mx-1.5 text-faint">·</span>
+        <a class="hover:text-accent-ink" href={u('/privacy/')}>Privacy</a>
+        <span class="mx-1.5 text-faint">·</span>
+        <a class="hover:text-accent-ink" href={u('/styleguide/')}>Styleguide</a>
       </p>
       <p>
         Built with <a
-          class="text-dim underline underline-offset-2 hover:text-accent-ink"
+          class="underline underline-offset-2 hover:text-accent-ink"
           href="https://astro.build"
           target="_blank"
           rel="noopener">Astro</a
