@@ -28,17 +28,18 @@ const targets = [
 
 <div
   data-pagefind-ignore
+  data-share-row
   class="no-print mt-14 flex flex-wrap items-center gap-2 border-t border-line pt-6"
 >
   <span class="font-mono text-[0.68rem] tracking-[0.14em] text-faint uppercase">Share</span>
   {
     targets.map((s) => (
       <a
-        class="grid h-9 w-9 place-items-center rounded-full border border-line text-dim transition-all duration-200 hover:-translate-y-0.5 hover:border-accent hover:text-accent-ink"
+        class="icon-tile"
         href={s.href}
         target="_blank"
         rel="noopener"
-        title={`Share on ${s.label}`}
+        data-tip={`Share on ${s.label}`}
       >
         <Icon name={s.icon} size={16} />
         <span class="sr-only-nw">Share on {s.label}</span>
@@ -47,18 +48,9 @@ const targets = [
   }
   <button
     type="button"
-    class="grid h-9 w-9 place-items-center rounded-full border border-line text-dim transition-all duration-200 hover:-translate-y-0.5 hover:border-accent hover:text-accent-ink"
-    data-share={url}
-    data-share-title={title}
-    title="Share on Instagram"
-  >
-    <Icon name="instagram" size={16} />
-    <span class="sr-only-nw">Share on Instagram</span>
-  </button>
-  <button
-    type="button"
     class="chip ml-auto transition-colors hover:border-accent hover:text-accent-ink"
     data-copy={url}
+    data-tip="Copy this page's link"
   >
     <Icon name="copy" size={13} />
     <span data-copy-label>Copy link</span>

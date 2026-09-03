@@ -2,7 +2,7 @@
   "name": "noahweidig-site",
   "type": "module",
   "private": true,
-  "description": "noahweidig.com — Astro + TypeScript + Tailwind.",
+  "description": "noahweidig.com \u2014 Astro + TypeScript + Tailwind.",
   "engines": {
     "node": ">=22.12"
   },
@@ -13,7 +13,9 @@
     "build:fast": "astro build && pagefind --site dist",
     "dev": "astro dev",
     "format": "prettier --write .",
+    "icons": "node scripts/generate-icons.mjs",
     "lint": "prettier --check . && astro check",
+    "pdfs": "node scripts/generate-pdfs.mjs",
     "preview": "astro preview",
     "start": "astro dev"
   },
@@ -29,6 +31,7 @@
     "@types/node": "^22.10.0",
     "axe-core": "^4.13.0",
     "lighthouse": "^13.4.1",
+    "lucide-static": "^1.40.0",
     "pagefind": "^1.5.2",
     "prettier": "^3.9.6",
     "prettier-plugin-astro": "^0.14.1",
