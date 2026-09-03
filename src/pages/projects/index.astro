@@ -1,0 +1,42 @@
+---
+import { getCollection } from 'astro:content';
+import Page from '../../layouts/Page.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import FilterBar from '../../components/FilterBar.astro';
+import StatStrip from '../../components/StatStrip.astro';
+import { year } from '../../lib/format';
+
+const projects = (await getCollection('projects')).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime(),
+);
+const categories = [...new Set(projects.flatMap((p) => p.data.categories))].sort();
+const stats = [
+  { value: projects.length, label: 'Projects' },
+  { value: projects.filter((p) => p.data.featured).length, label: 'Featured Projects' },
+  { value: categories.length, label: 'Topic Areas' },
+  { value: year(projects[0]!.data.date), label: 'Latest Release' },
+];
+---
+
+<Page
+  title="Selected Projects"
+  kicker="Selected work"
+  description="I build tools and turn ideas into reality. Here's a selection of projects I've created over the years."
+  intro="I build tools and turn ideas into reality. Here's a selection of projects I've created over the years."
+>
+  <StatStrip stats={stats} />
+
+  <div class="mt-10">
+    <FilterBar
+      categories={categories}
+      target="#project-grid"
+      noun="projects"
+      total={projects.length}
+    />
+  </div>
+
+  <h2 class="sr-only-nw">All projects</h2>
+  <div id="project-grid" class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+    {projects.map((entry, i) => <ProjectCard entry={entry} index={i} />)}
+  </div>
+</Page>

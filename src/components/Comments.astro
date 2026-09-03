@@ -1,0 +1,64 @@
+---
+import { giscus } from '../lib/site';
+
+/** Giscus, mounted lazily and re-themed with the site toggle. Renders nothing
+    until the repo and category ids are configured in src/lib/site.ts. */
+const enabled = Boolean(giscus.repoId && giscus.categoryId);
+---
+
+{
+  enabled && (
+    <section class="no-print mt-4 border-t border-line pt-10">
+      <h2 class="font-display text-xl">Comments</h2>
+      <div class="mt-5" id="giscus-root" data-giscus={JSON.stringify(giscus)} />
+    </section>
+  )
+}
+
+<script>
+  function mountGiscus() {
+    const root = document.getElementById('giscus-root');
+    if (!root || root.dataset.mounted === 'true') return;
+    let cfg: { repo: string; repoId: string; category: string; categoryId: string };
+    try {
+      cfg = JSON.parse(root.dataset.giscus ?? '');
+    } catch {
+      return;
+    }
+    root.dataset.mounted = 'true';
+    const theme = document.documentElement.dataset.theme === 'light' ? 'light' : 'dark_dimmed';
+    const s = document.createElement('script');
+    s.src = 'https://giscus.app/client.js';
+    s.async = true;
+    s.crossOrigin = 'anonymous';
+    Object.entries({
+      'data-repo': cfg.repo,
+      'data-repo-id': cfg.repoId,
+      'data-category': cfg.category,
+      'data-category-id': cfg.categoryId,
+      'data-mapping': 'pathname',
+      'data-reactions-enabled': '1',
+      'data-emit-metadata': '0',
+      'data-input-position': 'top',
+      'data-theme': theme,
+      'data-lang': 'en',
+      'data-loading': 'lazy',
+    }).forEach(([k, v]) => s.setAttribute(k, v));
+    root.appendChild(s);
+  }
+
+  function syncTheme() {
+    const frame = document.querySelector<HTMLIFrameElement>('iframe.giscus-frame');
+    if (!frame?.contentWindow) return;
+    const theme = document.documentElement.dataset.theme === 'light' ? 'light' : 'dark_dimmed';
+    frame.contentWindow.postMessage({ giscus: { setConfig: { theme } } }, 'https://giscus.app');
+  }
+
+  new MutationObserver(syncTheme).observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ['data-theme'],
+  });
+
+  mountGiscus();
+  document.addEventListener('astro:page-load', mountGiscus);
+</script>

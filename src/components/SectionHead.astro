@@ -1,0 +1,36 @@
+---
+interface Props {
+  kicker?: string;
+  title: string;
+  subtitle?: string;
+  href?: string;
+  linkText?: string;
+  align?: 'left' | 'center';
+}
+const { kicker, title, subtitle, href, linkText, align = 'left' } = Astro.props;
+---
+
+<div
+  class:list={[
+    'flex flex-col gap-4 md:flex-row md:items-end md:justify-between',
+    align === 'center' && 'items-center text-center md:flex-col md:items-center',
+  ]}
+  data-reveal
+>
+  <div class:list={[align === 'center' && 'flex flex-col items-center']}>
+    {kicker && <p class="kicker">{kicker}</p>}
+    <h2 class="section-title">{title}</h2>
+    {subtitle && <p class="lede mt-3">{subtitle}</p>}
+  </div>
+  {
+    href && (
+      <a
+        href={href}
+        class="group inline-flex shrink-0 items-center gap-1.5 text-sm font-medium text-dim transition-colors hover:text-accent-ink"
+      >
+        {linkText ?? 'View all'}
+        <span class="transition-transform duration-300 group-hover:translate-x-1">→</span>
+      </a>
+    )
+  }
+</div>

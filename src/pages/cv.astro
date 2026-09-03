@@ -1,0 +1,222 @@
+---
+import { u } from '../lib/url';
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { inlineMarkup, year } from '../lib/format';
+import { site, socials } from '../lib/site';
+
+const byDate = <T extends { data: { date: Date } }>(a: T, b: T) =>
+  b.data.date.getTime() - a.data.date.getTime();
+
+const education = (await getCollection('education')).sort(byDate);
+const experience = (await getCollection('experience')).sort(byDate);
+const awards = (await getCollection('awards')).sort(byDate);
+const pubs = (await getCollection('publications')).sort(byDate);
+const byCat = (c: string) => pubs.filter((p) => p.data.categories.includes(c));
+
+const skills = [
+  ['Languages', 'R, Python, JavaScript, SQL'],
+  ['Markup', 'Markdown, LaTeX, HTML, CSS'],
+  ['Libraries', 'tidyverse, pandas, NumPy, Plotly'],
+  [
+    'GIS & Remote Sensing',
+    'ArcGIS Pro, Google Earth Engine, QGIS, GDAL, sf, terra, GeoPandas, OpenStreetMap',
+  ],
+  ['Workflows', 'Git, GitHub, GitHub Actions, Conda'],
+];
+---
+
+<Base
+  title="Curriculum Vitae"
+  description="The full curriculum vitae of Noah Weidig — GIS Analyst & Data Scientist: education, experience, publications, presentations, and awards."
+>
+  <div class="shell max-w-4xl py-12 md:py-16">
+    <header
+      class="flex flex-col gap-6 border-b border-line pb-8 md:flex-row md:items-start md:justify-between"
+    >
+      <div>
+        <p class="kicker">Full record</p>
+        <h1 class="mt-3 font-display text-4xl font-medium md:text-5xl">Noah Weidig</h1>
+        <p class="mt-2 text-lg text-accent-ink">{site.role}</p>
+        <p class="mt-3 text-sm text-dim">
+          <a class="hover:text-accent-ink" href={`mailto:${site.email}`}>{site.email}</a>
+          <span class="mx-2 text-faint">·</span>{site.location}
+          <span class="mx-2 text-faint">·</span>
+          <a class="hover:text-accent-ink" href={site.url}>noahweidig.com</a>
+        </p>
+        <div class="mt-4 flex gap-2">
+          {
+            socials.map((s) => (
+              <a
+                href={s.href}
+                aria-label={s.label}
+                target="_blank"
+                rel="noopener"
+                class="grid h-9 w-9 place-items-center rounded-full border border-line text-dim transition-colors hover:border-accent hover:text-accent-ink"
+              >
+                <Icon name={s.icon} size={16} />
+              </a>
+            ))
+          }
+        </div>
+      </div>
+      <div class="no-print flex shrink-0 flex-wrap gap-2.5">
+        <button type="button" class="btn btn-primary btn-sm" data-print>Print / save as PDF</button>
+        <a class="btn btn-ghost btn-sm" href={u(site.resume)} target="_blank" rel="noopener">
+          One-page Résumé
+        </a>
+      </div>
+    </header>
+
+    <p class="mt-8 leading-relaxed text-dim">
+      GIS &amp; Remote Sensing Research Associate leveraging remote sensing, GIS, and data science
+      to translate complex geospatial data into clear insight about how our world changes. Focused
+      on wildland-urban interface wildfire risk, land-use change, and spatial decision-making.
+    </p>
+
+    {
+      [
+        { heading: 'Education', items: education, base: 'education' },
+        { heading: 'Experience', items: experience, base: 'experience' },
+      ].map((group) => (
+        <section class="mt-12">
+          <h2 class="font-display text-2xl">{group.heading}</h2>
+          <div class="mt-5 grid gap-5">
+            {group.items.map((entry) => (
+              <div class="border-l border-line pl-5">
+                <div class="flex flex-wrap items-baseline justify-between gap-x-4">
+                  <h3 class="text-[1.05rem] font-medium">
+                    <a
+                      href={u(`/${group.base}/${entry.id}/`)}
+                      class="transition-colors hover:text-accent-ink"
+                    >
+                      {entry.data.title}
+                    </a>
+                  </h3>
+                  <span class="font-mono text-[0.72rem] tracking-wide text-faint">
+                    {entry.data.dates ?? year(entry.data.date)}
+                  </span>
+                </div>
+                <p class="mt-1 text-sm text-accent-ink/85">
+                  {entry.data['org-url'] ? (
+                    <a
+                      href={entry.data['org-url']}
+                      target="_blank"
+                      rel="noopener"
+                      class="hover:underline"
+                    >
+                      {entry.data.org}
+                    </a>
+                  ) : (
+                    entry.data.org
+                  )}
+                  {entry.data.location && (
+                    <span class="text-faint">{` · ${entry.data.location}`}</span>
+                  )}
+                </p>
+                {entry.data.description && (
+                  <p class="mt-1.5 text-sm text-dim">{entry.data.description}</p>
+                )}
+              </div>
+            ))}
+          </div>
+        </section>
+      ))
+    }
+
+    {
+      [
+        {
+          heading: 'Publications',
+          groups: [
+            ['Journal articles', 'Journal Article'],
+            ['Thesis', 'Thesis'],
+          ],
+        },
+        { heading: 'Presentations', groups: [['', 'Presentation']] },
+        { heading: 'Webinars', groups: [['', 'Webinar']] },
+        { heading: 'Media coverage', groups: [['', 'Media Coverage']] },
+        { heading: 'Service', groups: [['Peer review', 'Peer Review']] },
+      ].map((section) => (
+        <section class="mt-12">
+          <h2 class="font-display text-2xl">{section.heading}</h2>
+          {section.groups.map(([label, cat]) => {
+            const items = byCat(cat!);
+            return items.length ? (
+              <div class="mt-5">
+                {label && (
+                  <h3 class="font-mono text-[0.7rem] tracking-[0.16em] text-faint uppercase">
+                    {label}
+                  </h3>
+                )}
+                <ol class="mt-3 grid gap-4">
+                  {items.map((p) => (
+                    <li class="border-l border-line pl-5 text-sm leading-relaxed">
+                      <a
+                        href={u(`/publications/${p.id}/`)}
+                        class="font-medium transition-colors hover:text-accent-ink"
+                      >
+                        {p.data.title}
+                      </a>
+                      <span class="mt-1 block text-dim">
+                        <Fragment set:html={inlineMarkup(p.data['pub-authors'] ?? '')} />
+                        {p.data['pub-venue'] && (
+                          <>
+                            {' · '}
+                            <em class="font-display">{p.data['pub-venue']}</em>
+                          </>
+                        )}
+                        {p.data['pub-details'] && (
+                          <span class="text-faint">{`, ${p.data['pub-details']}`}</span>
+                        )}
+                        <span class="text-faint">{` (${year(p.data.date)})`}</span>
+                      </span>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            ) : null;
+          })}
+        </section>
+      ))
+    }
+
+    <section class="mt-12">
+      <h2 class="font-display text-2xl">Awards &amp; honors</h2>
+      <div class="mt-5 grid gap-4">
+        {
+          awards.map((a) => (
+            <div class="flex flex-wrap items-baseline justify-between gap-x-4 border-l border-line pl-5">
+              <h3 class="text-[0.98rem] font-medium">
+                <a href={u(`/awards/${a.id}/`)} class="transition-colors hover:text-accent-ink">
+                  {a.data.title}
+                </a>
+                {a.data.description && (
+                  <span class="block text-sm font-normal text-dim">{a.data.description}</span>
+                )}
+              </h3>
+              <span class="font-mono text-[0.72rem] text-faint">{year(a.data.date)}</span>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="mt-12">
+      <h2 class="font-display text-2xl">Skills</h2>
+      <dl class="mt-5 grid gap-3">
+        {
+          skills.map(([cat, list]) => (
+            <div class="grid gap-1 border-l border-line pl-5 sm:grid-cols-[11rem_1fr] sm:gap-4">
+              <dt class="font-mono text-[0.7rem] tracking-[0.12em] text-faint uppercase sm:pt-1">
+                {cat}
+              </dt>
+              <dd class="text-sm text-dim">{list}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </section>
+  </div>
+</Base>

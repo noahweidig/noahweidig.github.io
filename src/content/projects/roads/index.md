@@ -1,0 +1,20 @@
+---
+title: TIGER Roads
+date: '2026-03-21'
+description: US Census TIGER Roads in GEE
+categories:
+  - Geospatial
+  - Data Science
+featured: false
+links:
+  - label: 'View Catalog'
+    href: 'https://gee-community-catalog.org/projects/tiger_roads/'
+    variant: primary
+    external: true
+---
+
+<img src="../../media/albums/projects/roads.webp" alt="The TIGER Roads dataset page in the GEE Community Catalog" width="1600" height="1000" loading="lazy" decoding="async">
+
+TIGER Roads makes the U.S. Census Bureau's national road network available directly inside Google Earth Engine. The full TIGER/Line roads file is enormous and awkward to work with, so I processed it into an Earth Engine asset that you can pull into an analysis without downloading and converting anything first.
+
+It's published in the Awesome GEE Community Catalog, which is where I go for datasets that never made it into the official archive, so contributing one back felt right. It's handy for any analysis where roads are a variable — accessibility, mapping the wildland-urban interface, or measuring how much infrastructure sits in a hazard zone.

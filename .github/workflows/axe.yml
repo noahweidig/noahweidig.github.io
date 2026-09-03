@@ -15,24 +15,16 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
-        with:
-          node-version-file: .nvmrc
-          cache: npm
-
-      # Same build as publish.yml, cwebp included, so axe audits the site
-      # with the responsive image variants that actually ship (#249).
+      # Same build as publish.yml, so axe audits the bytes that actually ship.
       - name: Build site
         uses: ./.github/actions/build-site
 
-      # Lifecycle scripts stay off (SonarCloud flags implicit script
-      # execution on install); puppeteer's postinstall is what fetches its
-      # matched Chromium build, so it is re-run explicitly — a script we know
-      # we asked for, at the version package-lock.json pins.
-      - name: Install toolchain
-        run: |
-          npm ci --ignore-scripts
-          node ./node_modules/puppeteer/install.mjs
+      # Lifecycle scripts stay off during install (SonarCloud flags implicit
+      # script execution); puppeteer's postinstall is what fetches its matched
+      # Chromium build, so it is re-run explicitly — a script we know we asked
+      # for, at the version package-lock.json pins.
+      - name: Fetch Chromium for puppeteer
+        run: node ./node_modules/puppeteer/install.mjs
 
       - name: Run axe-core
         run: npm run a11y

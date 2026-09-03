@@ -1,0 +1,36 @@
+---
+title: "Unravelling changing wildfire regime dynamics in the eastern United States"
+date: "2025-04-01"
+description: "Wildfire risk is changing across the globe. We provide a summary of ongoing investigations into changes in large (>200 ha) wildfire activity across multiple scales in the eastern U.S. and the interacting factors affecting wildfire risk."
+categories: ["Presentation"]
+pub-authors: "Donovan, V. M., **Weidig, N. C.**, Ivey, M. A., Crandall, R. M., Fill, J. M. & Wonkka, C. L."
+pub-venue: "International Association for Landscape Ecology - North America Annual Conference"
+pub-url: "https://www.ialena.org/uploads/9/4/8/2/94821076/iale_program_handout_final.pdf"
+pub-listed: "yes"
+pub-appearances:
+  - venue: "Auburn University College of Forest, Wildlife and Environment Invited Seminar"
+    when: "Apr 2025"
+    kind: "Presentation"
+  - venue: "International Association for Landscape Ecology - North America Annual Conference"
+    when: "Apr 2025"
+    kind: "Presentation"
+    url: "https://www.ialena.org/uploads/9/4/8/2/94821076/iale_program_handout_final.pdf"
+citation: "Donovan, V. M., **Weidig, N. C.**, Ivey, M. A., Crandall, R. M., Fill, J. M. & Wonkka, C. L. (2025). *International Association for Landscape Ecology - North America Annual Conference*."
+links:
+  - label: "Source"
+    href: "https://www.ialena.org/uploads/9/4/8/2/94821076/iale_program_handout_final.pdf"
+    variant: primary
+    external: true
+  - label: "BibTeX"
+    href: "/publications/donovan-unravelling-changing-25-jebk/cite.bib"
+    variant: ghost
+---
+
+## Presented at
+
+- Auburn University College of Forest, Wildlife and Environment Invited Seminar — Apr 2025 · Presentation
+- [International Association for Landscape Ecology - North America Annual Conference — Apr 2025](https://www.ialena.org/uploads/9/4/8/2/94821076/iale_program_handout_final.pdf) · Presentation
+
+## Abstract
+
+Wildfire risk is changing across the globe. We provide a summary of ongoing investigations into changes in large (>200 ha) wildfire activity across multiple scales in the eastern U.S. and the interacting factors affecting wildfire risk. We found shifting wildfire regime characteristics across south and central ecoregions in the east that include increasing wildfire number, size, and annual occurrence, along with changes in wildfire seasonality. Human ignitions started most wildfires in the eastern U.S., though in the Southern Coastal Plain, the majority of area burned was caused by naturally started wildfires. Just under half of all wildfires burned within the Wildland-Urban Interface (WUI), where the greatest risk to human life and property from wildfires exists. However, increasing trends in large wildfire are largely occurring outside the WUI. We find factors such as suppression potential, weather conditions, and fuels influence this dynamic. We also identified long-term increases in woody cover across eastern ecoregions, linking higher levels of woody cover to heightened wildfire risk in multiple locations. Further investigations find that climate-woody cover interactions strongly predict large wildfire occurrence across numerous eastern ecoregions. While further research into the drivers of changing large wildfire patterns is needed, we suggest the strategic application of fuels management along with the development of fire-resistant homes and buildings to enhance community resilience to wildfire.

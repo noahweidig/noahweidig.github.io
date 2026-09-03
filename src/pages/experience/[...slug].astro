@@ -1,0 +1,30 @@
+---
+import { u } from '../../lib/url';
+import { getCollection, render } from 'astro:content';
+import Detail from '../../layouts/Detail.astro';
+
+export async function getStaticPaths() {
+  const items = await getCollection('experience');
+  return items.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const d = entry.data;
+const meta = [d.org, d.dates, d.location].filter(Boolean).join(' · ');
+---
+
+<Detail
+  title={d.title}
+  description={d.description}
+  kicker="Experience"
+  meta={meta}
+  backHref={u('/experience/')}
+  backLabel="All experience"
+  links={d['org-url']
+    ? [{ label: d.org ?? 'Organisation', href: d['org-url'], variant: 'ghost', external: true }]
+    : []}
+  publishedTime={d.date}
+>
+  <Content />
+</Detail>

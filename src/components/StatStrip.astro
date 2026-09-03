@@ -1,0 +1,27 @@
+---
+interface Props {
+  stats: { value: string | number; label: string }[];
+}
+const { stats } = Astro.props;
+---
+
+<dl
+  class="grid grid-cols-2 gap-px overflow-hidden rounded-lg border border-line bg-line md:grid-cols-4"
+  data-reveal
+>
+  {
+    stats.map((s) => (
+      <div class="bg-surface px-5 py-6 text-center">
+        <dt class="sr-only-nw">{s.label}</dt>
+        <dd>
+          <b class="block font-display text-3xl font-medium tracking-tight text-ink md:text-4xl">
+            {s.value}
+          </b>
+          <span class="mt-1.5 block font-mono text-[0.68rem] tracking-[0.12em] text-faint uppercase">
+            {s.label}
+          </span>
+        </dd>
+      </div>
+    ))
+  }
+</dl>

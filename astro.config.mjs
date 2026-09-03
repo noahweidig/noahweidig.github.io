@@ -1,0 +1,22 @@
+// @ts-check
+import { defineConfig } from 'astro/config';
+import sitemap from '@astrojs/sitemap';
+import tailwindcss from '@tailwindcss/vite';
+
+export default defineConfig({
+  site: 'https://noahweidig.com',
+  // The site is published under a path, not at the apex. `src/lib/url.ts`
+  // reads the same value back out of import.meta.env.BASE_URL; URLs written by
+  // hand inside a content file are relative, so they need no prefixing.
+  base: '/new-website',
+  trailingSlash: 'ignore',
+  integrations: [sitemap({ filter: (page) => !page.includes('/404') })],
+  vite: { plugins: [tailwindcss()] },
+  markdown: {
+    shikiConfig: {
+      themes: { light: 'github-light', dark: 'github-dark-default' },
+      wrap: false,
+    },
+  },
+  build: { format: 'directory' },
+});

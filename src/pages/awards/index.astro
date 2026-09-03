@@ -1,0 +1,43 @@
+---
+import { getCollection } from 'astro:content';
+import Page from '../../layouts/Page.astro';
+import AwardCard from '../../components/AwardCard.astro';
+import StatStrip from '../../components/StatStrip.astro';
+import { year } from '../../lib/format';
+
+const awards = (await getCollection('awards')).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime(),
+);
+
+/* Funding is read off the "· $2,000" tail each award's description carries. */
+const funding = awards.reduce((sum, a) => {
+  const m = /\$([\d,]+)/.exec(a.data.description ?? '');
+  return sum + (m ? Number(m[1]!.replace(/,/g, '')) : 0);
+}, 0);
+/* "University of Florida, College of … · $2,000" → "University of Florida". */
+const institutions = new Set(
+  awards
+    .map((a) => (a.data.description ?? '').split('·')[0]!.split(',')[0]!.trim())
+    .filter(Boolean),
+);
+const years = new Set(awards.map((a) => year(a.data.date)));
+
+const stats = [
+  { value: awards.length, label: 'Awards & Honors' },
+  { value: `$${Math.round(funding / 1000)}k`, label: 'Awarded' },
+  { value: institutions.size, label: 'Awarding Institutions' },
+  { value: years.size, label: 'Years Recognized' },
+];
+---
+
+<Page
+  title="Awards & Honors"
+  kicker="Recognition"
+  description="Awards, scholarships, grants, and honors I've received over the years."
+  intro="Awards, scholarships, grants, and honors I've received over the years."
+>
+  <StatStrip stats={stats} />
+  <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+    {awards.map((entry, i) => <AwardCard entry={entry} index={i} />)}
+  </div>
+</Page>

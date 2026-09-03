@@ -1,0 +1,16 @@
+---
+title: 'Research Assistant'
+description: 'Conducted quantitative data analysis for biomedical research using advanced statistical modeling and visualization.'
+org: 'University of Cincinnati'
+org-url: 'https://med.uc.edu/'
+date: '2022-05-01'
+dates: 'May 2022 – Jan 2023'
+location: 'Cincinnati, OH'
+categories: [Experience]
+---
+
+In the University of Cincinnati College of Medicine, I carried out quantitative data analysis for biomedical research.
+
+- Conducted quantitative data analysis using advanced statistical modeling.
+- Built visualizations to communicate research findings.
+- Supported reproducible analysis workflows for the research team.

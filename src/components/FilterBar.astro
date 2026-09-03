@@ -1,0 +1,31 @@
+---
+interface Props {
+  categories: string[];
+  target: string;
+  noun: string;
+  total: number;
+}
+const { categories, target, noun, total } = Astro.props;
+---
+
+<div
+  class="flex flex-wrap items-center gap-2"
+  data-filter-bar
+  data-filter-for={target}
+  data-filter-noun={noun}
+  data-reveal
+>
+  <button type="button" class="pill" data-filter="*" aria-pressed="true">All</button>
+  {
+    categories.map((c) => (
+      <button type="button" class="pill" data-filter={c} aria-pressed="false">
+        {c}
+      </button>
+    ))
+  }
+  <span
+    class="ml-auto font-mono text-[0.7rem] tracking-[0.1em] text-faint uppercase"
+    data-filter-count
+    aria-live="polite">{total} {noun}</span
+  >
+</div>
