@@ -1,0 +1,147 @@
+---
+import { u } from '../lib/url';
+import Icon from './Icon.astro';
+
+const areas = [
+  {
+    id: 'remote-sensing',
+    tab: 'Remote Sensing',
+    icon: 'satellite',
+    eyebrow: 'Remote Sensing & Earth Observation',
+    heading: 'Seeing change from orbit.',
+    body: 'Multi-temporal satellite imagery turned into measurable change — classification, spectral indices, and time-series analysis at landscape scale in Google Earth Engine.',
+    chips: ['Imagery Analysis', 'Google Earth Engine', 'Change Detection'],
+    image: '/media/albums/projects/roads.webp',
+    alt: 'Census road network layer rendered in Google Earth Engine',
+    caption: 'TIGER roads · Google Earth Engine',
+  },
+  {
+    id: 'land-use',
+    tab: 'Land-Use Change',
+    icon: 'layers',
+    eyebrow: 'Land-Use Change & Social-Ecological Systems',
+    heading: 'Where people and landscapes meet.',
+    body: 'Modeling how development, disturbance, and policy reshape land cover, with a focus on wildfire risk in the wildland–urban interface.',
+    chips: ['Land-Use Change', 'Wildfire & WUI', 'Risk Assessment'],
+    image: '/media/albums/projects/wuirisk.webp',
+    alt: 'Wildland–urban interface wildfire risk surface',
+    caption: 'WUI wildfire risk · thesis chapter 2',
+  },
+  {
+    id: 'spatial-stats',
+    tab: 'Spatial Statistics',
+    icon: 'chart',
+    eyebrow: 'Spatial Data Science & Statistical Modeling',
+    heading: 'Uncertainty, stated honestly.',
+    body: 'Bayesian and spatial-statistical models that quantify what the data actually support, in reproducible pipelines anyone can rerun.',
+    chips: ['Bayesian Analysis', 'Forecasting', 'Reproducible Research'],
+    image: '/media/albums/projects/dataviz.webp',
+    alt: 'Statistical charts from the DataViz gallery',
+    caption: 'Posterior summaries · R + Plotly',
+  },
+  {
+    id: 'applied-ai',
+    tab: 'Applied AI',
+    icon: 'ai',
+    eyebrow: 'Applied AI & Data Storytelling',
+    heading: 'Models that reach a decision-maker.',
+    body: 'Machine learning applied to ecological and geospatial problems, paired with visualization that makes the result legible to non-specialists.',
+    chips: ['Machine Learning', 'Data Visualization', 'Quantitative Ecology'],
+    image: '/media/albums/projects/maplab.webp',
+    alt: 'MapLab, a simplified GIS interface',
+    caption: 'MapLab · GIS for non-GIS users',
+  },
+  {
+    id: 'biodiversity',
+    tab: 'Biodiversity',
+    icon: 'leaf',
+    eyebrow: 'Biodiversity & Conservation Monitoring',
+    heading: 'Mapping what lives where.',
+    body: 'Species distribution models and habitat mapping that turn scattered occurrence records into conservation-planning inputs.',
+    chips: ['Species Distribution', 'Habitat Mapping', 'Conservation Planning'],
+    image: '/media/albums/projects/maps.webp',
+    alt: 'Interactive map gallery',
+    caption: 'Habitat suitability · map gallery',
+  },
+  {
+    id: 'geo-engineering',
+    tab: 'Geospatial Engineering',
+    icon: 'database',
+    eyebrow: 'Geospatial Engineering & Open Data',
+    heading: 'Infrastructure for spatial work.',
+    body: 'Spatial databases, automated data pipelines, and open-source GIS tooling that keep analysis fast, current, and shareable.',
+    chips: ['Spatial Databases', 'Data Pipelines', 'Open Source GIS'],
+    image: '/media/albums/projects/firer.webp',
+    alt: 'fireR package documentation',
+    caption: 'fireR · R package for U.S. fire data',
+  },
+];
+---
+
+<div class="mt-10" data-tabs data-reveal>
+  {
+    /* Hidden until the tab script wires it up: with no JS every panel stays
+      visible and the section reads as a stack rather than dead buttons. */
+  }
+  <div
+    role="tablist"
+    aria-label="Research areas"
+    hidden
+    class="flex flex-wrap gap-2 border-b border-line pb-5"
+  >
+    {
+      areas.map((a, i) => (
+        <button
+          type="button"
+          role="tab"
+          id={`area-tab-${a.id}`}
+          aria-controls={`area-panel-${a.id}`}
+          aria-selected={i === 0 ? 'true' : 'false'}
+          tabindex={i === 0 ? 0 : -1}
+          class="pill"
+        >
+          {a.tab}
+        </button>
+      ))
+    }
+  </div>
+
+  {
+    areas.map((a, i) => (
+      <div
+        role="tabpanel"
+        id={`area-panel-${a.id}`}
+        aria-labelledby={`area-tab-${a.id}`}
+        class="grid gap-8 pt-10 lg:grid-cols-2 lg:items-center lg:gap-14"
+      >
+        <div>
+          <p class="flex items-center gap-2 font-mono text-[0.7rem] tracking-[0.14em] text-accent-ink uppercase">
+            <Icon name={a.icon} size={16} class="shrink-0" />
+            {a.eyebrow}
+          </p>
+          <h3 class="mt-4 font-display text-[clamp(1.6rem,1.1rem+1.8vw,2.4rem)]">{a.heading}</h3>
+          <p class="mt-4 text-[1.02rem] leading-relaxed text-dim">{a.body}</p>
+          <div class="mt-5 flex flex-wrap gap-1.5">
+            {a.chips.map((c) => (
+              <span class="chip">{c}</span>
+            ))}
+          </div>
+        </div>
+        <figure class="overflow-hidden rounded-xl border border-line bg-surface">
+          <img
+            src={u(a.image)}
+            alt={a.alt}
+            width="1600"
+            height="1000"
+            loading={i === 0 ? 'eager' : 'lazy'}
+            decoding="async"
+            class="aspect-16/10 w-full object-cover"
+          />
+          <figcaption class="border-t border-line px-4 py-3 font-mono text-[0.7rem] tracking-wide text-faint">
+            {a.caption}
+          </figcaption>
+        </figure>
+      </div>
+    ))
+  }
+</div>

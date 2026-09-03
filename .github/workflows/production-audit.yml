@@ -8,7 +8,7 @@ name: Production audit
 on:
   schedule:
     # Weekly, Monday 07:00 UTC.
-    - cron: "0 7 * * 1"
+    - cron: '0 7 * * 1'
   workflow_dispatch:
 
 permissions:
@@ -27,7 +27,7 @@ jobs:
       - name: Run Lighthouse CI against production
         uses: treosh/lighthouse-ci-action@3e7e23fb74242897f95c0ba9cabad3d0227b9b18 # v12
         with:
-          configPath: ./lighthouserc.production.js
+          configPath: ./lighthouserc.production.cjs
           runs: 3
 
   axe:

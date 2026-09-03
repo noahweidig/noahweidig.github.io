@@ -1,0 +1,42 @@
+---
+import { u } from '../lib/url';
+import type { CollectionEntry } from 'astro:content';
+import { Image } from 'astro:assets';
+import { year } from '../lib/format';
+
+interface Props {
+  entry: CollectionEntry<'awards'>;
+  index?: number;
+}
+const { entry, index = 0 } = Astro.props;
+const d = entry.data;
+---
+
+<a
+  href={u(`/awards/${entry.id}/`)}
+  class="card card-hover group flex flex-col overflow-hidden"
+  data-reveal
+  style={`--reveal-delay:${Math.min(index, 5) * 55}ms`}
+>
+  {
+    d.image && (
+      <div class="relative aspect-4/3 overflow-hidden border-b border-line bg-raised">
+        <Image
+          src={d.image}
+          alt={d['image-alt'] ?? ''}
+          widths={[320, 640, 960]}
+          sizes="(min-width: 1024px) 300px, (min-width: 640px) 45vw, 92vw"
+          loading={index < 4 ? 'eager' : 'lazy'}
+          class="h-full w-full object-cover transition-transform duration-700 ease-[cubic-bezier(.22,1,.36,1)] group-hover:scale-[1.05]"
+        />
+        <span class="absolute top-3 left-3 chip bg-black/55 text-white backdrop-blur-md">
+          {year(d.date)}
+        </span>
+      </div>
+    )
+  }
+  <div class="flex flex-1 flex-col p-5">
+    <h3 class="text-base leading-snug transition-colors group-hover:text-accent-ink">{d.title}</h3>
+    {d.description && <p class="mt-2 text-sm leading-relaxed text-dim">{d.description}</p>}
+  </div>
+</a>

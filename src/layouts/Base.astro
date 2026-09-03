@@ -1,0 +1,214 @@
+---
+import { u, base } from '../lib/url';
+import '../styles/global.css';
+import { ClientRouter } from 'astro:transitions';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { site } from '../lib/site';
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  type?: 'website' | 'article';
+  noindex?: boolean;
+  bodyClass?: string;
+  publishedTime?: Date;
+}
+
+const {
+  title,
+  description = site.description,
+  image = site.ogImage,
+  type = 'website',
+  noindex = false,
+  bodyClass = '',
+  publishedTime,
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname.replace(/\/+$/, '/'), Astro.site).href;
+const ogUrl = new URL(image, Astro.site).href;
+const fullTitle = title === site.name ? `${site.name} | ${site.role}` : `${title} | ${site.name}`;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Person',
+      '@id': `${site.url}/#person`,
+      name: site.name,
+      url: `${site.url}/`,
+      image: `${site.url}${site.ogImage}`,
+      jobTitle: site.role,
+      email: `mailto:${site.email}`,
+      alumniOf: [
+        {
+          '@type': 'CollegeOrUniversity',
+          name: 'University of Florida',
+          url: 'https://www.ufl.edu/',
+        },
+        {
+          '@type': 'CollegeOrUniversity',
+          name: 'Northern Kentucky University',
+          url: 'https://www.nku.edu/',
+        },
+      ],
+      knowsAbout: [
+        'GIS',
+        'Remote Sensing',
+        'Spatial Data Science',
+        'Ecology',
+        'Data Visualization',
+        'Machine Learning',
+      ],
+      sameAs: [
+        'https://www.linkedin.com/in/noahweidig/',
+        'https://github.com/noahweidig/',
+        'https://scholar.google.com/citations?hl=en&user=Ml95eTwAAAAJ',
+        'https://orcid.org/0000-0003-1205-3209',
+      ],
+    },
+    {
+      '@type': 'WebSite',
+      '@id': `${site.url}/#website`,
+      url: `${site.url}/`,
+      name: site.name,
+      description: site.description,
+      publisher: { '@id': `${site.url}/#person` },
+    },
+  ],
+};
+---
+
+<!doctype html>
+<html lang="en" data-theme="dark" data-base={base}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="author" content={site.name} />
+    <meta
+      name="robots"
+      content={noindex
+        ? 'noindex, nofollow'
+        : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'}
+    />
+    <meta name="google-site-verification" content="0ktlvQnqLH01fphPI1cDMDTuQSmCG7mHBQdovXQs2TQ" />
+    <meta name="theme-color" content="#07080b" />
+    <meta name="generator" content={Astro.generator} />
+
+    <meta property="og:type" content={type} />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogUrl} />
+    {
+      publishedTime && (
+        <meta property="article:published_time" content={publishedTime.toISOString()} />
+      )
+    }
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogUrl} />
+
+    <link rel="icon" href={u('/favicon.ico')} sizes="32x32" />
+    <link rel="icon" type="image/svg+xml" href={u('/favicon.svg')} />
+    <link rel="icon" type="image/png" href={u('/favicon-96x96.png')} sizes="96x96" />
+    <link rel="apple-touch-icon" sizes="180x180" href={u('/apple-touch-icon.png')} />
+    <link rel="mask-icon" href={u('/safari-pinned-tab.svg')} color="#3d86ff" />
+    <link rel="manifest" href={u('/site.webmanifest')} />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="Noah Weidig — Blog"
+      href={u('/rss.xml')}
+    />
+
+    <link
+      rel="preload"
+      href={u('/fonts/inter-latin.woff2')}
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href={u('/fonts/newsreader-latin.woff2')}
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+
+    <style is:inline set:html={`:root{--topo-url:url("${u('/media/topography.svg')}")}`}></style>
+
+    <script is:inline>
+      // Applied before first paint so the page never flashes the wrong theme.
+      (function () {
+        var t = null;
+        try {
+          t = localStorage.getItem('nw-theme');
+        } catch (e) {}
+        if (t !== 'light' && t !== 'dark') {
+          t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+        }
+        document.documentElement.dataset.theme = t;
+        var m = document.querySelector('meta[name="theme-color"]');
+        if (m) m.setAttribute('content', t === 'light' ? '#fbfaf7' : '#07080b');
+      })();
+    </script>
+
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+    <script
+      is:inline
+      type="speculationrules"
+      set:html={JSON.stringify({
+        prefetch: [
+          {
+            where: { and: [{ href_matches: '/*' }, { not: { href_matches: '/uploads/*' } }] },
+            eagerness: 'moderate',
+          },
+        ],
+      })}
+    />
+
+    <ClientRouter />
+  </head>
+
+  <body class={bodyClass}>
+    <a href="#main" class="sr-only-nw focus:not-sr-only fixed top-3 left-3 z-100 btn btn-primary"
+      >Skip to content</a
+    >
+    <Header />
+    <main id="main" data-pagefind-body>
+      <slot />
+    </main>
+    <Footer />
+
+    <script>
+      import '../scripts/ui';
+    </script>
+
+    <script
+      is:inline
+      async
+      src={`https://www.googletagmanager.com/gtag/js?id=${site.analyticsId}`}
+      data-astro-rerun></script>
+    <script is:inline define:vars={{ id: site.analyticsId }}>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        window.dataLayer.push(arguments);
+      }
+      window.gtag = gtag;
+      gtag('js', new Date());
+      gtag('config', id, { anonymize_ip: true, client_storage: 'none' });
+      document.addEventListener('astro:page-load', function () {
+        gtag('event', 'page_view', { page_path: location.pathname + location.search });
+      });
+    </script>
+  </body>
+</html>

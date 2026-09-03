@@ -1,0 +1,134 @@
+---
+import { u } from '../lib/url';
+import Icon from './Icon.astro';
+import { socials } from '../lib/site';
+
+const typed = [
+  'geospatial analyses',
+  'remote sensing workflows',
+  'data-driven insights',
+  'GIS applications',
+];
+---
+
+<section class="relative overflow-hidden border-b border-line" id="hero">
+  <div class="grid-bg absolute inset-0" aria-hidden="true"></div>
+  <div class="topo-bg absolute inset-0" aria-hidden="true"></div>
+  <div
+    class="pointer-events-none absolute -top-52 -right-40 h-[46rem] w-[46rem] rounded-full opacity-60 blur-3xl"
+    style="background: radial-gradient(closest-side, var(--c-glow), transparent)"
+    aria-hidden="true"
+  >
+  </div>
+
+  <div
+    class="shell relative grid items-center gap-12 py-16 md:py-24 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16 lg:py-28"
+  >
+    <div>
+      <p class="kicker" data-reveal>{'GIS Analyst & Data Scientist'}</p>
+
+      <h1
+        class="mt-5 font-display text-[clamp(2.6rem,1.4rem+5.2vw,5.2rem)] leading-[1.02] font-medium"
+        data-reveal
+        style="--reveal-delay:70ms"
+      >
+        <span class="block">Spatial analysis.</span>
+        <span class="block text-gradient">Real insights.</span>
+      </h1>
+
+      <p
+        class="mt-6 flex flex-wrap items-baseline gap-x-2 font-mono text-[0.95rem] text-dim"
+        data-reveal
+        style="--reveal-delay:140ms"
+      >
+        <span>I build</span>
+        <span class="text-accent-ink" data-typed={JSON.stringify(typed)}></span>
+        <span class="caret inline-block h-[1.05em] w-[2px] translate-y-[0.16em] bg-accent"></span>
+      </p>
+
+      <p class="lede mt-6 max-w-xl" data-reveal style="--reveal-delay:200ms">
+        I turn satellite imagery, fire perimeters, and messy field data into models people can
+        actually decide something with — mostly around wildfire risk in the wildland-urban
+        interface.
+      </p>
+
+      <div class="mt-8 flex flex-wrap items-center gap-3" data-reveal style="--reveal-delay:260ms">
+        <a class="btn btn-primary" href="#projects">
+          View my work
+          <Icon name="arrow" size={15} />
+        </a>
+        <a class="btn btn-ghost" href={u('/contact/')}>
+          Get in touch
+          <Icon name="mail" size={15} />
+        </a>
+      </div>
+
+      <div class="mt-8 flex items-center gap-2" data-reveal style="--reveal-delay:320ms">
+        {
+          socials.map((s) => (
+            <a
+              href={s.href}
+              aria-label={s.label}
+              target="_blank"
+              rel="noopener"
+              class="grid h-10 w-10 place-items-center rounded-full border border-line text-dim transition-all duration-200 hover:-translate-y-0.5 hover:border-accent hover:text-accent-ink"
+            >
+              <Icon name={s.icon} size={18} />
+            </a>
+          ))
+        }
+      </div>
+    </div>
+
+    <div
+      class="relative mx-auto w-full max-w-sm lg:max-w-none"
+      data-reveal
+      style="--reveal-delay:160ms"
+    >
+      <div
+        class="absolute inset-6 rounded-full opacity-70 blur-2xl"
+        style="background: conic-gradient(from 210deg, var(--c-accent), transparent 40%, var(--c-ember) 70%, var(--c-accent))"
+        aria-hidden="true"
+      >
+      </div>
+      <div class="relative overflow-hidden rounded-2xl border border-line bg-surface">
+        <img
+          src={u('/media/authors/me.webp')}
+          alt="Noah Weidig"
+          width="700"
+          height="700"
+          fetchpriority="high"
+          decoding="async"
+          class="aspect-square w-full object-cover"
+        />
+        <div
+          class="pointer-events-none absolute inset-0"
+          style="background: linear-gradient(to top, color-mix(in oklab, var(--c-bg) 55%, transparent), transparent 45%)"
+        >
+        </div>
+        <div
+          class="absolute inset-x-4 bottom-4 flex items-center gap-2.5 rounded-lg border border-line bg-bg/80 px-3.5 py-2.5 backdrop-blur-md"
+        >
+          <span class="relative flex h-2 w-2 shrink-0">
+            <span
+              class="absolute inline-flex h-full w-full animate-ping rounded-full bg-moss opacity-70"
+            ></span>
+            <span class="relative inline-flex h-2 w-2 rounded-full bg-moss"></span>
+          </span>
+          <span class="text-[0.8rem] text-dim">Open to data science &amp; GIS roles</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .caret {
+    animation: blink 1.05s steps(1) infinite;
+  }
+  @keyframes blink {
+    50% {
+      opacity: 0;
+    }
+  }
+</style>

@@ -1,33 +1,11 @@
 # Netlify: PR deploy previews only. Production stays on GitHub Pages
 # (deployed from `main` via .github/workflows/publish.yml).
-#
-# Netlify's build image has no Quarto binary, so install it (pinned to the
-# same version as CI) before rendering. The tarball is downloaded to disk and
-# checksum-verified before anything is extracted or executed: GitHub release
-# assets are mutable, so a version pin alone doesn't guarantee the bytes.
-# `set -eu` plus `curl -f` means a failed or 404'd download stops the build
-# here instead of falling through to a "quarto: not found" further down.
-# (The old `curl | tar` form reported only tar's exit status, so a download
-# failure was invisible; there is no pipe left to need `pipefail`, which is
-# not POSIX and would itself fail under dash.)
-#
-# When bumping QUARTO_VERSION, update QUARTO_SHA256 from that release's
-# quarto-<version>-checksums.txt.
 [build]
-  publish = "_site"
-  command = """
-set -eu
-QUARTO_TARBALL="quarto-${QUARTO_VERSION}-linux-amd64.tar.gz"
-curl -fsSL -o "$QUARTO_TARBALL" \
-  "https://github.com/quarto-dev/quarto-cli/releases/download/v${QUARTO_VERSION}/${QUARTO_TARBALL}"
-echo "${QUARTO_SHA256}  ${QUARTO_TARBALL}" | sha256sum -c -
-tar -xzf "$QUARTO_TARBALL"
-export PATH="$PWD/quarto-${QUARTO_VERSION}/bin:$PATH"
-quarto render"""
+  publish = "dist"
+  command = "npm ci && npm run build:fast"
 
 [build.environment]
-  QUARTO_VERSION = "1.9.38"
-  QUARTO_SHA256 = "ea8c897368791ad9f200010c087ea3111b2e556b12a960487dd4e216902aa102"
+  NODE_VERSION = "22.22.2"
 
 # ---------------------------------------------------------------------------
 # Caching (issue #205, partial).
@@ -35,29 +13,33 @@ quarto render"""
 # These rules apply to Netlify deploy previews only. Production is GitHub
 # Pages behind Cloudflare, which serves every static asset with the Pages
 # default `max-age=14400`; that TTL can't be set from this repo, so the
-# production half of #205 is a Cloudflare cache rule with the same three
-# path patterns below.
+# production half of #205 is a Cloudflare cache rule with the same path
+# patterns below.
 #
 # Only content-addressed paths get the one-year `immutable` lifetime:
-# `site_libs/**` is Quarto's hash-named bundle output, `assets/fonts/**` are
-# pinned woff2 subsets, and `assets/media/**` holds the generated responsive
-# image variants. `assets/site.css` and `assets/*.js` are deliberately absent
-# — their URLs are stable across deploys, so a long TTL there would serve
-# stale CSS after a render until they carry a content hash themselves.
+# `_astro/**` is Astro's hash-named bundle and optimized-image output,
+# `fonts/**` are pinned woff2 subsets, and `pagefind/**` is the hash-named
+# search index. `media/**` keeps a shorter TTL because those filenames are
+# stable across deploys.
 [[headers]]
-  for = "/site_libs/*"
+  for = "/_astro/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
 [[headers]]
-  for = "/assets/fonts/*"
+  for = "/fonts/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
 [[headers]]
-  for = "/assets/media/*"
+  for = "/pagefind/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/media/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
 
 # HTML is deliberately left alone: Netlify already serves it revalidated per
 # deploy, and on production the Pages default (`max-age=600`) is what the

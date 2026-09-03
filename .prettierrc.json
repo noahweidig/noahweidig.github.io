@@ -1,11 +1,6 @@
 {
   "printWidth": 100,
-  "singleQuote": false,
-  "trailingComma": "all",
-  "overrides": [
-    {
-      "files": ["*.yml", "*.yaml"],
-      "options": { "singleQuote": false }
-    }
-  ]
+  "singleQuote": true,
+  "plugins": ["prettier-plugin-astro"],
+  "overrides": [{ "files": "*.astro", "options": { "parser": "astro" } }]
 }

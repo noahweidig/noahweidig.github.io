@@ -1,0 +1,143 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { site } from '../lib/site';
+
+const facts = [
+  { icon: 'mail', label: 'Email', value: site.email, href: `mailto:${site.email}` },
+  { icon: 'pin', label: 'Location', value: 'Orlando, Florida' },
+  { icon: 'briefcase', label: 'Open to', value: 'Data science & GIS roles, collaborations' },
+  { icon: 'calendar', label: 'Book a call', value: 'cal.com/noahweidig', href: site.booking },
+];
+---
+
+<Base
+  title="Get in touch"
+  description="Email me, book a call, or send a message — I reply within 24 hours."
+>
+  <section class="relative overflow-hidden border-b border-line bg-bg-deep">
+    <div class="grid-bg absolute inset-0" aria-hidden="true"></div>
+    <div class="shell relative py-16 text-center md:py-20">
+      <p class="kicker justify-center">Contact</p>
+      <h1 class="mt-4 font-display text-[clamp(2.2rem,1.3rem+3.4vw,3.8rem)] font-medium">
+        Get in touch
+      </h1>
+      <p class="lede mx-auto mt-5">
+        Email me, book a call, or send a message — I reply within 24 hours.
+      </p>
+    </div>
+  </section>
+
+  <div class="shell py-14 md:py-20">
+    <div class="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:gap-14">
+      <div data-reveal>
+        <h2 class="font-display text-2xl">Start a conversation</h2>
+        <p class="mt-4 leading-relaxed text-dim">
+          I work on wildfire risk, remote sensing and the tools that put a model in front of someone
+          who has to decide something. If you are hiring, planning a collaboration, or stuck on a
+          spatial problem, tell me what you are working on and I will reply within 24 hours.
+        </p>
+
+        <ul class="mt-8 grid gap-3">
+          {
+            facts.map((f) => (
+              <li class="card flex items-center gap-4 p-4">
+                <span class="grid h-10 w-10 shrink-0 place-items-center rounded-lg border border-line bg-raised text-accent-ink">
+                  <Icon name={f.icon} size={18} />
+                </span>
+                <span class="min-w-0">
+                  <small class="block font-mono text-[0.66rem] tracking-[0.14em] text-faint uppercase">
+                    {f.label}
+                  </small>
+                  {f.href ? (
+                    <a
+                      href={f.href}
+                      target={f.href.startsWith('http') ? '_blank' : undefined}
+                      rel={f.href.startsWith('http') ? 'noopener' : undefined}
+                      class="block truncate text-[0.95rem] text-accent-ink hover:underline"
+                    >
+                      {f.value}
+                    </a>
+                  ) : (
+                    <span class="block truncate text-[0.95rem]">{f.value}</span>
+                  )}
+                </span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <form
+        class="card p-6 md:p-8"
+        action="https://formspree.io/f/mnjggoke"
+        method="POST"
+        data-contact-form
+        data-reveal
+      >
+        <div class="grid gap-5">
+          <div class="grid gap-2">
+            <label for="form-name" class="text-sm font-medium">Your name</label>
+            <input
+              id="form-name"
+              type="text"
+              name="name"
+              placeholder="Jane Doe"
+              autocomplete="name"
+              required
+              class="w-full rounded-md border border-line bg-raised px-3.5 py-2.5 text-[0.95rem] outline-none transition-colors focus:border-accent"
+            />
+          </div>
+          <div class="grid gap-2">
+            <label for="form-email" class="text-sm font-medium">Your email</label>
+            <input
+              id="form-email"
+              type="email"
+              name="email"
+              placeholder="jane@example.com"
+              autocomplete="email"
+              required
+              class="w-full rounded-md border border-line bg-raised px-3.5 py-2.5 text-[0.95rem] outline-none transition-colors focus:border-accent"
+            />
+          </div>
+          <div class="grid gap-2">
+            <label for="form-message" class="text-sm font-medium">Your message</label>
+            <textarea
+              id="form-message"
+              name="message"
+              rows="6"
+              placeholder="What you're working on, and how I can help"
+              required
+              class="w-full resize-y rounded-md border border-line bg-raised px-3.5 py-2.5 text-[0.95rem] outline-none transition-colors focus:border-accent"
+            ></textarea>
+          </div>
+
+          {
+            /* Spam trap: Formspree drops any submission that fills `_gotcha`, so
+              it works with JS off. Off-screen rather than display:none, because
+              some bots skip hidden inputs. */
+          }
+          <div class="sr-only-nw" aria-hidden="true">
+            <label for="form-company">Company — leave this field empty</label>
+            <input id="form-company" type="text" name="_gotcha" tabindex="-1" autocomplete="off" />
+          </div>
+          <input type="hidden" name="nw-form-started" value="" />
+
+          <p
+            class="rounded-md border px-3.5 py-2.5 text-sm data-[state=error]:border-ember/50 data-[state=error]:text-ember data-[state=ok]:border-moss/50 data-[state=ok]:text-moss"
+            data-form-status
+            role="status"
+            aria-live="polite"
+            hidden
+          >
+          </p>
+
+          <button class="btn btn-primary w-full" type="submit">
+            Send message
+            <Icon name="arrow" size={15} />
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</Base>

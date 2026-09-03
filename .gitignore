@@ -1,14 +1,7 @@
-# Quarto build artifacts
-/_site/
-/.quarto/
-/_freeze/
-
-# Node
+dist/
+.astro/
 node_modules/
-
-# OS / editor
 .DS_Store
-Thumbs.db
-.idea/
-.vscode/
-*.log
+.env
+.env.production
+npm-debug.log*

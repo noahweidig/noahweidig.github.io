@@ -1,0 +1,36 @@
+---
+import Base from './Base.astro';
+
+interface Props {
+  title: string;
+  kicker?: string;
+  description?: string;
+  intro?: string;
+  wide?: boolean;
+  noindex?: boolean;
+}
+const { title, kicker, description, intro, wide = true, noindex } = Astro.props;
+---
+
+<Base title={title} description={description} noindex={noindex}>
+  <section class="relative overflow-hidden border-b border-line bg-bg-deep">
+    <div class="grid-bg absolute inset-0" aria-hidden="true"></div>
+    <div
+      class="pointer-events-none absolute -top-40 left-1/2 h-80 w-[52rem] -translate-x-1/2 rounded-full opacity-50 blur-3xl"
+      style="background: radial-gradient(closest-side, var(--c-glow), transparent)"
+      aria-hidden="true"
+    >
+    </div>
+    <div class="shell relative py-16 text-center md:py-24">
+      {kicker && <p class="kicker justify-center">{kicker}</p>}
+      <h1 class="mt-4 font-display text-[clamp(2.2rem,1.3rem+3.4vw,4rem)] font-medium">
+        {title}
+      </h1>
+      {intro && <p class="lede mx-auto mt-5 text-balance">{intro}</p>}
+    </div>
+  </section>
+
+  <div class:list={[wide ? 'shell' : 'shell-narrow', 'py-14 md:py-20']}>
+    <slot />
+  </div>
+</Base>
