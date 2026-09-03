@@ -1,0 +1,54 @@
+---
+export interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface Props {
+  headings: Heading[];
+}
+/* h2 and h3 only: h4 and below are detail inside a section, and a four-level
+   rail stops being scannable. */
+const items = Astro.props.headings.filter((h) => h.depth === 2 || h.depth === 3);
+---
+
+{
+  items.length > 1 && (
+    <aside class="no-print hidden lg:block" data-pagefind-ignore>
+      <nav aria-labelledby="toc-heading" class="sticky top-28" data-toc>
+        <h2
+          id="toc-heading"
+          class="font-mono text-[0.66rem] tracking-[0.16em] text-faint uppercase"
+        >
+          On this page
+        </h2>
+        <ul class="mt-4 border-l border-line">
+          {items.map((h) => (
+            <li>
+              <a
+                href={`#${h.slug}`}
+                data-toc-link={h.slug}
+                class:list={[
+                  'block border-l-2 border-transparent py-1.5 text-[0.82rem] leading-snug text-faint transition-colors hover:text-ink',
+                  h.depth === 3 ? 'pr-2 pl-7' : 'pr-2 pl-4',
+                ]}
+              >
+                {h.text}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </aside>
+  )
+}
+
+<style>
+  /* -1px pulls the active marker over the rail rather than beside it. */
+  [data-toc] a[aria-current='true'] {
+    margin-left: -1px;
+    border-left-color: var(--c-accent);
+    color: var(--c-ink);
+  }
+</style>

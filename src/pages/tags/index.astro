@@ -1,0 +1,32 @@
+---
+import Page from '../../layouts/Page.astro';
+import { u } from '../../lib/url';
+import { tagGroups } from '../../lib/tags';
+
+const groups = await tagGroups();
+---
+
+<Page
+  title="Tags"
+  kicker="Index"
+  section="Tags"
+  description="Every topic used across projects, publications and writing, with the work filed under each."
+  intro="Every topic used across projects, publications and writing, with the work filed under each."
+  wide={false}
+>
+  <ul class="flex flex-wrap gap-2">
+    {
+      groups.map((g) => (
+        <li>
+          <a
+            href={u(`/tags/${g.slug}/`)}
+            class="chip transition-colors hover:border-accent hover:text-accent-ink"
+          >
+            {g.name}
+            <span class="text-faint">{g.items.length}</span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</Page>
