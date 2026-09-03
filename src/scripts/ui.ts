@@ -624,6 +624,28 @@ function initToc() {
   on(window, 'resize', sync);
 }
 
+/* ---------------------------------------------------------------- share -- */
+/* Instagram has no web share endpoint, so hand the page to the OS share sheet
+   (which lists Instagram on mobile) and fall back to the clipboard. */
+function initShare() {
+  document.querySelectorAll<HTMLButtonElement>('[data-share]').forEach((btn) => {
+    on(btn, 'click', async () => {
+      const url = btn.dataset.share ?? '';
+      const title = btn.dataset.shareTitle ?? document.title;
+      try {
+        if (navigator.share) {
+          await navigator.share({ title, url });
+          return;
+        }
+        await navigator.clipboard.writeText(url);
+        btn.title = 'Link copied — paste it into Instagram';
+      } catch {
+        /* dismissed or blocked */
+      }
+    });
+  });
+}
+
 /* ----------------------------------------------------------- copy bibtex -- */
 function initCopy() {
   document.querySelectorAll<HTMLButtonElement>('[data-copy]').forEach((btn) => {
@@ -709,6 +731,7 @@ function boot() {
   initSearch();
   initTypewriter();
   initCopy();
+  initShare();
   initCodeCopy();
   initToc();
   initPrint();

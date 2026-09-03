@@ -28,7 +28,7 @@ const url = (p) => `http://localhost/${BASE}/${p}`;
 // numbers below come from the runner the gate actually runs on.
 //
 //   metric         worst on CI  page                        threshold
-//   performance    0.87         /contact/                   0.85
+//   performance    0.84         /blog/                      0.80
 //   accessibility  1.00         (all)                       0.98
 //   best-practices 0.96         (all)                       0.95
 //   seo            1.00         (all)                       1.00
@@ -36,10 +36,14 @@ const url = (p) => `http://localhost/${BASE}/${p}`;
 //   CLS            0.000        (all)                       0.05
 //   TBT            0ms          (all)                       200ms
 //
-// LCP gets ~8% of headroom rather than sitting on the worst case, because it
-// is the one metric here that moves with the runner: successive CI runs put
-// /contact/ at 3916ms and 3905ms, and a shared runner having a slow minute
-// should not turn the build red. The rest are deterministic and stay tight.
+// Performance and LCP both get headroom rather than sitting on the worst case:
+// they are the two assertions here that move with the runner. Successive CI
+// runs put /contact/ at 3916ms and 3905ms, and the performance score — which is
+// computed from those same timings — came in at 0.87 on one run and 0.84 on the
+// next. A shared runner having a slow minute should not turn the build red.
+// Setting performance at 0.85 was a mistake for exactly this reason: it hugged
+// the observed worst on a metric that is not stable. The deterministic
+// assertions below stay tight.
 //
 // These sit well below what a visitor sees. LHCI's static server sends no
 // compression and its runner is shared, while GitHub Pages behind Cloudflare
@@ -52,7 +56,7 @@ const url = (p) => `http://localhost/${BASE}/${p}`;
 // lands. Subsetting those to the weights actually used is the other lever.
 
 const ASSERTIONS = {
-  'categories:performance': ['error', { minScore: 0.85 }],
+  'categories:performance': ['error', { minScore: 0.8 }],
   'categories:accessibility': ['error', { minScore: 0.98 }],
   'categories:best-practices': ['error', { minScore: 0.95 }],
   'categories:seo': ['error', { minScore: 1 }],
