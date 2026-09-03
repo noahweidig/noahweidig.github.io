@@ -564,6 +564,21 @@
     }
   }
 
+  /* FAQ accordion: the vertical bar of the plus collapses to leave a minus. */
+  .faq summary::-webkit-details-marker {
+    display: none;
+  }
+  .faq .faq-bar {
+    transform-origin: center;
+    transition:
+      transform 0.3s var(--ease-out-soft),
+      opacity 0.3s var(--ease-out-soft);
+  }
+  .faq[open] .faq-bar {
+    transform: scaleY(0);
+    opacity: 0;
+  }
+
   /* --- reveal on scroll --- */
   [data-reveal] {
     opacity: 0;

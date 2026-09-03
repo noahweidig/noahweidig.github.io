@@ -2,6 +2,7 @@
 import { u } from '../lib/url';
 import { footerColumns, socials, site } from '../lib/site';
 import Icon from './Icon.astro';
+import Logo from './Logo.astro';
 const year = new Date().getFullYear();
 ---
 
@@ -15,7 +16,7 @@ const year = new Date().getFullYear();
     <div class="grid gap-12 lg:grid-cols-[1.4fr_repeat(4,1fr)]">
       <div>
         <a href={u('/')} class="flex items-center gap-2.5">
-          <img src={u('/media/logo.svg')} alt="" width="920" height="1079" class="h-8 w-auto" />
+          <Logo class="h-8 w-auto" />
           <span class="font-display text-xl">Noah Weidig</span>
         </a>
         <p class="mt-3 text-sm text-dim">{site.role}</p>

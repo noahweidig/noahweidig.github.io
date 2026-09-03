@@ -26,9 +26,7 @@ const tech = [
   ['GeoPandas', '/media/icons/custom/geopandas.svg'],
   ['OSM', '/media/icons/custom/openstreetmap.svg'],
 ];
-/* Marquee images load eagerly: they start outside the viewport horizontally,
-   where a lazy load never fires, and each is a sub-2 KB icon.
-   Some marks are pure black and vanish on the dark ground; invert those only. */
+/* Some marks are pure black and vanish on the dark ground; invert those only. */
 const invert = new Set(['Markdown', 'LaTeX', 'GitHub', 'pandas']);
 ---
 
@@ -38,12 +36,11 @@ const invert = new Set(['Markdown', 'LaTeX', 'GitHub', 'pandas']);
       tech.map(([label, src]) => (
         <span class="flex shrink-0 items-center gap-2.5 text-sm text-dim">
           <img
-            src={u(src!)}
+            data-src={u(src!)}
             alt=""
             width="32"
             height="32"
-            loading="eager"
-            fetchpriority="low"
+            loading="lazy"
             decoding="async"
             class:list={[
               'h-7 w-7 object-contain opacity-70 transition-opacity duration-300 hover:opacity-100',

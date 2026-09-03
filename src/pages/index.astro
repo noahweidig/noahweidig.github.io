@@ -97,7 +97,7 @@ const faqs = [
 ];
 ---
 
-<Base title={site.name}>
+<Base title={site.name} filters={{ section: 'Page' }}>
   <Hero />
 
   <!-- stats + affiliations -->
@@ -266,17 +266,40 @@ const faqs = [
       title="About my work"
       subtitle="Common questions about collaboration and what I do"
     />
-    <div class="mt-9 max-w-3xl divide-y divide-line border-y border-line">
+    <div class="mt-9 divide-y divide-line border-y border-line">
       {
         faqs.map((f) => (
-          <details class="group py-5" data-reveal>
-            <summary class="flex cursor-pointer list-none items-center justify-between gap-4 text-[1.02rem] font-medium transition-colors hover:text-accent-ink">
-              {f.q}
-              <span class="grid h-6 w-6 shrink-0 place-items-center rounded-full border border-line text-faint transition-transform duration-300 group-open:rotate-45">
-                +
+          <details class="faq group" data-reveal>
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-6 py-5 text-[1.05rem] font-medium transition-colors hover:text-accent-ink">
+              <span class="min-w-0">{f.q}</span>
+              {/* Drawn rather than a typed "+": the glyph sits off the optical
+                  centre at this size, and the vertical bar can collapse into a
+                  minus instead of the whole mark spinning. */}
+              <span class="grid h-7 w-7 shrink-0 place-items-center rounded-md border border-line text-faint transition-colors duration-300 group-hover:border-line-strong group-hover:text-ink group-open:border-accent/50 group-open:text-accent-ink">
+                <svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true">
+                  <line
+                    x1="2.5"
+                    y1="8"
+                    x2="13.5"
+                    y2="8"
+                    stroke="currentColor"
+                    stroke-width="1.6"
+                    stroke-linecap="round"
+                  />
+                  <line
+                    class="faq-bar"
+                    x1="8"
+                    y1="2.5"
+                    x2="8"
+                    y2="13.5"
+                    stroke="currentColor"
+                    stroke-width="1.6"
+                    stroke-linecap="round"
+                  />
+                </svg>
               </span>
             </summary>
-            <p class="mt-3 text-[0.95rem] leading-relaxed text-dim">
+            <p class="max-w-3xl pb-5 text-[0.95rem] leading-relaxed text-dim">
               {f.link ? (
                 <>
                   {f.a.split(f.link.text)[0]}
