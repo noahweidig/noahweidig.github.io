@@ -35,7 +35,7 @@ const isActive = (href: string) =>
                 href={u(item.href)}
                 aria-current={isActive(item.href) ? 'page' : undefined}
                 class:list={[
-                  'relative rounded-full px-3.5 py-2 text-sm transition-colors duration-200',
+                  'relative rounded-full px-3.5 py-2 text-sm uppercase transition-colors duration-200',
                   isActive(item.href) ? 'text-ink' : 'text-dim hover:text-ink',
                 ]}
               >
@@ -102,7 +102,7 @@ const isActive = (href: string) =>
             <li>
               <a
                 href={u(item.href)}
-                class="flex items-center justify-between rounded-md px-3 py-2.5 text-[0.95rem] text-dim transition-colors hover:bg-raised hover:text-ink"
+                class="flex items-center justify-between rounded-md px-3 py-2.5 text-[0.95rem] uppercase text-dim transition-colors hover:bg-raised hover:text-ink"
                 aria-current={isActive(item.href) ? 'page' : undefined}
               >
                 {item.text}
