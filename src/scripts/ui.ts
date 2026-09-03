@@ -681,8 +681,8 @@ function initCarousels() {
       on(dot, 'click', () => go(i));
       on(dot, 'keydown', (e) => {
         const key = (e as KeyboardEvent).key;
-        const step = key === 'ArrowRight' ? 1 : key === 'ArrowLeft' ? -1 : 0;
-        if (!step) return;
+        if (key !== 'ArrowRight' && key !== 'ArrowLeft') return;
+        const step = key === 'ArrowRight' ? 1 : -1;
         e.preventDefault();
         const next = (i + step + dots.length) % dots.length;
         go(next);
@@ -701,8 +701,12 @@ function initCarousels() {
     };
     const timer = window.setInterval(tick, 5200);
     cleanups.push(() => window.clearInterval(timer));
-    on(root, 'pointerenter', () => (held = true));
-    on(root, 'pointerleave', () => (held = false));
+    on(root, 'pointerenter', () => {
+      held = true;
+    });
+    on(root, 'pointerleave', () => {
+      held = false;
+    });
   });
 }
 
