@@ -22,7 +22,7 @@ const targets = [
     href: `https://www.facebook.com/sharer/sharer.php?u=${u}`,
   },
   { label: 'Reddit', icon: 'reddit', href: `https://www.reddit.com/submit?url=${u}&title=${t}` },
-  { label: 'Email', icon: 'mail', href: `mailto:?subject=${t}&body=${u}` },
+  { label: 'Email', icon: 'envelope', href: `mailto:?subject=${t}&body=${u}` },
 ];
 ---
 
@@ -35,7 +35,7 @@ const targets = [
   {
     targets.map((s) => (
       <a
-        class="icon-tile"
+        class="brand-tile"
         href={s.href}
         target="_blank"
         rel="noopener"

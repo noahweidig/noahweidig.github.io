@@ -4,8 +4,8 @@
  *
  * Non-brand marks come from Lucide (ISC, lucide.dev) and live in
  * `src/lib/icons.generated.ts` — regenerate them with
- * `node scripts/generate-icons.mjs`. Brand marks stay hand-drawn here because
- * Lucide does not ship logos.
+ * `node scripts/generate-icons.mjs`. Brand marks are the rounded-square SVGs
+ * in `public/uploads/`, inlined at build time so they can take `currentColor`.
  */
 import { lucideIcons } from '../lib/icons.generated';
 
@@ -17,38 +17,55 @@ interface Props {
 }
 const { name, size = 20, class: klass = '', 'stroke-width': sw = 1.6 } = Astro.props;
 
-const BRAND: Record<string, string> = {
-  linkedin:
-    '<rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 11v5"/><path d="M8 8v.01"/><path d="M12 16v-5"/><path d="M16 16v-3a2 2 0 0 0 -4 0"/>',
-  github:
-    '<path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6.1a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6.1c-.6 .6 -.6 1.2 -.5 2v3.5"/>',
-  scholar: '<path d="M22 9l-10 -4l-10 4l10 4l10 -4v6"/><path d="M6 10.6v5.4a6 3 0 0 0 12 0v-5.4"/>',
-  orcid:
-    '<circle cx="12" cy="12" r="9"/><path d="M9 10v6"/><path d="M9 7v.01"/><path d="M12.5 16v-6h2a3 3 0 0 1 0 6z"/>',
-  x: '<path d="M4 4l11.733 16h4.267l-11.733 -16z"/><path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"/>',
-  bluesky:
-    '<path d="M12 13.2c-1.4 -3 -5 -7.7 -7.6 -7.7c-1.3 0 -1.9 .9 -1.9 2.4c0 1.8 .4 4.2 1.1 5.1c.9 1.1 2.5 1.2 4 .9c-2.1 .4 -3.1 1.5 -1.9 3.2c1.4 1.9 3.4 -.4 4.4 -2.2c.4 -.7 .7 -1.3 .9 -1.7c.2 .4 .5 1 .9 1.7c1 1.8 3 4.1 4.4 2.2c1.2 -1.7 .2 -2.8 -1.9 -3.2c1.5 .3 3.1 .2 4 -.9c.7 -.9 1.1 -3.3 1.1 -5.1c0 -1.5 -.6 -2.4 -1.9 -2.4c-2.6 0 -6.2 4.7 -7.6 7.7z"/>',
-  facebook: '<path d="M7 10v4h3v7h4v-7h3l1 -4h-4v-2a1 1 0 0 1 1 -1h3v-4h-3a5 5 0 0 0 -5 5v2h-3"/>',
-  instagram:
-    '<rect x="4" y="4" width="16" height="16" rx="4"/><circle cx="12" cy="12" r="3"/><path d="M16.5 7.5v.01"/>',
-  reddit:
-    '<path d="M12 8c2.648 0 5.028 .826 6.675 2.14a2.5 2.5 0 0 1 2.325 4.36c0 3.59 -4.03 6.5 -9 6.5c-4.875 0 -8.845 -2.8 -9 -6.294a2.5 2.5 0 0 1 2.325 -4.566c1.646 -1.313 4.026 -2.14 6.675 -2.14z"/><path d="M12 8l1 -5l4.5 1"/><path d="M17.5 4.01l.01 -.011"/><path d="M9 14.5v.01"/><path d="M15 14.5v.01"/><path d="M9.5 17.5c1.5 1 3.5 1 5 0"/>',
-};
+const brandFiles = import.meta.glob<string>('/public/uploads/*.svg', {
+  query: '?raw',
+  import: 'default',
+  eager: true,
+});
 
-const d = BRAND[name] ?? lucideIcons[name] ?? lucideIcons.arrow!;
+const BRAND_ALIAS: Record<string, string> = { x: 'x-twitter', twitter: 'x-twitter' };
+
+const brand: Record<string, { viewBox: string; body: string }> = {};
+for (const [path, raw] of Object.entries(brandFiles)) {
+  const key = path
+    .split('/')
+    .pop()!
+    .replace(/\.svg$/, '');
+  const viewBox = raw.match(/viewBox="([^"]+)"/)?.[1] ?? '0 0 448 448';
+  const body = raw.replace(/^[\s\S]*?<svg[^>]*>/, '').replace(/<\/svg>[\s\S]*$/, '');
+  brand[key] = { viewBox, body };
+}
+
+const mark = brand[BRAND_ALIAS[name] ?? name];
+const d = mark ? mark.body : (lucideIcons[name] ?? lucideIcons.arrow!);
 ---
 
-<svg
-  viewBox="0 0 24 24"
-  width={size}
-  height={size}
-  fill="none"
-  stroke="currentColor"
-  stroke-width={sw}
-  stroke-linecap="round"
-  stroke-linejoin="round"
-  aria-hidden="true"
-  focusable="false"
-  class={klass}
-  set:html={d}
-/>
+{
+  mark ? (
+    <svg
+      viewBox={mark.viewBox}
+      width={size}
+      height={size}
+      fill="currentColor"
+      aria-hidden="true"
+      focusable="false"
+      class={klass}
+      set:html={d}
+    />
+  ) : (
+    <svg
+      viewBox="0 0 24 24"
+      width={size}
+      height={size}
+      fill="none"
+      stroke="currentColor"
+      stroke-width={sw}
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+      focusable="false"
+      class={klass}
+      set:html={d}
+    />
+  )
+}
