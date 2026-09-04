@@ -226,14 +226,6 @@
     text-transform: uppercase;
     color: var(--c-accent-ink);
   }
-  .kicker::before {
-    content: '';
-    width: 1.6rem;
-    height: 1px;
-    background: currentColor;
-    opacity: 0.6;
-  }
-
   /* --- section titles --- */
   .section-title {
     font-size: clamp(1.85rem, 1.2rem + 2.2vw, 3rem);
