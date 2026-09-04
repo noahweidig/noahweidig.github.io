@@ -26,13 +26,16 @@ const { prev, next, label } = Astro.props;
             href={u(prev.href)}
             data-tip-title={prev.title}
             data-tip={`Previous in ${label}`}
-            class="group flex flex-col gap-2 px-5 py-7 transition-colors hover:bg-surface sm:px-8"
+            class="group flex min-w-0 flex-col gap-2 px-5 py-7 transition-colors hover:bg-surface sm:px-8"
           >
             <span class="flex items-center gap-2 font-mono text-[0.68rem] tracking-[0.14em] text-faint uppercase">
               <span class="transition-transform duration-300 group-hover:-translate-x-1">←</span>
               Previous
             </span>
-            <span class="font-display text-lg leading-snug transition-colors group-hover:text-accent-ink">
+            <span
+              data-truncate-words
+              class="block w-full truncate font-display text-lg leading-snug transition-colors group-hover:text-accent-ink"
+            >
               {prev.title}
             </span>
           </a>
@@ -45,13 +48,16 @@ const { prev, next, label } = Astro.props;
             href={u(next.href)}
             data-tip-title={next.title}
             data-tip={`Next in ${label}`}
-            class="group flex flex-col items-end gap-2 border-line px-5 py-7 text-right transition-colors hover:bg-surface sm:border-l sm:px-8"
+            class="group flex min-w-0 flex-col items-end gap-2 border-line px-5 py-7 text-right transition-colors hover:bg-surface sm:border-l sm:px-8"
           >
             <span class="flex items-center gap-2 font-mono text-[0.68rem] tracking-[0.14em] text-faint uppercase">
               Next
               <span class="transition-transform duration-300 group-hover:translate-x-1">→</span>
             </span>
-            <span class="font-display text-lg leading-snug transition-colors group-hover:text-accent-ink">
+            <span
+              data-truncate-words
+              class="block w-full truncate font-display text-lg leading-snug transition-colors group-hover:text-accent-ink"
+            >
               {next.title}
             </span>
           </a>
@@ -62,3 +68,8 @@ const { prev, next, label } = Astro.props;
     </nav>
   )
 }
+
+<script>
+  import { initTruncateWords } from '../lib/truncate-words';
+  initTruncateWords();
+</script>

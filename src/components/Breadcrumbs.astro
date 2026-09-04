@@ -45,11 +45,11 @@ const jsonLd = {
 
 <nav aria-label="Breadcrumb" class={klass} data-pagefind-ignore>
   <ol
-    class="flex max-w-full flex-wrap items-center gap-x-1.5 gap-y-1 font-mono text-[0.72rem] tracking-[0.1em] text-faint uppercase"
+    class="flex max-w-full flex-nowrap items-center gap-x-1.5 overflow-hidden font-mono text-[0.72rem] tracking-[0.1em] text-faint uppercase"
   >
     {
       items.map((c) => (
-        <li class="flex items-center gap-1.5">
+        <li class="flex shrink-0 items-center gap-1.5 whitespace-nowrap">
           <a href={c.href ?? u('/')} class="transition-colors hover:text-accent-ink">
             {c.label}
           </a>
@@ -64,11 +64,20 @@ const jsonLd = {
         /* The current page is named but not linked, which is what aria-current
           marks; truncating keeps a long title from wrapping the whole trail. */
       }
-      <span aria-current="page" class="block max-w-full truncate text-dim sm:max-w-[34rem]">
+      <span
+        aria-current="page"
+        data-truncate-words
+        class="block max-w-full truncate text-dim sm:max-w-[34rem]"
+      >
         {current}
       </span>
     </li>
   </ol>
 </nav>
+
+<script>
+  import { initTruncateWords } from '../lib/truncate-words';
+  initTruncateWords();
+</script>
 
 <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />
