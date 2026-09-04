@@ -594,6 +594,36 @@
   .prose-nw blockquote p:first-child strong:only-child {
     color: var(--c-accent-ink);
   }
+  /* GitHub-style [!NOTE]/[!TIP]/etc alerts, from remark-github-blockquote-alert. */
+  .prose-nw .markdown-alert {
+    border-left: 2px solid var(--alert-color, var(--c-accent));
+    padding: 0.6rem 0 0.6rem 1.15rem;
+    margin: 1.5rem 0;
+  }
+  .prose-nw .markdown-alert-title {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-bottom: 0.4rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: var(--alert-color, var(--c-accent));
+  }
+  .prose-nw .markdown-alert-title .octicon {
+    fill: currentColor;
+  }
+  .prose-nw .markdown-alert-tip {
+    --alert-color: var(--c-moss);
+  }
+  .prose-nw .markdown-alert-important {
+    --alert-color: var(--c-violet);
+  }
+  .prose-nw .markdown-alert-warning,
+  .prose-nw .markdown-alert-caution {
+    --alert-color: var(--c-ember);
+  }
   .prose-nw table {
     width: 100%;
     border-collapse: collapse;
