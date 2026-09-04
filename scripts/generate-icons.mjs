@@ -71,7 +71,7 @@ const MAP = {
   right: 'chevron-right',
   printer: 'printer',
   filePdf: 'file-down',
-  filter: 'sliders-horizontal',
+  filter: 'list-filter',
   info: 'info',
   pause: 'pause',
   play: 'play',
