@@ -61,7 +61,7 @@ const PRESETS = [
 
 function hash(str) {
   let h = 5381;
-  for (let i = 0; i < str.length; i += 1) h = (h * 33) ^ str.charCodeAt(i);
+  for (let i = 0; i < str.length; i += 1) h = (h * 33) ^ str.codePointAt(i);
   return h >>> 0;
 }
 
@@ -80,7 +80,13 @@ function buildFontFaceCss() {
 const FONT_FACE_CSS = buildFontFaceCss();
 
 function escapeHtml(str) {
-  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  return str.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
+}
+
+function titleFontSize(title) {
+  if (title.length > 28) return '64px';
+  if (title.length > 16) return '76px';
+  return '92px';
 }
 
 function pageHtml({ title, kicker, mode, slug }) {
@@ -184,7 +190,7 @@ body {
 .title {
   font-family: Newsreader, ui-serif, Georgia, serif;
   font-weight: 500;
-  font-size: ${title.length > 28 ? '64px' : title.length > 16 ? '76px' : '92px'};
+  font-size: ${titleFontSize(title)};
   line-height: 1.08;
   color: ${t.ink};
   max-width: 920px;
@@ -221,6 +227,34 @@ body {
 </html>`;
 }
 
+// Reads just enough of a post's frontmatter to build its cover: the title
+// and the first entry of its `categories:` YAML block list.
+function readPostMeta(slug) {
+  const raw = fs.readFileSync(path.join(blogDir, slug, 'index.md'), 'utf8');
+  const frontmatter = raw.split('---\n', 3)[1] ?? '';
+  const lines = frontmatter.split('\n');
+
+  const titleLine = lines.find((l) => l.startsWith('title:'));
+  const title = (titleLine ? titleLine.slice('title:'.length).trim() : slug).replace(
+    /^['"]|['"]$/g,
+    '',
+  );
+
+  // `categories:` is a YAML block list — its items are the following lines
+  // indented under it, up to the next unindented (top-level) key.
+  const catIndex = lines.findIndex((l) => l.startsWith('categories:'));
+  const catLines = catIndex === -1 ? [] : lines.slice(catIndex + 1);
+  const indented = [];
+  for (const line of catLines) {
+    if (!line.startsWith(' ') && !line.startsWith('\t')) break;
+    indented.push(line.trim());
+  }
+  const firstItem = indented.find((l) => l.startsWith('- '));
+  const kicker = firstItem ? firstItem.slice(2).trim() : 'Blog';
+
+  return { title, kicker };
+}
+
 async function renderCover(browser, opts, outFile) {
   const page = await browser.newPage();
   await page.setViewport({ width: WIDTH, height: HEIGHT, deviceScaleFactor: 2 });
@@ -244,33 +278,7 @@ async function main() {
   });
 
   for (const slug of slugs) {
-    const mdPath = path.join(blogDir, slug, 'index.md');
-    const raw = fs.readFileSync(mdPath, 'utf8');
-    const frontmatter = raw.split('---\n', 3)[1] ?? '';
-    const lines = frontmatter.split('\n');
-
-    const titleLine = lines.find((l) => l.startsWith('title:'));
-    const title = (titleLine ? titleLine.slice('title:'.length).trim() : slug).replace(
-      /^['"]|['"]$/g,
-      '',
-    );
-
-    // `categories:` is a YAML block list — its items are the following lines
-    // indented under it, up to the next unindented (top-level) key.
-    const catIndex = lines.findIndex((l) => l.startsWith('categories:'));
-    let kicker = 'Blog';
-    if (catIndex !== -1) {
-      for (let i = catIndex + 1; i < lines.length; i += 1) {
-        const line = lines[i];
-        if (!line.startsWith(' ') && !line.startsWith('\t')) break;
-        const item = line.trim();
-        if (item.startsWith('- ')) {
-          kicker = item.slice(2).trim();
-          break;
-        }
-      }
-    }
-
+    const { title, kicker } = readPostMeta(slug);
     const darkOut = path.join(blogDir, slug, 'cover.webp');
     const lightOut = path.join(blogDir, slug, 'cover-light.webp');
     await renderCover(browser, { title, kicker, mode: 'dark', slug }, darkOut);
@@ -281,4 +289,4 @@ async function main() {
   await browser.close();
 }
 
-main();
+await main();
