@@ -1080,14 +1080,42 @@ function initCarousels() {
     let current = 0;
     let queued = false;
 
+    const sync = () => {
+      queued = false;
+      collapse();
+      current = nearest();
+      while (current < dots.length - 1 && dots[current]!.hidden) current += 1;
+      dots.forEach((d, i) => {
+        d.setAttribute('aria-selected', String(i === current));
+        d.tabIndex = i === current ? 0 : -1;
+      });
+    };
+
+    /* Where the track ends up when slide i is asked for — clamped, because
+       the last screenful of cards all share the same end position. */
+    const target = (i: number) => {
+      const pad = parseFloat(getComputedStyle(track).paddingLeft) || 0;
+      const left = track.getBoundingClientRect().left;
+      const delta = slides[i]!.getBoundingClientRect().left - left - pad;
+      const max = Math.max(track.scrollWidth - track.clientWidth, 0);
+      return Math.min(Math.max(track.scrollLeft + delta, 0), max);
+    };
+
+    const go = (i: number) => {
+      track.scrollTo({ left: target(i), behavior: slow ? 'auto' : 'smooth' });
+    };
+
+    /* Matched against the same stops `go` scrolls to, not against the middle
+       of the track: a card is "current" when it sits where the dot would put
+       it. Ties go to the later card, so the end of the track belongs to the
+       last award rather than the first one that happens to reach it. */
     const nearest = () => {
-      const mid = track.getBoundingClientRect().left + track.clientWidth / 2;
+      const at = track.scrollLeft;
       let best = 0;
       let bestGap = Infinity;
-      slides.forEach((s, i) => {
-        const r = s.getBoundingClientRect();
-        const gap = Math.abs(r.left + r.width / 2 - mid);
-        if (gap < bestGap) {
+      slides.forEach((_, i) => {
+        const gap = Math.abs(target(i) - at);
+        if (gap <= bestGap) {
           bestGap = gap;
           best = i;
         }
@@ -1095,20 +1123,15 @@ function initCarousels() {
       return best;
     };
 
-    const sync = () => {
-      queued = false;
-      current = nearest();
+    /* A dot that scrolls to the same place as the one after it is a dot that
+       does nothing, which is what the trailing cards become once several fit
+       on screen at once. Hide those and leave the end of the track to the
+       last dot. */
+    const collapse = () => {
+      const stops = slides.map((_, i) => Math.round(target(i)));
       dots.forEach((d, i) => {
-        d.setAttribute('aria-selected', String(i === current));
-        d.tabIndex = i === current ? 0 : -1;
+        d.hidden = i < dots.length - 1 && stops[i] === stops[i + 1];
       });
-    };
-
-    const go = (i: number) => {
-      const pad = parseFloat(getComputedStyle(track).paddingLeft) || 0;
-      const left = track.getBoundingClientRect().left;
-      const delta = slides[i].getBoundingClientRect().left - left - pad;
-      track.scrollTo({ left: track.scrollLeft + delta, behavior: slow ? 'auto' : 'smooth' });
     };
 
     on(track, 'scroll', () => {
@@ -1133,12 +1156,20 @@ function initCarousels() {
 
     sync();
 
-    /* Auto-advance, paused while the reader is on it or the tab is hidden. */
-    if (slow) return;
+    /* Auto-advance, paused while the reader is on it or the tab is hidden,
+       and stopped outright by the toggle beside the dots. */
+    const toggle = root.querySelector<HTMLButtonElement>('[data-carousel-toggle]');
+    if (slow) {
+      toggle?.remove();
+      return;
+    }
     let held = false;
+    let stopped = false;
     const tick = () => {
-      if (held || document.hidden || root.contains(document.activeElement)) return;
-      go((current + 1) % slides.length);
+      if (stopped || held || document.hidden || root.contains(document.activeElement)) return;
+      let next = (current + 1) % slides.length;
+      while (dots[next]!.hidden && next !== current) next = (next + 1) % slides.length;
+      go(next);
     };
     const timer = window.setInterval(tick, 5200);
     cleanups.push(() => window.clearInterval(timer));
@@ -1148,6 +1179,20 @@ function initCarousels() {
     on(root, 'pointerleave', () => {
       held = false;
     });
+
+    if (toggle) {
+      const pauseIcon = toggle.querySelector<HTMLElement>('[data-carousel-icon-pause]');
+      const playIcon = toggle.querySelector<HTMLElement>('[data-carousel-icon-play]');
+      on(toggle, 'click', () => {
+        stopped = !stopped;
+        toggle.setAttribute('aria-pressed', String(stopped));
+        const label = stopped ? 'Play the awards carousel' : 'Pause the awards carousel';
+        toggle.setAttribute('aria-label', label);
+        toggle.dataset.tip = stopped ? 'Play the carousel' : 'Pause the carousel';
+        if (pauseIcon) pauseIcon.hidden = stopped;
+        if (playIcon) playIcon.hidden = !stopped;
+      });
+    }
   });
 }
 
