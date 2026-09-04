@@ -6,6 +6,7 @@
  * sits, so covers read as one family without being identical.
  *
  *   node scripts/generate-blog-covers.mjs [slug ...]   # all posts if omitted
+ *   node scripts/generate-blog-covers.mjs --site        # the site-wide og:image card
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -15,6 +16,11 @@ import puppeteer from 'puppeteer';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const blogDir = path.join(root, 'src/content/blog');
 const fontsDir = path.join(root, 'public/fonts');
+const siteCardOut = path.join(root, 'public/media/authors/site-og.webp');
+
+// Kept in sync with src/lib/site.ts by hand — this script runs standalone
+// via plain node, not through Astro's TS pipeline.
+const SITE = { name: 'Noah Weidig', role: 'GIS Analyst & Data Scientist' };
 
 const WIDTH = 1200;
 const HEIGHT = 675;
@@ -265,10 +271,14 @@ async function renderCover(browser, opts, outFile) {
 }
 
 async function main() {
-  const only = process.argv.slice(2);
-  const slugs = (only.length ? only : fs.readdirSync(blogDir)).filter((slug) =>
-    fs.existsSync(path.join(blogDir, slug, 'index.md')),
-  );
+  const args = process.argv.slice(2);
+  const siteOnly = args.includes('--site');
+  const only = args.filter((a) => a !== '--site');
+  const slugs = siteOnly
+    ? []
+    : (only.length ? only : fs.readdirSync(blogDir)).filter((slug) =>
+        fs.existsSync(path.join(blogDir, slug, 'index.md')),
+      );
 
   const browser = await puppeteer.launch({
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
@@ -284,6 +294,15 @@ async function main() {
     await renderCover(browser, { title, kicker, mode: 'dark', slug }, darkOut);
     await renderCover(browser, { title, kicker, mode: 'light', slug }, lightOut);
     console.log(`✓ ${slug}`);
+  }
+
+  if (siteOnly || only.length === 0) {
+    await renderCover(
+      browser,
+      { title: SITE.role, kicker: SITE.name, mode: 'dark', slug: 'site-og' },
+      siteCardOut,
+    );
+    console.log('✓ site-og');
   }
 
   await browser.close();
