@@ -45,7 +45,7 @@ const jsonLd = {
 
 <nav aria-label="Breadcrumb" class={klass} data-pagefind-ignore>
   <ol
-    class="flex flex-wrap items-center gap-x-1.5 gap-y-1 font-mono text-[0.72rem] tracking-[0.1em] text-faint uppercase"
+    class="flex max-w-full flex-wrap items-center gap-x-1.5 gap-y-1 font-mono text-[0.72rem] tracking-[0.1em] text-faint uppercase"
   >
     {
       items.map((c) => (
@@ -64,7 +64,7 @@ const jsonLd = {
         /* The current page is named but not linked, which is what aria-current
           marks; truncating keeps a long title from wrapping the whole trail. */
       }
-      <span aria-current="page" class="block max-w-[22rem] truncate text-dim sm:max-w-[34rem]">
+      <span aria-current="page" class="block max-w-full truncate text-dim sm:max-w-[34rem]">
         {current}
       </span>
     </li>
