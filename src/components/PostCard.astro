@@ -3,6 +3,7 @@ import { u } from '../lib/url';
 import type { CollectionEntry } from 'astro:content';
 import { Image } from 'astro:assets';
 import { fullDate } from '../lib/format';
+import { IMAGE_WIDTHS } from '../lib/images';
 
 interface Props {
   entry: CollectionEntry<'blog'>;
@@ -31,7 +32,7 @@ const alt = entry.data['image-alt'] ?? '';
         <Image
           src={image}
           alt={alt}
-          widths={[400, 800, 1200]}
+          widths={IMAGE_WIDTHS.thumbnail}
           sizes="(min-width: 1024px) 380px, (min-width: 640px) 45vw, 92vw"
           loading={index === 0 ? 'eager' : 'lazy'}
           class="h-full w-full object-cover transition-transform duration-700 ease-[cubic-bezier(.22,1,.36,1)] group-hover:scale-[1.04]"
