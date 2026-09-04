@@ -43,11 +43,9 @@ const orgs = [
               decoding="async"
               class="h-10 w-auto max-w-[9rem] object-contain opacity-45 grayscale transition duration-300 group-hover/logo:opacity-100 group-hover/logo:grayscale-0 dark:hidden"
             />
-            {
-              /* Dark mode recolors via mask instead of filter: brightness-0/invert
+            {/* Dark mode recolors via mask instead of filter: brightness-0/invert
                  chains render as solid black on some iOS Safari versions, so this
-                 draws a plain currentColor silhouette instead. */
-            }
+                 draws a plain currentColor silhouette instead. */}
             <span
               aria-hidden="true"
               data-mask-src={u(src!)}
