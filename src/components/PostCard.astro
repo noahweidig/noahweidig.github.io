@@ -12,6 +12,7 @@ interface Props {
 }
 const { entry, readingTime, index = 0 } = Astro.props;
 const { title, description, date, categories, image } = entry.data;
+const imageLight = entry.data['image-light'] ?? image!;
 const alt = entry.data['image-alt'] ?? '';
 ---
 
@@ -35,7 +36,15 @@ const alt = entry.data['image-alt'] ?? '';
           widths={IMAGE_WIDTHS.thumbnail}
           sizes="(min-width: 1024px) 380px, (min-width: 640px) 45vw, 92vw"
           loading={index === 0 ? 'eager' : 'lazy'}
-          class="h-full w-full object-cover transition-transform duration-700 ease-[cubic-bezier(.22,1,.36,1)] group-hover:scale-[1.04]"
+          class="hidden h-full w-full object-cover transition-transform duration-700 ease-[cubic-bezier(.22,1,.36,1)] group-hover:scale-[1.04] dark:block"
+        />
+        <Image
+          src={imageLight}
+          alt={alt}
+          widths={IMAGE_WIDTHS.thumbnail}
+          sizes="(min-width: 1024px) 380px, (min-width: 640px) 45vw, 92vw"
+          loading={index === 0 ? 'eager' : 'lazy'}
+          class="block h-full w-full object-cover transition-transform duration-700 ease-[cubic-bezier(.22,1,.36,1)] group-hover:scale-[1.04] dark:hidden"
         />
         {readingTime && (
           <span class="absolute right-3 bottom-3 chip bg-black/55 text-white backdrop-blur-md">

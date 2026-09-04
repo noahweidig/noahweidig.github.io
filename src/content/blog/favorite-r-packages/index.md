@@ -8,7 +8,8 @@ categories:
   - Tidyverse
 draft: false
 image: './cover.webp'
-image-alt: "Cover card reading “My Favorite R Packages” over the site's topographic contour texture"
+image-light: './cover-light.webp'
+image-alt: "Cover card reading “My Favorite R Packages” over the site's accent and ember gradient"
 ---
 
 These are the R packages I install on a fresh machine before anything else.
