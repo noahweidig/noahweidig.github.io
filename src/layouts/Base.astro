@@ -111,6 +111,10 @@ const jsonLd = {
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogUrl} />
+    <meta
+      property="og:logo"
+      content={new URL(u('/web-app-manifest-512x512.png'), Astro.site).href}
+    />
     {
       publishedTime && (
         <meta property="article:published_time" content={publishedTime.toISOString()} />
