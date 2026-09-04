@@ -6,7 +6,7 @@ categories: ["Presentation"]
 pub-authors: "**Weidig, N. C.**, Wonkka, C. L., Ivey, M. A., Johnson, D. J. & Donovan, V. M."
 pub-venue: "International Association for Landscape Ecology - North America Annual Conference"
 pub-url: "https://www.ialena.org/uploads/9/4/8/2/94821076/iale_program_handout_final.pdf"
-pub-appearance-of: "../weidig-fire-fringe-25-f839/"
+pub-appearance-of: "/publications/weidig-fire-fringe-25-f839/"
 pub-appearance-count: 2
 citation: "**Weidig, N. C.**, Wonkka, C. L., Ivey, M. A., Johnson, D. J. & Donovan, V. M. (2025). *International Association for Landscape Ecology - North America Annual Conference*."
 links:
@@ -20,7 +20,7 @@ links:
 ---
 
 > [!NOTE]
-> One of 2 appearances of the same work. [See the full record and the other venues](../weidig-fire-fringe-25-f839/).
+> One of 2 appearances of the same work. [See the full record and the other venues](/publications/weidig-fire-fringe-25-f839/).
 
 ## Abstract
 

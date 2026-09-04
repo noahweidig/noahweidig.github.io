@@ -8,12 +8,17 @@ pub-venue: "Forest Ecology and Management"
 pub-details: "vol. 603, pp. 123446"
 pub-doi: "10.1016/j.foreco.2025.123446"
 pub-url: "https://www.sciencedirect.com/science/article/pii/S0378112725009545"
+pub-pdf: "/publications/ivey-regional-differences-26/ivey-regional-differences-26.pdf"
 pub-listed: "yes"
 citation: "Ivey, M. A., **Weidig, N. C.**, Ivory II, A. A. & Donovan, V. M. (2026). *Forest Ecology and Management*, vol. 603, pp. 123446."
 links:
   - label: "DOI"
     href: "https://doi.org/10.1016/j.foreco.2025.123446"
     variant: primary
+    external: true
+  - label: "View PDF"
+    href: "/publications/ivey-regional-differences-26/ivey-regional-differences-26.pdf"
+    variant: ghost
     external: true
   - label: "BibTeX"
     href: "/publications/ivey-regional-differences-26/cite.bib"

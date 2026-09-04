@@ -5,7 +5,7 @@ description: "Dr. Donovan discussed her research on changing wildfire dynamics i
 categories: ["Presentation"]
 pub-authors: "Donovan, V. M., Crandall, R. M., Fill, J. M., Ivey, M. A., Ivory II, A. A., **Weidig, N. C.** & Wonkka, C. L."
 pub-venue: "Auburn University College of Forest, Wildlife and Environment Invited Seminar"
-pub-appearance-of: "../donovan-unravelling-changing-25-jebk/"
+pub-appearance-of: "/publications/donovan-unravelling-changing-25-jebk/"
 pub-appearance-count: 2
 citation: "Donovan, V. M., Crandall, R. M., Fill, J. M., Ivey, M. A., Ivory II, A. A., **Weidig, N. C.** & Wonkka, C. L. (2025). *Auburn University College of Forest, Wildlife and Environment Invited Seminar*."
 links:
@@ -15,7 +15,7 @@ links:
 ---
 
 > [!NOTE]
-> One of 2 appearances of the same work. [See the full record and the other venues](../donovan-unravelling-changing-25-jebk/).
+> One of 2 appearances of the same work. [See the full record and the other venues](/publications/donovan-unravelling-changing-25-jebk/).
 
 ## Abstract
 
