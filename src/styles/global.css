@@ -730,6 +730,49 @@
     color: var(--c-accent-ink);
   }
 
+  /* --- back to top ---
+     Shown only while the reader is scrolling up past the fold; scrolling
+     down hides it again, tracked in src/scripts/ui.ts. */
+  .back-to-top {
+    position: fixed;
+    left: 50%;
+    bottom: 1.5rem;
+    z-index: 90;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.55rem 1.1rem;
+    border-radius: 999px;
+    border: 1px solid var(--c-line-strong);
+    background: color-mix(in oklab, var(--c-surface) 70%, transparent);
+    color: var(--c-dim);
+    font-size: 0.85rem;
+    font-weight: 500;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 18px 40px -22px rgb(0 0 0 / 0.75);
+    opacity: 0;
+    visibility: hidden;
+    translate: -50% 0.5rem;
+    transition:
+      opacity 0.22s var(--ease-out-soft),
+      translate 0.22s var(--ease-out-soft),
+      visibility 0s linear 0.22s,
+      border-color 0.2s var(--ease-out-soft),
+      background-color 0.2s var(--ease-out-soft),
+      color 0.2s var(--ease-out-soft);
+  }
+  .back-to-top[data-show] {
+    opacity: 1;
+    visibility: visible;
+    translate: -50% 0;
+    transition-delay: 0s;
+  }
+  .back-to-top:hover {
+    border-color: var(--c-accent);
+    background: color-mix(in oklab, var(--c-accent) 14%, var(--c-surface));
+    color: var(--c-accent-ink);
+  }
+
   /* --- tooltips ---
      One floating element, positioned by src/scripts/ui.ts, so a tooltip is
      never clipped by an ancestor's overflow. */

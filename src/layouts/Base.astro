@@ -4,6 +4,7 @@ import '../styles/global.css';
 import { ClientRouter } from 'astro:transitions';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import Icon from '../components/Icon.astro';
 import { site } from '../lib/site';
 
 interface Props {
@@ -251,6 +252,11 @@ const jsonLd = {
       <slot />
     </main>
     <Footer />
+
+    <button type="button" id="back-to-top" class="back-to-top" aria-label="Back to top">
+      <Icon name="circleArrowUp" size={17} />
+      Back to top
+    </button>
 
     <script>
       import '../scripts/ui';
