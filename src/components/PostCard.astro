@@ -17,11 +17,13 @@ const alt = entry.data['image-alt'] ?? '';
 ---
 
 <article
-  class="card card-hover group flex flex-col overflow-hidden"
+  class="card card-hover group relative flex flex-col overflow-hidden"
   data-cats={categories.join('|')}
   data-reveal
   style={`--reveal-delay:${Math.min(index, 5) * 60}ms`}
 >
+  <a href={u(`/blog/${entry.id}/`)} class="absolute inset-0 z-10" tabindex="-1" aria-hidden="true"
+  ></a>
   {
     image && (
       <a
@@ -71,7 +73,10 @@ const alt = entry.data['image-alt'] ?? '';
       }
     </div>
     <h3 class="mt-2.5 text-xl leading-snug">
-      <a href={u(`/blog/${entry.id}/`)} class="transition-colors group-hover:text-accent-ink">
+      <a
+        href={u(`/blog/${entry.id}/`)}
+        class="relative z-20 transition-colors group-hover:text-accent-ink"
+      >
         {title}
       </a>
     </h3>
