@@ -15,7 +15,7 @@ const items = Astro.props.headings.filter((h) => h.depth === 2 || h.depth === 3)
 
 {
   items.length > 1 && (
-    <aside class="no-print hidden lg:block" data-pagefind-ignore>
+    <aside class="no-print hidden h-full lg:block" data-pagefind-ignore>
       <nav aria-labelledby="toc-heading" class="sticky top-28" data-toc>
         <h2
           id="toc-heading"

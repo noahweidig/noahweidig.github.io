@@ -147,7 +147,10 @@
       'ss03' 1;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
+    /* clip, not hidden: overflow-x: hidden turns body into a scroll
+       container and breaks position: sticky for descendants (e.g. the
+       article TOC) in Chrome/Firefox. clip avoids that. */
+    overflow-x: clip;
   }
 
   h1,
