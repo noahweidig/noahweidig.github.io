@@ -20,8 +20,8 @@ const items = filtered.map((h) => {
 
 {
   items.length > 1 && (
-    <aside class="no-print hidden h-full lg:block" data-pagefind-ignore>
-      <nav aria-labelledby="toc-heading" class="sticky top-28" data-toc>
+    <aside class="toc-aside no-print h-full" data-pagefind-ignore data-toc-aside>
+      <nav aria-labelledby="toc-heading" class="toc-panel sticky top-28" data-toc>
         <h2
           id="toc-heading"
           class="font-mono text-[0.66rem] tracking-[0.16em] text-faint uppercase"
@@ -51,8 +51,114 @@ const items = filtered.map((h) => {
     </aside>
   )
 }
+{
+  items.length > 1 && (
+    <button
+      type="button"
+      class="toc-fab no-print"
+      data-toc-fab
+      aria-expanded="false"
+      aria-label="On this page"
+      data-pagefind-ignore
+    >
+      <svg
+        viewBox="0 0 24 24"
+        width="22"
+        height="22"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        aria-hidden="true"
+      >
+        <path d="M4 6h16M4 12h12M4 18h8" />
+      </svg>
+    </button>
+  )
+}
 
 <style>
+  /* Mobile: the rail has no column to live in, so it becomes a popover
+     anchored to a floating button in the bottom-right corner. */
+  .toc-fab {
+    position: fixed;
+    right: 1.1rem;
+    bottom: 1.1rem;
+    z-index: 90;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 999px;
+    border: 1px solid var(--c-line-strong);
+    background: color-mix(in oklab, var(--c-surface) 85%, transparent);
+    color: var(--c-dim);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 18px 40px -22px rgb(0 0 0 / 0.75);
+    transition:
+      color 0.2s var(--ease-out-soft),
+      border-color 0.2s var(--ease-out-soft);
+  }
+  .toc-fab[aria-expanded='true'] {
+    border-color: var(--c-accent);
+    color: var(--c-accent-ink);
+  }
+
+  .toc-aside {
+    position: fixed;
+    right: 1.1rem;
+    bottom: 4.6rem;
+    z-index: 90;
+    width: min(20rem, calc(100vw - 2.2rem));
+    max-height: min(60vh, 28rem);
+    overflow-y: auto;
+    padding: 1rem 1.1rem 1.1rem;
+    border-radius: 0.9rem;
+    border: 1px solid var(--c-line-strong);
+    background: var(--c-surface);
+    box-shadow: 0 24px 50px -24px rgb(0 0 0 / 0.75);
+    opacity: 0;
+    visibility: hidden;
+    translate: 0 0.5rem;
+    transition:
+      opacity 0.2s var(--ease-out-soft),
+      translate 0.2s var(--ease-out-soft),
+      visibility 0s linear 0.2s;
+  }
+  .toc-aside[data-open] {
+    opacity: 1;
+    visibility: visible;
+    translate: 0 0;
+    transition-delay: 0s;
+  }
+  .toc-aside .toc-panel {
+    position: static;
+  }
+
+  @media (min-width: 1024px) {
+    .toc-fab {
+      display: none;
+    }
+    .toc-aside {
+      position: static;
+      width: auto;
+      max-height: none;
+      overflow: visible;
+      padding: 0;
+      border: 0;
+      border-radius: 0;
+      background: none;
+      box-shadow: none;
+      opacity: 1;
+      visibility: visible;
+      translate: none;
+    }
+    .toc-aside .toc-panel {
+      position: sticky;
+    }
+  }
+
   /* Sub-items stay in the DOM for anchor jumps; only the current section's
      children are shown. */
   [data-toc] li[hidden] {
