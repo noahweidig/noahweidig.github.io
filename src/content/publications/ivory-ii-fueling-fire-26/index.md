@@ -13,4 +13,3 @@ links:
     variant: ghost
 ---
 
-
