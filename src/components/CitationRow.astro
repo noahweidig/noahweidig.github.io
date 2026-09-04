@@ -134,7 +134,7 @@ const cites = d['pub-citations'] ?? 0;
             href={`https://doi.org/${d['pub-doi']}`}
             target="_blank"
             rel="noopener"
-            class="font-medium text-accent-ink underline-offset-3 hover:underline"
+            class="chip chip-accent transition-colors hover:border-accent"
           >
             DOI
           </a>
@@ -146,7 +146,7 @@ const cites = d['pub-citations'] ?? 0;
             href={d['pub-url']}
             target="_blank"
             rel="noopener"
-            class="font-medium text-accent-ink underline-offset-3 hover:underline"
+            class="chip chip-accent transition-colors hover:border-accent"
           >
             Source
           </a>
@@ -158,9 +158,9 @@ const cites = d['pub-citations'] ?? 0;
             href={u(d['pub-pdf'])}
             target="_blank"
             rel="noopener"
-            class="font-medium text-accent-ink underline-offset-3 hover:underline"
+            class="chip chip-accent transition-colors hover:border-accent"
           >
-            View PDF
+            View full PDF
           </a>
         )
       }

@@ -119,6 +119,12 @@ function initMarquees() {
       img.src = img.dataset.src!;
       delete img.dataset.src;
     });
+    track.querySelectorAll<HTMLElement>('[data-mask-src]').forEach((el) => {
+      const src = el.dataset.maskSrc!;
+      el.style.maskImage = `url(${src})`;
+      el.style.setProperty('-webkit-mask-image', `url(${src})`);
+      delete el.dataset.maskSrc;
+    });
     if (track.dataset.cloned !== 'true') {
       track.append(...Array.from(track.children).map((c) => c.cloneNode(true)));
       track.dataset.cloned = 'true';
