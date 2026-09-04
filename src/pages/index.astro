@@ -397,11 +397,20 @@ const faqs = [
             </li>
           </ul>
           <div class="mt-8 flex flex-wrap gap-2.5">
-            <a class="btn btn-primary" href={u(site.resume)} target="_blank" rel="noopener">
+            <a
+              class="btn btn-primary w-[13.5rem]"
+              href={u(site.resume)}
+              target="_blank"
+              rel="noopener"
+            >
               <Icon name="download" size={15} />Download resume
             </a>
-            <a class="btn btn-ghost" href={u('/cv/')}>View full CV</a>
-            <a class="btn btn-ghost" href={u('/contact/')}>Get in touch</a>
+            <a class="btn btn-ghost w-[13.5rem]" href={u('/cv/')}>
+              <Icon name="file" size={15} />View full CV
+            </a>
+            <a class="btn btn-ghost w-[13.5rem]" href={u('/contact/')}>
+              <Icon name="mail" size={15} />Get in touch
+            </a>
           </div>
           <p class="mt-6 text-sm text-faint">
             Prefer email? Reach me directly at{' '}
