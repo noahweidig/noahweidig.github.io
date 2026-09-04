@@ -2,6 +2,7 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
+import { remarkAlert } from 'remark-github-blockquote-alert';
 
 export default defineConfig({
   site: 'https://noahweidig.com',
@@ -13,6 +14,7 @@ export default defineConfig({
   integrations: [sitemap({ filter: (page) => !page.includes('/404') })],
   vite: { plugins: [tailwindcss()] },
   markdown: {
+    remarkPlugins: [remarkAlert],
     shikiConfig: {
       // github-light's orange (#E36209) is 3.6:1 on the light code surface,
       // which fails AA for small text; the high-contrast variant is built for
