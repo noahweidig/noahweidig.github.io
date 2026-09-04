@@ -5,9 +5,9 @@ import Icon from './Icon.astro';
 import Logo from './Logo.astro';
 import Search from './Search.astro';
 
-/* Compared against `u(href)`, not the bare href: the site is served under a
-   base path, so `/publications/` never matched `/new-website/publications/`
-   and no nav item ever read as current. */
+/* Compared against `u(href)`, not the bare href, so the check stays correct if
+   the site is ever served under a base path again: `/publications/` would not
+   match `/<base>/publications/` and no nav item would read as current. */
 const slash = (p: string) => (p.endsWith('/') ? p : `${p}/`);
 const path = slash(Astro.url.pathname);
 const home = slash(u('/'));

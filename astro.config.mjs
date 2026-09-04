@@ -5,10 +5,10 @@ import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
   site: 'https://noahweidig.com',
-  // The site is published under a path, not at the apex. `src/lib/url.ts`
-  // reads the same value back out of import.meta.env.BASE_URL; URLs written by
-  // hand inside a content file are relative, so they need no prefixing.
-  base: '/new-website',
+  // The site is published at the apex. `src/lib/url.ts` reads this value back
+  // out of import.meta.env.BASE_URL, so hand-written root-relative URLs stay
+  // correct if a base path is ever reintroduced.
+  base: '/',
   trailingSlash: 'ignore',
   integrations: [sitemap({ filter: (page) => !page.includes('/404') })],
   vite: { plugins: [tailwindcss()] },
