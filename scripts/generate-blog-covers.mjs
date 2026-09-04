@@ -246,15 +246,30 @@ async function main() {
   for (const slug of slugs) {
     const mdPath = path.join(blogDir, slug, 'index.md');
     const raw = fs.readFileSync(mdPath, 'utf8');
-    const titleMatch = raw.match(/^title:\s*(.+)$/m);
-    const catMatch = raw.match(/^categories:\n((?:\s+-\s+.+\n?)+)/m);
-    const title = (titleMatch?.[1] ?? slug).replace(/^['"]|['"]$/g, '');
-    const kicker = catMatch
-      ? catMatch[1]
-          .split('\n')
-          .map((l) => l.replace(/^\s*-\s*/, '').trim())
-          .filter(Boolean)[0]
-      : 'Blog';
+    const frontmatter = raw.split('---\n', 3)[1] ?? '';
+    const lines = frontmatter.split('\n');
+
+    const titleLine = lines.find((l) => l.startsWith('title:'));
+    const title = (titleLine ? titleLine.slice('title:'.length).trim() : slug).replace(
+      /^['"]|['"]$/g,
+      '',
+    );
+
+    // `categories:` is a YAML block list — its items are the following lines
+    // indented under it, up to the next unindented (top-level) key.
+    const catIndex = lines.findIndex((l) => l.startsWith('categories:'));
+    let kicker = 'Blog';
+    if (catIndex !== -1) {
+      for (let i = catIndex + 1; i < lines.length; i += 1) {
+        const line = lines[i];
+        if (!line.startsWith(' ') && !line.startsWith('\t')) break;
+        const item = line.trim();
+        if (item.startsWith('- ')) {
+          kicker = item.slice(2).trim();
+          break;
+        }
+      }
+    }
 
     const darkOut = path.join(blogDir, slug, 'cover.webp');
     const lightOut = path.join(blogDir, slug, 'cover-light.webp');
