@@ -91,6 +91,10 @@ const blog = defineCollection({
         categories: z.array(z.string()).default([]),
         draft: z.boolean().default(false),
         image: image().optional(),
+        // Light-theme counterpart of `image`, swapped in by CSS (`dark:`/light
+        // pairing, same as the header's logo and theme-toggle icons). Falls
+        // back to `image` when a post doesn't have one.
+        'image-light': image().optional(),
         'image-alt': z.string().optional(),
       })
       .refine((data) => !data.image || !!data['image-alt'], {
