@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://noahweidig.com/new-website/sitemap-index.xml
+Sitemap: https://noahweidig.com/sitemap-index.xml

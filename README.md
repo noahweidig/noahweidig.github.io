@@ -89,7 +89,7 @@ Content lives in a directory per entry (`src/content/blog/focus/index.md`), so a
 
 ### URLs and the base path
 
-The site is published under a path, not at the apex: **https://noahweidig.com/new-website**. That lives in one place, `base` in `astro.config.mjs`. Astro prefixes the routes and assets it generates itself; a URL written by hand needs `u()` from `src/lib/url.ts`, which reads the same value back out of `import.meta.env.BASE_URL`:
+The site is published at the apex: **https://noahweidig.com**. The base path lives in one place, `base` in `astro.config.mjs`, and is `/` today. Astro prefixes the routes and assets it generates itself; a URL written by hand goes through `u()` from `src/lib/url.ts`, which reads the same value back out of `import.meta.env.BASE_URL`, so the site survives a base path being set again:
 
 ```astro
 ---
@@ -103,7 +103,7 @@ Three places can't call it, and each has its own answer. URLs inside a content f
 
 Section routes keep their paths. Four pages Quarto rendered as `<name>.html` are directory routes now — `/contact/`, `/cv/`, `/privacy/`, `/styleguide/` — with a redirect stub committed at each old path under `public/`. The feed is served at both `/rss.xml` and its old address, `/blog/index.xml`; a meta-refresh stub is no use to a feed reader, so `src/pages/blog/index.xml.ts` re-exports the same route.
 
-There is no `CNAME` in `public/`. A `CNAME` claims a domain's **root** for the repo that carries it, which is the opposite of serving this repo under `/new-website`; the apex belongs to the user-site repo, and this one is published as a project site beneath it.
+`public/CNAME` carries `noahweidig.com`, which claims the domain's **root** for this repo. GitHub Pages needs the file in the published output on every deploy, so it is committed rather than set in the repo's Pages settings alone.
 
 ### Search
 
