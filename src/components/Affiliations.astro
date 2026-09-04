@@ -33,7 +33,7 @@ const orgs = [
     <div class="marquee-track py-1" data-marquee>
       {
         orgs.map(([name, href, src]) => (
-          <a href={href} target="_blank" rel="noopener" title={name} class="shrink-0">
+          <a href={href} target="_blank" rel="noopener" title={name} class="group/logo shrink-0">
             <img
               data-src={u(src!)}
               alt={name}
@@ -41,7 +41,17 @@ const orgs = [
               height="48"
               loading="lazy"
               decoding="async"
-              class="h-10 w-auto max-w-[9rem] object-contain opacity-45 grayscale transition duration-300 hover:opacity-100 hover:grayscale-0 dark:opacity-55 dark:brightness-0 dark:invert dark:hover:opacity-100 dark:hover:brightness-0 dark:hover:invert"
+              class="h-10 w-auto max-w-[9rem] object-contain opacity-45 grayscale transition duration-300 group-hover/logo:opacity-100 group-hover/logo:grayscale-0 dark:hidden"
+            />
+            {
+              /* Dark mode recolors via mask instead of filter: brightness-0/invert
+                 chains render as solid black on some iOS Safari versions, so this
+                 draws a plain currentColor silhouette instead. */
+            }
+            <span
+              aria-hidden="true"
+              data-mask-src={u(src!)}
+              class="hidden h-10 w-[9rem] max-w-[9rem] bg-current opacity-55 transition duration-300 group-hover/logo:opacity-100 dark:block [mask-position:center] [mask-repeat:no-repeat] [mask-size:contain] [-webkit-mask-position:center] [-webkit-mask-repeat:no-repeat] [-webkit-mask-size:contain]"
             />
           </a>
         ))

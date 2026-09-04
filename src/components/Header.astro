@@ -110,7 +110,11 @@ const isActive = (href: string) => {
     </div>
   </div>
 
-  <div id="mobile-nav" hidden class="border-t border-line bg-surface/95 backdrop-blur-xl xl:hidden">
+  <div
+    id="mobile-nav"
+    hidden
+    class="absolute inset-x-0 top-full max-h-[calc(100vh-4rem)] overflow-y-auto border-t border-line bg-surface/95 backdrop-blur-xl xl:hidden"
+  >
     <nav aria-label="Mobile" class="shell py-4">
       <ul class="grid gap-1">
         {
@@ -131,8 +135,14 @@ const isActive = (href: string) => {
           ))
         }
       </ul>
-      <a class="btn btn-primary mt-4 w-full" href={site.booking} target="_blank" rel="noopener">
+      <a
+        class="btn btn-primary mt-4 w-full"
+        href={site.booking}
+        target="_blank"
+        rel="noopener"
+      >
         Book a call
+        <Icon name="arrow" size={15} />
       </a>
     </nav>
   </div>
