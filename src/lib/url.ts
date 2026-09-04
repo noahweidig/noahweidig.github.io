@@ -1,8 +1,7 @@
 /**
- * The site is published under a base path (`/new-website`, set in astro.config.mjs), so every
- * root-relative URL written by hand has to carry it. `import.meta.env.BASE_URL`
- * is Astro's own value for `base`, so this stays correct if the base changes —
- * including back to `/`.
+ * The site is published at the apex (`base` is `/` in astro.config.mjs), so this
+ * is a no-op today. `import.meta.env.BASE_URL` is Astro's own value for `base`,
+ * so hand-written root-relative URLs stay correct if a base path is ever set.
  */
 const BASE = import.meta.env.BASE_URL.replace(/\/+$/, '');
 
