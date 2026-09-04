@@ -230,14 +230,14 @@ const faqs = [
           featuredAwards.map((entry) => (
             <a
               href={u(`/awards/${entry.id}/`)}
-              class="card card-hover group w-[19rem] shrink-0 snap-start overflow-hidden"
+              class="card card-hover group w-[min(19rem,calc(100vw-6rem))] shrink-0 snap-start overflow-hidden"
             >
               <div class="relative aspect-4/3 overflow-hidden border-b border-line bg-raised">
                 <Image
                   src={entry.data.image!}
                   alt={entry.data['image-alt'] ?? ''}
                   widths={[320, 640]}
-                  sizes="304px"
+                  sizes="(max-width: 25rem) calc(100vw - 6rem), 304px"
                   loading="lazy"
                   class="h-full w-full object-cover transition-transform duration-700 ease-[cubic-bezier(.22,1,.36,1)] group-hover:scale-[1.05]"
                 />

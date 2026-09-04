@@ -22,7 +22,16 @@ import Icon from './Icon.astro';
     >
       <!-- query row -->
       <div class="flex items-center gap-3 border-b border-line px-4">
-        <Icon name="search" size={18} class="shrink-0 text-faint" />
+        {/* Phone: no esc key, so the leading icon doubles as the way out. */}
+        <button
+          type="button"
+          data-search-close
+          class="-ml-1 grid h-8 w-8 shrink-0 place-items-center rounded-md text-faint transition-colors hover:bg-raised hover:text-ink sm:hidden"
+        >
+          <Icon name="search" size={18} />
+          <span class="sr-only-nw">Close search</span>
+        </button>
+        <Icon name="search" size={18} class="hidden shrink-0 text-faint sm:block" />
         <input
           type="text"
           id="search-input"
