@@ -24,7 +24,12 @@ runs:
     # binaries lazily at first use, so skipping it costs nothing here.
     - name: Install toolchain
       shell: bash
-      run: npm ci --ignore-scripts
+      # --no-audit/--no-fund/--prefer-offline: the audit and funding passes are
+      # network round trips this install has no use for, and --prefer-offline
+      # keeps `npm ci` on the setup-node cache instead of refetching tarballs.
+      # The tree here is ~630 MB (puppeteer, lighthouse, lucide-static, sharp),
+      # so the install, not the work, is what the job timeouts have to cover.
+      run: npm ci --ignore-scripts --no-audit --no-fund --prefer-offline
 
     - name: Build site
       if: inputs.build == 'true'
