@@ -69,11 +69,11 @@ const typed = [
         data-reveal
         style="--reveal-delay:260ms"
       >
-        <a class="btn btn-primary" href="#projects">
+        <a class="btn btn-primary hero-btn" href="#projects">
           View my work
           <Icon name="arrow" size={15} />
         </a>
-        <a class="btn btn-ghost" href={u('/contact/')}>
+        <a class="btn btn-ghost hero-btn" href={u('/contact/')}>
           Get in touch
           <Icon name="mail" size={15} />
         </a>
@@ -251,6 +251,10 @@ const typed = [
     to {
       transform: translate(-50%, -50%) translate3d(4%, -6%, 0) scale(1.14);
     }
+  }
+
+  .hero-btn {
+    width: 11.25rem;
   }
 
   .caret {
