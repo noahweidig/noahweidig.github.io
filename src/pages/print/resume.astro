@@ -43,8 +43,9 @@ const skills: [string, string][] = [
       <span>{site.email}</span><span>{site.location}</span><span>noahweidig.com</span>
       {socials.map((s) => <span>{s.label}</span>)}
     </p>
-    <p class="summary">{summary}</p>
   </header>
+
+  <p class="summary">{summary}</p>
 
   <section class="keep">
     <h2>Education</h2>
@@ -69,7 +70,8 @@ const skills: [string, string][] = [
     <h2>Experience</h2>
     {
       experience.map((e, i) => {
-        const points = bullets(e.body, i < 3 ? 2 : 0);
+        const points = bullets(e.body, i < 3 ? 2 : 1);
+        const items = points.length ? points : e.data.description ? [e.data.description] : [];
         return (
           <div class="entry keep">
             <div class="row">
@@ -80,14 +82,12 @@ const skills: [string, string][] = [
               {e.data.org}
               {e.data.location ? ` · ${e.data.location}` : ''}
             </p>
-            {points.length ? (
+            {items.length > 0 && (
               <ul>
-                {points.map((p) => (
+                {items.map((p) => (
                   <li>{p}</li>
                 ))}
               </ul>
-            ) : (
-              e.data.description && <p class="note">{e.data.description}</p>
             )}
           </div>
         );
@@ -143,12 +143,11 @@ const skills: [string, string][] = [
     color: #a3a9b5;
   }
   .summary {
-    margin: 0.5em auto 0;
-    max-width: 46em;
+    margin: 0.5em 0 0;
     font-size: 0.78em;
     line-height: 1.5;
     color: #33383f;
-    text-align: center;
+    text-align: left;
     text-wrap: pretty;
   }
 
