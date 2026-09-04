@@ -5,7 +5,8 @@ description: Notes on science, data, maps, and the landscapes we live in — a p
 categories:
   - Thoughts
 image: './cover.webp'
-image-alt: "Cover card reading “Welcome to My Blog” over the site's topographic contour texture"
+image-light: './cover-light.webp'
+image-alt: "Cover card reading “Welcome to My Blog” over the site's accent and violet gradient"
 ---
 
 ## Welcome

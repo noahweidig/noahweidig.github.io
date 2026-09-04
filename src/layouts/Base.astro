@@ -4,6 +4,7 @@ import '../styles/global.css';
 import { ClientRouter } from 'astro:transitions';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import Icon from '../components/Icon.astro';
 import { site } from '../lib/site';
 
 interface Props {
@@ -87,7 +88,7 @@ const jsonLd = {
 ---
 
 <!doctype html>
-<html lang="en" data-theme="dark" data-base={base}>
+<html lang="en" data-theme="dark" data-theme-pref="system" data-base={base}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -111,6 +112,10 @@ const jsonLd = {
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogUrl} />
+    <meta
+      property="og:logo"
+      content={new URL(u('/web-app-manifest-512x512.png'), Astro.site).href}
+    />
     {
       publishedTime && (
         <meta property="article:published_time" content={publishedTime.toISOString()} />
@@ -170,19 +175,27 @@ const jsonLd = {
 
     <script is:inline>
       (function () {
-        function stored() {
+        function pref() {
           try {
             var t = localStorage.getItem('nw-theme');
-            if (t === 'light' || t === 'dark') return t;
+            if (t === 'light' || t === 'dark' || t === 'system') return t;
           } catch (e) {
-            /* private mode: fall through to the OS preference */
+            /* private mode: fall through to the default */
           }
-          return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+          return 'system';
+        }
+        function resolve(p) {
+          if (p === 'system') {
+            return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+          }
+          return p;
         }
         // Applied before first paint, so the page never flashes the wrong theme.
         function apply() {
-          var t = stored();
+          var p = pref();
+          var t = resolve(p);
           document.documentElement.dataset.theme = t;
+          document.documentElement.dataset.themePref = p;
           var m = document.querySelector('meta[name="theme-color"]');
           if (m) m.setAttribute('content', t === 'light' ? '#fbfaf7' : '#07080b');
         }
@@ -239,6 +252,11 @@ const jsonLd = {
       <slot />
     </main>
     <Footer />
+
+    <button type="button" id="back-to-top" class="back-to-top" aria-label="Back to top">
+      <Icon name="circleArrowUp" size={17} />
+      Back to top
+    </button>
 
     <script>
       import '../scripts/ui';
