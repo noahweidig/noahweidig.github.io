@@ -1091,6 +1091,7 @@
   line-height: 1.85;
 }
 [data-reading] [data-toc],
+[data-reading] [data-toc-fab],
 [data-reading] [data-share-row],
 [data-reading] .grid-bg,
 [data-reading] [data-comments],
