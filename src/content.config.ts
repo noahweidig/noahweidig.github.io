@@ -88,6 +88,8 @@ const blog = defineCollection({
         title: z.string(),
         date: z.coerce.date(),
         description: z.string(),
+        author: z.string().default('Noah Weidig'),
+        'author-image': z.string().default('/media/authors/me.webp'),
         categories: z.array(z.string()).default([]),
         draft: z.boolean().default(false),
         image: image().optional(),
