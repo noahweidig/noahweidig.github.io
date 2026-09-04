@@ -323,11 +323,9 @@
   .btn-primary {
     background: var(--c-accent);
     color: var(--c-accent-contrast);
-    box-shadow: 0 10px 26px -14px var(--c-accent);
   }
   .btn-primary:hover {
     background: color-mix(in oklab, var(--c-accent) 86%, white);
-    box-shadow: 0 14px 32px -12px var(--c-accent);
   }
 
   .btn-ghost {
