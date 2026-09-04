@@ -727,6 +727,27 @@
     color: var(--c-accent-ink);
   }
 
+  /* Brand marks ship as rounded squares, so they fill the tile instead of
+     sitting inside one. */
+  .brand-tile {
+    display: block;
+    width: 2.25rem;
+    height: 2.25rem;
+    color: var(--c-dim);
+    transition:
+      transform 0.2s var(--ease-out-soft),
+      color 0.2s var(--ease-out-soft);
+  }
+  .brand-tile svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+  .brand-tile:hover {
+    transform: translateY(-2px);
+    color: var(--c-accent);
+  }
+
   /* --- tooltips ---
      One floating element, positioned by src/scripts/ui.ts, so a tooltip is
      never clipped by an ancestor's overflow. */
