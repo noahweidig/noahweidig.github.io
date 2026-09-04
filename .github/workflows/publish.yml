@@ -38,7 +38,10 @@ jobs:
   # component, page and content-collection schema.
   lint:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    # `npm run lint` is ~20s; the rest is `npm ci`, which on a cold npm cache
+    # takes minutes for this tree. Five minutes left no headroom for that and
+    # the job was killed mid-install.
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Install toolchain

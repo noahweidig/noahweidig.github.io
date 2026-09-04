@@ -73,6 +73,8 @@ const MAP = {
   filePdf: 'file-down',
   filter: 'sliders-horizontal',
   info: 'info',
+  pause: 'pause',
+  play: 'play',
 };
 
 /** The children of the <svg>, whitespace collapsed. Sliced rather than matched:

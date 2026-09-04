@@ -685,6 +685,27 @@
     color: var(--c-accent-ink);
   }
 
+  /* Nav items carry the same fill as the icon buttons beside them: the page
+     you are on is the one wearing the tile, and hover previews it. */
+  .nav-link {
+    color: var(--c-dim);
+    transition:
+      background-color 0.2s var(--ease-out-soft),
+      color 0.2s var(--ease-out-soft);
+  }
+  .nav-link:hover {
+    background: color-mix(in oklab, var(--c-raised) 70%, transparent);
+    color: var(--c-ink);
+  }
+  /* A step past the hover fill, because `--c-raised` on its own is only a
+     couple of points off the page ground and the current page has to be
+     readable at a glance. */
+  .nav-link-active,
+  .nav-link-active:hover {
+    background: color-mix(in oklab, var(--c-accent) 12%, var(--c-raised));
+    color: var(--c-accent-ink);
+  }
+
   .icon-tile {
     display: grid;
     place-items: center;
@@ -818,7 +839,14 @@
     inset: 0;
     z-index: 200;
     display: grid;
-    grid-template-rows: auto 1fr auto;
+    /* minmax(0, 1fr), not 1fr: an `auto` minimum floors the stage row at the
+       image's intrinsic height, which pushes a tall picture past the bottom
+       of the screen. */
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    /* Small-viewport units so the overlay ends where the screen does, rather
+       than under a mobile browser's toolbar. */
+    height: 100dvh;
+    max-height: 100dvh;
     /* Always a dark scrim, in either theme: a picture reads best against one,
        and the page behind it should drop away rather than tint through. */
     background: rgb(6 8 12 / 0.93);
@@ -830,16 +858,27 @@
   .lightbox[data-show] {
     opacity: 1;
   }
+  /* The image is absolutely positioned inside the stage, not centred as a
+     grid item: a percentage max-height on an in-flow replaced element does
+     not resolve against a grid area in every engine, and where it fails a
+     tall picture keeps its intrinsic height and runs off the bottom of the
+     screen. Against a positioned box the percentages always resolve. */
   .lightbox-stage {
-    display: grid;
-    place-items: center;
+    position: relative;
     min-height: 0;
-    padding: 0 1.25rem;
+    overflow: hidden;
   }
   .lightbox img {
-    max-height: 100%;
-    max-width: 100%;
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    /* The subtractions are the gutters: the picture never touches the edges
+       of the stage, the bar above it, or the caption below. */
+    max-width: calc(100% - 2.5rem);
+    max-height: calc(100% - 1.5rem);
     width: auto;
+    height: auto;
+    object-fit: contain;
     border-radius: var(--radius-md);
     border: 1px solid var(--c-line);
     box-shadow: 0 40px 90px -40px rgb(0 0 0 / 0.9);
@@ -870,7 +909,11 @@
     color: #fff;
   }
   .lightbox-caption {
+    /* Capped so a long caption can never crowd the picture out of the stage. */
+    max-height: 22vh;
+    overflow-y: auto;
     padding: 1rem 1.25rem 1.75rem;
+    padding-bottom: max(1.75rem, env(safe-area-inset-bottom));
     text-align: center;
     color: rgb(233 236 242 / 0.72);
     font-size: 0.88rem;
