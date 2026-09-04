@@ -131,10 +131,10 @@ const hasToc = headings.filter((h) => h.depth === 2 || h.depth === 3).length > 1
       hasToc ? (
         <div class="shell py-12 md:py-16">
           <div
-            class="mx-auto grid max-w-5xl gap-12 lg:grid-cols-[minmax(0,1fr)_13rem]"
+            class="mx-auto grid max-w-none gap-x-10 lg:grid-cols-[1fr_min(46rem,100%)_1fr]"
             data-article-grid
           >
-            <div class="min-w-0">
+            <div class="min-w-0 lg:col-start-2">
               {reading && (
                 <div class="no-print mb-6 flex justify-end" data-pagefind-ignore>
                   <button
@@ -154,7 +154,9 @@ const hasToc = headings.filter((h) => h.depth === 2 || h.depth === 3).length > 1
               </div>
               <ShareRow title={title} />
             </div>
-            <Toc headings={headings} />
+            <div class="lg:col-start-3 lg:row-start-1">
+              <Toc headings={headings} />
+            </div>
           </div>
         </div>
       ) : (
