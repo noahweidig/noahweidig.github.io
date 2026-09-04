@@ -65,28 +65,38 @@ const publications = defineCollection({
 const awards = defineCollection({
   loader: dirLoader('./src/content/awards'),
   schema: ({ image }) =>
-    z.object({
-      title: z.string(),
-      date: z.coerce.date(),
-      description: z.string().optional(),
-      featured: z.boolean().default(false),
-      image: image().optional(),
-      'image-alt': z.string().optional(),
-    }),
+    z
+      .object({
+        title: z.string(),
+        date: z.coerce.date(),
+        description: z.string().optional(),
+        featured: z.boolean().default(false),
+        image: image().optional(),
+        'image-alt': z.string().optional(),
+      })
+      .refine((data) => !data.image || !!data['image-alt'], {
+        message: '`image-alt` is required whenever `image` is set',
+        path: ['image-alt'],
+      }),
 });
 
 const blog = defineCollection({
   loader: dirLoader('./src/content/blog'),
   schema: ({ image }) =>
-    z.object({
-      title: z.string(),
-      date: z.coerce.date(),
-      description: z.string(),
-      categories: z.array(z.string()).default([]),
-      draft: z.boolean().default(false),
-      image: image().optional(),
-      'image-alt': z.string().optional(),
-    }),
+    z
+      .object({
+        title: z.string(),
+        date: z.coerce.date(),
+        description: z.string(),
+        categories: z.array(z.string()).default([]),
+        draft: z.boolean().default(false),
+        image: image().optional(),
+        'image-alt': z.string().optional(),
+      })
+      .refine((data) => !data.image || !!data['image-alt'], {
+        message: '`image-alt` is required whenever `image` is set',
+        path: ['image-alt'],
+      }),
 });
 
 const timeline = (base: string) =>
