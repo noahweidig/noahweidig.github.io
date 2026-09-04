@@ -43,6 +43,7 @@ const MAP = {
   external: 'external-link',
   sun: 'sun',
   moon: 'moon',
+  sunMoon: 'sun-moon',
   menu: 'menu',
   close: 'x',
   satellite: 'satellite',
