@@ -10,7 +10,12 @@ interface Props {
 }
 /* h2 and h3 only: h4 and below are detail inside a section, and a four-level
    rail stops being scannable. */
-const items = Astro.props.headings.filter((h) => h.depth === 2 || h.depth === 3);
+const filtered = Astro.props.headings.filter((h) => h.depth === 2 || h.depth === 3);
+let section = '';
+const items = filtered.map((h) => {
+  if (h.depth === 2) section = h.slug;
+  return { ...h, parent: h.depth === 3 ? section : '' };
+});
 ---
 
 {
@@ -29,6 +34,8 @@ const items = Astro.props.headings.filter((h) => h.depth === 2 || h.depth === 3)
               <a
                 href={`#${h.slug}`}
                 data-toc-link={h.slug}
+                data-toc-depth={h.depth}
+                data-toc-parent={h.parent || undefined}
                 data-tip={`Jump to “${h.text}”`}
                 class:list={[
                   'block border-l-2 border-transparent py-1.5 text-[0.82rem] leading-snug text-faint transition-colors hover:text-ink',
@@ -46,6 +53,12 @@ const items = Astro.props.headings.filter((h) => h.depth === 2 || h.depth === 3)
 }
 
 <style>
+  /* Sub-items stay in the DOM for anchor jumps; only the current section's
+     children are shown. */
+  [data-toc] li[hidden] {
+    display: none;
+  }
+
   /* -1px pulls the active marker over the rail rather than beside it. */
   [data-toc] a[aria-current='true'] {
     margin-left: -1px;
