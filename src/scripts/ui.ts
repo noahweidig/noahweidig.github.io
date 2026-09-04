@@ -1088,9 +1088,15 @@ function initToc() {
   if (!headings.length) return;
 
   const mark = (id: string | null) => {
+    const active = links.get(id ?? '');
+    const section = active?.dataset.tocDepth === '3' ? active.dataset.tocParent : (id ?? '');
     links.forEach((a, key) => {
       if (key === id) a.setAttribute('aria-current', 'true');
       else a.removeAttribute('aria-current');
+      if (a.dataset.tocDepth === '3') {
+        const li = a.parentElement;
+        if (li) li.hidden = a.dataset.tocParent !== section;
+      }
     });
   };
 
