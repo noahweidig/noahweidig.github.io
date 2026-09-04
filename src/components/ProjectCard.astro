@@ -1,7 +1,15 @@
 ---
 import { u } from '../lib/url';
 import type { CollectionEntry } from 'astro:content';
+import { Image } from 'astro:assets';
 import Icon from './Icon.astro';
+
+/** Keyed by slug, so `shots[slug]` resolves an optimized asset instead of a
+    raw `public/` path — the screenshots ship with a real responsive srcset. */
+const shots = import.meta.glob<{ default: ImageMetadata }>('../assets/albums/projects/*.webp', {
+  eager: true,
+});
+const shotFor = (slug: string) => shots[`../assets/albums/projects/${slug}.webp`]?.default;
 
 interface Props {
   entry: CollectionEntry<'projects'>;
@@ -44,7 +52,7 @@ const KNOWN = new Set([
   'wuirisk',
 ]);
 const icon = u(`/media/icons/projects/${KNOWN.has(slug) ? slug : 'default'}.svg`);
-const shot = KNOWN.has(slug) ? u(`/media/albums/projects/${slug}.webp`) : null;
+const shot = KNOWN.has(slug) ? shotFor(slug) : null;
 ---
 
 <article
@@ -59,13 +67,12 @@ const shot = KNOWN.has(slug) ? u(`/media/albums/projects/${slug}.webp`) : null;
   <div class="relative aspect-16/10 overflow-hidden border-b border-line bg-raised">
     {
       shot ? (
-        <img
+        <Image
           src={shot}
           alt=""
-          width="1600"
-          height="1000"
+          widths={[400, 800, 1200]}
+          sizes="(min-width: 1024px) 380px, (min-width: 640px) 45vw, 92vw"
           loading={index === 0 ? 'eager' : 'lazy'}
-          decoding="async"
           class="h-full w-full object-cover object-top transition-transform duration-700 ease-[cubic-bezier(.22,1,.36,1)] group-hover:scale-[1.04]"
         />
       ) : (

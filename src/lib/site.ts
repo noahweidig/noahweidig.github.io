@@ -9,7 +9,9 @@ export const site = {
   cv: '/uploads/cv.pdf',
   description:
     'Noah is an ecologist and GIS analyst specializing in geospatial data science, environmental modeling, and large-scale spatial analysis.',
-  ogImage: '/media/authors/me.webp',
+  // 1200x630 (the standard OG/Twitter card ratio), smart-cropped from `me.webp`
+  // so link previews on Slack/X/LinkedIn/Facebook don't auto-crop a square photo.
+  ogImage: '/media/authors/me-og.webp',
   analyticsId: 'G-WSCVDHQJ7H',
 } as const;
 

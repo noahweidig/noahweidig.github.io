@@ -1,6 +1,7 @@
 ---
 import { u } from '../../lib/url';
 import { getCollection, render } from 'astro:content';
+import { getImage } from 'astro:assets';
 import Detail from '../../layouts/Detail.astro';
 import { fullDate } from '../../lib/format';
 
@@ -22,6 +23,9 @@ export async function getStaticPaths() {
 const { entry, prev, next } = Astro.props;
 const { Content } = await render(entry);
 const d = entry.data;
+// The award's own cover, sized for og:image/twitter:image, so a shared link
+// shows this award's art instead of the sitewide default (site.ogImage).
+const ogImage = d.image ? (await getImage({ src: d.image, width: 1200 })).src : undefined;
 ---
 
 <Detail
@@ -34,6 +38,7 @@ const d = entry.data;
   next={next}
   backHref={u('/awards/')}
   backLabel="All awards"
+  image={ogImage}
   publishedTime={d.date}
 >
   <Content />
