@@ -4,6 +4,7 @@ import { getCollection, render } from 'astro:content';
 import { Image, getImage } from 'astro:assets';
 import Detail from '../../layouts/Detail.astro';
 import { fullDate, readingTime } from '../../lib/format';
+import { IMAGE_WIDTHS } from '../../lib/images';
 import Comments from '../../components/Comments.astro';
 
 export async function getStaticPaths() {
@@ -50,7 +51,7 @@ const ogImage = d.image ? (await getImage({ src: d.image, width: 1200 })).src : 
       <Image
         src={d.image}
         alt={d['image-alt'] ?? ''}
-        widths={[600, 1000, 1600]}
+        widths={IMAGE_WIDTHS.hero}
         sizes="(min-width: 768px) 720px, 92vw"
         loading="eager"
         class="mb-10 w-full rounded-lg border border-line"
