@@ -23,9 +23,9 @@ export const site = {
  */
 export const giscus = {
   repo: 'noahweidig/noahweidig.github.io',
-  repoId: '',
-  category: 'General',
-  categoryId: '',
+  repoId: 'R_kgDOUNb0Ww',
+  category: 'Announcements',
+  categoryId: 'DIC_kwDOUNb0W84DE4qC',
 } as const;
 
 export const nav = [
