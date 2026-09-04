@@ -201,7 +201,7 @@ function initFilters() {
       const url = new URL(location.href);
       if (value === '*') url.searchParams.delete('filter');
       else url.searchParams.set('filter', value);
-      history.replaceState(null, '', url);
+      history.replaceState(history.state, '', url);
     };
 
     bar.querySelectorAll<HTMLButtonElement>('button[data-filter]').forEach((b) => {
@@ -803,7 +803,7 @@ function initHeadingAnchors() {
       on(a, 'click', async (ev) => {
         ev.preventDefault();
         const url = `${location.origin}${location.pathname}#${h.id}`;
-        history.replaceState(null, '', `#${h.id}`);
+        history.replaceState(history.state, '', `#${h.id}`);
         h.scrollIntoView({ behavior: 'smooth', block: 'start' });
         try {
           await navigator.clipboard.writeText(url);
