@@ -87,7 +87,7 @@ const jsonLd = {
 ---
 
 <!doctype html>
-<html lang="en" data-theme="dark" data-base={base}>
+<html lang="en" data-theme="dark" data-theme-pref="system" data-base={base}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -174,19 +174,27 @@ const jsonLd = {
 
     <script is:inline>
       (function () {
-        function stored() {
+        function pref() {
           try {
             var t = localStorage.getItem('nw-theme');
-            if (t === 'light' || t === 'dark') return t;
+            if (t === 'light' || t === 'dark' || t === 'system') return t;
           } catch (e) {
-            /* private mode: fall through to the OS preference */
+            /* private mode: fall through to the default */
           }
-          return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+          return 'system';
+        }
+        function resolve(p) {
+          if (p === 'system') {
+            return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+          }
+          return p;
         }
         // Applied before first paint, so the page never flashes the wrong theme.
         function apply() {
-          var t = stored();
+          var p = pref();
+          var t = resolve(p);
           document.documentElement.dataset.theme = t;
+          document.documentElement.dataset.themePref = p;
           var m = document.querySelector('meta[name="theme-color"]');
           if (m) m.setAttribute('content', t === 'light' ? '#fbfaf7' : '#07080b');
         }

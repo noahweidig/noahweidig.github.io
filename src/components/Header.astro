@@ -77,12 +77,13 @@ const isActive = (href: string) => {
       <button
         type="button"
         data-theme-toggle
-        data-tip="Switch between light and dark"
+        data-tip="Switch color theme"
         class="icon-btn"
-        aria-label="Toggle color theme"
+        aria-label="Switch color theme"
       >
-        <span class="hidden dark:block"><Icon name="sun" size={21} stroke-width={1.8} /></span>
-        <span class="block dark:hidden"><Icon name="moon" size={21} stroke-width={1.8} /></span>
+        <span data-theme-icon="light"><Icon name="sun" size={21} stroke-width={1.8} /></span>
+        <span data-theme-icon="dark"><Icon name="moon" size={21} stroke-width={1.8} /></span>
+        <span data-theme-icon="system"><Icon name="sunMoon" size={21} stroke-width={1.8} /></span>
       </button>
 
       <a
