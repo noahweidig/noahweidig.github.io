@@ -469,6 +469,7 @@
     color: var(--c-ink);
     font-size: 1.0625rem;
     line-height: 1.75;
+    overflow-wrap: break-word;
   }
   .prose-nw > * + * {
     margin-top: 1.15em;
