@@ -30,7 +30,7 @@ const facts = [
   </section>
 
   <div class="shell py-14 md:py-20">
-    <div class="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:gap-14">
+    <div class="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:gap-14 [&>*]:min-w-0">
       <div data-reveal>
         <h2 class="font-display text-2xl">Start a conversation</h2>
         <p class="mt-4 leading-relaxed text-dim">
@@ -42,7 +42,7 @@ const facts = [
         <ul class="mt-8 grid gap-3">
           {
             facts.map((f) => (
-              <li class="card flex items-center gap-4 p-4">
+              <li class="card flex min-w-0 items-center gap-4 p-4">
                 <span class="grid h-10 w-10 shrink-0 place-items-center rounded-lg border border-line bg-raised text-accent-ink">
                   <Icon name={f.icon} size={18} />
                 </span>
@@ -76,8 +76,8 @@ const facts = [
         data-contact-form
         data-reveal
       >
-        <div class="grid gap-5">
-          <div class="grid gap-2">
+        <div class="grid gap-5 [&>*]:min-w-0">
+          <div class="grid gap-2 [&>*]:min-w-0">
             <label for="form-name" class="text-sm font-medium">Your name</label>
             <input
               id="form-name"
@@ -89,7 +89,7 @@ const facts = [
               class="w-full rounded-md border border-line bg-raised px-3.5 py-2.5 text-[0.95rem] outline-none transition-colors focus:border-accent"
             />
           </div>
-          <div class="grid gap-2">
+          <div class="grid gap-2 [&>*]:min-w-0">
             <label for="form-email" class="text-sm font-medium">Your email</label>
             <input
               id="form-email"
@@ -101,7 +101,7 @@ const facts = [
               class="w-full rounded-md border border-line bg-raised px-3.5 py-2.5 text-[0.95rem] outline-none transition-colors focus:border-accent"
             />
           </div>
-          <div class="grid gap-2">
+          <div class="grid gap-2 [&>*]:min-w-0">
             <label for="form-message" class="text-sm font-medium">Your message</label>
             <textarea
               id="form-message"
