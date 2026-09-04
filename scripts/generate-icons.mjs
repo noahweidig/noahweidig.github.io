@@ -60,6 +60,7 @@ const MAP = {
   book: 'book-open',
   report: 'clipboard-check',
   preprint: 'file-clock',
+  graduationCap: 'graduation-cap',
   check: 'check',
   tag: 'tag',
   copy: 'copy',
