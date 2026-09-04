@@ -6,12 +6,17 @@ categories: ["Thesis"]
 pub-authors: "**Weidig, N. C.**"
 pub-venue: "University of Florida"
 pub-url: "https://patron.uflib.ufl.edu/UFE0062783/00001/pdf"
+pub-pdf: "/publications/weidig-patterns-drivers-25/weidig-patterns-drivers-25.pdf"
 pub-listed: "yes"
 citation: "**Weidig, N. C.** (2025). *University of Florida*."
 links:
   - label: "Source"
     href: "https://patron.uflib.ufl.edu/UFE0062783/00001/pdf"
     variant: primary
+    external: true
+  - label: "View PDF"
+    href: "/publications/weidig-patterns-drivers-25/weidig-patterns-drivers-25.pdf"
+    variant: ghost
     external: true
   - label: "BibTeX"
     href: "/publications/weidig-patterns-drivers-25/cite.bib"
