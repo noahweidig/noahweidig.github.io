@@ -3,6 +3,7 @@ import { u } from '../lib/url';
 import type { CollectionEntry } from 'astro:content';
 import { Image } from 'astro:assets';
 import { year } from '../lib/format';
+import { IMAGE_WIDTHS } from '../lib/images';
 
 interface Props {
   entry: CollectionEntry<'awards'>;
@@ -24,7 +25,7 @@ const d = entry.data;
         <Image
           src={d.image}
           alt={d['image-alt'] ?? ''}
-          widths={[320, 640, 960]}
+          widths={IMAGE_WIDTHS.thumbnailSmall}
           sizes="(min-width: 1024px) 300px, (min-width: 640px) 45vw, 92vw"
           loading={index === 0 ? 'eager' : 'lazy'}
           class="h-full w-full object-cover transition-transform duration-700 ease-[cubic-bezier(.22,1,.36,1)] group-hover:scale-[1.05]"
