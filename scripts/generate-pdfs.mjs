@@ -19,7 +19,7 @@ import puppeteer from 'puppeteer';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const dist = path.join(root, 'dist');
 const outDir = path.join(root, 'public', 'uploads');
-const BASE = '/new-website';
+const BASE = '';
 
 const TYPES = {
   '.html': 'text/html; charset=utf-8',

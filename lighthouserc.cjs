@@ -1,17 +1,10 @@
-const fs = require('node:fs');
-const os = require('node:os');
 const path = require('node:path');
 
-// The site is served under a base path (`base` in astro.config.mjs), and every
-// asset URL in the build carries it. staticDistDir serves the folder it is
-// given at "/", so dist has to be mounted under a directory of that name —
-// otherwise every stylesheet and script 404s and Lighthouse scores an unstyled
-// page, which is neither what ships nor comparable to anything.
-const BASE = 'new-website';
-const ROOT = fs.mkdtempSync(path.join(os.tmpdir(), 'lhci-site-'));
-fs.symlinkSync(path.resolve(__dirname, 'dist'), path.join(ROOT, BASE));
+// The site is served at the apex (`base` is `/` in astro.config.mjs), so
+// staticDistDir serves dist itself at "/" — the same shape the server serves.
+const ROOT = path.resolve(__dirname, 'dist');
 
-const url = (p) => `http://localhost/${BASE}/${p}`;
+const url = (p) => `http://localhost/${p}`;
 
 // Lighthouse CI over the built site, run per-PR by
 // .github/workflows/lighthouse.yml. lighthouserc.production.cjs imports
@@ -23,7 +16,7 @@ const url = (p) => `http://localhost/${BASE}/${p}`;
 // ratchet them tighter as the site gets faster, and never loosen one without
 // saying why in the same commit.
 //
-// Measured on CI, 2026-09-03, against the build mounted under its base path.
+// Measured on CI, 2026-09-03, against the built site served at its root.
 // Two earlier passes set these from a dev server on a faster machine; the
 // numbers below come from the runner the gate actually runs on.
 //
@@ -104,8 +97,8 @@ const HOMEPAGE_ASSERTIONS = {
 
 /* lhci applies every matrix entry whose pattern matches, so the general entry
    has to exclude the homepage rather than merely come second. `pattern` is the
-   homepage as that config addresses it — a built file path under the base path
-   in CI, a bare origin in production. */
+   homepage as that config addresses it — a built file path in CI, a bare
+   origin in production. */
 const assertMatrix = (pattern) => [
   { matchingUrlPattern: pattern, assertions: HOMEPAGE_ASSERTIONS },
   { matchingUrlPattern: `^(?!${pattern.replace(/^\^/, '')})`, assertions: ASSERTIONS },
@@ -134,6 +127,6 @@ module.exports = {
       ],
     },
     upload: { target: 'temporary-public-storage' },
-    assert: { assertMatrix: assertMatrix(`^https?://[^/]+/${BASE}/index\\.html$`) },
+    assert: { assertMatrix: assertMatrix('^https?://[^/]+/index\\.html$') },
   },
 };

@@ -362,8 +362,8 @@ async function loadPagefind(): Promise<Pagefind | null> {
 
 /**
  * Pagefind already emits URLs carrying the site's base path, so prefixing
- * unconditionally produced /new-website/new-website/cv/. Prefix only when it
- * is missing, which keeps this right either way.
+ * unconditionally doubled the prefix (/base/base/cv/). Prefix only when it is
+ * missing, which keeps this right under any base.
  */
 const resultHref = (url: string) => {
   const base = basePath();
