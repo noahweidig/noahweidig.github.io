@@ -33,7 +33,7 @@ const {
   preloadImage,
 } = Astro.props;
 
-const canonical = new URL(Astro.url.pathname.replace(/\/+$/, '/'), Astro.site).href;
+const canonical = new URL(Astro.url.pathname.replace(/\/*$/, '/'), Astro.site).href;
 const ogUrl = new URL(image, Astro.site).href;
 const fullTitle = title === site.name ? `${site.name} | ${site.role}` : `${title} | ${site.name}`;
 
