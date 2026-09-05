@@ -1042,6 +1042,23 @@ function initLightbox() {
     if (k === 'Escape') close();
     else if (k === 'ArrowLeft') step(-1);
     else if (k === 'ArrowRight') step(1);
+    else if (k === 'Tab') {
+      // Nothing else on the page should be reachable while the overlay is up.
+      const focusable = Array.from(
+        box.querySelectorAll<HTMLElement>('button, [href], [tabindex]:not([tabindex="-1"])'),
+      );
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (!first || !last) return;
+      const shiftKey = (ev as KeyboardEvent).shiftKey;
+      if (shiftKey && document.activeElement === first) {
+        ev.preventDefault();
+        last.focus();
+      } else if (!shiftKey && document.activeElement === last) {
+        ev.preventDefault();
+        first.focus();
+      }
+    }
   });
 
   cleanups.push(() => {
