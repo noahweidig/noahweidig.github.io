@@ -54,8 +54,9 @@ const typed = [
         style="--reveal-delay:140ms"
       >
         <span>I build</span>
-        <span class="text-accent-ink" data-typed={JSON.stringify(typed)}></span>
+        <span class="text-accent-ink" data-typed={JSON.stringify(typed)} aria-hidden="true"></span>
         <span class="caret inline-block h-[1.05em] w-[2px] translate-y-[0.16em] bg-accent"></span>
+        <span class="sr-only-nw">{typed.join(', ')}</span>
       </p>
 
       <p class="lede mx-auto mt-6 max-w-xl lg:mx-0" data-reveal style="--reveal-delay:200ms">
