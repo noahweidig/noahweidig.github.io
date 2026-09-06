@@ -28,7 +28,10 @@ const d = entry.data;
 const meta = `${fullDate(d.date)} · ${readingTime(entry.body)}`;
 // The post's own cover, sized for og:image/twitter:image, so a shared link
 // shows this post's art instead of the sitewide default (site.ogImage).
-const ogImage = d.image ? (await getImage({ src: d.image, width: 1200 })).src : undefined;
+const ogImageResult = d.image ? await getImage({ src: d.image, width: 1200 }) : undefined;
+const ogImage = ogImageResult?.src;
+const ogImageWidth = ogImageResult?.attributes.width;
+const ogImageHeight = ogImageResult?.attributes.height;
 ---
 
 <Detail
@@ -46,6 +49,8 @@ const ogImage = d.image ? (await getImage({ src: d.image, width: 1200 })).src : 
   backLabel="All posts"
   chips={d.categories}
   image={ogImage}
+  imageWidth={ogImageWidth}
+  imageHeight={ogImageHeight}
   publishedTime={d.date}
 >
   {
