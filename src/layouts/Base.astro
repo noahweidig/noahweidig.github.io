@@ -11,6 +11,10 @@ interface Props {
   title: string;
   description?: string;
   image?: string;
+  /** Pixel dimensions of `image`, so crawlers can lay out a share card without
+      fetching it first. Defaults to the sitewide OG image's own size. */
+  imageWidth?: number;
+  imageHeight?: number;
   type?: 'website' | 'article';
   noindex?: boolean;
   bodyClass?: string;
@@ -25,6 +29,8 @@ const {
   title,
   description = site.description,
   image = site.ogImage,
+  imageWidth = 2400,
+  imageHeight = 1350,
   type = 'website',
   noindex = false,
   bodyClass = '',
@@ -112,6 +118,10 @@ const jsonLd = {
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogUrl} />
+    <meta property="og:image:width" content={String(imageWidth)} />
+    <meta property="og:image:height" content={String(imageHeight)} />
+    <meta property="og:image:type" content="image/webp" />
+    <meta property="og:image:alt" content={description} />
     <meta
       property="og:logo"
       content={new URL(u('/web-app-manifest-512x512.png'), Astro.site).href}
@@ -125,6 +135,7 @@ const jsonLd = {
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogUrl} />
+    <meta name="twitter:image:alt" content={description} />
 
     <link rel="icon" href={u('/favicon.ico')} sizes="32x32" />
     <link rel="icon" type="image/svg+xml" href={u('/favicon.svg')} />
