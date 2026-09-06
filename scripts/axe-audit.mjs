@@ -33,10 +33,10 @@ const PAGES = [
   'styleguide/index.html',
 ];
 
-// Scoped to heading-order rather than a full axe scan: the site currently has
-// other, pre-existing violations (color contrast, landmark structure) that are
-// out of scope here. Broadening this to the full rule set is a separate task.
-const RULES = ['heading-order'];
+// Full default rule set: a scan restricted to `heading-order` only caught one
+// class of regression. A run with no `runOnly` restriction is clean across
+// every page in PAGES as of this writing, so the gate now covers all of it
+// (color contrast, landmarks, ARIA, forms, etc.) instead of just headings.
 
 function parseArgs(argv) {
   const args = { dir: 'dist', base: null };
@@ -71,10 +71,7 @@ for (const page of PAGES) {
   try {
     await tab.goto(url, { waitUntil: 'networkidle0' });
     await tab.evaluate(axeSource);
-    const results = await tab.evaluate(
-      (values) => axe.run({ runOnly: { type: 'rule', values } }),
-      RULES,
-    );
+    const results = await tab.evaluate(() => axe.run());
 
     if (results.violations.length) {
       failed = true;
