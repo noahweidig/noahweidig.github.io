@@ -151,6 +151,15 @@ const jsonLd = {
     />
 
     {
+      /* The gtag script is `async` at the end of <body>, so the connection to
+        each Google host is opened only once the browser reaches it. The
+        2026-09-07 production audit measured 302ms for googletagmanager and
+        308ms for google-analytics spent on that handshake. */
+    }
+    <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
+    <link rel="preconnect" href="https://www.google-analytics.com" crossorigin />
+
+    {
       /* Ahead of the fonts: on a throttled connection the two latin subsets are
         88KB of higher-priority bytes, and the LCP image queues behind them. */
     }
