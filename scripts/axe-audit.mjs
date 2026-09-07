@@ -74,13 +74,45 @@ const UA =
   'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) ' +
   'Chrome/140.0.0.0 Safari/537.36';
 
+// A Cloudflare WAF skip rule can be keyed on a header only this audit sends,
+// which is the durable way past bot mitigation when the User-Agent is not the
+// trigger (#95). Both halves come from repository secrets, so the header goes
+// out only once the rule exists; with them unset nothing extra is sent.
+const BYPASS_HEADER = process.env.AUDIT_BYPASS_HEADER || '';
+const BYPASS_TOKEN = process.env.AUDIT_BYPASS_TOKEN || '';
+const EXTRA_HEADERS = BYPASS_HEADER && BYPASS_TOKEN ? { [BYPASS_HEADER]: BYPASS_TOKEN } : null;
+
+// Every page this site builds carries `data-base` on <html> (Base.astro). A
+// response without it is not one of our pages: an interstitial, an error page,
+// or a redirect elsewhere. Checking for it keeps "we were not served the site"
+// from being reported as an accessibility regression, which is how the first
+// two scheduled runs failed (#95).
+const SITE_MARKER = 'html[data-base]';
+
 let failed = false;
 for (const page of PAGES) {
   const url = toUrl(page, args);
   const tab = await browser.newPage();
   try {
-    if (args.base) await tab.setUserAgent(UA);
-    await tab.goto(url, { waitUntil: 'networkidle0' });
+    if (args.base) {
+      await tab.setUserAgent(UA);
+      if (EXTRA_HEADERS) await tab.setExtraHTTPHeaders(EXTRA_HEADERS);
+    }
+    const response = await tab.goto(url, { waitUntil: 'networkidle0' });
+
+    const served = await tab.evaluate((sel) => Boolean(document.querySelector(sel)), SITE_MARKER);
+    if (!served) {
+      failed = true;
+      const status = response ? response.status() : 0;
+      console.log(`\n=== ${page}: not served the site (HTTP ${status}) ===`);
+      console.log(
+        `No ${SITE_MARKER} in the response for ${url}, so this is a challenge ` +
+          'or error page rather than a page of this site. Nothing was audited ' +
+          'here; see #95.',
+      );
+      continue;
+    }
+
     await tab.evaluate(axeSource);
     const results = await tab.evaluate(() => axe.run());
 
