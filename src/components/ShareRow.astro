@@ -22,6 +22,18 @@ const targets = [
     href: `https://www.facebook.com/sharer/sharer.php?u=${u}`,
   },
   { label: 'Reddit', icon: 'reddit', href: `https://www.reddit.com/submit?url=${u}&title=${t}` },
+  {
+    label: 'Pinterest',
+    icon: 'pinterest',
+    href: `https://pinterest.com/pin/create/button/?url=${u}&description=${t}`,
+  },
+  {
+    label: 'Mastodon',
+    icon: 'mastodon',
+    href: `https://mastodonshare.com/?text=${t}&url=${u}`,
+  },
+  { label: 'WhatsApp', icon: 'whatsapp', href: `https://wa.me/?text=${t}%20${u}` },
+  { label: 'Threads', icon: 'threads', href: `https://www.threads.net/intent/post?text=${t}%20${u}` },
   { label: 'Email', icon: 'envelope', href: `mailto:?subject=${t}&body=${u}` },
 ];
 ---
