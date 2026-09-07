@@ -151,6 +151,7 @@ const hasToc = headings.filter((h) => h.depth === 2 || h.depth === 3).length > 1
                   rel={l.external ? 'noopener' : undefined}
                 >
                   {l.label}
+                  {l.label === 'BibTeX' && <Icon name="download" size={14} />}
                   {l.external && <Icon name="external" size={14} />}
                 </a>
               ))}
