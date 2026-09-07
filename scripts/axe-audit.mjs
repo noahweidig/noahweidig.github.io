@@ -64,11 +64,22 @@ const browser = await puppeteer.launch({
   args: ['--no-sandbox', '--disable-setuid-sandbox'],
 });
 
+// Puppeteer's default UA carries "HeadlessChrome", which Cloudflare in front
+// of production answers with a bot interstitial. The first scheduled
+// production audit reported exactly one violation on all ten pages —
+// `meta-refresh`, from the interstitial's own refresh tag — which is what a
+// challenge page looks like, not the site. Only used against --base; the
+// file:// run never reaches a network.
+const UA =
+  'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) ' +
+  'Chrome/140.0.0.0 Safari/537.36';
+
 let failed = false;
 for (const page of PAGES) {
   const url = toUrl(page, args);
   const tab = await browser.newPage();
   try {
+    if (args.base) await tab.setUserAgent(UA);
     await tab.goto(url, { waitUntil: 'networkidle0' });
     await tab.evaluate(axeSource);
     const results = await tab.evaluate(() => axe.run());
