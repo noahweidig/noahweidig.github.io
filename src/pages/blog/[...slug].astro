@@ -1,11 +1,12 @@
 ---
 import { u } from '../../lib/url';
 import { getCollection, render } from 'astro:content';
-import { Image, getImage } from 'astro:assets';
+import { getImage } from 'astro:assets';
 import Detail from '../../layouts/Detail.astro';
 import { fullDate, readingTime } from '../../lib/format';
 import { IMAGE_WIDTHS } from '../../lib/images';
 import Comments from '../../components/Comments.astro';
+import ThemeImage from '../../components/ThemeImage.astro';
 
 export async function getStaticPaths() {
   // Sorted the way the listing is, so "previous" and "next" mean what a reader
@@ -55,24 +56,15 @@ const ogImageHeight = ogImageResult?.attributes.height;
 >
   {
     d.image && (
-      <>
-        <Image
-          src={d.image}
-          alt={d['image-alt'] ?? ''}
-          widths={IMAGE_WIDTHS.hero}
-          sizes="(min-width: 768px) 720px, 92vw"
-          loading="eager"
-          class="mb-10 hidden w-full rounded-lg border border-line dark:block"
-        />
-        <Image
-          src={d['image-light'] ?? d.image}
-          alt={d['image-alt'] ?? ''}
-          widths={IMAGE_WIDTHS.hero}
-          sizes="(min-width: 768px) 720px, 92vw"
-          loading="eager"
-          class="mb-10 block w-full rounded-lg border border-line dark:hidden"
-        />
-      </>
+      <ThemeImage
+        dark={d.image}
+        light={d['image-light'] ?? d.image}
+        alt={d['image-alt'] ?? ''}
+        widths={IMAGE_WIDTHS.hero}
+        sizes="(min-width: 768px) 720px, 92vw"
+        loading="eager"
+        class="mb-10 w-full rounded-lg border border-line"
+      />
     )
   }
   <Content />

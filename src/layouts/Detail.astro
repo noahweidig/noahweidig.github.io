@@ -26,6 +26,7 @@ interface Props {
   imageHeight?: number;
   type?: 'website' | 'article';
   publishedTime?: Date;
+  noindex?: boolean;
   section: string;
   prev?: Sibling | null;
   next?: Sibling | null;
@@ -47,6 +48,7 @@ const {
   imageHeight,
   type = 'article',
   publishedTime,
+  noindex = false,
   section,
   prev,
   next,
@@ -69,6 +71,7 @@ const hasToc = headings.filter((h) => h.depth === 2 || h.depth === 3).length > 1
   imageHeight={imageHeight}
   type={type}
   publishedTime={publishedTime}
+  noindex={noindex}
   filters={{ section, tags: chips }}
 >
   <article>

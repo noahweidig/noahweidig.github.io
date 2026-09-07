@@ -37,6 +37,7 @@ const d = entry.data;
   chips={d.categories}
   links={d.links}
   publishedTime={d.date}
+  noindex={Boolean(d['pub-appearance-of'])}
 >
   {
     d.citation && (
