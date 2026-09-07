@@ -1113,6 +1113,11 @@
     --c-ink: #000;
     --c-dim: #333;
     --c-line: #ccc;
+    /* Light theme's values — AA against the white ground this block forces,
+       unlike dark theme's light-on-dark accent/faint colors. */
+    --c-faint: #636a78;
+    --c-accent: #0f62d6;
+    --c-accent-ink: #0a54ba;
   }
   body {
     background: #fff;

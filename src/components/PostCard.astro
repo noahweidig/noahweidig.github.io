@@ -1,9 +1,9 @@
 ---
 import { u } from '../lib/url';
 import type { CollectionEntry } from 'astro:content';
-import { Image } from 'astro:assets';
 import { fullDate } from '../lib/format';
 import { IMAGE_WIDTHS } from '../lib/images';
+import ThemeImage from './ThemeImage.astro';
 
 interface Props {
   entry: CollectionEntry<'blog'>;
@@ -32,21 +32,14 @@ const alt = entry.data['image-alt'] ?? '';
         aria-hidden="true"
         class="relative block aspect-16/9 overflow-hidden border-b border-line"
       >
-        <Image
-          src={image}
+        <ThemeImage
+          dark={image}
+          light={imageLight}
           alt={alt}
           widths={IMAGE_WIDTHS.thumbnail}
           sizes="(min-width: 1024px) 380px, (min-width: 640px) 45vw, 92vw"
           loading={index === 0 ? 'eager' : 'lazy'}
-          class="hidden h-full w-full object-cover transition-transform duration-700 ease-[cubic-bezier(.22,1,.36,1)] group-hover:scale-[1.04] dark:block"
-        />
-        <Image
-          src={imageLight}
-          alt={alt}
-          widths={IMAGE_WIDTHS.thumbnail}
-          sizes="(min-width: 1024px) 380px, (min-width: 640px) 45vw, 92vw"
-          loading={index === 0 ? 'eager' : 'lazy'}
-          class="block h-full w-full object-cover transition-transform duration-700 ease-[cubic-bezier(.22,1,.36,1)] group-hover:scale-[1.04] dark:hidden"
+          class="h-full w-full object-cover transition-transform duration-700 ease-[cubic-bezier(.22,1,.36,1)] group-hover:scale-[1.04]"
         />
         {readingTime && (
           <span class="absolute right-3 bottom-3 chip bg-black/55 text-white backdrop-blur-md">
