@@ -11,7 +11,11 @@ export default defineConfig({
   // correct if a base path is ever reintroduced.
   base: '/',
   trailingSlash: 'ignore',
-  integrations: [sitemap({ filter: (page) => !page.includes('/404') })],
+  integrations: [
+    sitemap({
+      filter: (page) => !page.includes('/404') && !page.includes('/styleguide'),
+    }),
+  ],
   vite: { plugins: [tailwindcss()] },
   markdown: {
     remarkPlugins: [remarkAlert],
