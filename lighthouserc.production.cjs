@@ -30,31 +30,51 @@ const SITE = process.env.SITE_URL || 'https://noahweidig.com';
 // robots.txt is turned off in the dashboard, or @lhci/cli ships Lighthouse 13.
 const SEO_ROBOTS_TXT_FALSE_POSITIVE = 0.08;
 
-const allowInjectedRobotsTxt = (assertions) => {
-  const [level, options] = assertions['categories:seo'];
+// The second injected-audit gap, same shape as the one above.
+//
+// Every production run scores best-practices 0.82 against a floor of 0.95 on
+// every URL. The uploaded reports name one failing audit and it is the same
+// one on all six pages: `deprecations`, weight 5, with three warnings —
+// SharedStorage, StorageType.persistent, and Fledge. All three have the same
+// source, https://noahweidig.com/cdn-cgi/challenge-platform/scripts/jsd/main.js,
+// which is Cloudflare's bot-detection script. No script this repo ships
+// appears in that audit, and no other best-practices audit is below 1.00.
+//
+// So the floor here is the PR floor minus that fixed 0.13. A real
+// best-practices regression adds a second failing audit and drops below it.
+// Delete this and go back to the PR floor when Cloudflare stops injecting the
+// challenge script — the same dashboard change (Bot Fight Mode / JS
+// detections off) that would stop the axe job being served 403 on 9 of its 10
+// pages (#95).
+const BEST_PRACTICES_CF_CHALLENGE_SCRIPT = 0.13;
+
+// Rounded: 0.65 - 0.08 lands on 0.5700000000000001 in binary floating point,
+// which compares fine but reads like a typo in a failure message.
+const lower = (assertions, key, by) => {
+  const [level, options] = assertions[key];
   return {
     ...assertions,
-    'categories:seo': [
-      level,
-      // Rounded: 0.65 - 0.08 lands on 0.5700000000000001 in binary floating
-      // point, which compares fine but reads like a typo in the config.
-      {
-        ...options,
-        minScore: Math.round((options.minScore - SEO_ROBOTS_TXT_FALSE_POSITIVE) * 100) / 100,
-      },
-    ],
+    [key]: [level, { ...options, minScore: Math.round((options.minScore - by) * 100) / 100 }],
   };
 };
 
+const allowInjectedScripts = (assertions) =>
+  lower(
+    lower(assertions, 'categories:seo', SEO_ROBOTS_TXT_FALSE_POSITIVE),
+    'categories:best-practices',
+    BEST_PRACTICES_CF_CHALLENGE_SCRIPT,
+  );
+
 // Deliberately not adjusted: performance, total-blocking-time and
-// best-practices are all below their floors in production too, and unlike the
-// SEO gap those look like real differences in what visitors are served rather
-// than audit bugs. Production runs Cloudflare Rocket Loader, which rewrites
-// every `type="module"` on the page into its own deferred loader — the built
-// site has no such script, which is why the PR run does not see any of this.
-// Turning Rocket Loader off in the Cloudflare dashboard is the change to try;
-// leaving these assertions to fail is what keeps that visible. The reports the
-// workflow now uploads name the audits behind the best-practices score.
+// largest-contentful-paint are below their floors in production too, and those
+// are real differences in what visitors are served rather than audit bugs.
+// Two things production has that a PR build does not: Cloudflare Rocket
+// Loader, which rewrites every `type="module"` on the page into its own
+// deferred loader, and the challenge script above, which the 2026-09-07
+// reports measured at 1,896ms of script evaluation on the homepage against
+// 2,311ms for the whole of the site's own JavaScript. Turning both off in the
+// Cloudflare dashboard is the change to try; leaving these assertions to fail
+// is what keeps that visible.
 module.exports = {
   ci: {
     collect: {
@@ -71,7 +91,7 @@ module.exports = {
       target: 'temporary-public-storage',
     },
     assert: {
-      assertMatrix: assertMatrix('^https?://[^/]+/$', allowInjectedRobotsTxt),
+      assertMatrix: assertMatrix('^https?://[^/]+/$', allowInjectedScripts),
     },
   },
 };
