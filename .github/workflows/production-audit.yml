@@ -55,19 +55,31 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      - name: Crawl production for dead links
+      - name: Check links on production's key pages
         uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2.9.0
         with:
           # Same accepted codes and exclusions as links.yml, which explains
-          # each of them; this one follows the live site instead of _site.
+          # each of them; this one reads the live pages instead of dist.
+          #
+          # lychee has no recursive crawl, so the pages are listed. The first
+          # run of this job passed `--max-depth 2` and died with
+          # "error: unexpected argument '--max-depth' found" before checking a
+          # single link. Keep this list in step with PAGES in
+          # scripts/axe-audit.mjs.
           args: >-
             --no-progress
-            --max-depth 2
             --accept '100..=103,200..=299,403,405,415,429,999'
             --exclude 'ecos\.fws\.gov'
             --exclude 'victoriamdonovan\.org'
             --exclude 'original-ufdc\.uflib\.ufl\.edu'
-            ${{ env.SITE_URL }}
+            ${{ env.SITE_URL }}/
+            ${{ env.SITE_URL }}/cv/
+            ${{ env.SITE_URL }}/experience/
+            ${{ env.SITE_URL }}/education/
+            ${{ env.SITE_URL }}/projects/
+            ${{ env.SITE_URL }}/publications/
+            ${{ env.SITE_URL }}/blog/
+            ${{ env.SITE_URL }}/contact/
           fail: true
 
   # A silently dead contact form is the worst failure on this site: the form
@@ -80,6 +92,10 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Check the form endpoint is still live
+        env:
+          UA: >-
+            Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like
+            Gecko) Chrome/140.0.0.0 Safari/537.36
         run: |
           set -euo pipefail
           # Read the endpoint out of the page rather than repeating it here,
@@ -87,11 +103,19 @@ jobs:
           # --proto '=https' on the request and on any redirect it follows:
           # this reads a URL out of the response and then calls it, so a
           # downgrade to plain HTTP anywhere in the chain must fail loudly.
-          action=$(curl -fsSL --proto '=https' --proto-redir '=https' "$SITE_URL/contact" \
+          #
+          # /contact/ with the trailing slash: /contact is the legacy
+          # public/contact.html stub, whose only content is a meta refresh
+          # curl does not follow, so it carries no form for the grep below.
+          #
+          # A browser User-Agent because the first run of this job got HTTP
+          # 403 from Cloudflare here while the same URL served 200 elsewhere.
+          action=$(curl -fsSL --proto '=https' --proto-redir '=https' \
+            -A "$UA" "$SITE_URL/contact/" \
             | grep -o 'action="https://formspree.io/f/[^"]*"' \
             | head -1 | cut -d'"' -f2)
           if [ -z "$action" ]; then
-            echo "::error::No Formspree action found on $SITE_URL/contact"
+            echo "::error::No Formspree action found on $SITE_URL/contact/"
             exit 1
           fi
           echo "Endpoint: $action"
@@ -99,7 +123,7 @@ jobs:
           # form apart from a deleted or disabled one, without delivering a
           # test message to the inbox on every scheduled run.
           code=$(curl -s -o /dev/null -w '%{http_code}' -X OPTIONS \
-            --proto '=https' --proto-redir '=https' "$action" \
+            --proto '=https' --proto-redir '=https' -A "$UA" "$action" \
             -H "Origin: $SITE_URL" \
             -H "Access-Control-Request-Method: POST" \
             -H "Access-Control-Request-Headers: content-type")
