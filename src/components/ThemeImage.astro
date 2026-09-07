@@ -1,0 +1,59 @@
+---
+/**
+ * Renders one <img> for a dark/light image pair instead of two, so the
+ * browser only ever downloads the variant actually shown. The initial pick
+ * happens synchronously (inline script, right after the tag) using the
+ * `data-theme` already resolved by Base.astro's pre-paint script; the
+ * theme-toggle handler in ui.ts re-picks it if the user switches themes.
+ */
+import { getImage } from 'astro:assets';
+
+interface Props {
+  dark: ImageMetadata;
+  light: ImageMetadata;
+  widths: number[];
+  sizes: string;
+  alt: string;
+  loading?: 'eager' | 'lazy';
+  class?: string;
+}
+
+const { dark, light, widths, sizes, alt, loading = 'lazy', class: className } = Astro.props;
+const darkImage = await getImage({ src: dark, widths, sizes });
+const lightImage = await getImage({ src: light, widths, sizes });
+---
+
+<img
+  data-theme-src-dark={darkImage.src}
+  data-theme-srcset-dark={darkImage.srcSet.attribute}
+  data-theme-src-light={lightImage.src}
+  data-theme-srcset-light={lightImage.srcSet.attribute}
+  sizes={sizes}
+  alt={alt}
+  width={darkImage.attributes.width}
+  height={darkImage.attributes.height}
+  loading={loading}
+  decoding="async"
+  class={className}
+/>
+<script is:inline>
+  {
+    const img = document.currentScript.previousElementSibling;
+    const dark = document.documentElement.dataset.theme !== 'light';
+    img.src = dark ? img.dataset.themeSrcDark : img.dataset.themeSrcLight;
+    img.srcset = dark ? img.dataset.themeSrcsetDark : img.dataset.themeSrcsetLight;
+  }
+</script>
+<noscript>
+  <img
+    src={darkImage.src}
+    srcset={darkImage.srcSet.attribute}
+    sizes={sizes}
+    alt={alt}
+    width={darkImage.attributes.width}
+    height={darkImage.attributes.height}
+    loading={loading}
+    decoding="async"
+    class={className}
+  />
+</noscript>

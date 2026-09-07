@@ -33,6 +33,15 @@ function resolveTheme(pref: ThemePref): 'light' | 'dark' {
   return pref;
 }
 
+function applyThemeImages(theme: 'light' | 'dark') {
+  document.querySelectorAll<HTMLImageElement>('img[data-theme-src-dark]').forEach((img) => {
+    const src = theme === 'dark' ? img.dataset.themeSrcDark : img.dataset.themeSrcLight;
+    const srcset = theme === 'dark' ? img.dataset.themeSrcsetDark : img.dataset.themeSrcsetLight;
+    if (src) img.src = src;
+    if (srcset) img.srcset = srcset;
+  });
+}
+
 function applyTheme(pref: ThemePref) {
   const theme = resolveTheme(pref);
   document.documentElement.dataset.theme = theme;
@@ -45,6 +54,7 @@ function applyTheme(pref: ThemePref) {
   document
     .querySelector('meta[name="theme-color"]')
     ?.setAttribute('content', theme === 'light' ? '#fbfaf7' : '#07080b');
+  applyThemeImages(theme);
 }
 
 function initTheme() {
