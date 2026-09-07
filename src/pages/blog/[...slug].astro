@@ -7,6 +7,7 @@ import { fullDate, readingTime } from '../../lib/format';
 import { IMAGE_WIDTHS } from '../../lib/images';
 import Comments from '../../components/Comments.astro';
 import ThemeImage from '../../components/ThemeImage.astro';
+import { site } from '../../lib/site';
 
 export async function getStaticPaths() {
   // Sorted the way the listing is, so "previous" and "next" mean what a reader
@@ -33,6 +34,17 @@ const ogImageResult = d.image ? await getImage({ src: d.image, width: 1200 }) : 
 const ogImage = ogImageResult?.src;
 const ogImageWidth = ogImageResult?.attributes.width;
 const ogImageHeight = ogImageResult?.attributes.height;
+
+const articleLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: d.title,
+  description: d.description,
+  datePublished: d.date.toISOString(),
+  image: ogImage ? new URL(ogImage, Astro.site).href : undefined,
+  author: { '@type': 'Person', name: d.author ?? site.name, url: `${site.url}/` },
+  mainEntityOfPage: new URL(Astro.url.pathname, Astro.site).href,
+};
 ---
 
 <Detail
@@ -75,3 +87,5 @@ const ogImageHeight = ogImageResult?.attributes.height;
     </div>
   </Fragment>
 </Detail>
+
+<script type="application/ld+json" is:inline set:html={JSON.stringify(articleLd)} />
