@@ -156,7 +156,14 @@ function initMarquees() {
       delete el.dataset.maskSrc;
     });
     if (track.dataset.cloned !== 'true') {
-      track.append(...Array.from(track.children).map((c) => c.cloneNode(true)));
+      const clones = Array.from(track.children).map((c) => c.cloneNode(true) as HTMLElement);
+      clones.forEach((clone) => {
+        clone.setAttribute('aria-hidden', 'true');
+        clone.querySelectorAll<HTMLElement>('a, button, [tabindex]').forEach((el) => {
+          el.setAttribute('tabindex', '-1');
+        });
+      });
+      track.append(...clones);
       track.dataset.cloned = 'true';
     }
   };
@@ -621,13 +628,19 @@ function initSearch() {
   };
 
   /* ---- open / close ---- */
+  let lastFocused: HTMLElement | null = null;
   const open = () => {
+    lastFocused = document.activeElement as HTMLElement | null;
     if (!dialog.open) dialog.showModal();
     input.focus();
     input.select();
     void run();
   };
-  const close = () => dialog.open && dialog.close();
+  const close = () => {
+    if (!dialog.open) return;
+    dialog.close();
+    lastFocused?.focus();
+  };
 
   document.querySelectorAll('[data-search-open]').forEach((b) => on(b, 'click', open));
   dialog.querySelectorAll('[data-search-close]').forEach((b) => on(b, 'click', close));
