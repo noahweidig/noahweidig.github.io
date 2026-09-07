@@ -890,12 +890,15 @@ function initReadingMode() {
 /* --------------------------------------------------------------- tooltip -- */
 /* One floating element for the whole page: an ancestor with overflow hidden
    would clip a tooltip rendered inside the trigger. */
+const TIP_ID = 'nw-tip';
 let tipEl: HTMLElement | null = null;
 let tipTimer: number | undefined;
+let tipTarget: HTMLElement | null = null;
 
 const tipRoot = () => {
   if (!tipEl?.isConnected) {
     tipEl = document.createElement('div');
+    tipEl.id = TIP_ID;
     tipEl.className = 'nw-tip';
     tipEl.setAttribute('role', 'tooltip');
     document.body.appendChild(tipEl);
@@ -925,11 +928,18 @@ function showTip(target: HTMLElement) {
   el.style.left = `${Math.round(left)}px`;
   el.style.top = `${Math.round(top)}px`;
   el.style.visibility = '';
+
+  tipTarget = target;
+  target.setAttribute('aria-describedby', TIP_ID);
 }
 
 function hideTip() {
   window.clearTimeout(tipTimer);
   if (tipEl) delete tipEl.dataset.show;
+  if (tipTarget) {
+    tipTarget.removeAttribute('aria-describedby');
+    tipTarget = null;
+  }
 }
 
 function initTooltips() {
