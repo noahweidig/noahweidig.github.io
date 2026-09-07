@@ -47,6 +47,11 @@ jobs:
           node ./node_modules/puppeteer/install.mjs
 
       - name: Run axe-core against production
+        env:
+          # Set both to send a header a Cloudflare WAF skip rule can match
+          # (#95). Unset, nothing extra is sent and the run is unchanged.
+          AUDIT_BYPASS_HEADER: ${{ secrets.AUDIT_BYPASS_HEADER }}
+          AUDIT_BYPASS_TOKEN: ${{ secrets.AUDIT_BYPASS_TOKEN }}
         run: node scripts/axe-audit.mjs --base "$SITE_URL"
 
   links:
@@ -61,6 +66,13 @@ jobs:
           # Same accepted codes and exclusions as links.yml, which explains
           # each of them; this one reads the live pages instead of dist.
           #
+          # /cdn-cgi/l/email-protection is excluded on top of those: Cloudflare
+          # rewrites every mailto: on the site into one of those links and
+          # decodes it in the browser with JavaScript. Fetched directly it is a
+          # 404 by design, which is 11 of the 11 errors the second run reported
+          # across 8 pages. Nothing there is a broken link; the mailto: they
+          # come from is in the source and never reaches lychee.
+          #
           # lychee has no recursive crawl, so the pages are listed. The first
           # run of this job passed `--max-depth 2` and died with
           # "error: unexpected argument '--max-depth' found" before checking a
@@ -72,6 +84,7 @@ jobs:
             --exclude 'ecos\.fws\.gov'
             --exclude 'victoriamdonovan\.org'
             --exclude 'original-ufdc\.uflib\.ufl\.edu'
+            --exclude 'noahweidig\.com/cdn-cgi/'
             ${{ env.SITE_URL }}/
             ${{ env.SITE_URL }}/cv/
             ${{ env.SITE_URL }}/experience/
@@ -96,6 +109,8 @@ jobs:
           UA: >-
             Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like
             Gecko) Chrome/140.0.0.0 Safari/537.36
+          BYPASS_HEADER: ${{ secrets.AUDIT_BYPASS_HEADER }}
+          BYPASS_TOKEN: ${{ secrets.AUDIT_BYPASS_TOKEN }}
         run: |
           set -euo pipefail
           # Read the endpoint out of the page rather than repeating it here,
@@ -110,9 +125,31 @@ jobs:
           #
           # A browser User-Agent because the first run of this job got HTTP
           # 403 from Cloudflare here while the same URL served 200 elsewhere.
-          action=$(curl -fsSL --proto '=https' --proto-redir '=https' \
-            -A "$UA" "$SITE_URL/contact/" \
-            | grep -o 'action="https://formspree.io/f/[^"]*"' \
+          # An optional header a Cloudflare WAF skip rule can match (#95).
+          # Both secrets unset, no header is sent and the request is unchanged.
+          bypass=()
+          if [ -n "$BYPASS_HEADER" ] && [ -n "$BYPASS_TOKEN" ]; then
+            bypass=(-H "$BYPASS_HEADER: $BYPASS_TOKEN")
+          fi
+          # Body and status separately, without -f: a 403 from Cloudflare's bot
+          # mitigation and a genuinely broken page both used to arrive as
+          # "curl: (22) ... error: 403" with nothing to tell them apart (#95).
+          body=$(mktemp)
+          code=$(curl -sSL --proto '=https' --proto-redir '=https' \
+            -A "$UA" "${bypass[@]}" -o "$body" -w '%{http_code}' \
+            "$SITE_URL/contact/")
+          case "$code" in
+            200) ;;
+            403|429|503)
+              echo "::error::HTTP $code for $SITE_URL/contact/ — bot mitigation, not the page. The form was not checked. See #95."
+              exit 1
+              ;;
+            *)
+              echo "::error::HTTP $code for $SITE_URL/contact/"
+              exit 1
+              ;;
+          esac
+          action=$(grep -o 'action="https://formspree.io/f/[^"]*"' "$body" \
             | head -1 | cut -d'"' -f2)
           if [ -z "$action" ]; then
             echo "::error::No Formspree action found on $SITE_URL/contact/"
