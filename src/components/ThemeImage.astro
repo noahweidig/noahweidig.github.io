@@ -36,7 +36,7 @@ const lightImage = await getImage({ src: light, widths, sizes });
   decoding="async"
   class={className}
 />
-<script is:inline>
+<script is:inline data-astro-rerun>
   {
     const img = document.currentScript.previousElementSibling;
     const dark = document.documentElement.dataset.theme !== 'light';
