@@ -95,13 +95,28 @@ const HOMEPAGE_ASSERTIONS = {
   'largest-contentful-paint': ['error', { maxNumericValue: 6000 }],
 };
 
-/* lhci applies every matrix entry whose pattern matches, so the general entry
-   has to exclude the homepage rather than merely come second. `pattern` is the
+// /styleguide/ carries a deliberate `noindex` (it's a dev reference page, not
+// meant to rank), which fails Lighthouse's `is-crawlable` SEO audit by design.
+// Three CI runs all put it at exactly 0.66 — the floor sits just below that,
+// same convention as the other ratchets in this file.
+const STYLEGUIDE_ASSERTIONS = {
+  ...ASSERTIONS,
+  'categories:seo': ['error', { minScore: 0.65 }],
+};
+
+const STYLEGUIDE_PATTERN = '/styleguide/(index\\.html)?$';
+
+/* lhci applies every matrix entry whose pattern matches, so each entry has to
+   exclude the ones before it rather than merely come later. `pattern` is the
    homepage as that config addresses it — a built file path in CI, a bare
    origin in production. */
 const assertMatrix = (pattern) => [
   { matchingUrlPattern: pattern, assertions: HOMEPAGE_ASSERTIONS },
-  { matchingUrlPattern: `^(?!${pattern.replace(/^\^/, '')})`, assertions: ASSERTIONS },
+  { matchingUrlPattern: STYLEGUIDE_PATTERN, assertions: STYLEGUIDE_ASSERTIONS },
+  {
+    matchingUrlPattern: `^(?!${pattern.replace(/^\^/, '')})(?!.*${STYLEGUIDE_PATTERN})`,
+    assertions: ASSERTIONS,
+  },
 ];
 
 module.exports = {
