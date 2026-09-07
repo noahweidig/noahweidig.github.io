@@ -33,7 +33,11 @@ const targets = [
     href: `https://mastodonshare.com/?text=${t}&url=${u}`,
   },
   { label: 'WhatsApp', icon: 'whatsapp', href: `https://wa.me/?text=${t}%20${u}` },
-  { label: 'Threads', icon: 'threads', href: `https://www.threads.net/intent/post?text=${t}%20${u}` },
+  {
+    label: 'Threads',
+    icon: 'threads',
+    href: `https://www.threads.net/intent/post?text=${t}%20${u}`,
+  },
   { label: 'Email', icon: 'envelope', href: `mailto:?subject=${t}&body=${u}` },
 ];
 ---
