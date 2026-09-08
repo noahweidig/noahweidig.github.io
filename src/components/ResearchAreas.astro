@@ -1,15 +1,12 @@
 ---
 import { Image } from 'astro:assets';
 import Icon from './Icon.astro';
+import { shotFor } from '../lib/images';
 
 /* Same optimized screenshots ProjectCard uses. Pointing at the `public/` copy
    instead served the full 1600px file to every viewport: 124KB of the 148KB
    `roads.webp` was wasted on a 370px-wide slot in the 2026-09-07 production
-   audit. Keyed by slug so the srcset comes from Astro. */
-const shots = import.meta.glob<{ default: ImageMetadata }>('../assets/albums/projects/*.webp', {
-  eager: true,
-});
-const shotFor = (slug: string) => shots[`../assets/albums/projects/${slug}.webp`]?.default;
+   audit. */
 
 const areas = [
   {

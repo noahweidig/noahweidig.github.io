@@ -49,8 +49,11 @@ const articleLd = {
   headline: d.title,
   description: d.description,
   datePublished: d.date.toISOString(),
+  dateModified: (d.updated ?? d.date).toISOString(),
+  inLanguage: 'en-US',
   image: ogImage ? new URL(ogImage, Astro.site).href : undefined,
-  author: { '@type': 'Person', name: d.author ?? site.name, url: `${site.url}/` },
+  author: { '@id': `${site.url}/#person` },
+  publisher: { '@id': `${site.url}/#person` },
   mainEntityOfPage: new URL(Astro.url.pathname, Astro.site).href,
 };
 ---

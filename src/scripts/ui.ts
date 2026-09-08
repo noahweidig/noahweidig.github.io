@@ -1008,7 +1008,7 @@ function initLightbox() {
     document.querySelectorAll<HTMLImageElement>(
       '.prose-nw img:not([data-no-zoom]), [data-zoomable] img, img[data-zoomable]',
     ),
-  ).filter((img) => !img.closest('a'));
+  ).filter((img) => !img.closest('a') && img.alt.trim() !== '');
   if (!shots.length) return;
 
   shots.forEach((img, i) => {
@@ -1017,6 +1017,7 @@ function initLightbox() {
     img.dataset.tip ??= 'Click to enlarge';
     if (!img.hasAttribute('tabindex')) img.tabIndex = 0;
     img.setAttribute('role', 'button');
+    img.setAttribute('aria-label', `Enlarge image: ${img.alt}`);
   });
 
   let box: HTMLElement | null = null;
