@@ -40,6 +40,7 @@
     "lighthouse": "^13.4.1",
     "lucide-static": "^1.40.0",
     "pagefind": "^1.5.2",
+    "pdf-lib": "^1.17.1",
     "prettier": "^3.9.6",
     "prettier-plugin-astro": "^0.14.1",
     "puppeteer": "^25.9.0",
