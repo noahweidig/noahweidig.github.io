@@ -12,7 +12,7 @@ links:
     external: true
 ---
 
-<img src="../../media/albums/projects/gisconvert.webp" alt="GIS Convert's browser-based GIS file conversion interface" width="1200" height="630" loading="lazy" decoding="async">
+<img src="../../media/albums/projects/gisconvert.webp" alt="GIS Convert's browser-based GIS file conversion interface" width="1600" height="1000" loading="lazy" decoding="async">
 
 GIS Convert converts spatial data between formats entirely in the browser: Shapefile, GeoJSON, TopoJSON, KML/KMZ, GPX, GML, CSV, and WKT, with reprojection across 180+ coordinate systems. Nothing is uploaded — files are parsed and converted client-side, then downloaded back out.
 

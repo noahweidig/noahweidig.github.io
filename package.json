@@ -18,6 +18,7 @@
     "icons": "node scripts/generate-icons.mjs",
     "lint": "prettier --check . && astro check",
     "pdfs": "node scripts/generate-pdfs.mjs",
+    "shots": "node scripts/generate-project-shots.mjs",
     "preview": "astro preview",
     "start": "astro dev"
   },
