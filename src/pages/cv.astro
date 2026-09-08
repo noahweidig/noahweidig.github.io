@@ -12,7 +12,9 @@ const byDate = <T extends { data: { date: Date } }>(a: T, b: T) =>
 const education = (await getCollection('education')).sort(byDate);
 const experience = (await getCollection('experience')).sort(byDate);
 const awards = (await getCollection('awards')).sort(byDate);
-const pubs = (await getCollection('publications')).sort(byDate);
+const pubs = (await getCollection('publications', ({ data }) => data['pub-listed'] === 'yes')).sort(
+  byDate,
+);
 const byCat = (c: string) => pubs.filter((p) => p.data.categories.includes(c));
 
 const skills = [

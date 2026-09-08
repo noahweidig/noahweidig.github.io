@@ -77,7 +77,7 @@ const jsonLd = {
 
 <script>
   import { initTruncateWords } from '../lib/truncate-words';
-  initTruncateWords();
+  document.addEventListener('astro:page-load', initTruncateWords);
 </script>
 
 <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />
