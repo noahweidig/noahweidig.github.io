@@ -35,6 +35,14 @@ const ogImage = ogImageResult?.src;
 const ogImageWidth = ogImageResult?.attributes.width;
 const ogImageHeight = ogImageResult?.attributes.height;
 
+// The cover is the LCP element on a post, and it otherwise queues behind the
+// two latin font subsets. Built with the same widths/sizes ThemeImage uses, so
+// the preload and the rendered <img> resolve to the same candidate.
+const HERO_SIZES = '(min-width: 768px) 720px, 92vw';
+const hero = d.image
+  ? await getImage({ src: d.image, widths: IMAGE_WIDTHS.hero, sizes: HERO_SIZES })
+  : undefined;
+
 const articleLd = {
   '@context': 'https://schema.org',
   '@type': 'BlogPosting',
@@ -65,6 +73,7 @@ const articleLd = {
   imageWidth={ogImageWidth}
   imageHeight={ogImageHeight}
   publishedTime={d.date}
+  preloadImage={hero && { href: hero.src, srcset: hero.srcSet.attribute, sizes: HERO_SIZES }}
 >
   {
     d.image && (
@@ -73,7 +82,7 @@ const articleLd = {
         light={d['image-light'] ?? d.image}
         alt={d['image-alt'] ?? ''}
         widths={IMAGE_WIDTHS.hero}
-        sizes="(min-width: 768px) 720px, 92vw"
+        sizes={HERO_SIZES}
         loading="eager"
         class="mb-10 w-full rounded-lg border border-line"
       />
