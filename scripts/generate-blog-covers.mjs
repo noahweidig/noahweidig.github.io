@@ -32,8 +32,14 @@ const ogDir = path.join(root, 'public/media/og');
 // mirrors what Detail.astro prints for that section, so the shared card and
 // the page it links to agree.
 const COLLECTIONS = {
-  projects: { dir: 'src/content/projects', kicker: (fm) => (fm.featured ? 'Featured project' : 'Project') },
-  publications: { dir: 'src/content/publications', kicker: (fm) => fm.categories[0] ?? 'Publication' },
+  projects: {
+    dir: 'src/content/projects',
+    kicker: (fm) => (fm.featured ? 'Featured project' : 'Project'),
+  },
+  publications: {
+    dir: 'src/content/publications',
+    kicker: (fm) => fm.categories[0] ?? 'Publication',
+  },
   experience: { dir: 'src/content/experience', kicker: () => 'Experience' },
   education: { dir: 'src/content/education', kicker: () => 'Education' },
 };
