@@ -11,3 +11,12 @@ export const IMAGE_WIDTHS = {
   /** Full-width hero/cover images, e.g. blog post detail page */
   hero: [600, 1000, 1600],
 } satisfies Record<string, number[]>;
+
+/** Optimized project screenshots, keyed by slug. Shared by ResearchAreas and
+    ProjectCard so both render the same asset with a real responsive srcset. */
+const projectShots = import.meta.glob<{ default: ImageMetadata }>(
+  '../assets/albums/projects/*.webp',
+  { eager: true },
+);
+export const shotFor = (slug: string) =>
+  projectShots[`../assets/albums/projects/${slug}.webp`]?.default;

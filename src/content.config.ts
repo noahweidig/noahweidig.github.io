@@ -87,6 +87,7 @@ const blog = defineCollection({
       .object({
         title: z.string(),
         date: z.coerce.date(),
+        updated: z.coerce.date().optional(),
         description: z.string(),
         author: z.string().default('Noah Weidig'),
         'author-image': z.string().default('/media/authors/me.webp'),
