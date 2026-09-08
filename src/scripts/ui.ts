@@ -99,6 +99,21 @@ function initHeader() {
   });
 }
 
+/* ------------------------------------------------------------- banner -- */
+function initBanner() {
+  const el = document.getElementById('announcement-banner');
+  const btn = el?.querySelector<HTMLButtonElement>('[data-banner-dismiss]');
+  if (!el || !btn) return;
+  on(btn, 'click', () => {
+    el.style.display = 'none';
+    try {
+      localStorage.setItem('nw-banner-dismissed', el.dataset.announcementBanner ?? '');
+    } catch (e) {
+      /* private mode: dismissal just won't persist across reloads */
+    }
+  });
+}
+
 /* --------------------------------------------------------------- reveal -- */
 function initReveal() {
   const items = document.querySelectorAll<HTMLElement>('[data-reveal]');
@@ -1402,6 +1417,7 @@ function boot() {
   cleanups.forEach((fn) => fn());
   cleanups = [];
   initTheme();
+  initBanner();
   initHeader();
   initReveal();
   initGlow();
