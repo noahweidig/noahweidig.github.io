@@ -24,11 +24,11 @@ const BASE = '';
 
 /** The origin the PDFs' links point at, read from the site config so it stays
     in step with the rest of the build. */
-const SITE = (
+const SITE = new URL(
   (await readFile(path.join(root, 'src', 'lib', 'site.ts'), 'utf8')).match(
     /url:\s*'([^']+)'/,
-  )?.[1] ?? 'https://noahweidig.com'
-).replace(/\/+$/, '');
+  )?.[1] ?? 'https://noahweidig.com',
+).origin;
 const AUTHOR = 'Noah Weidig';
 
 const TYPES = {
