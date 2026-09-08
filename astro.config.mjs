@@ -3,6 +3,29 @@ import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 import { remarkAlert } from 'remark-github-blockquote-alert';
+import { readFileSync, readdirSync } from 'node:fs';
+import yaml from 'js-yaml';
+
+const COLLECTIONS = ['blog', 'projects', 'publications', 'awards', 'experience', 'education'];
+
+// Path -> most recent frontmatter date, so the sitemap's <lastmod> reflects
+// content that already carries an authoritative date instead of build time.
+// astro:content isn't resolvable from this file, so frontmatter is read
+// directly rather than through the content collections API.
+const lastmodByPath = new Map();
+for (const name of COLLECTIONS) {
+  const dir = new URL(`./src/content/${name}/`, import.meta.url);
+  let newest;
+  for (const slug of readdirSync(dir)) {
+    const raw = readFileSync(new URL(`${slug}/index.md`, dir), 'utf-8');
+    const match = raw.match(/^---\n([\s\S]*?)\n---/);
+    if (!match) continue;
+    const date = new Date(yaml.load(match[1]).date);
+    lastmodByPath.set(`/${name}/${slug}/`, date);
+    if (!newest || date > newest) newest = date;
+  }
+  if (newest) lastmodByPath.set(`/${name}/`, newest);
+}
 
 export default defineConfig({
   site: 'https://noahweidig.com',
@@ -14,6 +37,12 @@ export default defineConfig({
   integrations: [
     sitemap({
       filter: (page) => !page.includes('/404') && !page.includes('/styleguide'),
+      serialize(item) {
+        const path = new URL(item.url).pathname;
+        const d = lastmodByPath.get(path);
+        if (d) item.lastmod = d.toISOString();
+        return item;
+      },
     }),
   ],
   vite: { plugins: [tailwindcss()] },
