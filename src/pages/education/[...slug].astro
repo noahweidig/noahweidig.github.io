@@ -37,6 +37,7 @@ const meta = [d.org, d.dates, d.location].filter(Boolean).join(' · ');
   links={d['org-url']
     ? [{ label: d.org ?? 'Organisation', href: d['org-url'], variant: 'ghost', external: true }]
     : []}
+  image={u(`/media/og/education/${entry.id}.webp`)}
   publishedTime={d.date}
 >
   <Content />
