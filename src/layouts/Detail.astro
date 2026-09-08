@@ -31,6 +31,8 @@ interface Props {
   prev?: Sibling | null;
   next?: Sibling | null;
   headings?: Heading[];
+  /** The page's LCP image, forwarded to Base so it preloads ahead of the fonts. */
+  preloadImage?: { href: string; srcset?: string; sizes?: string };
 }
 const {
   title,
@@ -53,6 +55,7 @@ const {
   prev,
   next,
   headings = [],
+  preloadImage,
 } = Astro.props;
 
 /* Reading mode is a blog-post affordance: strip the rails and grow the type. */
@@ -73,6 +76,7 @@ const hasToc = headings.filter((h) => h.depth === 2 || h.depth === 3).length > 1
   publishedTime={publishedTime}
   noindex={noindex}
   filters={{ section, tags: chips }}
+  preloadImage={preloadImage}
 >
   <article>
     <header class="relative overflow-hidden border-b border-line bg-bg-deep">
