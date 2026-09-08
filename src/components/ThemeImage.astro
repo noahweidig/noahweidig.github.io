@@ -1,10 +1,16 @@
 ---
 /**
  * Renders one <img> for a dark/light image pair instead of two, so the
- * browser only ever downloads the variant actually shown. The initial pick
- * happens synchronously (inline script, right after the tag) using the
+ * browser only ever downloads the variant actually shown.
+ *
+ * The dark variant is the one written into `src`/`srcset`, because dark is
+ * the server-rendered default (`data-theme` in Base.astro). That matters for
+ * more than correctness: the preload scanner reads the raw HTML ahead of the
+ * parser and only starts a fetch for URLs it finds in those attributes, so an
+ * src-less <img> costs the cover image its head start. A reader on light mode
+ * gets the swap from the inline script right after the tag, using the
  * `data-theme` already resolved by Base.astro's pre-paint script; the
- * theme-toggle handler in ui.ts re-picks it if the user switches themes.
+ * theme-toggle handler in ui.ts re-picks it if they switch themes.
  */
 import { getImage } from 'astro:assets';
 
@@ -24,6 +30,8 @@ const lightImage = await getImage({ src: light, widths, sizes });
 ---
 
 <img
+  src={darkImage.src}
+  srcset={darkImage.srcSet.attribute}
   data-theme-src-dark={darkImage.src}
   data-theme-srcset-dark={darkImage.srcSet.attribute}
   data-theme-src-light={lightImage.src}
@@ -39,21 +47,9 @@ const lightImage = await getImage({ src: light, widths, sizes });
 <script is:inline data-astro-rerun>
   {
     const img = document.currentScript.previousElementSibling;
-    const dark = document.documentElement.dataset.theme !== 'light';
-    img.src = dark ? img.dataset.themeSrcDark : img.dataset.themeSrcLight;
-    img.srcset = dark ? img.dataset.themeSrcsetDark : img.dataset.themeSrcsetLight;
+    if (document.documentElement.dataset.theme === 'light') {
+      img.src = img.dataset.themeSrcLight;
+      img.srcset = img.dataset.themeSrcsetLight;
+    }
   }
 </script>
-<noscript>
-  <img
-    src={darkImage.src}
-    srcset={darkImage.srcSet.attribute}
-    sizes={sizes}
-    alt={alt}
-    width={darkImage.attributes.width}
-    height={darkImage.attributes.height}
-    loading={loading}
-    decoding="async"
-    class={className}
-  />
-</noscript>

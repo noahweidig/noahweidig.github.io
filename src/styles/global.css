@@ -1041,8 +1041,13 @@
     text-decoration-color: var(--c-accent);
   }
 
-  /* --- reveal on scroll --- */
-  [data-reveal] {
+  /* --- reveal on scroll ---
+     Scoped to `data-reveal="js"`, which Base.astro's pre-paint inline script
+     sets on <html>. Without the flag the hidden state never applies, so the
+     pre-JS render is the finished render: a no-JS reader sees the full grid
+     rather than a blank page, and an above-the-fold card is an LCP candidate
+     the moment its bytes land instead of once ui.ts has run. */
+  [data-reveal='js'] [data-reveal] {
     opacity: 0;
     transform: translateY(18px);
     transition:
@@ -1050,12 +1055,12 @@
       transform 0.7s var(--ease-out-soft);
     transition-delay: var(--reveal-delay, 0ms);
   }
-  [data-reveal].is-in {
+  [data-reveal='js'] [data-reveal].is-in {
     opacity: 1;
     transform: none;
   }
   @media (prefers-reduced-motion: reduce) {
-    [data-reveal] {
+    [data-reveal='js'] [data-reveal] {
       opacity: 1;
       transform: none;
     }
