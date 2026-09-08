@@ -1,4 +1,5 @@
 ---
+import { u } from '../lib/url';
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
 import { site } from '../lib/site';
@@ -14,6 +15,7 @@ const facts = [
 <Base
   title="Get in touch"
   description="Email me, book a call, or send a message — I reply within 24 hours."
+  image={u('/media/og/contact.webp')}
   filters={{ section: 'Page' }}
 >
   <section class="relative overflow-hidden border-b border-line bg-bg-deep">
