@@ -3,6 +3,7 @@ import { u } from '../../lib/url';
 import { getCollection, render } from 'astro:content';
 import Detail from '../../layouts/Detail.astro';
 import { fullDate, inlineMarkup } from '../../lib/format';
+import { site } from '../../lib/site';
 
 export async function getStaticPaths() {
   // Sorted the way the listing is, so "previous" and "next" mean what a reader
@@ -22,6 +23,21 @@ export async function getStaticPaths() {
 const { entry, prev, next } = Astro.props;
 const { Content } = await render(entry);
 const d = entry.data;
+
+const pubLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ScholarlyArticle',
+  headline: d.title,
+  description: d.description,
+  datePublished: d.date.toISOString(),
+  url: new URL(Astro.url.pathname, Astro.site).href,
+  identifier: d['pub-doi'],
+  isPartOf: d['pub-venue'] ? { '@type': 'CreativeWork', name: d['pub-venue'] } : undefined,
+  author: d['pub-authors']
+    ? { '@type': 'Person', name: d['pub-authors'].replace(/\*\*/g, '') }
+    : { '@id': `${site.url}/#person` },
+  publisher: { '@id': `${site.url}/#person` },
+};
 ---
 
 <Detail
@@ -49,3 +65,5 @@ const d = entry.data;
   }
   <Content />
 </Detail>
+
+<script type="application/ld+json" is:inline set:html={JSON.stringify(pubLd)} />
