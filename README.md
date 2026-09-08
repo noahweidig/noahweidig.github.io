@@ -117,6 +117,12 @@ Public PDF attachments in the Zotero library are downloaded to `public/publicati
 
 Zotero exports one record per _appearance_, so a talk given at four venues arrives as four near-identical items. The sync marks the most recent of each cluster `pub-listed: "yes"` and hangs the venue run off it, so the index shows one row per work while every appearance keeps its own page.
 
+### Project screenshots
+
+The card art for each project (`src/assets/albums/projects/<slug>.webp`, mirrored to `public/media/albums/projects/` for the `<img>` inside `index.md`) is captured from the project's own live site by `scripts/generate-project-shots.mjs`, weekly through `.github/workflows/project-shots.yml`, so a tool that changes does not keep showing the picture it had the day it shipped.
+
+The URL comes from the first `http(s)` link in the entry's frontmatter, so a new project needs no edit to the script. Shots are 1600×1000 in dark mode, framed from the top — the only geometry the site asks for, since `ProjectCard` and `ResearchAreas` both crop `aspect-16/10 object-cover object-top` and the og:image cards are drawn by `generate-blog-covers.mjs` rather than screenshotted. A site that fails to load leaves its committed image alone and warns; only a run where every capture fails fails the job. `roads` and `wuirisk` are skipped in the script (a third-party catalog page and an Earth Engine app) and keep hand-made images.
+
 ### Toolchain
 
 | Tool                | Pinned in                            | Used for                                |
@@ -137,6 +143,7 @@ npm run a11y                   # axe-core over dist (or --base https://noahweidi
 npm run globe                  # redraw the homepage globe SVG
 npm run lint                   # prettier --check + astro check
 npm run format                 # prettier --write
+npm run shots                  # recapture project screenshots (add slugs to narrow)
 node scripts/update-pubs.js    # refresh publications from Zotero
 ```
 
@@ -151,6 +158,8 @@ node scripts/update-pubs.js    # refresh publications from Zotero
 | `lighthouse.yml`       | PR                                            | Lighthouse with score assertions and resource budgets (`lighthouserc.cjs`) |
 | `links.yml`            | PR, monthly                                   | lychee over the built site                                                 |
 | `production-audit.yml` | weekly                                        | Lighthouse, axe and lychee against the **live** site                       |
+| `pdfs.yml`             | weekly, content changes                       | re-renders `cv.pdf` and `resume.pdf` from the built site                   |
+| `project-shots.yml`    | weekly, manual                                | recaptures the project screenshots from the live projects                  |
 
 Every workflow that needs a build goes through the `.github/actions/build-site` composite action, so each check scores the same bytes that get deployed.
 
