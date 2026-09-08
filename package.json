@@ -29,11 +29,13 @@
     "@tailwindcss/vite": "^4.3.3",
     "astro": "^7.3.1",
     "remark-github-blockquote-alert": "^2.1.0",
+    "sanitize-html": "^2.17.7",
     "tailwindcss": "^4.3.3"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
     "@types/node": "^22.10.0",
+    "@types/sanitize-html": "^2.16.1",
     "axe-core": "^4.13.0",
     "lighthouse": "^13.4.1",
     "lucide-static": "^1.40.0",
