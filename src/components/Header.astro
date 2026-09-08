@@ -41,7 +41,7 @@ const isActive = (href: string) => {
       >
     </a>
 
-    <nav aria-label="Primary" class="ml-auto hidden min-w-0 xl:block">
+    <nav aria-label="Primary" class="ml-auto hidden min-w-0 lg:block">
       <ul class="flex items-center gap-0.5">
         {
           nav.map((item) => (
@@ -51,7 +51,7 @@ const isActive = (href: string) => {
                 data-tip={item.tip}
                 aria-current={isActive(item.href) ? 'page' : undefined}
                 class:list={[
-                  'nav-link rounded-[0.7rem] px-3 py-2 text-sm',
+                  'nav-link rounded-[0.7rem] px-2.5 py-2 text-sm xl:px-3',
                   isActive(item.href) ? 'nav-link-active' : '',
                 ]}
               >
@@ -63,7 +63,7 @@ const isActive = (href: string) => {
       </ul>
     </nav>
 
-    <div class="ml-auto flex shrink-0 items-center gap-1.5 xl:ml-2">
+    <div class="ml-auto flex shrink-0 items-center gap-1.5 lg:ml-2">
       <button
         type="button"
         data-search-open
@@ -87,7 +87,7 @@ const isActive = (href: string) => {
       </button>
 
       <a
-        class="btn btn-primary btn-sm ml-1 hidden sm:inline-flex"
+        class="btn btn-primary btn-sm ml-1 hidden lg:inline-flex"
         href={site.booking}
         target="_blank"
         rel="noopener"
@@ -102,7 +102,7 @@ const isActive = (href: string) => {
         data-menu-toggle
         aria-expanded="false"
         aria-controls="mobile-nav"
-        class="icon-btn xl:hidden"
+        class="icon-btn lg:hidden"
         aria-label="Open menu"
       >
         <span data-menu-icon-open><Icon name="menu" size={22} stroke-width={1.8} /></span>
@@ -114,7 +114,7 @@ const isActive = (href: string) => {
   <div
     id="mobile-nav"
     hidden
-    class="absolute inset-x-0 top-full max-h-[calc(100vh-4rem)] overflow-y-auto border-t border-line bg-surface backdrop-blur-xl xl:hidden"
+    class="absolute inset-x-0 top-full max-h-[calc(100vh-4rem)] overflow-y-auto border-t border-line bg-surface backdrop-blur-xl lg:hidden"
   >
     <nav aria-label="Mobile" class="shell py-4">
       <ul class="grid gap-1">
