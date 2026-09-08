@@ -97,6 +97,11 @@ function initHeader() {
   on(window, 'resize', () => {
     if (window.innerWidth >= 1024) setOpen(false);
   });
+  on(document, 'click', (ev) => {
+    if (panel.hidden) return;
+    const target = ev.target as Node;
+    if (!panel.contains(target) && !toggle.contains(target)) setOpen(false);
+  });
 }
 
 /* ------------------------------------------------------------- banner -- */
