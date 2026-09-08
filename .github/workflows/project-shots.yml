@@ -1,0 +1,76 @@
+name: Refresh project screenshots
+
+on:
+  schedule:
+    # 04:00 UTC every Monday, an hour after the PDF job so the two Puppeteer
+    # runs don't overlap. The tools these shoot change on their own schedule,
+    # so weekly keeps the cards current without churning the repo daily.
+    - cron: '0 4 * * 1'
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/generate-project-shots.mjs'
+      - '.github/workflows/project-shots.yml'
+  workflow_dispatch:
+    inputs:
+      slugs:
+        description: 'Space-separated project slugs to refresh (blank = all)'
+        required: false
+        default: ''
+
+permissions:
+  contents: read
+
+concurrency:
+  group: project-shots
+  cancel-in-progress: false
+
+jobs:
+  shoot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      # No build needed: the script talks to the live sites, not to dist/.
+      - name: Install toolchain
+        uses: ./.github/actions/build-site
+        with:
+          build: 'false'
+
+      # Same as the PDF job: the install skips lifecycle scripts, so Puppeteer
+      # has no browser yet and this is the supported way to fetch one after.
+      - name: Install Chrome for Puppeteer
+        run: npm exec --no --ignore-scripts -- puppeteer browsers install chrome
+
+      # Through env, not string interpolation, so the dispatch input can't
+      # become shell. Only slug-shaped words survive.
+      - name: Capture screenshots
+        env:
+          SLUGS: ${{ inputs.slugs }}
+        run: |
+          set -euo pipefail
+          clean=$(printf '%s' "${SLUGS:-}" | tr -cd 'a-z0-9 -')
+          node scripts/generate-project-shots.mjs $clean
+
+      - name: Commit screenshots
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/assets/albums/projects public/media/albums/projects
+          if git diff --cached --quiet; then
+            echo "Screenshots unchanged."
+            exit 0
+          fi
+          git commit -m "Refresh project screenshots from live sites"
+          for i in 1 2 3 4; do
+            if git push; then
+              echo "pushed"; exit 0
+            fi
+            echo "push failed, retrying in $((2**i))s"; sleep $((2**i))
+            git pull --rebase || true
+          done
+          echo "::error::git push failed after retries"; exit 1
