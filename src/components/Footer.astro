@@ -54,17 +54,22 @@ const year = new Date().getFullYear();
                 {col.heading}
               </h2>
               <ul class="mt-4 grid gap-2.5">
-                {col.links.map((l) => (
-                  <li>
-                    <a
-                      href={u(l.href)}
-                      data-tip={l.tip}
-                      class="inline-flex items-center text-[0.95rem] text-dim transition-colors hover:text-accent-ink"
-                    >
-                      {l.text}
-                    </a>
-                  </li>
-                ))}
+                {col.links.map((l) => {
+                  const external = /^https?:\/\//.test(l.href);
+                  return (
+                    <li>
+                      <a
+                        href={external ? l.href : u(l.href)}
+                        data-tip={l.tip}
+                        target={external ? '_blank' : undefined}
+                        rel={external ? 'noopener' : undefined}
+                        class="inline-flex items-center text-[0.95rem] text-dim transition-colors hover:text-accent-ink"
+                      >
+                        {l.text}
+                      </a>
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           ))
