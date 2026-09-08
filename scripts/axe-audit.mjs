@@ -17,7 +17,7 @@ import puppeteer from 'puppeteer';
 const require = createRequire(import.meta.url);
 const axeSource = fs.readFileSync(require.resolve('axe-core/axe.min.js'), 'utf8');
 
-const PAGES = [
+const INDEX_PAGES = [
   'index.html',
   'cv/index.html',
   'experience/index.html',
@@ -32,6 +32,36 @@ const PAGES = [
   // any component fails here regardless of which page it ships on.
   'styleguide/index.html',
 ];
+
+// Detail routes are never in INDEX_PAGES, so nothing unique to them —
+// Detail.astro's chrome, Toc, PrevNext, ShareRow, the lightbox — is ever
+// scanned (#119). A hardcoded slug goes stale the moment its content
+// directory is renamed, so this globs `dist/<collection>/*/index.html` and
+// takes the first match, falling back to a known-good slug only when the
+// collection can't be read off disk (the production run passes --base with
+// no local `dist` to glob).
+const DETAIL_FALLBACKS = {
+  blog: 'welcome',
+  projects: 'quickplot',
+  publications: 'weidig-key-drivers-25',
+  awards: 'best-student-presentation',
+};
+
+function firstDetailPage(dir, collection) {
+  const collectionDir = path.join(dir, collection);
+  try {
+    const slug = fs
+      .readdirSync(collectionDir, { withFileTypes: true })
+      .filter((entry) => entry.isDirectory())
+      .map((entry) => entry.name)
+      .sort()
+      .find((name) => fs.existsSync(path.join(collectionDir, name, 'index.html')));
+    if (slug) return `${collection}/${slug}/index.html`;
+  } catch {
+    // collectionDir doesn't exist (no local dist, e.g. the --base run) — fall through.
+  }
+  return `${collection}/${DETAIL_FALLBACKS[collection]}/index.html`;
+}
 
 // Full default rule set: a scan restricted to `heading-order` only caught one
 // class of regression. A run with no `runOnly` restriction is clean across
@@ -56,6 +86,11 @@ function toUrl(page, args) {
 }
 
 const args = parseArgs(process.argv.slice(2));
+
+const PAGES = [
+  ...INDEX_PAGES,
+  ...Object.keys(DETAIL_FALLBACKS).map((collection) => firstDetailPage(args.dir, collection)),
+];
 
 // The CI container disallows unprivileged user namespaces, so Chrome's own
 // sandbox can't initialize (zygote_host_impl_linux.cc: "No usable sandbox!").
