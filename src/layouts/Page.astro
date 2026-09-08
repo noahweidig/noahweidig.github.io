@@ -12,6 +12,8 @@ interface Props {
   section?: string;
   /** Ancestors between Home and this page; most section indexes have none. */
   trail?: { label: string; href?: string }[];
+  /** This page's own og:image, in place of the sitewide default. */
+  image?: string;
 }
 const {
   title,
@@ -22,10 +24,17 @@ const {
   noindex,
   section,
   trail = [],
+  image,
 } = Astro.props;
 ---
 
-<Base title={title} description={description} noindex={noindex} filters={{ section }}>
+<Base
+  title={title}
+  description={description}
+  image={image}
+  noindex={noindex}
+  filters={{ section }}
+>
   <section class="relative overflow-hidden border-b border-line bg-bg-deep">
     <div class="grid-bg absolute inset-0" aria-hidden="true"></div>
     <div

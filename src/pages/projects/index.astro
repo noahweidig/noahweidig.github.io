@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import { u } from '../../lib/url';
 import Page from '../../layouts/Page.astro';
 import ProjectCard from '../../components/ProjectCard.astro';
 import FilterBar from '../../components/FilterBar.astro';
@@ -24,6 +25,7 @@ const stats = [
   kicker="Selected work"
   description="I build tools and turn ideas into reality. Here's a selection of projects I've created over the years."
   intro="I build tools and turn ideas into reality. Here's a selection of projects I've created over the years."
+  image={u('/media/og/projects.webp')}
 >
   <StatStrip stats={stats} />
 

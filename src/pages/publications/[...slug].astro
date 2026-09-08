@@ -36,6 +36,7 @@ const d = entry.data;
   backLabel="All publications"
   chips={d.categories}
   links={d.links}
+  image={u(`/media/og/publications/${entry.id}.webp`)}
   publishedTime={d.date}
   noindex={Boolean(d['pub-appearance-of'])}
 >

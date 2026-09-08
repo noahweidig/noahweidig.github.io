@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import { u } from '../../lib/url';
 import Page from '../../layouts/Page.astro';
 import TimelineItem from '../../components/TimelineItem.astro';
 
@@ -15,6 +16,7 @@ const items = (await getCollection('education')).sort(
   description="Degrees and academic training in biology, ecology, and geospatial science."
   intro="Degrees and academic training in biology, ecology, and geospatial science."
   wide={false}
+  image={u('/media/og/education.webp')}
 >
   <h2 class="sr-only-nw">All education</h2>
   <div class="ml-1">

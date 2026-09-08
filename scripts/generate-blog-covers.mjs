@@ -5,8 +5,17 @@
  * A post's slug seeds which two hues glow and where the contour-ring mark
  * sits, so covers read as one family without being identical.
  *
- *   node scripts/generate-blog-covers.mjs [slug ...]   # all posts if omitted
+ * The same renderer also covers every other page that doesn't already carry
+ * a real photo: one og:image per projects/publications/experience/education
+ * entry, and one per fixed content-free page (section indexes, CV, contact,
+ * privacy). Those land in public/media/og/ as plain files, referenced by path
+ * — unlike blog/award covers they aren't Astro content-collection images, so
+ * no getImage() processing is needed.
+ *
+ *   node scripts/generate-blog-covers.mjs [slug ...]   # blog posts, all if omitted
  *   node scripts/generate-blog-covers.mjs --site        # the site-wide og:image card
+ *   node scripts/generate-blog-covers.mjs --collections # projects/publications/experience/education covers
+ *   node scripts/generate-blog-covers.mjs --pages       # section-index & utility-page covers
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -17,6 +26,31 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const blogDir = path.join(root, 'src/content/blog');
 const fontsDir = path.join(root, 'public/fonts');
 const siteCardOut = path.join(root, 'public/media/authors/site-og.webp');
+const ogDir = path.join(root, 'public/media/og');
+
+// Directory-per-entry collections without a real photo of their own. Kicker
+// mirrors what Detail.astro prints for that section, so the shared card and
+// the page it links to agree.
+const COLLECTIONS = {
+  projects: { dir: 'src/content/projects', kicker: (fm) => (fm.featured ? 'Featured project' : 'Project') },
+  publications: { dir: 'src/content/publications', kicker: (fm) => fm.categories[0] ?? 'Publication' },
+  experience: { dir: 'src/content/experience', kicker: () => 'Experience' },
+  education: { dir: 'src/content/education', kicker: () => 'Education' },
+};
+
+// Fixed pages with no content-collection entry of their own.
+const PAGES = [
+  { slug: 'projects', title: 'Selected Projects', kicker: 'Selected work' },
+  { slug: 'publications', title: 'Publications', kicker: 'Research output' },
+  { slug: 'experience', title: 'Experience', kicker: 'Background' },
+  { slug: 'education', title: 'Education', kicker: 'Background' },
+  { slug: 'awards', title: 'Awards & Honors', kicker: 'Recognition' },
+  { slug: 'blog', title: 'Blog', kicker: 'Writing' },
+  { slug: 'tags', title: 'Tags', kicker: 'Index' },
+  { slug: 'cv', title: 'Curriculum Vitae', kicker: 'Full record' },
+  { slug: 'contact', title: 'Get in Touch', kicker: 'Contact' },
+  { slug: 'privacy', title: 'Privacy', kicker: 'Legal' },
+];
 
 // Kept in sync with src/lib/site.ts by hand — this script runs standalone
 // via plain node, not through Astro's TS pipeline.
@@ -233,10 +267,9 @@ body {
 </html>`;
 }
 
-// Reads just enough of a post's frontmatter to build its cover: the title
-// and the first entry of its `categories:` YAML block list.
-function readPostMeta(slug) {
-  const raw = fs.readFileSync(path.join(blogDir, slug, 'index.md'), 'utf8');
+// Reads just enough of an entry's frontmatter to build its cover: the title,
+// the `categories:` YAML block list, and the `featured:` flag.
+function parseFrontmatter(raw, slug) {
   const frontmatter = raw.split('---\n', 3)[1] ?? '';
   const lines = frontmatter.split('\n');
 
@@ -255,10 +288,24 @@ function readPostMeta(slug) {
     if (!line.startsWith(' ') && !line.startsWith('\t')) break;
     indented.push(line.trim());
   }
-  const firstItem = indented.find((l) => l.startsWith('- '));
-  const kicker = firstItem ? firstItem.slice(2).trim() : 'Blog';
+  const categories = indented.filter((l) => l.startsWith('- ')).map((l) => l.slice(2).trim());
 
-  return { title, kicker };
+  const featuredLine = lines.find((l) => l.startsWith('featured:'));
+  const featured = featuredLine ? featuredLine.slice('featured:'.length).trim() === 'true' : false;
+
+  return { title, categories, featured };
+}
+
+function readPostMeta(slug) {
+  const raw = fs.readFileSync(path.join(blogDir, slug, 'index.md'), 'utf8');
+  const { title, categories } = parseFrontmatter(raw, slug);
+  return { title, kicker: categories[0] ?? 'Blog' };
+}
+
+function readEntryMeta(collDir, slug, kickerFor) {
+  const raw = fs.readFileSync(path.join(root, collDir, slug, 'index.md'), 'utf8');
+  const fm = parseFrontmatter(raw, slug);
+  return { title: fm.title, kicker: kickerFor(fm) };
 }
 
 async function renderCover(browser, opts, outFile) {
@@ -272,13 +319,21 @@ async function renderCover(browser, opts, outFile) {
 
 async function main() {
   const args = process.argv.slice(2);
-  const siteOnly = args.includes('--site');
-  const only = args.filter((a) => a !== '--site');
-  const slugs = siteOnly
-    ? []
-    : (only.length ? only : fs.readdirSync(blogDir)).filter((slug) =>
+  const flags = new Set(args.filter((a) => a.startsWith('--')));
+  const only = args.filter((a) => !a.startsWith('--'));
+  const flagged = flags.size > 0;
+
+  const doSite = flags.has('--site');
+  const doCollections = flags.has('--collections');
+  const doPages = flags.has('--pages');
+  // Bare invocation (no flags, no slugs) keeps the original behaviour: every
+  // blog post plus the site card. A flag narrows the run to just what's asked.
+  const doBlog = flags.has('--blog') || only.length > 0 || !flagged;
+  const slugs = doBlog
+    ? (only.length ? only : fs.readdirSync(blogDir)).filter((slug) =>
         fs.existsSync(path.join(blogDir, slug, 'index.md')),
-      );
+      )
+    : [];
 
   const browser = await puppeteer.launch({
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
@@ -296,13 +351,39 @@ async function main() {
     console.log(`✓ ${slug}`);
   }
 
-  if (siteOnly || only.length === 0) {
+  if (doSite || (!flagged && only.length === 0)) {
     await renderCover(
       browser,
       { title: SITE.role, kicker: SITE.name, mode: 'dark', slug: 'site-og' },
       siteCardOut,
     );
     console.log('✓ site-og');
+  }
+
+  if (doCollections) {
+    for (const [coll, { dir, kicker }] of Object.entries(COLLECTIONS)) {
+      const collDir = path.join(root, dir);
+      const outDir = path.join(ogDir, coll);
+      fs.mkdirSync(outDir, { recursive: true });
+      const collSlugs = fs
+        .readdirSync(collDir)
+        .filter((slug) => fs.existsSync(path.join(collDir, slug, 'index.md')));
+      for (const slug of collSlugs) {
+        const meta = readEntryMeta(dir, slug, kicker);
+        const out = path.join(outDir, `${slug}.webp`);
+        await renderCover(browser, { ...meta, mode: 'dark', slug: `${coll}/${slug}` }, out);
+        console.log(`✓ ${coll}/${slug}`);
+      }
+    }
+  }
+
+  if (doPages) {
+    fs.mkdirSync(ogDir, { recursive: true });
+    for (const { slug, title, kicker } of PAGES) {
+      const out = path.join(ogDir, `${slug}.webp`);
+      await renderCover(browser, { title, kicker, mode: 'dark', slug: `page-${slug}` }, out);
+      console.log(`✓ page ${slug}`);
+    }
   }
 
   await browser.close();
