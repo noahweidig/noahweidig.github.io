@@ -65,11 +65,14 @@ const invert = new Set(['Markdown', 'LaTeX', 'GitHub', 'pandas']);
 </div>
 
 <script>
-  document.querySelectorAll<HTMLButtonElement>('[data-marquee-toggle]').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const marquee = btn.closest('.marquee');
-      const paused = marquee?.toggleAttribute('data-paused');
-      btn.setAttribute('aria-pressed', String(!!paused));
+  function bindMarqueeToggles() {
+    document.querySelectorAll<HTMLButtonElement>('[data-marquee-toggle]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const marquee = btn.closest('.marquee');
+        const paused = marquee?.toggleAttribute('data-paused');
+        btn.setAttribute('aria-pressed', String(!!paused));
+      });
     });
-  });
+  }
+  document.addEventListener('astro:page-load', bindMarqueeToggles);
 </script>
