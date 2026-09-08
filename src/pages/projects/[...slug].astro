@@ -3,6 +3,7 @@ import { u } from '../../lib/url';
 import { getCollection, render } from 'astro:content';
 import Detail from '../../layouts/Detail.astro';
 import { fullDate } from '../../lib/format';
+import { site } from '../../lib/site';
 
 export async function getStaticPaths() {
   // Sorted the way the listing is, so "previous" and "next" mean what a reader
@@ -22,6 +23,19 @@ export async function getStaticPaths() {
 const { entry, prev, next } = Astro.props;
 const { Content } = await render(entry);
 const d = entry.data;
+
+const repoLink = d.links.find((l) => /github|repo/i.test(l.label))?.href;
+const projectLd = {
+  '@context': 'https://schema.org',
+  '@type': 'CreativeWork',
+  name: d.title,
+  description: d.description,
+  dateCreated: d.date.toISOString(),
+  url: new URL(Astro.url.pathname, Astro.site).href,
+  codeRepository: repoLink,
+  keywords: d.categories.length ? d.categories.join(', ') : undefined,
+  author: { '@id': `${site.url}/#person` },
+};
 ---
 
 <Detail
@@ -41,3 +55,5 @@ const d = entry.data;
 >
   <Content />
 </Detail>
+
+<script type="application/ld+json" is:inline set:html={JSON.stringify(projectLd)} />
