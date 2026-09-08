@@ -1022,6 +1022,8 @@ function initLightbox() {
 
   let box: HTMLElement | null = null;
   let index = 0;
+  let openedIndex = 0;
+  let inertedSiblings: Element[] = [];
 
   const captionFor = (img: HTMLImageElement) =>
     img.closest('figure')?.querySelector('figcaption')?.textContent?.trim() || img.alt || '';
@@ -1044,7 +1046,9 @@ function initLightbox() {
     delete node.dataset.show;
     document.body.style.removeProperty('overflow');
     window.setTimeout(() => node.remove(), 220);
-    shots[index]?.focus();
+    inertedSiblings.forEach((el) => el.removeAttribute('inert'));
+    inertedSiblings = [];
+    shots[openedIndex]?.focus();
   };
 
   const step = (delta: number) => {
@@ -1054,6 +1058,7 @@ function initLightbox() {
 
   const open = (i: number) => {
     index = i;
+    openedIndex = i;
     box = document.createElement('div');
     box.className = 'lightbox';
     box.setAttribute('role', 'dialog');
@@ -1075,6 +1080,8 @@ function initLightbox() {
       <div class="lightbox-stage" data-lightbox-stage><img data-lightbox-img alt="" /></div>
       <p class="lightbox-caption" data-lightbox-caption></p>`;
     document.body.appendChild(box);
+    inertedSiblings = Array.from(document.body.children).filter((el) => el !== box);
+    inertedSiblings.forEach((el) => el.setAttribute('inert', ''));
     document.body.style.overflow = 'hidden';
     paint();
     requestAnimationFrame(() => {
@@ -1108,7 +1115,8 @@ function initLightbox() {
     else if (k === 'ArrowLeft') step(-1);
     else if (k === 'ArrowRight') step(1);
     else if (k === 'Tab') {
-      // Nothing else on the page should be reachable while the overlay is up.
+      // The rest of the page is `inert`, so the browser already confines Tab
+      // to the overlay's own focusable elements — just cycle within it.
       const focusable = Array.from(
         box.querySelectorAll<HTMLElement>('button, [href], [tabindex]:not([tabindex="-1"])'),
       );
