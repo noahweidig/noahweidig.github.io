@@ -12,6 +12,7 @@
     "build": "astro check && astro build && pagefind --site dist",
     "build:fast": "astro build && pagefind --site dist",
     "covers": "node scripts/generate-blog-covers.mjs",
+    "covers:all": "node scripts/generate-blog-covers.mjs --site --collections --pages",
     "dev": "astro dev",
     "format": "prettier --write .",
     "icons": "node scripts/generate-icons.mjs",

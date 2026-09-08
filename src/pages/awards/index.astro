@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import { u } from '../../lib/url';
 import Page from '../../layouts/Page.astro';
 import AwardCard from '../../components/AwardCard.astro';
 import StatStrip from '../../components/StatStrip.astro';
@@ -36,6 +37,7 @@ const stats = [
   kicker="Recognition"
   description="Awards, scholarships, grants, and honors I've received over the years."
   intro="Awards, scholarships, grants, and honors I've received over the years."
+  image={u('/media/og/awards.webp')}
 >
   <StatStrip stats={stats} />
   <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">

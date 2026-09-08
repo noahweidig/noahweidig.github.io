@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import { u } from '../../lib/url';
 import Page from '../../layouts/Page.astro';
 import CitationRow from '../../components/CitationRow.astro';
 import FilterBar from '../../components/FilterBar.astro';
@@ -34,6 +35,7 @@ const stats = [
   kicker="Research output"
   description="A live feed of my research output, pulled automatically from Zotero."
   intro="A live feed of my research output, pulled automatically from Zotero. Updated on the 1st and 15th of each month."
+  image={u('/media/og/publications.webp')}
 >
   <StatStrip stats={stats} />
 
