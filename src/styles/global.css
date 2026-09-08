@@ -34,7 +34,9 @@
 
   --c-accent: #3d86ff;
   --c-accent-ink: #6ba4ff;
-  --c-accent-contrast: #ffffff;
+  /* White on this blue is 3.47:1, below AA's 4.5:1 for normal text — the
+     near-black surface tone clears 6:1 and keeps the same accent hue. */
+  --c-accent-contrast: #040507;
   --c-ember: #ff8f45;
   --c-moss: #4bd0a0;
   --c-violet: #a988ff;
