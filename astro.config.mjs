@@ -36,7 +36,8 @@ export default defineConfig({
   trailingSlash: 'ignore',
   integrations: [
     sitemap({
-      filter: (page) => !page.includes('/404') && !page.includes('/styleguide'),
+      filter: (page) =>
+        !page.includes('/404') && !page.includes('/500') && !page.includes('/styleguide'),
       serialize(item) {
         const path = new URL(item.url).pathname;
         const d = lastmodByPath.get(path);
