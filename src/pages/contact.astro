@@ -55,12 +55,12 @@ const facts = [
                       href={f.href}
                       target={f.href.startsWith('http') ? '_blank' : undefined}
                       rel={f.href.startsWith('http') ? 'noopener' : undefined}
-                      class="block truncate text-[0.95rem] text-accent-ink hover:underline"
+                      class="block truncate text-body-lg text-accent-ink hover:underline"
                     >
                       {f.value}
                     </a>
                   ) : (
-                    <span class="block truncate text-[0.95rem]">{f.value}</span>
+                    <span class="block truncate text-body-lg">{f.value}</span>
                   )}
                 </span>
               </li>
@@ -86,7 +86,7 @@ const facts = [
               placeholder="Jane Doe"
               autocomplete="name"
               required
-              class="w-full rounded-md border border-line bg-raised px-3.5 py-2.5 text-[0.95rem] transition-colors focus:border-accent"
+              class="w-full rounded-md border border-line bg-raised px-3.5 py-2.5 text-body-lg transition-colors focus:border-accent"
             />
           </div>
           <div class="grid gap-2 [&>*]:min-w-0">
@@ -98,7 +98,7 @@ const facts = [
               placeholder="jane@example.com"
               autocomplete="email"
               required
-              class="w-full rounded-md border border-line bg-raised px-3.5 py-2.5 text-[0.95rem] transition-colors focus:border-accent"
+              class="w-full rounded-md border border-line bg-raised px-3.5 py-2.5 text-body-lg transition-colors focus:border-accent"
             />
           </div>
           <div class="grid gap-2 [&>*]:min-w-0">
@@ -109,7 +109,7 @@ const facts = [
               rows="6"
               placeholder="What you're working on, and how I can help"
               required
-              class="w-full resize-y rounded-md border border-line bg-raised px-3.5 py-2.5 text-[0.95rem] transition-colors focus:border-accent"
+              class="w-full resize-y rounded-md border border-line bg-raised px-3.5 py-2.5 text-body-lg transition-colors focus:border-accent"
             ></textarea>
           </div>
 

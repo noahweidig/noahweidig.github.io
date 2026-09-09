@@ -117,6 +117,13 @@
   --radius-lg: 20px;
   --radius-xl: 28px;
 
+  /* Named steps for the micro-type cluster that used to ship as one-off
+     arbitrary values (text-[0.68rem] etc.) — see #138. */
+  --text-micro: 0.68rem;
+  --text-2xs: 0.7rem;
+  --text-caption: 0.72rem;
+  --text-body-lg: 0.95rem;
+
   --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-in-out-soft: cubic-bezier(0.65, 0, 0.35, 1);
 }
