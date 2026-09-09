@@ -78,6 +78,9 @@ const hasToc = headings.filter((h) => h.depth === 2 || h.depth === 3).length > 1
   filters={{ section, tags: chips }}
   preloadImage={preloadImage}
 >
+  <Fragment slot="head">
+    <slot name="head" />
+  </Fragment>
   <article>
     <header class="relative overflow-hidden border-b border-line bg-bg-deep">
       <div class="grid-bg absolute inset-0" aria-hidden="true"></div>
