@@ -13,6 +13,8 @@ const { categories, target, noun, total } = Astro.props;
   data-filter-bar
   data-filter-for={target}
   data-filter-noun={noun}
+  role="group"
+  aria-label={`Filter ${noun} by category`}
   data-reveal
 >
   <button type="button" class="pill" data-filter="*" aria-pressed="true">All</button>
