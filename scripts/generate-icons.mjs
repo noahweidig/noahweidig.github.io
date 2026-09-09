@@ -79,6 +79,7 @@ const MAP = {
   play: 'play',
   circleArrowUp: 'circle-arrow-up',
   rocket: 'rocket',
+  ellipsis: 'ellipsis',
 };
 
 /** The children of the <svg>, whitespace collapsed. Sliced rather than matched:

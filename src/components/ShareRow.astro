@@ -45,26 +45,42 @@ const targets = [
 <div
   data-pagefind-ignore
   data-share-row
-  class="no-print mt-14 flex flex-wrap items-center gap-2 border-t border-line pt-6"
+  class="no-print mt-14 flex items-center gap-2 border-t border-line pt-6"
 >
   <span class="font-mono text-[0.68rem] tracking-[0.14em] text-faint uppercase">Share</span>
-  {
-    targets.map((s) => (
-      <a
-        class="icon-tile"
-        href={s.href}
-        target="_blank"
-        rel="noopener"
-        data-tip={`Share on ${s.label}`}
-      >
-        <Icon name={s.icon} size={16} />
-        <span class="sr-only-nw">Share on {s.label}</span>
-      </a>
-    ))
-  }
+  <div data-share-links class="flex min-w-0 flex-1 items-center gap-2 overflow-hidden">
+    {
+      targets.map((s) => (
+        <a
+          class="icon-tile shrink-0"
+          href={s.href}
+          target="_blank"
+          rel="noopener"
+          data-tip={`Share on ${s.label}`}
+        >
+          <Icon name={s.icon} size={16} />
+          <span class="sr-only-nw">Share on {s.label}</span>
+        </a>
+      ))
+    }
+  </div>
+  <div class="share-more relative shrink-0" data-share-more hidden>
+    <button
+      type="button"
+      class="icon-tile"
+      data-share-more-btn
+      aria-expanded="false"
+      aria-haspopup="true"
+      data-tip="More ways to share"
+    >
+      <Icon name="ellipsis" size={16} />
+      <span class="sr-only-nw">More ways to share</span>
+    </button>
+    <div class="share-menu" data-share-menu hidden></div>
+  </div>
   <button
     type="button"
-    class="chip ml-auto transition-colors hover:border-accent hover:text-accent-ink"
+    class="chip shrink-0 transition-colors hover:border-accent hover:text-accent-ink"
     data-copy={url}
     data-tip="Copy this page's link"
   >

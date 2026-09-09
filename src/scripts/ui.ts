@@ -1396,6 +1396,66 @@ function initCopy() {
   });
 }
 
+/* ----------------------------------------------------------- share row -- */
+/* The share row never wraps: tiles that no longer fit move into a menu behind
+   an ellipsis, which is how ten targets survive a 360px screen. */
+function initShareRow() {
+  document.querySelectorAll<HTMLElement>('[data-share-row]').forEach(setupShareRow);
+}
+
+function setupShareRow(row: HTMLElement) {
+  const links = row.querySelector<HTMLElement>('[data-share-links]');
+  const more = row.querySelector<HTMLElement>('[data-share-more]');
+  const btn = row.querySelector<HTMLButtonElement>('[data-share-more-btn]');
+  const menu = row.querySelector<HTMLElement>('[data-share-menu]');
+  if (!links || !more || !btn || !menu) return;
+
+  const close = () => {
+    menu.hidden = true;
+    btn.setAttribute('aria-expanded', 'false');
+  };
+  const open = () => {
+    hideTip();
+    menu.hidden = false;
+    btn.setAttribute('aria-expanded', 'true');
+  };
+
+  const fits = () => links.scrollWidth <= links.clientWidth + 1;
+
+  const layout = () => {
+    close();
+    while (menu.firstElementChild) links.appendChild(menu.firstElementChild);
+    more.hidden = true;
+    if (fits()) return;
+    // Showing the button costs width, so it goes back before the tiles move.
+    more.hidden = false;
+    while (!fits() && links.lastElementChild && links.childElementCount > 1) {
+      menu.insertBefore(links.lastElementChild, menu.firstChild);
+    }
+  };
+
+  layout();
+  const ro = new ResizeObserver(layout);
+  ro.observe(row);
+  cleanups.push(() => ro.disconnect());
+
+  on(btn, 'click', (ev) => {
+    ev.stopPropagation();
+    if (menu.hidden) open();
+    else close();
+  });
+  on(document, 'click', (ev) => {
+    if (!menu.hidden && !more.contains(ev.target as Node)) close();
+  });
+  on(document, 'keydown', (ev) => {
+    if ((ev as KeyboardEvent).key === 'Escape' && !menu.hidden) {
+      close();
+      btn.focus();
+    }
+  });
+  cleanups.push(close);
+}
+
 /* ---------------------------------------------------------- contact form -- */
 function initContactForm() {
   const form = document.querySelector<HTMLFormElement>('[data-contact-form]');
@@ -1464,6 +1524,7 @@ function boot() {
   initLightbox();
   initTooltips();
   initToc();
+  initShareRow();
   initContactForm();
   initBackToTop();
 }
