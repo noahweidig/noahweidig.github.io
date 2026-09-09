@@ -132,3 +132,16 @@ jobs:
           AUDIT_BYPASS_HEADER: ${{ secrets.AUDIT_BYPASS_HEADER }}
           AUDIT_BYPASS_TOKEN: ${{ secrets.AUDIT_BYPASS_TOKEN }}
         run: node scripts/check-contact-form.mjs --base "$SITE_URL"
+
+  # A stale giscus repo/category id fails silently — every blog post loses
+  # its comments section with nothing to signal the site owner (#150).
+  giscus-config:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Verify the configured giscus repo/category still resolves
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node scripts/check-giscus-config.mjs

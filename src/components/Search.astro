@@ -42,7 +42,7 @@ import Icon from './Icon.astro';
           placeholder="Search projects, papers, posts…"
           autocomplete="off"
           spellcheck="false"
-          class="w-full bg-transparent py-4 text-base text-ink placeholder:text-faint focus-visible:rounded-none focus-visible:outline-none sm:text-[0.95rem]"
+          class="w-full bg-transparent py-4 text-base text-ink placeholder:text-faint focus-visible:rounded-none focus-visible:outline-none sm:text-body-lg"
         />
         <button
           type="button"
@@ -86,12 +86,12 @@ import Icon from './Icon.astro';
           aria-label="Filters"
         >
           <div class="flex items-center justify-between">
-            <h2 class="font-mono text-[0.68rem] tracking-[0.16em] text-faint uppercase">Filters</h2>
+            <h2 class="font-mono text-micro tracking-[0.16em] text-faint uppercase">Filters</h2>
             <button
               type="button"
               data-filter-clear
               hidden
-              class="text-[0.72rem] text-accent-ink hover:underline">Clear</button
+              class="text-caption text-accent-ink hover:underline">Clear</button
             >
           </div>
           <div class="mt-4 grid gap-5" data-filter-groups></div>

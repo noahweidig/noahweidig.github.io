@@ -33,7 +33,7 @@ const d = entry.data;
 
   <h3 class="text-lg leading-snug transition-colors group-hover:text-accent-ink">{d.title}</h3>
   {d.org && <p class="mt-1 text-sm font-medium text-accent-ink/85">{d.org}</p>}
-  <p class="mt-0.5 font-mono text-[0.7rem] tracking-[0.08em] text-faint uppercase">
+  <p class="mt-0.5 font-mono text-2xs tracking-[0.08em] text-faint uppercase">
     {d.dates}{d.location ? ` · ${d.location}` : ''}
   </p>
   {d.description && <p class="mt-2 text-sm leading-relaxed text-dim">{d.description}</p>}

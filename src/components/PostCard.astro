@@ -50,9 +50,7 @@ const alt = entry.data['image-alt'] ?? '';
     )
   }
   <div class="flex flex-1 flex-col p-5">
-    <div
-      class="flex items-center gap-2 font-mono text-[0.7rem] tracking-[0.1em] text-faint uppercase"
-    >
+    <div class="flex items-center gap-2 font-mono text-2xs tracking-[0.1em] text-faint uppercase">
       <time datetime={date.toISOString()}>{fullDate(date)}</time>
       {
         !image && readingTime && (

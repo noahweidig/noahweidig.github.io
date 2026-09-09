@@ -19,7 +19,7 @@ const year = new Date().getFullYear();
           <Logo class="h-8 w-auto" />
           <span class="font-display text-xl">Noah Weidig</span>
         </a>
-        <p class="mt-3 text-[0.95rem] text-dim">{site.role}</p>
+        <p class="mt-3 text-body-lg text-dim">{site.role}</p>
         <div class="mt-5 flex gap-2">
           {
             socials.map((s) => (
@@ -50,7 +50,7 @@ const year = new Date().getFullYear();
         {
           footerColumns.map((col) => (
             <div>
-              <h2 class="font-mono text-[0.72rem] font-medium tracking-[0.18em] text-dim uppercase">
+              <h2 class="font-mono text-caption font-medium tracking-[0.18em] text-dim uppercase">
                 {col.heading}
               </h2>
               <ul class="mt-4 grid gap-2.5">
@@ -63,7 +63,7 @@ const year = new Date().getFullYear();
                         data-tip={l.tip}
                         target={external ? '_blank' : undefined}
                         rel={external ? 'noopener' : undefined}
-                        class="inline-flex items-center text-[0.95rem] text-dim transition-colors hover:text-accent-ink"
+                        class="inline-flex items-center text-body-lg text-dim transition-colors hover:text-accent-ink"
                       >
                         {l.text}
                       </a>
