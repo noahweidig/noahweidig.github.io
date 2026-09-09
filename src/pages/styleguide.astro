@@ -26,7 +26,11 @@ const typeScale = [
   ['Section', 'clamp(1.85rem, 1.2rem + 2.2vw, 3rem)', 'Section heading'],
   ['H3', '1.25rem', 'Card and sub-heading'],
   ['Body', '1rem / 1.65', 'Running text'],
+  ['Body lg', '0.95rem', 'Lead paragraphs, callouts'],
   ['Meta', '0.7rem, mono, 0.18em', 'Kickers and labels'],
+  ['Caption', '0.72rem', 'Captions, small labels'],
+  ['2xs', '0.7rem', 'Compact meta text'],
+  ['Micro', '0.68rem', 'Smallest inline labels'],
 ];
 
 const icons = [
@@ -67,7 +71,7 @@ const icons = [
 >
   <section>
     <h2 class="font-display text-2xl">Color</h2>
-    <p class="lede mt-2 text-[0.95rem]">
+    <p class="lede mt-2 text-body-lg">
       Every semantic color is a runtime custom property, so the theme toggle repaints the whole
       system by flipping one attribute on <code class="chip">&lt;html&gt;</code>.
     </p>
@@ -91,7 +95,7 @@ const icons = [
 
   <section class="mt-16">
     <h2 class="font-display text-2xl">Type</h2>
-    <p class="lede mt-2 text-[0.95rem]">
+    <p class="lede mt-2 text-body-lg">
       Newsreader sets every heading, Inter carries the interface, JetBrains Mono handles labels and
       code. All three are self-hosted subsets.
     </p>
@@ -100,7 +104,7 @@ const icons = [
         typeScale.map(([name, size, use]) => (
           <div class="grid gap-2 py-5 sm:grid-cols-[10rem_1fr] sm:gap-6">
             <div>
-              <p class="font-mono text-[0.7rem] tracking-[0.14em] text-faint uppercase">{name}</p>
+              <p class="font-mono text-2xs tracking-[0.14em] text-faint uppercase">{name}</p>
               <p class="mt-1 text-[0.78rem] text-faint">{size}</p>
             </div>
             <p class="font-display text-2xl">{use}</p>
@@ -150,7 +154,7 @@ const icons = [
 
   <section class="mt-16">
     <h2 class="font-display text-2xl">Icons</h2>
-    <p class="lede mt-2 text-[0.95rem]">
+    <p class="lede mt-2 text-body-lg">
       Lucide geometry, inlined as path data so a glyph costs no request.
     </p>
     <div class="mt-6 grid grid-cols-4 gap-3 sm:grid-cols-8">
