@@ -135,12 +135,12 @@ const skills: [string, string][] = [
   .contact {
     margin: 0.32em 0 0;
     font-size: 0.72em;
-    color: #4b5260;
+    color: var(--c-dim);
   }
   .contact > * + *::before {
     content: '·';
     margin: 0 0.45em;
-    color: #a3a9b5;
+    color: var(--c-line-strong);
   }
   .contact a {
     color: inherit;
@@ -150,7 +150,7 @@ const skills: [string, string][] = [
     margin: 0.5em 0 0;
     font-size: 0.78em;
     line-height: 1.5;
-    color: #33383f;
+    color: var(--c-dim);
     text-align: left;
     text-wrap: pretty;
   }
@@ -165,7 +165,7 @@ const skills: [string, string][] = [
     letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--c-accent);
-    border-bottom: 1px solid #dcdfe5;
+    border-bottom: 1px solid var(--c-line);
     padding-bottom: 0.25em;
     margin: 0 0 0.45em;
   }
@@ -189,18 +189,18 @@ const skills: [string, string][] = [
   .when {
     font-family: var(--font-mono);
     font-size: 0.66em;
-    color: #5b6270;
+    color: var(--c-dim);
     white-space: nowrap;
   }
   .org {
     margin: 0.05em 0 0;
     font-size: 0.76em;
-    color: #3f4652;
+    color: var(--c-dim);
   }
   .note {
     margin: 0.12em 0 0;
     font-size: 0.74em;
-    color: #4b5260;
+    color: var(--c-dim);
   }
   ul {
     margin: 0.18em 0 0;
@@ -209,7 +209,7 @@ const skills: [string, string][] = [
   }
   li {
     font-size: 0.74em;
-    color: #3f4652;
+    color: var(--c-dim);
     margin-top: 0.08em;
   }
   li::marker {
@@ -231,12 +231,12 @@ const skills: [string, string][] = [
     font-size: 0.64em;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: #5b6270;
+    color: var(--c-dim);
     padding-top: 0.15em;
   }
   dd {
     margin: 0;
     font-size: 0.76em;
-    color: #3f4652;
+    color: var(--c-dim);
   }
 </style>
