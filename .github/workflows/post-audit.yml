@@ -1,0 +1,45 @@
+name: Post-build audit
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  post-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      # Toolchain only — the build below is the one the audit reads.
+      - name: Install toolchain
+        uses: ./.github/actions/build-site
+        with:
+          build: 'false'
+
+      # Same reasoning as axe.yml's puppeteer step: installs run with
+      # --ignore-scripts, and this package's postinstall is what downloads the
+      # prebuilt audit binary from its GitHub release. Run it explicitly, at
+      # the version package-lock.json pins.
+      - name: Fetch audit binary
+        run: node ./node_modules/@casoon/astro-post-audit/bin/install.cjs
+
+      # Report-only: the audit's first run on this site finds 260 errors, most
+      # of them one link and one form control repeated across 107 pages. The
+      # job publishes the report rather than blocking on it; add
+      # AUDIT_FAIL_ON=errors here to make it a gate once the findings are
+      # triaged.
+      - name: Build and audit
+        run: npm run audit:post
+
+      - name: Upload audit report
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: post-audit-report
+          path: .audit/
+          if-no-files-found: ignore
