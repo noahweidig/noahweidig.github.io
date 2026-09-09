@@ -6,6 +6,9 @@ import sanitizeHtml from 'sanitize-html';
 import type { APIContext } from 'astro';
 import { site } from '../lib/site';
 
+const escapeXml = (s: string) =>
+  s.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
+
 // Renders a post's Markdown to the same HTML Detail.astro shows, then strips
 // anything a feed reader shouldn't execute. `container.renderToString()` runs
 // the post's own remark/rehype pipeline (headings, footnotes, code blocks),
@@ -56,7 +59,7 @@ export async function GET(context: APIContext) {
           link: `/blog/${post.id}/`,
           categories: [...post.data.categories],
           content: await renderPostHtml(container, post),
-          customData: `<dc:creator>${post.data.author}</dc:creator>`,
+          customData: `<dc:creator>${escapeXml(post.data.author)}</dc:creator>`,
           ...(cover && {
             enclosure: {
               url: new URL(cover.src, feedSite).href,
