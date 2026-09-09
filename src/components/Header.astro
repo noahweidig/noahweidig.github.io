@@ -113,6 +113,14 @@ const isActive = (href: string) => {
   </div>
 
   <div
+    data-menu-scrim
+    hidden
+    aria-hidden="true"
+    class="fixed inset-0 -z-10 bg-black/70 backdrop-blur-sm lg:hidden"
+  >
+  </div>
+
+  <div
     id="mobile-nav"
     hidden
     class="absolute inset-x-0 top-full max-h-[calc(100vh-4rem)] overflow-y-auto border-t border-line bg-surface backdrop-blur-xl lg:hidden"
