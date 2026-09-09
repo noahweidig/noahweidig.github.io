@@ -102,6 +102,12 @@ function initHeader() {
     const target = ev.target as Node;
     if (!panel.contains(target) && !toggle.contains(target)) setOpen(false);
   });
+  on(document, 'keydown', (ev) => {
+    if ((ev as KeyboardEvent).key === 'Escape' && !panel.hidden) {
+      setOpen(false);
+      toggle.focus();
+    }
+  });
 }
 
 /* ------------------------------------------------------------- banner -- */
