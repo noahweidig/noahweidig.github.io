@@ -13,7 +13,9 @@
 import { giscus } from '../src/lib/site.ts';
 
 function fail(message) {
-  console.log(`::error::${message}`);
+  // message can carry GitHub API response text; strip control characters so
+  // it can't forge extra log lines or CI annotations (CWE-117).
+  console.log(`::error::${String(message).replace(/[\r\n]/g, ' ')}`);
   process.exit(1);
 }
 
