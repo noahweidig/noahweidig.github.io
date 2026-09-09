@@ -9,6 +9,7 @@
   "scripts": {
     "a11y": "node scripts/axe-audit.mjs",
     "astro": "astro",
+    "audit:post": "mkdir -p .audit && AUDIT_REPORTS=1 astro build",
     "build": "astro check && astro build && pagefind --site dist",
     "build:fast": "astro build && pagefind --site dist",
     "covers": "node scripts/generate-blog-covers.mjs",
@@ -34,6 +35,7 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
+    "@casoon/astro-post-audit": "0.5.6",
     "@types/node": "^22.10.0",
     "@types/sanitize-html": "^2.16.1",
     "axe-core": "^4.13.0",
