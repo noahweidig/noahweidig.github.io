@@ -125,7 +125,7 @@ const isActive = (href: string) => {
               <a
                 href={u(item.href)}
                 class:list={[
-                  'nav-link flex items-center justify-between rounded-[0.7rem] px-3 py-2.5 text-[0.95rem]',
+                  'nav-link flex items-center justify-between rounded-[0.7rem] px-3 py-2.5 text-body-lg',
                   isActive(item.href) ? 'nav-link-active' : '',
                 ]}
                 aria-current={isActive(item.href) ? 'page' : undefined}
