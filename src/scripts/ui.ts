@@ -86,8 +86,10 @@ function initHeader() {
   if (!toggle || !panel) return;
   const openIcon = toggle.querySelector('[data-menu-icon-open]');
   const closeIcon = toggle.querySelector('[data-menu-icon-close]');
+  const scrim = document.querySelector<HTMLElement>('[data-menu-scrim]');
   const setOpen = (open: boolean) => {
     panel.hidden = !open;
+    if (scrim) scrim.hidden = !open;
     toggle.setAttribute('aria-expanded', String(open));
     openIcon?.toggleAttribute('hidden', open);
     closeIcon?.toggleAttribute('hidden', !open);
