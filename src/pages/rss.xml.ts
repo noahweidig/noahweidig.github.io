@@ -7,7 +7,7 @@ import type { APIContext } from 'astro';
 import { site } from '../lib/site';
 
 const escapeXml = (s: string) =>
-  s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  s.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
 
 // Renders a post's Markdown to the same HTML Detail.astro shows, then strips
 // anything a feed reader shouldn't execute. `container.renderToString()` runs
