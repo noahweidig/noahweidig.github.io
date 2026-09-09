@@ -89,12 +89,29 @@ function initHeader() {
   const scrim = document.querySelector<HTMLElement>('[data-menu-scrim]');
   const setOpen = (open: boolean) => {
     panel.hidden = !open;
-    if (scrim) scrim.hidden = !open;
+    if (scrim) {
+      scrim.hidden = !open;
+      /* Anchored to the header's live bottom edge so the bar and any banner
+         above it stay unblurred, and the scrim keeps covering the page while
+         the reader scrolls with the menu open. */
+      if (open) scrim.style.top = `${Math.max(0, header.getBoundingClientRect().bottom)}px`;
+    }
+    header.toggleAttribute('data-menu-open', open);
     toggle.setAttribute('aria-expanded', String(open));
     openIcon?.toggleAttribute('hidden', open);
     closeIcon?.toggleAttribute('hidden', !open);
   };
   on(toggle, 'click', () => setOpen(panel.hidden));
+  on(
+    window,
+    'scroll',
+    () => {
+      if (!panel.hidden && scrim) {
+        scrim.style.top = `${Math.max(0, header.getBoundingClientRect().bottom)}px`;
+      }
+    },
+    { passive: true } as AddEventListenerOptions,
+  );
   panel.querySelectorAll('a').forEach((a) => on(a, 'click', () => setOpen(false)));
   on(window, 'resize', () => {
     if (window.innerWidth >= 1024) setOpen(false);

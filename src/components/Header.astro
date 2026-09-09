@@ -113,14 +113,6 @@ const isActive = (href: string) => {
   </div>
 
   <div
-    data-menu-scrim
-    hidden
-    aria-hidden="true"
-    class="fixed inset-0 -z-10 bg-black/70 backdrop-blur-sm lg:hidden"
-  >
-  </div>
-
-  <div
     id="mobile-nav"
     hidden
     class="absolute inset-x-0 top-full max-h-[calc(100vh-4rem)] overflow-y-auto border-t border-line bg-surface backdrop-blur-xl lg:hidden"
@@ -154,9 +146,25 @@ const isActive = (href: string) => {
   </div>
 </header>
 
+<!-- Outside the header: a stuck header carries `backdrop-filter`, which makes
+     it the containing block for fixed descendants and collapses this against
+     the bar. Its top edge is set from the header's live bottom in ui.ts. -->
+<div
+  data-menu-scrim
+  hidden
+  aria-hidden="true"
+  class="fixed inset-x-0 bottom-0 z-40 bg-black/70 backdrop-blur-sm lg:hidden"
+>
+</div>
+
 <Search />
 
 <style>
+  /* The scrim sits behind the header, so an otherwise transparent bar would
+     show it through. */
+  #site-header[data-menu-open] {
+    background-color: var(--c-bg);
+  }
   #site-header[data-stuck] {
     background-color: color-mix(in oklab, var(--c-bg) 78%, transparent);
     backdrop-filter: blur(16px) saturate(1.4);
