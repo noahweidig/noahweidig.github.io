@@ -113,7 +113,7 @@ const typed = [
         aria-hidden="true"
       >
       </div>
-      <div class="portrait-ring relative overflow-hidden bg-surface">
+      <div class="portrait-ring portrait-fill relative overflow-hidden">
         <Image
           src={portrait}
           alt="Noah Weidig"
@@ -252,6 +252,30 @@ const typed = [
     to {
       transform: translate(-50%, -50%) translate3d(4%, -6%, 0) scale(1.14);
     }
+  }
+
+  /* The portrait is a cutout on transparency, so the ring needs its own
+     ground or the hero mesh shows through the subject. */
+  .portrait-fill {
+    background:
+      radial-gradient(
+        86% 74% at 50% 26%,
+        color-mix(in oklab, var(--c-accent) 26%, var(--c-surface)) 0%,
+        color-mix(in oklab, var(--c-accent) 10%, var(--c-surface)) 46%,
+        transparent 100%
+      ),
+      linear-gradient(to bottom, var(--c-line-strong) 0%, var(--c-surface) 78%);
+  }
+
+  :root[data-theme='light'] .portrait-fill {
+    background:
+      radial-gradient(
+        86% 74% at 50% 26%,
+        color-mix(in oklab, var(--c-accent) 14%, white) 0%,
+        color-mix(in oklab, var(--c-accent) 5%, white) 48%,
+        transparent 100%
+      ),
+      linear-gradient(to bottom, var(--c-bg-deep) 0%, var(--c-surface) 74%);
   }
 
   .hero-btn {
