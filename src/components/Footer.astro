@@ -87,6 +87,21 @@ const year = new Date().getFullYear();
         <span class="mx-1.5 text-faint">·</span>
         <a class="hover:text-accent-ink" href={u('/styleguide/')}>Styleguide</a>
       </p>
+      <div class="flex items-center gap-2">
+        <span class="font-mono text-caption tracking-[0.12em] text-faint uppercase">Sitemap</span>
+        <a
+          href={u('/sitemap-index.xml')}
+          data-tip="XML sitemap for crawlers"
+          class="rounded border border-line px-2 py-1 font-mono text-caption text-dim transition-colors hover:border-accent-ink hover:text-accent-ink"
+          >.xml</a
+        >
+        <a
+          href={u('/sitemap.md')}
+          data-tip="Markdown sitemap for humans and LLMs"
+          class="rounded border border-line px-2 py-1 font-mono text-caption text-dim transition-colors hover:border-accent-ink hover:text-accent-ink"
+          >.md</a
+        >
+      </div>
       <p>
         Built with <a
           class="underline underline-offset-2 hover:text-accent-ink"
