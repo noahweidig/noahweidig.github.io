@@ -794,7 +794,17 @@
      The Share button opens this as a modal: every target sits in one grid and
      the page behind it blurs out under the backdrop. */
   .share-dialog {
+    /* Tailwind's reset zeroes the margin the UA uses to centre a modal, so it
+       is set back here. */
+    position: fixed;
+    inset: 0;
+    margin: auto;
     width: min(28rem, calc(100vw - 2rem));
+    /* Not auto: with both insets at 0 an auto height stretches to the viewport
+       and the auto margins have nothing left to centre. */
+    height: fit-content;
+    max-height: calc(100dvh - 2rem);
+    overflow-y: auto;
     padding: 1.25rem;
     border-radius: var(--radius-md);
     border: 1px solid var(--c-line-strong);
