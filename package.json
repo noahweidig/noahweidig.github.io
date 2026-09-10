@@ -36,11 +36,11 @@
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
     "@casoon/astro-post-audit": "0.5.6",
-    "@types/node": "^22.10.0",
+    "@types/node": "^26.4.1",
     "@types/sanitize-html": "^2.16.1",
     "axe-core": "^4.13.0",
     "lighthouse": "^13.4.1",
-    "lucide-static": "^1.40.0",
+    "lucide-static": "^1.41.0",
     "pagefind": "^1.5.2",
     "pdf-lib": "^1.17.1",
     "prettier": "^3.9.6",
