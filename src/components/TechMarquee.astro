@@ -57,6 +57,20 @@ const invert = new Set(['Markdown', 'LaTeX', 'GitHub', 'pandas']);
               invert.has(label!) && 'dark:invert',
             ]}
           />
+          <noscript>
+            <img
+              src={u(src!)}
+              alt=""
+              width="32"
+              height="32"
+              loading="lazy"
+              decoding="async"
+              class:list={[
+                'h-7 w-7 object-contain opacity-70',
+                invert.has(label!) && 'dark:invert',
+              ]}
+            />
+          </noscript>
           {label}
         </span>
       ))

@@ -1,4 +1,6 @@
 ---
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
 import { u } from '../lib/url';
 import type { CollectionEntry } from 'astro:content';
 import { Image } from 'astro:assets';
@@ -26,28 +28,9 @@ const HUES: [string, string][] = [
 const have = categories.map((c) => c.toLowerCase());
 const hue = HUES.find(([name]) => have.includes(name))?.[1] ?? 'moss';
 
-const KNOWN = new Set([
-  'chartifyr',
-  'dataviz',
-  'faststats',
-  'firer',
-  'framelab',
-  'gisconvert',
-  'imagestudio',
-  'less',
-  'lorem-chartsum',
-  'maplab',
-  'maps',
-  'quickplot',
-  'r-proj-template',
-  'roads',
-  'shelf',
-  'wildfire',
-  'wordcloud',
-  'wuirisk',
-]);
-const icon = u(`/media/icons/projects/${KNOWN.has(slug) ? slug : 'default'}.svg`);
-const shot = KNOWN.has(slug) ? shotFor(slug) : null;
+const hasIcon = existsSync(join(process.cwd(), 'public/media/icons/projects', `${slug}.svg`));
+const icon = u(`/media/icons/projects/${hasIcon ? slug : 'default'}.svg`);
+const shot = shotFor(slug);
 ---
 
 <article
