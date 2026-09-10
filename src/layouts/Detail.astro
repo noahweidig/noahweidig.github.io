@@ -7,6 +7,7 @@ import ShareRow from '../components/ShareRow.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import PrevNext from '../components/PrevNext.astro';
 import Toc from '../components/Toc.astro';
+import PostAside from '../components/PostAside.astro';
 import type { Heading } from '../components/Toc.astro';
 import type { Sibling } from '../components/PrevNext.astro';
 
@@ -31,6 +32,7 @@ interface Props {
   prev?: Sibling | null;
   next?: Sibling | null;
   headings?: Heading[];
+  readingTime?: string;
   /** The page's LCP image, forwarded to Base so it preloads ahead of the fonts. */
   preloadImage?: { href: string; srcset?: string; sizes?: string };
 }
@@ -55,6 +57,7 @@ const {
   prev,
   next,
   headings = [],
+  readingTime,
   preloadImage,
 } = Astro.props;
 
@@ -173,6 +176,9 @@ const hasToc = headings.filter((h) => h.depth === 2 || h.depth === 3).length > 1
             class="mx-auto grid max-w-none gap-x-10 lg:grid-cols-[1fr_min(46rem,100%)_1fr]"
             data-article-grid
           >
+            <div class="hidden lg:col-start-1 lg:row-start-1 lg:block" data-post-aside>
+              <PostAside title={title} readingTime={readingTime} />
+            </div>
             <div class="min-w-0 lg:col-start-2">
               {reading && (
                 <div class="no-print mb-6 flex justify-end" data-pagefind-ignore>

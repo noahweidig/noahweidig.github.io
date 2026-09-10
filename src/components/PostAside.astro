@@ -1,0 +1,59 @@
+---
+import Icon from './Icon.astro';
+
+interface Props {
+  title: string;
+  readingTime?: string;
+}
+const { title, readingTime } = Astro.props;
+const url = new URL(Astro.url.pathname, Astro.site).href;
+const t = encodeURIComponent(title);
+const u = encodeURIComponent(url);
+
+const targets = [
+  { label: 'X', icon: 'x', href: `https://twitter.com/intent/tweet?text=${t}&url=${u}` },
+  {
+    label: 'LinkedIn',
+    icon: 'linkedin',
+    href: `https://www.linkedin.com/sharing/share-offsite/?url=${u}`,
+  },
+  { label: 'Bluesky', icon: 'bluesky', href: `https://bsky.app/intent/compose?text=${t}%20${u}` },
+];
+---
+
+<aside class="post-aside-panel no-print h-full" data-pagefind-ignore>
+  <div class="sticky top-28 flex flex-col items-end gap-4">
+    {
+      readingTime && (
+        <p class="font-mono text-[0.66rem] tracking-[0.16em] whitespace-nowrap text-faint uppercase">
+          {readingTime}
+        </p>
+      )
+    }
+    <div class="flex flex-col items-end gap-1">
+      {
+        targets.map((s) => (
+          <a
+            class="icon-tile"
+            href={s.href}
+            target="_blank"
+            rel="noopener"
+            data-tip={`Share on ${s.label}`}
+            aria-label={`Share on ${s.label}`}
+          >
+            <Icon name={s.icon} size={16} />
+          </a>
+        ))
+      }
+      <button
+        type="button"
+        class="icon-tile"
+        data-copy={url}
+        data-tip="Copy this page's link"
+        aria-label="Copy link"
+      >
+        <Icon name="copy" size={16} />
+      </button>
+    </div>
+  </div>
+</aside>
