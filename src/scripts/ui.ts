@@ -1456,62 +1456,34 @@ function initCopy() {
 }
 
 /* ----------------------------------------------------------- share row -- */
-/* The share row never wraps: tiles that no longer fit move into a menu behind
-   an ellipsis, which is how ten targets survive a 360px screen. */
+/* One Share button opens a modal dialog with every target, so the row stays
+   two buttons wide at any screen size. */
 function initShareRow() {
   document.querySelectorAll<HTMLElement>('[data-share-row]').forEach(setupShareRow);
 }
 
 function setupShareRow(row: HTMLElement) {
-  const links = row.querySelector<HTMLElement>('[data-share-links]');
-  const more = row.querySelector<HTMLElement>('[data-share-more]');
-  const btn = row.querySelector<HTMLButtonElement>('[data-share-more-btn]');
-  const menu = row.querySelector<HTMLElement>('[data-share-menu]');
-  if (!links || !more || !btn || !menu) return;
+  const dialog = row.querySelector<HTMLDialogElement>('[data-share-dialog]');
+  const open = row.querySelector<HTMLButtonElement>('[data-share-open]');
+  if (!dialog || !open) return;
 
   const close = () => {
-    menu.hidden = true;
-    btn.setAttribute('aria-expanded', 'false');
+    if (dialog.open) dialog.close();
   };
-  const open = () => {
+
+  on(open, 'click', () => {
     hideTip();
-    menu.hidden = false;
-    btn.setAttribute('aria-expanded', 'true');
-  };
-
-  const fits = () => links.scrollWidth <= links.clientWidth + 1;
-
-  const layout = () => {
-    close();
-    while (menu.firstElementChild) links.appendChild(menu.firstElementChild);
-    more.hidden = true;
-    if (fits()) return;
-    // Showing the button costs width, so it goes back before the tiles move.
-    more.hidden = false;
-    while (!fits() && links.lastElementChild && links.childElementCount > 1) {
-      menu.insertBefore(links.lastElementChild, menu.firstChild);
-    }
-  };
-
-  layout();
-  const ro = new ResizeObserver(layout);
-  ro.observe(row);
-  cleanups.push(() => ro.disconnect());
-
-  on(btn, 'click', (ev) => {
-    ev.stopPropagation();
-    if (menu.hidden) open();
-    else close();
+    dialog.showModal();
   });
-  on(document, 'click', (ev) => {
-    if (!menu.hidden && !more.contains(ev.target as Node)) close();
+  row.querySelector<HTMLButtonElement>('[data-share-close]')?.addEventListener('click', close);
+  // Clicks land on the dialog itself only outside its padding box: that is the
+  // backdrop, so the dialog closes.
+  on(dialog, 'click', (ev) => {
+    const box = dialog.getBoundingClientRect();
+    const { clientX: x, clientY: y } = ev as MouseEvent;
+    if (x < box.left || x > box.right || y < box.top || y > box.bottom) close();
   });
-  on(document, 'keydown', (ev) => {
-    if ((ev as KeyboardEvent).key === 'Escape' && !menu.hidden) {
-      close();
-      btn.focus();
-    }
-  });
+  dialog.querySelectorAll('a').forEach((a) => a.addEventListener('click', close));
   cleanups.push(close);
 }
 
