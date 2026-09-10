@@ -2,14 +2,20 @@
 import { u, base } from '../lib/url';
 import '../styles/global.css';
 import { ClientRouter } from 'astro:transitions';
+import AnnouncementBanner from '../components/AnnouncementBanner.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import Icon from '../components/Icon.astro';
 import { site } from '../lib/site';
 
 interface Props {
   title: string;
   description?: string;
   image?: string;
+  /** Pixel dimensions of `image`, so crawlers can lay out a share card without
+      fetching it first. Defaults to the sitewide OG image's own size. */
+  imageWidth?: number;
+  imageHeight?: number;
   type?: 'website' | 'article';
   noindex?: boolean;
   bodyClass?: string;
@@ -24,6 +30,8 @@ const {
   title,
   description = site.description,
   image = site.ogImage,
+  imageWidth = 2400,
+  imageHeight = 1350,
   type = 'website',
   noindex = false,
   bodyClass = '',
@@ -32,7 +40,7 @@ const {
   preloadImage,
 } = Astro.props;
 
-const canonical = new URL(Astro.url.pathname.replace(/\/+$/, '/'), Astro.site).href;
+const canonical = new URL(Astro.url.pathname.replace(/\/*$/, '/'), Astro.site).href;
 const ogUrl = new URL(image, Astro.site).href;
 const fullTitle = title === site.name ? `${site.name} | ${site.role}` : `${title} | ${site.name}`;
 
@@ -87,7 +95,7 @@ const jsonLd = {
 ---
 
 <!doctype html>
-<html lang="en" data-theme="dark" data-base={base}>
+<html lang="en" data-theme="dark" data-theme-pref="system" data-base={base}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -111,6 +119,14 @@ const jsonLd = {
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogUrl} />
+    <meta property="og:image:width" content={String(imageWidth)} />
+    <meta property="og:image:height" content={String(imageHeight)} />
+    <meta property="og:image:type" content="image/webp" />
+    <meta property="og:image:alt" content={description} />
+    <meta
+      property="og:logo"
+      content={new URL(u('/web-app-manifest-512x512.png'), Astro.site).href}
+    />
     {
       publishedTime && (
         <meta property="article:published_time" content={publishedTime.toISOString()} />
@@ -120,6 +136,7 @@ const jsonLd = {
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogUrl} />
+    <meta name="twitter:image:alt" content={description} />
 
     <link rel="icon" href={u('/favicon.ico')} sizes="32x32" />
     <link rel="icon" type="image/svg+xml" href={u('/favicon.svg')} />
@@ -133,6 +150,15 @@ const jsonLd = {
       title="Noah Weidig — Blog"
       href={u('/rss.xml')}
     />
+
+    {
+      /* The gtag script is `async` at the end of <body>, so the connection to
+        each Google host is opened only once the browser reaches it. The
+        2026-09-07 production audit measured 302ms for googletagmanager and
+        308ms for google-analytics spent on that handshake. */
+    }
+    <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
+    <link rel="preconnect" href="https://www.google-analytics.com" crossorigin />
 
     {
       /* Ahead of the fonts: on a throttled connection the two latin subsets are
@@ -170,19 +196,27 @@ const jsonLd = {
 
     <script is:inline>
       (function () {
-        function stored() {
+        function pref() {
           try {
             var t = localStorage.getItem('nw-theme');
-            if (t === 'light' || t === 'dark') return t;
+            if (t === 'light' || t === 'dark' || t === 'system') return t;
           } catch (e) {
-            /* private mode: fall through to the OS preference */
+            /* private mode: fall through to the default */
           }
-          return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+          return 'system';
+        }
+        function resolve(p) {
+          if (p === 'system') {
+            return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+          }
+          return p;
         }
         // Applied before first paint, so the page never flashes the wrong theme.
         function apply() {
-          var t = stored();
+          var p = pref();
+          var t = resolve(p);
           document.documentElement.dataset.theme = t;
+          document.documentElement.dataset.themePref = p;
           var m = document.querySelector('meta[name="theme-color"]');
           if (m) m.setAttribute('content', t === 'light' ? '#fbfaf7' : '#07080b');
         }
@@ -214,12 +248,15 @@ const jsonLd = {
     />
 
     <ClientRouter />
+
+    <slot name="head" />
   </head>
 
   <body class={bodyClass}>
     <a href="#main" class="sr-only-nw focus:not-sr-only fixed top-3 left-3 z-100 btn btn-primary"
       >Skip to content</a
     >
+    <AnnouncementBanner />
     <Header />
     <main id="main" data-pagefind-body>
       {
@@ -239,6 +276,11 @@ const jsonLd = {
       <slot />
     </main>
     <Footer />
+
+    <button type="button" id="back-to-top" class="back-to-top" aria-label="Back to top">
+      <Icon name="circleArrowUp" size={17} />
+      Back to top
+    </button>
 
     <script>
       import '../scripts/ui';

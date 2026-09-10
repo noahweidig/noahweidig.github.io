@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import { u } from '../../lib/url';
 import Page from '../../layouts/Page.astro';
 import TimelineItem from '../../components/TimelineItem.astro';
 
@@ -15,6 +16,7 @@ const items = (await getCollection('experience')).sort(
   description="Roles and internships across GIS, remote sensing, and ecological research."
   intro="Roles and internships across GIS, remote sensing, and ecological research."
   wide={false}
+  image={u('/media/og/experience.webp')}
 >
   <h2 class="sr-only-nw">All experience</h2>
   <div class="ml-1">

@@ -12,7 +12,9 @@ const byDate = <T extends { data: { date: Date } }>(a: T, b: T) =>
 const education = (await getCollection('education')).sort(byDate);
 const experience = (await getCollection('experience')).sort(byDate);
 const awards = (await getCollection('awards')).sort(byDate);
-const pubs = (await getCollection('publications')).sort(byDate);
+const pubs = (await getCollection('publications', ({ data }) => data['pub-listed'] === 'yes')).sort(
+  byDate,
+);
 const byCat = (c: string) => pubs.filter((p) => p.data.categories.includes(c));
 
 const skills = [
@@ -30,6 +32,7 @@ const skills = [
 <Base
   title="Curriculum Vitae"
   description="The full curriculum vitae of Noah Weidig — GIS Analyst & Data Scientist: education, experience, publications, presentations, and awards."
+  image={u('/media/og/cv.webp')}
   filters={{ section: 'Page' }}
 >
   <div class="shell max-w-4xl py-12 md:py-16">
@@ -114,7 +117,7 @@ const skills = [
                       {entry.data.title}
                     </a>
                   </h3>
-                  <span class="font-mono text-[0.72rem] tracking-wide text-faint">
+                  <span class="font-mono text-caption tracking-wide text-faint">
                     {entry.data.dates ?? year(entry.data.date)}
                   </span>
                 </div>
@@ -166,9 +169,7 @@ const skills = [
             return items.length ? (
               <div class="mt-5">
                 {label && (
-                  <h3 class="font-mono text-[0.7rem] tracking-[0.16em] text-faint uppercase">
-                    {label}
-                  </h3>
+                  <h3 class="font-mono text-2xs tracking-[0.16em] text-faint uppercase">{label}</h3>
                 )}
                 <ol class="mt-3 grid gap-4">
                   {items.map((p) => (
@@ -223,7 +224,7 @@ const skills = [
                   <span class="block text-sm font-normal text-dim">{a.data.description}</span>
                 )}
               </h3>
-              <span class="font-mono text-[0.72rem] text-faint">{year(a.data.date)}</span>
+              <span class="font-mono text-caption text-faint">{year(a.data.date)}</span>
             </div>
           ))
         }
@@ -236,7 +237,7 @@ const skills = [
         {
           skills.map(([cat, list]) => (
             <div class="grid gap-1 border-l border-line pl-5 sm:grid-cols-[11rem_1fr] sm:gap-4">
-              <dt class="font-mono text-[0.7rem] tracking-[0.12em] text-faint uppercase sm:pt-1">
+              <dt class="font-mono text-2xs tracking-[0.12em] text-faint uppercase sm:pt-1">
                 {cat}
               </dt>
               <dd class="text-sm text-dim">{list}</dd>

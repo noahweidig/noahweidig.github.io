@@ -1,11 +1,13 @@
 ---
 import { u } from '../../lib/url';
 import { getCollection, render } from 'astro:content';
-import { Image, getImage } from 'astro:assets';
+import { getImage } from 'astro:assets';
 import Detail from '../../layouts/Detail.astro';
 import { fullDate, readingTime } from '../../lib/format';
 import { IMAGE_WIDTHS } from '../../lib/images';
 import Comments from '../../components/Comments.astro';
+import ThemeImage from '../../components/ThemeImage.astro';
+import { site } from '../../lib/site';
 
 export async function getStaticPaths() {
   // Sorted the way the listing is, so "previous" and "next" mean what a reader
@@ -28,7 +30,32 @@ const d = entry.data;
 const meta = `${fullDate(d.date)} · ${readingTime(entry.body)}`;
 // The post's own cover, sized for og:image/twitter:image, so a shared link
 // shows this post's art instead of the sitewide default (site.ogImage).
-const ogImage = d.image ? (await getImage({ src: d.image, width: 1200 })).src : undefined;
+const ogImageResult = d.image ? await getImage({ src: d.image, width: 1200 }) : undefined;
+const ogImage = ogImageResult?.src;
+const ogImageWidth = ogImageResult?.attributes.width;
+const ogImageHeight = ogImageResult?.attributes.height;
+
+// The cover is the LCP element on a post, and it otherwise queues behind the
+// two latin font subsets. Built with the same widths/sizes ThemeImage uses, so
+// the preload and the rendered <img> resolve to the same candidate.
+const HERO_SIZES = '(min-width: 768px) 720px, 92vw';
+const hero = d.image
+  ? await getImage({ src: d.image, widths: IMAGE_WIDTHS.hero, sizes: HERO_SIZES })
+  : undefined;
+
+const articleLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: d.title,
+  description: d.description,
+  datePublished: d.date.toISOString(),
+  dateModified: (d.updated ?? d.date).toISOString(),
+  inLanguage: 'en-US',
+  image: ogImage ? new URL(ogImage, Astro.site).href : undefined,
+  author: { '@id': `${site.url}/#person` },
+  publisher: { '@id': `${site.url}/#person` },
+  mainEntityOfPage: new URL(Astro.url.pathname, Astro.site).href,
+};
 ---
 
 <Detail
@@ -37,6 +64,8 @@ const ogImage = d.image ? (await getImage({ src: d.image, width: 1200 })).src : 
   headings={headings}
   kicker="Blog"
   meta={meta}
+  author={d.author}
+  authorImage={d['author-image']}
   section="Blog"
   prev={prev}
   next={next}
@@ -44,15 +73,19 @@ const ogImage = d.image ? (await getImage({ src: d.image, width: 1200 })).src : 
   backLabel="All posts"
   chips={d.categories}
   image={ogImage}
+  imageWidth={ogImageWidth}
+  imageHeight={ogImageHeight}
   publishedTime={d.date}
+  preloadImage={hero && { href: hero.src, srcset: hero.srcSet.attribute, sizes: HERO_SIZES }}
 >
   {
     d.image && (
-      <Image
-        src={d.image}
+      <ThemeImage
+        dark={d.image}
+        light={d['image-light'] ?? d.image}
         alt={d['image-alt'] ?? ''}
         widths={IMAGE_WIDTHS.hero}
-        sizes="(min-width: 768px) 720px, 92vw"
+        sizes={HERO_SIZES}
         loading="eager"
         class="mb-10 w-full rounded-lg border border-line"
       />
@@ -66,3 +99,5 @@ const ogImage = d.image ? (await getImage({ src: d.image, width: 1200 })).src : 
     </div>
   </Fragment>
 </Detail>
+
+<script type="application/ld+json" is:inline set:html={JSON.stringify(articleLd)} />

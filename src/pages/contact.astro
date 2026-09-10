@@ -1,4 +1,5 @@
 ---
+import { u } from '../lib/url';
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
 import { site } from '../lib/site';
@@ -14,15 +15,14 @@ const facts = [
 <Base
   title="Get in touch"
   description="Email me, book a call, or send a message — I reply within 24 hours."
+  image={u('/media/og/contact.webp')}
   filters={{ section: 'Page' }}
 >
   <section class="relative overflow-hidden border-b border-line bg-bg-deep">
     <div class="grid-bg absolute inset-0" aria-hidden="true"></div>
     <div class="shell relative py-16 text-center md:py-20">
       <p class="kicker justify-center">Contact</p>
-      <h1 class="mt-4 font-display text-[clamp(2.2rem,1.3rem+3.4vw,3.8rem)] font-medium">
-        Get in touch
-      </h1>
+      <h1 class="display-2 mt-4 font-display font-medium">Get in touch</h1>
       <p class="lede mx-auto mt-5">
         Email me, book a call, or send a message — I reply within 24 hours.
       </p>
@@ -55,12 +55,12 @@ const facts = [
                       href={f.href}
                       target={f.href.startsWith('http') ? '_blank' : undefined}
                       rel={f.href.startsWith('http') ? 'noopener' : undefined}
-                      class="block truncate text-[0.95rem] text-accent-ink hover:underline"
+                      class="block truncate text-body-lg text-accent-ink hover:underline"
                     >
                       {f.value}
                     </a>
                   ) : (
-                    <span class="block truncate text-[0.95rem]">{f.value}</span>
+                    <span class="block truncate text-body-lg">{f.value}</span>
                   )}
                 </span>
               </li>
@@ -86,7 +86,7 @@ const facts = [
               placeholder="Jane Doe"
               autocomplete="name"
               required
-              class="w-full rounded-md border border-line bg-raised px-3.5 py-2.5 text-[0.95rem] outline-none transition-colors focus:border-accent"
+              class="w-full rounded-md border border-line bg-raised px-3.5 py-2.5 text-body-lg transition-colors focus:border-accent"
             />
           </div>
           <div class="grid gap-2 [&>*]:min-w-0">
@@ -98,7 +98,7 @@ const facts = [
               placeholder="jane@example.com"
               autocomplete="email"
               required
-              class="w-full rounded-md border border-line bg-raised px-3.5 py-2.5 text-[0.95rem] outline-none transition-colors focus:border-accent"
+              class="w-full rounded-md border border-line bg-raised px-3.5 py-2.5 text-body-lg transition-colors focus:border-accent"
             />
           </div>
           <div class="grid gap-2 [&>*]:min-w-0">
@@ -109,7 +109,7 @@ const facts = [
               rows="6"
               placeholder="What you're working on, and how I can help"
               required
-              class="w-full resize-y rounded-md border border-line bg-raised px-3.5 py-2.5 text-[0.95rem] outline-none transition-colors focus:border-accent"
+              class="w-full resize-y rounded-md border border-line bg-raised px-3.5 py-2.5 text-body-lg transition-colors focus:border-accent"
             ></textarea>
           </div>
 

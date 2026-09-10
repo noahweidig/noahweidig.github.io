@@ -29,10 +29,21 @@ jobs:
         with:
           configPath: ./lighthouserc.production.cjs
           runs: 3
+          # The action ignores `upload` in the config file and takes its own
+          # inputs, both of which default to false — so the first three failing
+          # runs reported category scores with no way to see which audits were
+          # behind them. Diagnosing the 2026-09-07 run meant reconstructing the
+          # scores from Lighthouse's category weights by hand. The reports are
+          # attached to the run instead of pushed to Lighthouse's public
+          # storage: this is a scheduled job on a personal site, and a run
+          # artifact is private to the repository.
+          uploadArtifacts: true
 
   axe:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    # Worst case is every page blocked and retried twice with widening gaps;
+    # see RETRY_DELAYS_MS in scripts/axe-audit.mjs.
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
@@ -47,6 +58,11 @@ jobs:
           node ./node_modules/puppeteer/install.mjs
 
       - name: Run axe-core against production
+        env:
+          # Set both to send a header a Cloudflare WAF skip rule can match
+          # (#95). Unset, nothing extra is sent and the run is unchanged.
+          AUDIT_BYPASS_HEADER: ${{ secrets.AUDIT_BYPASS_HEADER }}
+          AUDIT_BYPASS_TOKEN: ${{ secrets.AUDIT_BYPASS_TOKEN }}
         run: node scripts/axe-audit.mjs --base "$SITE_URL"
 
   links:
@@ -55,19 +71,39 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      - name: Crawl production for dead links
+      - name: Check links on production's key pages
         uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2.9.0
         with:
           # Same accepted codes and exclusions as links.yml, which explains
-          # each of them; this one follows the live site instead of _site.
+          # each of them; this one reads the live pages instead of dist.
+          #
+          # /cdn-cgi/l/email-protection is excluded on top of those: Cloudflare
+          # rewrites every mailto: on the site into one of those links and
+          # decodes it in the browser with JavaScript. Fetched directly it is a
+          # 404 by design, which is 11 of the 11 errors the second run reported
+          # across 8 pages. Nothing there is a broken link; the mailto: they
+          # come from is in the source and never reaches lychee.
+          #
+          # lychee has no recursive crawl, so the pages are listed. The first
+          # run of this job passed `--max-depth 2` and died with
+          # "error: unexpected argument '--max-depth' found" before checking a
+          # single link. Keep this list in step with PAGES in
+          # scripts/axe-audit.mjs.
           args: >-
             --no-progress
-            --max-depth 2
             --accept '100..=103,200..=299,403,405,415,429,999'
             --exclude 'ecos\.fws\.gov'
             --exclude 'victoriamdonovan\.org'
             --exclude 'original-ufdc\.uflib\.ufl\.edu'
-            ${{ env.SITE_URL }}
+            --exclude 'noahweidig\.com/cdn-cgi/'
+            ${{ env.SITE_URL }}/
+            ${{ env.SITE_URL }}/cv/
+            ${{ env.SITE_URL }}/experience/
+            ${{ env.SITE_URL }}/education/
+            ${{ env.SITE_URL }}/projects/
+            ${{ env.SITE_URL }}/publications/
+            ${{ env.SITE_URL }}/blog/
+            ${{ env.SITE_URL }}/contact/
           fail: true
 
   # A silently dead contact form is the worst failure on this site: the form
@@ -75,36 +111,37 @@ jobs:
   # notice if the endpoint were removed, disabled, or over quota (#273).
   contact-form:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install toolchain
+        run: |
+          npm ci --ignore-scripts
+          node ./node_modules/puppeteer/install.mjs
+
+      - name: Check the form endpoint is still live
+        env:
+          # Set both to send a header a Cloudflare WAF skip rule can match
+          # (#95). Unset, nothing extra is sent and the run is unchanged.
+          AUDIT_BYPASS_HEADER: ${{ secrets.AUDIT_BYPASS_HEADER }}
+          AUDIT_BYPASS_TOKEN: ${{ secrets.AUDIT_BYPASS_TOKEN }}
+        run: node scripts/check-contact-form.mjs --base "$SITE_URL"
+
+  # A stale giscus repo/category id fails silently — every blog post loses
+  # its comments section with nothing to signal the site owner (#150).
+  giscus-config:
+    runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      - name: Check the form endpoint is still live
-        run: |
-          set -euo pipefail
-          # Read the endpoint out of the page rather than repeating it here,
-          # so this checks the URL visitors actually post to.
-          # --proto '=https' on the request and on any redirect it follows:
-          # this reads a URL out of the response and then calls it, so a
-          # downgrade to plain HTTP anywhere in the chain must fail loudly.
-          action=$(curl -fsSL --proto '=https' --proto-redir '=https' "$SITE_URL/contact" \
-            | grep -o 'action="https://formspree.io/f/[^"]*"' \
-            | head -1 | cut -d'"' -f2)
-          if [ -z "$action" ]; then
-            echo "::error::No Formspree action found on $SITE_URL/contact"
-            exit 1
-          fi
-          echo "Endpoint: $action"
-          # A CORS preflight: it exercises the real endpoint and tells a live
-          # form apart from a deleted or disabled one, without delivering a
-          # test message to the inbox on every scheduled run.
-          code=$(curl -s -o /dev/null -w '%{http_code}' -X OPTIONS \
-            --proto '=https' --proto-redir '=https' "$action" \
-            -H "Origin: $SITE_URL" \
-            -H "Access-Control-Request-Method: POST" \
-            -H "Access-Control-Request-Headers: content-type")
-          echo "Preflight: HTTP $code"
-          case "$code" in
-            200|204) ;;
-            *) echo "::error::Formspree endpoint returned HTTP $code"; exit 1 ;;
-          esac
+      - name: Verify the configured giscus repo/category still resolves
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node scripts/check-giscus-config.mjs

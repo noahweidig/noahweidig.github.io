@@ -42,7 +42,7 @@ const publications = defineCollection({
     'pub-venue': z.string().optional(),
     'pub-details': z.string().optional(),
     'pub-doi': z.string().optional(),
-    'pub-url': z.string().optional(),
+    'pub-url': z.string().url().optional(),
     'pub-pdf': z.string().optional(),
     'pub-oa': z.boolean().optional(),
     'pub-citations': z.number().optional(),
@@ -87,10 +87,17 @@ const blog = defineCollection({
       .object({
         title: z.string(),
         date: z.coerce.date(),
+        updated: z.coerce.date().optional(),
         description: z.string(),
+        author: z.string().default('Noah Weidig'),
+        'author-image': z.string().default('/media/authors/me.webp'),
         categories: z.array(z.string()).default([]),
         draft: z.boolean().default(false),
         image: image().optional(),
+        // Light-theme counterpart of `image`, swapped in by CSS (`dark:`/light
+        // pairing, same as the header's logo and theme-toggle icons). Falls
+        // back to `image` when a post doesn't have one.
+        'image-light': image().optional(),
         'image-alt': z.string().optional(),
       })
       .refine((data) => !data.image || !!data['image-alt'], {
@@ -108,7 +115,7 @@ const timeline = (base: string) =>
       dates: z.string().optional(),
       description: z.string().optional(),
       org: z.string().optional(),
-      'org-url': z.string().optional(),
+      'org-url': z.string().url().optional(),
       location: z.string().optional(),
       categories: z.array(z.string()).default([]),
     }),

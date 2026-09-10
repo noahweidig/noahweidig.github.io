@@ -31,6 +31,36 @@ export function readingTime(body: string | undefined): string {
   return `${Math.max(1, Math.round(words / 200))} min read`;
 }
 
+/**
+ * Splits a `pub-authors` string ("Ivey, M. A., Wonkka, C. L. & Weidig, N. C.")
+ * into individual "Surname, Initials" names.
+ *
+ * Every author is itself one comma ("Surname, Initials"), authors are chained
+ * with ", ", and the final author is joined with " & " instead of a comma —
+ * so a plain comma-split would cut surnames apart from their own initials.
+ * The last " & " boundary is peeled off first, then the remaining comma list
+ * is paired up two tokens at a time.
+ */
+export function splitAuthors(raw: string): string[] {
+  const cleaned = raw.replace(/\*\*/g, '').trim();
+  if (!cleaned) return [];
+  const parts = cleaned
+    .split(/\s*&\s*/)
+    .map((s) => s.trim())
+    .filter(Boolean);
+  const last = parts.pop();
+  const tokens = (parts.join(', ') || '')
+    .split(',')
+    .map((t) => t.trim())
+    .filter(Boolean);
+  const authors: string[] = [];
+  for (let i = 0; i < tokens.length; i += 2) {
+    authors.push(tokens[i + 1] ? `${tokens[i]}, ${tokens[i + 1]}` : tokens[i]!);
+  }
+  if (last) authors.push(last);
+  return authors;
+}
+
 /** First sentence of a description, for the compact citation rows. */
 export function firstSentence(text: string | undefined, max = 200): string {
   let t = String(text ?? '')

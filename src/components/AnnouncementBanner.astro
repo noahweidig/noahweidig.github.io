@@ -1,0 +1,59 @@
+---
+import { u } from '../lib/url';
+import Icon from './Icon.astro';
+
+/** Bump when the message changes so a reader who dismissed the old banner
+    sees the new one instead of a stale "seen it" state. */
+const id = 'projects-2026-09';
+---
+
+<div
+  id="announcement-banner"
+  data-announcement-banner={id}
+  data-pagefind-ignore
+  role="region"
+  aria-label="Announcement"
+  class="relative z-40 flex items-center justify-center gap-2 bg-accent px-4 py-2.5 text-sm text-accent-contrast"
+>
+  <a href={u('/projects/')} class="group flex items-center gap-2 font-medium">
+    <Icon name="rocket" size={17} stroke-width={2} />
+    <span>Check out my latest projects!</span>
+    <Icon
+      name="arrow"
+      size={16}
+      stroke-width={2}
+      class="transition-transform group-hover:translate-x-0.5"
+    />
+  </a>
+  <button
+    type="button"
+    data-banner-dismiss
+    aria-label="Dismiss announcement"
+    class="absolute right-3 flex h-6 w-6 shrink-0 items-center justify-center rounded-full opacity-80 transition hover:bg-black/10 hover:opacity-100"
+  >
+    <Icon name="close" size={16} stroke-width={2} />
+  </button>
+</div>
+
+<script is:inline define:vars={{ id }}>
+  (function () {
+    function apply() {
+      var el = document.getElementById('announcement-banner');
+      if (!el) return;
+      try {
+        el.style.display = localStorage.getItem('nw-banner-dismissed') === id ? 'none' : '';
+      } catch (e) {
+        /* private mode: leave the banner visible */
+      }
+    }
+    // Runs immediately after the banner markup, before the browser's first
+    // paint, so a reader who already dismissed it never sees it flash in.
+    apply();
+    // A view-transition swap re-inserts this same script, so re-apply after
+    // each swap too (mirrors the theme-flash fix in Base.astro).
+    if (!window.__nwBannerBound) {
+      window.__nwBannerBound = true;
+      document.addEventListener('astro:after-swap', apply);
+    }
+  })();
+</script>

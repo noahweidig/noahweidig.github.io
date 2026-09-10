@@ -12,6 +12,8 @@ interface Props {
   section?: string;
   /** Ancestors between Home and this page; most section indexes have none. */
   trail?: { label: string; href?: string }[];
+  /** This page's own og:image, in place of the sitewide default. */
+  image?: string;
 }
 const {
   title,
@@ -22,10 +24,11 @@ const {
   noindex,
   section,
   trail = [],
+  image,
 } = Astro.props;
 ---
 
-<Base title={title} description={description} noindex={noindex} filters={{ section }}>
+<Base title={title} description={description} image={image} noindex={noindex} filters={{ section }}>
   <section class="relative overflow-hidden border-b border-line bg-bg-deep">
     <div class="grid-bg absolute inset-0" aria-hidden="true"></div>
     <div
@@ -44,7 +47,7 @@ const {
             </p>
           )
         }
-        <h1 class="mt-4 font-display text-[clamp(2.2rem,1.3rem+3.4vw,4rem)] font-medium">
+        <h1 class="display-2 mt-4 font-display font-medium">
           {title}
         </h1>
         {intro && <p class="lede mx-auto mt-5 text-balance">{intro}</p>}

@@ -1,5 +1,6 @@
 ---
 import { u } from '../lib/url';
+import Icon from './Icon.astro';
 const tech = [
   ['R', '/media/icons/devicon/r-original.svg'],
   ['Python', '/media/icons/devicon/python-original.svg'],
@@ -31,6 +32,15 @@ const invert = new Set(['Markdown', 'LaTeX', 'GitHub', 'pandas']);
 ---
 
 <div class="marquee mt-10" role="group" aria-label="Tech stack" data-reveal>
+  <button
+    type="button"
+    data-marquee-toggle
+    aria-pressed="false"
+    aria-label="Pause scrolling tech stack"
+    class="icon-btn marquee-toggle"
+  >
+    <Icon name="pause" size={16} />
+  </button>
   <div class="marquee-track py-2" data-marquee>
     {
       tech.map(([label, src]) => (
@@ -53,3 +63,16 @@ const invert = new Set(['Markdown', 'LaTeX', 'GitHub', 'pandas']);
     }
   </div>
 </div>
+
+<script>
+  function bindMarqueeToggles() {
+    document.querySelectorAll<HTMLButtonElement>('[data-marquee-toggle]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const marquee = btn.closest('.marquee');
+        const paused = marquee?.toggleAttribute('data-paused');
+        btn.setAttribute('aria-pressed', String(!!paused));
+      });
+    });
+  }
+  document.addEventListener('astro:page-load', bindMarqueeToggles);
+</script>

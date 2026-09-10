@@ -1,14 +1,34 @@
 ---
 import { getCollection } from 'astro:content';
+import { u } from '../../lib/url';
 import Page from '../../layouts/Page.astro';
 import PostCard from '../../components/PostCard.astro';
 import FilterBar from '../../components/FilterBar.astro';
 import { readingTime } from '../../lib/format';
+import { site } from '../../lib/site';
 
 const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
   (a, b) => b.data.date.getTime() - a.data.date.getTime(),
 );
 const categories = [...new Set(posts.flatMap((p) => p.data.categories))].sort();
+
+const blogLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Blog',
+  '@id': `${site.url}/blog/#blog`,
+  name: `${site.name} — Blog`,
+  description: 'Notes on science, data, maps, and the landscapes we live in.',
+  url: `${site.url}/blog/`,
+  publisher: { '@id': `${site.url}/#person` },
+  blogPost: posts.map((p) => ({
+    '@type': 'BlogPosting',
+    '@id': `${site.url}/blog/${p.id}/`,
+    headline: p.data.title,
+    description: p.data.description,
+    datePublished: p.data.date.toISOString(),
+    url: `${site.url}/blog/${p.id}/`,
+  })),
+};
 ---
 
 <Page
@@ -17,6 +37,7 @@ const categories = [...new Set(posts.flatMap((p) => p.data.categories))].sort();
   kicker="Writing"
   description="Notes on science, data, maps, and the landscapes we live in."
   intro="Notes on science, data, maps, and the landscapes we live in."
+  image={u('/media/og/blog.webp')}
 >
   <FilterBar categories={categories} target="#post-grid" noun="posts" total={posts.length} />
 
@@ -29,3 +50,5 @@ const categories = [...new Set(posts.flatMap((p) => p.data.categories))].sort();
     }
   </div>
 </Page>
+
+<script type="application/ld+json" is:inline set:html={JSON.stringify(blogLd)} />

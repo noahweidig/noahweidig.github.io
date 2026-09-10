@@ -5,7 +5,7 @@ description: A Shiny App for Data Viz with No Code
 categories:
   - R
   - Data Science
-featured: true
+featured: false
 links:
   - label: 'Launch Tool'
     href: 'https://noahweidig.github.io/quickplot/'
