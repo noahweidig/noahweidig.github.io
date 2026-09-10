@@ -1,0 +1,27 @@
+name = "noahweidig-ai-search"
+main = "src/index.ts"
+compatibility_date = "2026-09-01"
+workers_dev = false
+
+# Scoped to /api/* so every other path still reaches the GitHub Pages origin.
+# src/pages/ has no `api` directory, so nothing is shadowed.
+routes = [
+  { pattern = "noahweidig.com/api/*", zone_name = "noahweidig.com" },
+  { pattern = "www.noahweidig.com/api/*", zone_name = "noahweidig.com" },
+]
+
+# GROQ_API_KEY is set once with `wrangler secret put GROQ_API_KEY` and appears
+# in no file here and in no workflow. Local dev reads it from .dev.vars.
+
+[observability]
+enabled = true
+
+# 30 requests per 10 s per IP. One reader asking several questions in a row
+# makes a handful of calls, so a tighter window rate-limits real use; a bot is
+# still held to 3/s. The ceiling that actually bounds the bill is the spend cap
+# in the Groq dashboard.
+[[unsafe.bindings]]
+name = "AI_RATE_LIMIT"
+type = "ratelimit"
+namespace_id = "1001"
+simple = { limit = 30, period = 10 }
