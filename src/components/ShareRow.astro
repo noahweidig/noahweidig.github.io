@@ -45,46 +45,51 @@ const targets = [
 <div
   data-pagefind-ignore
   data-share-row
-  class="no-print mt-14 flex items-center gap-2 border-t border-line pt-6"
+  class="no-print mt-14 flex flex-wrap items-center gap-2 border-t border-line pt-6"
 >
-  <span class="font-mono text-micro tracking-[0.14em] text-faint uppercase">Share</span>
-  <div data-share-links class="-my-1 flex min-w-0 flex-1 items-center gap-2 overflow-hidden py-1">
-    {
-      targets.map((s) => (
-        <a
-          class="icon-tile shrink-0"
-          href={s.href}
-          target="_blank"
-          rel="noopener"
-          data-tip={`Share on ${s.label}`}
-        >
-          <Icon name={s.icon} size={16} />
-          <span class="sr-only-nw">Share on {s.label}</span>
-        </a>
-      ))
-    }
-  </div>
-  <div class="share-more relative shrink-0" data-share-more hidden>
-    <button
-      type="button"
-      class="icon-tile"
-      data-share-more-btn
-      aria-expanded="false"
-      aria-haspopup="true"
-      data-tip="More ways to share"
-    >
-      <Icon name="ellipsis" size={16} />
-      <span class="sr-only-nw">More ways to share</span>
-    </button>
-    <div class="share-menu" data-share-menu hidden></div>
-  </div>
   <button
     type="button"
-    class="chip shrink-0 transition-colors hover:border-accent hover:text-accent-ink"
+    class="btn btn-ghost btn-sm"
+    data-share-open
+    aria-haspopup="dialog"
+    data-tip="Share this page"
+  >
+    <Icon name="share" size={15} />
+    <span>Share</span>
+  </button>
+  <button
+    type="button"
+    class="btn btn-ghost btn-sm"
     data-copy={url}
     data-tip="Copy this page's link"
   >
-    <Icon name="copy" size={13} />
+    <Icon name="copy" size={15} />
     <span data-copy-label>Copy link</span>
   </button>
+
+  <dialog class="share-dialog" data-share-dialog aria-label={`Share: ${title}`}>
+    <div class="share-dialog-head">
+      <div>
+        <p class="font-mono text-micro tracking-[0.14em] text-faint uppercase">Share</p>
+        <p class="mt-1 line-clamp-2 text-sm text-ink">{title}</p>
+      </div>
+      <button type="button" class="icon-tile" data-share-close aria-label="Close">
+        <Icon name="close" size={16} />
+      </button>
+    </div>
+    <div class="share-dialog-grid">
+      {
+        targets.map((s) => (
+          <a class="share-target" href={s.href} target="_blank" rel="noopener">
+            <Icon name={s.icon} size={17} />
+            <span>{s.label}</span>
+          </a>
+        ))
+      }
+    </div>
+    <button type="button" class="btn btn-ghost btn-sm w-full" data-copy={url}>
+      <Icon name="copy" size={15} />
+      <span data-copy-label>Copy link</span>
+    </button>
+  </dialog>
 </div>

@@ -790,37 +790,53 @@
     color: var(--c-accent-ink);
   }
 
-  /* --- share overflow ---
-     The share row stays on one line: tiles that no longer fit are moved into
-     this menu by src/scripts/ui.ts, where each one shows its label. */
-  .share-menu {
-    position: absolute;
-    right: 0;
-    bottom: calc(100% + 0.5rem);
-    z-index: 110;
-    display: flex;
-    flex-direction: column;
-    min-width: 11rem;
-    padding: 0.35rem;
-    border-radius: var(--radius-sm);
+  /* --- share dialog ---
+     The Share button opens this as a modal: every target sits in one grid and
+     the page behind it blurs out under the backdrop. */
+  .share-dialog {
+    width: min(28rem, calc(100vw - 2rem));
+    padding: 1.25rem;
+    border-radius: var(--radius-md);
     border: 1px solid var(--c-line-strong);
     background: color-mix(in oklab, var(--c-surface) 96%, var(--c-bg));
-    box-shadow: 0 18px 40px -22px rgb(0 0 0 / 0.75);
+    color: var(--c-ink);
+    box-shadow: 0 30px 70px -30px rgb(0 0 0 / 0.8);
   }
-  .share-menu .icon-tile {
+  .share-dialog::backdrop {
+    background: rgb(6 8 12 / 0.5);
+    backdrop-filter: blur(10px) saturate(1.1);
+  }
+  .share-dialog-head {
     display: flex;
-    justify-content: flex-start;
-    gap: 0.6rem;
-    width: 100%;
-    height: auto;
-    padding: 0.45rem 0.55rem;
-    border-color: transparent;
-    border-radius: 0.5rem;
-    font-size: 0.82rem;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1rem;
   }
-  .share-menu .icon-tile:hover {
-    transform: none;
-    border-color: transparent;
+  .share-dialog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(7.5rem, 1fr));
+    gap: 0.4rem;
+    margin-bottom: 1rem;
+  }
+  .share-target {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.55rem 0.6rem;
+    border-radius: 0.6rem;
+    border: 1px solid transparent;
+    color: var(--c-dim);
+    font-size: 0.85rem;
+    transition:
+      border-color 0.2s var(--ease-out-soft),
+      background-color 0.2s var(--ease-out-soft),
+      color 0.2s var(--ease-out-soft);
+  }
+  .share-target:hover {
+    border-color: var(--c-accent);
+    background: color-mix(in oklab, var(--c-accent) 10%, transparent);
+    color: var(--c-accent-ink);
   }
 
   /* --- back to top ---
@@ -1129,15 +1145,6 @@
     clip-path: inset(50%);
     white-space: nowrap;
     border: 0;
-  }
-  /* Share targets moved into the overflow menu show their label. */
-  .share-menu .sr-only-nw {
-    position: static;
-    width: auto;
-    height: auto;
-    margin: 0;
-    overflow: visible;
-    clip-path: none;
   }
   .text-gradient {
     background: linear-gradient(

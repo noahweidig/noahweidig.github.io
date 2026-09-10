@@ -80,6 +80,7 @@ const MAP = {
   circleArrowUp: 'circle-arrow-up',
   rocket: 'rocket',
   ellipsis: 'ellipsis',
+  share: 'share-2',
 };
 
 /** The children of the <svg>, whitespace collapsed. Sliced rather than matched:
