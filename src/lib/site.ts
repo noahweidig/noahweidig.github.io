@@ -47,6 +47,11 @@ export const socials = [
     icon: 'scholar',
   },
   { label: 'ORCID', href: 'https://orcid.org/0000-0003-1205-3209', icon: 'orcid' },
+  {
+    label: 'ResearchGate',
+    href: 'https://www.researchgate.net/profile/Noah-Weidig',
+    icon: 'researchgate',
+  },
 ] as const;
 
 export const footerColumns = [
