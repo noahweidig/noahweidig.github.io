@@ -20,7 +20,10 @@ const blogLd = {
   description: 'Notes on science, data, maps, and the landscapes we live in.',
   url: `${site.url}/blog/`,
   publisher: { '@id': `${site.url}/#person` },
-  blogPost: posts.map((p) => ({
+  // Capped the same way rss.xml.ts caps its <item> list: search engines only
+  // ever use a handful of these, and an unbounded array would grow the page's
+  // inline JSON-LD forever as the blog does.
+  blogPost: posts.slice(0, 20).map((p) => ({
     '@type': 'BlogPosting',
     '@id': `${site.url}/blog/${p.id}/`,
     headline: p.data.title,
