@@ -19,7 +19,13 @@ const items = (await getCollection('experience')).sort(
   image={u('/media/og/experience.webp')}
 >
   <h2 class="sr-only-nw">All experience</h2>
-  <div class="ml-1">
-    {items.map((entry, i) => <TimelineItem entry={entry} base="experience" current={i === 0} />)}
-  </div>
+  <ul class="ml-1">
+    {
+      items.map((entry, i) => (
+        <li>
+          <TimelineItem entry={entry} base="experience" current={i === 0} />
+        </li>
+      ))
+    }
+  </ul>
 </Page>

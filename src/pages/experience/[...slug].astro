@@ -2,6 +2,7 @@
 import { u } from '../../lib/url';
 import { getCollection, render } from 'astro:content';
 import Detail from '../../layouts/Detail.astro';
+import { site } from '../../lib/site';
 
 export async function getStaticPaths() {
   // Sorted the way the listing is, so "previous" and "next" mean what a reader
@@ -22,6 +23,22 @@ const { entry, prev, next } = Astro.props;
 const { Content } = await render(entry);
 const d = entry.data;
 const meta = [d.org, d.dates, d.location].filter(Boolean).join(' · ');
+
+// Same generic CreativeWork shape the Projects detail page uses — schema.org
+// has no dedicated "past role" entity, so this keeps the page's structured
+// data consistent with the rest of the site rather than inventing a type
+// Google's Rich Results Test wouldn't recognize.
+const experienceLd = {
+  '@context': 'https://schema.org',
+  '@type': 'CreativeWork',
+  name: d.org ? `${d.title}, ${d.org}` : d.title,
+  description: d.description,
+  dateCreated: d.date.toISOString(),
+  url: new URL(Astro.url.pathname, Astro.site).href,
+  keywords: d.categories.length ? d.categories.join(', ') : undefined,
+  about: d['org-url'] ? { '@type': 'Organization', name: d.org, url: d['org-url'] } : undefined,
+  author: { '@id': `${site.url}/#person` },
+};
 ---
 
 <Detail
@@ -42,3 +59,5 @@ const meta = [d.org, d.dates, d.location].filter(Boolean).join(' · ');
 >
   <Content />
 </Detail>
+
+<script type="application/ld+json" is:inline set:html={JSON.stringify(experienceLd)} />
