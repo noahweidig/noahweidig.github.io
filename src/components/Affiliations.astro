@@ -41,6 +41,17 @@ const orgs = [
               decoding="async"
               class="h-10 w-auto max-w-[9rem] object-contain opacity-45 grayscale transition duration-300 group-hover/logo:opacity-100 group-hover/logo:grayscale-0 dark:hidden"
             />
+            <noscript>
+              <img
+                src={u(src!)}
+                alt={name}
+                width="140"
+                height="48"
+                loading="lazy"
+                decoding="async"
+                class="h-10 w-auto max-w-[9rem] object-contain opacity-45 grayscale"
+              />
+            </noscript>
             {/* Dark mode recolors via mask instead of filter: brightness-0/invert
                  chains render as solid black on some iOS Safari versions, so this
                  draws a plain currentColor silhouette instead. */}
