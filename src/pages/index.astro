@@ -192,20 +192,28 @@ const faqs = [
     <div class="mt-10 grid gap-12 lg:grid-cols-2 lg:gap-16">
       <div>
         <h3 class="font-mono text-2xs tracking-[0.18em] text-faint uppercase">Experience</h3>
-        <div class="mt-5 ml-1">
+        <ul class="mt-5 ml-1">
           {
-            experience
-              .slice(0, 2)
-              .map((entry, i) => <TimelineItem entry={entry} base="experience" current={i === 0} />)
+            experience.slice(0, 2).map((entry, i) => (
+              <li>
+                <TimelineItem entry={entry} base="experience" current={i === 0} />
+              </li>
+            ))
           }
-        </div>
+        </ul>
         <a class="btn btn-ghost btn-sm mt-6" href={u('/experience/')}>See all experience →</a>
       </div>
       <div id="education" class="scroll-mt-24">
         <h3 class="font-mono text-2xs tracking-[0.18em] text-faint uppercase">Education</h3>
-        <div class="mt-5 ml-1">
-          {education.slice(0, 2).map((entry) => <TimelineItem entry={entry} base="education" />)}
-        </div>
+        <ul class="mt-5 ml-1">
+          {
+            education.slice(0, 2).map((entry) => (
+              <li>
+                <TimelineItem entry={entry} base="education" />
+              </li>
+            ))
+          }
+        </ul>
         <a class="btn btn-ghost btn-sm mt-6" href={u('/education/')}>See all education →</a>
       </div>
     </div>
