@@ -46,6 +46,7 @@ export async function GET(context: APIContext) {
     title: 'Noah Weidig — Blog',
     description: 'Notes on science, data, maps, and the landscapes we live in.',
     site: feedSite,
+    stylesheet: '/rss/styles.xsl',
     xmlns: { dc: 'http://purl.org/dc/elements/1.1/' },
     items: await Promise.all(
       posts.slice(0, 20).map(async (post) => {
