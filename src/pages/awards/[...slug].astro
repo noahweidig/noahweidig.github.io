@@ -4,6 +4,7 @@ import { getCollection, render } from 'astro:content';
 import { getImage } from 'astro:assets';
 import Detail from '../../layouts/Detail.astro';
 import { fullDate } from '../../lib/format';
+import { site } from '../../lib/site';
 
 export async function getStaticPaths() {
   // Sorted the way the listing is, so "previous" and "next" mean what a reader
@@ -29,6 +30,20 @@ const ogImageResult = d.image ? await getImage({ src: d.image, width: 1200 }) : 
 const ogImage = ogImageResult?.src;
 const ogImageWidth = ogImageResult?.attributes.width;
 const ogImageHeight = ogImageResult?.attributes.height;
+
+// Same generic CreativeWork shape the Projects detail page uses — schema.org
+// has no dedicated "Award" entity, so this keeps the page's structured data
+// consistent with the rest of the site rather than inventing a type Google's
+// Rich Results Test wouldn't recognize.
+const awardLd = {
+  '@context': 'https://schema.org',
+  '@type': 'CreativeWork',
+  name: d.title,
+  description: d.description,
+  dateCreated: d.date.toISOString(),
+  url: new URL(Astro.url.pathname, Astro.site).href,
+  author: { '@id': `${site.url}/#person` },
+};
 ---
 
 <Detail
@@ -48,3 +63,5 @@ const ogImageHeight = ogImageResult?.attributes.height;
 >
   <Content />
 </Detail>
+
+<script type="application/ld+json" is:inline set:html={JSON.stringify(awardLd)} />

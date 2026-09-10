@@ -2,6 +2,7 @@
 import { u } from '../../lib/url';
 import { getCollection, render } from 'astro:content';
 import Detail from '../../layouts/Detail.astro';
+import { site } from '../../lib/site';
 
 export async function getStaticPaths() {
   // Sorted the way the listing is, so "previous" and "next" mean what a reader
@@ -22,6 +23,24 @@ const { entry, prev, next } = Astro.props;
 const { Content } = await render(entry);
 const d = entry.data;
 const meta = [d.org, d.dates, d.location].filter(Boolean).join(' · ');
+
+// EducationalOccupationalCredential is the schema.org type for a degree —
+// more precise than the generic CreativeWork used on Projects/Experience,
+// since Google does define real properties for it.
+const educationLd = {
+  '@context': 'https://schema.org',
+  '@type': 'EducationalOccupationalCredential',
+  name: d.title,
+  description: d.description,
+  dateCreated: d.date.toISOString(),
+  url: new URL(Astro.url.pathname, Astro.site).href,
+  recognizedBy: d['org-url']
+    ? { '@type': 'CollegeOrUniversity', name: d.org, url: d['org-url'] }
+    : d.org
+      ? { '@type': 'CollegeOrUniversity', name: d.org }
+      : undefined,
+  about: { '@id': `${site.url}/#person` },
+};
 ---
 
 <Detail
@@ -42,3 +61,5 @@ const meta = [d.org, d.dates, d.location].filter(Boolean).join(' · ');
 >
   <Content />
 </Detail>
+
+<script type="application/ld+json" is:inline set:html={JSON.stringify(educationLd)} />
