@@ -1,34 +1,18 @@
 import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 import { site } from '../lib/site';
-
-const COLLECTIONS = [
-  { name: 'projects', section: 'Projects', path: 'projects' },
-  { name: 'publications', section: 'Publications', path: 'publications' },
-  { name: 'blog', section: 'Blog', path: 'blog' },
-  { name: 'awards', section: 'Awards', path: 'awards' },
-  { name: 'experience', section: 'Experience', path: 'experience' },
-  { name: 'education', section: 'Education', path: 'education' },
-] as const;
-
-const PAGES = [
-  ['Home', '/'],
-  ['Curriculum Vitae', '/cv/'],
-  ['Contact', '/contact/'],
-  ['Tags', '/tags/'],
-  ['Privacy', '/privacy/'],
-] as const;
+import { DISCOVERY_COLLECTIONS, DISCOVERY_PAGES } from '../lib/discovery';
 
 export const GET: APIRoute = async ({ site: astroSite }) => {
   const base = (astroSite ?? new URL(site.url)).origin;
   const lines: string[] = [`# ${site.name} — Sitemap`, '', `Generated for ${base}`, ''];
 
-  for (const page of PAGES) {
+  for (const page of DISCOVERY_PAGES) {
     lines.push(`- [${page[0]}](${base}${page[1]})`);
   }
   lines.push('');
 
-  for (const { name, section, path } of COLLECTIONS) {
+  for (const { name, section, path } of DISCOVERY_COLLECTIONS) {
     const entries = (await getCollection(name as never)) as {
       id: string;
       data: Record<string, unknown>;
