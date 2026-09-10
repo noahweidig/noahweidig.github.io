@@ -1,0 +1,24 @@
+Noah Weidig — public discovery
+
+Base URL: https://noahweidig.com
+
+Start here:
+- https://noahweidig.com/sitemap.md -> markdown discovery index
+- https://noahweidig.com/sitemap-index.xml -> XML sitemap for crawlers
+- https://noahweidig.com/rss.xml -> blog RSS feed
+
+Route families:
+- Blog posts: https://noahweidig.com/blog/<slug>
+- Projects: https://noahweidig.com/projects/<slug>
+- Publications: https://noahweidig.com/publications/<slug>
+- Experience: https://noahweidig.com/experience/<slug>
+- Education: https://noahweidig.com/education/<slug>
+- Awards: https://noahweidig.com/awards/<slug>
+- Tags: https://noahweidig.com/tags/<tag>
+- CV: https://noahweidig.com/cv/
+- Contact: https://noahweidig.com/contact/
+
+Formats:
+- HTML by default
+- Markdown discovery index at /sitemap.md
+- No public API; content is a static site
