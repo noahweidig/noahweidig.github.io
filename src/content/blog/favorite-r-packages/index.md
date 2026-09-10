@@ -8,7 +8,8 @@ categories:
   - Tidyverse
 draft: false
 image: './cover.webp'
-image-alt: "Cover card reading “My Favorite R Packages” over the site's topographic contour texture"
+image-light: './cover-light.webp'
+image-alt: "Cover card reading “My Favorite R Packages” over the site's accent and ember gradient"
 ---
 
 These are the R packages I install on a fresh machine before anything else.
@@ -259,7 +260,7 @@ When two loaded packages export the same function name, R silently uses
 whichever loaded last. **conflicted** turns that into a loud error and
 lets you declare a winner once with `conflict_prefer()`.
 
-### arrow
+### arrow <img src="../../media/blog/favorite-r-packages/logos/arrow.webp" alt="arrow hex logo" class="pkg-logo" width="87" height="100" loading="lazy">
 
 **arrow** provides a fast, memory-efficient interface to Apache Arrow —
 read/write Parquet and CSV, and query datasets far larger than memory

@@ -191,7 +191,7 @@ const faqs = [
     <SectionHead kicker="Background" title="Where I've worked and studied" />
     <div class="mt-10 grid gap-12 lg:grid-cols-2 lg:gap-16">
       <div>
-        <h3 class="font-mono text-[0.7rem] tracking-[0.18em] text-faint uppercase">Experience</h3>
+        <h3 class="font-mono text-2xs tracking-[0.18em] text-faint uppercase">Experience</h3>
         <div class="mt-5 ml-1">
           {
             experience
@@ -202,7 +202,7 @@ const faqs = [
         <a class="btn btn-ghost btn-sm mt-6" href={u('/experience/')}>See all experience →</a>
       </div>
       <div id="education" class="scroll-mt-24">
-        <h3 class="font-mono text-[0.7rem] tracking-[0.18em] text-faint uppercase">Education</h3>
+        <h3 class="font-mono text-2xs tracking-[0.18em] text-faint uppercase">Education</h3>
         <div class="mt-5 ml-1">
           {education.slice(0, 2).map((entry) => <TimelineItem entry={entry} base="education" />)}
         </div>
@@ -239,14 +239,14 @@ const faqs = [
                   widths={[320, 640]}
                   sizes="(max-width: 25rem) calc(100vw - 6rem), 304px"
                   loading="lazy"
-                  class="h-full w-full object-cover transition-transform duration-700 ease-[cubic-bezier(.22,1,.36,1)] group-hover:scale-[1.05]"
+                  class="h-full w-full object-cover transition-transform duration-700 ease-out-soft group-hover:scale-[1.05]"
                 />
                 <span class="absolute top-3 left-3 chip bg-black/55 text-white backdrop-blur-md">
                   {year(entry.data.date)}
                 </span>
               </div>
               <div class="p-5">
-                <b class="block text-[0.95rem] leading-snug font-medium transition-colors group-hover:text-accent-ink">
+                <b class="block text-body-lg leading-snug font-medium transition-colors group-hover:text-accent-ink">
                   {entry.data.title}
                 </b>
                 <span class="mt-1.5 block text-[0.82rem] text-dim">{entry.data.description}</span>
@@ -345,7 +345,7 @@ const faqs = [
                 </svg>
               </span>
             </summary>
-            <p class="max-w-3xl pb-5 text-[0.95rem] leading-relaxed text-dim">
+            <p class="max-w-3xl pb-5 text-body-lg leading-relaxed text-dim">
               {f.link ? (
                 <>
                   {f.a.split(f.link.text)[0]}
@@ -362,6 +362,19 @@ const faqs = [
         ))
       }
     </div>
+    <script
+      type="application/ld+json"
+      is:inline
+      set:html={JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faqs.map((f) => ({
+          '@type': 'Question',
+          name: f.q,
+          acceptedAnswer: { '@type': 'Answer', text: f.a },
+        })),
+      })}
+    />
   </section>
 
   <!-- cta -->

@@ -6,7 +6,8 @@ categories:
   - Tech
 draft: false
 image: './cover.webp'
-image-alt: "Cover card reading “Focus” over the site's topographic contour texture"
+image-light: './cover-light.webp'
+image-alt: "Cover card reading “Focus” over the site's violet and moss gradient"
 ---
 
 ## The problem

@@ -43,6 +43,7 @@ const MAP = {
   external: 'external-link',
   sun: 'sun',
   moon: 'moon',
+  sunMoon: 'sun-moon',
   menu: 'menu',
   close: 'x',
   satellite: 'satellite',
@@ -59,6 +60,7 @@ const MAP = {
   book: 'book-open',
   report: 'clipboard-check',
   preprint: 'file-clock',
+  graduationCap: 'graduation-cap',
   check: 'check',
   tag: 'tag',
   copy: 'copy',
@@ -75,6 +77,9 @@ const MAP = {
   info: 'info',
   pause: 'pause',
   play: 'play',
+  circleArrowUp: 'circle-arrow-up',
+  rocket: 'rocket',
+  ellipsis: 'ellipsis',
 };
 
 /** The children of the <svg>, whitespace collapsed. Sliced rather than matched:

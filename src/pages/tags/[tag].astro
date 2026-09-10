@@ -29,7 +29,7 @@ const count = group.items.length;
       const items = group.items.filter((i) => i.section === section);
       return items.length ? (
         <section class="mb-12 last:mb-0">
-          <h2 class="font-mono text-[0.7rem] tracking-[0.16em] text-faint uppercase">{section}</h2>
+          <h2 class="font-mono text-2xs tracking-[0.16em] text-faint uppercase">{section}</h2>
           <ul class="mt-4 divide-y divide-line border-y border-line">
             {items.map((item) => (
               <li>
@@ -44,7 +44,7 @@ const count = group.items.length;
                   </span>
                   <time
                     datetime={item.date.toISOString()}
-                    class="shrink-0 font-mono text-[0.7rem] text-faint"
+                    class="shrink-0 font-mono text-2xs text-faint"
                   >
                     {fullDate(item.date)}
                   </time>

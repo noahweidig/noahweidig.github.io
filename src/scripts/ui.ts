@@ -23,23 +23,53 @@ const on = <K extends keyof DocumentEventMap>(
 };
 
 /* ---------------------------------------------------------------- theme -- */
-function applyTheme(theme: 'light' | 'dark') {
+type ThemePref = 'light' | 'dark' | 'system';
+const THEME_ORDER: ThemePref[] = ['light', 'dark', 'system'];
+
+function resolveTheme(pref: ThemePref): 'light' | 'dark' {
+  if (pref === 'system') {
+    return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  }
+  return pref;
+}
+
+function applyThemeImages(theme: 'light' | 'dark') {
+  document.querySelectorAll<HTMLImageElement>('img[data-theme-src-dark]').forEach((img) => {
+    const src = theme === 'dark' ? img.dataset.themeSrcDark : img.dataset.themeSrcLight;
+    const srcset = theme === 'dark' ? img.dataset.themeSrcsetDark : img.dataset.themeSrcsetLight;
+    if (src) img.src = src;
+    if (srcset) img.srcset = srcset;
+  });
+}
+
+function applyTheme(pref: ThemePref) {
+  const theme = resolveTheme(pref);
   document.documentElement.dataset.theme = theme;
+  document.documentElement.dataset.themePref = pref;
   try {
-    localStorage.setItem('nw-theme', theme);
+    localStorage.setItem('nw-theme', pref);
   } catch {
     /* private mode — the in-page toggle still works for this session */
   }
   document
     .querySelector('meta[name="theme-color"]')
     ?.setAttribute('content', theme === 'light' ? '#fbfaf7' : '#07080b');
+  applyThemeImages(theme);
 }
 
 function initTheme() {
   document.querySelectorAll<HTMLButtonElement>('[data-theme-toggle]').forEach((btn) => {
     on(btn, 'click', () => {
-      applyTheme(document.documentElement.dataset.theme === 'light' ? 'dark' : 'light');
+      const current = (document.documentElement.dataset.themePref as ThemePref) ?? 'system';
+      const next = THEME_ORDER[(THEME_ORDER.indexOf(current) + 1) % THEME_ORDER.length];
+      applyTheme(next);
     });
+  });
+
+  // Live-update while following the OS, so an open tab doesn't need a reload
+  // or a click to pick up a change in system theme.
+  on(window.matchMedia('(prefers-color-scheme: light)'), 'change', () => {
+    if (document.documentElement.dataset.themePref === 'system') applyTheme('system');
   });
 }
 
@@ -56,27 +86,88 @@ function initHeader() {
   if (!toggle || !panel) return;
   const openIcon = toggle.querySelector('[data-menu-icon-open]');
   const closeIcon = toggle.querySelector('[data-menu-icon-close]');
+  const scrim = document.querySelector<HTMLElement>('[data-menu-scrim]');
   const setOpen = (open: boolean) => {
     panel.hidden = !open;
+    if (scrim) {
+      scrim.hidden = !open;
+      /* Anchored to the header's live bottom edge so the bar and any banner
+         above it stay unblurred, and the scrim keeps covering the page while
+         the reader scrolls with the menu open. */
+      if (open) scrim.style.top = `${Math.max(0, header.getBoundingClientRect().bottom)}px`;
+    }
+    header.toggleAttribute('data-menu-open', open);
     toggle.setAttribute('aria-expanded', String(open));
     openIcon?.toggleAttribute('hidden', open);
     closeIcon?.toggleAttribute('hidden', !open);
   };
   on(toggle, 'click', () => setOpen(panel.hidden));
+  on(
+    window,
+    'scroll',
+    () => {
+      if (!panel.hidden && scrim) {
+        scrim.style.top = `${Math.max(0, header.getBoundingClientRect().bottom)}px`;
+      }
+    },
+    { passive: true } as AddEventListenerOptions,
+  );
   panel.querySelectorAll('a').forEach((a) => on(a, 'click', () => setOpen(false)));
   on(window, 'resize', () => {
     if (window.innerWidth >= 1024) setOpen(false);
   });
+  on(document, 'click', (ev) => {
+    if (panel.hidden) return;
+    const target = ev.target as Node;
+    if (!panel.contains(target) && !toggle.contains(target)) setOpen(false);
+  });
+  on(document, 'keydown', (ev) => {
+    if ((ev as KeyboardEvent).key === 'Escape' && !panel.hidden) {
+      setOpen(false);
+      toggle.focus();
+    }
+  });
+}
+
+/* ------------------------------------------------------------- banner -- */
+function initBanner() {
+  const el = document.getElementById('announcement-banner');
+  const btn = el?.querySelector<HTMLButtonElement>('[data-banner-dismiss]');
+  if (!el || !btn) return;
+  on(btn, 'click', () => {
+    el.style.display = 'none';
+    try {
+      localStorage.setItem('nw-banner-dismissed', el.dataset.announcementBanner ?? '');
+    } catch (e) {
+      /* private mode: dismissal just won't persist across reloads */
+    }
+  });
 }
 
 /* --------------------------------------------------------------- reveal -- */
+/* The hidden state lives behind `data-reveal="js"` on <html> (see global.css)
+   and is switched on from here rather than shipped in the HTML. Two reasons:
+   with JS off the grids render at full opacity instead of staying invisible,
+   and an above-the-fold card is a paintable LCP candidate as soon as its bytes
+   land rather than after this module downloads and executes. Anything already
+   on screen is marked `is-in` first, so flipping the flag never hides content
+   the reader can see. */
 function initReveal() {
   const items = document.querySelectorAll<HTMLElement>('[data-reveal]');
   if (!items.length) return;
+  const enable = () => {
+    document.documentElement.dataset.reveal = 'js';
+  };
   if (!('IntersectionObserver' in window)) {
     items.forEach((el) => el.classList.add('is-in'));
+    enable();
     return;
   }
+  items.forEach((el) => {
+    const r = el.getBoundingClientRect();
+    if (r.top < window.innerHeight && r.bottom > 0) el.classList.add('is-in');
+  });
+  enable();
   const io = new IntersectionObserver(
     (entries) => {
       entries.forEach((e) => {
@@ -126,7 +217,14 @@ function initMarquees() {
       delete el.dataset.maskSrc;
     });
     if (track.dataset.cloned !== 'true') {
-      track.append(...Array.from(track.children).map((c) => c.cloneNode(true)));
+      const clones = Array.from(track.children).map((c) => c.cloneNode(true) as HTMLElement);
+      clones.forEach((clone) => {
+        clone.setAttribute('aria-hidden', 'true');
+        clone.querySelectorAll<HTMLElement>('a, button, [tabindex]').forEach((el) => {
+          el.setAttribute('tabindex', '-1');
+        });
+      });
+      track.append(...clones);
       track.dataset.cloned = 'true';
     }
   };
@@ -181,7 +279,7 @@ function initFilters() {
       const url = new URL(location.href);
       if (value === '*') url.searchParams.delete('filter');
       else url.searchParams.set('filter', value);
-      history.replaceState(null, '', url);
+      history.replaceState(history.state, '', url);
     };
 
     bar.querySelectorAll<HTMLButtonElement>('button[data-filter]').forEach((b) => {
@@ -591,13 +689,19 @@ function initSearch() {
   };
 
   /* ---- open / close ---- */
+  let lastFocused: HTMLElement | null = null;
   const open = () => {
+    lastFocused = document.activeElement as HTMLElement | null;
     if (!dialog.open) dialog.showModal();
     input.focus();
     input.select();
     void run();
   };
-  const close = () => dialog.open && dialog.close();
+  const close = () => {
+    if (!dialog.open) return;
+    dialog.close();
+    lastFocused?.focus();
+  };
 
   document.querySelectorAll('[data-search-open]').forEach((b) => on(b, 'click', open));
   dialog.querySelectorAll('[data-search-close]').forEach((b) => on(b, 'click', close));
@@ -783,7 +887,7 @@ function initHeadingAnchors() {
       on(a, 'click', async (ev) => {
         ev.preventDefault();
         const url = `${location.origin}${location.pathname}#${h.id}`;
-        history.replaceState(null, '', `#${h.id}`);
+        history.replaceState(history.state, '', `#${h.id}`);
         h.scrollIntoView({ behavior: 'smooth', block: 'start' });
         try {
           await navigator.clipboard.writeText(url);
@@ -847,12 +951,15 @@ function initReadingMode() {
 /* --------------------------------------------------------------- tooltip -- */
 /* One floating element for the whole page: an ancestor with overflow hidden
    would clip a tooltip rendered inside the trigger. */
+const TIP_ID = 'nw-tip';
 let tipEl: HTMLElement | null = null;
 let tipTimer: number | undefined;
+let tipTarget: HTMLElement | null = null;
 
 const tipRoot = () => {
   if (!tipEl?.isConnected) {
     tipEl = document.createElement('div');
+    tipEl.id = TIP_ID;
     tipEl.className = 'nw-tip';
     tipEl.setAttribute('role', 'tooltip');
     document.body.appendChild(tipEl);
@@ -882,11 +989,18 @@ function showTip(target: HTMLElement) {
   el.style.left = `${Math.round(left)}px`;
   el.style.top = `${Math.round(top)}px`;
   el.style.visibility = '';
+
+  tipTarget = target;
+  target.setAttribute('aria-describedby', TIP_ID);
 }
 
 function hideTip() {
   window.clearTimeout(tipTimer);
   if (tipEl) delete tipEl.dataset.show;
+  if (tipTarget) {
+    tipTarget.removeAttribute('aria-describedby');
+    tipTarget = null;
+  }
 }
 
 function initTooltips() {
@@ -924,7 +1038,7 @@ function initLightbox() {
     document.querySelectorAll<HTMLImageElement>(
       '.prose-nw img:not([data-no-zoom]), [data-zoomable] img, img[data-zoomable]',
     ),
-  ).filter((img) => !img.closest('a'));
+  ).filter((img) => !img.closest('a') && img.alt.trim() !== '');
   if (!shots.length) return;
 
   shots.forEach((img, i) => {
@@ -933,10 +1047,13 @@ function initLightbox() {
     img.dataset.tip ??= 'Click to enlarge';
     if (!img.hasAttribute('tabindex')) img.tabIndex = 0;
     img.setAttribute('role', 'button');
+    img.setAttribute('aria-label', `Enlarge image: ${img.alt}`);
   });
 
   let box: HTMLElement | null = null;
   let index = 0;
+  let openedIndex = 0;
+  let inertedSiblings: Element[] = [];
 
   const captionFor = (img: HTMLImageElement) =>
     img.closest('figure')?.querySelector('figcaption')?.textContent?.trim() || img.alt || '';
@@ -959,7 +1076,9 @@ function initLightbox() {
     delete node.dataset.show;
     document.body.style.removeProperty('overflow');
     window.setTimeout(() => node.remove(), 220);
-    shots[index]?.focus();
+    inertedSiblings.forEach((el) => el.removeAttribute('inert'));
+    inertedSiblings = [];
+    shots[openedIndex]?.focus();
   };
 
   const step = (delta: number) => {
@@ -969,6 +1088,7 @@ function initLightbox() {
 
   const open = (i: number) => {
     index = i;
+    openedIndex = i;
     box = document.createElement('div');
     box.className = 'lightbox';
     box.setAttribute('role', 'dialog');
@@ -990,6 +1110,8 @@ function initLightbox() {
       <div class="lightbox-stage" data-lightbox-stage><img data-lightbox-img alt="" /></div>
       <p class="lightbox-caption" data-lightbox-caption></p>`;
     document.body.appendChild(box);
+    inertedSiblings = Array.from(document.body.children).filter((el) => el !== box);
+    inertedSiblings.forEach((el) => el.setAttribute('inert', ''));
     document.body.style.overflow = 'hidden';
     paint();
     requestAnimationFrame(() => {
@@ -1022,6 +1144,24 @@ function initLightbox() {
     if (k === 'Escape') close();
     else if (k === 'ArrowLeft') step(-1);
     else if (k === 'ArrowRight') step(1);
+    else if (k === 'Tab') {
+      // The rest of the page is `inert`, so the browser already confines Tab
+      // to the overlay's own focusable elements — just cycle within it.
+      const focusable = Array.from(
+        box.querySelectorAll<HTMLElement>('button, [href], [tabindex]:not([tabindex="-1"])'),
+      );
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (!first || !last) return;
+      const shiftKey = (ev as KeyboardEvent).shiftKey;
+      if (shiftKey && document.activeElement === first) {
+        ev.preventDefault();
+        last.focus();
+      } else if (!shiftKey && document.activeElement === last) {
+        ev.preventDefault();
+        first.focus();
+      }
+    }
   });
 
   cleanups.push(() => {
@@ -1029,8 +1169,61 @@ function initLightbox() {
   });
 }
 
+/* ------------------------------------------------------------ back to top -- */
+/* Only appears while the reader is actively scrolling up, and only past a
+   fold's worth of scroll — so it never fights a page that's still scrolling
+   down, and never shows up right at the top where it would have nothing to
+   do. */
+function initBackToTop() {
+  const btn = document.getElementById('back-to-top');
+  if (!btn) return;
+  const threshold = window.innerHeight * 0.75;
+  let lastY = window.scrollY;
+
+  const sync = () => {
+    const y = window.scrollY;
+    const scrollingUp = y < lastY;
+    btn.toggleAttribute('data-show', scrollingUp && y > threshold);
+    lastY = y;
+  };
+  sync();
+  on(window, 'scroll', sync, { passive: true } as AddEventListenerOptions);
+
+  on(btn, 'click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+}
+
 /* ------------------------------------------------------------------ toc -- */
+/* On mobile the rail has no column, so it is a popover behind a floating
+   button; the desktop rail is the same markup with the popover CSS undone. */
+function initTocFab() {
+  const fab = document.querySelector<HTMLElement>('[data-toc-fab]');
+  const aside = document.querySelector<HTMLElement>('[data-toc-aside]');
+  if (!fab || !aside) return;
+
+  const setOpen = (open: boolean) => {
+    aside.toggleAttribute('data-open', open);
+    fab.setAttribute('aria-expanded', String(open));
+  };
+
+  on(fab, 'click', (e) => {
+    e.stopPropagation();
+    setOpen(!aside.hasAttribute('data-open'));
+  });
+  on(aside, 'click', (e) => {
+    if ((e.target as HTMLElement).closest('a')) setOpen(false);
+  });
+  on(document, 'click', (e) => {
+    if (!aside.contains(e.target as Node)) setOpen(false);
+  });
+  on(document, 'keydown', (e) => {
+    if ((e as KeyboardEvent).key === 'Escape') setOpen(false);
+  });
+}
+
 function initToc() {
+  initTocFab();
   const nav = document.querySelector<HTMLElement>('[data-toc]');
   if (!nav) return;
   const links = new Map<string, HTMLAnchorElement>();
@@ -1043,9 +1236,15 @@ function initToc() {
   if (!headings.length) return;
 
   const mark = (id: string | null) => {
+    const active = links.get(id ?? '');
+    const section = active?.dataset.tocDepth === '3' ? active.dataset.tocParent : (id ?? '');
     links.forEach((a, key) => {
       if (key === id) a.setAttribute('aria-current', 'true');
       else a.removeAttribute('aria-current');
+      if (a.dataset.tocDepth === '3') {
+        const li = a.parentElement;
+        if (li) li.hidden = a.dataset.tocParent !== section;
+      }
     });
   };
 
@@ -1222,6 +1421,66 @@ function initCopy() {
   });
 }
 
+/* ----------------------------------------------------------- share row -- */
+/* The share row never wraps: tiles that no longer fit move into a menu behind
+   an ellipsis, which is how ten targets survive a 360px screen. */
+function initShareRow() {
+  document.querySelectorAll<HTMLElement>('[data-share-row]').forEach(setupShareRow);
+}
+
+function setupShareRow(row: HTMLElement) {
+  const links = row.querySelector<HTMLElement>('[data-share-links]');
+  const more = row.querySelector<HTMLElement>('[data-share-more]');
+  const btn = row.querySelector<HTMLButtonElement>('[data-share-more-btn]');
+  const menu = row.querySelector<HTMLElement>('[data-share-menu]');
+  if (!links || !more || !btn || !menu) return;
+
+  const close = () => {
+    menu.hidden = true;
+    btn.setAttribute('aria-expanded', 'false');
+  };
+  const open = () => {
+    hideTip();
+    menu.hidden = false;
+    btn.setAttribute('aria-expanded', 'true');
+  };
+
+  const fits = () => links.scrollWidth <= links.clientWidth + 1;
+
+  const layout = () => {
+    close();
+    while (menu.firstElementChild) links.appendChild(menu.firstElementChild);
+    more.hidden = true;
+    if (fits()) return;
+    // Showing the button costs width, so it goes back before the tiles move.
+    more.hidden = false;
+    while (!fits() && links.lastElementChild && links.childElementCount > 1) {
+      menu.insertBefore(links.lastElementChild, menu.firstChild);
+    }
+  };
+
+  layout();
+  const ro = new ResizeObserver(layout);
+  ro.observe(row);
+  cleanups.push(() => ro.disconnect());
+
+  on(btn, 'click', (ev) => {
+    ev.stopPropagation();
+    if (menu.hidden) open();
+    else close();
+  });
+  on(document, 'click', (ev) => {
+    if (!menu.hidden && !more.contains(ev.target as Node)) close();
+  });
+  on(document, 'keydown', (ev) => {
+    if ((ev as KeyboardEvent).key === 'Escape' && !menu.hidden) {
+      close();
+      btn.focus();
+    }
+  });
+  cleanups.push(close);
+}
+
 /* ---------------------------------------------------------- contact form -- */
 function initContactForm() {
   const form = document.querySelector<HTMLFormElement>('[data-contact-form]');
@@ -1273,6 +1532,7 @@ function boot() {
   cleanups.forEach((fn) => fn());
   cleanups = [];
   initTheme();
+  initBanner();
   initHeader();
   initReveal();
   initGlow();
@@ -1289,7 +1549,9 @@ function boot() {
   initLightbox();
   initTooltips();
   initToc();
+  initShareRow();
   initContactForm();
+  initBackToTop();
 }
 
 boot();

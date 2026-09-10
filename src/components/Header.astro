@@ -41,7 +41,7 @@ const isActive = (href: string) => {
       >
     </a>
 
-    <nav aria-label="Primary" class="ml-auto hidden min-w-0 xl:block">
+    <nav aria-label="Primary" class="ml-auto hidden min-w-0 lg:block">
       <ul class="flex items-center gap-0.5">
         {
           nav.map((item) => (
@@ -51,7 +51,7 @@ const isActive = (href: string) => {
                 data-tip={item.tip}
                 aria-current={isActive(item.href) ? 'page' : undefined}
                 class:list={[
-                  'nav-link rounded-[0.7rem] px-3 py-2 text-sm',
+                  'nav-link rounded-[0.7rem] px-2.5 py-2 text-sm xl:px-3',
                   isActive(item.href) ? 'nav-link-active' : '',
                 ]}
               >
@@ -63,7 +63,7 @@ const isActive = (href: string) => {
       </ul>
     </nav>
 
-    <div class="ml-auto flex shrink-0 items-center gap-1.5 xl:ml-2">
+    <div class="ml-auto flex shrink-0 items-center gap-1.5 lg:ml-2">
       <button
         type="button"
         data-search-open
@@ -77,22 +77,24 @@ const isActive = (href: string) => {
       <button
         type="button"
         data-theme-toggle
-        data-tip="Switch between light and dark"
+        data-tip="Switch color theme"
         class="icon-btn"
-        aria-label="Toggle color theme"
+        aria-label="Switch color theme"
       >
-        <span class="hidden dark:block"><Icon name="sun" size={21} stroke-width={1.8} /></span>
-        <span class="block dark:hidden"><Icon name="moon" size={21} stroke-width={1.8} /></span>
+        <span data-theme-icon="light"><Icon name="sun" size={21} stroke-width={1.8} /></span>
+        <span data-theme-icon="dark"><Icon name="moon" size={21} stroke-width={1.8} /></span>
+        <span data-theme-icon="system"><Icon name="sunMoon" size={21} stroke-width={1.8} /></span>
       </button>
 
       <a
-        class="btn btn-primary btn-sm ml-1 hidden sm:inline-flex"
+        class="btn btn-primary btn-sm ml-1 hidden lg:inline-flex"
         href={site.booking}
         target="_blank"
         rel="noopener"
         data-tip="Book a 30-minute call on Cal.com"
       >
         Book now
+        <span class="sr-only-nw"> (opens in a new tab)</span>
         <Icon name="arrow" size={15} />
       </a>
 
@@ -101,7 +103,7 @@ const isActive = (href: string) => {
         data-menu-toggle
         aria-expanded="false"
         aria-controls="mobile-nav"
-        class="icon-btn xl:hidden"
+        class="icon-btn lg:hidden"
         aria-label="Open menu"
       >
         <span data-menu-icon-open><Icon name="menu" size={22} stroke-width={1.8} /></span>
@@ -113,7 +115,7 @@ const isActive = (href: string) => {
   <div
     id="mobile-nav"
     hidden
-    class="absolute inset-x-0 top-full max-h-[calc(100vh-4rem)] overflow-y-auto border-t border-line bg-surface/95 backdrop-blur-xl xl:hidden"
+    class="absolute inset-x-0 top-full max-h-[calc(100vh-4rem)] overflow-y-auto border-t border-line bg-surface backdrop-blur-xl lg:hidden"
   >
     <nav aria-label="Mobile" class="shell py-4">
       <ul class="grid gap-1">
@@ -123,7 +125,7 @@ const isActive = (href: string) => {
               <a
                 href={u(item.href)}
                 class:list={[
-                  'nav-link flex items-center justify-between rounded-[0.7rem] px-3 py-2.5 text-[0.95rem]',
+                  'nav-link flex items-center justify-between rounded-[0.7rem] px-3 py-2.5 text-body-lg',
                   isActive(item.href) ? 'nav-link-active' : '',
                 ]}
                 aria-current={isActive(item.href) ? 'page' : undefined}
@@ -137,15 +139,32 @@ const isActive = (href: string) => {
       </ul>
       <a class="btn btn-primary mt-4 w-full" href={site.booking} target="_blank" rel="noopener">
         Book a call
+        <span class="sr-only-nw"> (opens in a new tab)</span>
         <Icon name="arrow" size={15} />
       </a>
     </nav>
   </div>
 </header>
 
+<!-- Outside the header: a stuck header carries `backdrop-filter`, which makes
+     it the containing block for fixed descendants and collapses this against
+     the bar. Its top edge is set from the header's live bottom in ui.ts. -->
+<div
+  data-menu-scrim
+  hidden
+  aria-hidden="true"
+  class="fixed inset-x-0 bottom-0 z-40 bg-black/70 backdrop-blur-sm lg:hidden"
+>
+</div>
+
 <Search />
 
 <style>
+  /* The scrim sits behind the header, so an otherwise transparent bar would
+     show it through. */
+  #site-header[data-menu-open] {
+    background-color: var(--c-bg);
+  }
   #site-header[data-stuck] {
     background-color: color-mix(in oklab, var(--c-bg) 78%, transparent);
     backdrop-filter: blur(16px) saturate(1.4);

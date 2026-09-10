@@ -2,7 +2,8 @@
 import { u } from '../../lib/url';
 import { getCollection, render } from 'astro:content';
 import Detail from '../../layouts/Detail.astro';
-import { fullDate, inlineMarkup } from '../../lib/format';
+import { fullDate, inlineMarkup, splitAuthors } from '../../lib/format';
+import { site } from '../../lib/site';
 
 export async function getStaticPaths() {
   // Sorted the way the listing is, so "previous" and "next" mean what a reader
@@ -22,6 +23,30 @@ export async function getStaticPaths() {
 const { entry, prev, next } = Astro.props;
 const { Content } = await render(entry);
 const d = entry.data;
+
+const authors = d['pub-authors'] ? splitAuthors(d['pub-authors']) : [];
+const pdfUrl = d['pub-pdf'] ? new URL(u(d['pub-pdf']), Astro.site).href : undefined;
+
+const pubLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ScholarlyArticle',
+  headline: d.title,
+  description: d.description,
+  datePublished: d.date.toISOString(),
+  url: new URL(Astro.url.pathname, Astro.site).href,
+  identifier: d['pub-doi']
+    ? {
+        '@type': 'PropertyValue',
+        propertyID: 'https://registry.identifiers.org/registry/doi',
+        value: d['pub-doi'],
+      }
+    : undefined,
+  isPartOf: d['pub-venue'] ? { '@type': 'CreativeWork', name: d['pub-venue'] } : undefined,
+  author: authors.length
+    ? authors.map((name) => ({ '@type': 'Person', name }))
+    : { '@id': `${site.url}/#person` },
+  publisher: { '@id': `${site.url}/#person` },
+};
 ---
 
 <Detail
@@ -36,8 +61,22 @@ const d = entry.data;
   backLabel="All publications"
   chips={d.categories}
   links={d.links}
+  image={u(`/media/og/publications/${entry.id}.webp`)}
   publishedTime={d.date}
+  noindex={Boolean(d['pub-appearance-of'])}
 >
+  <Fragment slot="head">
+    {
+      /* Highwire Press tags: Google Scholar and reference managers (Zotero,
+        Mendeley) read these, not the ScholarlyArticle JSON-LD below. */
+    }
+    <meta name="citation_title" content={d.title} />
+    {authors.map((name) => <meta name="citation_author" content={name} />)}
+    <meta name="citation_publication_date" content={d.date.toISOString().slice(0, 10)} />
+    {d['pub-venue'] && <meta name="citation_journal_title" content={d['pub-venue']} />}
+    {d['pub-doi'] && <meta name="citation_doi" content={d['pub-doi']} />}
+    {pdfUrl && <meta name="citation_pdf_url" content={pdfUrl} />}
+  </Fragment>
   {
     d.citation && (
       <p class="mb-8 rounded-md border-l-2 border-accent bg-raised px-4 py-3 text-sm leading-relaxed text-dim">
@@ -47,3 +86,5 @@ const d = entry.data;
   }
   <Content />
 </Detail>
+
+<script type="application/ld+json" is:inline set:html={JSON.stringify(pubLd)} />

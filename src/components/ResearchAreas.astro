@@ -1,6 +1,12 @@
 ---
-import { u } from '../lib/url';
+import { Image } from 'astro:assets';
 import Icon from './Icon.astro';
+import { shotFor } from '../lib/images';
+
+/* Same optimized screenshots ProjectCard uses. Pointing at the `public/` copy
+   instead served the full 1600px file to every viewport: 124KB of the 148KB
+   `roads.webp` was wasted on a 370px-wide slot in the 2026-09-07 production
+   audit. */
 
 const areas = [
   {
@@ -11,7 +17,7 @@ const areas = [
     heading: 'Seeing change from orbit.',
     body: 'Multi-temporal satellite imagery turned into measurable change — classification, spectral indices, and time-series analysis at landscape scale in Google Earth Engine.',
     chips: ['Imagery Analysis', 'Google Earth Engine', 'Change Detection'],
-    image: '/media/albums/projects/roads.webp',
+    image: shotFor('roads'),
     alt: 'Census road network layer rendered in Google Earth Engine',
     caption: 'TIGER roads · Google Earth Engine',
   },
@@ -23,7 +29,7 @@ const areas = [
     heading: 'Where people and landscapes meet.',
     body: 'Modeling how development, disturbance, and policy reshape land cover, with a focus on wildfire risk in the wildland–urban interface.',
     chips: ['Land-Use Change', 'Wildfire & WUI', 'Risk Assessment'],
-    image: '/media/albums/projects/wuirisk.webp',
+    image: shotFor('wuirisk'),
     alt: 'Wildland–urban interface wildfire risk surface',
     caption: 'WUI wildfire risk · thesis chapter 2',
   },
@@ -35,7 +41,7 @@ const areas = [
     heading: 'Uncertainty, stated honestly.',
     body: 'Bayesian and spatial-statistical models that quantify what the data actually support, in reproducible pipelines anyone can rerun.',
     chips: ['Bayesian Analysis', 'Forecasting', 'Reproducible Research'],
-    image: '/media/albums/projects/dataviz.webp',
+    image: shotFor('dataviz'),
     alt: 'Statistical charts from the DataViz gallery',
     caption: 'Posterior summaries · R + Plotly',
   },
@@ -47,7 +53,7 @@ const areas = [
     heading: 'Models that reach a decision-maker.',
     body: 'Machine learning applied to ecological and geospatial problems, paired with visualization that makes the result legible to non-specialists.',
     chips: ['Machine Learning', 'Data Visualization', 'Quantitative Ecology'],
-    image: '/media/albums/projects/maplab.webp',
+    image: shotFor('maplab'),
     alt: 'MapLab, a simplified GIS interface',
     caption: 'MapLab · GIS for non-GIS users',
   },
@@ -59,7 +65,7 @@ const areas = [
     heading: 'Mapping what lives where.',
     body: 'Species distribution models and habitat mapping that turn scattered occurrence records into conservation-planning inputs.',
     chips: ['Species Distribution', 'Habitat Mapping', 'Conservation Planning'],
-    image: '/media/albums/projects/maps.webp',
+    image: shotFor('maps'),
     alt: 'Interactive map gallery',
     caption: 'Habitat suitability · map gallery',
   },
@@ -71,7 +77,7 @@ const areas = [
     heading: 'Infrastructure for spatial work.',
     body: 'Spatial databases, automated data pipelines, and open-source GIS tooling that keep analysis fast, current, and shareable.',
     chips: ['Spatial Databases', 'Data Pipelines', 'Open Source GIS'],
-    image: '/media/albums/projects/firer.webp',
+    image: shotFor('firer'),
     alt: 'fireR package documentation',
     caption: 'fireR · R package for U.S. fire data',
   },
@@ -107,7 +113,7 @@ const areas = [
   </div>
 
   {
-    areas.map((a, i) => (
+    areas.map((a) => (
       <div
         role="tabpanel"
         id={`area-panel-${a.id}`}
@@ -115,7 +121,7 @@ const areas = [
         class="grid gap-8 pt-10 lg:grid-cols-2 lg:items-center lg:gap-14"
       >
         <div>
-          <p class="flex items-center gap-2 font-mono text-[0.7rem] tracking-[0.14em] text-accent-ink uppercase">
+          <p class="flex items-center gap-2 font-mono text-2xs tracking-[0.14em] text-accent-ink uppercase">
             <Icon name={a.icon} size={16} class="shrink-0" />
             {a.eyebrow}
           </p>
@@ -128,16 +134,16 @@ const areas = [
           </div>
         </div>
         <figure class="overflow-hidden rounded-xl border border-line bg-surface">
-          <img
-            src={u(a.image)}
+          <Image
+            src={a.image}
             alt={a.alt}
-            width="1600"
-            height="1000"
+            widths={[400, 800, 1200]}
+            sizes="(min-width: 1024px) 560px, 92vw"
             loading="lazy"
             decoding="async"
             class="aspect-16/10 w-full object-cover"
           />
-          <figcaption class="border-t border-line px-4 py-3 font-mono text-[0.7rem] tracking-wide text-faint">
+          <figcaption class="border-t border-line px-4 py-3 font-mono text-2xs tracking-wide text-faint">
             {a.caption}
           </figcaption>
         </figure>
