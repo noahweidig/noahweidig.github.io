@@ -32,4 +32,6 @@ for (const [i, d] of docs.entries()) {
 }
 
 await writeFile(OUT, JSON.stringify(docs));
-console.log(`catalog: ${docs.length} docs from ${SOURCE}`);
+// The count only: SOURCE comes from the environment, and echoing external
+// input into a log lets a caller forge log lines.
+console.log(`catalog: ${docs.length} docs`);

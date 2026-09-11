@@ -35,7 +35,10 @@ jobs:
           cache: npm
           cache-dependency-path: worker/package-lock.json
 
-      - run: npm ci
+      # --ignore-scripts matches .github/actions/build-site: a lifecycle script
+      # from any transitive dependency would otherwise run with the deploy
+      # token in the environment.
+      - run: npm ci --ignore-scripts
         working-directory: worker
 
       # Bakes the live /search-index.json into the bundle. The script refuses a
@@ -45,8 +48,10 @@ jobs:
         run: npm run catalog
         working-directory: worker
 
+      # The binary npm ci just installed, at the version package-lock.json pins.
+      # `npx wrangler` would resolve and run a package on demand instead.
       - name: Deploy
-        run: npx wrangler deploy
+        run: ./node_modules/.bin/wrangler deploy
         working-directory: worker
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
