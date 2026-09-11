@@ -25,13 +25,17 @@ if (!Array.isArray(docs)) throw new Error('catalog is not an array');
 // this site", which is worse than no AI at all.
 if (docs.length < MIN_DOCS)
   throw new Error(`catalog has ${docs.length} docs, expected >= ${MIN_DOCS}`);
+// Counted here rather than read back off `docs`: everything reachable from the
+// fetch is external input, and the log line is built from a local integer that
+// nothing but this loop can write to. It is also the more useful number, since
+// it counts documents that passed validation.
+let valid = 0;
 for (const [i, d] of docs.entries()) {
   if (!d || typeof d.t !== 'string' || typeof d.u !== 'string') {
     throw new Error(`doc ${i} is missing a title or url`);
   }
+  valid += 1;
 }
 
 await writeFile(OUT, JSON.stringify(docs));
-// The count only: SOURCE comes from the environment, and echoing external
-// input into a log lets a caller forge log lines.
-console.log(`catalog: ${docs.length} docs`);
+console.log(`catalog: ${valid} docs`);
