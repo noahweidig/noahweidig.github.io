@@ -44,3 +44,11 @@
 # HTML is deliberately left alone: Netlify already serves it revalidated per
 # deploy, and on production the Pages default (`max-age=600`) is what the
 # issue asks for.
+
+# giscus fetches the comment-widget theme from this origin. GitHub Pages
+# serves every asset with `access-control-allow-origin: *` in production;
+# Netlify does not, so deploy previews need it stated to theme giscus too.
+[[headers]]
+  for = "/giscus/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
