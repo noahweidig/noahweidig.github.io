@@ -1,17 +1,29 @@
 ---
 title: "The Goldilocks principle: Finding the balance between water volume and nutrients for ovipositing Culex mosquitoes (Diptera: Culicidae)"
-date: "2021-08-01"
+date: "2021-10-01"
 description: "Females of container-breeding mosquito species use visual and chemical cues to determine suitable habitats to oviposit their eggs."
 categories: ["Presentation"]
 pub-authors: "**Weidig, N. C.**, Miller, A. L. & Parker, A. T."
-pub-venue: "Northern Kentucky University Heather Bullen Research Celebration"
+pub-venue: "Entomological Society of America Annual Conference"
 pub-listed: "yes"
-citation: "**Weidig, N. C.**, Miller, A. L. & Parker, A. T. (2021). *Northern Kentucky University Heather Bullen Research Celebration*."
+pub-appearances:
+  - venue: "Northern Kentucky University Heather Bullen Research Celebration"
+    when: "Aug 2021"
+    kind: "Presentation"
+  - venue: "Entomological Society of America Annual Conference"
+    when: "Oct 2021"
+    kind: "Presentation"
+citation: "**Weidig, N. C.**, Miller, A. L. & Parker, A. T. (2021). *Entomological Society of America Annual Conference*."
 links:
   - label: "BibTeX"
-    href: "/publications/weidig-goldilocks-principle-21/cite.bib"
+    href: "/publications/weidig-goldilocks-principle-21-w24i/cite.bib"
     variant: ghost
 ---
+
+## Presented at
+
+- Northern Kentucky University Heather Bullen Research Celebration — Aug 2021 · Presentation
+- Entomological Society of America Annual Conference — Oct 2021 · Presentation
 
 ## Abstract
 
