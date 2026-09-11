@@ -152,4 +152,75 @@ import Icon from '../../components/Icon.astro';
     min-height: 420px;
     border: none;
   }
+
+  /* ByteMD's fullscreen mode (`position: fixed; inset: 0`) ships with no
+     z-index, so it paints below the sticky header's z-50. */
+  .bytemd-host :global(.bytemd-fullscreen) {
+    z-index: 60;
+  }
+
+  /* ByteMD's stylesheet hardcodes a light theme (white surface, GitHub-gray
+     text) with no dark-mode support of its own. Re-point its colors at the
+     site's own dark palette when the site is in dark mode. */
+  :root[data-theme='dark'] .bytemd-host :global(.bytemd) {
+    color: var(--c-ink);
+    background-color: var(--c-surface);
+    border-color: var(--c-line);
+  }
+  :root[data-theme='dark'] .bytemd-host :global(.bytemd-toolbar) {
+    background-color: var(--c-raised);
+    border-color: var(--c-line);
+  }
+  :root[data-theme='dark'] .bytemd-host :global(.bytemd-toolbar-icon:hover) {
+    background-color: var(--c-line);
+  }
+  :root[data-theme='dark'] .bytemd-host :global(.bytemd-status) {
+    border-color: var(--c-line);
+  }
+  :root[data-theme='dark'] .bytemd-host :global(.bytemd-sidebar) {
+    border-color: var(--c-line);
+  }
+  :root[data-theme='dark'] .bytemd-host :global(.bytemd-split .bytemd-preview) {
+    border-color: var(--c-line);
+  }
+  :root[data-theme='dark'] .bytemd-host :global(.CodeMirror) {
+    color: var(--c-ink);
+    background: transparent;
+  }
+  :root[data-theme='dark'] .bytemd-host :global(.CodeMirror-gutters) {
+    background-color: var(--c-raised);
+    border-color: var(--c-line);
+  }
+  :root[data-theme='dark'] .bytemd-host :global(.CodeMirror-cursor) {
+    border-left-color: var(--c-ink);
+  }
+  :root[data-theme='dark'] .bytemd-host :global(.CodeMirror-selected) {
+    background: color-mix(in oklab, var(--c-accent) 25%, transparent);
+  }
+  :root[data-theme='dark'] .bytemd-host :global(.CodeMirror-activeline-background) {
+    background: var(--c-raised);
+  }
+  :root[data-theme='dark']
+    .bytemd-host
+    :global(.bytemd-editor .CodeMirror pre.CodeMirror-placeholder) {
+    color: var(--c-faint);
+  }
+  :root[data-theme='dark'] .bytemd-host :global(.bytemd-toolbar-tab-active),
+  :root[data-theme='dark'] .bytemd-host :global(.bytemd-toolbar-icon-active),
+  :root[data-theme='dark'] .bytemd-host :global(.bytemd-toc-active) {
+    color: var(--c-accent-ink);
+  }
+  :root[data-theme='dark'] .bytemd-host :global(.bytemd-preview .markdown-body pre),
+  :root[data-theme='dark'] .bytemd-host :global(.bytemd-preview .markdown-body code) {
+    background-color: var(--c-raised);
+  }
+  :root[data-theme='dark'] .bytemd-host :global(.bytemd-preview .markdown-body blockquote) {
+    color: var(--c-dim);
+    border-left-color: var(--c-line-strong);
+  }
+  :root[data-theme='dark'] .bytemd-host :global(.bytemd-preview .markdown-body hr),
+  :root[data-theme='dark'] .bytemd-host :global(.bytemd-preview .markdown-body table td),
+  :root[data-theme='dark'] .bytemd-host :global(.bytemd-preview .markdown-body table th) {
+    border-color: var(--c-line);
+  }
 </style>
