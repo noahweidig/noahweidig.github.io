@@ -1,5 +1,5 @@
 ---
-import { giscus } from '../lib/site';
+import { giscus, site } from '../lib/site';
 
 /** Giscus, mounted lazily and re-themed with the site toggle. Renders nothing
     until the repo and category ids are configured in src/lib/site.ts. */
@@ -10,7 +10,12 @@ const enabled = Boolean(giscus.repoId && giscus.categoryId);
   enabled && (
     <section data-comments data-pagefind-ignore class="no-print mt-4 border-t border-line pt-10">
       <h2 class="font-display text-xl">Comments</h2>
-      <div class="mt-5" id="giscus-root" data-giscus={JSON.stringify(giscus)} />
+      <div
+        class="mt-5"
+        id="giscus-root"
+        data-giscus={JSON.stringify(giscus)}
+        data-theme-base={site.url}
+      />
     </section>
   )
 }
@@ -26,7 +31,7 @@ const enabled = Boolean(giscus.repoId && giscus.categoryId);
       return;
     }
     root.dataset.mounted = 'true';
-    const theme = document.documentElement.dataset.theme === 'light' ? 'light' : 'dark_dimmed';
+    const theme = giscusTheme(root);
     const s = document.createElement('script');
     s.src = 'https://giscus.app/client.js';
     s.async = true;
@@ -47,10 +52,24 @@ const enabled = Boolean(giscus.repoId && giscus.categoryId);
     root.appendChild(s);
   }
 
+  // giscus renders in a cross-origin iframe, so it cannot read the page's
+  // custom properties. /giscus/{light,dark}.css restate the palette for it.
+  // Those files only exist on the deployed origin, so local dev falls back to
+  // the closest stock giscus themes.
+  function giscusTheme(root: HTMLElement) {
+    const mode = document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';
+    const base = root.dataset.themeBase;
+    if (!base || /^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)) {
+      return mode === 'light' ? 'light' : 'dark_dimmed';
+    }
+    return new URL(`/giscus/${mode}.css`, base).href;
+  }
+
   function syncTheme() {
     const frame = document.querySelector<HTMLIFrameElement>('iframe.giscus-frame');
-    if (!frame?.contentWindow) return;
-    const theme = document.documentElement.dataset.theme === 'light' ? 'light' : 'dark_dimmed';
+    const root = document.getElementById('giscus-root');
+    if (!frame?.contentWindow || !root) return;
+    const theme = giscusTheme(root);
     frame.contentWindow.postMessage({ giscus: { setConfig: { theme } } }, 'https://giscus.app');
   }
 
