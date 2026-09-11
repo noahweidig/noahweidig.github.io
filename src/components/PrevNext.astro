@@ -20,7 +20,7 @@ const { prev, next, label } = Astro.props;
       {/* The divider is a border on the second cell, not a grid gap over a
           tinted background: the shell's padding would show that tint as a bar
           down each outer edge. */}
-      <div class="shell grid sm:grid-cols-2">
+      <div class="shell grid grid-cols-2">
         {prev ? (
           <a
             href={u(prev.href)}
@@ -40,7 +40,7 @@ const { prev, next, label } = Astro.props;
             </span>
           </a>
         ) : (
-          <div class="hidden sm:block" />
+          <div class="block" />
         )}
 
         {next ? (
@@ -48,7 +48,7 @@ const { prev, next, label } = Astro.props;
             href={u(next.href)}
             data-tip-title={next.title}
             data-tip={`Next in ${label}`}
-            class="group flex min-w-0 flex-col items-end gap-2 border-line px-5 py-7 text-right transition-colors hover:bg-surface sm:border-l sm:px-8"
+            class="group flex min-w-0 flex-col items-end gap-2 border-l border-line px-5 py-7 text-right transition-colors hover:bg-surface sm:px-8"
           >
             <span class="flex items-center gap-2 font-mono text-micro tracking-[0.14em] text-faint uppercase">
               Next
@@ -62,7 +62,7 @@ const { prev, next, label } = Astro.props;
             </span>
           </a>
         ) : (
-          <div class="hidden sm:block" />
+          <div class="block border-l border-line" />
         )}
       </div>
     </nav>
