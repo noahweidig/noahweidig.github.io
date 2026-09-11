@@ -6,10 +6,10 @@ import Icon from '../../components/Icon.astro';
 <Base title="Write a post" description="Draft and publish a new blog post." noindex>
   <section class="relative overflow-hidden border-b border-line bg-bg-deep">
     <div class="grid-bg absolute inset-0" aria-hidden="true"></div>
-    <div class="shell relative py-12 md:py-16">
-      <p class="kicker">Blog</p>
+    <div class="shell relative py-12 text-center md:py-16">
+      <p class="kicker justify-center">Blog</p>
       <h1 class="display-2 mt-4 font-display font-medium">Write a post</h1>
-      <p class="lede mt-4 max-w-2xl">
+      <p class="lede mx-auto mt-5 text-balance">
         Sign in with GitHub, write the post, publish to open a pull request. Nothing goes live until
         the PR is merged.
       </p>
@@ -18,33 +18,35 @@ import Icon from '../../components/Icon.astro';
 
   <div class="shell py-10 md:py-14">
     <div data-write-app>
-      <div data-write-signed-out class="card mx-auto max-w-md p-8 text-center">
-        <p class="text-dim">Sign in with GitHub to write a post.</p>
-        <button type="button" data-write-login class="btn btn-primary mt-5 gap-2">
-          <Icon name="github" size={18} />
-          Login with GitHub
-        </button>
-        <p
-          data-write-auth-error
-          class="mt-4 rounded-md border px-3.5 py-2.5 text-sm data-[state=error]:border-ember/50 data-[state=error]:text-ember"
-          role="status"
-          aria-live="polite"
-          hidden
-        >
-        </p>
+      <div class="card flex flex-wrap items-center justify-between gap-3 p-4">
+        <span class="min-w-0 truncate text-sm text-dim">
+          <span data-write-signed-out-status>Sign in with GitHub to write a post.</span>
+          <span data-write-signed-in-status class="hidden">
+            Signed in as <strong data-write-user class="text-body font-medium"></strong>
+          </span>
+        </span>
+        <div class="flex shrink-0 items-center gap-2">
+          <button type="button" data-write-login class="btn btn-primary btn-sm gap-2">
+            <Icon name="github" size={16} />
+            Login with GitHub
+          </button>
+          <button type="button" data-write-logout class="btn btn-ghost btn-sm" hidden
+            >Sign out</button
+          >
+        </div>
       </div>
 
-      <div data-write-signed-in class="hidden gap-8 lg:grid lg:grid-cols-[1.1fr_1.6fr]">
-        <div class="grid gap-6 [&>*]:min-w-0">
-          <div class="card flex items-center justify-between gap-3 p-4">
-            <span class="min-w-0 truncate text-sm text-dim">
-              Signed in as <strong data-write-user class="text-body font-medium"></strong>
-            </span>
-            <button type="button" data-write-logout class="btn btn-ghost btn-sm shrink-0"
-              >Sign out</button
-            >
-          </div>
+      <p
+        data-write-auth-error
+        class="mt-4 rounded-md border px-3.5 py-2.5 text-sm data-[state=error]:border-ember/50 data-[state=error]:text-ember"
+        role="status"
+        aria-live="polite"
+        hidden
+      >
+      </p>
 
+      <div data-write-workspace class="hidden mt-8 gap-8 lg:grid lg:grid-cols-[1.1fr_1.6fr]">
+        <div class="grid gap-6 [&>*]:min-w-0">
           <div class="card grid gap-5 p-6 [&>*]:min-w-0">
             <div class="grid gap-2">
               <label for="write-title" class="text-sm font-medium">Title</label>
