@@ -202,7 +202,7 @@ function init(app: HTMLElement) {
 
       status.hidden = false;
       status.dataset.state = 'ok';
-      status.innerHTML = '';
+      status.replaceChildren();
       const link = document.createElement('a');
       link.href = pr.html_url;
       link.target = '_blank';
@@ -240,11 +240,19 @@ function init(app: HTMLElement) {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ code }),
         });
-        const data = (await res.json()) as { access_token?: string; error?: string };
-        if (!res.ok || !data.access_token) {
-          throw new Error(data.error ?? `HTTP ${res.status}`);
+        const data: unknown = await res.json();
+        const accessToken =
+          data &&
+          typeof data === 'object' &&
+          typeof (data as { access_token?: unknown }).access_token === 'string'
+            ? (data as { access_token: string }).access_token
+            : null;
+        if (!res.ok || !accessToken) {
+          const error =
+            data && typeof data === 'object' ? (data as { error?: unknown }).error : undefined;
+          throw new Error(typeof error === 'string' ? error : `HTTP ${res.status}`);
         }
-        localStorage.setItem(TOKEN_KEY, data.access_token);
+        localStorage.setItem(TOKEN_KEY, accessToken);
       } catch (err) {
         const message = err instanceof Error ? err.message : 'Unknown error';
         say(authError, `Login failed: ${message}`, 'error');
