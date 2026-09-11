@@ -25,6 +25,8 @@ interface Props {
   image?: string;
   imageWidth?: number;
   imageHeight?: number;
+  /** Describes what `image` shows, for og:image:alt / twitter:image:alt. */
+  imageAlt?: string;
   type?: 'website' | 'article';
   publishedTime?: Date;
   noindex?: boolean;
@@ -50,6 +52,7 @@ const {
   image,
   imageWidth,
   imageHeight,
+  imageAlt,
   type = 'article',
   publishedTime,
   noindex = false,
@@ -75,6 +78,7 @@ const hasToc = headings.filter((h) => h.depth === 2 || h.depth === 3).length > 1
   image={image}
   imageWidth={imageWidth}
   imageHeight={imageHeight}
+  imageAlt={imageAlt}
   type={type}
   publishedTime={publishedTime}
   noindex={noindex}

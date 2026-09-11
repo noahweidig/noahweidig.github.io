@@ -93,6 +93,7 @@ const cites = d['pub-citations'] ?? 0;
                   href={a.url}
                   target="_blank"
                   rel="noopener"
+                  aria-label={`${a.venue} (opens in a new tab)`}
                   class="underline underline-offset-2 hover:text-accent-ink"
                 >
                   {a.venue}
@@ -134,6 +135,7 @@ const cites = d['pub-citations'] ?? 0;
             href={`https://doi.org/${d['pub-doi']}`}
             target="_blank"
             rel="noopener"
+            aria-label="View DOI (opens in a new tab)"
             class="chip chip-accent transition-colors hover:border-accent"
           >
             DOI
@@ -146,6 +148,7 @@ const cites = d['pub-citations'] ?? 0;
             href={d['pub-url']}
             target="_blank"
             rel="noopener"
+            aria-label="View source (opens in a new tab)"
             class="chip chip-accent transition-colors hover:border-accent"
           >
             Source
@@ -158,6 +161,7 @@ const cites = d['pub-citations'] ?? 0;
             href={u(d['pub-pdf'])}
             target="_blank"
             rel="noopener"
+            aria-label="View full PDF (opens in a new tab)"
             class="chip chip-accent transition-colors hover:border-accent"
           >
             View full PDF

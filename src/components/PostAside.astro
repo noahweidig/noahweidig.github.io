@@ -1,5 +1,6 @@
 ---
 import Icon from './Icon.astro';
+import { buildShareTargets } from '../lib/share';
 
 interface Props {
   title: string;
@@ -7,18 +8,10 @@ interface Props {
 }
 const { title, readingTime } = Astro.props;
 const url = new URL(Astro.url.pathname, Astro.site).href;
-const t = encodeURIComponent(title);
-const u = encodeURIComponent(url);
 
-const targets = [
-  { label: 'X', icon: 'x', href: `https://twitter.com/intent/tweet?text=${t}&url=${u}` },
-  {
-    label: 'LinkedIn',
-    icon: 'linkedin',
-    href: `https://www.linkedin.com/sharing/share-offsite/?url=${u}`,
-  },
-  { label: 'Bluesky', icon: 'bluesky', href: `https://bsky.app/intent/compose?text=${t}%20${u}` },
-];
+const targets = buildShareTargets(title, url).filter((s) =>
+  ['X', 'LinkedIn', 'Bluesky'].includes(s.label),
+);
 ---
 
 <aside class="post-aside-panel no-print h-full" data-pagefind-ignore>
@@ -39,7 +32,7 @@ const targets = [
             target="_blank"
             rel="noopener"
             data-tip={`Share on ${s.label}`}
-            aria-label={`Share on ${s.label}`}
+            aria-label={`Share on ${s.label} (opens in a new tab)`}
           >
             <Icon name={s.icon} size={16} />
           </a>
