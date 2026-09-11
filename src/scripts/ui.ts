@@ -5,14 +5,6 @@
  * survives client-side navigations.
  */
 
-import {
-  AI_QUERY_MAX,
-  isAiWorthy,
-  normalizeQuery,
-  parseAiResponse,
-  type AiSearchResponse,
-} from '../lib/ai-search';
-
 /** The site's base path, read off the document rather than import.meta.env so
     this module stays a plain script. */
 const basePath = () => (document.documentElement.dataset.base ?? '').replace(/\/+$/, '');
@@ -516,75 +508,6 @@ const resultHref = (url: string) => {
   return !base || url.startsWith(`${base}/`) ? url : `${base}${url}`;
 };
 
-/* ------------------------------------------------------------------- ai -- */
-/* A two-sentence answer above the list, from the Worker at /api/ai-search.
-   Strictly additive: Pagefind and the fuzzy index never wait on it, and every
-   failure path ends with the panel hidden and nothing written to the console.
-
-   The whole catalog is ~4k tokens once trimmed, so the Worker hands it to the
-   model whole and there is no embedding step anywhere in this file. */
-
-const AI_ENDPOINT = '/api/ai-search';
-
-/** How long after the last keystroke the answer is asked for. The list has
-    already been redrawn at 140 ms; this is the second, slower timer. */
-const AI_IDLE_MS = 400;
-
-/** A top row scoring above this matched the query in its own title, so it is
-    the answer and a paragraph above it is in the way. Suppressing the call
-    here is the cheapest latency and cost win available: the score is already
-    computed for ranking. */
-const AI_STRONG_HIT = 130;
-
-/** Latched on the statuses that mean "there is no AI here at all" — no Worker
-    on localhost or a Netlify preview, no key bound, origin refused — so a dev
-    session makes one failed request per page load rather than one per query. */
-let aiDisabled = false;
-
-/** Module scope, so it survives `astro:page-load` navigations the way the
-    Pagefind and fuzzy-index memos do. A full reload starts empty; the Worker's
-    own cache covers that. */
-const aiMemo = new Map<string, AiSearchResponse | null>();
-
-async function requestAi(query: string, signal: AbortSignal): Promise<AiSearchResponse | null> {
-  if (aiDisabled) return null;
-  const memoKey = normalizeQuery(query);
-  const memo = aiMemo.get(memoKey);
-  if (memo !== undefined) return memo;
-
-  let res: Response;
-  try {
-    res = await fetch(`${basePath()}${AI_ENDPOINT}`, {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ q: query.slice(0, AI_QUERY_MAX) }),
-      signal,
-    });
-  } catch {
-    // AbortError included: a cancelled request is not a failure, and it must
-    // not latch the disable flag.
-    return null;
-  }
-
-  if (res.status === 403 || res.status === 404 || res.status === 503) {
-    aiDisabled = true;
-    return null;
-  }
-  if (!res.ok) return null;
-
-  let value: AiSearchResponse | null = null;
-  try {
-    value = parseAiResponse(await res.json(), (await loadIndex()).length);
-  } catch {
-    // A 200 that is not JSON is a 404 page from a static host: same meaning as
-    // a missing Worker.
-    aiDisabled = true;
-    return null;
-  }
-  aiMemo.set(memoKey, value);
-  return value;
-}
-
 /** Section first, then tags: the coarse facet reads better at the top. */
 const FILTER_ORDER = ['section', 'tag'];
 const FILTER_LABEL: Record<string, string> = { section: 'Section', tag: 'Tags' };
@@ -600,19 +523,11 @@ function initSearch() {
   const badge = dialog.querySelector<HTMLElement>('[data-filter-count]');
   const clear = dialog.querySelector<HTMLButtonElement>('[data-filter-clear]');
   const status = dialog.querySelector<HTMLElement>('[data-search-status]');
-  const aiPanel = dialog.querySelector<HTMLElement>('#search-ai');
   if (!input || !out || !rail || !groups || !toggle || !badge || !clear) return;
 
   const selected: Record<string, Set<string>> = {};
   let active = -1;
   let token = 0;
-
-  /* The AI request gets its own counter. `token` is also bumped by filter
-     clicks and by opening the rail, neither of which changes the query text,
-     and cancelling a valid in-flight answer for those would be wasted. */
-  let aiToken = 0;
-  let aiTimer: number | undefined;
-  let aiAbort: AbortController | null = null;
 
   const chosen = () => {
     const out: Record<string, string[]> = {};
@@ -643,8 +558,7 @@ function initSearch() {
     });
   };
 
-  /** Returns the top row's score, which decides whether the AI is asked at all. */
-  const renderResults = (items: PagefindData[], hits: Hit[], q: string): number => {
+  const renderResults = (items: PagefindData[], hits: Hit[], q: string) => {
     /* Trailing slashes trimmed by hand: a `/+$` regex backtracks on a long
        run of them for no gain. */
     const key = (href: string) => {
@@ -690,7 +604,7 @@ function initSearch() {
         q ? ` for &ldquo;${escapeHtml(q)}&rdquo;` : ''
       }.</p>`;
       setActive(-1);
-      return 0;
+      return;
     }
 
     rows.sort((a, b) => b.score - a.score);
@@ -709,107 +623,6 @@ function initSearch() {
       })
       .join('');
     setActive(0);
-    return rows[0]?.score ?? 0;
-  };
-
-  /* ---- ai panel ---- */
-  /* Inert by design. Not a role="option": `setActive` wraps through the options
-     with a modulo and `Enter` clicks whatever is active, so an entry with no
-     href there reads as a broken palette. The pick links are plain anchors,
-     reached with Tab — arrows traverse the listbox, Tab reaches the rest of the
-     dialog, which is the combobox pattern already in use here. */
-  const hideAi = () => {
-    if (!aiPanel) return;
-    aiPanel.hidden = true;
-    aiPanel.innerHTML = '';
-    aiPanel.removeAttribute('aria-busy');
-  };
-
-  /* How long an empty panel waits before admitting it is working. A cached
-     answer lands in single-digit milliseconds and a refusal (throttled, nothing
-     to say) in about a hundred, and flashing "Thinking…" for either reads as a
-     glitch. A panel that is already showing the *previous* query's answer does
-     not wait: stale prose under a new query is worse than a visible pause. */
-  const AI_PENDING_MS = 250;
-
-  /* The reserved min-height is what keeps the list from jumping when the prose
-     replaces this, since `setActive` calls scrollIntoView on every render. */
-  const showAiPending = () => {
-    if (!aiPanel) return;
-    aiPanel.hidden = false;
-    aiPanel.setAttribute('aria-busy', 'true');
-    aiPanel.innerHTML =
-      '<p class="min-h-[2.75rem] text-[0.82rem] leading-relaxed text-faint">Thinking&hellip;</p>';
-  };
-
-  const renderAi = async (answer: AiSearchResponse) => {
-    if (!aiPanel) return;
-    const docs = await loadIndex();
-    const links = answer.picks
-      .map((i) => docs[i])
-      .filter((d): d is Doc => Boolean(d))
-      .map(
-        (d) =>
-          /* A publication title runs long enough to fill three rows of chips on
-             its own, which buries the answer above it. Truncated to one line
-             each, with the full title on hover. */
-          `<a href="${resultHref(d.u)}" title="${escapeHtml(d.t)}"
-            class="chip block max-w-[18rem] truncate hover:bg-raised">${escapeHtml(d.t)}</a>`,
-      )
-      .join('');
-
-    aiPanel.hidden = false;
-    aiPanel.setAttribute('aria-busy', 'false');
-    /* One write into the live region per answer, which is one announcement.
-       Token-by-token streaming would need a mirrored node and aria-live="off"
-       here to avoid announcing every few characters; at ~115 ms of model time
-       it would buy almost nothing. */
-    aiPanel.innerHTML = `<p class="min-h-[2.75rem] text-[0.82rem] leading-relaxed text-dim">
-        <span class="sr-only-nw">AI answer: </span>
-        <span
-          aria-hidden="true"
-          class="mr-1.5 align-[0.1em] font-mono text-[0.6rem] tracking-[0.14em] text-faint uppercase"
-          >AI</span
-        >
-        ${escapeHtml(answer.answer)}
-      </p>
-      ${links ? `<p class="mt-2 flex flex-wrap gap-1.5">${links}</p>` : ''}
-      <p class="mt-2 text-[0.68rem] text-faint">Generated from page titles and summaries. May be wrong &mdash; the results below are not.</p>`;
-  };
-
-  /** Armed at the tail of `run()` rather than on keystroke, because only there
-      is the quality of the local result known. The next `run()` disarms it. */
-  const armAi = (q: string, topScore: number) => {
-    window.clearTimeout(aiTimer);
-    aiAbort?.abort();
-    const mine = ++aiToken;
-
-    if (!aiPanel || aiDisabled || !isAiWorthy(q) || topScore >= AI_STRONG_HIT) {
-      hideAi();
-      return;
-    }
-
-    // An answer to the last query is still on screen and no longer applies.
-    const stale = !aiPanel.hidden;
-    if (stale) showAiPending();
-
-    aiTimer = window.setTimeout(() => {
-      const controller = new AbortController();
-      aiAbort = controller;
-      const pending = stale
-        ? undefined
-        : window.setTimeout(() => {
-            if (mine === aiToken) showAiPending();
-          }, AI_PENDING_MS);
-      void requestAi(q, controller.signal).then((answer) => {
-        if (pending !== undefined) window.clearTimeout(pending);
-        // Both guards: the counter catches a newer query, the text catches the
-        // case where the reader typed back to something else entirely.
-        if (mine !== aiToken || input.value.trim() !== q) return;
-        if (!answer) hideAi();
-        else void renderAi(answer);
-      });
-    }, AI_IDLE_MS);
   };
 
   /* ---- filter rail ---- */
@@ -878,7 +691,7 @@ function initSearch() {
       // Dev has no Pagefind bundle; the title index still answers most queries.
       const hits = await fuzzyHits();
       if (mine !== token) return;
-      armAi(q, renderResults([], hits, q));
+      renderResults([], hits, q);
       return;
     }
 
@@ -888,7 +701,6 @@ function initSearch() {
       out.innerHTML =
         '<p class="px-3 py-10 text-center text-sm text-faint">Type to search, or pick a filter.</p>';
       if (status) status.textContent = '';
-      armAi('', 0);
       renderFilters(await pf.filters());
       syncBadge();
       return;
@@ -901,7 +713,7 @@ function initSearch() {
     const data = await Promise.all(results.slice(0, 20).map((r) => r.data()));
     const hits = data.length >= 12 ? [] : await fuzzyHits();
     if (mine !== token) return;
-    armAi(q, renderResults(data, hits, q));
+    renderResults(data, hits, q);
     renderFilters(counts);
     syncBadge();
     if (status) {
@@ -921,9 +733,6 @@ function initSearch() {
   };
   const close = () => {
     if (!dialog.open) return;
-    window.clearTimeout(aiTimer);
-    aiAbort?.abort();
-    aiToken++;
     dialog.close();
     lastFocused?.focus();
   };

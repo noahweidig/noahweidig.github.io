@@ -5,12 +5,8 @@ import { getCollection } from 'astro:content';
  * A small title-level index that backs fuzzy matching in the search dialog.
  *
  * Pagefind matches whole words in the page body, so a typo or a half-remembered
- * title returns nothing. This file is ~18 KB of titles, sections and tags, which
+ * title returns nothing. This file is ~40 KB of titles, sections and tags, which
  * the dialog scores character-by-character when Pagefind comes up short.
- *
- * It is also the catalog the AI search Worker is built from: `worker/scripts/
- * fetch-catalog.mjs` bakes this response into the Worker bundle, so the model's
- * page indices and the client's are the same array by construction.
  */
 type Doc = {
   t: string; // title

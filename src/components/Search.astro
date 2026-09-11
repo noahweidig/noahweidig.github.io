@@ -68,34 +68,15 @@ import Icon from './Icon.astro';
 
       <!-- body: results + filter rail -->
       <div class="relative flex min-h-[16rem] flex-1 sm:max-h-[62vh] sm:flex-none" data-search-body>
-        {
-          /* The AI panel is a sibling of the list, never a child of it:
-            `renderResults` rewrites `#search-results`'s innerHTML on every
-            keystroke, a listbox may only contain options, and `options()`
-            reads `[role="option"]` out of that element — so mounting outside
-            it keeps the panel clear of arrow navigation and
-            aria-activedescendant without touching a line of that code. The
-            column wrapper keeps the filter rail full height. */
-        }
-        <div class="flex min-w-0 flex-1 flex-col">
-          <div
-            id="search-ai"
-            hidden
-            aria-live="polite"
-            aria-atomic="true"
-            class="shrink-0 border-b border-line px-4 py-3"
-          >
-          </div>
-          <div
-            class="min-w-0 flex-1 overflow-y-auto p-2"
-            id="search-results"
-            role="listbox"
-            aria-label="Search results"
-          >
-            <p class="px-3 py-10 text-center text-sm text-faint" data-search-empty>
-              Type to search, or pick a filter.
-            </p>
-          </div>
+        <div
+          class="min-w-0 flex-1 overflow-y-auto p-2"
+          id="search-results"
+          role="listbox"
+          aria-label="Search results"
+        >
+          <p class="px-3 py-10 text-center text-sm text-faint" data-search-empty>
+            Type to search, or pick a filter.
+          </p>
         </div>
 
         <aside
