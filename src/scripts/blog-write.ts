@@ -99,7 +99,7 @@ function init(app: HTMLElement) {
       target: editorHost,
       props: { value: '', plugins: [gfm()] },
     });
-    editor.on('change', (e: CustomEvent<{ value: string }>) => {
+    editor.$on('change', (e: CustomEvent<{ value: string }>) => {
       markdown = e.detail.value;
     });
   }
@@ -267,14 +267,17 @@ function init(app: HTMLElement) {
     const token = localStorage.getItem(TOKEN_KEY);
     if (!token) return;
 
+    let login: string;
     try {
       const octokit = new Octokit({ auth: token });
       const { data: user } = await octokit.rest.users.getAuthenticated();
-      showSignedIn(user.login);
+      login = user.login;
     } catch {
       localStorage.removeItem(TOKEN_KEY);
       say(authError, 'Your session expired. Sign in again.', 'error');
+      return;
     }
+    showSignedIn(login);
   }
 
   boot();
