@@ -1,0 +1,126 @@
+/* Giscus theme matching the site's light palette (see src/styles/global.css).
+   Served from /giscus/light.css and passed to giscus as data-theme; the iframe
+   cannot read the page's custom properties, so the values are literal here. */
+main {
+  --color-prettylights-syntax-comment: #636a78;
+  --color-prettylights-syntax-constant: #0a54ba;
+  --color-prettylights-syntax-entity: #6541c9;
+  --color-prettylights-syntax-storage-modifier-import: #14161c;
+  --color-prettylights-syntax-entity-tag: #0f7a56;
+  --color-prettylights-syntax-keyword: #a44a16;
+  --color-prettylights-syntax-string: #0f7a56;
+  --color-prettylights-syntax-variable: #a44a16;
+  --color-prettylights-syntax-brackethighlighter-unmatched: #a44a16;
+  --color-prettylights-syntax-invalid-illegal-text: #14161c;
+  --color-prettylights-syntax-invalid-illegal-bg: #a44a16;
+  --color-prettylights-syntax-carriage-return-text: #14161c;
+  --color-prettylights-syntax-carriage-return-bg: #a44a16;
+  --color-prettylights-syntax-string-regexp: #0f7a56;
+  --color-prettylights-syntax-markup-list: #14161c;
+  --color-prettylights-syntax-markup-heading: #0f62d6;
+  --color-prettylights-syntax-markup-italic: #14161c;
+  --color-prettylights-syntax-markup-bold: #14161c;
+  --color-prettylights-syntax-markup-deleted-text: #a44a16;
+  --color-prettylights-syntax-markup-deleted-bg: #f6f4f0;
+  --color-prettylights-syntax-markup-inserted-text: #0f7a56;
+  --color-prettylights-syntax-markup-inserted-bg: #f6f4f0;
+  --color-prettylights-syntax-markup-changed-text: #a44a16;
+  --color-prettylights-syntax-markup-changed-bg: #f6f4f0;
+  --color-prettylights-syntax-markup-ignored-text: #565d6b;
+  --color-prettylights-syntax-markup-ignored-bg: #f6f4f0;
+  --color-prettylights-syntax-meta-diff-range: #6541c9;
+  --color-prettylights-syntax-sublimelinter-gutter-mark: #636a78;
+
+  --color-btn-text: #14161c;
+  --color-btn-bg: #f6f4f0;
+  --color-btn-border: #cdc8bd;
+  --color-btn-shadow: 0 0 transparent;
+  --color-btn-inset-shadow: 0 0 transparent;
+  --color-btn-hover-bg: #e4e1da;
+  --color-btn-hover-border: #0f62d6;
+  --color-btn-active-bg: #ffffff;
+  --color-btn-active-border: #0f62d6;
+  --color-btn-selected-bg: #ffffff;
+  --color-btn-primary-text: #ffffff;
+  --color-btn-primary-bg: #0f62d6;
+  --color-btn-primary-border: #0f62d6;
+  --color-btn-primary-shadow: 0 0 transparent;
+  --color-btn-primary-inset-shadow: 0 0 transparent;
+  --color-btn-primary-hover-bg: #0a54ba;
+  --color-btn-primary-hover-border: #0a54ba;
+  --color-btn-primary-selected-bg: #0f62d6;
+  --color-btn-primary-selected-shadow: 0 0 transparent;
+  --color-btn-primary-disabled-text: rgb(20 22 28 / 0.5);
+  --color-btn-primary-disabled-bg: rgb(15 98 214 / 0.4);
+  --color-btn-primary-disabled-border: transparent;
+
+  --color-action-list-item-default-hover-bg: #f6f4f0;
+  --color-segmented-control-bg: #ffffff;
+  --color-segmented-control-button-bg: #f6f4f0;
+  --color-segmented-control-button-selected-border: #cdc8bd;
+
+  --color-fg-default: #14161c;
+  --color-fg-muted: #565d6b;
+  --color-fg-subtle: #636a78;
+  --color-canvas-default: #fbfaf7;
+  --color-canvas-overlay: #ffffff;
+  --color-canvas-inset: #ffffff;
+  --color-canvas-subtle: #ffffff;
+  --color-border-default: #e4e1da;
+  --color-border-muted: #e4e1da;
+  --color-neutral-muted: rgb(86 93 107 / 0.16);
+  --color-neutral-subtle: rgb(86 93 107 / 0.08);
+  --color-accent-fg: #0a54ba;
+  --color-accent-emphasis: #0f62d6;
+  --color-accent-muted: rgb(15 98 214 / 0.4);
+  --color-accent-subtle: rgb(15 98 214 / 0.12);
+  --color-success-fg: #0f7a56;
+  --color-attention-fg: #a44a16;
+  --color-attention-muted: rgb(164 74 22 / 0.4);
+  --color-attention-subtle: rgb(164 74 22 / 0.12);
+  --color-danger-fg: #a44a16;
+  --color-danger-muted: rgb(164 74 22 / 0.4);
+  --color-danger-subtle: rgb(164 74 22 / 0.12);
+  --color-done-fg: #6541c9;
+  --color-done-muted: rgb(101 65 201 / 0.4);
+  --color-done-subtle: rgb(101 65 201 / 0.12);
+
+  --color-primer-shadow-inset: 0 0 transparent;
+  --color-scale-gray-7: #f6f4f0;
+  --color-scale-blue-8: #ffffff;
+
+  --color-social-reaction-bg-hover: #f6f4f0;
+  --color-social-reaction-bg-reacted-hover: rgb(15 98 214 / 0.2);
+
+  color-scheme: light;
+}
+
+main {
+  background-color: #fbfaf7;
+  color: #14161c;
+  font-family:
+    Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+
+.gsc-comment-box-tabs,
+.gsc-comment-box-bottom,
+.gsc-comment-box-preview {
+  background-color: #ffffff;
+}
+
+.gsc-comment > div,
+.gsc-reply > div {
+  background-color: #ffffff;
+  border-color: #e4e1da;
+}
+
+.gsc-header,
+.gsc-comment-box,
+.gsc-reactions,
+.gsc-timeline {
+  border-color: #e4e1da;
+}
+
+.gsc-loading-image {
+  background-image: none;
+}

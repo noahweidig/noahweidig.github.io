@@ -26,7 +26,7 @@ const enabled = Boolean(giscus.repoId && giscus.categoryId);
       return;
     }
     root.dataset.mounted = 'true';
-    const theme = document.documentElement.dataset.theme === 'light' ? 'light' : 'dark_dimmed';
+    const theme = giscusTheme();
     const s = document.createElement('script');
     s.src = 'https://giscus.app/client.js';
     s.async = true;
@@ -47,10 +47,21 @@ const enabled = Boolean(giscus.repoId && giscus.categoryId);
     root.appendChild(s);
   }
 
+  // giscus renders in a cross-origin iframe, so it cannot read the page's
+  // custom properties. /giscus/{light,dark}.css restate the palette for it, and
+  // giscus.app fetches them from whichever origin is serving the page. That
+  // needs a public host, so local dev falls back to the nearest stock themes.
+  function giscusTheme() {
+    const mode = document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';
+    const local = /^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname);
+    if (local || location.protocol !== 'https:') return mode === 'light' ? 'light' : 'dark_dimmed';
+    return new URL(`/giscus/${mode}.css`, location.origin).href;
+  }
+
   function syncTheme() {
     const frame = document.querySelector<HTMLIFrameElement>('iframe.giscus-frame');
     if (!frame?.contentWindow) return;
-    const theme = document.documentElement.dataset.theme === 'light' ? 'light' : 'dark_dimmed';
+    const theme = giscusTheme();
     frame.contentWindow.postMessage({ giscus: { setConfig: { theme } } }, 'https://giscus.app');
   }
 
