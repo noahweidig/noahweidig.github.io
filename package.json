@@ -49,6 +49,7 @@
     "prettier": "^3.9.6",
     "prettier-plugin-astro": "^0.14.1",
     "puppeteer": "^25.9.0",
+    "svelte": "^4.2.19",
     "typescript": "^5.7.0"
   }
 }

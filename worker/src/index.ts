@@ -47,7 +47,7 @@ export default {
 
     let code: string | undefined;
     try {
-      ({ code } = await request.json());
+      ({ code } = (await request.json()) as { code?: string });
     } catch {
       return new Response(JSON.stringify({ error: 'invalid_json' }), {
         status: 400,
@@ -83,7 +83,10 @@ export default {
 
     if (!upstream.ok || data.error || !data.access_token) {
       return new Response(
-        JSON.stringify({ error: data.error ?? 'exchange_failed', description: data.error_description }),
+        JSON.stringify({
+          error: data.error ?? 'exchange_failed',
+          description: data.error_description,
+        }),
         { status: 400, headers: { ...headers, 'Content-Type': 'application/json' } },
       );
     }
