@@ -241,12 +241,16 @@ function init(app: HTMLElement) {
           body: JSON.stringify({ code }),
         });
         const data: unknown = await res.json();
+        const rawToken =
+          data && typeof data === 'object'
+            ? (data as { access_token?: unknown }).access_token
+            : undefined;
+        // GitHub access tokens are a fixed alphabet/length shape (e.g. `gho_<36 chars>`).
+        // Validating that shape, rather than only checking `typeof === 'string'`, keeps a
+        // malformed or oversized value from a compromised/misbehaving token endpoint out of
+        // localStorage altogether.
         const accessToken =
-          data &&
-          typeof data === 'object' &&
-          typeof (data as { access_token?: unknown }).access_token === 'string'
-            ? (data as { access_token: string }).access_token
-            : null;
+          typeof rawToken === 'string' && /^[A-Za-z0-9_]{20,255}$/.test(rawToken) ? rawToken : null;
         if (!res.ok || !accessToken) {
           const error =
             data && typeof data === 'object' ? (data as { error?: unknown }).error : undefined;
