@@ -41,7 +41,13 @@ const skills: [string, string][] = [
     <p class="role">{site.role}</p>
     <p class="contact">
       <span>{site.email}</span><span>{site.location}</span><span>noahweidig.com</span>
-      {socials.map((s) => <a href={s.href}>{s.label}</a>)}
+      {
+        socials.map((s) => (
+          <a href={s.href}>
+            {s.label} — {s.href.replace(/^https?:\/\//, '')}
+          </a>
+        ))
+      }
     </p>
   </header>
 

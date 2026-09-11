@@ -19,7 +19,10 @@ interface Props {
 const { name, size = 20, class: klass = '', 'stroke-width': sw = 1.6 } = Astro.props;
 
 const mark = brand[BRAND_ALIAS[name] ?? name];
-const d = mark ? mark.body : (lucideIcons[name] ?? lucideIcons.arrow!);
+if (!mark && !lucideIcons[name]) {
+  throw new Error(`Icon: unknown icon name "${name}"`);
+}
+const d = mark ? mark.body : lucideIcons[name]!;
 ---
 
 {
