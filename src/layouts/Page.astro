@@ -14,6 +14,8 @@ interface Props {
   trail?: { label: string; href?: string }[];
   /** This page's own og:image, in place of the sitewide default. */
   image?: string;
+  /** Describes what `image` shows, for og:image:alt / twitter:image:alt. */
+  imageAlt?: string;
 }
 const {
   title,
@@ -25,10 +27,18 @@ const {
   section,
   trail = [],
   image,
+  imageAlt,
 } = Astro.props;
 ---
 
-<Base title={title} description={description} image={image} noindex={noindex} filters={{ section }}>
+<Base
+  title={title}
+  description={description}
+  image={image}
+  imageAlt={imageAlt}
+  noindex={noindex}
+  filters={{ section }}
+>
   <section class="relative overflow-hidden border-b border-line bg-bg-deep">
     <div class="grid-bg absolute inset-0" aria-hidden="true"></div>
     <div
