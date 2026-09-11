@@ -38,7 +38,10 @@ export default defineConfig({
   integrations: [
     sitemap({
       filter: (page) =>
-        !page.includes('/404') && !page.includes('/500') && !page.includes('/styleguide'),
+        !page.includes('/404') &&
+        !page.includes('/500') &&
+        !page.includes('/styleguide') &&
+        !page.includes('/blog/write'),
       serialize(item) {
         const path = new URL(item.url).pathname;
         const d = lastmodByPath.get(path);
