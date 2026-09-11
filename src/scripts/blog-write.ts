@@ -14,10 +14,10 @@ import 'bytemd/dist/index.css';
 import { slugify } from '../lib/format';
 
 // --- fill these in -------------------------------------------------------
-const OAUTH_CLIENT_ID = 'REPLACE_WITH_OAUTH_APP_CLIENT_ID';
+const OAUTH_CLIENT_ID = 'Ov23licfnB09arlpA4H6';
 const OAUTH_SCOPE = 'public_repo';
 /** Base URL of the deployed Worker (see worker/wrangler.toml), no trailing slash. */
-const WORKER_URL = 'https://REPLACE-WITH-YOUR-WORKER.workers.dev';
+const WORKER_URL = 'https://noahweidig-blog-write-oauth.noah-weidig.workers.dev';
 const REPO_OWNER = 'noahweidig';
 const REPO_NAME = 'noahweidig.github.io';
 const BASE_BRANCH = 'main';
