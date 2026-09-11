@@ -6,9 +6,15 @@ interface Props {
   entry: CollectionEntry<'experience'> | CollectionEntry<'education'>;
   base: 'experience' | 'education';
   current?: boolean;
+  /** Heading level for the entry title. Callers nesting entries under a
+      visible group heading (e.g. an "Experience" h3) should pass 4 so the
+      outline reflects that nesting instead of running two heading levels
+      in parallel. */
+  headingLevel?: 3 | 4;
 }
-const { entry, base, current = false } = Astro.props;
+const { entry, base, current = false, headingLevel = 3 } = Astro.props;
 const d = entry.data;
+const Heading = `h${headingLevel}` as 'h3' | 'h4';
 ---
 
 <a
@@ -31,7 +37,9 @@ const d = entry.data;
     )
   }
 
-  <h3 class="text-lg leading-snug transition-colors group-hover:text-accent-ink">{d.title}</h3>
+  <Heading class="text-lg leading-snug transition-colors group-hover:text-accent-ink">
+    {d.title}
+  </Heading>
   {d.org && <p class="mt-1 text-sm font-medium text-accent-ink/85">{d.org}</p>}
   <p class="mt-0.5 font-mono text-2xs tracking-[0.08em] text-faint uppercase">
     {d.dates}{d.location ? ` · ${d.location}` : ''}

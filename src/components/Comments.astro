@@ -59,6 +59,28 @@ const enabled = Boolean(giscus.repoId && giscus.categoryId);
     attributeFilter: ['data-theme'],
   });
 
-  mountGiscus();
-  document.addEventListener('astro:page-load', mountGiscus);
+  // Comments sit below the fold on every post; only fetch giscus.app's
+  // client.js and iframe once the section is actually about to be seen,
+  // mirroring the IntersectionObserver-gated loading used for the globe
+  // and tech marquee elsewhere on the site.
+  function observe() {
+    const section = document.querySelector<HTMLElement>('[data-comments]');
+    if (!section) return;
+    if (!('IntersectionObserver' in window)) {
+      mountGiscus();
+      return;
+    }
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((e) => e.isIntersecting)) return;
+        io.disconnect();
+        mountGiscus();
+      },
+      { rootMargin: '200px 0px' },
+    );
+    io.observe(section);
+  }
+
+  observe();
+  document.addEventListener('astro:page-load', observe);
 </script>

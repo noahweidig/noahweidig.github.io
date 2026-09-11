@@ -196,7 +196,7 @@ const faqs = [
           {
             experience.slice(0, 2).map((entry, i) => (
               <li>
-                <TimelineItem entry={entry} base="experience" current={i === 0} />
+                <TimelineItem entry={entry} base="experience" current={i === 0} headingLevel={4} />
               </li>
             ))
           }
@@ -209,7 +209,7 @@ const faqs = [
           {
             education.slice(0, 2).map((entry) => (
               <li>
-                <TimelineItem entry={entry} base="education" />
+                <TimelineItem entry={entry} base="education" headingLevel={4} />
               </li>
             ))
           }
