@@ -4,7 +4,7 @@ compatibility_date = "2026-09-11"
 
 [vars]
 # Public — GitHub OAuth Client IDs are not secret.
-GITHUB_CLIENT_ID = "REPLACE_WITH_OAUTH_APP_CLIENT_ID"
+GITHUB_CLIENT_ID = "Ov23licfnB09arlpA4H6"
 ALLOWED_ORIGINS = "https://noahweidig.com,http://localhost:4321"
 
 # GITHUB_CLIENT_SECRET is set with:
