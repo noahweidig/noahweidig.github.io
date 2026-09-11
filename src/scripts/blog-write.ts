@@ -30,8 +30,9 @@ const app = document.querySelector<HTMLElement>('[data-write-app]');
 if (app) init(app);
 
 function init(app: HTMLElement) {
-  const signedOut = app.querySelector<HTMLElement>('[data-write-signed-out]')!;
-  const signedIn = app.querySelector<HTMLElement>('[data-write-signed-in]')!;
+  const signedOutStatus = app.querySelector<HTMLElement>('[data-write-signed-out-status]')!;
+  const signedInStatus = app.querySelector<HTMLElement>('[data-write-signed-in-status]')!;
+  const workspace = app.querySelector<HTMLElement>('[data-write-workspace]')!;
   const loginBtn = app.querySelector<HTMLButtonElement>('[data-write-login]')!;
   const logoutBtn = app.querySelector<HTMLButtonElement>('[data-write-logout]')!;
   const authError = app.querySelector<HTMLElement>('[data-write-auth-error]')!;
@@ -90,8 +91,11 @@ function init(app: HTMLElement) {
   });
 
   function showSignedIn(login: string) {
-    signedOut.classList.add('hidden');
-    signedIn.classList.remove('hidden');
+    signedOutStatus.classList.add('hidden');
+    signedInStatus.classList.remove('hidden');
+    loginBtn.hidden = true;
+    logoutBtn.hidden = false;
+    workspace.classList.remove('hidden');
     userLabel.textContent = login;
     dateInput.value = new Date().toISOString().slice(0, 10);
 
