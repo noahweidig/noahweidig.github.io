@@ -105,6 +105,12 @@ function init(app: HTMLElement) {
     });
     editor.$on('change', (e: CustomEvent<{ value: string }>) => {
       markdown = e.detail.value;
+      // Feeds the typed value back in as bytemd's own controlled-component
+      // pattern expects — its "Preview" pane renders from this prop, not
+      // straight from CodeMirror, so skipping this left Preview permanently
+      // blank. Setting it back to the value bytemd itself just emitted is a
+      // no-op for CodeMirror's document, so it doesn't disturb the cursor.
+      editor?.$set({ value: markdown });
     });
   }
 
