@@ -46,6 +46,16 @@ export function buildShareTargets(title: string, url: string): ShareTarget[] {
       icon: 'threads',
       href: `https://www.threads.net/intent/post?text=${t}%20${u}`,
     },
+    {
+      label: 'Telegram',
+      icon: 'telegram',
+      href: `https://t.me/share/url?url=${u}&text=${t}`,
+    },
+    {
+      label: 'Tumblr',
+      icon: 'tumblr',
+      href: `https://www.tumblr.com/widgets/share/tool?canonicalUrl=${u}&caption=${t}`,
+    },
     { label: 'Email', icon: 'envelope', href: `mailto:?subject=${t}&body=${u}` },
   ];
 }
