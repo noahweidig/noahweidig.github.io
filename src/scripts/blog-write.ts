@@ -30,8 +30,9 @@ const app = document.querySelector<HTMLElement>('[data-write-app]');
 if (app) init(app);
 
 function init(app: HTMLElement) {
-  const signedOut = app.querySelector<HTMLElement>('[data-write-signed-out]')!;
-  const signedIn = app.querySelector<HTMLElement>('[data-write-signed-in]')!;
+  const signedOutStatus = app.querySelector<HTMLElement>('[data-write-signed-out-status]')!;
+  const signedInStatus = app.querySelector<HTMLElement>('[data-write-signed-in-status]')!;
+  const workspace = app.querySelector<HTMLElement>('[data-write-workspace]')!;
   const loginBtn = app.querySelector<HTMLButtonElement>('[data-write-login]')!;
   const logoutBtn = app.querySelector<HTMLButtonElement>('[data-write-logout]')!;
   const authError = app.querySelector<HTMLElement>('[data-write-auth-error]')!;
@@ -90,8 +91,11 @@ function init(app: HTMLElement) {
   });
 
   function showSignedIn(login: string) {
-    signedOut.classList.add('hidden');
-    signedIn.classList.remove('hidden');
+    signedOutStatus.classList.add('hidden');
+    signedInStatus.classList.remove('hidden');
+    loginBtn.hidden = true;
+    logoutBtn.hidden = false;
+    workspace.classList.remove('hidden');
     userLabel.textContent = login;
     dateInput.value = new Date().toISOString().slice(0, 10);
 
@@ -99,7 +103,7 @@ function init(app: HTMLElement) {
       target: editorHost,
       props: { value: '', plugins: [gfm()] },
     });
-    editor.on('change', (e: CustomEvent<{ value: string }>) => {
+    editor.$on('change', (e: CustomEvent<{ value: string }>) => {
       markdown = e.detail.value;
     });
   }
@@ -267,14 +271,17 @@ function init(app: HTMLElement) {
     const token = localStorage.getItem(TOKEN_KEY);
     if (!token) return;
 
+    let login: string;
     try {
       const octokit = new Octokit({ auth: token });
       const { data: user } = await octokit.rest.users.getAuthenticated();
-      showSignedIn(user.login);
+      login = user.login;
     } catch {
       localStorage.removeItem(TOKEN_KEY);
       say(authError, 'Your session expired. Sign in again.', 'error');
+      return;
     }
+    showSignedIn(login);
   }
 
   boot();
