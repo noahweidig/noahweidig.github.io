@@ -9,7 +9,3 @@ src/content/publications/
 src/components/Globe.astro
 .claude/
 .github/
-
-# Generated at deploy time from /search-index.json, and wrangler's build scratch.
-worker/src/catalog.json
-worker/.wrangler/

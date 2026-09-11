@@ -69,18 +69,7 @@ export default defineConfig({
         : {}),
     }),
   ],
-  vite: {
-    plugins: [tailwindcss()],
-    // The AI search panel posts to /api/ai-search, which only exists on the
-    // Cloudflare Worker in front of production. Left unproxied, `astro dev`
-    // answers it with a 404 and the dialog latches the AI off for the page
-    // load, which is the behaviour a Netlify preview gets too. Set
-    // AI_WORKER=http://localhost:8788 alongside `npm --prefix worker run dev`
-    // to exercise it locally instead.
-    ...(process.env.AI_WORKER
-      ? { server: { proxy: { '/api': { target: process.env.AI_WORKER, changeOrigin: true } } } }
-      : {}),
-  },
+  vite: { plugins: [tailwindcss()] },
   markdown: {
     remarkPlugins: [remarkAlert],
     shikiConfig: {
