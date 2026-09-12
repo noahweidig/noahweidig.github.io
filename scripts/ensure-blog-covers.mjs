@@ -63,7 +63,7 @@ for (const slug of slugs) {
 
 if (needCovers.length) {
   console.log(`Generating covers: ${needCovers.join(', ')}`);
-  execFileSync('node', ['scripts/generate-blog-covers.mjs', ...needCovers], {
+  execFileSync(process.execPath, ['scripts/generate-blog-covers.mjs', ...needCovers], {
     cwd: root,
     stdio: 'inherit',
   });
