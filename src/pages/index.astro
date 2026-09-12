@@ -389,7 +389,7 @@ const faqs = [
   <section class="shell scroll-mt-24 py-16" id="cta">
     <div class="grid gap-10 lg:grid-cols-[1.25fr_0.75fr] lg:items-stretch">
       <div class="card relative overflow-hidden p-8 md:p-11" data-reveal>
-        <div class="topo-bg absolute inset-0" aria-hidden="true"></div>
+        <div class="cta-glow pointer-events-none absolute inset-0" aria-hidden="true"></div>
         <div class="relative">
           <span
             class="inline-flex items-center gap-2 rounded-full border border-moss/40 bg-moss/10 px-3 py-1 text-[0.75rem] font-medium text-moss"
@@ -444,3 +444,35 @@ const faqs = [
     </div>
   </section>
 </Base>
+
+<style>
+  /* Two faint accent/violet fields anchored at opposite corners of the CTA
+     card, replacing its topo texture — deliberately off-center from each
+     other so the card reads as lit rather than flatly tinted. */
+  .cta-glow {
+    background:
+      radial-gradient(
+        60% 65% at 12% -10%,
+        color-mix(in oklab, var(--c-accent) 16%, transparent) 0%,
+        transparent 70%
+      ),
+      radial-gradient(
+        55% 60% at 100% 115%,
+        color-mix(in oklab, var(--c-violet) 14%, transparent) 0%,
+        transparent 70%
+      );
+  }
+  :root[data-theme='light'] .cta-glow {
+    background:
+      radial-gradient(
+        60% 65% at 12% -10%,
+        color-mix(in oklab, var(--c-accent) 9%, transparent) 0%,
+        transparent 70%
+      ),
+      radial-gradient(
+        55% 60% at 100% 115%,
+        color-mix(in oklab, var(--c-violet) 8%, transparent) 0%,
+        transparent 70%
+      );
+  }
+</style>
