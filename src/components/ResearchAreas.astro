@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import Icon from './Icon.astro';
-import { shotFor } from '../lib/images';
+import { IMAGE_WIDTHS, shotFor } from '../lib/images';
 
 /* Same optimized screenshots ProjectCard uses. Pointing at the `public/` copy
    instead served the full 1600px file to every viewport: 124KB of the 148KB
@@ -137,7 +137,7 @@ const areas = [
           <Image
             src={a.image}
             alt={a.alt}
-            widths={[400, 800, 1200]}
+            widths={IMAGE_WIDTHS.thumbnail}
             sizes="(min-width: 1024px) 560px, 92vw"
             loading="lazy"
             decoding="async"
