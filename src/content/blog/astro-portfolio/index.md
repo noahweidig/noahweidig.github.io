@@ -1,10 +1,13 @@
 ---
-title: "Building a Portfolio Website"
+title: 'Building a Portfolio Website'
 date: '2026-09-12'
-description: "Creating this site from the ground up and lessons learned along the way — why I chose Astro for a fast, clean portfolio site."
+description: 'Creating this site from the ground up and lessons learned along the way — why I chose Astro for a fast, clean portfolio site.'
 categories:
-  - "Thoughts"
-  - "Data Science"
+  - 'Thoughts'
+  - 'Data Science'
+image: './cover.webp'
+image-light: './cover-light.webp'
+image-alt: "Cover card reading “Building a Portfolio Website” over the site's violet and moss gradient"
 ---
 
 I've been through many iterations of a personal website and learned many lessons along the way. I spent a lot of time thinking about how to create a visually appealing website that balanced speed with interactivity and a high degree of customization. Here's the (messy) journey.

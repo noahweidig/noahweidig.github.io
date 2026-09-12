@@ -1,0 +1,59 @@
+name: Auto-generate blog covers
+
+on:
+  push:
+    paths:
+      - 'src/content/blog/**/index.md'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: blog-covers-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  covers:
+    # Without this, the bot's own commit (which also touches index.md) would
+    # re-trigger this workflow. ensure-blog-covers.mjs is idempotent so a
+    # second run would just no-op, but there's no reason to spend the minutes.
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Install toolchain
+        uses: ./.github/actions/build-site
+        with:
+          build: 'false'
+
+      # Same as project-shots.yml: the install skips lifecycle scripts, so
+      # Puppeteer has no browser yet and this is the supported way to fetch one.
+      - name: Install Chrome for Puppeteer
+        run: npm exec --no --ignore-scripts -- puppeteer browsers install chrome
+
+      - name: Generate missing covers
+        run: node scripts/ensure-blog-covers.mjs
+
+      - name: Commit covers
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/content/blog
+          if git diff --cached --quiet; then
+            echo "Covers unchanged."
+            exit 0
+          fi
+          git commit -m "Auto-generate blog cover art"
+          for i in 1 2 3 4; do
+            if git push; then
+              echo "pushed"; exit 0
+            fi
+            echo "push failed, retrying in $((2**i))s"; sleep $((2**i))
+            git pull --rebase || true
+          done
+          echo "::error::git push failed after retries"; exit 1
