@@ -27,6 +27,6 @@ That led me to [Astro](https://astro.build/). Astro uses a modern, performance-f
 
 # What I learned
 
-After all those iterations, I realized the best website isn’t the one with the most features; it’s the one that gives me the freedom to build exactly what I want.
+After all those iterations, I realized the best website isn’t the one with the most features: it’s the one that gives me the freedom to build exactly what I want.
 
 Have you had a similar journey in web development? Feel free to leave a comment below. Thanks for reading!
