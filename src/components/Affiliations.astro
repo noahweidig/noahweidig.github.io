@@ -31,10 +31,16 @@ const orgs = [
     <div class="marquee-track py-1" data-marquee>
       {
         orgs.map(([name, href, src]) => (
-          <a href={href} target="_blank" rel="noopener" title={name} class="group/logo shrink-0">
+          <a
+            href={href}
+            target="_blank"
+            rel="noopener"
+            aria-label={`${name} (opens in a new tab)`}
+            class="group/logo shrink-0"
+          >
             <img
               data-src={u(src!)}
-              alt={name}
+              alt=""
               width="140"
               height="48"
               loading="lazy"
@@ -44,7 +50,7 @@ const orgs = [
             <noscript>
               <img
                 src={u(src!)}
-                alt={name}
+                alt=""
                 width="140"
                 height="48"
                 loading="lazy"

@@ -51,6 +51,7 @@ const targets = buildShareTargets(title, url);
           <a class="share-target" href={s.href} target="_blank" rel="noopener">
             <Icon name={s.icon} size={17} />
             <span>{s.label}</span>
+            <span class="sr-only-nw"> (opens in a new tab)</span>
           </a>
         ))
       }

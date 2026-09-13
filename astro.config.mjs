@@ -48,7 +48,12 @@ export default defineConfig({
   integrations: [
     sitemap({
       filter: (page) => {
-        if (page.includes('/404') || page.includes('/500') || page.includes('/styleguide')) {
+        if (
+          page.includes('/404') ||
+          page.includes('/500') ||
+          page.includes('/styleguide') ||
+          page.includes('/blog/write')
+        ) {
           return false;
         }
         const path = new URL(page).pathname;
