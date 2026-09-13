@@ -24,7 +24,6 @@
     "start": "astro dev"
   },
   "dependencies": {
-    "@astrojs/markdown-remark": "^7.3.0",
     "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.4",
     "@tailwindcss/vite": "^4.3.3",
@@ -39,6 +38,7 @@
     "@types/node": "^26.4.1",
     "@types/sanitize-html": "^2.16.1",
     "axe-core": "^4.13.0",
+    "js-yaml": "^4.3.2",
     "lighthouse": "^13.4.1",
     "lucide-static": "^1.41.0",
     "pagefind": "^1.5.2",
