@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url';
 import { u } from '../../lib/url';
 import { getCollection, render } from 'astro:content';
 import Detail from '../../layouts/Detail.astro';
-import { fullDate, inlineMarkup, splitAuthors } from '../../lib/format';
+import { firstSentence, fullDate, inlineMarkup, splitAuthors } from '../../lib/format';
 import { site } from '../../lib/site';
 
 export async function getStaticPaths() {
@@ -61,7 +61,7 @@ const pubLd = {
 
 <Detail
   title={d.title}
-  description={d.description}
+  description={firstSentence(d.description, 155)}
   kicker={d.categories[0] ?? 'Publication'}
   meta={fullDate(d.date)}
   section="Publications"
@@ -72,6 +72,7 @@ const pubLd = {
   chips={d.categories}
   links={d.links}
   image={ogImageExists ? u(ogImagePath) : undefined}
+  imageAlt={`Citation card for “${d.title}”`}
   publishedTime={d.date}
   noindex={Boolean(d['pub-appearance-of'])}
 >
