@@ -306,8 +306,10 @@ const typed = [
     width: 11.25rem;
   }
 
-  .caret {
-    animation: blink 1.05s steps(1) infinite;
+  @media (prefers-reduced-motion: no-preference) {
+    .caret {
+      animation: blink 1.05s steps(1) infinite;
+    }
   }
   @keyframes blink {
     50% {
