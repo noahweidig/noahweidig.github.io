@@ -4,7 +4,7 @@ import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
 import { inlineMarkup, year } from '../lib/format';
-import { site, socials } from '../lib/site';
+import { site, socials, skills } from '../lib/site';
 
 const byDate = <T extends { data: { date: Date } }>(a: T, b: T) =>
   b.data.date.getTime() - a.data.date.getTime();
@@ -16,17 +16,6 @@ const pubs = (await getCollection('publications', ({ data }) => data['pub-listed
   byDate,
 );
 const byCat = (c: string) => pubs.filter((p) => p.data.categories.includes(c));
-
-const skills = [
-  ['Languages', 'R, Python, JavaScript, SQL'],
-  ['Markup', 'Markdown, LaTeX, HTML, CSS'],
-  ['Libraries', 'tidyverse, pandas, NumPy, Plotly'],
-  [
-    'GIS & Remote Sensing',
-    'ArcGIS Pro, Google Earth Engine, QGIS, GDAL, sf, terra, GeoPandas, OpenStreetMap',
-  ],
-  ['Workflows', 'Git, GitHub, GitHub Actions, Conda'],
-];
 ---
 
 <Base
