@@ -20,7 +20,9 @@ export const GET: APIRoute = async ({ site: astroSite }) => {
       id: string;
       data: Record<string, unknown>;
     }[];
-    const example = entries.find((e) => !e.data.draft);
+    // pub-appearance-of publications are noindexed (see
+    // src/pages/publications/[...slug].astro) and skipped here to match.
+    const example = entries.find((e) => !e.data.draft && !e.data['pub-appearance-of']);
     const sample = example ? ` (e.g. ${base}/${path}/${example.id}/)` : '';
     lines.push(`- ${section}: ${base}/${path}/<slug>${sample}`);
   }
