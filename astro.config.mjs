@@ -4,6 +4,7 @@ import sitemap from '@astrojs/sitemap';
 import postAudit from '@casoon/astro-post-audit';
 import tailwindcss from '@tailwindcss/vite';
 import { remarkAlert } from 'remark-github-blockquote-alert';
+import { unified } from '@astrojs/markdown-remark';
 import { readFileSync, readdirSync } from 'node:fs';
 import yaml from 'js-yaml';
 
@@ -91,7 +92,7 @@ export default defineConfig({
   ],
   vite: { plugins: [tailwindcss()] },
   markdown: {
-    remarkPlugins: [remarkAlert],
+    processor: unified({ remarkPlugins: [remarkAlert] }),
     shikiConfig: {
       // github-light's orange (#E36209) is 3.6:1 on the light code surface,
       // which fails AA for small text; the high-contrast variant is built for
