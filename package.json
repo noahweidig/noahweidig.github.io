@@ -25,6 +25,7 @@
     "start": "astro dev"
   },
   "dependencies": {
+    "@astrojs/markdown-remark": "^7.3.0",
     "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.4",
     "@bytemd/plugin-gfm": "^1.21.0",
