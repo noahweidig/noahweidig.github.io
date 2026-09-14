@@ -18,7 +18,9 @@ export const GET: APIRoute = async ({ site: astroSite }) => {
       data: Record<string, unknown>;
     }[];
     const published = entries
-      .filter((e) => !e.data.draft)
+      // pub-appearance-of publications are noindexed (see
+      // src/pages/publications/[...slug].astro) and excluded here to match.
+      .filter((e) => !e.data.draft && !e.data['pub-appearance-of'])
       .sort((a, b) => String(b.data.date).localeCompare(String(a.data.date)));
     if (published.length === 0) continue;
 
