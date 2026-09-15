@@ -169,5 +169,23 @@ const cites = d['pub-citations'] ?? 0;
         )
       }
     </div>
+
+    {
+      d['pub-doi'] && (
+        <div class="mt-2 flex items-center gap-3" data-badges>
+          <div
+            class="altmetric-embed"
+            data-badge-type="donut"
+            data-badge-popover="bottom"
+            data-doi={d['pub-doi']}
+          />
+          <span
+            class="__dimensions_badge_embed__"
+            data-doi={d['pub-doi']}
+            data-style="small_circle"
+          />
+        </div>
+      )
+    }
   </div>
 </article>
