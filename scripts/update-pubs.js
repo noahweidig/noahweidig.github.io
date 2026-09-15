@@ -599,7 +599,6 @@ async function main() {
     );
   }
 
-
   // ---------------------------------------------------------------------
   // Pass 1: derive each entry's page data (nothing is written yet — the
   // grouping pass below needs to see every entry before any page is built).
