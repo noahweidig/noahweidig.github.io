@@ -119,8 +119,6 @@ const pubLd = {
 </Detail>
 
 <script type="application/ld+json" is:inline set:html={JSON.stringify(pubLd)} />
-{d['pub-doi'] && <script async is:inline src="https://embed.altmetric.com/assets/embed.js" />}
-{d['pub-doi'] && <script async is:inline src="https://badge.dimensions.ai/badge.js" />}
 <script is:inline>
   // See src/pages/publications/index.astro for why this exists: a DOI with
   // no attention data yet leaves Altmetric's badge empty (and, worse, an
