@@ -1496,11 +1496,16 @@ function setupShareRow(row: HTMLElement) {
 //
 // Re-injecting a fresh `<script src>` happens to work for Altmetric, whose
 // embed.js calls its init unconditionally every time it executes, but not
-// for Dimensions: its badge.js only scans on `DOMContentLoaded`, which never
-// fires again after the first load, so a second copy of the script sits
-// there doing nothing. Both vendors ship a real API for this — call it once
-// it exists, and fall back to injecting the script only for the very first
-// load of the page (when neither global exists yet).
+// for Dimensions: its badge.js only scans on `DOMContentLoaded`. Since we
+// insert the script tag ourselves (async, after the DOM is already up),
+// that scan races the real `DOMContentLoaded` event rather than being
+// guaranteed to run before it — on a cold first visit the script can take
+// long enough to fetch that the event has already fired by the time badge.js
+// registers its listener, so it never scans; a reload wins the race because
+// the connection and response are already warm. Don't rely on either
+// vendor's internal timing: call the documented rescan API ourselves —
+// immediately if it's already loaded (a later soft nav), or from the
+// script's `onload` once it finishes (the first load on this page).
 function initBadges() {
   if (!document.querySelector('.altmetric-embed, .__dimensions_badge_embed__')) return;
   const w = window as unknown as {
@@ -1514,6 +1519,7 @@ function initBadges() {
     const s = document.createElement('script');
     s.src = 'https://embed.altmetric.com/assets/embed.js';
     s.async = true;
+    s.onload = () => w._altmetric_embed_init?.();
     document.body.appendChild(s);
   }
 
@@ -1523,6 +1529,7 @@ function initBadges() {
     const s = document.createElement('script');
     s.src = 'https://badge.dimensions.ai/badge.js';
     s.async = true;
+    s.onload = () => w.__dimensions_embed?.addBadges();
     document.body.appendChild(s);
   }
 }
