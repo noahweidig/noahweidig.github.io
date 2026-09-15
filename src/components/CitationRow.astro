@@ -130,6 +130,19 @@ const cites = d['pub-citations'] ?? 0;
       }
       {d['pub-oa'] && <span class="chip chip-accent">Open Access</span>}
       {
+        d['pub-altmetric-score'] != null && d['pub-altmetric-id'] && (
+          <a
+            href={`https://www.altmetric.com/details/${d['pub-altmetric-id']}`}
+            target="_blank"
+            rel="noopener"
+            aria-label="View Altmetric attention score (opens in a new tab)"
+            class={`chip transition-colors hover:border-accent ${d['pub-altmetric-score'] >= 10 ? 'chip-accent' : ''}`}
+          >
+            Altmetric {Math.round(d['pub-altmetric-score'])}
+          </a>
+        )
+      }
+      {
         d['pub-doi'] && (
           <a
             href={`https://doi.org/${d['pub-doi']}`}
@@ -139,6 +152,19 @@ const cites = d['pub-citations'] ?? 0;
             class="chip chip-accent transition-colors hover:border-accent"
           >
             DOI
+          </a>
+        )
+      }
+      {
+        d['pub-doi'] && (
+          <a
+            href={`https://badge.dimensions.ai/details/doi/${d['pub-doi']}`}
+            target="_blank"
+            rel="noopener"
+            aria-label="View Dimensions record (opens in a new tab)"
+            class="chip transition-colors hover:border-accent"
+          >
+            Dimensions
           </a>
         )
       }
