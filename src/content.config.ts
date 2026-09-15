@@ -46,8 +46,6 @@ const publications = defineCollection({
     'pub-pdf': z.string().optional(),
     'pub-oa': z.boolean().optional(),
     'pub-citations': z.number().optional(),
-    'pub-altmetric-score': z.number().optional(),
-    'pub-altmetric-id': z.string().optional(),
     'pub-listed': z.string().optional(),
     'pub-appearance-of': z.string().optional(),
     'pub-appearance-count': z.number().optional(),
