@@ -1528,6 +1528,9 @@ function initBadges() {
     s.src = 'https://embed.altmetric.com/assets/embed.js';
     s.async = true;
     s.onload = () => w._altmetric_embed_init?.();
+    s.onerror = () => {
+      altmetricLoading = false;
+    };
     document.body.appendChild(s);
   }
 
@@ -1538,6 +1541,9 @@ function initBadges() {
     const s = document.createElement('script');
     s.src = 'https://badge.dimensions.ai/badge.js';
     s.async = true;
+    s.onerror = () => {
+      dimensionsLoading = false;
+    };
     document.body.appendChild(s);
   }
 }
