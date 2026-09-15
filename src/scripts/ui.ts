@@ -1492,18 +1492,39 @@ function setupShareRow(row: HTMLElement) {
 // Astro's view-transition swap treats a `<script src>` tag as unchanged
 // across a client-side navigation and skips re-inserting it, so on a
 // publications page reached by soft nav the vendor script never reruns
-// against the new badges — only a full reload triggers it. Injecting fresh
-// script elements on every navigation forces a rescan.
+// against the new badges — only a full reload triggers it.
+//
+// Re-injecting a fresh `<script src>` happens to work for Altmetric, whose
+// embed.js calls its init unconditionally every time it executes, but not
+// for Dimensions: its badge.js only scans on `DOMContentLoaded`, which never
+// fires again after the first load, so a second copy of the script sits
+// there doing nothing. Both vendors ship a real API for this — call it once
+// it exists, and fall back to injecting the script only for the very first
+// load of the page (when neither global exists yet).
 function initBadges() {
   if (!document.querySelector('.altmetric-embed, .__dimensions_badge_embed__')) return;
-  ['https://embed.altmetric.com/assets/embed.js', 'https://badge.dimensions.ai/badge.js'].forEach(
-    (src) => {
-      const s = document.createElement('script');
-      s.src = src;
-      s.async = true;
-      document.body.appendChild(s);
-    },
-  );
+  const w = window as unknown as {
+    _altmetric_embed_init?: () => void;
+    __dimensions_embed?: { addBadges: () => void };
+  };
+
+  if (w._altmetric_embed_init) {
+    w._altmetric_embed_init();
+  } else {
+    const s = document.createElement('script');
+    s.src = 'https://embed.altmetric.com/assets/embed.js';
+    s.async = true;
+    document.body.appendChild(s);
+  }
+
+  if (w.__dimensions_embed) {
+    w.__dimensions_embed.addBadges();
+  } else {
+    const s = document.createElement('script');
+    s.src = 'https://badge.dimensions.ai/badge.js';
+    s.async = true;
+    document.body.appendChild(s);
+  }
 }
 
 /* ---------------------------------------------------------- contact form -- */
