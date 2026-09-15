@@ -453,14 +453,13 @@
   }
 
   /* Altmetric's and Dimensions' small-rectangle badges are self-contained
-     images (their own shape, corners, and colors baked in) and both render
-     at 88x18 on their own. Don't force a height: Dimensions' badge is an
-     inline SVG inside wrapper divs it sizes itself, so a height here
-     stretched the SVG past those wrappers and over its own score box while
-     Altmetric's <img> scaled cleanly — the two ended up different sizes.
-     The wrapper only centers them on the chip row. No clipping or extra
-     background either: those cropped the badges' own rounded ends and, for
-     Altmetric, clipped off its hover popover. */
+     images, with their own shape, corners and colors baked in. Their natural
+     sizes differ though: Dimensions draws an 88x18 inline SVG, Altmetric
+     serves a 120x24 <img>. Scale the Altmetric image down to Dimensions'
+     18px rather than stretching Dimensions up — its SVG sits inside wrapper
+     divs it sizes itself, so a height on the SVG alone overflows them and
+     runs over its own score box. `line-height: 0` drops the 1.36px text
+     leading under that SVG, so both badges line up to the pixel. */
   .badge-pair {
     display: inline-flex;
     align-items: center;
@@ -472,13 +471,18 @@
     display: inline-flex;
     align-items: center;
   }
+  .badge-pair .__dimensions_badge_embed__ {
+    line-height: 0;
+  }
   .badge-pair .altmetric-embed img {
     display: block;
+    height: 18px;
   }
-  /* Altmetric's badge is a plain <img>, so any page-level image styling
-     (`.prose-nw img` rounds, borders and stretches images) would land on it
-     and not on Dimensions' inline SVG, leaving the two different shapes and
-     sizes. Keep the vendor artwork as-is wherever the pair is used. */
+  /* Altmetric's badge is a plain <img>, so page-level image styling
+     (`.prose-nw img` rounds, borders and stretches images) lands on it and
+     not on Dimensions' inline SVG, which is what left the two different
+     shapes and sizes on publication pages. Keep the vendor artwork as-is
+     wherever the pair is used. */
   .badge-pair img {
     width: auto;
     max-width: none;
