@@ -495,6 +495,22 @@
     border: 0;
     border-radius: 0;
   }
+  /* Dimensions' badge.js always builds its <a> wrapper with an inline
+     `display: none` and depends on its own dynamically-injected badge.css
+     (a <link> it appends to <head> the first time it runs on a page) to
+     override that via `!important` — nothing else in its own code ever
+     flips the inline style back. On an Astro soft navigation the whole
+     <head> gets swapped, and that foreign <link> (added by outside JS, not
+     part of Astro's template) doesn't survive the diff; our own re-init
+     logic only ever calls the vendor's addBadges(), which doesn't touch
+     styles. The result was a fully-built, fully-installed badge (correct
+     citation count and all) stuck invisible after any client-side nav to a
+     publications page. Mirroring their own override rule here, in a
+     stylesheet Astro never drops, makes visibility independent of whether
+     that <link> made it through the swap. */
+  .__dimensions_badge_embed__ .__dimensions_Link {
+    display: inline-block !important;
+  }
 
   /* --- filter pills --- */
   .pill {
