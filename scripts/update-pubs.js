@@ -348,10 +348,44 @@ function readExistingMetrics(file) {
   const fm = fs.readFileSync(file, 'utf8').match(/^---\r?\n([\s\S]*?)\r?\n---/);
   if (!fm) return {};
   const cites = fm[1].match(/^pub-citations:\s*(\d+)\s*$/m);
+  const altScore = fm[1].match(/^pub-altmetric-score:\s*([\d.]+)\s*$/m);
+  const altId = fm[1].match(/^pub-altmetric-id:\s*"([^"]*)"\s*$/m);
   return {
     citations: cites ? Number(cites[1]) : undefined,
     oa: /^pub-oa:\s*true\s*$/m.test(fm[1]) || undefined,
+    altmetricScore: altScore ? Number(altScore[1]) : undefined,
+    altmetricId: altId ? altId[1] : undefined,
   };
+}
+
+// ---------------------------------------------------------------------------
+// Altmetric attention scores.
+//
+// Altmetric's free key-less API only accepts one DOI per request and is
+// rate-limited, so lookups run sequentially with a small delay rather than
+// batched like OpenAlex above. Best-effort per DOI: a single failed or
+// not-yet-tracked DOI never blocks the rest, and any DOI the API can't
+// resolve just falls back to whatever was already committed.
+async function fetchAltmetricScores(dois) {
+  const unique = [...new Set(dois.map(normalizeDoi).filter(Boolean))];
+  const out = new Map();
+  for (const doi of unique) {
+    try {
+      const res = await fetch(`https://api.altmetric.com/v1/doi/${encodeURIComponent(doi)}`, {
+        signal: AbortSignal.timeout(15000),
+      });
+      if (res.status === 404) continue; // Not tracked by Altmetric.
+      if (!res.ok) throw new Error(`Altmetric API error (${res.status})`);
+      const data = await res.json();
+      if (Number.isFinite(data.score) && data.altmetric_id) {
+        out.set(doi, { score: data.score, id: String(data.altmetric_id) });
+      }
+    } catch (err) {
+      console.warn(`Altmetric lookup failed for ${doi} (${err?.message ?? err}).`);
+    }
+    await new Promise((r) => setTimeout(r, 250));
+  }
+  return out;
 }
 
 // Minimal YAML scalar quoting: always double-quote and escape.
@@ -599,6 +633,9 @@ async function main() {
     );
   }
 
+  const altmetric = await fetchAltmetricScores(entries.map((it) => it.data.DOI));
+  console.log(`Altmetric: scores for ${altmetric.size} of ${entries.length} items.`);
+
   // ---------------------------------------------------------------------
   // Pass 1: derive each entry's page data (nothing is written yet — the
   // grouping pass below needs to see every entry before any page is built).
@@ -681,6 +718,13 @@ async function main() {
     const openAccess = fetched?.oa ?? previous.oa;
     if (citations > 0) fm.push(`pub-citations: ${citations}`);
     if (openAccess) fm.push('pub-oa: true');
+    const altFetched = altmetric.get(normalizeDoi(doi));
+    const altScore = altFetched?.score ?? previous.altmetricScore;
+    const altId = altFetched?.id ?? previous.altmetricId;
+    if (altScore != null && altId) {
+      fm.push(`pub-altmetric-score: ${altScore}`);
+      fm.push(`pub-altmetric-id: ${yq(altId)}`);
+    }
     // The citation line and the action buttons are frontmatter, not body
     // markup: the Astro page renders both, and the body stays plain prose.
     const citation = `${rec.authorsHtml}${year ? ` (${year}).` : ''}${
