@@ -452,15 +452,31 @@
     background: color-mix(in oklab, var(--c-accent) 10%, transparent);
   }
 
-  /* Altmetric's donut badge is a server-rendered PNG with the score drawn in
-     dark text on a transparent hole — legible on the white page it assumes,
-     invisible on this site's dark background. A plain white disc behind the
-     image (matching the ring's own diameter) shows through only where the
-     PNG is transparent, so it fixes the dark theme without touching the
-     ring's colors and costs nothing in light mode. */
-  .altmetric-embed img {
-    border-radius: 50%;
+  /* Altmetric and Dimensions render their small-rectangle badges as
+     server-side images assuming a white page — dark text and thin outlines
+     that vanish on this site's dark background. A white rounded backing
+     sized to the chips beside it fixes both in dark mode and costs nothing
+     in light mode. */
+  .badge-pair {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .badge-pair .altmetric-embed,
+  .badge-pair .__dimensions_badge_embed__ {
+    display: inline-flex;
+    align-items: center;
+    height: 20px;
+    border-radius: 4px;
+    overflow: hidden;
     background: #fff;
+  }
+  .badge-pair .altmetric-embed img,
+  .badge-pair .__dimensions_badge_embed__ img,
+  .badge-pair .__dimensions_badge_embed__ svg {
+    display: block;
+    height: 20px;
+    width: auto;
   }
 
   /* --- filter pills --- */

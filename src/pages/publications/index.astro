@@ -69,16 +69,17 @@ const stats = [
 <script is:inline>
   // A DOI with no attention data yet leaves Altmetric's badge empty (and,
   // worse, an <a> with no accessible name) instead of not rendering at
-  // all. Hiding the empty ones fixes both the blank donut and the a11y
-  // gap in one pass; collapse the row too if Dimensions came up empty as
-  // well, so no dangling gap is left behind.
+  // all. Hiding the empty ones fixes both the blank badge and the a11y
+  // gap in one pass; collapse the badge pair too if Dimensions came up
+  // empty as well, so no dangling gap is left behind.
   new MutationObserver(() => {
     document.querySelectorAll('[data-badges]').forEach((wrap) => {
       const alt = wrap.querySelector('.altmetric-embed');
       if (alt) alt.hidden = !alt.querySelector('img');
       const dim = wrap.querySelector('.__dimensions_badge_embed__');
       if (dim) dim.hidden = dim.childElementCount === 0;
-      wrap.hidden = [...wrap.children].every((c) => c.hidden);
+      const pair = wrap.classList.contains('badge-pair') ? wrap : wrap.querySelector('.badge-pair');
+      if (pair) pair.hidden = [...pair.children].every((c) => c.hidden);
     });
   }).observe(document.body, { childList: true, subtree: true });
 </script>
