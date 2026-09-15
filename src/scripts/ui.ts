@@ -1506,6 +1506,16 @@ function setupShareRow(row: HTMLElement) {
 // vendor's internal timing: call the documented rescan API ourselves —
 // immediately if it's already loaded (a later soft nav), or from the
 // script's `onload` once it finishes (the first load on this page).
+//
+// `boot()` runs both immediately and on `astro:page-load`, and Astro fires
+// that event on the very first load too — so on a cold visit this function
+// runs twice before either script has finished loading. Without a loading
+// guard, the second call would see the vendor global still unset and inject
+// a second copy of the same script, doubling the in-flight requests and
+// onload handlers for no reason.
+let altmetricLoading = false;
+let dimensionsLoading = false;
+
 function initBadges() {
   if (!document.querySelector('.altmetric-embed, .__dimensions_badge_embed__')) return;
   const w = window as unknown as {
@@ -1515,7 +1525,8 @@ function initBadges() {
 
   if (w._altmetric_embed_init) {
     w._altmetric_embed_init();
-  } else {
+  } else if (!altmetricLoading) {
+    altmetricLoading = true;
     const s = document.createElement('script');
     s.src = 'https://embed.altmetric.com/assets/embed.js';
     s.async = true;
@@ -1525,7 +1536,8 @@ function initBadges() {
 
   if (w.__dimensions_embed) {
     w.__dimensions_embed.addBadges();
-  } else {
+  } else if (!dimensionsLoading) {
+    dimensionsLoading = true;
     const s = document.createElement('script');
     s.src = 'https://badge.dimensions.ai/badge.js';
     s.async = true;
