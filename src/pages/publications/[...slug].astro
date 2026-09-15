@@ -97,17 +97,17 @@ const pubLd = {
   }
   {
     d['pub-doi'] && (
-      <div class="mb-8 flex items-center gap-3" data-badges>
-        <div
-          class="altmetric-embed"
-          data-badge-type="donut"
-          data-badge-popover="bottom"
-          data-doi={d['pub-doi']}
-        />
+      <div class="badge-pair mb-8" data-badges>
         <span
           class="__dimensions_badge_embed__"
           data-doi={d['pub-doi']}
-          data-style="small_circle"
+          data-style="small_rectangle"
+        />
+        <div
+          class="altmetric-embed"
+          data-badge-type="2"
+          data-badge-popover="bottom"
+          data-doi={d['pub-doi']}
         />
       </div>
     )
@@ -131,7 +131,8 @@ const pubLd = {
       if (alt) alt.hidden = !alt.querySelector('img');
       const dim = wrap.querySelector('.__dimensions_badge_embed__');
       if (dim) dim.hidden = dim.childElementCount === 0;
-      wrap.hidden = [...wrap.children].every((c) => c.hidden);
+      const pair = wrap.classList.contains('badge-pair') ? wrap : wrap.querySelector('.badge-pair');
+      if (pair) pair.hidden = [...pair.children].every((c) => c.hidden);
     });
   }).observe(document.body, { childList: true, subtree: true });
 </script>
