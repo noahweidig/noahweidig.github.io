@@ -95,7 +95,43 @@ const pubLd = {
       </p>
     )
   }
+  {
+    d['pub-doi'] && (
+      <div class="mb-8 flex items-center gap-3" data-badges>
+        <div
+          class="altmetric-embed"
+          data-badge-type="donut"
+          data-badge-popover="bottom"
+          data-doi={d['pub-doi']}
+        />
+        <span
+          class="__dimensions_badge_embed__"
+          data-doi={d['pub-doi']}
+          data-style="small_circle"
+        />
+      </div>
+    )
+  }
   <Content />
 </Detail>
 
 <script type="application/ld+json" is:inline set:html={JSON.stringify(pubLd)} />
+{d['pub-doi'] && <script async is:inline src="https://embed.altmetric.com/assets/embed.js" />}
+{d['pub-doi'] && <script async is:inline src="https://badge.dimensions.ai/badge.js" />}
+<script is:inline>
+  // See src/pages/publications/index.astro for why this exists: a DOI with
+  // no attention data yet leaves Altmetric's badge empty (and, worse, an
+  // <a> with no accessible name) instead of not rendering at all. Hiding
+  // the empty ones fixes both the blank donut and the a11y gap in one
+  // pass. Unconditional and harmless on a page with no badge at all — the
+  // selectors just never match.
+  new MutationObserver(() => {
+    document.querySelectorAll('[data-badges]').forEach((wrap) => {
+      const alt = wrap.querySelector('.altmetric-embed');
+      if (alt) alt.hidden = !alt.querySelector('img');
+      const dim = wrap.querySelector('.__dimensions_badge_embed__');
+      if (dim) dim.hidden = dim.childElementCount === 0;
+      wrap.hidden = [...wrap.children].every((c) => c.hidden);
+    });
+  }).observe(document.body, { childList: true, subtree: true });
+</script>
