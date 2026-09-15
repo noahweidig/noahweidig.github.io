@@ -70,6 +70,11 @@ const reading = section === 'Blog';
 /* The contents rail needs room beside the measure, so a page that has one
    widens from the reading shell to the full one. */
 const hasToc = headings.filter((h) => h.depth === 2 || h.depth === 3).length > 1;
+
+/* Metric badges (Altmetric, Dimensions) belong in the header, under the
+   buttons — not in the body, where `.prose-nw img` would round, border and
+   stretch the Altmetric image while leaving the Dimensions SVG alone. */
+const hasBadges = Astro.slots.has('badges');
 ---
 
 <Base
@@ -167,6 +172,14 @@ const hasToc = headings.filter((h) => h.depth === 2 || h.depth === 3).length > 1
                   {l.external && <Icon name="external" size={14} />}
                 </a>
               ))}
+            </div>
+          )
+        }
+
+        {
+          hasBadges && (
+            <div class="mt-6 flex justify-center" data-pagefind-ignore>
+              <slot name="badges" />
             </div>
           )
         }
