@@ -452,11 +452,11 @@
     background: color-mix(in oklab, var(--c-accent) 10%, transparent);
   }
 
-  /* Altmetric and Dimensions render their small-rectangle badges as
-     server-side images assuming a white page — dark text and thin outlines
-     that vanish on this site's dark background. A white rounded backing
-     sized to the chips beside it fixes both in dark mode and costs nothing
-     in light mode. */
+  /* Altmetric's and Dimensions' small-rectangle badges are self-contained
+     images (their own shape, corners, and colors baked in) — the wrapper
+     only needs to sit inline at chip height. No clipping or extra
+     background here: those cropped the badges' own rounded ends and, for
+     Altmetric, clipped off its hover popover. */
   .badge-pair {
     display: inline-flex;
     align-items: center;
@@ -467,9 +467,6 @@
     display: inline-flex;
     align-items: center;
     height: 20px;
-    border-radius: 4px;
-    overflow: hidden;
-    background: #fff;
   }
   .badge-pair .altmetric-embed img,
   .badge-pair .__dimensions_badge_embed__ img,
