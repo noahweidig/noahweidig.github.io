@@ -27,6 +27,17 @@ const stats = [
   { value: firstAuthor, label: 'First-Author Works' },
   { value: citations, label: 'Citations' },
 ];
+
+/* Dimensions' badge.js injects this stylesheet itself the first time it runs
+   on a page, but that <link> is foreign to Astro's own head — a soft
+   navigation swaps the whole <head> and drops it, along with every rule it
+   carries (not just the one this repo already patched: the badge wrapper's
+   default `display: none` also depends on this file to hide the citation
+   legend panel by default, which otherwise sits permanently visible and
+   overlapping the compact badge). Rendering the same stylesheet from Astro's
+   own template keeps it in the head across every navigation, the same way
+   any other page asset survives a soft nav. */
+const dimensionsBadgeCss = listed.some((p) => p.data['pub-doi']);
 ---
 
 <Page
@@ -38,6 +49,13 @@ const stats = [
   image={u('/media/og/publications.webp')}
   imageAlt="Noah Weidig's publications and research output"
 >
+  {
+    dimensionsBadgeCss && (
+      <Fragment slot="head">
+        <link rel="stylesheet" href="https://badge.dimensions.ai/badge.css" />
+      </Fragment>
+    )
+  }
   <StatStrip stats={stats} />
 
   <div class="mt-10">

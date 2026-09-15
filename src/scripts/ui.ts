@@ -1492,18 +1492,60 @@ function setupShareRow(row: HTMLElement) {
 // Astro's view-transition swap treats a `<script src>` tag as unchanged
 // across a client-side navigation and skips re-inserting it, so on a
 // publications page reached by soft nav the vendor script never reruns
-// against the new badges — only a full reload triggers it. Injecting fresh
-// script elements on every navigation forces a rescan.
+// against the new badges — only a full reload triggers it.
+//
+// Re-injecting a fresh `<script src>` happens to work for Altmetric, whose
+// embed.js calls its init unconditionally every time it executes. Dimensions'
+// badge.js is different: on its first-ever execution on a page it installs
+// itself via its own `DOMContentLoaded`-safe listener (readyState-checked, so
+// it always fires whether the script lands before or after that event) and
+// self-scans without any help from us — calling its `addBadges()` ourselves
+// on that same first load raced its own internal call and installed every
+// badge twice into the same container. So we only call it explicitly when
+// `window.__dimensions_embed` already exists, i.e. on a later soft nav where
+// badge.js's one-time internal init has already run and won't run again.
+//
+// `boot()` runs both immediately and on `astro:page-load`, and Astro fires
+// that event on the very first load too — so on a cold visit this function
+// runs twice before either script has finished loading. Without a loading
+// guard, the second call would see the vendor global still unset and inject
+// a second copy of the same script, doubling the in-flight requests.
+let altmetricLoading = false;
+let dimensionsLoading = false;
+
 function initBadges() {
   if (!document.querySelector('.altmetric-embed, .__dimensions_badge_embed__')) return;
-  ['https://embed.altmetric.com/assets/embed.js', 'https://badge.dimensions.ai/badge.js'].forEach(
-    (src) => {
-      const s = document.createElement('script');
-      s.src = src;
-      s.async = true;
-      document.body.appendChild(s);
-    },
-  );
+  const w = window as unknown as {
+    _altmetric_embed_init?: () => void;
+    __dimensions_embed?: { addBadges: () => void };
+  };
+
+  if (w._altmetric_embed_init) {
+    w._altmetric_embed_init();
+  } else if (!altmetricLoading) {
+    altmetricLoading = true;
+    const s = document.createElement('script');
+    s.src = 'https://embed.altmetric.com/assets/embed.js';
+    s.async = true;
+    s.onload = () => w._altmetric_embed_init?.();
+    s.onerror = () => {
+      altmetricLoading = false;
+    };
+    document.body.appendChild(s);
+  }
+
+  if (w.__dimensions_embed) {
+    w.__dimensions_embed.addBadges();
+  } else if (!dimensionsLoading) {
+    dimensionsLoading = true;
+    const s = document.createElement('script');
+    s.src = 'https://badge.dimensions.ai/badge.js';
+    s.async = true;
+    s.onerror = () => {
+      dimensionsLoading = false;
+    };
+    document.body.appendChild(s);
+  }
 }
 
 /* ---------------------------------------------------------- contact form -- */
