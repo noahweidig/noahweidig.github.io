@@ -453,27 +453,27 @@
   }
 
   /* Altmetric's and Dimensions' small-rectangle badges are self-contained
-     images (their own shape, corners, and colors baked in) — the wrapper
-     only needs to sit inline at chip height. No clipping or extra
-     background here: those cropped the badges' own rounded ends and, for
+     images (their own shape, corners, and colors baked in) and both render
+     at 88x18 on their own. Don't force a height: Dimensions' badge is an
+     inline SVG inside wrapper divs it sizes itself, so a height here
+     stretched the SVG past those wrappers and over its own score box while
+     Altmetric's <img> scaled cleanly — the two ended up different sizes.
+     The wrapper only centers them on the chip row. No clipping or extra
+     background either: those cropped the badges' own rounded ends and, for
      Altmetric, clipped off its hover popover. */
   .badge-pair {
     display: inline-flex;
     align-items: center;
     gap: 8px;
+    min-height: 20px;
   }
   .badge-pair .altmetric-embed,
   .badge-pair .__dimensions_badge_embed__ {
     display: inline-flex;
     align-items: center;
-    height: 20px;
   }
-  .badge-pair .altmetric-embed img,
-  .badge-pair .__dimensions_badge_embed__ img,
-  .badge-pair .__dimensions_badge_embed__ svg {
+  .badge-pair .altmetric-embed img {
     display: block;
-    height: 20px;
-    width: auto;
   }
 
   /* --- filter pills --- */
