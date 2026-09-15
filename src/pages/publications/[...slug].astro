@@ -95,24 +95,27 @@ const pubLd = {
       </p>
     )
   }
-  {
-    d['pub-doi'] && (
-      <div class="badge-pair mb-8" data-badges>
-        <span
-          class="__dimensions_badge_embed__"
-          data-doi={d['pub-doi']}
-          data-style="small_rectangle"
-        />
-        <div
-          class="altmetric-embed"
-          data-badge-type="2"
-          data-badge-popover="bottom"
-          data-doi={d['pub-doi']}
-        />
-      </div>
-    )
-  }
   <Content />
+
+  <Fragment slot="badges">
+    {
+      d['pub-doi'] && (
+        <div class="badge-pair" data-badges>
+          <span
+            class="__dimensions_badge_embed__"
+            data-doi={d['pub-doi']}
+            data-style="small_rectangle"
+          />
+          <div
+            class="altmetric-embed"
+            data-badge-type="2"
+            data-badge-popover="bottom"
+            data-doi={d['pub-doi']}
+          />
+        </div>
+      )
+    }
+  </Fragment>
 </Detail>
 
 <script type="application/ld+json" is:inline set:html={JSON.stringify(pubLd)} />

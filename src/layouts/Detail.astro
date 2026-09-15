@@ -70,6 +70,14 @@ const reading = section === 'Blog';
 /* The contents rail needs room beside the measure, so a page that has one
    widens from the reading shell to the full one. */
 const hasToc = headings.filter((h) => h.depth === 2 || h.depth === 3).length > 1;
+
+/* Metric badges (Altmetric, Dimensions) belong in the header, under the
+   buttons — not in the body, where `.prose-nw img` would round, border and
+   stretch the Altmetric image while leaving the Dimensions SVG alone.
+   Rendered here rather than checked with `Astro.slots.has`, so a page that
+   passes the slot but has nothing to put in it (a publication with no DOI)
+   leaves no empty row under the buttons. */
+const badges = Astro.slots.has('badges') ? (await Astro.slots.render('badges')).trim() : '';
 ---
 
 <Base
@@ -170,6 +178,8 @@ const hasToc = headings.filter((h) => h.depth === 2 || h.depth === 3).length > 1
             </div>
           )
         }
+
+        {badges && <div class="mt-6 flex justify-center" data-pagefind-ignore set:html={badges} />}
       </div>
     </header>
 
