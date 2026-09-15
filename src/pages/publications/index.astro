@@ -66,3 +66,16 @@ const stats = [
 
 <script async is:inline src="https://embed.altmetric.com/assets/embed.js"></script>
 <script async is:inline src="https://badge.dimensions.ai/badge.js"></script>
+<script is:inline>
+  // Altmetric's badge script leaves the anchor it injects with no accessible
+  // name when a DOI has no attention data yet — a real gap in their widget,
+  // not something a build-time score check can catch. Patch it in once the
+  // badge (or its empty shell) lands, rather than skip the badge entirely.
+  new MutationObserver(() => {
+    document.querySelectorAll('.altmetric-embed a:not([aria-label])').forEach((a) => {
+      if (!a.textContent.trim() && !a.querySelector('img[alt]')) {
+        a.setAttribute('aria-label', 'Altmetric Attention Score');
+      }
+    });
+  }).observe(document.body, { childList: true, subtree: true });
+</script>
