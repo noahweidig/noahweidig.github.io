@@ -87,6 +87,12 @@ const pubLd = {
     {d['pub-venue'] && <meta name="citation_journal_title" content={d['pub-venue']} />}
     {d['pub-doi'] && <meta name="citation_doi" content={d['pub-doi']} />}
     {pdfUrl && <meta name="citation_pdf_url" content={pdfUrl} />}
+    {
+      /* See src/pages/publications/index.astro for why this is rendered
+         from Astro's own template rather than left to badge.js's own
+         one-time, JS-injected <link>. */
+      d['pub-doi'] && <link rel="stylesheet" href="https://badge.dimensions.ai/badge.css" />
+    }
   </Fragment>
   {
     d.citation && (
@@ -105,6 +111,7 @@ const pubLd = {
             class="__dimensions_badge_embed__"
             data-doi={d['pub-doi']}
             data-style="small_rectangle"
+            data-hide-zero-citations="true"
           />
           <div
             class="altmetric-embed"
