@@ -454,12 +454,17 @@
 
   /* Altmetric's and Dimensions' small-rectangle badges are self-contained
      images, with their own shape, corners and colors baked in. Their natural
-     sizes differ though: Dimensions draws an 88x18 inline SVG, Altmetric
-     serves a 120x24 <img>. Scale the Altmetric image down to Dimensions'
-     18px rather than stretching Dimensions up — its SVG sits inside wrapper
-     divs it sizes itself, so a height on the SVG alone overflows them and
-     runs over its own score box. `line-height: 0` drops the 1.36px text
-     leading under that SVG, so both badges line up to the pixel. */
+     sizes are close but not identical: Dimensions draws an 88x18 inline SVG,
+     Altmetric's `data-badge-type="2"` serves an 88x22 <img> — same width,
+     4px taller. (The `bar` and `donut` Altmetric styles are shaped nothing
+     like Dimensions' rectangle — a striped attention meter and a circular
+     score wheel respectively — so `2` is the right pairing despite being
+     undocumented; don't swap it for one of those.) Pin the Altmetric image's
+     width rather than its height: the two already match on width, so a
+     height-only clamp made the browser scale width down proportionally
+     against a false 24px assumption, leaving Altmetric ~16px narrower than
+     Dimensions. `line-height: 0` on the Dimensions wrapper drops the 1.36px
+     text leading under its SVG, so both badges line up to the pixel. */
   .badge-pair {
     display: inline-flex;
     align-items: center;
@@ -476,7 +481,8 @@
   }
   .badge-pair .altmetric-embed img {
     display: block;
-    height: 18px;
+    width: 88px;
+    height: auto;
   }
   /* Altmetric's badge is a plain <img>, so page-level image styling
      (`.prose-nw img` rounds, borders and stretches images) lands on it and
