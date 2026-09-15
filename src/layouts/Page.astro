@@ -39,6 +39,9 @@ const {
   noindex={noindex}
   filters={{ section }}
 >
+  <Fragment slot="head">
+    <slot name="head" />
+  </Fragment>
   <section class="relative overflow-hidden border-b border-line bg-bg-deep">
     <div class="grid-bg absolute inset-0" aria-hidden="true"></div>
     <div
