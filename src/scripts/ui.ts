@@ -1487,6 +1487,25 @@ function setupShareRow(row: HTMLElement) {
   cleanups.push(close);
 }
 
+/* -------------------------------------------------------------- badges -- */
+// Altmetric/Dimensions only scan the DOM once, when their script executes.
+// Astro's view-transition swap treats a `<script src>` tag as unchanged
+// across a client-side navigation and skips re-inserting it, so on a
+// publications page reached by soft nav the vendor script never reruns
+// against the new badges — only a full reload triggers it. Injecting fresh
+// script elements on every navigation forces a rescan.
+function initBadges() {
+  if (!document.querySelector('.altmetric-embed, .__dimensions_badge_embed__')) return;
+  ['https://embed.altmetric.com/assets/embed.js', 'https://badge.dimensions.ai/badge.js'].forEach(
+    (src) => {
+      const s = document.createElement('script');
+      s.src = src;
+      s.async = true;
+      document.body.appendChild(s);
+    },
+  );
+}
+
 /* ---------------------------------------------------------- contact form -- */
 function initContactForm() {
   const form = document.querySelector<HTMLFormElement>('[data-contact-form]');
@@ -1559,6 +1578,7 @@ function boot() {
   initShareRow();
   initContactForm();
   initBackToTop();
+  initBadges();
 }
 
 boot();
