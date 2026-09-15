@@ -475,6 +475,16 @@
   .badge-pair .altmetric-embed img {
     display: block;
   }
+  /* Altmetric's badge is a plain <img>, so any page-level image styling
+     (`.prose-nw img` rounds, borders and stretches images) would land on it
+     and not on Dimensions' inline SVG, leaving the two different shapes and
+     sizes. Keep the vendor artwork as-is wherever the pair is used. */
+  .badge-pair img {
+    width: auto;
+    max-width: none;
+    border: 0;
+    border-radius: 0;
+  }
 
   /* --- filter pills --- */
   .pill {
