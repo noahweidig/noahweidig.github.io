@@ -144,6 +144,11 @@ const year = new Date().getFullYear();
     background: color-mix(in oklab, var(--c-surface) 55%, transparent);
     border-color: rgb(255 255 255 / 0.1);
     box-shadow: var(--shadow-card);
+    /* Own compositing layer: without it, Chromium sometimes repaints this
+       backdrop-blur region a frame late on scroll, leaving a stray
+       translucent rectangle ghosted over the footer until the next repaint. */
+    transform: translateZ(0);
+    will-change: backdrop-filter;
   }
   :root[data-theme='light'] .footer-card {
     border-color: rgb(255 255 255 / 0.6);
