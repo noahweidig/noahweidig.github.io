@@ -3,6 +3,8 @@ import { u } from '../lib/url';
 import type { CollectionEntry } from 'astro:content';
 import { fullDate } from '../lib/format';
 import { IMAGE_WIDTHS } from '../lib/images';
+import { tagIcon } from '../lib/tags';
+import Icon from './Icon.astro';
 import ThemeImage from './ThemeImage.astro';
 
 interface Props {
@@ -71,7 +73,14 @@ const alt = entry.data['image-alt'] ?? '';
     </h3>
     <p class="mt-2 flex-1 text-sm leading-relaxed text-dim line-clamp-4">{description}</p>
     <div class="mt-4 flex flex-wrap gap-1.5">
-      {categories.map((c) => <span class="chip">{c}</span>)}
+      {
+        categories.map((c) => (
+          <span class="chip">
+            {tagIcon(c) && <Icon name={tagIcon(c)!} size={12} />}
+            {c}
+          </span>
+        ))
+      }
     </div>
   </div>
 </article>
