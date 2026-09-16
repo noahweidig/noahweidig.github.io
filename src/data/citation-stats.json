@@ -45,6 +45,12 @@
       "fieldCitationRatio": null,
       "relativeCitationRatio": null,
       "url": "https://badge.dimensions.ai/details/doi/10.1186/s42408-026-00574-5"
+    },
+    "altmetric": {
+      "score": 1,
+      "postsCount": 1,
+      "detailsUrl": "https://www.altmetric.com/details.php?citation_id=204398202",
+      "imageUrl": "https://badges.altmetric.com/?size=64&score=1&types=uuuuuuuu"
     }
   },
   "10.1371/journal.pone.0277237": {
