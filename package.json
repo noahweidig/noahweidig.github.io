@@ -22,7 +22,8 @@
     "pdfs": "node scripts/generate-pdfs.mjs",
     "shots": "node scripts/generate-project-shots.mjs",
     "preview": "astro preview",
-    "start": "astro dev"
+    "start": "astro dev",
+    "test": "vitest run"
   },
   "dependencies": {
     "@astrojs/markdown-remark": "^7.3.0",
@@ -52,6 +53,7 @@
     "prettier-plugin-astro": "^0.14.1",
     "puppeteer": "^25.9.0",
     "svelte": "^5.57.0",
-    "typescript": "^5.7.0"
+    "typescript": "^5.7.0",
+    "vitest": "^5.0.1"
   }
 }
