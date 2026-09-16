@@ -1527,8 +1527,30 @@ function setupShareRow(row: HTMLElement) {
 let altmetricLoading = false;
 let dimensionsLoading = false;
 
+// Altmetric's embed.js injects a bare `<a>` (background-image badge, no text)
+// into `.altmetric-embed` asynchronously once its own XHR resolves, so it
+// fails the accessibility `link-name` audit until labeled. We can't control
+// that markup, so watch each container and label the link as soon as it
+// appears.
+function ensureAltmetricAccessibleName(container: HTMLElement) {
+  const a = container.querySelector('a');
+  if (a && !a.hasAttribute('aria-label')) {
+    a.setAttribute('aria-label', 'View Altmetric details');
+  }
+}
+
+function watchAltmetricBadges() {
+  document.querySelectorAll<HTMLElement>('.altmetric-embed').forEach((container) => {
+    ensureAltmetricAccessibleName(container);
+    new MutationObserver(() => ensureAltmetricAccessibleName(container)).observe(container, {
+      childList: true,
+    });
+  });
+}
+
 function initBadges() {
   if (!document.querySelector('.altmetric-embed, .__dimensions_badge_embed__')) return;
+  watchAltmetricBadges();
   const w = window as unknown as {
     _altmetric_embed_init?: () => void;
     __dimensions_embed?: { addBadges: () => void };

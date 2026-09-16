@@ -24,3 +24,5 @@ jobs:
         with:
           configPath: ./lighthouserc.cjs
           runs: 3
+          uploadArtifacts: true
+          temporaryPublicStorage: true
