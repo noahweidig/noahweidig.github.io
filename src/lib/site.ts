@@ -54,6 +54,17 @@ export const socials = [
   },
 ] as const;
 
+export const skills: [string, string][] = [
+  ['Languages', 'R, Python, JavaScript, SQL'],
+  ['Markup', 'Markdown, LaTeX, HTML, CSS'],
+  ['Libraries', 'tidyverse, pandas, NumPy, Plotly'],
+  [
+    'GIS & Remote Sensing',
+    'ArcGIS Pro, Google Earth Engine, QGIS, GDAL, sf, terra, GeoPandas, OpenStreetMap',
+  ],
+  ['Workflows', 'Git, GitHub, GitHub Actions, Conda, renv'],
+];
+
 export const footerColumns = [
   {
     heading: 'About',

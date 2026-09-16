@@ -4,6 +4,7 @@ import sitemap from '@astrojs/sitemap';
 import postAudit from '@casoon/astro-post-audit';
 import tailwindcss from '@tailwindcss/vite';
 import { remarkAlert } from 'remark-github-blockquote-alert';
+import { unified } from '@astrojs/markdown-remark';
 import { readFileSync, readdirSync } from 'node:fs';
 import yaml from 'js-yaml';
 
@@ -14,6 +15,10 @@ const COLLECTIONS = ['blog', 'projects', 'publications', 'awards', 'experience',
 // astro:content isn't resolvable from this file, so frontmatter is read
 // directly rather than through the content collections API.
 const lastmodByPath = new Map();
+// Publication "appearance" records (pub-appearance-of set) are noindexed by
+// src/pages/publications/[...slug].astro — excluded here too so the sitemap
+// never contradicts that signal.
+const noindexedPaths = new Set();
 for (const name of COLLECTIONS) {
   const dir = new URL(`./src/content/${name}/`, import.meta.url);
   let newest;
@@ -21,8 +26,14 @@ for (const name of COLLECTIONS) {
     const raw = readFileSync(new URL(`${slug}/index.md`, dir), 'utf-8');
     const match = raw.match(/^---\n([\s\S]*?)\n---/);
     if (!match) continue;
-    const date = new Date(yaml.load(match[1]).date);
-    lastmodByPath.set(`/${name}/${slug}/`, date);
+    const data = yaml.load(match[1]);
+    const date = new Date(data.date);
+    const path = `/${name}/${slug}/`;
+    if (name === 'publications' && data['pub-appearance-of']) {
+      noindexedPaths.add(path);
+      continue;
+    }
+    lastmodByPath.set(path, date);
     if (!newest || date > newest) newest = date;
   }
   if (newest) lastmodByPath.set(`/${name}/`, newest);
@@ -37,8 +48,18 @@ export default defineConfig({
   trailingSlash: 'ignore',
   integrations: [
     sitemap({
-      filter: (page) =>
-        !page.includes('/404') && !page.includes('/500') && !page.includes('/styleguide'),
+      filter: (page) => {
+        if (
+          page.includes('/404') ||
+          page.includes('/500') ||
+          page.includes('/styleguide') ||
+          page.includes('/blog/write')
+        ) {
+          return false;
+        }
+        const path = new URL(page).pathname;
+        return !noindexedPaths.has(path);
+      },
       serialize(item) {
         const path = new URL(item.url).pathname;
         const d = lastmodByPath.get(path);
@@ -71,7 +92,7 @@ export default defineConfig({
   ],
   vite: { plugins: [tailwindcss()] },
   markdown: {
-    remarkPlugins: [remarkAlert],
+    processor: unified({ remarkPlugins: [remarkAlert] }),
     shikiConfig: {
       // github-light's orange (#E36209) is 3.6:1 on the light code surface,
       // which fails AA for small text; the high-contrast variant is built for

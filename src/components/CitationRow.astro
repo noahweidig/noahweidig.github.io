@@ -4,6 +4,7 @@ import type { CollectionEntry } from 'astro:content';
 import Icon from './Icon.astro';
 import { firstSentence, inlineMarkup, slugify, year } from '../lib/format';
 import { tagHref, tagIcon, PUB_TYPE_ICONS } from '../lib/tags';
+import { citationStatsFor } from '../lib/citation-stats';
 
 interface Props {
   entry: CollectionEntry<'publications'>;
@@ -24,6 +25,23 @@ const summary = (() => {
 
 const appearances = (d['pub-appearances'] ?? []).filter((a) => a.venue || a.when);
 const cites = d['pub-citations'] ?? 0;
+
+const stats = citationStatsFor(d['pub-doi']);
+const dimensions = stats?.dimensions && stats.dimensions.timesCited > 0 ? stats.dimensions : null;
+const altmetric = stats?.altmetric && stats.altmetric.score > 0 ? stats.altmetric : null;
+const dimensionsTip = dimensions
+  ? [
+      `${dimensions.timesCited} total citation${dimensions.timesCited === 1 ? '' : 's'}`,
+      dimensions.fieldCitationRatio != null
+        ? `Field Citation Ratio ${dimensions.fieldCitationRatio.toFixed(2)}`
+        : '',
+    ]
+      .filter(Boolean)
+      .join(' · ')
+  : '';
+const altmetricTip = altmetric
+  ? `Attention score ${Math.round(altmetric.score)} from ${altmetric.postsCount} mention${altmetric.postsCount === 1 ? '' : 's'}`
+  : '';
 ---
 
 <article
@@ -110,10 +128,31 @@ const cites = d['pub-citations'] ?? 0;
         ))
       }
       {
-        cites > 0 && (
-          <span class="chip">
-            {cites} citation{cites === 1 ? '' : 's'}
-          </span>
+        dimensions ? (
+          <a
+            href={dimensions.url}
+            target="_blank"
+            rel="noopener"
+            class="chip transition-colors hover:border-accent hover:text-accent-ink"
+            data-tip-title="Dimensions"
+            data-tip={dimensionsTip}
+          >
+            <img
+              src={u('/media/icons/custom/dimensions.svg')}
+              alt=""
+              width="16"
+              height="16"
+              loading="lazy"
+              decoding="async"
+            />
+            {dimensions.timesCited} citation{dimensions.timesCited === 1 ? '' : 's'}
+          </a>
+        ) : (
+          cites > 0 && (
+            <span class="chip">
+              {cites} citation{cites === 1 ? '' : 's'}
+            </span>
+          )
         )
       }
       {d['pub-oa'] && <span class="chip chip-accent">Open Access</span>}
@@ -153,6 +192,30 @@ const cites = d['pub-citations'] ?? 0;
             class="chip chip-accent transition-colors hover:border-accent"
           >
             View full PDF
+          </a>
+        )
+      }
+      {
+        altmetric && (
+          <a
+            href={altmetric.detailsUrl}
+            target="_blank"
+            rel="noopener"
+            class="chip chip-accent transition-colors hover:border-accent"
+            data-tip-title="Altmetric Attention Score"
+            data-tip={altmetricTip}
+          >
+            {altmetric.imageUrl && (
+              <img
+                src={altmetric.imageUrl}
+                alt=""
+                width="16"
+                height="16"
+                loading="lazy"
+                decoding="async"
+              />
+            )}
+            {Math.round(altmetric.score)}
           </a>
         )
       }
