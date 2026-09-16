@@ -294,7 +294,9 @@ function parseFrontmatter(raw, slug) {
     if (!line.startsWith(' ') && !line.startsWith('\t')) break;
     indented.push(line.trim());
   }
-  const categories = indented.filter((l) => l.startsWith('- ')).map((l) => l.slice(2).trim());
+  const categories = indented
+    .filter((l) => l.startsWith('- '))
+    .map((l) => l.slice(2).trim().replace(/^['"]|['"]$/g, ''));
 
   const featuredLine = lines.find((l) => l.startsWith('featured:'));
   const featured = featuredLine ? featuredLine.slice('featured:'.length).trim() === 'true' : false;
