@@ -149,6 +149,14 @@ const altmetricTip = altmetric
             data-tip-title="Dimensions"
             data-tip={dimensionsTip}
           >
+            <img
+              src={u('/media/icons/custom/dimensions.svg')}
+              alt=""
+              width="16"
+              height="16"
+              loading="lazy"
+              decoding="async"
+            />
             {dimensions.timesCited} citation{dimensions.timesCited === 1 ? '' : 's'}
           </a>
         ) : (
