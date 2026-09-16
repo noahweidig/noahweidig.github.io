@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'src/content/blog/**/index.md'
+  workflow_dispatch:
 
 permissions:
   contents: read
