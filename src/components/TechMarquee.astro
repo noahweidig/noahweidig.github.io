@@ -35,11 +35,13 @@ const invert = new Set(['Markdown', 'LaTeX', 'GitHub', 'pandas']);
   <button
     type="button"
     data-marquee-toggle
+    data-label="scrolling tech stack"
     aria-pressed="false"
     aria-label="Pause scrolling tech stack"
     class="icon-btn marquee-toggle"
   >
-    <Icon name="pause" size={16} />
+    <Icon name="pause" size={16} class="marquee-toggle-icon-pause" />
+    <Icon name="play" size={16} class="marquee-toggle-icon-play" />
   </button>
   <div class="marquee-track py-2" data-marquee>
     {
@@ -85,6 +87,8 @@ const invert = new Set(['Markdown', 'LaTeX', 'GitHub', 'pandas']);
         const marquee = btn.closest('.marquee');
         const paused = marquee?.toggleAttribute('data-paused');
         btn.setAttribute('aria-pressed', String(!!paused));
+        const label = btn.dataset.label ?? '';
+        btn.setAttribute('aria-label', `${paused ? 'Play' : 'Pause'} ${label}`);
       });
     });
   }

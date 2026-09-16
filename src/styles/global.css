@@ -452,6 +452,21 @@
     background: color-mix(in oklab, var(--c-accent) 10%, transparent);
   }
 
+  /* The Altmetric donut in a citation chip is a small vendor-served image
+     sized to sit on the chip's text baseline. */
+  .badge-pair {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .chip img {
+    display: block;
+    width: 16px;
+    height: 16px;
+    border: 0;
+    border-radius: 0;
+  }
+
   /* --- filter pills --- */
   .pill {
     padding: 0.4rem 0.9rem;
@@ -685,7 +700,6 @@
   .marquee {
     position: relative;
     overflow: hidden;
-    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
   }
   .marquee-toggle {
     position: absolute;
@@ -693,12 +707,22 @@
     right: 0.25rem;
     z-index: 1;
   }
+  .marquee-toggle-icon-play {
+    display: none;
+  }
+  .marquee[data-paused] .marquee-toggle-icon-pause {
+    display: none;
+  }
+  .marquee[data-paused] .marquee-toggle-icon-play {
+    display: block;
+  }
   .marquee-track {
     display: flex;
     align-items: center;
     gap: 3.5rem;
     width: max-content;
     animation: marquee-drift 48s linear infinite;
+    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
   }
   .marquee:hover .marquee-track,
   .marquee[data-paused] .marquee-track {
@@ -774,6 +798,7 @@
     place-items: center;
     width: 2.25rem;
     height: 2.25rem;
+    flex-shrink: 0;
     border-radius: 0.65rem;
     border: 1px solid var(--c-line);
     color: var(--c-dim);

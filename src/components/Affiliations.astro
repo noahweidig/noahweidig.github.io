@@ -1,5 +1,6 @@
 ---
 import { u } from '../lib/url';
+import Icon from './Icon.astro';
 const orgs = [
   ['University of Florida', 'https://www.ufl.edu/', '/media/icons/custom/uf.svg'],
   [
@@ -28,13 +29,30 @@ const orgs = [
 <div class="mt-12" id="affiliations" data-reveal>
   <p class="text-center font-mono text-micro tracking-[0.18em] text-faint uppercase">Worked with</p>
   <div class="marquee mt-5" role="group" aria-label="Affiliations">
+    <button
+      type="button"
+      data-marquee-toggle
+      data-label="scrolling affiliations"
+      aria-pressed="false"
+      aria-label="Pause scrolling affiliations"
+      class="icon-btn marquee-toggle"
+    >
+      <Icon name="pause" size={16} class="marquee-toggle-icon-pause" />
+      <Icon name="play" size={16} class="marquee-toggle-icon-play" />
+    </button>
     <div class="marquee-track py-1" data-marquee>
       {
         orgs.map(([name, href, src]) => (
-          <a href={href} target="_blank" rel="noopener" title={name} class="group/logo shrink-0">
+          <a
+            href={href}
+            target="_blank"
+            rel="noopener"
+            aria-label={`${name} (opens in a new tab)`}
+            class="group/logo shrink-0"
+          >
             <img
               data-src={u(src!)}
-              alt={name}
+              alt=""
               width="140"
               height="48"
               loading="lazy"
@@ -44,7 +62,7 @@ const orgs = [
             <noscript>
               <img
                 src={u(src!)}
-                alt={name}
+                alt=""
                 width="140"
                 height="48"
                 loading="lazy"

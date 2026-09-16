@@ -14,6 +14,7 @@
     "build:fast": "astro build && pagefind --site dist",
     "covers": "node scripts/generate-blog-covers.mjs",
     "covers:all": "node scripts/generate-blog-covers.mjs --site --collections --pages",
+    "covers:ensure": "node scripts/ensure-blog-covers.mjs",
     "dev": "astro dev",
     "format": "prettier --write .",
     "icons": "node scripts/generate-icons.mjs",
@@ -27,8 +28,11 @@
     "@astrojs/markdown-remark": "^7.3.0",
     "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.4",
+    "@bytemd/plugin-gfm": "^1.21.0",
+    "@octokit/rest": "^21.1.1",
     "@tailwindcss/vite": "^4.3.3",
     "astro": "^7.3.1",
+    "bytemd": "^1.21.0",
     "remark-github-blockquote-alert": "^2.1.0",
     "sanitize-html": "^2.17.7",
     "tailwindcss": "^4.3.3"
@@ -39,6 +43,7 @@
     "@types/node": "^26.4.1",
     "@types/sanitize-html": "^2.16.1",
     "axe-core": "^4.13.0",
+    "js-yaml": "^4.3.2",
     "lighthouse": "^13.4.1",
     "lucide-static": "^1.41.0",
     "pagefind": "^1.5.2",
@@ -46,6 +51,7 @@
     "prettier": "^3.9.6",
     "prettier-plugin-astro": "^0.14.1",
     "puppeteer": "^25.9.0",
+    "svelte": "^5.57.0",
     "typescript": "^5.7.0"
   }
 }

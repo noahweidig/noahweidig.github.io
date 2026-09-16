@@ -1,7 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import Print from '../../layouts/Print.astro';
-import { site, socials } from '../../lib/site';
+import { site, socials, skills } from '../../lib/site';
 import { year } from '../../lib/format';
 
 /**
@@ -25,14 +25,6 @@ const bullets = (body = '', max = 2) =>
 
 const summary =
   'GIS & Remote Sensing Research Associate using remote sensing, GIS, and data science to turn complex geospatial data into clear insight about how our world changes. Focused on wildland-urban interface wildfire risk, land-use change, and spatial decision-making.';
-
-const skills: [string, string][] = [
-  ['Languages', 'R, Python, JavaScript, SQL'],
-  ['Markup', 'Markdown, LaTeX, HTML, CSS'],
-  ['Libraries', 'tidyverse, pandas, NumPy, Plotly'],
-  ['GIS & Remote Sensing', 'ArcGIS Pro, Google Earth Engine, QGIS, GDAL, sf, terra, GeoPandas'],
-  ['Workflows', 'Git, GitHub, GitHub Actions, Conda, renv'],
-];
 ---
 
 <Print title="Résumé">
