@@ -1539,8 +1539,8 @@ function ensureAltmetricAccessibleName(container: HTMLElement) {
   }
 }
 
-function watchAltmetricBadges() {
-  document.querySelectorAll<HTMLElement>('.altmetric-embed').forEach((container) => {
+function watchAltmetricBadges(containers: HTMLElement[]) {
+  containers.forEach((container) => {
     ensureAltmetricAccessibleName(container);
     new MutationObserver(() => ensureAltmetricAccessibleName(container)).observe(container, {
       childList: true,
@@ -1549,8 +1549,24 @@ function watchAltmetricBadges() {
 }
 
 function initBadges() {
-  if (!document.querySelector('.altmetric-embed, .__dimensions_badge_embed__')) return;
-  watchAltmetricBadges();
+  const dims = [...document.querySelectorAll<HTMLElement>('.__dimensions_badge_embed__')];
+  const alts = [...document.querySelectorAll<HTMLElement>('.altmetric-embed')];
+  if (!dims.length && !alts.length) return;
+
+  // Astro's view-transition router can restore a page from its history cache
+  // instead of re-rendering it, bringing back containers a previous
+  // navigation already badged. Neither vendor script checks for that before
+  // it runs: addBadges()/embed_init() append fresh badge markup into
+  // whatever matches their class selector, so a container that already has
+  // a badge ends up with two. Clearing every container right before we ask
+  // them to re-scan keeps each render idempotent no matter why it re-fires.
+  dims.forEach((el) => {
+    el.replaceChildren();
+    el.hidden = false;
+  });
+  alts.forEach((el) => el.replaceChildren());
+
+  watchAltmetricBadges(alts);
   const w = window as unknown as {
     _altmetric_embed_init?: () => void;
     __dimensions_embed?: { addBadges: () => void };
