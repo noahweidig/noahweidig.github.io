@@ -3,8 +3,8 @@ title: 'Building a Portfolio Website'
 date: '2026-09-12'
 description: 'Creating this site from the ground up and lessons learned along the way — why I chose Astro for a fast, clean portfolio site.'
 categories:
-  - 'Thoughts'
-  - 'Data Science'
+  - Thoughts
+  - Data Science
 image: './cover.webp'
 image-light: './cover-light.webp'
 image-alt: "Cover card reading “Building a Portfolio Website” over the site's violet and moss gradient"
