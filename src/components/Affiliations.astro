@@ -32,11 +32,13 @@ const orgs = [
     <button
       type="button"
       data-marquee-toggle
+      data-label="scrolling affiliations"
       aria-pressed="false"
       aria-label="Pause scrolling affiliations"
       class="icon-btn marquee-toggle"
     >
-      <Icon name="pause" size={16} />
+      <Icon name="pause" size={16} class="marquee-toggle-icon-pause" />
+      <Icon name="play" size={16} class="marquee-toggle-icon-play" />
     </button>
     <div class="marquee-track py-1" data-marquee>
       {

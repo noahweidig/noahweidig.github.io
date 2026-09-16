@@ -752,6 +752,15 @@
     right: 0.25rem;
     z-index: 1;
   }
+  .marquee-toggle-icon-play {
+    display: none;
+  }
+  .marquee[data-paused] .marquee-toggle-icon-pause {
+    display: none;
+  }
+  .marquee[data-paused] .marquee-toggle-icon-play {
+    display: block;
+  }
   .marquee-track {
     display: flex;
     align-items: center;
