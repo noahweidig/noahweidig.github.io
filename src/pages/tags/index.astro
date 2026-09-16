@@ -1,7 +1,8 @@
 ---
 import Page from '../../layouts/Page.astro';
+import Icon from '../../components/Icon.astro';
 import { u } from '../../lib/url';
-import { tagGroups } from '../../lib/tags';
+import { tagGroups, tagIcon } from '../../lib/tags';
 
 const groups = await tagGroups();
 ---
@@ -23,6 +24,7 @@ const groups = await tagGroups();
             href={u(`/tags/${g.slug}/`)}
             class="chip transition-colors hover:border-accent hover:text-accent-ink"
           >
+            {tagIcon(g.name) && <Icon name={tagIcon(g.name)!} size={12} />}
             {g.name}
             <span class="text-faint">{g.items.length}</span>
           </a>
