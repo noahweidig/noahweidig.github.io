@@ -24,6 +24,6 @@
     </g>
   </defs>
   <g mask="url(#dm-shape-mask)">
-    <use xlink:href="#dm-gradient" opacity="0.9"></use>
+    <use href="#dm-gradient" opacity="0.9"></use>
   </g>
 </svg>
