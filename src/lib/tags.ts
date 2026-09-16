@@ -86,3 +86,33 @@ export async function tagGroups(): Promise<TagGroup[]> {
 
 /** Where a category chip points. */
 export const tagHref = (name: string) => `/tags/${slugify(name)}/`;
+
+/** Icon shown at the start of a category chip. Keys match tags as authored. */
+const TAG_ICONS: Record<string, string> = {
+  Thoughts: 'bulb',
+  'Data Science': 'code',
+  Geospatial: 'earth',
+  Tech: 'cpu',
+  Tidyverse: 'broom',
+  Fire: 'flame',
+  Creative: 'flaskConical',
+  R: 'terminal',
+  APIs: 'plug',
+};
+
+/** Publication types get their own icons, matching the record's own mark. */
+export const PUB_TYPE_ICONS: Record<string, string> = {
+  'Journal Article': 'file',
+  Preprint: 'preprint',
+  Thesis: 'graduationCap',
+  Book: 'book',
+  'Book Chapter': 'book',
+  Report: 'report',
+  Presentation: 'slides',
+  Webinar: 'video',
+  'Media Coverage': 'news',
+  'Peer Review': 'shield',
+};
+
+export const tagIcon = (name: string): string | undefined =>
+  TAG_ICONS[name] ?? PUB_TYPE_ICONS[name];

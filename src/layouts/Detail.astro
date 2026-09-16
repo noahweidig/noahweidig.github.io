@@ -1,6 +1,6 @@
 ---
 import { u } from '../lib/url';
-import { tagHref } from '../lib/tags';
+import { tagHref, tagIcon } from '../lib/tags';
 import Base from './Base.astro';
 import Icon from '../components/Icon.astro';
 import ShareRow from '../components/ShareRow.astro';
@@ -153,6 +153,7 @@ const badges = Astro.slots.has('badges') ? (await Astro.slots.render('badges')).
                   data-tip={`Browse everything tagged ${c}`}
                   class="chip transition-colors hover:border-accent hover:text-accent-ink"
                 >
+                  {tagIcon(c) && <Icon name={tagIcon(c)!} size={12} />}
                   {c}
                 </a>
               ))}
