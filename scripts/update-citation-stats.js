@@ -106,7 +106,7 @@ async function withRetries(fn, label) {
 }
 
 async function main() {
-  const dois = [...collectDois()].sort();
+  const dois = [...collectDois()].sort((a, b) => a.localeCompare(b));
   if (!dois.length) {
     console.log('No DOIs found; nothing to fetch.');
     return;
