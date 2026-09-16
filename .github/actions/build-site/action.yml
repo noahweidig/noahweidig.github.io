@@ -31,6 +31,10 @@ runs:
       # so the install, not the work, is what the job timeouts have to cover.
       run: npm ci --ignore-scripts --no-audit --no-fund --prefer-offline
 
+    - name: Unit tests
+      shell: bash
+      run: npm test
+
     - name: Build site
       if: inputs.build == 'true'
       shell: bash
