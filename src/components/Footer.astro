@@ -12,12 +12,12 @@ const year = new Date().getFullYear();
   class="relative mt-28 overflow-hidden border-t border-line bg-bg-deep pt-28 sm:pt-40"
 >
   <div class="footer-glow pointer-events-none absolute inset-0" aria-hidden="true"></div>
-  <div class="shell pb-16">
+  <div class="w-full px-5 pb-16 sm:px-8 lg:px-16">
     <div
       class="footer-card rounded-xl border px-6 py-8 backdrop-blur-[24px] backdrop-saturate-[1.4] sm:px-10 sm:py-10"
     >
       <div class="grid gap-10 sm:gap-8 lg:grid-cols-[1.4fr_repeat(4,1fr)]">
-        <div>
+        <div class="flex flex-col items-center text-center sm:items-start sm:text-left">
           <a href={u('/')} class="flex items-center gap-2.5">
             <Logo class="h-8 w-auto" />
             <span class="font-display text-xl">Noah Weidig</span>
@@ -82,7 +82,7 @@ const year = new Date().getFullYear();
       </div>
 
       <div
-        class="mt-14 flex flex-col gap-3 border-t border-line pt-6 text-[0.85rem] text-dim sm:flex-row sm:items-center sm:justify-between"
+        class="mt-14 flex flex-col items-center gap-3 border-t border-line pt-6 text-center text-[0.85rem] text-dim sm:flex-row sm:items-center sm:justify-between sm:text-left"
       >
         <p>
           © {year} Noah Weidig
