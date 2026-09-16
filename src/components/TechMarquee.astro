@@ -26,9 +26,17 @@ const tech = [
   ['terra', '/media/icons/custom/terra.svg'],
   ['GeoPandas', '/media/icons/custom/geopandas.svg'],
   ['OSM', '/media/icons/custom/openstreetmap.svg'],
+  ['Claude Code', '/media/icons/devicon/claude-code.svg'],
+  ['Codex', '/media/icons/devicon/codex.svg'],
+  ['Copilot', '/media/icons/devicon/copilot.svg'],
+  ['Cursor', '/media/icons/devicon/cursor.svg'],
+  ['Antigravity', '/media/icons/devicon/antigravity.svg'],
+  ['Jules', '/media/icons/devicon/google-jules.svg'],
 ];
 /* Some marks are pure black and vanish on the dark ground; invert those only. */
 const invert = new Set(['Markdown', 'LaTeX', 'GitHub', 'pandas']);
+/* Codex is pure white and vanishes on the light ground; invert only there. */
+const lightInvert = new Set(['Codex']);
 ---
 
 <div class="marquee mt-10" role="group" aria-label="Tech stack" data-reveal>
@@ -50,26 +58,28 @@ const invert = new Set(['Markdown', 'LaTeX', 'GitHub', 'pandas']);
           <img
             data-src={u(src!)}
             alt=""
-            width="32"
-            height="32"
+            width="40"
+            height="40"
             loading="lazy"
             decoding="async"
             class:list={[
-              'h-7 w-7 object-contain opacity-70 transition-opacity duration-300 hover:opacity-100',
+              'h-9 w-9 object-contain opacity-70 transition-opacity duration-300 hover:opacity-100',
               invert.has(label!) && 'dark:invert',
+              lightInvert.has(label!) && 'invert dark:invert-0',
             ]}
           />
           <noscript>
             <img
               src={u(src!)}
               alt=""
-              width="32"
-              height="32"
+              width="40"
+              height="40"
               loading="lazy"
               decoding="async"
               class:list={[
-                'h-7 w-7 object-contain opacity-70',
+                'h-9 w-9 object-contain opacity-70',
                 invert.has(label!) && 'dark:invert',
+                lightInvert.has(label!) && 'invert dark:invert-0',
               ]}
             />
           </noscript>
