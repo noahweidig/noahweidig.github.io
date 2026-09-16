@@ -4,6 +4,7 @@
   "exclude": ["dist", "worker"],
   "compilerOptions": {
     "strictNullChecks": true,
+    "resolveJsonModule": true,
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]

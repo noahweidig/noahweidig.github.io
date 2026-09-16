@@ -27,17 +27,6 @@ const stats = [
   { value: firstAuthor, label: 'First-Author Works' },
   { value: citations, label: 'Citations' },
 ];
-
-/* Dimensions' badge.js injects this stylesheet itself the first time it runs
-   on a page, but that <link> is foreign to Astro's own head — a soft
-   navigation swaps the whole <head> and drops it, along with every rule it
-   carries (not just the one this repo already patched: the badge wrapper's
-   default `display: none` also depends on this file to hide the citation
-   legend panel by default, which otherwise sits permanently visible and
-   overlapping the compact badge). Rendering the same stylesheet from Astro's
-   own template keeps it in the head across every navigation, the same way
-   any other page asset survives a soft nav. */
-const dimensionsBadgeCss = listed.some((p) => p.data['pub-doi']);
 ---
 
 <Page
@@ -49,13 +38,6 @@ const dimensionsBadgeCss = listed.some((p) => p.data['pub-doi']);
   image={u('/media/og/publications.webp')}
   imageAlt="Noah Weidig's publications and research output"
 >
-  {
-    dimensionsBadgeCss && (
-      <Fragment slot="head">
-        <link rel="stylesheet" href="https://badge.dimensions.ai/badge.css" />
-      </Fragment>
-    )
-  }
   <StatStrip stats={stats} />
 
   <div class="mt-10">
@@ -81,21 +63,3 @@ const dimensionsBadgeCss = listed.some((p) => p.data['pub-doi']);
     </div>
   </section>
 </Page>
-
-<script is:inline>
-  // A DOI with no attention data yet leaves Altmetric's badge empty (and,
-  // worse, an <a> with no accessible name) instead of not rendering at
-  // all. Hiding the empty ones fixes both the blank badge and the a11y
-  // gap in one pass; collapse the badge pair too if Dimensions came up
-  // empty as well, so no dangling gap is left behind.
-  new MutationObserver(() => {
-    document.querySelectorAll('[data-badges]').forEach((wrap) => {
-      const alt = wrap.querySelector('.altmetric-embed');
-      if (alt) alt.hidden = !alt.querySelector('img');
-      const dim = wrap.querySelector('.__dimensions_badge_embed__');
-      if (dim) dim.hidden = dim.childElementCount === 0;
-      const pair = wrap.classList.contains('badge-pair') ? wrap : wrap.querySelector('.badge-pair');
-      if (pair) pair.hidden = [...pair.children].every((c) => c.hidden);
-    });
-  }).observe(document.body, { childList: true, subtree: true });
-</script>
