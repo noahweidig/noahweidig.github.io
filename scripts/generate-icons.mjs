@@ -81,6 +81,12 @@ const MAP = {
   rocket: 'rocket',
   ellipsis: 'ellipsis',
   share: 'share-2',
+  earth: 'earth',
+  cpu: 'cpu',
+  broom: 'broom-sparkles',
+  flame: 'flame',
+  flaskConical: 'flask-conical',
+  plug: 'webhook',
 };
 
 /** The children of the <svg>, whitespace collapsed. Sliced rather than matched:
