@@ -117,6 +117,8 @@ Public PDF attachments in the Zotero library are downloaded to `public/publicati
 
 Zotero exports one record per _appearance_, so a talk given at four venues arrives as four near-identical items. The sync marks the most recent of each cluster `pub-listed: "yes"` and hangs the venue run off it, so the index shows one row per work while every appearance keeps its own page.
 
+Dimensions and Altmetric attention stats are fetched weekly by `.github/workflows/update-citation-stats.yml` (`node scripts/update-citation-stats.js`) into `src/data/citation-stats.json` (do not edit by hand), rather than by the vendors' own client-side badge widgets. Both vendors' documented data APIs are gated behind a registration process now; the script instead calls the same unofficial endpoints those widgets themselves use, so a lookup is best-effort and keeps the last successful value on a bad day. `CitationRow.astro` and `publications/[...slug].astro` render the cached numbers as plain links to the Dimensions/Altmetric detail pages, with a tooltip for the extra stats — no vendor JS ships to the page.
+
 ### Project screenshots
 
 The card art for each project (`src/assets/albums/projects/<slug>.webp`, mirrored to `public/media/albums/projects/` for the `<img>` inside `index.md`) is captured from the project's own live site by `scripts/generate-project-shots.mjs`, weekly through `.github/workflows/project-shots.yml`, so a tool that changes does not keep showing the picture it had the day it shipped.
