@@ -165,7 +165,11 @@ const badges = Astro.slots.has('badges') ? (await Astro.slots.render('badges')).
             <div class="mt-7 flex flex-wrap justify-center gap-2.5" data-pagefind-ignore>
               {links.map((l) => (
                 <a
-                  class:list={['btn', l.variant === 'primary' ? 'btn-primary' : 'btn-ghost']}
+                  class:list={[
+                    'btn',
+                    'max-w-full whitespace-normal text-center',
+                    l.variant === 'primary' ? 'btn-primary' : 'btn-ghost',
+                  ]}
                   href={u(l.href)}
                   target={l.external ? '_blank' : undefined}
                   rel={l.external ? 'noopener' : undefined}
