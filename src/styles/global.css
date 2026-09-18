@@ -57,7 +57,7 @@
 :root[data-theme='light'] {
   --c-bg: #ffffff;
   --c-bg-deep: #f4f4f4;
-  --c-surface: #ffffff;
+  --c-surface: #fafafa;
   --c-raised: #f4f4f4;
   --c-line: #e2e2e2;
   --c-line-strong: #cbcbcb;
