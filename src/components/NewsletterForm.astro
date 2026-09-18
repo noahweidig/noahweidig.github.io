@@ -26,7 +26,7 @@ const frameName = 'substack-newsletter-frame';
       required
       placeholder="you@example.com"
       autocomplete="email"
-      class="w-full rounded-sm border border-line bg-surface px-4 py-2.5 text-body-lg text-ink placeholder:text-faint focus-visible:border-accent-ink focus-visible:outline-none sm:w-72"
+      class="newsletter-input w-full rounded-sm border border-line px-4 py-2.5 text-body-lg text-ink focus-visible:border-accent-ink focus-visible:outline-none sm:w-72"
     />
     <button type="submit" class="btn btn-primary btn-sm newsletter-submit shrink-0"
       >Subscribe</button
@@ -46,6 +46,12 @@ const frameName = 'substack-newsletter-frame';
   @layer components {
     .newsletter-form .newsletter-submit {
       border-radius: 0.5rem;
+    }
+    .newsletter-form .newsletter-input {
+      background: color-mix(in oklab, var(--c-surface) 80%, white 20%);
+    }
+    .newsletter-form .newsletter-input::placeholder {
+      color: color-mix(in oklab, var(--c-faint) 70%, white 30%);
     }
   }
 </style>
