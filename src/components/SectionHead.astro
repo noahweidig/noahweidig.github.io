@@ -21,7 +21,11 @@ const { kicker, title, subtitle, href, linkText } = Astro.props;
     href && (
       <a href={href} class="btn btn-ghost btn-sm group shrink-0">
         {linkText ?? 'View all'}
-        <Icon name="arrow" size={15} class="transition-transform duration-300 group-hover:translate-x-1" />
+        <Icon
+          name="arrow"
+          size={15}
+          class="transition-transform duration-300 group-hover:translate-x-1"
+        />
       </a>
     )
   }

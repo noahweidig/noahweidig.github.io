@@ -42,7 +42,11 @@ const destinations = nav.filter((n) => ['Projects', 'Publications', 'Blog'].incl
               <p class="mt-2 text-sm text-dim">{blurbs[d.text]}</p>
               <span class="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-accent-ink">
                 Go to this section
-                <Icon name="arrow" size={15} class="transition-transform duration-300 group-hover:translate-x-1" />
+                <Icon
+                  name="arrow"
+                  size={15}
+                  class="transition-transform duration-300 group-hover:translate-x-1"
+                />
               </span>
             </a>
           ))
