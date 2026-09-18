@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title><xsl:value-of select="title"/></title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;1,400&amp;family=Inter:wght@400;500;600&amp;display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;display=swap');
 
   :root {
     --c-bg: #07080b;
@@ -28,7 +28,7 @@
     margin: 0;
     background: var(--c-bg);
     color: var(--c-ink);
-    font-family: Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+    font-family: 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
     line-height: 1.6;
   }
 
@@ -58,7 +58,7 @@
   }
 
   header h1 {
-    font-family: Newsreader, ui-serif, Georgia, serif;
+    font-family: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
     font-weight: 500;
     font-size: 1.55rem;
     margin: 0;
@@ -97,7 +97,7 @@
   .item:last-child { border-bottom: none; }
 
   .item h2 {
-    font-family: Newsreader, ui-serif, Georgia, serif;
+    font-family: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
     font-weight: 500;
     font-size: 1.3rem;
     margin: 0 0 0.4rem;
