@@ -26,15 +26,29 @@ const frameName = 'substack-newsletter-frame';
       required
       placeholder="you@example.com"
       autocomplete="email"
-      class="w-full rounded-full border border-line bg-surface px-4 py-2.5 text-body-lg text-ink placeholder:text-faint focus-visible:border-accent-ink focus-visible:outline-none sm:w-72"
+      class="w-full rounded-sm border border-line bg-surface px-4 py-2.5 text-body-lg text-ink placeholder:text-faint focus-visible:border-accent-ink focus-visible:outline-none sm:w-72"
     />
-    <button type="submit" class="btn btn-primary btn-sm shrink-0">Subscribe</button>
+    <button type="submit" class="btn btn-primary btn-sm newsletter-submit shrink-0"
+      >Subscribe</button
+    >
   </form>
   <p data-newsletter-confirm hidden class="text-body-lg text-dim">
     Thanks — check your inbox to confirm.
   </p>
   <iframe name={frameName} hidden title="Newsletter subscription"></iframe>
 </div>
+
+<style>
+  /* .btn is a pill by default (border-radius: 999px); this form wants the
+     squared-off rectangle look of the input next to it instead. The two-class
+     selector reliably beats the single-class .btn rule within the same
+     `components` layer, regardless of source order. */
+  @layer components {
+    .newsletter-form .newsletter-submit {
+      border-radius: 0.5rem;
+    }
+  }
+</style>
 
 <script>
   function bindNewsletterForms() {
