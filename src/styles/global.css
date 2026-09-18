@@ -61,7 +61,7 @@
   --c-raised: #f4f4f4;
   --c-line: #e2e2e2;
   --c-line-strong: #cbcbcb;
-  --c-ink: #14161c;
+  --c-ink: #14161a;
   --c-dim: #565d6b;
   --c-faint: #636a78;
 
@@ -103,8 +103,8 @@
   --color-moss: var(--c-moss);
   --color-violet: var(--c-violet);
 
-  --font-sans: Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --font-display: Newsreader, ui-serif, Georgia, 'Times New Roman', serif;
+  --font-sans: 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
 
   --radius-xs: 4px;
@@ -585,7 +585,6 @@
     height: auto;
     margin: 0 0 0.75rem 1.25rem;
     border: 0;
-    filter: drop-shadow(0 6px 18px rgb(0 0 0 / 0.35));
   }
 
   .prose-nw figure > figcaption,
@@ -1260,7 +1259,7 @@
   :root {
     --c-bg: #fff;
     --c-surface: #fff;
-    --c-ink: #000;
+    --c-ink: #14161a;
     --c-dim: #333;
     --c-line: #ccc;
     /* Light theme's values — AA against the white ground this block forces,
@@ -1271,7 +1270,7 @@
   }
   body {
     background: #fff;
-    color: #000;
+    color: #14161a;
   }
   header[data-site-header],
   footer[data-site-footer],
@@ -1284,7 +1283,7 @@
     display: none !important;
   }
   a {
-    color: #000 !important;
+    color: #14161a !important;
     text-decoration: none !important;
   }
 }

@@ -1,7 +1,7 @@
 /**
  * Renders each blog post's cover art (dark and light) straight from the
  * site's own tokens — accent/ember/moss/violet glows, the grid, the self-hosted
- * Inter/Newsreader/JetBrains Mono faces — instead of a hand-maintained image.
+ * DM Sans/JetBrains Mono faces — instead of a hand-maintained image.
  * A post's slug seeds which two hues glow and where the contour-ring mark
  * sits, so covers read as one family without being identical.
  *
@@ -156,7 +156,7 @@ html, body { width: ${WIDTH}px; height: ${HEIGHT}px; overflow: hidden; }
 body {
   position: relative;
   background: linear-gradient(160deg, ${t.bg} 0%, ${t.bgDeep} 100%);
-  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  font-family: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
 }
 .glow {
   position: absolute;
@@ -234,8 +234,8 @@ body {
   color: ${t.dim};
 }
 .title {
-  font-family: Newsreader, ui-serif, Georgia, serif;
-  font-weight: 500;
+  font-family: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+  font-weight: 700;
   font-size: ${titleFontSize(title)};
   line-height: 1.08;
   color: ${t.ink};
