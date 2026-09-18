@@ -16,19 +16,6 @@ const { entry, index = 0 } = Astro.props;
 const { title, description, categories, featured } = entry.data;
 const slug = entry.id;
 
-/* Tile hue follows the project's own category, most specific first, so a new
-   project picks up the right accent with no edit here. */
-const HUES: [string, string][] = [
-  ['fire', 'ember'],
-  ['geospatial', 'accent'],
-  ['r', 'violet'],
-  ['apis', 'violet'],
-  ['creative', 'violet'],
-  ['data science', 'moss'],
-];
-const have = categories.map((c) => c.toLowerCase());
-const hue = HUES.find(([name]) => have.includes(name))?.[1] ?? 'moss';
-
 const hasIcon = existsSync(join(process.cwd(), 'public/media/icons/projects', `${slug}.svg`));
 const icon = u(`/media/icons/projects/${hasIcon ? slug : 'default'}.svg`);
 const shot = shotFor(slug);
@@ -38,7 +25,7 @@ const shot = shotFor(slug);
   class="card card-hover group relative flex flex-col overflow-hidden"
   data-cats={categories.join('|')}
   data-reveal
-  style={`--reveal-delay:${Math.min(index, 5) * 60}ms; --tile: var(--c-${hue});`}
+  style={`--reveal-delay:${Math.min(index, 5) * 60}ms`}
 >
   <a href={u(`/projects/${slug}/`)} class="absolute inset-0 z-10" tabindex="-1" aria-hidden="true"
   ></a>
@@ -62,11 +49,11 @@ const shot = shotFor(slug);
     }
     <div
       class="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-      style="background: linear-gradient(to top, color-mix(in oklab, var(--tile) 26%, transparent), transparent 55%)"
+      style="background: linear-gradient(to top, color-mix(in oklab, var(--c-accent) 26%, transparent), transparent 55%)"
     >
     </div>
     <span
-      class="absolute bottom-3 left-3 grid h-10 w-10 place-items-center rounded-lg border border-white/12 bg-black/70 shadow-lg backdrop-blur-md"
+      class="absolute bottom-3 left-3 grid h-10 w-10 place-items-center rounded-lg border border-white/12 bg-black/55 backdrop-blur-md"
     >
       <img src={icon} alt="" width="24" height="24" class="h-5 w-5 opacity-95" loading="lazy" />
     </span>
