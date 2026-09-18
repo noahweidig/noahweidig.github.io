@@ -643,7 +643,7 @@
     font-size: 0.72rem;
     font-weight: 600;
     letter-spacing: 0.1em;
-    color: var(--alert-color, var(--c-accent));
+    color: var(--alert-color, var(--c-accent-ink));
   }
   .prose-nw .markdown-alert-title .octicon {
     fill: currentColor;
