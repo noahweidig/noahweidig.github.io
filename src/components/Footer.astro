@@ -10,27 +10,26 @@ const year = new Date().getFullYear();
 <footer
   data-pagefind-ignore
   data-site-footer
-  class="footer-dark relative mt-28 border-t border-line bg-bg-deep pt-14 sm:pt-20"
+  class="footer-dark relative mt-28 border-t border-line bg-bg-deep"
 >
   <div class="w-full px-5 sm:px-6 lg:px-8">
-    <div class="py-8 sm:py-10">
-      <div class="text-center">
-        <h2 class="footer-ink font-display text-2xl font-bold">Subscribe to my newsletter</h2>
-        <p class="mx-auto mt-2 max-w-md text-body-lg text-dim">
-          Occasional notes on GIS, spatial
-          <br />
-          data, and new projects — no spam.
-        </p>
-        <NewsletterForm />
-      </div>
+    <div class="py-10">
+      <div class="flex flex-col items-center gap-6 lg:flex-row lg:items-center lg:justify-between">
+        <a href={u('/')} class="group inline-flex shrink-0 items-center gap-2.5">
+          <Logo class="wordmark-icon h-7 w-auto" />
+          <span
+            data-text="Noah Weidig"
+            class="wordmark-wipe footer-ink font-display text-xl font-bold">Noah Weidig</span
+          >
+        </a>
 
-      <a href={u('/')} class="group mt-10 inline-flex items-center gap-3 border-t border-line pt-8">
-        <Logo class="wordmark-icon h-10 w-auto" />
-        <span
-          data-text="Noah Weidig"
-          class="wordmark-wipe footer-ink font-display text-2xl font-bold">Noah Weidig</span
-        >
-      </a>
+        <div class="flex flex-col items-center gap-4 sm:flex-row sm:gap-5">
+          <span class="footer-ink font-display text-xl font-bold whitespace-nowrap"
+            >Subscribe to my newsletter</span
+          >
+          <NewsletterForm />
+        </div>
+      </div>
 
       <div
         class="mt-8 flex flex-wrap items-center justify-between gap-x-8 gap-y-4 border-t border-line pt-8"
