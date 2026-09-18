@@ -57,12 +57,11 @@ const count = group.items.length;
     })
   }
 
-  <a
-    href={u('/tags/')}
-    class="group mt-4 inline-flex items-center gap-2 text-sm font-medium text-accent-ink"
-  >
-    <Icon name="tag" size={15} />
-    Browse all tags
-    <span class="transition-transform duration-300 group-hover:translate-x-1">→</span>
-  </a>
+  <div class="mt-4 flex justify-center">
+    <a href={u('/tags/')} class="btn btn-ghost btn-sm group">
+      <Icon name="tag" size={15} />
+      Browse all tags
+      <span class="transition-transform duration-300 group-hover:translate-x-1">→</span>
+    </a>
+  </div>
 </Page>
