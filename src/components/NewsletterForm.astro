@@ -1,0 +1,69 @@
+---
+// Posts directly to Substack's own subscribe endpoint instead of embedding
+// their iframe widget, so the form can be styled to match the site instead
+// of Substack's own chrome. The response is cross-origin (can't be read back
+// into the page), so a real POST goes to a hidden same-page iframe — no
+// navigation, no redirect — and the form optimistically swaps to a
+// confirmation once it's sent, the same assumption Substack's own embed
+// widget makes.
+const substackUrl = 'https://noahweidig.substack.com';
+const frameName = 'substack-newsletter-frame';
+---
+
+<div class="newsletter-form" data-newsletter>
+  <form
+    action={`${substackUrl}/api/v1/free`}
+    method="post"
+    target={frameName}
+    data-newsletter-form
+    class="flex flex-col gap-3 sm:flex-row sm:justify-center"
+  >
+    <label for="newsletter-email" class="sr-only-nw">Email address</label>
+    <input
+      id="newsletter-email"
+      type="email"
+      name="email"
+      required
+      placeholder="you@example.com"
+      autocomplete="email"
+      class="w-full rounded-sm border border-line bg-surface px-4 py-2.5 text-body-lg text-ink placeholder:text-faint focus-visible:border-accent-ink focus-visible:outline-none sm:w-72"
+    />
+    <button type="submit" class="btn btn-primary btn-sm newsletter-submit shrink-0"
+      >Subscribe</button
+    >
+  </form>
+  <p data-newsletter-confirm hidden class="text-body-lg text-dim">
+    Thanks — check your inbox to confirm.
+  </p>
+  <iframe name={frameName} hidden title="Newsletter subscription"></iframe>
+</div>
+
+<style>
+  /* .btn is a pill by default (border-radius: 999px); this form wants the
+     squared-off rectangle look of the input next to it instead. The two-class
+     selector reliably beats the single-class .btn rule within the same
+     `components` layer, regardless of source order. */
+  @layer components {
+    .newsletter-form .newsletter-submit {
+      border-radius: 0.5rem;
+    }
+  }
+</style>
+
+<script>
+  function bindNewsletterForms() {
+    document.querySelectorAll<HTMLElement>('[data-newsletter]').forEach((root) => {
+      const form = root.querySelector<HTMLFormElement>('[data-newsletter-form]');
+      const confirmMsg = root.querySelector<HTMLElement>('[data-newsletter-confirm]');
+      if (!form || form.dataset.bound) return;
+      form.dataset.bound = 'true';
+      form.addEventListener('submit', () => {
+        // The POST still happens (target is the hidden iframe); this just
+        // swaps the UI without waiting on a cross-origin response we can't read.
+        form.hidden = true;
+        if (confirmMsg) confirmMsg.hidden = false;
+      });
+    });
+  }
+  document.addEventListener('astro:page-load', bindNewsletterForms);
+</script>
