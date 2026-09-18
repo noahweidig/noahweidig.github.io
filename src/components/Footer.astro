@@ -34,16 +34,23 @@ const year = new Date().getFullYear();
       <div
         class="mt-8 flex flex-wrap items-center justify-between gap-x-8 gap-y-4 border-t border-line pt-8"
       >
-        <nav aria-label="Footer" class="flex flex-wrap items-center gap-x-6 gap-y-3">
+        <nav aria-label="Footer" class="flex flex-wrap items-center gap-x-2 gap-y-3">
           {
-            nav.map((item) => (
-              <a
-                href={u(item.href)}
-                data-tip={item.tip}
-                class="footer-ink text-body-lg font-semibold transition-colors hover:text-accent-ink"
-              >
-                {item.text}
-              </a>
+            nav.map((item, i) => (
+              <>
+                {i > 0 && (
+                  <span class="mx-1.5 text-faint" aria-hidden="true">
+                    ·
+                  </span>
+                )}
+                <a
+                  href={u(item.href)}
+                  data-tip={item.tip}
+                  class="footer-ink text-body-lg font-semibold transition-colors hover:text-accent-ink"
+                >
+                  {item.text}
+                </a>
+              </>
             ))
           }
         </nav>
