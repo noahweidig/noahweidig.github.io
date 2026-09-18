@@ -1,4 +1,6 @@
 ---
+import Icon from './Icon.astro';
+
 interface Props {
   kicker?: string;
   title: string;
@@ -17,12 +19,9 @@ const { kicker, title, subtitle, href, linkText } = Astro.props;
   </div>
   {
     href && (
-      <a
-        href={href}
-        class="group inline-flex shrink-0 items-center gap-1.5 text-sm font-medium text-dim transition-colors hover:text-accent-ink"
-      >
+      <a href={href} class="btn btn-ghost btn-sm group shrink-0">
         {linkText ?? 'View all'}
-        <span class="transition-transform duration-300 group-hover:translate-x-1">→</span>
+        <Icon name="arrow" size={15} class="transition-transform duration-300 group-hover:translate-x-1" />
       </a>
     )
   }
