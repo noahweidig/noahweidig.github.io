@@ -19,7 +19,7 @@ const { kicker, title, subtitle, href, linkText } = Astro.props;
   </div>
   {
     href && (
-      <a href={href} class="btn btn-ghost btn-sm group shrink-0 self-end">
+      <a href={href} class="btn btn-ghost btn-sm group hidden shrink-0 md:inline-flex">
         {linkText ?? 'View all'}
         <Icon
           name="arrow"
