@@ -9,11 +9,18 @@ import { site } from '../lib/site';
  */
 interface Props {
   title: string;
+  description?: string;
   /** Page box, in the CSS units @page understands. */
   size?: string;
   margin?: string;
 }
-const { title, size = 'Letter', margin = '0.5in' } = Astro.props;
+const {
+  title,
+  description = `The printable ${title.toLowerCase()} of ${site.name}, ${site.role}.`,
+  size = 'Letter',
+  margin = '0.5in',
+} = Astro.props;
+const canonical = new URL(Astro.url.pathname.replace(/\/*$/, '/'), Astro.site).href;
 ---
 
 <!doctype html>
@@ -22,6 +29,8 @@ const { title, size = 'Letter', margin = '0.5in' } = Astro.props;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{`${title} | ${site.name}`}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
     <meta name="robots" content="noindex, nofollow" />
     <style is:inline set:html={`@page { size: ${size}; margin: ${margin}; }`}></style>
   </head>

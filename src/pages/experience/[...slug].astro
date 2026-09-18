@@ -13,13 +13,25 @@ export async function getStaticPaths() {
   const sibling = (entry: (typeof items)[number] | undefined) =>
     entry ? { href: `/experience/${entry.id}/`, title: entry.data.title } : null;
 
+  // Two roles can share a generic title (e.g. "Research Assistant" at
+  // different institutions) — only those need the org appended to <title>,
+  // so every other page's title stays as short as its content allows.
+  const titleCounts = new Map<string, number>();
+  for (const item of items)
+    titleCounts.set(item.data.title, (titleCounts.get(item.data.title) ?? 0) + 1);
+
   return items.map((entry, i) => ({
     params: { slug: entry.id },
-    props: { entry, prev: sibling(items[i - 1]), next: sibling(items[i + 1]) },
+    props: {
+      entry,
+      prev: sibling(items[i - 1]),
+      next: sibling(items[i + 1]),
+      titleIsDuplicate: (titleCounts.get(entry.data.title) ?? 0) > 1,
+    },
   }));
 }
 
-const { entry, prev, next } = Astro.props;
+const { entry, prev, next, titleIsDuplicate } = Astro.props;
 const { Content } = await render(entry);
 const d = entry.data;
 const meta = [d.org, d.dates, d.location].filter(Boolean).join(' · ');
@@ -43,6 +55,7 @@ const experienceLd = {
 
 <Detail
   title={d.title}
+  metaTitle={titleIsDuplicate && d.org ? `${d.title} — ${d.org}` : d.title}
   description={d.description}
   kicker="Experience"
   meta={meta}

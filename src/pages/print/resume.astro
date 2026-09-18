@@ -2,7 +2,7 @@
 import { getCollection } from 'astro:content';
 import Print from '../../layouts/Print.astro';
 import { site, socials, skills } from '../../lib/site';
-import { year } from '../../lib/format';
+import { firstSentence, year } from '../../lib/format';
 
 /**
  * The one-page résumé, printed to public/uploads/resume.pdf by
@@ -27,7 +27,7 @@ const summary =
   'GIS & Remote Sensing Research Associate using remote sensing, GIS, and data science to turn complex geospatial data into clear insight about how our world changes. Focused on wildland-urban interface wildfire risk, land-use change, and spatial decision-making.';
 ---
 
-<Print title="Résumé">
+<Print title="Résumé" description={firstSentence(summary, 155)}>
   <header class="head keep">
     <h1>Noah Weidig</h1>
     <p class="role">{site.role}</p>
