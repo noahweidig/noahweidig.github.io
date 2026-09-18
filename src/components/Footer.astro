@@ -3,8 +3,8 @@ import { u } from '../lib/url';
 import { nav, socials } from '../lib/site';
 import Icon from './Icon.astro';
 import Logo from './Logo.astro';
+import NewsletterForm from './NewsletterForm.astro';
 const year = new Date().getFullYear();
-const substackUrl = 'https://noahweidig.substack.com';
 ---
 
 <footer
@@ -14,11 +14,20 @@ const substackUrl = 'https://noahweidig.substack.com';
 >
   <div class="w-full px-5 sm:px-6 lg:px-8">
     <div class="py-8 sm:py-10">
-      <a href={u('/')} class="group inline-flex items-center gap-3">
+      <div class="text-center">
+        <h2 class="font-mono text-caption font-medium tracking-[0.18em] text-dim uppercase">
+          Newsletter
+        </h2>
+        <p class="mx-auto mt-2 max-w-md text-body-lg text-dim">
+          Occasional notes on GIS, spatial data, and new projects — no spam.
+        </p>
+        <NewsletterForm />
+      </div>
+
+      <a href={u('/')} class="group mt-10 inline-flex items-center gap-3 border-t border-line pt-8">
         <Logo class="wordmark-icon h-10 w-auto" />
-        <span
-          data-text="Noah Weidig"
-          class="wordmark-wipe footer-ink font-display text-2xl font-semibold">Noah Weidig</span
+        <span data-text="Noah Weidig" class="wordmark-wipe footer-ink font-display text-2xl"
+          >Noah Weidig</span
         >
       </a>
 
@@ -61,24 +70,6 @@ const substackUrl = 'https://noahweidig.substack.com';
           >
             <Icon name="rss" size={17} />
           </a>
-        </div>
-      </div>
-
-      <div class="mt-10 border-t border-line pt-8">
-        <h2 class="font-mono text-caption font-medium tracking-[0.18em] text-dim uppercase">
-          Newsletter
-        </h2>
-        <p class="mt-2 max-w-md text-body-lg text-dim">
-          Occasional notes on GIS, spatial data, and new projects — no spam.
-        </p>
-        <div class="substack-embed mt-4">
-          <iframe
-            src={`${substackUrl}/embed`}
-            title="Subscribe to Noah Weidig's newsletter on Substack"
-            width="480"
-            height="150"
-            style="border:0"
-            scrolling="no"></iframe>
         </div>
       </div>
 
@@ -167,10 +158,17 @@ const substackUrl = 'https://noahweidig.substack.com';
     }
   }
 
-  .substack-embed iframe {
-    max-width: 100%;
-    border-radius: 0.65rem;
-    border: 1px solid var(--c-line);
-    background: #fff;
+  /* icon-tile's default border/icon color (--c-line / --c-dim) reads too
+     faint against the footer's forced-dark background; bump both up a step
+     here without touching the shared component used elsewhere on the site. */
+  @layer components {
+    .footer-dark .icon-tile {
+      border-color: var(--c-line-strong);
+      color: var(--c-ink);
+    }
+    .footer-dark .icon-tile:hover {
+      border-color: var(--c-accent);
+      color: var(--c-accent-ink);
+    }
   }
 </style>
