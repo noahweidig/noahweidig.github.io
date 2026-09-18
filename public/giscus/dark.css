@@ -37,21 +37,21 @@ main {
   --color-btn-shadow: 0 0 transparent;
   --color-btn-inset-shadow: 0 0 transparent;
   --color-btn-hover-bg: #1c202a;
-  --color-btn-hover-border: #3d86ff;
+  --color-btn-hover-border: #f5c451;
   --color-btn-active-bg: #0c0e13;
-  --color-btn-active-border: #3d86ff;
+  --color-btn-active-border: #f5c451;
   --color-btn-selected-bg: #0c0e13;
-  --color-btn-primary-text: #040507;
-  --color-btn-primary-bg: #3d86ff;
-  --color-btn-primary-border: #3d86ff;
+  --color-btn-primary-text: #000000;
+  --color-btn-primary-bg: #f5c451;
+  --color-btn-primary-border: #f5c451;
   --color-btn-primary-shadow: 0 0 transparent;
   --color-btn-primary-inset-shadow: 0 0 transparent;
-  --color-btn-primary-hover-bg: #6ba4ff;
-  --color-btn-primary-hover-border: #6ba4ff;
-  --color-btn-primary-selected-bg: #3d86ff;
+  --color-btn-primary-hover-bg: #f5c451;
+  --color-btn-primary-hover-border: #ffffff;
+  --color-btn-primary-selected-bg: #f5c451;
   --color-btn-primary-selected-shadow: 0 0 transparent;
-  --color-btn-primary-disabled-text: rgb(233 236 242 / 0.5);
-  --color-btn-primary-disabled-bg: rgb(61 134 255 / 0.4);
+  --color-btn-primary-disabled-text: rgb(0 0 0 / 0.5);
+  --color-btn-primary-disabled-bg: rgb(245 196 81 / 0.4);
   --color-btn-primary-disabled-border: transparent;
 
   --color-action-list-item-default-hover-bg: #11141b;
@@ -70,10 +70,10 @@ main {
   --color-border-muted: #1c202a;
   --color-neutral-muted: rgb(153 161 177 / 0.16);
   --color-neutral-subtle: rgb(153 161 177 / 0.08);
-  --color-accent-fg: #6ba4ff;
-  --color-accent-emphasis: #3d86ff;
-  --color-accent-muted: rgb(61 134 255 / 0.4);
-  --color-accent-subtle: rgb(61 134 255 / 0.12);
+  --color-accent-fg: #f5c451;
+  --color-accent-emphasis: #f5c451;
+  --color-accent-muted: rgb(245 196 81 / 0.4);
+  --color-accent-subtle: rgb(245 196 81 / 0.12);
   --color-success-fg: #4bd0a0;
   --color-attention-fg: #ff8f45;
   --color-attention-muted: rgb(255 143 69 / 0.4);
@@ -90,7 +90,7 @@ main {
   --color-scale-blue-8: #0c0e13;
 
   --color-social-reaction-bg-hover: #11141b;
-  --color-social-reaction-bg-reacted-hover: rgb(61 134 255 / 0.2);
+  --color-social-reaction-bg-reacted-hover: rgb(245 196 81 / 0.2);
 
   color-scheme: dark;
 }
