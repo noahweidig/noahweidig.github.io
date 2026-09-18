@@ -138,7 +138,11 @@ const faqs = [
             <p class="mt-2 flex-1 text-sm leading-relaxed text-dim">{s.body}</p>
             <span class="mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-accent-ink">
               {s.cta}
-              <span class="transition-transform duration-300 group-hover:translate-x-1">→</span>
+              <Icon
+                name="arrow"
+                size={15}
+                class="transition-transform duration-300 group-hover:translate-x-1"
+              />
             </span>
           </a>
         ))
@@ -201,7 +205,14 @@ const faqs = [
             ))
           }
         </ul>
-        <a class="btn btn-ghost btn-sm mt-6" href={u('/experience/')}>See all experience →</a>
+        <a class="btn btn-ghost btn-sm group mt-6" href={u('/experience/')}>
+          See all experience
+          <Icon
+            name="arrow"
+            size={15}
+            class="transition-transform duration-300 group-hover:translate-x-1"
+          />
+        </a>
       </div>
       <div id="education" class="scroll-mt-24">
         <h3 class="font-mono text-2xs tracking-[0.18em] text-faint uppercase">Education</h3>
@@ -214,7 +225,14 @@ const faqs = [
             ))
           }
         </ul>
-        <a class="btn btn-ghost btn-sm mt-6" href={u('/education/')}>See all education →</a>
+        <a class="btn btn-ghost btn-sm group mt-6" href={u('/education/')}>
+          See all education
+          <Icon
+            name="arrow"
+            size={15}
+            class="transition-transform duration-300 group-hover:translate-x-1"
+          />
+        </a>
       </div>
     </div>
   </section>

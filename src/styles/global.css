@@ -376,6 +376,12 @@
       0 0 36px -12px color-mix(in oklab, var(--c-accent) 34%, transparent),
       0 24px 60px -26px rgb(0 0 0 / 0.5);
   }
+  :root[data-theme='light'] .portrait-ring {
+    box-shadow:
+      0 0 0 5px color-mix(in oklab, var(--c-accent) 7%, transparent),
+      0 0 36px -12px color-mix(in oklab, var(--c-accent) 34%, transparent),
+      0 24px 60px -26px rgb(0 0 0 / 0.18);
+  }
 
   /* --- carousel --- */
   .carousel-track {
