@@ -185,6 +185,9 @@ const typed = [
     left: 88%;
     width: 86vw;
     height: 86vw;
+    /* Ember reads much hotter than the accent gold at the same opacity, so it
+       gets its own faint alpha rather than sharing --hero-opacity. */
+    opacity: 0.45;
     background: radial-gradient(
       circle at center,
       var(--hero-2) 0%,
