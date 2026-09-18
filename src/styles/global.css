@@ -32,11 +32,9 @@
   --c-dim: #99a1b1;
   --c-faint: #7c8494;
 
-  --c-accent: #3d86ff;
-  --c-accent-ink: #6ba4ff;
-  /* White on this blue is 3.47:1, below AA's 4.5:1 for normal text — the
-     near-black surface tone clears 6:1 and keeps the same accent hue. */
-  --c-accent-contrast: #040507;
+  --c-accent: #f5c451;
+  --c-accent-ink: #f5c451;
+  --c-accent-contrast: #000000;
   --c-ember: #ff8f45;
   --c-moss: #4bd0a0;
   --c-violet: #a988ff;
@@ -68,9 +66,9 @@
   --c-dim: #565d6b;
   --c-faint: #636a78;
 
-  --c-accent: #0f62d6;
-  --c-accent-ink: #0a54ba;
-  --c-accent-contrast: #ffffff;
+  --c-accent: #f5c451;
+  --c-accent-ink: #8a6a12;
+  --c-accent-contrast: #000000;
   --c-ember: #a44a16;
   --c-moss: #0f7a56;
   --c-violet: #6541c9;
@@ -116,6 +114,10 @@
   --radius-md: 14px;
   --radius-lg: 20px;
   --radius-xl: 28px;
+  /* Shared corner radius for pill-shaped chrome (buttons, chips, filter
+     pills, back-to-top) so they read as one rounding language instead of
+     each rounding all the way to a stadium/999px shape. */
+  --radius-pill: 0.7rem;
 
   /* Named steps for the micro-type cluster that used to ship as one-off
      arbitrary values (text-[0.68rem] etc.) — see #138. */
@@ -324,7 +326,7 @@
     justify-content: center;
     gap: 0.5rem;
     padding: 0.68rem 1.15rem;
-    border-radius: 999px;
+    border-radius: var(--radius-pill);
     font-size: 0.875rem;
     font-weight: 600;
     letter-spacing: -0.005em;
@@ -437,7 +439,7 @@
     align-items: center;
     gap: 0.35rem;
     padding: 0.2rem 0.6rem;
-    border-radius: 999px;
+    border-radius: var(--radius-pill);
     border: 1px solid var(--c-line);
     background: var(--c-raised);
     color: var(--c-dim);
@@ -470,7 +472,7 @@
   /* --- filter pills --- */
   .pill {
     padding: 0.4rem 0.9rem;
-    border-radius: 999px;
+    border-radius: var(--radius-pill);
     border: 1px solid var(--c-line);
     background: transparent;
     color: var(--c-dim);
@@ -924,7 +926,7 @@
     align-items: center;
     gap: 0.4rem;
     padding: 0.55rem 1.1rem;
-    border-radius: 999px;
+    border-radius: var(--radius-pill);
     border: 1px solid var(--c-line-strong);
     background: color-mix(in oklab, var(--c-surface) 70%, transparent);
     color: var(--c-dim);
