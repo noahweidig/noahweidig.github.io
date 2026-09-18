@@ -1,9 +1,10 @@
 ---
 import { u } from '../lib/url';
-import { footerColumns, socials, site } from '../lib/site';
+import { nav, socials } from '../lib/site';
 import Icon from './Icon.astro';
 import Logo from './Logo.astro';
 const year = new Date().getFullYear();
+const substackUrl = 'https://noahweidig.substack.com';
 ---
 
 <footer
@@ -13,70 +14,71 @@ const year = new Date().getFullYear();
 >
   <div class="w-full px-5 sm:px-6 lg:px-8">
     <div class="py-8 sm:py-10">
-      <div class="grid gap-10 sm:gap-8 lg:grid-cols-[1.4fr_repeat(4,1fr)]">
-        <div class="flex flex-col items-center text-center sm:items-start sm:text-left">
-          <a href={u('/')} class="group flex items-center gap-2.5">
-            <Logo class="wordmark-icon h-8 w-auto" />
-            <span data-text="Noah Weidig" class="wordmark-wipe font-display text-xl"
-              >Noah Weidig</span
-            >
-          </a>
-          <p class="mt-3 text-body-lg text-dim">{site.role}</p>
-          <div class="mt-5 grid w-fit grid-cols-3 gap-2">
-            {
-              socials.map((s) => (
-                <a
-                  href={s.href}
-                  aria-label={`${s.label} (opens in a new tab)`}
-                  data-tip={`${s.label} profile`}
-                  target="_blank"
-                  rel="noopener"
-                  class="icon-tile"
-                >
-                  <Icon name={s.icon} size={17} />
-                </a>
-              ))
-            }
-            <a
-              href={u('/rss.xml')}
-              aria-label="RSS Feed"
-              data-tip="Subscribe to the blog feed"
-              class="icon-tile"
-            >
-              <Icon name="rss" size={17} />
-            </a>
-          </div>
-        </div>
+      <a href={u('/')} class="group inline-flex items-center gap-3">
+        <Logo class="wordmark-icon h-10 w-auto" />
+        <span
+          data-text="Noah Weidig"
+          class="wordmark-wipe footer-ink font-display text-2xl font-semibold">Noah Weidig</span
+        >
+      </a>
 
-        <div class="grid grid-cols-2 gap-x-8 gap-y-10 sm:gap-x-10 lg:contents">
+      <div
+        class="mt-8 flex flex-wrap items-center justify-between gap-x-8 gap-y-4 border-t border-line pt-8"
+      >
+        <nav aria-label="Footer" class="flex flex-wrap items-center gap-x-6 gap-y-3">
           {
-            footerColumns.map((col) => (
-              <div>
-                <h2 class="font-mono text-caption font-medium tracking-[0.18em] text-dim uppercase">
-                  {col.heading}
-                </h2>
-                <ul class="mt-4 grid gap-2.5">
-                  {col.links.map((l) => {
-                    const external = /^https?:\/\//.test(l.href);
-                    return (
-                      <li>
-                        <a
-                          href={external ? l.href : u(l.href)}
-                          data-tip={l.tip}
-                          target={external ? '_blank' : undefined}
-                          rel={external ? 'noopener' : undefined}
-                          class="inline-flex items-center text-body-lg text-dim transition-colors hover:text-accent-ink"
-                        >
-                          {l.text}
-                          {external && <span class="sr-only-nw"> (opens in a new tab)</span>}
-                        </a>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
+            nav.map((item) => (
+              <a
+                href={u(item.href)}
+                data-tip={item.tip}
+                class="footer-ink text-body-lg font-semibold transition-colors hover:text-accent-ink"
+              >
+                {item.text}
+              </a>
             ))
           }
+        </nav>
+        <div class="flex items-center gap-2">
+          {
+            socials.map((s) => (
+              <a
+                href={s.href}
+                aria-label={`${s.label} (opens in a new tab)`}
+                data-tip={`${s.label} profile`}
+                target="_blank"
+                rel="noopener"
+                class="icon-tile"
+              >
+                <Icon name={s.icon} size={17} />
+              </a>
+            ))
+          }
+          <a
+            href={u('/rss.xml')}
+            aria-label="RSS Feed"
+            data-tip="Subscribe to the blog feed"
+            class="icon-tile"
+          >
+            <Icon name="rss" size={17} />
+          </a>
+        </div>
+      </div>
+
+      <div class="mt-10 border-t border-line pt-8">
+        <h2 class="font-mono text-caption font-medium tracking-[0.18em] text-dim uppercase">
+          Newsletter
+        </h2>
+        <p class="mt-2 max-w-md text-body-lg text-dim">
+          Occasional notes on GIS, spatial data, and new projects — no spam.
+        </p>
+        <div class="substack-embed mt-4">
+          <iframe
+            src={`${substackUrl}/embed`}
+            title="Subscribe to Noah Weidig's newsletter on Substack"
+            width="480"
+            height="150"
+            style="border:0"
+            scrolling="no"></iframe>
         </div>
       </div>
 
@@ -86,30 +88,30 @@ const year = new Date().getFullYear();
         <p>
           © {year} Noah Weidig
           <span class="mx-1.5 text-faint">·</span>
-          <a class="hover:text-accent-ink" href={u('/privacy/')}>Privacy Policy</a>
+          <a class="footer-dim hover:text-accent-ink" href={u('/privacy/')}>Privacy Policy</a>
           <span class="mx-1.5 text-faint">·</span>
-          <a class="hover:text-accent-ink" href={u('/terms/')}>Terms &amp; Conditions</a>
+          <a class="footer-dim hover:text-accent-ink" href={u('/terms/')}>Terms &amp; Conditions</a>
           <span class="mx-1.5 text-faint">·</span>
-          <a class="hover:text-accent-ink" href={u('/styleguide/')}>Styleguide</a>
+          <a class="footer-dim hover:text-accent-ink" href={u('/styleguide/')}>Styleguide</a>
         </p>
         <div class="flex items-center gap-2">
           <span class="font-mono text-caption tracking-[0.12em] text-faint uppercase">Sitemap</span>
           <a
             href={u('/sitemap-0.xml')}
             data-tip="XML sitemap for crawlers"
-            class="rounded border border-line px-2 py-1 font-mono text-caption text-dim transition-colors hover:border-accent-ink hover:text-accent-ink"
+            class="footer-dim rounded border border-line px-2 py-1 font-mono text-caption transition-colors hover:border-accent-ink hover:text-accent-ink"
             >.xml</a
           >
           <a
             href={u('/sitemap.md')}
             data-tip="Markdown sitemap for humans and LLMs"
-            class="rounded border border-line px-2 py-1 font-mono text-caption text-dim transition-colors hover:border-accent-ink hover:text-accent-ink"
+            class="footer-dim rounded border border-line px-2 py-1 font-mono text-caption transition-colors hover:border-accent-ink hover:text-accent-ink"
             >.md</a
           >
           <a
             href={u('/llms.txt')}
             data-tip="Short site guide for AI agents"
-            class="rounded border border-line px-2 py-1 font-mono text-caption text-dim transition-colors hover:border-accent-ink hover:text-accent-ink"
+            class="footer-dim rounded border border-line px-2 py-1 font-mono text-caption transition-colors hover:border-accent-ink hover:text-accent-ink"
             >llms.txt</a
           >
         </div>
@@ -122,7 +124,11 @@ const year = new Date().getFullYear();
   /* Footer stays on the dark palette regardless of site theme, for a
      consistent, premium look — overriding the theme tokens locally means
      every existing text-dim/text-faint/border-line/hover:text-accent-ink
-     utility below just works without a separate light-mode override. */
+     utility below just works without a separate light-mode override. Every
+     link in the footer carries its own explicit text-ink/text-dim class (or
+     the icon-tile rule) rather than relying on inherited color, so this base
+     rule only needs to cover non-link text (the wordmark) and the
+     background. */
   .footer-dark {
     --c-bg: #07080b;
     --c-bg-deep: #040507;
@@ -139,11 +145,32 @@ const year = new Date().getFullYear();
     background-color: var(--c-bg-deep);
     color: var(--c-ink);
   }
-  .footer-dark a {
-    color: var(--c-dim);
+
+  /* Tailwind v4 puts every utility class (including hover: variants) inside
+     `@layer utilities`, and an unlayered rule always outranks a layered one
+     regardless of specificity — so these live in the same layer, or they'd
+     make hover:text-accent-ink inert. :global() stops Astro from appending
+     its own scoping attribute (which would inflate specificity unpredictably
+     and risk winning anyway); a plain single class reliably loses to any
+     `:hover`/`:focus-visible` variant, which is what lets the hover color
+     still take over. These are a deliberate replacement for text-ink/
+     text-dim in the footer, not a fallback layered on top of them — every
+     footer link's color reaches it through one of these two classes, so
+     contrast holds even where the shared stylesheet can't load (e.g. the
+     axe-core file:// audit). */
+  @layer utilities {
+    :global(.footer-ink) {
+      color: var(--c-ink);
+    }
+    :global(.footer-dim) {
+      color: var(--c-dim);
+    }
   }
-  .footer-dark a:hover,
-  .footer-dark a:focus-visible {
-    color: var(--c-accent-ink);
+
+  .substack-embed iframe {
+    max-width: 100%;
+    border-radius: 0.65rem;
+    border: 1px solid var(--c-line);
+    background: #fff;
   }
 </style>
