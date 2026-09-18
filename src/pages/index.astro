@@ -167,6 +167,14 @@ const faqs = [
     <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
       {projects.map((entry, i) => <ProjectCard entry={entry} index={i} />)}
     </div>
+    <a class="btn btn-ghost btn-sm group mt-6 md:hidden" href={u('/projects/')}>
+      Browse all projects
+      <Icon
+        name="arrow"
+        size={15}
+        class="transition-transform duration-300 group-hover:translate-x-1"
+      />
+    </a>
   </section>
 
   <!-- publications -->
@@ -180,6 +188,14 @@ const faqs = [
     <div class="mt-8">
       {featuredPubs.map((entry) => <CitationRow entry={entry} compact />)}
     </div>
+    <a class="btn btn-ghost btn-sm group mt-6 md:hidden" href={u('/publications/')}>
+      All publications
+      <Icon
+        name="arrow"
+        size={15}
+        class="transition-transform duration-300 group-hover:translate-x-1"
+      />
+    </a>
   </section>
 
   <!-- skills -->
@@ -205,16 +221,14 @@ const faqs = [
             ))
           }
         </ul>
-        <div class="mt-6 flex justify-end">
-          <a class="btn btn-ghost btn-sm group" href={u('/experience/')}>
-            See all experience
-            <Icon
-              name="arrow"
-              size={15}
-              class="transition-transform duration-300 group-hover:translate-x-1"
-            />
-          </a>
-        </div>
+        <a class="btn btn-ghost btn-sm group mt-6" href={u('/experience/')}>
+          See all experience
+          <Icon
+            name="arrow"
+            size={15}
+            class="transition-transform duration-300 group-hover:translate-x-1"
+          />
+        </a>
       </div>
       <div id="education" class="scroll-mt-24">
         <h3 class="font-mono text-2xs tracking-[0.18em] text-faint uppercase">Education</h3>
@@ -227,16 +241,14 @@ const faqs = [
             ))
           }
         </ul>
-        <div class="mt-6 flex justify-end">
-          <a class="btn btn-ghost btn-sm group" href={u('/education/')}>
-            See all education
-            <Icon
-              name="arrow"
-              size={15}
-              class="transition-transform duration-300 group-hover:translate-x-1"
-            />
-          </a>
-        </div>
+        <a class="btn btn-ghost btn-sm group mt-6" href={u('/education/')}>
+          See all education
+          <Icon
+            name="arrow"
+            size={15}
+            class="transition-transform duration-300 group-hover:translate-x-1"
+          />
+        </a>
       </div>
     </div>
   </section>
@@ -316,6 +328,16 @@ const faqs = [
         </button>
       </div>
     </div>
+    <div class="shell">
+      <a class="btn btn-ghost btn-sm group mt-6 md:hidden" href={u('/awards/')}>
+        All awards
+        <Icon
+          name="arrow"
+          size={15}
+          class="transition-transform duration-300 group-hover:translate-x-1"
+        />
+      </a>
+    </div>
   </section>
 
   <!-- blog -->
@@ -333,6 +355,14 @@ const faqs = [
         ))
       }
     </div>
+    <a class="btn btn-ghost btn-sm group mt-6 md:hidden" href={u('/blog/')}>
+      Read more posts
+      <Icon
+        name="arrow"
+        size={15}
+        class="transition-transform duration-300 group-hover:translate-x-1"
+      />
+    </a>
   </section>
 
   <!-- faq -->
