@@ -9,13 +9,10 @@ const year = new Date().getFullYear();
 <footer
   data-pagefind-ignore
   data-site-footer
-  class="relative mt-28 overflow-hidden border-t border-line bg-bg-deep pt-28 sm:pt-40"
+  class="footer-dark relative mt-28 border-t border-line bg-bg-deep pt-28 sm:pt-40"
 >
-  <div class="footer-glow pointer-events-none absolute inset-0" aria-hidden="true"></div>
   <div class="w-full px-5 pb-16 sm:px-8 lg:px-16">
-    <div
-      class="footer-card rounded-xl border px-6 py-8 backdrop-blur-[24px] backdrop-saturate-[1.4] sm:px-10 sm:py-10"
-    >
+    <div class="px-6 py-8 sm:px-10 sm:py-10">
       <div class="grid gap-10 sm:gap-8 lg:grid-cols-[1.4fr_repeat(4,1fr)]">
         <div class="flex flex-col items-center text-center sm:items-start sm:text-left">
           <a href={u('/')} class="group flex items-center gap-2.5">
@@ -89,7 +86,9 @@ const year = new Date().getFullYear();
         <p>
           © {year} Noah Weidig
           <span class="mx-1.5 text-faint">·</span>
-          <a class="hover:text-accent-ink" href={u('/privacy/')}>Privacy</a>
+          <a class="hover:text-accent-ink" href={u('/privacy/')}>Privacy Policy</a>
+          <span class="mx-1.5 text-faint">·</span>
+          <a class="hover:text-accent-ink" href={u('/terms/')}>Terms &amp; Conditions</a>
           <span class="mx-1.5 text-faint">·</span>
           <a class="hover:text-accent-ink" href={u('/styleguide/')}>Styleguide</a>
         </p>
@@ -120,39 +119,23 @@ const year = new Date().getFullYear();
 </footer>
 
 <style>
-  /* Warm accent/violet field echoing the site's own hero gradients, strongest
-     at the very bottom of the page and fading to nothing above the card —
-     replaces the topo texture that used to sit behind this section. */
-  .footer-glow {
-    background: linear-gradient(
-      to top,
-      color-mix(in oklab, var(--c-accent) 42%, transparent) 0%,
-      color-mix(in oklab, var(--c-violet) 26%, transparent) 22%,
-      color-mix(in oklab, var(--c-accent) 10%, transparent) 45%,
-      transparent 80%
-    );
-  }
-  :root[data-theme='light'] .footer-glow {
-    background: linear-gradient(
-      to top,
-      color-mix(in oklab, var(--c-accent) 30%, transparent) 0%,
-      color-mix(in oklab, var(--c-violet) 18%, transparent) 22%,
-      color-mix(in oklab, var(--c-accent) 7%, transparent) 45%,
-      transparent 80%
-    );
-  }
-
-  .footer-card {
-    background: color-mix(in oklab, var(--c-surface) 55%, transparent);
-    border-color: rgb(255 255 255 / 0.1);
-    box-shadow: var(--shadow-card);
-    /* Own compositing layer: without it, Chromium sometimes repaints this
-       backdrop-blur region a frame late on scroll, leaving a stray
-       translucent rectangle ghosted over the footer until the next repaint. */
-    transform: translateZ(0);
-    will-change: backdrop-filter;
-  }
-  :root[data-theme='light'] .footer-card {
-    border-color: rgb(255 255 255 / 0.6);
+  /* Footer stays on the dark palette regardless of site theme, for a
+     consistent, premium look — overriding the theme tokens locally means
+     every existing text-dim/text-faint/border-line/hover:text-accent-ink
+     utility below just works without a separate light-mode override. */
+  .footer-dark {
+    --c-bg: #07080b;
+    --c-bg-deep: #040507;
+    --c-surface: #0c0e13;
+    --c-raised: #11141b;
+    --c-line: #1c202a;
+    --c-line-strong: #2a303d;
+    --c-ink: #e9ecf2;
+    --c-dim: #99a1b1;
+    --c-faint: #7c8494;
+    --c-accent: #3d86ff;
+    --c-accent-ink: #6ba4ff;
+    --c-accent-contrast: #040507;
+    color: var(--c-ink);
   }
 </style>
