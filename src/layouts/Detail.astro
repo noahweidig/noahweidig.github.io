@@ -13,6 +13,10 @@ import type { Sibling } from '../components/PrevNext.astro';
 
 interface Props {
   title: string;
+  /** Overrides `title` for <title>/og:title only, when the H1 alone would
+      collide with another page's (e.g. two roles both called "Research
+      Assistant") — the visible heading stays untouched. */
+  metaTitle?: string;
   description?: string;
   kicker?: string;
   meta?: string;
@@ -40,6 +44,7 @@ interface Props {
 }
 const {
   title,
+  metaTitle = title,
   description,
   kicker,
   meta,
@@ -81,7 +86,7 @@ const badges = Astro.slots.has('badges') ? (await Astro.slots.render('badges')).
 ---
 
 <Base
-  title={title}
+  title={metaTitle}
   description={description}
   image={image}
   imageWidth={imageWidth}
