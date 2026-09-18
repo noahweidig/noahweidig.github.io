@@ -115,13 +115,13 @@ const faqs = [
   <Hero />
 
   <!-- stats + affiliations -->
-  <section class="shell py-14 md:py-16">
+  <section class="shell py-16 md:py-20">
     <StatStrip stats={stats} />
     <Affiliations />
   </section>
 
   <!-- three ways in -->
-  <section class="shell pb-4">
+  <section class="shell pb-8">
     <div class="grid gap-5 md:grid-cols-3">
       {
         starts.map((s, i) => (
@@ -147,13 +147,13 @@ const faqs = [
   </section>
 
   <!-- research areas -->
-  <section class="shell scroll-mt-24 py-20 md:py-24" id="interests">
+  <section class="shell scroll-mt-24 py-24 md:py-28" id="interests">
     <SectionHead kicker="Research areas" title="Where I focus my work" />
     <ResearchAreas />
   </section>
 
   <!-- projects -->
-  <section class="shell scroll-mt-24 py-16" id="projects">
+  <section class="shell scroll-mt-24 py-20" id="projects">
     <SectionHead
       kicker="Selected work"
       title="Tools, maps & applications"
@@ -166,7 +166,7 @@ const faqs = [
   </section>
 
   <!-- publications -->
-  <section class="shell scroll-mt-24 py-16" id="publications">
+  <section class="shell scroll-mt-24 py-20" id="publications">
     <SectionHead
       kicker="Publications"
       title="Peer-reviewed & in review"
@@ -179,7 +179,7 @@ const faqs = [
   </section>
 
   <!-- skills -->
-  <section class="scroll-mt-24 border-y border-line bg-bg-deep py-16" id="skills">
+  <section class="scroll-mt-24 border-y border-line bg-bg-deep py-20" id="skills">
     <div class="shell">
       <SectionHead kicker="Tech stack" title="Technologies I use to build things" />
       <TechMarquee />
@@ -187,7 +187,7 @@ const faqs = [
   </section>
 
   <!-- experience + education -->
-  <section class="shell scroll-mt-24 py-20" id="experience">
+  <section class="shell scroll-mt-24 py-24" id="experience">
     <SectionHead kicker="Background" title="Where I've worked and studied" />
     <div class="mt-10 grid gap-12 lg:grid-cols-2 lg:gap-16">
       <div>
@@ -220,7 +220,7 @@ const faqs = [
   </section>
 
   <!-- awards -->
-  <section class="scroll-mt-24 border-y border-line bg-bg-deep py-16" id="awards">
+  <section class="scroll-mt-24 border-y border-line bg-bg-deep py-20" id="awards">
     <div class="shell">
       <SectionHead
         kicker="Recognition"
@@ -297,7 +297,7 @@ const faqs = [
   </section>
 
   <!-- blog -->
-  <section class="shell scroll-mt-24 py-16" id="blog">
+  <section class="shell scroll-mt-24 py-20" id="blog">
     <SectionHead
       kicker="Writing"
       title="Notes & tutorials"
@@ -314,7 +314,7 @@ const faqs = [
   </section>
 
   <!-- faq -->
-  <section class="shell scroll-mt-24 py-16" id="faq">
+  <section class="shell scroll-mt-24 border-t border-line py-20" id="faq">
     <SectionHead
       kicker="FAQ"
       title="About my work"
@@ -386,15 +386,14 @@ const faqs = [
   </section>
 
   <!-- cta -->
-  <section class="shell scroll-mt-24 py-16" id="cta">
+  <section class="shell scroll-mt-24 border-t border-line py-20" id="cta">
     <div class="grid gap-10 lg:grid-cols-[1.25fr_0.75fr] lg:items-stretch">
       <div class="card relative overflow-hidden p-8 md:p-11" data-reveal>
-        <div class="cta-glow pointer-events-none absolute inset-0" aria-hidden="true"></div>
         <div class="relative">
           <span
-            class="inline-flex items-center gap-2 rounded-full border border-moss/40 bg-moss/10 px-3 py-1 text-[0.75rem] font-medium text-moss"
+            class="inline-flex items-center gap-2 rounded-full border border-accent/40 bg-accent/10 px-3 py-1 text-[0.75rem] font-medium text-accent-ink"
           >
-            <span class="h-1.5 w-1.5 rounded-full bg-moss"></span>
+            <span class="h-1.5 w-1.5 rounded-full bg-accent"></span>
             Open to data science &amp; GIS roles
           </span>
           <h2 class="mt-5 font-display text-[clamp(1.8rem,1.2rem+2.4vw,2.9rem)]">
@@ -444,35 +443,3 @@ const faqs = [
     </div>
   </section>
 </Base>
-
-<style>
-  /* Two faint accent/violet fields anchored at opposite corners of the CTA
-     card, replacing its topo texture — deliberately off-center from each
-     other so the card reads as lit rather than flatly tinted. */
-  .cta-glow {
-    background:
-      radial-gradient(
-        60% 65% at 12% -10%,
-        color-mix(in oklab, var(--c-accent) 16%, transparent) 0%,
-        transparent 70%
-      ),
-      radial-gradient(
-        55% 60% at 100% 115%,
-        color-mix(in oklab, var(--c-violet) 14%, transparent) 0%,
-        transparent 70%
-      );
-  }
-  :root[data-theme='light'] .cta-glow {
-    background:
-      radial-gradient(
-        60% 65% at 12% -10%,
-        color-mix(in oklab, var(--c-accent) 9%, transparent) 0%,
-        transparent 70%
-      ),
-      radial-gradient(
-        55% 60% at 100% 115%,
-        color-mix(in oklab, var(--c-violet) 8%, transparent) 0%,
-        transparent 70%
-      );
-  }
-</style>
