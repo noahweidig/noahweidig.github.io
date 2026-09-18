@@ -444,7 +444,6 @@
   }
   .chip-accent {
     border-color: var(--c-line-strong);
-    color: var(--c-ink);
     background: var(--c-raised);
   }
 
