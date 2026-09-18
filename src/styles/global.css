@@ -55,12 +55,12 @@
 }
 
 :root[data-theme='light'] {
-  --c-bg: #fbfaf7;
-  --c-bg-deep: #f2f0eb;
+  --c-bg: #ffffff;
+  --c-bg-deep: #f4f4f4;
   --c-surface: #ffffff;
-  --c-raised: #f6f4f0;
-  --c-line: #e4e1da;
-  --c-line-strong: #cdc8bd;
+  --c-raised: #f4f4f4;
+  --c-line: #e2e2e2;
+  --c-line-strong: #cbcbcb;
   --c-ink: #14161c;
   --c-dim: #565d6b;
   --c-faint: #636a78;
@@ -443,9 +443,9 @@
     white-space: nowrap;
   }
   .chip-accent {
-    border-color: color-mix(in oklab, var(--c-accent) 40%, transparent);
-    color: var(--c-accent-ink);
-    background: color-mix(in oklab, var(--c-accent) 10%, transparent);
+    border-color: var(--c-line-strong);
+    color: var(--c-ink);
+    background: var(--c-raised);
   }
 
   /* The Altmetric donut in a citation chip is a small vendor-served image
