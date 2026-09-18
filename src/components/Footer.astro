@@ -11,8 +11,8 @@ const year = new Date().getFullYear();
   data-site-footer
   class="footer-dark relative mt-28 border-t border-line bg-bg-deep pt-28 sm:pt-40"
 >
-  <div class="w-full px-5 pb-16 sm:px-8 lg:px-16">
-    <div class="px-6 py-8 sm:px-10 sm:py-10">
+  <div class="w-full px-5 sm:px-6 lg:px-8">
+    <div class="py-8 sm:py-10">
       <div class="grid gap-10 sm:gap-8 lg:grid-cols-[1.4fr_repeat(4,1fr)]">
         <div class="flex flex-col items-center text-center sm:items-start sm:text-left">
           <a href={u('/')} class="group flex items-center gap-2.5">
@@ -136,6 +136,14 @@ const year = new Date().getFullYear();
     --c-accent: #3d86ff;
     --c-accent-ink: #6ba4ff;
     --c-accent-contrast: #040507;
+    background-color: var(--c-bg-deep);
     color: var(--c-ink);
+  }
+  .footer-dark a {
+    color: var(--c-dim);
+  }
+  .footer-dark a:hover,
+  .footer-dark a:focus-visible {
+    color: var(--c-accent-ink);
   }
 </style>
