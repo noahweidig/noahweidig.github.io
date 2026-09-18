@@ -38,7 +38,11 @@ const year = new Date().getFullYear();
           {
             nav.map((item, i) => (
               <>
-                {i > 0 && <span class="mx-1.5 text-faint" aria-hidden="true">·</span>}
+                {i > 0 && (
+                  <span class="mx-1.5 text-faint" aria-hidden="true">
+                    ·
+                  </span>
+                )}
                 <a
                   href={u(item.href)}
                   data-tip={item.tip}
