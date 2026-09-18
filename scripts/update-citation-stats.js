@@ -80,7 +80,7 @@ async function fetchAltmetric(doi) {
     detailsUrl:
       data.details_url ||
       (data.altmetric_id
-        ? `https://www.altmetric.com/details.php?citation_id=${data.altmetric_id}`
+        ? `https://www.altmetric.com/details/${data.altmetric_id}`
         : `https://www.altmetric.com/details/doi/${doi}`),
     // The vendor's own pre-built donut image, colored per mention type — not
     // something we can reconstruct ourselves (the `types` param it carries is
