@@ -167,7 +167,7 @@
   h3,
   h4 {
     font-family: var(--font-display);
-    font-weight: 500;
+    font-weight: 700;
     letter-spacing: -0.015em;
     line-height: 1.12;
     text-wrap: balance;
@@ -252,7 +252,7 @@
   }
   /* --- display headings --- */
   .display-1 {
-    font-size: clamp(2.6rem, 1.4rem + 5.2vw, 5.2rem);
+    font-size: clamp(2.4rem, 1.3rem + 4.4vw, 4.4rem);
   }
   .display-2 {
     font-size: clamp(2.2rem, 1.3rem + 3.4vw, 4rem);
