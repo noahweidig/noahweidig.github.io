@@ -41,7 +41,6 @@
 
   --c-glow: color-mix(in oklab, var(--c-accent) 26%, transparent);
   --c-sheen: rgb(255 255 255 / 0.04);
-  --shadow-card: 0 1px 0 0 rgb(255 255 255 / 0.04) inset, 0 18px 40px -24px rgb(0 0 0 / 0.9);
   --grid-line: rgb(255 255 255 / 0.045);
   --topo-opacity: 0.05;
   /* The hero fields are the site's own accent and violet. Prominence is dialled
@@ -49,7 +48,7 @@
      of the palette instead of becoming its own pair of colours. */
   --hero-1: var(--c-accent);
   --hero-2: var(--c-violet);
-  --hero-opacity: 0.42;
+  --hero-opacity: 0.22;
   --hero-blur: 70px;
   --hero-blend: screen;
   color-scheme: dark;
@@ -75,14 +74,13 @@
 
   --c-glow: color-mix(in oklab, var(--c-accent) 16%, transparent);
   --c-sheen: rgb(15 20 30 / 0.02);
-  --shadow-card: 0 1px 0 0 rgb(255 255 255 / 0.9) inset, 0 16px 34px -26px rgb(20 25 40 / 0.35);
   --grid-line: rgb(20 25 40 / 0.045);
   --topo-opacity: 0.045;
   /* Screen on a near-white ground just bleaches; the light theme paints the
      same fields normally, sat well back so the copy stays the loudest thing. */
   --hero-1: var(--c-accent);
   --hero-2: var(--c-violet);
-  --hero-opacity: 0.2;
+  --hero-opacity: 0.1;
   --hero-blur: 90px;
   --hero-blend: normal;
   color-scheme: light;
@@ -286,15 +284,10 @@
     color: var(--c-ink);
     border: 1px solid var(--c-line);
     border-radius: var(--radius-md);
-    box-shadow: var(--shadow-card);
-    transition:
-      border-color 0.35s var(--ease-out-soft),
-      transform 0.35s var(--ease-out-soft),
-      box-shadow 0.35s var(--ease-out-soft);
+    transition: border-color 0.35s var(--ease-out-soft);
   }
   .card-hover:hover {
     border-color: var(--c-line-strong);
-    transform: translateY(-3px);
   }
   .card-hover:hover::after {
     opacity: 1;
@@ -363,8 +356,9 @@
     background: color-mix(in oklab, var(--c-surface) 70%, transparent);
   }
   .btn-ghost:hover {
-    border-color: var(--c-accent);
-    color: var(--c-accent-ink);
+    border-color: var(--c-ink);
+    background: var(--c-ink);
+    color: var(--c-bg);
   }
 
   .btn-sm {
