@@ -772,6 +772,44 @@
     color: var(--c-accent-ink);
   }
 
+  /* Wordmark hover: icon and text react together. The icon's currentColor
+     just transitions to the accent; the text gets a blue wipe that sweeps in
+     from the left on hover and, since the transition simply runs in reverse,
+     recedes back off to the left on hover-out — driven by animating the
+     right inset of a clip-path rather than crossfading opacity, so there is
+     always one clean edge instead of a blend. */
+  .wordmark-icon {
+    transition: color 0.45s var(--ease-out-soft);
+  }
+  .group:hover .wordmark-icon,
+  .group:focus-visible .wordmark-icon {
+    color: var(--c-accent-ink);
+  }
+
+  .wordmark-wipe {
+    position: relative;
+    display: inline-block;
+  }
+  .wordmark-wipe::after {
+    content: attr(data-text);
+    position: absolute;
+    inset: 0;
+    color: var(--c-accent-ink);
+    clip-path: inset(0 100% 0 0);
+    transition: clip-path 0.45s var(--ease-out-soft);
+    pointer-events: none;
+  }
+  .group:hover .wordmark-wipe::after,
+  .group:focus-visible .wordmark-wipe::after {
+    clip-path: inset(0 0 0 0);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .wordmark-icon,
+    .wordmark-wipe::after {
+      transition-duration: 1ms;
+    }
+  }
+
   /* Nav items carry the same fill as the icon buttons beside them: the page
      you are on is the one wearing the tile, and hover previews it. */
   .nav-link {
