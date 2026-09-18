@@ -29,14 +29,18 @@ const isActive = (href: string) => {
       class="group flex min-w-0 items-center gap-2.5"
       aria-label="Noah Weidig — home"
     >
-      <Logo class="h-7 w-auto transition-transform duration-500 group-hover:-rotate-6" />
+      <Logo
+        class="wordmark-icon h-7 w-auto transition-transform duration-500 group-hover:-rotate-6"
+      />
       <span
-        class="truncate font-display text-[1.3rem] font-medium tracking-tight max-[360px]:hidden md:text-[1.45rem]"
+        data-text="Noah Weidig"
+        class="wordmark-wipe truncate font-display text-[1.3rem] font-medium tracking-tight max-[360px]:hidden md:text-[1.45rem]"
         >Noah Weidig</span
       >
       <span
         aria-hidden="true"
-        class="hidden font-display text-[1.3rem] font-medium tracking-tight max-[360px]:block"
+        data-text="Nw."
+        class="wordmark-wipe hidden font-display text-[1.3rem] font-medium tracking-tight max-[360px]:block"
         >Nw.</span
       >
     </a>
