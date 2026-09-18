@@ -47,7 +47,7 @@
      with opacity rather than by darkening the hues, so the gradient stays part
      of the palette instead of becoming its own pair of colours. */
   --hero-1: var(--c-accent);
-  --hero-2: var(--c-violet);
+  --hero-2: var(--c-ember);
   --hero-opacity: 0.22;
   --hero-blur: 70px;
   --hero-blend: screen;
@@ -79,7 +79,7 @@
   /* Screen on a near-white ground just bleaches; the light theme paints the
      same fields normally, sat well back so the copy stays the loudest thing. */
   --hero-1: var(--c-accent);
-  --hero-2: var(--c-violet);
+  --hero-2: var(--c-ember);
   --hero-opacity: 0.1;
   --hero-blur: 90px;
   --hero-blend: normal;
@@ -248,7 +248,7 @@
     font-weight: 500;
     letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: var(--c-accent-ink);
+    color: var(--c-dim);
   }
   /* --- display headings --- */
   .display-1 {

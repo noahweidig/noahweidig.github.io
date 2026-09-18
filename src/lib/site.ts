@@ -29,6 +29,7 @@ export const giscus = {
 } as const;
 
 export const nav = [
+  { text: 'About', href: '/about/', tip: 'A bit more about who I am' },
   { text: 'Projects', href: '/projects/', tip: 'Open tools, maps and applications' },
   { text: 'Publications', href: '/publications/', tip: 'Papers, talks and peer review' },
   { text: 'Experience', href: '/experience/', tip: 'Roles, research posts and internships' },
