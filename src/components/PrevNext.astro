@@ -1,5 +1,6 @@
 ---
 import { u } from '../lib/url';
+import Icon from './Icon.astro';
 
 export interface Sibling {
   href: string;
@@ -29,7 +30,11 @@ const { prev, next, label } = Astro.props;
             class="group flex min-w-0 flex-col gap-2 px-5 py-7 transition-colors hover:bg-surface sm:px-8"
           >
             <span class="flex items-center gap-2 font-mono text-micro tracking-[0.14em] text-faint uppercase">
-              <span class="transition-transform duration-300 group-hover:-translate-x-1">←</span>
+              <Icon
+                name="arrow"
+                size={15}
+                class="rotate-180 transition-transform duration-300 group-hover:-translate-x-1"
+              />
               Previous
             </span>
             <span
@@ -52,7 +57,11 @@ const { prev, next, label } = Astro.props;
           >
             <span class="flex items-center gap-2 font-mono text-micro tracking-[0.14em] text-faint uppercase">
               Next
-              <span class="transition-transform duration-300 group-hover:translate-x-1">→</span>
+              <Icon
+                name="arrow"
+                size={15}
+                class="transition-transform duration-300 group-hover:translate-x-1"
+              />
             </span>
             <span
               data-truncate-words
