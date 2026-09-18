@@ -35,7 +35,7 @@ const shot = shotFor(slug);
       shot ? (
         <Image
           src={shot}
-          alt=""
+          alt={`${title} project screenshot`}
           widths={IMAGE_WIDTHS.thumbnail}
           sizes="(min-width: 1024px) 380px, (min-width: 640px) 45vw, 92vw"
           loading={index === 0 ? 'eager' : 'lazy'}

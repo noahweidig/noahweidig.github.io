@@ -3,7 +3,7 @@ import { u } from '../../lib/url';
 import { getCollection, render } from 'astro:content';
 import { getImage } from 'astro:assets';
 import Detail from '../../layouts/Detail.astro';
-import { fullDate, readingTime } from '../../lib/format';
+import { firstSentence, fullDate, readingTime } from '../../lib/format';
 import { IMAGE_WIDTHS } from '../../lib/images';
 import Comments from '../../components/Comments.astro';
 import ThemeImage from '../../components/ThemeImage.astro';
@@ -29,6 +29,7 @@ const { Content, headings } = await render(entry);
 const d = entry.data;
 const rt = readingTime(entry.body);
 const meta = `${fullDate(d.date)} · ${rt}`;
+const metaDescription = firstSentence(d.description, 155);
 // The post's own cover, sized for og:image/twitter:image, so a shared link
 // shows this post's art instead of the sitewide default (site.ogImage).
 const ogImageResult = d.image ? await getImage({ src: d.image, width: 1200 }) : undefined;
@@ -61,7 +62,7 @@ const articleLd = {
 
 <Detail
   title={d.title}
-  description={d.description}
+  description={metaDescription}
   headings={headings}
   readingTime={rt}
   kicker="Blog"
