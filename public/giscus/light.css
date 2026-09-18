@@ -31,49 +31,49 @@ main {
   --color-prettylights-syntax-meta-diff-range: #6541c9;
   --color-prettylights-syntax-sublimelinter-gutter-mark: #636a78;
 
-  --color-btn-text: #14161c;
-  --color-btn-bg: #f6f4f0;
-  --color-btn-border: #cdc8bd;
+  --color-btn-text: #14161a;
+  --color-btn-bg: #f4f4f4;
+  --color-btn-border: #cbcbcb;
   --color-btn-shadow: 0 0 transparent;
   --color-btn-inset-shadow: 0 0 transparent;
-  --color-btn-hover-bg: #e4e1da;
-  --color-btn-hover-border: #0f62d6;
+  --color-btn-hover-bg: #e2e2e2;
+  --color-btn-hover-border: #f5c451;
   --color-btn-active-bg: #ffffff;
-  --color-btn-active-border: #0f62d6;
+  --color-btn-active-border: #f5c451;
   --color-btn-selected-bg: #ffffff;
-  --color-btn-primary-text: #ffffff;
-  --color-btn-primary-bg: #0f62d6;
-  --color-btn-primary-border: #0f62d6;
+  --color-btn-primary-text: #000000;
+  --color-btn-primary-bg: #f5c451;
+  --color-btn-primary-border: #f5c451;
   --color-btn-primary-shadow: 0 0 transparent;
   --color-btn-primary-inset-shadow: 0 0 transparent;
-  --color-btn-primary-hover-bg: #0a54ba;
-  --color-btn-primary-hover-border: #0a54ba;
-  --color-btn-primary-selected-bg: #0f62d6;
+  --color-btn-primary-hover-bg: #f5c451;
+  --color-btn-primary-hover-border: #8a6a12;
+  --color-btn-primary-selected-bg: #f5c451;
   --color-btn-primary-selected-shadow: 0 0 transparent;
-  --color-btn-primary-disabled-text: rgb(20 22 28 / 0.5);
-  --color-btn-primary-disabled-bg: rgb(15 98 214 / 0.4);
+  --color-btn-primary-disabled-text: rgb(0 0 0 / 0.5);
+  --color-btn-primary-disabled-bg: rgb(245 196 81 / 0.4);
   --color-btn-primary-disabled-border: transparent;
 
-  --color-action-list-item-default-hover-bg: #f6f4f0;
+  --color-action-list-item-default-hover-bg: #f4f4f4;
   --color-segmented-control-bg: #ffffff;
-  --color-segmented-control-button-bg: #f6f4f0;
-  --color-segmented-control-button-selected-border: #cdc8bd;
+  --color-segmented-control-button-bg: #f4f4f4;
+  --color-segmented-control-button-selected-border: #cbcbcb;
 
-  --color-fg-default: #14161c;
+  --color-fg-default: #14161a;
   --color-fg-muted: #565d6b;
   --color-fg-subtle: #636a78;
-  --color-canvas-default: #fbfaf7;
+  --color-canvas-default: #ffffff;
   --color-canvas-overlay: #ffffff;
-  --color-canvas-inset: #ffffff;
-  --color-canvas-subtle: #ffffff;
-  --color-border-default: #e4e1da;
-  --color-border-muted: #e4e1da;
+  --color-canvas-inset: #fafafa;
+  --color-canvas-subtle: #fafafa;
+  --color-border-default: #e2e2e2;
+  --color-border-muted: #e2e2e2;
   --color-neutral-muted: rgb(86 93 107 / 0.16);
   --color-neutral-subtle: rgb(86 93 107 / 0.08);
-  --color-accent-fg: #0a54ba;
-  --color-accent-emphasis: #0f62d6;
-  --color-accent-muted: rgb(15 98 214 / 0.4);
-  --color-accent-subtle: rgb(15 98 214 / 0.12);
+  --color-accent-fg: #8a6a12;
+  --color-accent-emphasis: #f5c451;
+  --color-accent-muted: rgb(245 196 81 / 0.4);
+  --color-accent-subtle: rgb(245 196 81 / 0.12);
   --color-success-fg: #0f7a56;
   --color-attention-fg: #a44a16;
   --color-attention-muted: rgb(164 74 22 / 0.4);
@@ -86,18 +86,18 @@ main {
   --color-done-subtle: rgb(101 65 201 / 0.12);
 
   --color-primer-shadow-inset: 0 0 transparent;
-  --color-scale-gray-7: #f6f4f0;
+  --color-scale-gray-7: #f4f4f4;
   --color-scale-blue-8: #ffffff;
 
-  --color-social-reaction-bg-hover: #f6f4f0;
-  --color-social-reaction-bg-reacted-hover: rgb(15 98 214 / 0.2);
+  --color-social-reaction-bg-hover: #f4f4f4;
+  --color-social-reaction-bg-reacted-hover: rgb(245 196 81 / 0.2);
 
   color-scheme: light;
 }
 
 main {
-  background-color: #fbfaf7;
-  color: #14161c;
+  background-color: #ffffff;
+  color: #14161a;
   font-family:
     Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
 }
@@ -105,20 +105,20 @@ main {
 .gsc-comment-box-tabs,
 .gsc-comment-box-bottom,
 .gsc-comment-box-preview {
-  background-color: #ffffff;
+  background-color: #fafafa;
 }
 
 .gsc-comment > div,
 .gsc-reply > div {
-  background-color: #ffffff;
-  border-color: #e4e1da;
+  background-color: #fafafa;
+  border-color: #e2e2e2;
 }
 
 .gsc-header,
 .gsc-comment-box,
 .gsc-reactions,
 .gsc-timeline {
-  border-color: #e4e1da;
+  border-color: #e2e2e2;
 }
 
 .gsc-loading-image {
