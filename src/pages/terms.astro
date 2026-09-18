@@ -1,0 +1,61 @@
+---
+import { u } from '../lib/url';
+import Page from '../layouts/Page.astro';
+---
+
+<Page
+  section="Page"
+  title="Terms & Conditions"
+  kicker="Legal"
+  description="The terms for using this site: what it is, what you can do with its content, and the limits on liability."
+  wide={false}
+>
+  <div class="prose-nw">
+    <p class="text-faint"><em>Last updated: 18 September 2026</em></p>
+
+    <p>
+      This is a personal portfolio site. Using it means you agree to the terms below. There is no
+      account to create and nothing here is a paid service.
+    </p>
+
+    <h2>Use of the site</h2>
+    <p>
+      You're welcome to browse, read, and link to anything here. Don't scrape the site to republish
+      it wholesale, attempt to disrupt it, or use the <a href={u('/contact/')}>contact form</a> to spam
+      or phish.
+    </p>
+
+    <h2>Content and ownership</h2>
+    <p>
+      Writing, project write-ups, and site design are mine unless otherwise credited. Code samples
+      and open-source projects follow the license in their own repository. Publications linked from
+      this site belong to their respective journals and are shared only via DOI links.
+    </p>
+
+    <h2>No warranty</h2>
+    <p>
+      The site is provided as-is. Research summaries, project descriptions, and figures reflect my
+      best understanding at the time of writing but are not a substitute for the underlying
+      published work, which is linked wherever it exists.
+    </p>
+
+    <h2>Third-party links</h2>
+    <p>
+      Links to external sites — journals, GitHub, Cal.com, Formspree, and similar — are provided for
+      convenience. I don't control and am not responsible for their content or availability.
+    </p>
+
+    <h2>Changes</h2>
+    <p>
+      These terms may be updated as the site changes. The date at the top of this page reflects the
+      last revision.
+    </p>
+
+    <h2>Contact</h2>
+    <p>
+      Questions about these terms can go to
+      <a href="mailto:noah@noahweidig.com">noah@noahweidig.com</a>. See also the
+      <a href={u('/privacy/')}>privacy policy</a>.
+    </p>
+  </div>
+</Page>
