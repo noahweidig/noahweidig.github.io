@@ -73,6 +73,7 @@ const awards = defineCollection({
         featured: z.boolean().default(false),
         image: image().optional(),
         'image-alt': z.string().optional(),
+        links: z.array(link).default([]),
       })
       .refine((data) => !data.image || !!data['image-alt'], {
         message: '`image-alt` is required whenever `image` is set',

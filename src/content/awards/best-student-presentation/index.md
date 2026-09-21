@@ -5,6 +5,11 @@ description: International Association of Landscape Ecology - North America · $
 image: './featured.webp'
 image-alt: Best Student Presentation award
 featured: true
+links:
+  - label: 'Source'
+    href: 'https://www.ialena.org/studentawards.html'
+    variant: primary
+    external: true
 ---
 
 I received the Best Student Presentation Award at the International Association of Landscape Ecology North America in 2025. There, I gave a talk about my master's research, which focused on wildfire risk in the wildland urban-interface (WUI) in the Eastern United States.
