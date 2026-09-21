@@ -1,15 +1,532 @@
 {
-  "generatedAt": "1970-01-01T00:00:00.000Z",
-  "totalPages": 0,
-  "score": 0,
-  "totals": { "passes": 0, "warnings": 0, "errors": 0 },
+  "generatedAt": "2026-09-21T15:47:01.859Z",
+  "totalPages": 113,
+  "score": 92,
+  "totals": {
+    "passes": 1579,
+    "warnings": 74,
+    "errors": 19
+  },
   "audits": [
-    { "name": "Meta Tags", "passes": 0, "warnings": 0, "errors": 0, "issues": [] },
-    { "name": "Schema Markup", "passes": 0, "warnings": 0, "errors": 0, "issues": [] },
-    { "name": "Hreflang", "passes": 0, "warnings": 0, "errors": 0, "issues": [] },
-    { "name": "Sitemap", "passes": 0, "warnings": 0, "errors": 0, "issues": [] },
-    { "name": "Images", "passes": 0, "warnings": 0, "errors": 0, "issues": [] },
-    { "name": "Headings", "passes": 0, "warnings": 0, "errors": 0, "issues": [] },
-    { "name": "Performance", "passes": 0, "warnings": 0, "errors": 0, "issues": [] }
+    {
+      "name": "Meta Tags",
+      "passes": 550,
+      "warnings": 23,
+      "errors": 14,
+      "issues": [
+        {
+          "page": "/contact.html",
+          "message": "Missing meta description",
+          "severity": "error"
+        },
+        {
+          "page": "/contact.html",
+          "message": "Missing og:title",
+          "severity": "error"
+        },
+        {
+          "page": "/contact.html",
+          "message": "Missing og:description",
+          "severity": "error"
+        },
+        {
+          "page": "/cv.html",
+          "message": "Missing meta description",
+          "severity": "error"
+        },
+        {
+          "page": "/cv.html",
+          "message": "Missing og:title",
+          "severity": "error"
+        },
+        {
+          "page": "/cv.html",
+          "message": "Missing og:description",
+          "severity": "error"
+        },
+        {
+          "page": "/print/resume/index.html",
+          "message": "Missing og:title",
+          "severity": "error"
+        },
+        {
+          "page": "/print/resume/index.html",
+          "message": "Missing og:description",
+          "severity": "error"
+        },
+        {
+          "page": "/privacy.html",
+          "message": "Missing meta description",
+          "severity": "error"
+        },
+        {
+          "page": "/privacy.html",
+          "message": "Missing og:title",
+          "severity": "error"
+        },
+        {
+          "page": "/privacy.html",
+          "message": "Missing og:description",
+          "severity": "error"
+        },
+        {
+          "page": "/styleguide.html",
+          "message": "Missing meta description",
+          "severity": "error"
+        },
+        {
+          "page": "/styleguide.html",
+          "message": "Missing og:title",
+          "severity": "error"
+        },
+        {
+          "page": "/styleguide.html",
+          "message": "Missing og:description",
+          "severity": "error"
+        },
+        {
+          "page": "/contact.html",
+          "message": "Missing og:image",
+          "severity": "warning"
+        },
+        {
+          "page": "/contact.html",
+          "message": "Missing og:url",
+          "severity": "warning"
+        },
+        {
+          "page": "/contact.html",
+          "message": "Missing twitter:card meta tag",
+          "severity": "warning"
+        },
+        {
+          "page": "/cv.html",
+          "message": "Missing og:image",
+          "severity": "warning"
+        },
+        {
+          "page": "/cv.html",
+          "message": "Missing og:url",
+          "severity": "warning"
+        },
+        {
+          "page": "/cv.html",
+          "message": "Missing twitter:card meta tag",
+          "severity": "warning"
+        },
+        {
+          "page": "/print/resume/index.html",
+          "message": "Meta description too long (159 chars, max 155)",
+          "severity": "warning"
+        },
+        {
+          "page": "/print/resume/index.html",
+          "message": "Missing og:image",
+          "severity": "warning"
+        },
+        {
+          "page": "/print/resume/index.html",
+          "message": "Missing og:url",
+          "severity": "warning"
+        },
+        {
+          "page": "/print/resume/index.html",
+          "message": "Missing twitter:card meta tag",
+          "severity": "warning"
+        },
+        {
+          "page": "/privacy.html",
+          "message": "Missing og:image",
+          "severity": "warning"
+        },
+        {
+          "page": "/privacy.html",
+          "message": "Missing og:url",
+          "severity": "warning"
+        },
+        {
+          "page": "/privacy.html",
+          "message": "Missing twitter:card meta tag",
+          "severity": "warning"
+        },
+        {
+          "page": "/styleguide.html",
+          "message": "Missing og:image",
+          "severity": "warning"
+        },
+        {
+          "page": "/styleguide.html",
+          "message": "Missing og:url",
+          "severity": "warning"
+        },
+        {
+          "page": "/styleguide.html",
+          "message": "Missing twitter:card meta tag",
+          "severity": "warning"
+        },
+        {
+          "page": "/contact.html, /cv.html, /privacy.html, /styleguide.html",
+          "message": "Duplicate title: \"Redirecting…\"",
+          "severity": "warning"
+        },
+        {
+          "page": "/publications/donovan-unravelling-changing-25-afg4/index.html, /publications/donovan-unravelling-changing-25-jebk/index.html",
+          "message": "Duplicate title: \"Unravelling changing wildfire regime… | Noah Weidig\"",
+          "severity": "warning"
+        },
+        {
+          "page": "/publications/weidig-fire-fringe-25-f839/index.html, /publications/weidig-fire-fringe-25-l22z/index.html",
+          "message": "Duplicate title: \"Fire at the fringe: Drivers of large… | Noah Weidig\"",
+          "severity": "warning"
+        },
+        {
+          "page": "/publications/weidig-goldilocks-principle-21-k7hj/index.html, /publications/weidig-goldilocks-principle-21-w24i/index.html, /publications/weidig-goldilocks-principle-22/index.html",
+          "message": "Duplicate title: \"The Goldilocks principle: Finding the… | Noah Weidig\"",
+          "severity": "warning"
+        },
+        {
+          "page": "/publications/weidig-changing-large-24-gmcj/index.html, /publications/weidig-changing-large-24-y29q/index.html, /publications/weidig-patterns-drivers-25/index.html",
+          "message": "Duplicate meta description: \"The recent increase in large wildfires in the east...\"",
+          "severity": "warning"
+        },
+        {
+          "page": "/publications/weidig-fire-fringe-25-l22z/index.html, /publications/weidig-key-drivers-25/index.html",
+          "message": "Duplicate meta description: \"Large wildfires are increasing in the eastern U.S....\"",
+          "severity": "warning"
+        },
+        {
+          "page": "/publications/weidig-goldilocks-principle-21-k7hj/index.html, /publications/weidig-goldilocks-principle-21-w24i/index.html, /publications/weidig-goldilocks-principle-22/index.html",
+          "message": "Duplicate meta description: \"Females of container-breeding mosquito species use...\"",
+          "severity": "warning"
+        }
+      ]
+    },
+    {
+      "name": "Schema Markup",
+      "passes": 287,
+      "warnings": 13,
+      "errors": 0,
+      "issues": [
+        {
+          "page": "/404.html",
+          "message": "Missing BreadcrumbList schema",
+          "severity": "warning"
+        },
+        {
+          "page": "/500.html",
+          "message": "Missing BreadcrumbList schema",
+          "severity": "warning"
+        },
+        {
+          "page": "/about/index.html",
+          "message": "Missing BreadcrumbList schema",
+          "severity": "warning"
+        },
+        {
+          "page": "/blog/index.html",
+          "message": "Blog post missing BlogPosting or Article schema",
+          "severity": "warning"
+        },
+        {
+          "page": "/blog/write/index.html",
+          "message": "Missing BreadcrumbList schema",
+          "severity": "warning"
+        },
+        {
+          "page": "/blog/write/index.html",
+          "message": "Blog post missing BlogPosting or Article schema",
+          "severity": "warning"
+        },
+        {
+          "page": "/contact/index.html",
+          "message": "Missing BreadcrumbList schema",
+          "severity": "warning"
+        },
+        {
+          "page": "/contact.html",
+          "message": "No JSON-LD structured data found",
+          "severity": "warning"
+        },
+        {
+          "page": "/cv/index.html",
+          "message": "Missing BreadcrumbList schema",
+          "severity": "warning"
+        },
+        {
+          "page": "/cv.html",
+          "message": "No JSON-LD structured data found",
+          "severity": "warning"
+        },
+        {
+          "page": "/print/resume/index.html",
+          "message": "No JSON-LD structured data found",
+          "severity": "warning"
+        },
+        {
+          "page": "/privacy.html",
+          "message": "No JSON-LD structured data found",
+          "severity": "warning"
+        },
+        {
+          "page": "/styleguide.html",
+          "message": "No JSON-LD structured data found",
+          "severity": "warning"
+        }
+      ]
+    },
+    {
+      "name": "Hreflang",
+      "passes": 0,
+      "warnings": 0,
+      "errors": 1,
+      "issues": [
+        {
+          "page": "/cv/index.html",
+          "message": "i18n page missing hreflang tags",
+          "severity": "error"
+        }
+      ]
+    },
+    {
+      "name": "Sitemap",
+      "passes": 102,
+      "warnings": 12,
+      "errors": 0,
+      "issues": [
+        {
+          "page": "/404.html",
+          "message": "Page built but not found in sitemap",
+          "severity": "warning"
+        },
+        {
+          "page": "/500.html",
+          "message": "Page built but not found in sitemap",
+          "severity": "warning"
+        },
+        {
+          "page": "/blog/write/",
+          "message": "Page built but not found in sitemap",
+          "severity": "warning"
+        },
+        {
+          "page": "/contact.html",
+          "message": "Page built but not found in sitemap",
+          "severity": "warning"
+        },
+        {
+          "page": "/cv.html",
+          "message": "Page built but not found in sitemap",
+          "severity": "warning"
+        },
+        {
+          "page": "/privacy.html",
+          "message": "Page built but not found in sitemap",
+          "severity": "warning"
+        },
+        {
+          "page": "/publications/donovan-unravelling-changing-25-afg4/",
+          "message": "Page built but not found in sitemap",
+          "severity": "warning"
+        },
+        {
+          "page": "/publications/weidig-fire-fringe-25-l22z/",
+          "message": "Page built but not found in sitemap",
+          "severity": "warning"
+        },
+        {
+          "page": "/publications/weidig-goldilocks-principle-21-k7hj/",
+          "message": "Page built but not found in sitemap",
+          "severity": "warning"
+        },
+        {
+          "page": "/seo/",
+          "message": "Page built but not found in sitemap",
+          "severity": "warning"
+        },
+        {
+          "page": "/styleguide/",
+          "message": "Page built but not found in sitemap",
+          "severity": "warning"
+        },
+        {
+          "page": "/styleguide.html",
+          "message": "Page built but not found in sitemap",
+          "severity": "warning"
+        }
+      ]
+    },
+    {
+      "name": "Images",
+      "passes": 92,
+      "warnings": 0,
+      "errors": 0,
+      "issues": []
+    },
+    {
+      "name": "Headings",
+      "passes": 217,
+      "warnings": 23,
+      "errors": 4,
+      "issues": [
+        {
+          "page": "/contact.html",
+          "message": "No <h1> found on page",
+          "severity": "error"
+        },
+        {
+          "page": "/cv.html",
+          "message": "No <h1> found on page",
+          "severity": "error"
+        },
+        {
+          "page": "/privacy.html",
+          "message": "No <h1> found on page",
+          "severity": "error"
+        },
+        {
+          "page": "/styleguide.html",
+          "message": "No <h1> found on page",
+          "severity": "error"
+        },
+        {
+          "page": "/awards/index.html",
+          "message": "Heading hierarchy skipped: <h1> followed by <h3> (\"Outstanding Thesis in Natural Resources\")",
+          "severity": "warning"
+        },
+        {
+          "page": "/publications/alexander-shifting-forest-25/index.html",
+          "message": "<h1> too long (157 chars): \"Shifting forest structure and composition following decades of fire ex...\"",
+          "severity": "warning"
+        },
+        {
+          "page": "/publications/borenstein-georgia-blaze-26/index.html",
+          "message": "<h1> too long (76 chars): \"Georgia blaze shows how climate change has led to more wildfires in th...\"",
+          "severity": "warning"
+        },
+        {
+          "page": "/publications/donovan-referee-report-25/index.html",
+          "message": "<h1> too long (244 chars): \"Referee report. For: Integrated Fire Management and Closer to Nature F...\"",
+          "severity": "warning"
+        },
+        {
+          "page": "/publications/donovan-unravelling-changing-25-afg4/index.html",
+          "message": "<h1> too long (74 chars): \"Unravelling changing wildfire regime dynamics in the eastern United St...\"",
+          "severity": "warning"
+        },
+        {
+          "page": "/publications/donovan-unravelling-changing-25-jebk/index.html",
+          "message": "<h1> too long (74 chars): \"Unravelling changing wildfire regime dynamics in the eastern United St...\"",
+          "severity": "warning"
+        },
+        {
+          "page": "/publications/fernandez-changing-large-25/index.html",
+          "message": "<h1> too long (109 chars): \"Changing Large Wildfire Dynamics in the Wildland–Urban Interface of th...\"",
+          "severity": "warning"
+        },
+        {
+          "page": "/publications/ivey-regional-differences-26/index.html",
+          "message": "<h1> too long (125 chars): \"Regional differences in infilling and land-use conversion characterize...\"",
+          "severity": "warning"
+        },
+        {
+          "page": "/publications/ivey-woody-cover-25-kv2m/index.html",
+          "message": "<h1> too long (97 chars): \"Woody cover increases linked to forest infilling and land conversion i...\"",
+          "severity": "warning"
+        },
+        {
+          "page": "/publications/ivory-ii-fueling-fire-26/index.html",
+          "message": "<h1> too long (130 chars): \"Fueling the fire: predicting cogongrass (Imperata cylindrica) impacts ...\"",
+          "severity": "warning"
+        },
+        {
+          "page": "/publications/ivory-ii-southeastern-myotis-25/index.html",
+          "message": "<h1> too long (75 chars): \"Southeastern Myotis (Myotis austroriparius) Use of Stormwater Sewer Sy...\"",
+          "severity": "warning"
+        },
+        {
+          "page": "/publications/weidig-burning-boundaries-25/index.html",
+          "message": "<h1> too long (109 chars): \"Burning Boundaries: Large Wildfire Patterns and Drivers in the Eastern...\"",
+          "severity": "warning"
+        },
+        {
+          "page": "/publications/weidig-changing-large-24-gmcj/index.html",
+          "message": "<h1> too long (93 chars): \"Changing large wildfire dynamics in the wildland–urban interface of th...\"",
+          "severity": "warning"
+        },
+        {
+          "page": "/publications/weidig-changing-large-24-y29q/index.html",
+          "message": "<h1> too long (86 chars): \"Changing Large Wildfire Patterns in the Eastern United States Wildland...\"",
+          "severity": "warning"
+        },
+        {
+          "page": "/publications/weidig-fire-fringe-25-f839/index.html",
+          "message": "<h1> too long (116 chars): \"Fire at the fringe: Drivers of large wildfires in and near the wildlan...\"",
+          "severity": "warning"
+        },
+        {
+          "page": "/publications/weidig-fire-fringe-25-l22z/index.html",
+          "message": "<h1> too long (116 chars): \"Fire at the fringe: Drivers of large wildfires in and near the wildlan...\"",
+          "severity": "warning"
+        },
+        {
+          "page": "/publications/weidig-goldilocks-principle-21-k7hj/index.html",
+          "message": "<h1> too long (134 chars): \"The Goldilocks principle: Finding the balance between water volume and...\"",
+          "severity": "warning"
+        },
+        {
+          "page": "/publications/weidig-goldilocks-principle-21-w24i/index.html",
+          "message": "<h1> too long (134 chars): \"The Goldilocks principle: Finding the balance between water volume and...\"",
+          "severity": "warning"
+        },
+        {
+          "page": "/publications/weidig-goldilocks-principle-22/index.html",
+          "message": "<h1> too long (134 chars): \"The Goldilocks principle: Finding the balance between water volume and...\"",
+          "severity": "warning"
+        },
+        {
+          "page": "/publications/weidig-inflammation-mediated-22/index.html",
+          "message": "<h1> too long (97 chars): \"Inflammation mediated reprogramming of platelets following transcathet...\"",
+          "severity": "warning"
+        },
+        {
+          "page": "/publications/weidig-key-drivers-25/index.html",
+          "message": "<h1> too long (93 chars): \"Key drivers of large wildfires in and near the eastern United States w...\"",
+          "severity": "warning"
+        },
+        {
+          "page": "/publications/weidig-large-wildfire-24/index.html",
+          "message": "<h1> too long (75 chars): \"Large Wildfire Patterns in the Wildland-Urban Interface of the Eastern...\"",
+          "severity": "warning"
+        },
+        {
+          "page": "/publications/weidig-patterns-drivers-25/index.html",
+          "message": "<h1> too long (120 chars): \"Patterns and drivers of large wildfires within and surrounding the wil...\"",
+          "severity": "warning"
+        }
+      ]
+    },
+    {
+      "name": "Performance",
+      "passes": 331,
+      "warnings": 3,
+      "errors": 0,
+      "issues": [
+        {
+          "page": "/blog/favorite-r-packages/index.html",
+          "message": "Total HTML size exceeds 100KB (124.4KB)",
+          "severity": "warning"
+        },
+        {
+          "page": "/index.html",
+          "message": "Total HTML size exceeds 100KB (184.5KB)",
+          "severity": "warning"
+        },
+        {
+          "page": "/publications/index.html",
+          "message": "Total HTML size exceeds 100KB (117.4KB)",
+          "severity": "warning"
+        }
+      ]
+    }
   ]
 }
