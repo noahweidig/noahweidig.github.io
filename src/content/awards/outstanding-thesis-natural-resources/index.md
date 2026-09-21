@@ -6,6 +6,11 @@ description: University of Florida, College of Agricultural & Life Sciences · 2
 image: './featured.webp'
 image-alt: Outstanding Thesis in Natural Resources award
 featured: true
+links:
+  - label: 'Source'
+    href: 'https://blogs.ifas.ufl.edu/ffgs/2026/05/28/sffgs-celebrates-uf-ifas-research-awards-winners/'
+    variant: primary
+    external: true
 ---
 
 My master's thesis on wildfire risk in the wildland-urban interface was also recognized as the Outstanding Thesis in Natural Resources by the University of Florida's College of Agricultural & Life Sciences. This award acknowledged the research's contribution to understanding and addressing natural resource challenges.
