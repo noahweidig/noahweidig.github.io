@@ -61,6 +61,19 @@ export function splitAuthors(raw: string): string[] {
   return authors;
 }
 
+/**
+ * Shortens a title for the `<title>`/og:title tag only — SERPs truncate past
+ * ~60 chars anyway. Publication titles can run to full paper length, which
+ * is fine on the page's own H1 but noise in a browser tab or search result.
+ */
+export function truncateTitle(text: string, max = 60): string {
+  const t = text.trim();
+  if (t.length <= max) return t;
+  const cut = t.slice(0, max);
+  const sp = cut.lastIndexOf(' ');
+  return (sp > 20 ? cut.slice(0, sp) : cut).replace(/[\s.,;:]+$/, '') + '…';
+}
+
 /** First sentence of a description, for the compact citation rows. */
 export function firstSentence(text: string | undefined, max = 200): string {
   let t = String(text ?? '')

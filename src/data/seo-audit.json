@@ -1,0 +1,15 @@
+{
+  "generatedAt": "1970-01-01T00:00:00.000Z",
+  "totalPages": 0,
+  "score": 0,
+  "totals": { "passes": 0, "warnings": 0, "errors": 0 },
+  "audits": [
+    { "name": "Meta Tags", "passes": 0, "warnings": 0, "errors": 0, "issues": [] },
+    { "name": "Schema Markup", "passes": 0, "warnings": 0, "errors": 0, "issues": [] },
+    { "name": "Hreflang", "passes": 0, "warnings": 0, "errors": 0, "issues": [] },
+    { "name": "Sitemap", "passes": 0, "warnings": 0, "errors": 0, "issues": [] },
+    { "name": "Images", "passes": 0, "warnings": 0, "errors": 0, "issues": [] },
+    { "name": "Headings", "passes": 0, "warnings": 0, "errors": 0, "issues": [] },
+    { "name": "Performance", "passes": 0, "warnings": 0, "errors": 0, "issues": [] }
+  ]
+}

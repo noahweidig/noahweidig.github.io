@@ -3,7 +3,7 @@ import { u } from '../../lib/url';
 import { getCollection, render } from 'astro:content';
 import { getImage } from 'astro:assets';
 import Detail from '../../layouts/Detail.astro';
-import { fullDate } from '../../lib/format';
+import { fullDate, truncateTitle } from '../../lib/format';
 import { site } from '../../lib/site';
 
 export async function getStaticPaths() {
@@ -48,6 +48,7 @@ const awardLd = {
 
 <Detail
   title={d.title}
+  metaTitle={truncateTitle(d.title, 45)}
   description={d.description}
   kicker="Award"
   meta={`${d.description ?? ''}${d.description ? ' · ' : ''}${fullDate(d.date)}`}

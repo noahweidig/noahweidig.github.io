@@ -1,0 +1,73 @@
+name: SEO audit
+
+# Regenerates src/data/seo-audit.json from a real build (scripts/run-seo-audit.mjs)
+# so the /seo/ dashboard stays current without anyone remembering to run it by hand.
+on:
+  schedule:
+    # Weekly, Monday 08:00 UTC — same cadence as update-citation-stats.yml.
+    - cron: '0 8 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: seo-audit-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    outputs:
+      committed: ${{ steps.commit.outputs.committed }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install toolchain
+        run: npm ci
+
+      - name: Build the site
+        run: npm run build:fast
+
+      - name: Run the SEO audit against the build
+        run: npm run seo:audit
+
+      - name: Commit changes
+        id: commit
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/data/seo-audit.json
+          if git diff --cached --quiet; then
+            echo "No SEO audit changes to commit."
+            echo "committed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          echo "committed=true" >> "$GITHUB_OUTPUT"
+          git commit -m "Auto-update SEO audit"
+          for i in 1 2 3 4; do
+            if git push; then
+              echo "pushed"; exit 0
+            fi
+            echo "push failed, retrying in $((2**i))s"; sleep $((2**i))
+            git pull --rebase || true
+          done
+          echo "::error::git push failed after retries"; exit 1
+
+  deploy:
+    needs: audit
+    if: needs.audit.outputs.committed == 'true'
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    uses: ./.github/workflows/publish.yml

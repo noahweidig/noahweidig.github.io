@@ -1,0 +1,109 @@
+---
+import Page from '../layouts/Page.astro';
+import report from '../data/seo-audit.json';
+
+const scoreColor = report.score >= 90 ? 'var(--c-moss)' : report.score >= 70 ? 'var(--c-accent)' : 'var(--c-ember)';
+const generated = new Date(report.generatedAt).toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+  timeZone: 'UTC',
+});
+---
+
+<Page
+  section="Page"
+  title="SEO audit"
+  kicker="Diagnostics"
+  description="An automated meta-tag, schema, sitemap, and heading audit of every page on this site, regenerated weekly."
+  wide={false}
+  noindex
+>
+  {
+    report.totalPages === 0 ? (
+      <p class="text-faint text-sm">
+        Not run yet — <code>src/data/seo-audit.json</code> is a placeholder until{' '}
+        <code>.github/workflows/seo-audit.yml</code> runs (weekly, or dispatch it manually) and
+        commits a real report.
+      </p>
+    ) : (
+      <p class="text-faint text-sm">
+        Generated {generated} from a production build, across {report.totalPages} pages. Regenerated
+        weekly by <code>.github/workflows/seo-audit.yml</code>, checked into{' '}
+        <code>src/data/seo-audit.json</code>.
+      </p>
+    )
+  }
+
+  <div class="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
+    <div class="card p-5">
+      <p class="text-xs tracking-wide text-dim uppercase">Score</p>
+      <p class="mt-1 font-display text-3xl font-bold" style={`color:${scoreColor}`}>
+        {report.score}<span class="text-lg text-dim">/100</span>
+      </p>
+    </div>
+    <div class="card p-5">
+      <p class="text-xs tracking-wide text-dim uppercase">Pages</p>
+      <p class="mt-1 font-display text-3xl font-bold">{report.totalPages}</p>
+    </div>
+    <div class="card p-5">
+      <p class="text-xs tracking-wide text-dim uppercase">Errors</p>
+      <p class="mt-1 font-display text-3xl font-bold" style="color:var(--c-ember)">
+        {report.totals.errors}
+      </p>
+    </div>
+    <div class="card p-5">
+      <p class="text-xs tracking-wide text-dim uppercase">Warnings</p>
+      <p class="mt-1 font-display text-3xl font-bold" style="color:var(--c-accent)">
+        {report.totals.warnings}
+      </p>
+    </div>
+  </div>
+
+  <div class="mt-10 space-y-3">
+    {
+      report.audits.map((audit) => (
+        <details class="card overflow-hidden" open={audit.issues.length > 0}>
+          <summary class="flex cursor-pointer items-center justify-between gap-4 px-5 py-4 font-display font-bold">
+            <span>{audit.name}</span>
+            <span class="flex items-center gap-2 text-sm font-normal" data-pagefind-ignore>
+              {audit.errors > 0 && (
+                <span class="chip" style="border-color:var(--c-ember); color:var(--c-ember)">
+                  {audit.errors} error{audit.errors === 1 ? '' : 's'}
+                </span>
+              )}
+              {audit.warnings > 0 && (
+                <span class="chip" style="color:var(--c-accent-ink)">
+                  {audit.warnings} warning{audit.warnings === 1 ? '' : 's'}
+                </span>
+              )}
+              {audit.errors === 0 && audit.warnings === 0 && (
+                <span class="chip" style="color:var(--c-moss)">
+                  All pass ({audit.passes})
+                </span>
+              )}
+            </span>
+          </summary>
+          {audit.issues.length > 0 && (
+            <ul class="divide-y divide-line border-t border-line">
+              {audit.issues.map((issue) => (
+                <li class="px-5 py-3 text-sm">
+                  <p class="font-mono text-xs text-dim">{issue.page}</p>
+                  <p class:list={['mt-0.5', issue.severity === 'error' && 'font-medium']}>
+                    <span
+                      class="mr-1.5 inline-block rounded-full"
+                      style={`width:6px;height:6px;background:${
+                        issue.severity === 'error' ? 'var(--c-ember)' : 'var(--c-accent)'
+                      }`}
+                    />
+                    {issue.message}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          )}
+        </details>
+      ))
+    }
+  </div>
+</Page>
