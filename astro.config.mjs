@@ -53,6 +53,7 @@ export default defineConfig({
           page.includes('/404') ||
           page.includes('/500') ||
           page.includes('/styleguide') ||
+          page.includes('/seo') ||
           page.includes('/blog/write')
         ) {
           return false;

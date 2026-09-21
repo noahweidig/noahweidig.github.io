@@ -3,6 +3,7 @@ import { u } from '../../lib/url';
 import { getCollection, render } from 'astro:content';
 import Detail from '../../layouts/Detail.astro';
 import { site } from '../../lib/site';
+import { truncateTitle } from '../../lib/format';
 
 export async function getStaticPaths() {
   // Sorted the way the listing is, so "previous" and "next" mean what a reader
@@ -55,7 +56,7 @@ const experienceLd = {
 
 <Detail
   title={d.title}
-  metaTitle={titleIsDuplicate && d.org ? `${d.title} — ${d.org}` : d.title}
+  metaTitle={truncateTitle(titleIsDuplicate && d.org ? `${d.title} — ${d.org}` : d.title, 45)}
   description={d.description}
   kicker="Experience"
   meta={meta}

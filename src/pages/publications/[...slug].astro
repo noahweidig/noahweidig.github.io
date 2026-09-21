@@ -4,7 +4,13 @@ import { fileURLToPath } from 'node:url';
 import { u } from '../../lib/url';
 import { getCollection, render } from 'astro:content';
 import Detail from '../../layouts/Detail.astro';
-import { firstSentence, fullDate, inlineMarkup, splitAuthors } from '../../lib/format';
+import {
+  firstSentence,
+  fullDate,
+  inlineMarkup,
+  splitAuthors,
+  truncateTitle,
+} from '../../lib/format';
 import { site } from '../../lib/site';
 import { citationStatsFor } from '../../lib/citation-stats';
 
@@ -79,6 +85,7 @@ const pubLd = {
 
 <Detail
   title={d.title}
+  metaTitle={truncateTitle(d.title, 45)}
   description={firstSentence(d.description, 155)}
   kicker={d.categories[0] ?? 'Publication'}
   meta={fullDate(d.date)}
