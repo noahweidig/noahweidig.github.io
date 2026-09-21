@@ -64,8 +64,9 @@ function auditMetaTags(pages, distDir) {
     }
 
     // Canonical URL
-    const canonicalMatch = html.match(/<link[^>]+rel=["']canonical["'][^>]+href=["']([^"']*)["'][^>]*\/?>/i)
-      || html.match(/<link[^>]+href=["']([^"']*)["'][^>]+rel=["']canonical["'][^>]*\/?>/i);
+    const canonicalMatch =
+      html.match(/<link[^>]+rel=["']canonical["'][^>]+href=["']([^"']*)["'][^>]*\/?>/i) ||
+      html.match(/<link[^>]+href=["']([^"']*)["'][^>]+rel=["']canonical["'][^>]*\/?>/i);
     if (!canonicalMatch) {
       results.errors.push({ page: pagePath, message: 'Missing canonical URL' });
     } else {
@@ -87,8 +88,9 @@ function auditMetaTags(pages, distDir) {
     }
 
     // Twitter card
-    const twitterCard = getMetaContent(html, 'name', 'twitter:card')
-      || getMetaContent(html, 'property', 'twitter:card');
+    const twitterCard =
+      getMetaContent(html, 'name', 'twitter:card') ||
+      getMetaContent(html, 'property', 'twitter:card');
     if (!twitterCard) {
       results.warnings.push({ page: pagePath, message: 'Missing twitter:card meta tag' });
     } else {

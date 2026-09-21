@@ -52,9 +52,12 @@ function auditHreflang(pages, distDir) {
   for (const { filePath, html } of pages) {
     const pagePath = getRelativePath(filePath, distDir);
     const hreflangTags = [];
-    const hreflangRegex = /<link[^>]+rel=["']alternate["'][^>]+hreflang=["']([^"']*)["'][^>]+href=["']([^"']*)["'][^>]*\/?>/gi;
-    const hreflangRegex2 = /<link[^>]+hreflang=["']([^"']*)["'][^>]+href=["']([^"']*)["'][^>]*rel=["']alternate["'][^>]*\/?>/gi;
-    const hreflangRegex3 = /<link[^>]+href=["']([^"']*)["'][^>]+hreflang=["']([^"']*)["'][^>]*rel=["']alternate["'][^>]*\/?>/gi;
+    const hreflangRegex =
+      /<link[^>]+rel=["']alternate["'][^>]+hreflang=["']([^"']*)["'][^>]+href=["']([^"']*)["'][^>]*\/?>/gi;
+    const hreflangRegex2 =
+      /<link[^>]+hreflang=["']([^"']*)["'][^>]+href=["']([^"']*)["'][^>]*rel=["']alternate["'][^>]*\/?>/gi;
+    const hreflangRegex3 =
+      /<link[^>]+href=["']([^"']*)["'][^>]+hreflang=["']([^"']*)["'][^>]*rel=["']alternate["'][^>]*\/?>/gi;
 
     let match;
     while ((match = hreflangRegex.exec(html)) !== null) {
@@ -84,7 +87,7 @@ function auditHreflang(pages, distDir) {
     // Check self-referencing hreflang
     const currentLocale = localeMatch[1].toLowerCase();
     const selfRef = hreflangTags.find(
-      (t) => t.lang.toLowerCase() === currentLocale || t.href.includes(`/${currentLocale}/`)
+      (t) => t.lang.toLowerCase() === currentLocale || t.href.includes(`/${currentLocale}/`),
     );
     if (!selfRef) {
       results.errors.push({
@@ -110,7 +113,7 @@ function auditHreflang(pages, distDir) {
     for (const locale of localesFound) {
       if (locale === currentLocale) continue;
       const hasLocaleRef = hreflangTags.some(
-        (t) => t.lang.toLowerCase() === locale || t.href.includes(`/${locale}/`)
+        (t) => t.lang.toLowerCase() === locale || t.href.includes(`/${locale}/`),
       );
       if (!hasLocaleRef) {
         results.warnings.push({
@@ -131,7 +134,7 @@ function auditHreflang(pages, distDir) {
         // Check if the target URL might correspond to otherPage
         if (targetUrl.endsWith(otherPage) || otherPage.includes(targetUrl)) {
           const backRef = otherTags.some(
-            (t) => t.href.endsWith(pagePath) || pagePath.includes(t.href)
+            (t) => t.href.endsWith(pagePath) || pagePath.includes(t.href),
           );
           if (!backRef) {
             results.warnings.push({

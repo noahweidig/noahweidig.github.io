@@ -107,7 +107,8 @@ function auditImages(pages, distDir) {
  */
 function truncateTag(tag) {
   const srcMatch = tag.match(/\bsrc=["']([^"']*)["']/i);
-  if (srcMatch) return `<img src="${srcMatch[1].slice(0, 60)}${srcMatch[1].length > 60 ? '...' : ''}">`;
+  if (srcMatch)
+    return `<img src="${srcMatch[1].slice(0, 60)}${srcMatch[1].length > 60 ? '...' : ''}">`;
   return tag.length > 80 ? tag.slice(0, 80) + '...' : tag;
 }
 

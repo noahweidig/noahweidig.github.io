@@ -26,7 +26,8 @@ function auditSchema(pages, distDir) {
 
     // Find all JSON-LD blocks
     const jsonLdBlocks = [];
-    const jsonLdRegex = /<script[^>]+type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi;
+    const jsonLdRegex =
+      /<script[^>]+type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi;
     let match;
     while ((match = jsonLdRegex.exec(html)) !== null) {
       jsonLdBlocks.push(match[1]);
@@ -63,7 +64,10 @@ function auditSchema(pages, distDir) {
           message: 'Homepage missing Organization or WebSite schema',
         });
       } else {
-        results.passes.push({ page: pagePath, message: 'Homepage has Organization/WebSite schema' });
+        results.passes.push({
+          page: pagePath,
+          message: 'Homepage has Organization/WebSite schema',
+        });
       }
     }
 
@@ -85,7 +89,8 @@ function auditSchema(pages, distDir) {
     }
 
     // FAQ detection
-    const isFaq = /faq/i.test(pagePath) || /<(h[1-6])[^>]*>[^<]*(?:FAQ|Frequently Asked|Preguntas)/i.test(html);
+    const isFaq =
+      /faq/i.test(pagePath) || /<(h[1-6])[^>]*>[^<]*(?:FAQ|Frequently Asked|Preguntas)/i.test(html);
     if (isFaq && !schemaTypes.includes('FAQPage')) {
       results.warnings.push({
         page: pagePath,
