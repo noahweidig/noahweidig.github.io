@@ -10,7 +10,7 @@
     "altmetric": {
       "score": 2.25,
       "postsCount": 3,
-      "detailsUrl": "https://www.altmetric.com/details/186220711",
+      "detailsUrl": "https://www.altmetric.com/details.php?citation_id=186220711",
       "imageUrl": "https://badges.altmetric.com/?size=64&score=3&types=tttttuuu"
     }
   },
@@ -18,14 +18,14 @@
     "dimensions": {
       "timesCited": 9,
       "recentCitations": 9,
-      "fieldCitationRatio": 2.68,
+      "fieldCitationRatio": 2.67,
       "relativeCitationRatio": null,
       "url": "https://badge.dimensions.ai/details/doi/10.1029/2024gl110586"
     },
     "altmetric": {
       "score": 170.8,
       "postsCount": 39,
-      "detailsUrl": "https://www.altmetric.com/details/172148317",
+      "detailsUrl": "https://www.altmetric.com/details.php?citation_id=172148317",
       "imageUrl": "https://badges.altmetric.com/?size=64&score=171&types=mmmbrttu"
     }
   },
@@ -49,7 +49,7 @@
     "altmetric": {
       "score": 1,
       "postsCount": 1,
-      "detailsUrl": "https://www.altmetric.com/details/204398202",
+      "detailsUrl": "https://www.altmetric.com/details.php?citation_id=204398202",
       "imageUrl": "https://badges.altmetric.com/?size=64&score=1&types=uuuuuuuu"
     }
   },
@@ -57,14 +57,14 @@
     "dimensions": {
       "timesCited": 1,
       "recentCitations": 1,
-      "fieldCitationRatio": 0.24,
+      "fieldCitationRatio": 0.23,
       "relativeCitationRatio": null,
       "url": "https://badge.dimensions.ai/details/doi/10.1371/journal.pone.0277237"
     },
     "altmetric": {
       "score": 0.5,
       "postsCount": 2,
-      "detailsUrl": "https://www.altmetric.com/details/138270872",
+      "detailsUrl": "https://www.altmetric.com/details.php?citation_id=138270872",
       "imageUrl": "https://badges.altmetric.com/?size=64&score=1&types=tttttttt"
     }
   }
