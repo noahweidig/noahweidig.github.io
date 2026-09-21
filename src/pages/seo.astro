@@ -1,6 +1,32 @@
 ---
 import Page from '../layouts/Page.astro';
-import report from '../data/seo-audit.json';
+import reportData from '../data/seo-audit.json';
+
+// The JSON import's inferred type comes from whatever's actually committed —
+// the placeholder report ships with every `issues` array empty, which infers
+// as `never[]` and breaks the shape once real data has entries. Assert the
+// shape scripts/run-seo-audit.mjs actually writes instead.
+interface SeoIssue {
+  page: string;
+  message: string;
+  severity: 'error' | 'warning';
+}
+interface SeoAuditGroup {
+  name: string;
+  passes: number;
+  warnings: number;
+  errors: number;
+  issues: SeoIssue[];
+}
+interface SeoReport {
+  generatedAt: string;
+  totalPages: number;
+  score: number;
+  totals: { passes: number; warnings: number; errors: number };
+  audits: SeoAuditGroup[];
+}
+
+const report = reportData as SeoReport;
 
 const scoreColor =
   report.score >= 90 ? 'var(--c-moss)' : report.score >= 70 ? 'var(--c-accent)' : 'var(--c-ember)';
