@@ -59,7 +59,7 @@ function getTagContent(html, tag) {
 function getMetaContent(html, attr, value) {
   const regex = new RegExp(
     `<meta[^>]+${attr}=["']${escapeRegex(value)}["'][^>]+content=["']([^"']*)["'][^>]*/?>|<meta[^>]+content=["']([^"']*)["'][^>]+${attr}=["']${escapeRegex(value)}["'][^>]*/?>`,
-    'i'
+    'i',
   );
   const match = html.match(regex);
   if (!match) return null;

@@ -2,7 +2,8 @@
 import Page from '../layouts/Page.astro';
 import report from '../data/seo-audit.json';
 
-const scoreColor = report.score >= 90 ? 'var(--c-moss)' : report.score >= 70 ? 'var(--c-accent)' : 'var(--c-ember)';
+const scoreColor =
+  report.score >= 90 ? 'var(--c-moss)' : report.score >= 70 ? 'var(--c-accent)' : 'var(--c-ember)';
 const generated = new Date(report.generatedAt).toLocaleDateString('en-US', {
   year: 'numeric',
   month: 'short',

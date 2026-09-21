@@ -57,12 +57,15 @@ function auditSitemap(pages, distDir) {
     while ((match = locRegex.exec(indexContent)) !== null) {
       sitemapRefs.push(match[1]);
     }
-    // Try to read child sitemaps that are local files
+    // Try to read child sitemaps that are local files. distDir is our own
+    // build output and sitemapRefs come from a sitemap-index.xml we just
+    // built too, but the path is still resolved and checked against distDir
+    // before reading, rather than trusted outright.
+    const distRoot = path.resolve(distDir) + path.sep;
     for (const ref of sitemapRefs) {
-      // Extract filename from URL
       const urlObj = new URL(ref, 'http://localhost');
-      const localPath = path.join(distDir, urlObj.pathname);
-      if (fs.existsSync(localPath)) {
+      const localPath = path.resolve(distDir, `.${urlObj.pathname}`);
+      if (localPath.startsWith(distRoot) && fs.existsSync(localPath)) {
         sitemapContent += '\n' + fs.readFileSync(localPath, 'utf-8');
       }
     }
@@ -96,8 +99,10 @@ function auditSitemap(pages, distDir) {
   for (const url of builtUrls) {
     // Normalize for comparison
     const normalized = url.endsWith('/') ? url : url + '/';
-    const inSitemap = sitemapUrls.has(url) || sitemapUrls.has(normalized)
-      || [...sitemapUrls].some((s) => s.endsWith(url) || s.endsWith(normalized));
+    const inSitemap =
+      sitemapUrls.has(url) ||
+      sitemapUrls.has(normalized) ||
+      [...sitemapUrls].some((s) => s.endsWith(url) || s.endsWith(normalized));
 
     if (!inSitemap) {
       results.warnings.push({
@@ -115,8 +120,10 @@ function auditSitemap(pages, distDir) {
     if (sitemapUrl.endsWith('.xml')) continue;
 
     const normalized = sitemapUrl.endsWith('/') ? sitemapUrl : sitemapUrl + '/';
-    const isBuilt = builtUrls.has(sitemapUrl) || builtUrls.has(normalized)
-      || [...builtUrls].some((b) => sitemapUrl.endsWith(b) || normalized.endsWith(b));
+    const isBuilt =
+      builtUrls.has(sitemapUrl) ||
+      builtUrls.has(normalized) ||
+      [...builtUrls].some((b) => sitemapUrl.endsWith(b) || normalized.endsWith(b));
 
     if (!isBuilt) {
       results.warnings.push({
