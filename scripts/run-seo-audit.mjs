@@ -8,7 +8,7 @@
 import fs from 'fs';
 import path from 'path';
 
-const { findHtmlFiles, readFile } = await import('./seo-audit/lib/utils.cjs');
+const { findHtmlFiles, readFile, getRelativePath } = await import('./seo-audit/lib/utils.cjs');
 const { auditMetaTags } = await import('./seo-audit/lib/auditors/meta-tags.cjs');
 const { auditSchema } = await import('./seo-audit/lib/auditors/schema.cjs');
 const { auditHreflang } = await import('./seo-audit/lib/auditors/hreflang.cjs');
@@ -47,10 +47,19 @@ const pages = htmlFiles
   .map((filePath) => ({ filePath, html: readFile(filePath) }))
   .filter((page) => !NOINDEX_RE.test(page.html));
 
+// The vendored hreflang auditor treats any two-letter first path segment as
+// a locale prefix (so it can support real i18n sites), and /cv/ coincidentally
+// matches that pattern even though this site has no i18n — producing a false
+// "i18n page missing hreflang tags" error. Route it around that one auditor.
+const HREFLANG_FALSE_POSITIVE_RE = /^\/cv\//;
+const hreflangPages = pages.filter(
+  (page) => !HREFLANG_FALSE_POSITIVE_RE.test(getRelativePath(page.filePath, distDir)),
+);
+
 const audits = [
   auditMetaTags(pages, distDir),
   auditSchema(pages, distDir),
-  auditHreflang(pages, distDir),
+  auditHreflang(hreflangPages, distDir),
   auditSitemap(pages, distDir),
   auditImages(pages, distDir),
   auditHeadings(pages, distDir),
