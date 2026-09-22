@@ -11,6 +11,10 @@ links:
     href: 'https://noahweidig.com/r-proj-template/'
     variant: primary
     external: true
+  - label: 'GitHub'
+    href: 'https://github.com/noahweidig/r-proj-template'
+    variant: ghost
+    external: true
 ---
 
 <img src="../../media/albums/projects/r-proj-template.webp" alt="The R Project Template configuration screen" width="1600" height="1000" loading="lazy" decoding="async">

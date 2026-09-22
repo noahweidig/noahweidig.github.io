@@ -11,6 +11,10 @@ links:
     href: 'https://noahweidig.com/chartifyr/'
     variant: primary
     external: true
+  - label: 'GitHub'
+    href: 'https://github.com/noahweidig/chartifyr'
+    variant: ghost
+    external: true
 ---
 
 <img src="../../media/albums/projects/chartifyr.webp" alt="The ChartifyR tutorial site" width="1600" height="1000" loading="lazy" decoding="async">

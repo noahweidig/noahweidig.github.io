@@ -23,7 +23,7 @@ const year = new Date().getFullYear();
           >
         </a>
 
-        <div class="flex flex-col items-center gap-4 sm:flex-row sm:gap-5">
+        <div class="flex flex-wrap items-center justify-center gap-4 sm:gap-5">
           <span class="footer-ink font-display text-xl whitespace-nowrap"
             >Subscribe to my newsletter</span
           >
@@ -32,14 +32,17 @@ const year = new Date().getFullYear();
       </div>
 
       <div
-        class="mt-8 flex flex-wrap items-center justify-between gap-x-8 gap-y-4 border-t border-line pt-8"
+        class="mt-8 flex flex-col items-center gap-y-6 border-t border-line pt-8 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-x-8 sm:gap-y-4"
       >
-        <nav aria-label="Footer" class="flex flex-wrap items-center gap-x-2 gap-y-3">
+        <nav
+          aria-label="Footer"
+          class="mx-auto grid grid-cols-2 gap-x-6 gap-y-3 text-center sm:mx-0 sm:flex sm:flex-wrap sm:items-center sm:gap-x-2 sm:text-left"
+        >
           {
             nav.map((item, i) => (
               <>
                 {i > 0 && (
-                  <span class="mx-1.5 text-faint" aria-hidden="true">
+                  <span class="mx-1.5 hidden text-faint sm:inline" aria-hidden="true">
                     ·
                   </span>
                 )}
@@ -54,7 +57,7 @@ const year = new Date().getFullYear();
             ))
           }
         </nav>
-        <div class="flex items-center gap-2">
+        <div class="mx-auto grid grid-cols-3 gap-2 sm:mx-0 sm:flex sm:items-center">
           {
             socials.map((s) => (
               <a
@@ -63,7 +66,7 @@ const year = new Date().getFullYear();
                 data-tip={`${s.label} profile`}
                 target="_blank"
                 rel="noopener"
-                class="icon-tile"
+                class="icon-tile mx-auto sm:mx-0"
               >
                 <Icon name={s.icon} size={17} />
               </a>
@@ -73,7 +76,7 @@ const year = new Date().getFullYear();
             href={u('/rss.xml')}
             aria-label="RSS Feed"
             data-tip="Subscribe to the blog feed"
-            class="icon-tile"
+            class="icon-tile mx-auto sm:mx-0"
           >
             <Icon name="rss" size={17} />
           </a>
