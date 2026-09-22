@@ -7,6 +7,11 @@ date: '2018-08-01'
 dates: 'Aug 2018 – May 2022'
 location: 'Highland Heights, KY'
 categories: [Education]
+links:
+  - label: 'Commencement Program'
+    href: 'http://hdl.handle.net/11216/4405'
+    variant: primary
+    external: true
 ---
 
 I completed my B.S. in Biological Sciences at Northern Kentucky University on the Ecology, Evolution, & Organismal track, graduating with a 4.0 GPA.
