@@ -180,9 +180,10 @@ const badges = Astro.slots.has('badges') ? (await Astro.slots.render('badges')).
                   target={l.external ? '_blank' : undefined}
                   rel={l.external ? 'noopener' : undefined}
                 >
+                  {l.label === 'GitHub' && <Icon name="github" size={14} />}
                   {l.label}
                   {l.label === 'BibTeX' && <Icon name="download" size={14} />}
-                  {l.external && <Icon name="external" size={14} />}
+                  {l.external && l.label !== 'GitHub' && <Icon name="external" size={14} />}
                 </a>
               ))}
             </div>
