@@ -139,9 +139,18 @@
     scroll-behavior: smooth;
     scroll-padding-top: 6rem;
     -webkit-text-size-adjust: 100%;
-    /* Reserve the scrollbar track so opening the search dialog, which locks
-       document scrolling, does not reflow the page under it. */
-    scrollbar-gutter: stable;
+  }
+
+  /* Reserve the scrollbar track so opening the search dialog, which locks
+     document scrolling, does not reflow the page under it. Scoped to
+     viewports wide enough to actually show a layout scrollbar: mobile
+     Safari reserves this gutter even though its own scrollbar overlays
+     content, which pushed the whole page left and left a bigger margin on
+     the right than the left. */
+  @media (min-width: 1024px) {
+    html {
+      scrollbar-gutter: stable;
+    }
   }
 
   body {
@@ -175,6 +184,16 @@
   a {
     color: inherit;
     text-decoration: none;
+  }
+
+  /* iOS Safari zooms the whole page on focus when a form control's
+     font-size resolves under 16px; text-body-lg (0.95rem) sits just below
+     that, so every input/textarea/select needs at least 1rem regardless of
+     the text size utility applied to it. */
+  input,
+  textarea,
+  select {
+    font-size: max(1rem, var(--text-body-lg));
   }
 
   ::selection {
@@ -890,6 +909,15 @@
     grid-template-columns: repeat(auto-fill, minmax(7.5rem, 1fr));
     gap: 0.4rem;
     margin-bottom: 1rem;
+  }
+  /* Below this width the dialog's own min(28rem, 100vw - 2rem) sizing plus
+     the 7.5rem auto-fill floor can collapse to a single column; force two
+     so a narrow phone (e.g. iPhone 13 mini at 375px) still gets a grid
+     instead of one tall list. */
+  @media (max-width: 480px) {
+    .share-dialog-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
   }
   .share-target {
     display: flex;
