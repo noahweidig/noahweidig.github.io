@@ -187,13 +187,17 @@
   }
 
   /* iOS Safari zooms the whole page on focus when a form control's
-     font-size resolves under 16px; text-body-lg (0.95rem) sits just below
-     that, so every input/textarea/select needs at least 1rem regardless of
-     the text size utility applied to it. */
+     font-size resolves under 16px; text-body-lg (0.95rem, used on the
+     contact form) sits just below that. A plain element selector here
+     can't win: Tailwind puts every utility (text-body-lg included) in
+     `@layer utilities`, which outranks `@layer base` regardless of
+     specificity (see the footer-ink note in Footer.astro for the same
+     gotcha), so text-body-lg's own font-size wins over this every time
+     without `!important`. */
   input,
   textarea,
   select {
-    font-size: max(1rem, var(--text-body-lg));
+    font-size: max(1rem, var(--text-body-lg)) !important;
   }
 
   ::selection {
