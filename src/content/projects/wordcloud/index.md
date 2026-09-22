@@ -10,6 +10,10 @@ links:
     href: 'https://noahweidig.com/wordcloud/'
     variant: primary
     external: true
+  - label: 'GitHub'
+    href: 'https://github.com/noahweidig/wordcloud'
+    variant: ghost
+    external: true
 ---
 
 <img src="../../media/albums/projects/wordcloud.webp" alt="WordCloud Studio generating a word cloud" width="1600" height="1000" loading="lazy" decoding="async">

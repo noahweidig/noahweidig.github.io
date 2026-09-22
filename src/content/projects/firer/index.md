@@ -12,6 +12,10 @@ links:
     href: 'https://noahweidig.com/fireR/'
     variant: primary
     external: true
+  - label: 'GitHub'
+    href: 'https://github.com/noahweidig/fireR'
+    variant: ghost
+    external: true
 ---
 
 <img src="../../media/albums/projects/firer.webp" alt="The fireR package documentation site" width="1600" height="1000" loading="lazy" decoding="async">

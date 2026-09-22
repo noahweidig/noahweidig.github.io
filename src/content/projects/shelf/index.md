@@ -11,6 +11,10 @@ links:
     href: 'https://noahweidig.com/shelf/'
     variant: primary
     external: true
+  - label: 'GitHub'
+    href: 'https://github.com/noahweidig/shelf'
+    variant: ghost
+    external: true
 ---
 
 <img src="../../media/albums/projects/shelf.webp" alt="Shelf, my reading journal" width="1600" height="1000" loading="lazy" decoding="async">

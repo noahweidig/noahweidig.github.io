@@ -10,6 +10,10 @@ links:
     href: 'https://noahweidig.com/less'
     variant: primary
     external: true
+  - label: 'GitHub'
+    href: 'https://github.com/noahweidig/less'
+    variant: ghost
+    external: true
 ---
 
 <img src="../../media/albums/projects/less.webp" alt="The Less. minimalism page" width="1600" height="1000" loading="lazy" decoding="async">
