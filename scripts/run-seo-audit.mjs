@@ -36,7 +36,16 @@ if (htmlFiles.length === 0) {
   process.exit(1);
 }
 
-const pages = htmlFiles.map((filePath) => ({ filePath, html: readFile(filePath) }));
+// Deliberate noindex redirect stubs (e.g. public/contact.html) are expected
+// to fail meta/schema/heading/sitemap checks by design — they intentionally
+// carry no content of their own, just a canonical link and JS redirect to
+// the real page. Auditing them as if they were indexable content buries any
+// genuine error under noise. See #276.
+const NOINDEX_RE = /<meta\s+name=["']robots["']\s+content=["'][^"']*noindex/i;
+
+const pages = htmlFiles
+  .map((filePath) => ({ filePath, html: readFile(filePath) }))
+  .filter((page) => !NOINDEX_RE.test(page.html));
 
 const audits = [
   auditMetaTags(pages, distDir),
