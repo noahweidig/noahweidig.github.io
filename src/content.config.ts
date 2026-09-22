@@ -119,6 +119,7 @@ const timeline = (base: string) =>
       'org-url': z.url().optional(),
       location: z.string().optional(),
       categories: z.array(z.string()).default([]),
+      links: z.array(link).default([]),
     }),
   });
 
