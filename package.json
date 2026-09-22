@@ -17,6 +17,7 @@
     "covers:ensure": "node scripts/ensure-blog-covers.mjs",
     "dev": "astro dev",
     "format": "prettier --write .",
+    "globe": "node scripts/generate-globe-svg.mjs",
     "icons": "node scripts/generate-icons.mjs",
     "lint": "prettier --check . && astro check",
     "pdfs": "node scripts/generate-pdfs.mjs",

@@ -11,6 +11,10 @@ links:
     href: 'https://noahweidig.com/framelab'
     variant: primary
     external: true
+  - label: 'GitHub'
+    href: 'https://github.com/noahweidig/framelab'
+    variant: ghost
+    external: true
 ---
 
 <img src="../../media/albums/projects/framelab.webp" alt="FrameLab wrapping a screenshot in a browser window" width="1600" height="1000" loading="lazy" decoding="async">
