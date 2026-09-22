@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-09-22T12:24:36.890Z",
+  "generatedAt": "2026-09-22T13:31:16.677Z",
   "totalPages": 100,
   "score": 98,
   "totals": {
-    "passes": 1460,
+    "passes": 1461,
     "warnings": 30,
-    "errors": 1
+    "errors": 0
   },
   "audits": [
     {
@@ -61,16 +61,10 @@
     },
     {
       "name": "Hreflang",
-      "passes": 0,
+      "passes": 1,
       "warnings": 0,
-      "errors": 1,
-      "issues": [
-        {
-          "page": "/cv/index.html",
-          "message": "i18n page missing hreflang tags",
-          "severity": "error"
-        }
-      ]
+      "errors": 0,
+      "issues": []
     },
     {
       "name": "Sitemap",
@@ -202,17 +196,17 @@
       "issues": [
         {
           "page": "/blog/favorite-r-packages/index.html",
-          "message": "Total HTML size exceeds 100KB (124.4KB)",
+          "message": "Total HTML size exceeds 100KB (124.8KB)",
           "severity": "warning"
         },
         {
           "page": "/index.html",
-          "message": "Total HTML size exceeds 100KB (184.5KB)",
+          "message": "Total HTML size exceeds 100KB (184.9KB)",
           "severity": "warning"
         },
         {
           "page": "/publications/index.html",
-          "message": "Total HTML size exceeds 100KB (117.4KB)",
+          "message": "Total HTML size exceeds 100KB (117.8KB)",
           "severity": "warning"
         }
       ]
