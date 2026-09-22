@@ -7,6 +7,11 @@ date: '2023-08-01'
 dates: 'Aug 2023 – Aug 2025'
 location: 'Gainesville, FL'
 categories: [Education]
+links:
+  - label: 'Commencement Program'
+    href: 'https://commencement.ufl.edu/media/commencementufledu/past-commencement-pdf/SU25_MSB_2C_4C_Program_Web_Version.pdf'
+    variant: primary
+    external: true
 ---
 
 I earned my M.S. in Forest Resources & Conservation from the University of Florida's School of Forest, Fisheries, and Geomatic Sciences, graduating with a 4.0 GPA.

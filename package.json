@@ -19,6 +19,7 @@
     "format": "prettier --write .",
     "globe": "node scripts/generate-globe-svg.mjs",
     "icons": "node scripts/generate-icons.mjs",
+    "logos:pkg": "node scripts/generate-pkg-logo-srcset.mjs",
     "lint": "prettier --check . && astro check",
     "pdfs": "node scripts/generate-pdfs.mjs",
     "seo:audit": "node scripts/run-seo-audit.mjs",
@@ -54,6 +55,7 @@
     "prettier": "^3.9.6",
     "prettier-plugin-astro": "^0.14.1",
     "puppeteer": "^25.9.0",
+    "sharp": "^0.35.4",
     "svelte": "^5.57.0",
     "typescript": "^5.7.0",
     "vitest": "^5.0.1"

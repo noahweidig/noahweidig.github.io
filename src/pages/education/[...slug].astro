@@ -55,9 +55,19 @@ const educationLd = {
   next={next}
   backHref={u('/education/')}
   backLabel="All education"
-  links={d['org-url']
-    ? [{ label: d.org ?? 'Organisation', href: d['org-url'], variant: 'ghost', external: true }]
-    : []}
+  links={[
+    ...d.links,
+    ...(d['org-url']
+      ? [
+          {
+            label: d.org ?? 'Organisation',
+            href: d['org-url'],
+            variant: 'ghost' as const,
+            external: true,
+          },
+        ]
+      : []),
+  ]}
   image={u(`/media/og/education/${entry.id}.webp`)}
   imageAlt={d.org ? `${d.title}, ${d.org}` : d.title}
   publishedTime={d.date}
