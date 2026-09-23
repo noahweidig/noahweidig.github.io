@@ -35,7 +35,7 @@
     "@bytemd/plugin-gfm": "^1.21.0",
     "@octokit/rest": "^22.0.1",
     "@tailwindcss/vite": "^4.3.3",
-    "astro": "^7.3.2",
+    "astro": "^7.3.3",
     "bytemd": "^1.21.0",
     "remark-github-blockquote-alert": "^2.1.0",
     "sanitize-html": "^2.17.7",
@@ -43,7 +43,7 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
-    "@casoon/astro-post-audit": "0.5.6",
+    "@casoon/astro-post-audit": "0.6.0",
     "@types/node": "^26.5.1",
     "@types/sanitize-html": "^2.16.1",
     "axe-core": "^4.13.0",
