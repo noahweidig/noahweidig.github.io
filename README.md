@@ -142,9 +142,17 @@ npm run build                  # astro check + build to dist/ + pagefind index
 npm run build:fast             # same, without the type check
 npm run preview                # serve dist/
 npm run a11y                   # axe-core over dist (or --base https://noahweidig.com)
+npm test                       # vitest run
+npm run covers                 # generate blog cover images
+npm run covers:all             # generate covers for site, collections, and pages
+npm run covers:ensure          # backfill missing blog covers only
 npm run globe                  # redraw the homepage globe SVG
+npm run icons                  # regenerate favicons/app icons
+npm run logos:pkg              # generate package-logo srcsets
 npm run lint                   # prettier --check + astro check
 npm run format                 # prettier --write
+npm run pdfs                   # render the printable CV/résumé PDFs
+npm run seo:audit              # run the SEO audit against a real dist/ build
 npm run shots                  # recapture project screenshots (add slugs to narrow)
 node scripts/update-pubs.js    # refresh publications from Zotero
 ```
