@@ -40,6 +40,7 @@ const stats = [
   image={u('/media/og/awards.webp')}
 >
   <StatStrip stats={stats} />
+  <h2 class="sr-only-nw">All awards</h2>
   <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
     {awards.map((entry, i) => <AwardCard entry={entry} index={i} />)}
   </div>
