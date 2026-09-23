@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-09-22T13:31:16.677Z",
+  "generatedAt": "2026-09-23T13:28:07.798Z",
   "totalPages": 100,
   "score": 98,
   "totals": {
-    "passes": 1461,
-    "warnings": 30,
+    "passes": 1465,
+    "warnings": 26,
     "errors": 0
   },
   "audits": [
@@ -33,28 +33,13 @@
     },
     {
       "name": "Schema Markup",
-      "passes": 271,
-      "warnings": 4,
+      "passes": 274,
+      "warnings": 1,
       "errors": 0,
       "issues": [
         {
-          "page": "/about/index.html",
-          "message": "Missing BreadcrumbList schema",
-          "severity": "warning"
-        },
-        {
           "page": "/blog/index.html",
           "message": "Blog post missing BlogPosting or Article schema",
-          "severity": "warning"
-        },
-        {
-          "page": "/contact/index.html",
-          "message": "Missing BreadcrumbList schema",
-          "severity": "warning"
-        },
-        {
-          "page": "/cv/index.html",
-          "message": "Missing BreadcrumbList schema",
           "severity": "warning"
         }
       ]
@@ -82,15 +67,10 @@
     },
     {
       "name": "Headings",
-      "passes": 199,
-      "warnings": 20,
+      "passes": 200,
+      "warnings": 19,
       "errors": 0,
       "issues": [
-        {
-          "page": "/awards/index.html",
-          "message": "Heading hierarchy skipped: <h1> followed by <h3> (\"Outstanding Thesis in Natural Resources\")",
-          "severity": "warning"
-        },
         {
           "page": "/publications/alexander-shifting-forest-25/index.html",
           "message": "<h1> too long (157 chars): \"Shifting forest structure and composition following decades of fire ex...\"",
@@ -196,7 +176,7 @@
       "issues": [
         {
           "page": "/blog/favorite-r-packages/index.html",
-          "message": "Total HTML size exceeds 100KB (124.8KB)",
+          "message": "Total HTML size exceeds 100KB (126.8KB)",
           "severity": "warning"
         },
         {
