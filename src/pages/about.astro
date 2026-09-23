@@ -1,6 +1,7 @@
 ---
 import { u } from '../lib/url';
 import Base from '../layouts/Base.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
 import Icon from '../components/Icon.astro';
 import { Image } from 'astro:assets';
 import portrait from '../assets/me.webp';
@@ -36,6 +37,7 @@ const beyondWork = [
   description="A bit more about who I am outside of the papers and the projects."
   filters={{ section: 'Page' }}
 >
+  <Breadcrumbs trail={[]} current="About" class="sr-only-nw" />
   <section class="relative overflow-hidden border-b border-line bg-bg-deep">
     <div class="grid-bg absolute inset-0" aria-hidden="true"></div>
     <div class="shell relative grid items-center gap-10 py-16 md:grid-cols-[0.8fr_1.2fr] md:py-20">
