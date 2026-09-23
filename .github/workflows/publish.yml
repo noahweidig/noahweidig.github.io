@@ -95,4 +95,4 @@ jobs:
           # domain-sync case; a deployment genuinely stuck still fails, just
           # later. Kept under the job's 30-minute cap so the action reports the
           # timeout itself instead of the runner killing the job.
-          timeout: 1500000
+          timeout: 600000
