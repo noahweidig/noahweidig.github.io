@@ -1,6 +1,7 @@
 ---
 import { u } from '../lib/url';
 import Base from '../layouts/Base.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
 import Icon from '../components/Icon.astro';
 import { site } from '../lib/site';
 
@@ -19,6 +20,7 @@ const facts = [
   imageAlt="Contact Noah Weidig"
   filters={{ section: 'Page' }}
 >
+  <Breadcrumbs trail={[]} current="Get in touch" class="sr-only-nw" />
   <section class="relative overflow-hidden border-b border-line bg-bg-deep">
     <div class="grid-bg absolute inset-0" aria-hidden="true"></div>
     <div class="shell relative py-16 text-center md:py-20">

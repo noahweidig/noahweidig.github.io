@@ -2,6 +2,7 @@
 import { u } from '../lib/url';
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
 import Icon from '../components/Icon.astro';
 import { inlineMarkup, year } from '../lib/format';
 import { site, socials, skills } from '../lib/site';
@@ -25,6 +26,7 @@ const byCat = (c: string) => pubs.filter((p) => p.data.categories.includes(c));
   imageAlt="Noah Weidig's curriculum vitae"
   filters={{ section: 'Page' }}
 >
+  <Breadcrumbs trail={[]} current="Curriculum Vitae" class="sr-only-nw no-print" />
   <div class="shell max-w-4xl py-12 md:py-16">
     <header class="border-b border-line pb-8 text-center">
       <p class="kicker no-print justify-center">Full record</p>
