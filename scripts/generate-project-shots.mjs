@@ -19,6 +19,10 @@
  * Two copies are written, because the site reads them two ways:
  *   src/assets/albums/projects/<slug>.webp   → Astro <Image>, real srcset
  *   public/media/albums/projects/<slug>.webp → plain <img> in index.md
+ *
+ * The same run also refreshes public/media/noahweidigcom.webp, the README's
+ * own demo image — a plain 2732×2048 (1366×1024 at deviceScaleFactor 2) shot
+ * of the live homepage, so the README doesn't keep showing a stale design.
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -29,6 +33,8 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const projectsDir = path.join(root, 'src/content/projects');
 const assetsDir = path.join(root, 'src/assets/albums/projects');
 const publicDir = path.join(root, 'public/media/albums/projects');
+const readmeShotPath = path.join(root, 'public/media/noahweidigcom.webp');
+const README_URL = 'https://noahweidig.com';
 
 // 16:10 at the width the largest `widths` step asks for (1200) plus headroom,
 // matching the dimensions every index.md already declares.
@@ -93,6 +99,37 @@ async function shoot(browser, slug, url) {
   }
 }
 
+/** Shoots the live homepage for the README's demo image, at 2x the site's own 1366-wide desktop breakpoint. */
+async function shootReadme(browser) {
+  const page = await browser.newPage();
+  try {
+    await page.setViewport({ width: 1366, height: 1024, deviceScaleFactor: 2 });
+    await page.emulateMediaFeatures([
+      { name: 'prefers-color-scheme', value: 'dark' },
+      { name: 'prefers-reduced-motion', value: 'reduce' },
+    ]);
+    await page.goto(README_URL, { waitUntil: 'networkidle2', timeout: 60_000 });
+    await page.evaluate(() => document.fonts.ready);
+    await page.addStyleTag({
+      content: `::-webkit-scrollbar{display:none!important}
+                *,*::before,*::after{animation-play-state:paused!important;transition:none!important}`,
+    });
+    await new Promise((r) => setTimeout(r, SETTLE.default));
+
+    const buf = await page.screenshot({
+      type: 'webp',
+      quality: QUALITY,
+      captureBeyondViewport: false,
+    });
+    fs.writeFileSync(readmeShotPath, buf);
+    console.log(`✓ readme ← ${README_URL}`);
+  } catch (err) {
+    console.log(`::warning::readme not refreshed (${README_URL}): ${err.message}`);
+  } finally {
+    await page.close();
+  }
+}
+
 async function main() {
   const only = process.argv.slice(2).filter((a) => !a.startsWith('--'));
   const slugs = (only.length ? only : fs.readdirSync(projectsDir).sort()).filter((slug) =>
@@ -132,6 +169,9 @@ async function main() {
         // image is left untouched and the rest still refresh.
         console.log(`::warning::${slug} not refreshed (${url}): ${err.message}`);
       }
+    }
+    if (only.length === 0 || only.includes('readme')) {
+      await shootReadme(browser);
     }
   } finally {
     await browser.close();
