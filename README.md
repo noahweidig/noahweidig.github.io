@@ -153,6 +153,7 @@ npm run lint                   # prettier --check + astro check
 npm run format                 # prettier --write
 npm run pdfs                   # render the printable CV/résumé PDFs
 npm run seo:audit              # run the SEO audit against a real dist/ build
+npm run audit:post             # build with AUDIT_REPORTS=1 for post-build audit tooling
 npm run shots                  # recapture project screenshots (add slugs to narrow)
 node scripts/update-pubs.js    # refresh publications from Zotero
 ```
