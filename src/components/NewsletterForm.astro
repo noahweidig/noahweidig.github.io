@@ -48,14 +48,14 @@ const frameName = 'substack-newsletter-frame';
       border-radius: 0.5rem;
     }
     .newsletter-form .newsletter-input {
-      background: #181b23;
-      color: #e9ecf2;
+      background: var(--c-raised);
+      color: var(--c-ink);
       /* iOS Safari zooms the page on focus when an input's font-size is
          under 16px; the site's text-body-lg (0.95rem) sits just below that. */
       font-size: max(1rem, var(--text-body-lg));
     }
     .newsletter-form .newsletter-input::placeholder {
-      color: #a7afbf;
+      color: var(--c-dim);
     }
   }
 </style>
