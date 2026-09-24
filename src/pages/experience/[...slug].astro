@@ -65,9 +65,11 @@ const experienceLd = {
   next={next}
   backHref={u('/experience/')}
   backLabel="All experience"
-  links={d['org-url']
-    ? [{ label: d.org ?? 'Organisation', href: d['org-url'], variant: 'ghost', external: true }]
-    : []}
+  links={
+    d['org-url']
+      ? [{ label: d.org ?? 'Organisation', href: d['org-url'], variant: 'ghost', external: true }]
+      : []
+  }
   image={u(`/media/og/experience/${entry.id}.webp`)}
   imageAlt={d.org ? `${d.title}, ${d.org}` : d.title}
   publishedTime={d.date}
@@ -75,4 +77,4 @@ const experienceLd = {
   <Content />
 </Detail>
 
-<script type="application/ld+json" is:inline set:html={JSON.stringify(experienceLd)} />
+<script type="application/ld+json" is:inline set:html={JSON.stringify(experienceLd)}></script>

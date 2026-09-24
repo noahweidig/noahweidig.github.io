@@ -25,32 +25,30 @@ if (!mark && !lucideIcons[name]) {
 const d = mark ? mark.body : lucideIcons[name]!;
 ---
 
-{
-  mark ? (
-    <svg
-      viewBox={mark.viewBox}
-      width={size}
-      height={size}
-      fill="currentColor"
-      aria-hidden="true"
-      focusable="false"
-      class={klass}
-      set:html={d}
-    />
-  ) : (
-    <svg
-      viewBox="0 0 24 24"
-      width={size}
-      height={size}
-      fill="none"
-      stroke="currentColor"
-      stroke-width={sw}
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      aria-hidden="true"
-      focusable="false"
-      class={klass}
-      set:html={d}
-    />
-  )
-}
+{mark ? (
+  <svg
+    viewBox={mark.viewBox}
+    width={size}
+    height={size}
+    fill="currentColor"
+    aria-hidden="true"
+    focusable="false"
+    class={klass}
+    set:html={d}
+  />
+) : (
+  <svg
+    viewBox="0 0 24 24"
+    width={size}
+    height={size}
+    fill="none"
+    stroke="currentColor"
+    stroke-width={sw}
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+    focusable="false"
+    class={klass}
+    set:html={d}
+  />
+)}

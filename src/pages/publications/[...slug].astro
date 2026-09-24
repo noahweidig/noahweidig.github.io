@@ -102,76 +102,72 @@ const pubLd = {
   noindex={Boolean(d['pub-appearance-of'])}
 >
   <Fragment slot="head">
-    {
-      /* Highwire Press tags: Google Scholar and reference managers (Zotero,
-        Mendeley) read these, not the ScholarlyArticle JSON-LD below. */
-    }
+    {/* Highwire Press tags: Google Scholar and reference managers (Zotero,
+        Mendeley) read these, not the ScholarlyArticle JSON-LD below. */}
     <meta name="citation_title" content={d.title} />
-    {authors.map((name) => <meta name="citation_author" content={name} />)}
+    {authors.map((name) => (
+      <meta name="citation_author" content={name} />
+    ))}
     <meta name="citation_publication_date" content={d.date.toISOString().slice(0, 10)} />
     {d['pub-venue'] && <meta name="citation_journal_title" content={d['pub-venue']} />}
     {d['pub-doi'] && <meta name="citation_doi" content={d['pub-doi']} />}
     {pdfUrl && <meta name="citation_pdf_url" content={pdfUrl} />}
   </Fragment>
-  {
-    d.citation && (
-      <p class="mb-8 rounded-md border-l-2 border-accent bg-raised px-4 py-3 text-sm leading-relaxed text-dim">
-        <Fragment set:html={inlineMarkup(d.citation)} />
-      </p>
-    )
-  }
+  {d.citation && (
+    <p class="mb-8 rounded-md border-l-2 border-accent bg-raised px-4 py-3 text-sm leading-relaxed text-dim">
+      <Fragment set:html={inlineMarkup(d.citation)} />
+    </p>
+  )}
   <Content />
 
   <Fragment slot="badges">
-    {
-      (dimensions || altmetric) && (
-        <div class="badge-pair">
-          {dimensions && (
-            <a
-              href={dimensions.url}
-              target="_blank"
-              rel="noopener"
-              class="chip transition-colors hover:border-accent hover:text-accent-ink"
-              data-tip-title="Dimensions"
-              data-tip={dimensionsTip}
-            >
+    {(dimensions || altmetric) && (
+      <div class="badge-pair">
+        {dimensions && (
+          <a
+            href={dimensions.url}
+            target="_blank"
+            rel="noopener"
+            class="chip transition-colors hover:border-accent hover:text-accent-ink"
+            data-tip-title="Dimensions"
+            data-tip={dimensionsTip}
+          >
+            <img
+              src={u('/media/icons/custom/dimensions.svg')}
+              alt=""
+              width="16"
+              height="16"
+              loading="lazy"
+              decoding="async"
+            />
+            {dimensions.timesCited} citation{dimensions.timesCited === 1 ? '' : 's'}
+          </a>
+        )}
+        {altmetric && (
+          <a
+            href={altmetric.detailsUrl}
+            target="_blank"
+            rel="noopener"
+            class="chip chip-accent transition-colors hover:border-accent"
+            data-tip-title="Altmetric Attention Score"
+            data-tip={altmetricTip}
+          >
+            {altmetric.imageUrl && (
               <img
-                src={u('/media/icons/custom/dimensions.svg')}
+                src={altmetric.imageUrl}
                 alt=""
                 width="16"
                 height="16"
                 loading="lazy"
                 decoding="async"
               />
-              {dimensions.timesCited} citation{dimensions.timesCited === 1 ? '' : 's'}
-            </a>
-          )}
-          {altmetric && (
-            <a
-              href={altmetric.detailsUrl}
-              target="_blank"
-              rel="noopener"
-              class="chip chip-accent transition-colors hover:border-accent"
-              data-tip-title="Altmetric Attention Score"
-              data-tip={altmetricTip}
-            >
-              {altmetric.imageUrl && (
-                <img
-                  src={altmetric.imageUrl}
-                  alt=""
-                  width="16"
-                  height="16"
-                  loading="lazy"
-                  decoding="async"
-                />
-              )}
-              {Math.round(altmetric.score)}
-            </a>
-          )}
-        </div>
-      )
-    }
+            )}
+            {Math.round(altmetric.score)}
+          </a>
+        )}
+      </div>
+    )}
   </Fragment>
 </Detail>
 
-<script type="application/ld+json" is:inline set:html={JSON.stringify(pubLd)} />
+<script type="application/ld+json" is:inline set:html={JSON.stringify(pubLd)}></script>

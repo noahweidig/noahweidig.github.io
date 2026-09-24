@@ -43,32 +43,30 @@ const facts = [
         </p>
 
         <ul class="mt-8 grid gap-3">
-          {
-            facts.map((f) => (
-              <li class="card flex min-w-0 items-center gap-4 p-4">
-                <span class="grid h-10 w-10 shrink-0 place-items-center rounded-lg border border-line bg-raised text-accent-ink">
-                  <Icon name={f.icon} size={18} />
-                </span>
-                <span class="min-w-0">
-                  <small class="block font-mono text-[0.66rem] tracking-[0.14em] text-faint uppercase">
-                    {f.label}
-                  </small>
-                  {f.href ? (
-                    <a
-                      href={f.href}
-                      target={f.href.startsWith('http') ? '_blank' : undefined}
-                      rel={f.href.startsWith('http') ? 'noopener' : undefined}
-                      class="block truncate text-body-lg text-accent-ink hover:underline"
-                    >
-                      {f.value}
-                    </a>
-                  ) : (
-                    <span class="block truncate text-body-lg">{f.value}</span>
-                  )}
-                </span>
-              </li>
-            ))
-          }
+          {facts.map((f) => (
+            <li class="card flex min-w-0 items-center gap-4 p-4">
+              <span class="grid h-10 w-10 shrink-0 place-items-center rounded-lg border border-line bg-raised text-accent-ink">
+                <Icon name={f.icon} size={18} />
+              </span>
+              <span class="min-w-0">
+                <small class="block font-mono text-[0.66rem] tracking-[0.14em] text-faint uppercase">
+                  {f.label}
+                </small>
+                {f.href ? (
+                  <a
+                    href={f.href}
+                    target={f.href.startsWith('http') ? '_blank' : undefined}
+                    rel={f.href.startsWith('http') ? 'noopener' : undefined}
+                    class="block truncate text-body-lg text-accent-ink hover:underline"
+                  >
+                    {f.value}
+                  </a>
+                ) : (
+                  <span class="block truncate text-body-lg">{f.value}</span>
+                )}
+              </span>
+            </li>
+          ))}
         </ul>
       </div>
 
@@ -81,7 +79,9 @@ const facts = [
       >
         <div class="grid gap-5 [&>*]:min-w-0">
           <div class="grid gap-2 [&>*]:min-w-0">
-            <label for="form-name" class="text-sm font-medium">Your name</label>
+            <label for="form-name" class="text-sm font-medium">
+              Your name
+            </label>
             <input
               id="form-name"
               type="text"
@@ -93,7 +93,9 @@ const facts = [
             />
           </div>
           <div class="grid gap-2 [&>*]:min-w-0">
-            <label for="form-email" class="text-sm font-medium">Your email</label>
+            <label for="form-email" class="text-sm font-medium">
+              Your email
+            </label>
             <input
               id="form-email"
               type="email"
@@ -105,7 +107,9 @@ const facts = [
             />
           </div>
           <div class="grid gap-2 [&>*]:min-w-0">
-            <label for="form-message" class="text-sm font-medium">Your message</label>
+            <label for="form-message" class="text-sm font-medium">
+              Your message
+            </label>
             <textarea
               id="form-message"
               name="message"
@@ -116,11 +120,9 @@ const facts = [
             ></textarea>
           </div>
 
-          {
-            /* Spam trap: Formspree drops any submission that fills `_gotcha`, so
+          {/* Spam trap: Formspree drops any submission that fills `_gotcha`, so
               it works with JS off. Off-screen rather than display:none, because
-              some bots skip hidden inputs. */
-          }
+              some bots skip hidden inputs. */}
           <div class="sr-only-nw" aria-hidden="true">
             <label for="form-company">Company — leave this field empty</label>
             <input id="form-company" type="text" name="_gotcha" tabindex="-1" autocomplete="off" />
@@ -133,8 +135,7 @@ const facts = [
             role="status"
             aria-live="polite"
             hidden
-          >
-          </p>
+          ></p>
 
           <button class="btn btn-primary w-full" type="submit">
             Send message

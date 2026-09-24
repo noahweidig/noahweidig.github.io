@@ -24,44 +24,44 @@ const alt = entry.data['image-alt'] ?? '';
   data-reveal
   style={`--reveal-delay:${Math.min(index, 5) * 60}ms`}
 >
-  <a href={u(`/blog/${entry.id}/`)} class="absolute inset-0 z-10" tabindex="-1" aria-hidden="true"
+  <a
+    href={u(`/blog/${entry.id}/`)}
+    class="absolute inset-0 z-10"
+    tabindex="-1"
+    aria-hidden="true"
   ></a>
-  {
-    image && (
-      <a
-        href={u(`/blog/${entry.id}/`)}
-        tabindex="-1"
-        aria-hidden="true"
-        class="relative block aspect-16/9 overflow-hidden border-b border-line"
-      >
-        <ThemeImage
-          dark={image}
-          light={imageLight}
-          alt={alt}
-          widths={IMAGE_WIDTHS.thumbnail}
-          sizes="(min-width: 1024px) 380px, (min-width: 640px) 45vw, 92vw"
-          loading={index === 0 ? 'eager' : 'lazy'}
-          class="h-full w-full object-cover transition-transform duration-700 ease-out-soft group-hover:scale-[1.04]"
-        />
-        {readingTime && (
-          <span class="absolute right-3 bottom-3 chip bg-black/55 text-white backdrop-blur-md">
-            {readingTime}
-          </span>
-        )}
-      </a>
-    )
-  }
+  {image && (
+    <a
+      href={u(`/blog/${entry.id}/`)}
+      tabindex="-1"
+      aria-hidden="true"
+      class="relative block aspect-16/9 overflow-hidden border-b border-line"
+    >
+      <ThemeImage
+        dark={image}
+        light={imageLight}
+        alt={alt}
+        widths={IMAGE_WIDTHS.thumbnail}
+        sizes="(min-width: 1024px) 380px, (min-width: 640px) 45vw, 92vw"
+        loading={index === 0 ? 'eager' : 'lazy'}
+        class="h-full w-full object-cover transition-transform duration-700 ease-out-soft group-hover:scale-[1.04]"
+      />
+      {readingTime && (
+        <span class="absolute right-3 bottom-3 chip bg-black/55 text-white backdrop-blur-md">
+          {readingTime}
+        </span>
+      )}
+    </a>
+  )}
   <div class="flex flex-1 flex-col p-5">
     <div class="flex items-center gap-2 font-mono text-2xs tracking-[0.1em] text-faint uppercase">
       <time datetime={date.toISOString()}>{fullDate(date)}</time>
-      {
-        !image && readingTime && (
-          <>
-            <span>·</span>
-            <span>{readingTime}</span>
-          </>
-        )
-      }
+      {!image && readingTime && (
+        <>
+          <span>·</span>
+          <span>{readingTime}</span>
+        </>
+      )}
     </div>
     <h3 class="mt-2.5 text-xl leading-snug">
       <a
@@ -73,14 +73,12 @@ const alt = entry.data['image-alt'] ?? '';
     </h3>
     <p class="mt-2 flex-1 text-sm leading-relaxed text-dim line-clamp-4">{description}</p>
     <div class="mt-4 flex flex-wrap gap-1.5">
-      {
-        categories.map((c) => (
-          <span class="chip">
-            {tagIcon(c) && <Icon name={tagIcon(c)!} size={12} />}
-            {c}
-          </span>
-        ))
-      }
+      {categories.map((c) => (
+        <span class="chip">
+          {tagIcon(c) && <Icon name={tagIcon(c)!} size={12} />}
+          {c}
+        </span>
+      ))}
     </div>
   </div>
 </article>
