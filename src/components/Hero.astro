@@ -97,12 +97,18 @@ const typed = [
     </div>
 
     <div
-      class="relative order-first mx-auto w-full max-w-[10.5rem] sm:max-w-[14rem] lg:order-last lg:max-w-sm"
+      class="relative order-first mx-auto w-full max-w-[13rem] sm:max-w-[17rem] lg:order-last lg:max-w-md"
       data-reveal
       style="--reveal-delay:160ms"
     >
       <div class="portrait-frame relative aspect-square">
-        <div class="portrait-blob" aria-hidden="true"></div>
+        <svg class="portrait-blob" viewBox="0 0 1 1" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M.08 .3C.25 .18 .7 .12 .9 .25 1.02 .35 1.02 .6 .85 .78 .7 .93 .55 1 .45 1 .2 .98 .02 .75 .02 .5 .02 .4 .04 .34 .08 .3Z"></path>
+          <clipPath id="portrait-clip" clipPathUnits="objectBoundingBox">
+            <rect width="1" height=".4"></rect>
+            <path transform="translate(0 .25) scale(1 .75)" d="M.08 .3C.25 .18 .7 .12 .9 .25 1.02 .35 1.02 .6 .85 .78 .7 .93 .55 1 .45 1 .2 .98 .02 .75 .02 .5 .02 .4 .04 .34 .08 .3Z"></path>
+          </clipPath>
+        </svg>
         <div class="portrait-clip">
           <Image
             src={portrait}
@@ -245,18 +251,18 @@ const typed = [
   }
 
   /* Flat gold blob behind the cutout. The clip box shares the blob's bottom
-     curve but runs to the top of the frame, so the head clears the blob. */
+     shape plus the band above it, so the head clears the blob. */
   .portrait-blob {
     position: absolute;
-    inset: 20% 0 0;
-    background: var(--c-accent);
-    border-radius: 45% 55% 55% 45% / 45% 45% 55% 55%;
+    inset: 25% 0 0;
+    width: 100%;
+    height: 75%;
+    fill: var(--c-accent);
   }
   .portrait-clip {
     position: absolute;
     inset: 0;
-    overflow: hidden;
-    border-radius: 0 0 55% 45% / 0 0 44% 44%;
+    clip-path: url(#portrait-clip);
   }
 
   .hero-btn {
