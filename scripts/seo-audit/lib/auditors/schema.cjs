@@ -79,8 +79,9 @@ function auditSchema(pages, distDir) {
       });
     }
 
-    // Blog posts detection
-    const isBlogPost = /\/blog\/[^/]+/i.test(pagePath) || /\/posts?\//i.test(pagePath);
+    // Blog posts detection (requires a slug segment, so the collection
+    // index itself, e.g. /blog/index.html, doesn't match)
+    const isBlogPost = /\/blog\/[^/]+\//i.test(pagePath) || /\/posts?\/[^/]+\//i.test(pagePath);
     if (isBlogPost && !schemaTypes.includes('BlogPosting') && !schemaTypes.includes('Article')) {
       results.warnings.push({
         page: pagePath,
@@ -135,10 +136,13 @@ function extractTypes(obj) {
     }
   }
 
-  // Check @graph
-  if (obj['@graph'] && Array.isArray(obj['@graph'])) {
-    for (const item of obj['@graph']) {
-      types.push(...extractTypes(item));
+  // Recurse into any nested object/array value (not just @graph), so
+  // e.g. a Blog's `blogPost` array of BlogPosting entries is still found.
+  for (const key of Object.keys(obj)) {
+    if (key === '@type') continue;
+    const value = obj[key];
+    if (value && typeof value === 'object') {
+      types.push(...extractTypes(value));
     }
   }
 
