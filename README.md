@@ -125,6 +125,8 @@ The card art for each project (`src/assets/albums/projects/<slug>.webp`, mirrore
 
 The URL comes from the first `http(s)` link in the entry's frontmatter, so a new project needs no edit to the script. Shots are 1600×1000 in dark mode, framed from the top — the only geometry the site asks for, since `ProjectCard` and `ResearchAreas` both crop `aspect-16/10 object-cover object-top` and the og:image cards are drawn by `generate-blog-covers.mjs` rather than screenshotted. A site that fails to load leaves its committed image alone and warns; only a run where every capture fails fails the job. `roads` and `wuirisk` are skipped in the script (a third-party catalog page and an Earth Engine app) and keep hand-made images.
 
+The same run also refreshes `public/media/noahweidigcom.webp`, the demo image in this README's own header — a 2732×2048 shot of the live homepage at `noahweidig.com` — so it doesn't keep showing a stale design either. Pass `readme` to `npm run shots` to refresh just that one.
+
 ### Toolchain
 
 | Tool                | Pinned in                            | Used for                                |
