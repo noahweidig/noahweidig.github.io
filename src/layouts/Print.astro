@@ -35,7 +35,9 @@ const canonical = new URL(Astro.url.pathname.replace(/\/*$/, '/'), Astro.site).h
     <style is:inline set:html={`@page { size: ${size}; margin: ${margin}; }`}></style>
   </head>
   <body class="print-doc">
-    <main><slot /></main>
+    <main>
+      <slot />
+    </main>
     <style is:global>
       /* The site's screen chrome is irrelevant here; what matters is that the
          document reads as one continuous sheet at any zoom, and that the

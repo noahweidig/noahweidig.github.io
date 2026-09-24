@@ -85,69 +85,63 @@ const areas = [
 ---
 
 <div class="mt-10" data-tabs data-reveal>
-  {
-    /* Hidden until the tab script wires it up: with no JS every panel stays
-      visible and the section reads as a stack rather than dead buttons. */
-  }
+  {/* Hidden until the tab script wires it up: with no JS every panel stays
+      visible and the section reads as a stack rather than dead buttons. */}
   <div
     role="tablist"
     aria-label="Research areas"
     hidden
     class="flex flex-wrap gap-2 border-b border-line pb-5"
   >
-    {
-      areas.map((a, i) => (
-        <button
-          type="button"
-          role="tab"
-          id={`area-tab-${a.id}`}
-          aria-controls={`area-panel-${a.id}`}
-          aria-selected={i === 0 ? 'true' : 'false'}
-          tabindex={i === 0 ? 0 : -1}
-          class="pill"
-        >
-          {a.tab}
-        </button>
-      ))
-    }
+    {areas.map((a, i) => (
+      <button
+        type="button"
+        role="tab"
+        id={`area-tab-${a.id}`}
+        aria-controls={`area-panel-${a.id}`}
+        aria-selected={i === 0 ? 'true' : 'false'}
+        tabindex={i === 0 ? 0 : -1}
+        class="pill"
+      >
+        {a.tab}
+      </button>
+    ))}
   </div>
 
-  {
-    areas.map((a) => (
-      <div
-        role="tabpanel"
-        id={`area-panel-${a.id}`}
-        aria-labelledby={`area-tab-${a.id}`}
-        class="grid gap-8 pt-10 lg:grid-cols-2 lg:items-center lg:gap-14"
-      >
-        <div>
-          <p class="flex items-center gap-2 font-mono text-2xs tracking-[0.14em] text-accent-ink uppercase">
-            <Icon name={a.icon} size={16} class="shrink-0" />
-            {a.eyebrow}
-          </p>
-          <h3 class="mt-4 font-display text-[clamp(1.6rem,1.1rem+1.8vw,2.4rem)]">{a.heading}</h3>
-          <p class="mt-4 text-[1.02rem] leading-relaxed text-dim">{a.body}</p>
-          <div class="mt-5 flex flex-wrap gap-1.5">
-            {a.chips.map((c) => (
-              <span class="chip">{c}</span>
-            ))}
-          </div>
+  {areas.map((a) => (
+    <div
+      role="tabpanel"
+      id={`area-panel-${a.id}`}
+      aria-labelledby={`area-tab-${a.id}`}
+      class="grid gap-8 pt-10 lg:grid-cols-2 lg:items-center lg:gap-14"
+    >
+      <div>
+        <p class="flex items-center gap-2 font-mono text-2xs tracking-[0.14em] text-accent-ink uppercase">
+          <Icon name={a.icon} size={16} class="shrink-0" />
+          {a.eyebrow}
+        </p>
+        <h3 class="mt-4 font-display text-[clamp(1.6rem,1.1rem+1.8vw,2.4rem)]">{a.heading}</h3>
+        <p class="mt-4 text-[1.02rem] leading-relaxed text-dim">{a.body}</p>
+        <div class="mt-5 flex flex-wrap gap-1.5">
+          {a.chips.map((c) => (
+            <span class="chip">{c}</span>
+          ))}
         </div>
-        <figure class="overflow-hidden rounded-md border border-line bg-surface">
-          <Image
-            src={a.image}
-            alt={a.alt}
-            widths={IMAGE_WIDTHS.thumbnail}
-            sizes="(min-width: 1024px) 560px, 92vw"
-            loading="lazy"
-            decoding="async"
-            class="aspect-16/10 w-full object-cover"
-          />
-          <figcaption class="border-t border-line px-4 py-3 font-mono text-2xs tracking-wide text-faint">
-            {a.caption}
-          </figcaption>
-        </figure>
       </div>
-    ))
-  }
+      <figure class="overflow-hidden rounded-md border border-line bg-surface">
+        <Image
+          src={a.image}
+          alt={a.alt}
+          widths={IMAGE_WIDTHS.thumbnail}
+          sizes="(min-width: 1024px) 560px, 92vw"
+          loading="lazy"
+          decoding="async"
+          class="aspect-16/10 w-full object-cover"
+        />
+        <figcaption class="border-t border-line px-4 py-3 font-mono text-2xs tracking-wide text-faint">
+          {a.caption}
+        </figcaption>
+      </figure>
+    </div>
+  ))}
 </div>

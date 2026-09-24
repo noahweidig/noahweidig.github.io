@@ -24,38 +24,36 @@ const count = group.items.length;
   intro={`${count} item${count === 1 ? '' : 's'} tagged ${group.name}, across projects, publications and writing.`}
   wide={false}
 >
-  {
-    sections.map((section) => {
-      const items = group.items.filter((i) => i.section === section);
-      return items.length ? (
-        <section class="mb-12 last:mb-0">
-          <h2 class="font-mono text-2xs tracking-[0.16em] text-faint uppercase">{section}</h2>
-          <ul class="mt-4 divide-y divide-line border-y border-line">
-            {items.map((item) => (
-              <li>
-                <a href={u(item.href)} class="group flex items-baseline gap-4 py-4">
-                  <span class="min-w-0 flex-1">
-                    <span class="block text-[1.02rem] font-medium transition-colors group-hover:text-accent-ink">
-                      {item.title}
-                    </span>
-                    {item.description && (
-                      <span class="mt-1 block text-sm text-dim">{item.description}</span>
-                    )}
+  {sections.map((section) => {
+    const items = group.items.filter((i) => i.section === section);
+    return items.length ? (
+      <section class="mb-12 last:mb-0">
+        <h2 class="font-mono text-2xs tracking-[0.16em] text-faint uppercase">{section}</h2>
+        <ul class="mt-4 divide-y divide-line border-y border-line">
+          {items.map((item) => (
+            <li>
+              <a href={u(item.href)} class="group flex items-baseline gap-4 py-4">
+                <span class="min-w-0 flex-1">
+                  <span class="block text-[1.02rem] font-medium transition-colors group-hover:text-accent-ink">
+                    {item.title}
                   </span>
-                  <time
-                    datetime={item.date.toISOString()}
-                    class="shrink-0 font-mono text-2xs text-faint"
-                  >
-                    {fullDate(item.date)}
-                  </time>
-                </a>
-              </li>
-            ))}
-          </ul>
-        </section>
-      ) : null;
-    })
-  }
+                  {item.description && (
+                    <span class="mt-1 block text-sm text-dim">{item.description}</span>
+                  )}
+                </span>
+                <time
+                  datetime={item.date.toISOString()}
+                  class="shrink-0 font-mono text-2xs text-faint"
+                >
+                  {fullDate(item.date)}
+                </time>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ) : null;
+  })}
 
   <div class="mt-4 flex justify-center">
     <a href={u('/tags/')} class="btn btn-ghost btn-sm group">

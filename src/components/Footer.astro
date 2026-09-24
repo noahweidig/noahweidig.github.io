@@ -19,59 +19,55 @@ const year = new Date().getFullYear();
           <Logo class="wordmark-icon h-7 w-auto" />
           <span
             data-text="Noah Weidig"
-            class="wordmark-wipe footer-ink font-display text-xl font-bold">Noah Weidig</span
+            class="wordmark-wipe footer-ink font-display text-xl font-bold"
           >
+            Noah Weidig
+          </span>
         </a>
 
         <div class="flex flex-wrap items-center justify-center gap-4 sm:gap-5">
-          <span class="footer-ink font-display text-xl whitespace-nowrap"
-            >Subscribe to my newsletter</span
-          >
+          <span class="footer-ink font-display text-xl whitespace-nowrap">
+            Subscribe to my newsletter
+          </span>
           <NewsletterForm />
         </div>
       </div>
 
-      <div
-        class="mt-8 flex flex-col items-center gap-y-6 border-t border-line pt-8 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-x-8 sm:gap-y-4"
-      >
+      <div class="mt-8 flex flex-col items-center gap-y-6 border-t border-line pt-8 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-x-8 sm:gap-y-4">
         <nav
           aria-label="Footer"
           class="mx-auto grid grid-cols-2 gap-x-6 gap-y-3 text-center sm:mx-0 sm:flex sm:flex-wrap sm:items-center sm:gap-x-2 sm:text-left"
         >
-          {
-            nav.map((item, i) => (
-              <>
-                {i > 0 && (
-                  <span class="mx-1.5 hidden text-faint sm:inline" aria-hidden="true">
-                    ·
-                  </span>
-                )}
-                <a
-                  href={u(item.href)}
-                  data-tip={item.tip}
-                  class="footer-ink text-body-lg font-semibold transition-colors hover:text-accent-ink"
-                >
-                  {item.text}
-                </a>
-              </>
-            ))
-          }
+          {nav.map((item, i) => (
+            <>
+              {i > 0 && (
+                <span class="mx-1.5 hidden text-faint sm:inline" aria-hidden="true">
+                  ·
+                </span>
+              )}
+              <a
+                href={u(item.href)}
+                data-tip={item.tip}
+                class="footer-ink text-body-lg font-semibold transition-colors hover:text-accent-ink"
+              >
+                {item.text}
+              </a>
+            </>
+          ))}
         </nav>
         <div class="mx-auto grid grid-cols-3 gap-2 sm:mx-0 sm:flex sm:items-center">
-          {
-            socials.map((s) => (
-              <a
-                href={s.href}
-                aria-label={`${s.label} (opens in a new tab)`}
-                data-tip={`${s.label} profile`}
-                target="_blank"
-                rel="noopener"
-                class="icon-tile mx-auto sm:mx-0"
-              >
-                <Icon name={s.icon} size={17} />
-              </a>
-            ))
-          }
+          {socials.map((s) => (
+            <a
+              href={s.href}
+              aria-label={`${s.label} (opens in a new tab)`}
+              data-tip={`${s.label} profile`}
+              target="_blank"
+              rel="noopener"
+              class="icon-tile mx-auto sm:mx-0"
+            >
+              <Icon name={s.icon} size={17} />
+            </a>
+          ))}
           <a
             href={u('/rss.xml')}
             aria-label="RSS Feed"
@@ -83,17 +79,21 @@ const year = new Date().getFullYear();
         </div>
       </div>
 
-      <div
-        class="mt-6 flex flex-col items-center gap-3 border-t border-line pt-6 text-center text-[0.85rem] text-dim sm:flex-row sm:items-center sm:justify-between sm:text-left"
-      >
+      <div class="mt-6 flex flex-col items-center gap-3 border-t border-line pt-6 text-center text-[0.85rem] text-dim sm:flex-row sm:items-center sm:justify-between sm:text-left">
         <p>
           © {year} Noah Weidig
           <span class="mx-1.5 text-faint">·</span>
-          <a class="footer-dim hover:text-accent-ink" href={u('/privacy/')}>Privacy Policy</a>
+          <a class="footer-dim hover:text-accent-ink" href={u('/privacy/')}>
+            Privacy Policy
+          </a>
           <span class="mx-1.5 text-faint">·</span>
-          <a class="footer-dim hover:text-accent-ink" href={u('/terms/')}>Terms &amp; Conditions</a>
+          <a class="footer-dim hover:text-accent-ink" href={u('/terms/')}>
+            Terms &amp; Conditions
+          </a>
           <span class="mx-1.5 text-faint">·</span>
-          <a class="footer-dim hover:text-accent-ink" href={u('/styleguide/')}>Styleguide</a>
+          <a class="footer-dim hover:text-accent-ink" href={u('/styleguide/')}>
+            Styleguide
+          </a>
         </p>
         <div class="flex items-center gap-2">
           <span class="font-mono text-caption tracking-[0.12em] text-faint uppercase">Sitemap</span>
@@ -101,20 +101,23 @@ const year = new Date().getFullYear();
             href={u('/sitemap-0.xml')}
             data-tip="XML sitemap for crawlers"
             class="footer-dim rounded border border-line px-2 py-1 font-mono text-caption transition-colors hover:border-accent-ink hover:text-accent-ink"
-            >.xml</a
           >
+            .xml
+          </a>
           <a
             href={u('/sitemap.md')}
             data-tip="Markdown sitemap for humans and LLMs"
             class="footer-dim rounded border border-line px-2 py-1 font-mono text-caption transition-colors hover:border-accent-ink hover:text-accent-ink"
-            >.md</a
           >
+            .md
+          </a>
           <a
             href={u('/llms.txt')}
             data-tip="Short site guide for AI agents"
             class="footer-dim rounded border border-line px-2 py-1 font-mono text-caption transition-colors hover:border-accent-ink hover:text-accent-ink"
-            >llms.txt</a
           >
+            llms.txt
+          </a>
         </div>
       </div>
     </div>

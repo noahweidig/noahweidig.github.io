@@ -33,31 +33,32 @@ const byCat = (c: string) => pubs.filter((p) => p.data.categories.includes(c));
       <h1 class="mt-3 font-display text-4xl font-bold md:text-5xl">Noah Weidig</h1>
       <p class="mt-2 text-lg text-accent-ink">{site.role}</p>
       <p class="mt-3 text-sm text-dim">
-        <a class="hover:text-accent-ink" href={`mailto:${site.email}`}>{site.email}</a>
-        <span class="mx-2 text-faint">·</span>{site.location}
+        <a class="hover:text-accent-ink" href={`mailto:${site.email}`}>
+          {site.email}
+        </a>
         <span class="mx-2 text-faint">·</span>
-        <a class="hover:text-accent-ink" href={site.url}>noahweidig.com</a>
+        {site.location}
+        <span class="mx-2 text-faint">·</span>
+        <a class="hover:text-accent-ink" href={site.url}>
+          noahweidig.com
+        </a>
       </p>
       <div class="mt-5 flex justify-center gap-2">
-        {
-          socials.map((s) => (
-            <a
-              href={s.href}
-              aria-label={`${s.label} (opens in a new tab)`}
-              data-tip={`${s.label} profile`}
-              target="_blank"
-              rel="noopener"
-              class="icon-tile"
-            >
-              <Icon name={s.icon} size={16} />
-            </a>
-          ))
-        }
+        {socials.map((s) => (
+          <a
+            href={s.href}
+            aria-label={`${s.label} (opens in a new tab)`}
+            data-tip={`${s.label} profile`}
+            target="_blank"
+            rel="noopener"
+            class="icon-tile"
+          >
+            <Icon name={s.icon} size={16} />
+          </a>
+        ))}
       </div>
-      {
-        /* Both PDFs are regenerated from this page's own content by
-          .github/workflows/pdfs.yml, so they never drift from the site. */
-      }
+      {/* Both PDFs are regenerated from this page's own content by
+          .github/workflows/pdfs.yml, so they never drift from the site. */}
       <div class="no-print mt-6 flex flex-wrap justify-center gap-2.5">
         <a
           class="btn btn-primary btn-sm"
@@ -88,154 +89,144 @@ const byCat = (c: string) => pubs.filter((p) => p.data.categories.includes(c));
       on wildland-urban interface wildfire risk, land-use change, and spatial decision-making.
     </p>
 
-    {
-      [
-        { heading: 'Education', items: education, base: 'education' },
-        { heading: 'Experience', items: experience, base: 'experience' },
-      ].map((group) => (
-        <section class="mt-12">
-          <h2 class="font-display text-2xl">{group.heading}</h2>
-          <div class="mt-5 grid gap-5">
-            {group.items.map((entry) => (
-              <div class="border-l border-line pl-5">
-                <div class="flex flex-wrap items-baseline justify-between gap-x-4">
-                  <h3 class="text-[1.05rem] font-bold">
-                    <a
-                      href={u(`/${group.base}/${entry.id}/`)}
-                      data-tip-title={entry.data.org}
-                      data-tip={entry.data.description ?? 'Open the full entry'}
-                      class="transition-colors hover:text-accent-ink"
-                    >
-                      {entry.data.title}
-                    </a>
-                  </h3>
-                  <span class="font-mono text-caption tracking-wide text-faint">
-                    {entry.data.dates ?? year(entry.data.date)}
-                  </span>
-                </div>
-                <p class="mt-1 text-sm text-accent-ink">
-                  {entry.data['org-url'] ? (
-                    <a
-                      href={entry.data['org-url']}
-                      target="_blank"
-                      rel="noopener"
-                      class="hover:underline"
-                    >
-                      {entry.data.org}
-                    </a>
-                  ) : (
-                    entry.data.org
-                  )}
-                  {entry.data.location && (
-                    <span class="text-faint">{` · ${entry.data.location}`}</span>
-                  )}
-                </p>
-                {entry.data.description && (
-                  <p class="mt-1.5 text-sm text-dim">{entry.data.description}</p>
-                )}
+    {[
+      { heading: 'Education', items: education, base: 'education' },
+      { heading: 'Experience', items: experience, base: 'experience' },
+    ].map((group) => (
+      <section class="mt-12">
+        <h2 class="font-display text-2xl">{group.heading}</h2>
+        <div class="mt-5 grid gap-5">
+          {group.items.map((entry) => (
+            <div class="border-l border-line pl-5">
+              <div class="flex flex-wrap items-baseline justify-between gap-x-4">
+                <h3 class="text-[1.05rem] font-bold">
+                  <a
+                    href={u(`/${group.base}/${entry.id}/`)}
+                    data-tip-title={entry.data.org}
+                    data-tip={entry.data.description ?? 'Open the full entry'}
+                    class="transition-colors hover:text-accent-ink"
+                  >
+                    {entry.data.title}
+                  </a>
+                </h3>
+                <span class="font-mono text-caption tracking-wide text-faint">
+                  {entry.data.dates ?? year(entry.data.date)}
+                </span>
               </div>
-            ))}
-          </div>
-        </section>
-      ))
-    }
+              <p class="mt-1 text-sm text-accent-ink">
+                {entry.data['org-url'] ? (
+                  <a
+                    href={entry.data['org-url']}
+                    target="_blank"
+                    rel="noopener"
+                    class="hover:underline"
+                  >
+                    {entry.data.org}
+                  </a>
+                ) : (
+                  entry.data.org
+                )}
+                {entry.data.location && (
+                  <span class="text-faint">{` · ${entry.data.location}`}</span>
+                )}
+              </p>
+              {entry.data.description && (
+                <p class="mt-1.5 text-sm text-dim">{entry.data.description}</p>
+              )}
+            </div>
+          ))}
+        </div>
+      </section>
+    ))}
 
-    {
-      [
-        {
-          heading: 'Publications',
-          groups: [
-            ['Journal articles', 'Journal Article'],
-            ['Thesis', 'Thesis'],
-          ],
-        },
-        { heading: 'Presentations', groups: [['', 'Presentation']] },
-        { heading: 'Webinars', groups: [['', 'Webinar']] },
-        { heading: 'Media coverage', groups: [['', 'Media Coverage']] },
-        { heading: 'Service', groups: [['Peer review', 'Peer Review']] },
-      ].map((section) => (
-        <section class="mt-12">
-          <h2 class="font-display text-2xl">{section.heading}</h2>
-          {section.groups.map(([label, cat]) => {
-            const items = byCat(cat!);
-            return items.length ? (
-              <div class="mt-5">
-                {label && (
-                  <h3 class="font-mono text-2xs tracking-[0.16em] text-faint uppercase">{label}</h3>
-                )}
-                <ol class="mt-3 grid gap-4">
-                  {items.map((p) => (
-                    <li class="border-l border-line pl-5 text-sm leading-relaxed">
-                      <a
-                        href={u(`/publications/${p.id}/`)}
-                        data-tip-title={p.data.categories[0] ?? 'Publication'}
-                        data-tip={p.data['pub-venue'] ?? 'Open the record'}
-                        class="font-medium transition-colors hover:text-accent-ink"
-                      >
-                        {p.data.title}
-                      </a>
-                      <span class="mt-1 block text-dim">
-                        <Fragment set:html={inlineMarkup(p.data['pub-authors'] ?? '')} />
-                        {p.data['pub-venue'] && (
-                          <>
-                            {' · '}
-                            <em>{p.data['pub-venue']}</em>
-                          </>
-                        )}
-                        {p.data['pub-details'] && (
-                          <span class="text-faint">{`, ${p.data['pub-details']}`}</span>
-                        )}
-                        <span class="text-faint">{` (${year(p.data.date)})`}</span>
-                      </span>
-                    </li>
-                  ))}
-                </ol>
-              </div>
-            ) : null;
-          })}
-        </section>
-      ))
-    }
+    {[
+      {
+        heading: 'Publications',
+        groups: [
+          ['Journal articles', 'Journal Article'],
+          ['Thesis', 'Thesis'],
+        ],
+      },
+      { heading: 'Presentations', groups: [['', 'Presentation']] },
+      { heading: 'Webinars', groups: [['', 'Webinar']] },
+      { heading: 'Media coverage', groups: [['', 'Media Coverage']] },
+      { heading: 'Service', groups: [['Peer review', 'Peer Review']] },
+    ].map((section) => (
+      <section class="mt-12">
+        <h2 class="font-display text-2xl">{section.heading}</h2>
+        {section.groups.map(([label, cat]) => {
+          const items = byCat(cat!);
+          return items.length ? (
+            <div class="mt-5">
+              {label && (
+                <h3 class="font-mono text-2xs tracking-[0.16em] text-faint uppercase">{label}</h3>
+              )}
+              <ol class="mt-3 grid gap-4">
+                {items.map((p) => (
+                  <li class="border-l border-line pl-5 text-sm leading-relaxed">
+                    <a
+                      href={u(`/publications/${p.id}/`)}
+                      data-tip-title={p.data.categories[0] ?? 'Publication'}
+                      data-tip={p.data['pub-venue'] ?? 'Open the record'}
+                      class="font-medium transition-colors hover:text-accent-ink"
+                    >
+                      {p.data.title}
+                    </a>
+                    <span class="mt-1 block text-dim">
+                      <Fragment set:html={inlineMarkup(p.data['pub-authors'] ?? '')} />
+                      {p.data['pub-venue'] && (
+                        <>
+                          {' · '}
+                          <em>{p.data['pub-venue']}</em>
+                        </>
+                      )}
+                      {p.data['pub-details'] && (
+                        <span class="text-faint">{`, ${p.data['pub-details']}`}</span>
+                      )}
+                      <span class="text-faint">{` (${year(p.data.date)})`}</span>
+                    </span>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          ) : null;
+        })}
+      </section>
+    ))}
 
     <section class="mt-12">
       <h2 class="font-display text-2xl">Awards &amp; honors</h2>
       <div class="mt-5 grid gap-4">
-        {
-          awards.map((a) => (
-            <div class="flex flex-wrap items-baseline justify-between gap-x-4 border-l border-line pl-5">
-              <h3 class="text-[0.98rem] font-bold">
-                <a
-                  href={u(`/awards/${a.id}/`)}
-                  data-tip-title={a.data.title}
-                  data-tip={a.data.description ?? 'Open the full entry'}
-                  class="transition-colors hover:text-accent-ink"
-                >
-                  {a.data.title}
-                </a>
-                {a.data.description && (
-                  <span class="block text-sm font-normal text-dim">{a.data.description}</span>
-                )}
-              </h3>
-              <span class="font-mono text-caption text-faint">{year(a.data.date)}</span>
-            </div>
-          ))
-        }
+        {awards.map((a) => (
+          <div class="flex flex-wrap items-baseline justify-between gap-x-4 border-l border-line pl-5">
+            <h3 class="text-[0.98rem] font-bold">
+              <a
+                href={u(`/awards/${a.id}/`)}
+                data-tip-title={a.data.title}
+                data-tip={a.data.description ?? 'Open the full entry'}
+                class="transition-colors hover:text-accent-ink"
+              >
+                {a.data.title}
+              </a>
+              {a.data.description && (
+                <span class="block text-sm font-normal text-dim">{a.data.description}</span>
+              )}
+            </h3>
+            <span class="font-mono text-caption text-faint">{year(a.data.date)}</span>
+          </div>
+        ))}
       </div>
     </section>
 
     <section class="mt-12">
       <h2 class="font-display text-2xl">Skills</h2>
       <dl class="mt-5 grid gap-3">
-        {
-          skills.map(([cat, list]) => (
-            <div class="grid gap-1 border-l border-line pl-5 sm:grid-cols-[11rem_1fr] sm:gap-4">
-              <dt class="font-mono text-2xs tracking-[0.12em] text-faint uppercase sm:pt-1">
-                {cat}
-              </dt>
-              <dd class="text-sm text-dim">{list}</dd>
-            </div>
-          ))
-        }
+        {skills.map(([cat, list]) => (
+          <div class="grid gap-1 border-l border-line pl-5 sm:grid-cols-[11rem_1fr] sm:gap-4">
+            <dt class="font-mono text-2xs tracking-[0.12em] text-faint uppercase sm:pt-1">{cat}</dt>
+            <dd class="text-sm text-dim">{list}</dd>
+          </div>
+        ))}
       </dl>
     </section>
   </div>

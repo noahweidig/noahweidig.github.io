@@ -82,19 +82,17 @@ const articleLd = {
   publishedTime={d.date}
   preloadImage={hero && { href: hero.src, srcset: hero.srcSet.attribute, sizes: HERO_SIZES }}
 >
-  {
-    d.image && (
-      <ThemeImage
-        dark={d.image}
-        light={d['image-light'] ?? d.image}
-        alt={d['image-alt'] ?? ''}
-        widths={IMAGE_WIDTHS.hero}
-        sizes={HERO_SIZES}
-        loading="eager"
-        class="mb-10 w-full rounded-lg border border-line"
-      />
-    )
-  }
+  {d.image && (
+    <ThemeImage
+      dark={d.image}
+      light={d['image-light'] ?? d.image}
+      alt={d['image-alt'] ?? ''}
+      widths={IMAGE_WIDTHS.hero}
+      sizes={HERO_SIZES}
+      loading="eager"
+      class="mb-10 w-full rounded-lg border border-line"
+    />
+  )}
   <Content />
 
   <Fragment slot="after">
@@ -104,4 +102,4 @@ const articleLd = {
   </Fragment>
 </Detail>
 
-<script type="application/ld+json" is:inline set:html={JSON.stringify(articleLd)} />
+<script type="application/ld+json" is:inline set:html={JSON.stringify(articleLd)}></script>

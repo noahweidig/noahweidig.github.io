@@ -30,19 +30,19 @@ const Heading = `h${headingLevel}` as 'h3' | 'h4';
       current
         ? 'border-accent bg-accent'
         : 'border-line-strong bg-bg group-hover:border-accent group-hover:bg-accent',
-    ]}></span>
-  {
-    current && (
-      <span class="absolute top-[22px] -left-[9px] h-[18px] w-[18px] animate-ping rounded-full bg-accent/25" />
-    )
-  }
+    ]}
+  ></span>
+  {current && (
+    <span class="absolute top-[22px] -left-[9px] h-[18px] w-[18px] animate-ping rounded-full bg-accent/25" />
+  )}
 
   <Heading class="text-lg leading-snug transition-colors group-hover:text-accent-ink">
     {d.title}
   </Heading>
   {d.org && <p class="mt-1 text-sm font-medium text-accent-ink">{d.org}</p>}
   <p class="mt-0.5 font-mono text-2xs tracking-[0.08em] text-faint uppercase">
-    {d.dates}{d.location ? ` · ${d.location}` : ''}
+    {d.dates}
+    {d.location ? ` · ${d.location}` : ''}
   </p>
   {d.description && <p class="mt-2 text-sm leading-relaxed text-dim">{d.description}</p>}
 </a>

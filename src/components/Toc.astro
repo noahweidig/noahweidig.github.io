@@ -18,64 +18,57 @@ const items = filtered.map((h) => {
 });
 ---
 
-{
-  items.length > 1 && (
-    <aside class="toc-aside no-print h-full" data-pagefind-ignore data-toc-aside>
-      <nav aria-labelledby="toc-heading" class="toc-panel sticky top-28" data-toc>
-        <h2
-          id="toc-heading"
-          class="font-mono text-[0.66rem] tracking-[0.16em] text-faint uppercase"
-        >
-          On this page
-        </h2>
-        <ul class="mt-4 border-l border-line">
-          {items.map((h) => (
-            <li>
-              <a
-                href={`#${h.slug}`}
-                data-toc-link={h.slug}
-                data-toc-depth={h.depth}
-                data-toc-parent={h.parent || undefined}
-                data-tip={`Jump to “${h.text}”`}
-                class:list={[
-                  'block border-l-2 border-transparent py-1.5 text-[0.82rem] leading-snug text-faint transition-colors hover:text-ink',
-                  h.depth === 3 ? 'pr-2 pl-7' : 'pr-2 pl-4',
-                ]}
-              >
-                {h.text}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </nav>
-    </aside>
-  )
-}
-{
-  items.length > 1 && (
-    <button
-      type="button"
-      class="toc-fab no-print"
-      data-toc-fab
-      aria-expanded="false"
-      aria-label="On this page"
-      data-pagefind-ignore
+{items.length > 1 && (
+  <aside class="toc-aside no-print h-full" data-pagefind-ignore data-toc-aside>
+    <nav aria-labelledby="toc-heading" class="toc-panel sticky top-28" data-toc>
+      <h2 id="toc-heading" class="font-mono text-[0.66rem] tracking-[0.16em] text-faint uppercase">
+        On this page
+      </h2>
+      <ul class="mt-4 border-l border-line">
+        {items.map((h) => (
+          <li>
+            <a
+              href={`#${h.slug}`}
+              data-toc-link={h.slug}
+              data-toc-depth={h.depth}
+              data-toc-parent={h.parent || undefined}
+              data-tip={`Jump to “${h.text}”`}
+              class:list={[
+                'block border-l-2 border-transparent py-1.5 text-[0.82rem] leading-snug text-faint transition-colors hover:text-ink',
+                h.depth === 3 ? 'pr-2 pl-7' : 'pr-2 pl-4',
+              ]}
+            >
+              {h.text}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </aside>
+)}
+{items.length > 1 && (
+  <button
+    type="button"
+    class="toc-fab no-print"
+    data-toc-fab
+    aria-expanded="false"
+    aria-label="On this page"
+    data-pagefind-ignore
+  >
+    <svg
+      viewBox="0 0 24 24"
+      width="22"
+      height="22"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      aria-hidden="true"
     >
-      <svg
-        viewBox="0 0 24 24"
-        width="22"
-        height="22"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        aria-hidden="true"
-      >
-        <path d="M4 6h16M4 12h12M4 18h8" />
-      </svg>
-    </button>
-  )
-}
+      <path d="M4 6h16M4 12h12M4 18h8" />
+    </svg>
+  </button>
+)}
 
 <style>
   /* Mobile: the rail has no column to live in, so it becomes a popover
