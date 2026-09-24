@@ -52,14 +52,18 @@ const stats = [
   <section class="mt-12" data-filter-section>
     <h2 class="font-display text-2xl">Peer-Reviewed Journal Articles</h2>
     <div id="pubs-journal" class="mt-4">
-      {journal.map((entry) => <CitationRow entry={entry} />)}
+      {journal.map((entry) => (
+        <CitationRow entry={entry} />
+      ))}
     </div>
   </section>
 
   <section class="mt-14" data-filter-section>
     <h2 class="font-display text-2xl">Other Research Output</h2>
     <div id="pubs-other" class="mt-4">
-      {other.map((entry) => <CitationRow entry={entry} />)}
+      {other.map((entry) => (
+        <CitationRow entry={entry} />
+      ))}
     </div>
   </section>
 </Page>

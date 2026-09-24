@@ -41,6 +41,8 @@ const stats = [
 
   <h2 class="sr-only-nw">All projects</h2>
   <div id="project-grid" class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-    {projects.map((entry, i) => <ProjectCard entry={entry} index={i} />)}
+    {projects.map((entry, i) => (
+      <ProjectCard entry={entry} index={i} />
+    ))}
   </div>
 </Page>

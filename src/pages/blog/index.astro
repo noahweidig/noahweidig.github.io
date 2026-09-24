@@ -47,12 +47,10 @@ const blogLd = {
 
   <h2 class="sr-only-nw">All posts</h2>
   <div id="post-grid" class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-    {
-      posts.map((entry, i) => (
-        <PostCard entry={entry} index={i} readingTime={readingTime(entry.body)} />
-      ))
-    }
+    {posts.map((entry, i) => (
+      <PostCard entry={entry} index={i} readingTime={readingTime(entry.body)} />
+    ))}
   </div>
 </Page>
 
-<script type="application/ld+json" is:inline set:html={JSON.stringify(blogLd)} />
+<script type="application/ld+json" is:inline set:html={JSON.stringify(blogLd)}></script>

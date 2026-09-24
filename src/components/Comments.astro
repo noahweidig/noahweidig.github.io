@@ -6,14 +6,12 @@ import { giscus } from '../lib/site';
 const enabled = Boolean(giscus.repoId && giscus.categoryId);
 ---
 
-{
-  enabled && (
-    <section data-comments data-pagefind-ignore class="no-print mt-4 border-t border-line pt-10">
-      <h2 class="font-display text-xl">Comments</h2>
-      <div class="mt-5" id="giscus-root" data-giscus={JSON.stringify(giscus)} />
-    </section>
-  )
-}
+{enabled && (
+  <section data-comments data-pagefind-ignore class="no-print mt-4 border-t border-line pt-10">
+    <h2 class="font-display text-xl">Comments</h2>
+    <div class="mt-5" id="giscus-root" data-giscus={JSON.stringify(giscus)} />
+  </section>
+)}
 
 <script>
   function mountGiscus() {

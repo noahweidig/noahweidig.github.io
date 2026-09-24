@@ -29,41 +29,39 @@ const isActive = (href: string) => {
       class="group flex min-w-0 items-center gap-2.5"
       aria-label="Noah Weidig — home"
     >
-      <Logo
-        class="wordmark-icon h-7 w-auto transition-transform duration-500 group-hover:-rotate-6"
-      />
+      <Logo class="wordmark-icon h-7 w-auto transition-transform duration-500 group-hover:-rotate-6" />
       <span
         data-text="Noah Weidig"
         class="wordmark-wipe truncate font-display text-[1.3rem] font-bold tracking-tight max-[360px]:hidden md:text-[1.45rem]"
-        >Noah Weidig</span
       >
+        Noah Weidig
+      </span>
       <span
         aria-hidden="true"
         data-text="Nw."
         class="wordmark-wipe hidden font-display text-[1.3rem] font-bold tracking-tight max-[360px]:block"
-        >Nw.</span
       >
+        Nw.
+      </span>
     </a>
 
     <nav aria-label="Primary" class="ml-auto hidden min-w-0 lg:block">
       <ul class="flex items-center gap-0.5">
-        {
-          nav.map((item) => (
-            <li>
-              <a
-                href={u(item.href)}
-                data-tip={item.tip}
-                aria-current={isActive(item.href) ? 'page' : undefined}
-                class:list={[
-                  'nav-link rounded-[0.7rem] px-2.5 py-2 text-sm xl:px-3',
-                  isActive(item.href) ? 'nav-link-active' : '',
-                ]}
-              >
-                {item.text}
-              </a>
-            </li>
-          ))
-        }
+        {nav.map((item) => (
+          <li>
+            <a
+              href={u(item.href)}
+              data-tip={item.tip}
+              aria-current={isActive(item.href) ? 'page' : undefined}
+              class:list={[
+                'nav-link rounded-[0.7rem] px-2.5 py-2 text-sm xl:px-3',
+                isActive(item.href) ? 'nav-link-active' : '',
+              ]}
+            >
+              {item.text}
+            </a>
+          </li>
+        ))}
       </ul>
     </nav>
 
@@ -85,9 +83,15 @@ const isActive = (href: string) => {
         class="icon-btn"
         aria-label="Switch color theme"
       >
-        <span data-theme-icon="light"><Icon name="sun" size={21} stroke-width={1.8} /></span>
-        <span data-theme-icon="dark"><Icon name="moon" size={21} stroke-width={1.8} /></span>
-        <span data-theme-icon="system"><Icon name="sunMoon" size={21} stroke-width={1.8} /></span>
+        <span data-theme-icon="light">
+          <Icon name="sun" size={21} stroke-width={1.8} />
+        </span>
+        <span data-theme-icon="dark">
+          <Icon name="moon" size={21} stroke-width={1.8} />
+        </span>
+        <span data-theme-icon="system">
+          <Icon name="sunMoon" size={21} stroke-width={1.8} />
+        </span>
       </button>
 
       <a
@@ -110,8 +114,12 @@ const isActive = (href: string) => {
         class="icon-btn lg:hidden"
         aria-label="Open menu"
       >
-        <span data-menu-icon-open><Icon name="menu" size={22} stroke-width={1.8} /></span>
-        <span data-menu-icon-close hidden><Icon name="close" size={22} stroke-width={1.8} /></span>
+        <span data-menu-icon-open>
+          <Icon name="menu" size={22} stroke-width={1.8} />
+        </span>
+        <span data-menu-icon-close hidden>
+          <Icon name="close" size={22} stroke-width={1.8} />
+        </span>
       </button>
     </div>
   </div>
@@ -123,23 +131,21 @@ const isActive = (href: string) => {
   >
     <nav aria-label="Mobile" class="shell py-4">
       <ul class="grid gap-1">
-        {
-          nav.map((item) => (
-            <li>
-              <a
-                href={u(item.href)}
-                class:list={[
-                  'nav-link flex items-center justify-between rounded-[0.7rem] px-3 py-2.5 text-body-lg',
-                  isActive(item.href) ? 'nav-link-active' : '',
-                ]}
-                aria-current={isActive(item.href) ? 'page' : undefined}
-              >
-                {item.text}
-                <Icon name="arrow" size={16} class="opacity-40" />
-              </a>
-            </li>
-          ))
-        }
+        {nav.map((item) => (
+          <li>
+            <a
+              href={u(item.href)}
+              class:list={[
+                'nav-link flex items-center justify-between rounded-[0.7rem] px-3 py-2.5 text-body-lg',
+                isActive(item.href) ? 'nav-link-active' : '',
+              ]}
+              aria-current={isActive(item.href) ? 'page' : undefined}
+            >
+              {item.text}
+              <Icon name="arrow" size={16} class="opacity-40" />
+            </a>
+          </li>
+        ))}
       </ul>
       <a class="btn btn-primary mt-4 w-full" href={site.booking} target="_blank" rel="noopener">
         Book a call
@@ -158,8 +164,7 @@ const isActive = (href: string) => {
   hidden
   aria-hidden="true"
   class="fixed inset-x-0 bottom-0 z-40 bg-black/70 backdrop-blur-sm lg:hidden"
->
-</div>
+></div>
 
 <Search />
 

@@ -32,14 +32,14 @@ const summary =
     <h1>Noah Weidig</h1>
     <p class="role">{site.role}</p>
     <p class="contact">
-      <span>{site.email}</span><span>{site.location}</span><span>noahweidig.com</span>
-      {
-        socials.map((s) => (
-          <a href={s.href}>
-            {s.label} — {s.href.replace(/^https?:\/\//, '')}
-          </a>
-        ))
-      }
+      <span>{site.email}</span>
+      <span>{site.location}</span>
+      <span>noahweidig.com</span>
+      {socials.map((s) => (
+        <a href={s.href}>
+          {s.label} — {s.href.replace(/^https?:\/\//, '')}
+        </a>
+      ))}
     </p>
   </header>
 
@@ -47,8 +47,27 @@ const summary =
 
   <section class="keep">
     <h2>Education</h2>
-    {
-      education.map((e) => (
+    {education.map((e) => (
+      <div class="entry keep">
+        <div class="row">
+          <h3>{e.data.title}</h3>
+          <span class="when">{e.data.dates ?? year(e.data.date)}</span>
+        </div>
+        <p class="org">
+          {e.data.org}
+          {e.data.location ? ` · ${e.data.location}` : ''}
+        </p>
+        {e.data.description && <p class="note">{e.data.description}</p>}
+      </div>
+    ))}
+  </section>
+
+  <section>
+    <h2>Experience</h2>
+    {experience.map((e, i) => {
+      const points = bullets(e.body, i < 3 ? 2 : 1);
+      const items = points.length ? points : e.data.description ? [e.data.description] : [];
+      return (
         <div class="entry keep">
           <div class="row">
             <h3>{e.data.title}</h3>
@@ -58,52 +77,27 @@ const summary =
             {e.data.org}
             {e.data.location ? ` · ${e.data.location}` : ''}
           </p>
-          {e.data.description && <p class="note">{e.data.description}</p>}
+          {items.length > 0 && (
+            <ul>
+              {items.map((p) => (
+                <li>{p}</li>
+              ))}
+            </ul>
+          )}
         </div>
-      ))
-    }
-  </section>
-
-  <section>
-    <h2>Experience</h2>
-    {
-      experience.map((e, i) => {
-        const points = bullets(e.body, i < 3 ? 2 : 1);
-        const items = points.length ? points : e.data.description ? [e.data.description] : [];
-        return (
-          <div class="entry keep">
-            <div class="row">
-              <h3>{e.data.title}</h3>
-              <span class="when">{e.data.dates ?? year(e.data.date)}</span>
-            </div>
-            <p class="org">
-              {e.data.org}
-              {e.data.location ? ` · ${e.data.location}` : ''}
-            </p>
-            {items.length > 0 && (
-              <ul>
-                {items.map((p) => (
-                  <li>{p}</li>
-                ))}
-              </ul>
-            )}
-          </div>
-        );
-      })
-    }
+      );
+    })}
   </section>
 
   <section class="keep">
     <h2>Skills</h2>
     <dl class="skills">
-      {
-        skills.map(([cat, list]) => (
-          <div class="skill-row">
-            <dt>{cat}</dt>
-            <dd>{list}</dd>
-          </div>
-        ))
-      }
+      {skills.map(([cat, list]) => (
+        <div class="skill-row">
+          <dt>{cat}</dt>
+          <dd>{list}</dd>
+        </div>
+      ))}
     </dl>
   </section>
 </Print>

@@ -18,7 +18,9 @@ const frameName = 'substack-newsletter-frame';
     data-newsletter-form
     class="flex flex-wrap items-center justify-center gap-3"
   >
-    <label for="newsletter-email" class="sr-only-nw">Email address</label>
+    <label for="newsletter-email" class="sr-only-nw">
+      Email address
+    </label>
     <input
       id="newsletter-email"
       type="email"
@@ -28,9 +30,9 @@ const frameName = 'substack-newsletter-frame';
       autocomplete="email"
       class="newsletter-input w-full rounded-sm border border-line px-4 py-2.5 text-body-lg text-ink focus-visible:border-accent-ink focus-visible:outline-none sm:w-72"
     />
-    <button type="submit" class="btn btn-primary btn-sm newsletter-submit shrink-0"
-      >Subscribe</button
-    >
+    <button type="submit" class="btn btn-primary btn-sm newsletter-submit shrink-0">
+      Subscribe
+    </button>
   </form>
   <p data-newsletter-confirm hidden class="text-body-lg text-dim">
     Thanks — check your inbox to confirm.
@@ -50,8 +52,7 @@ const frameName = 'substack-newsletter-frame';
     .newsletter-form .newsletter-input {
       background: #181b23;
       color: #e9ecf2;
-      /* iOS Safari zooms the page on focus when an input's font-size is
-         under 16px; the site's text-body-lg (0.95rem) sits just below that. */
+      /* iOS Safari zooms the page on focus when an input's font-size is under 16px; the site's text-body-lg (0.95rem) sits just below that. */
       font-size: max(1rem, var(--text-body-lg));
     }
     .newsletter-form .newsletter-input::placeholder {

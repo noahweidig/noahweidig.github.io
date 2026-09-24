@@ -15,29 +15,25 @@ const typed = [
 ---
 
 <section class="relative overflow-hidden border-b border-line" id="hero">
-  {
-    /* Three large, heavily blurred fields rather than one glow: the colour has
+  {/* Three large, heavily blurred fields rather than one glow: the colour has
       to carry the section, and overlapping blurs are what give the soft
-      mesh-like falloff. Sized in vw so the composition holds at any width. */
-  }
+      mesh-like falloff. Sized in vw so the composition holds at any width. */}
   <div class="hero-mesh" aria-hidden="true">
     <span class="hero-blob hero-blob-1"></span>
     <span class="hero-blob hero-blob-2"></span>
     <span class="hero-blob hero-blob-3"></span>
   </div>
-  {
-    /* Readability scrim: the mesh at full strength put the copy on a bright
+  {/* Readability scrim: the mesh at full strength put the copy on a bright
       field and the body text stopped clearing AA. This pulls the area behind
-      the text back to near the page ground and leaves the bloom around it. */
-  }
+      the text back to near the page ground and leaves the bloom around it. */}
   <div class="hero-scrim" aria-hidden="true"></div>
   <div class="grid-bg absolute inset-0" aria-hidden="true"></div>
 
-  <div
-    class="shell relative grid items-center gap-12 py-16 md:py-24 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16 lg:py-28"
-  >
+  <div class="shell relative grid items-center gap-12 py-16 md:py-24 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16 lg:py-28">
     <div class="text-center lg:text-left">
-      <p class="kicker" data-reveal>{'GIS Analyst & Data Scientist'}</p>
+      <p class="kicker" data-reveal>
+        {'GIS Analyst & Data Scientist'}
+      </p>
 
       <h1
         class="display-1 mt-5 font-display leading-[1.1] font-bold"
@@ -85,20 +81,18 @@ const typed = [
         data-reveal
         style="--reveal-delay:320ms"
       >
-        {
-          socials.map((s) => (
-            <a
-              href={s.href}
-              aria-label={`${s.label} (opens in a new tab)`}
-              data-tip={`${s.label} profile`}
-              target="_blank"
-              rel="noopener"
-              class="icon-tile h-12 w-12 rounded-[0.85rem]"
-            >
-              <Icon name={s.icon} size={24} />
-            </a>
-          ))
-        }
+        {socials.map((s) => (
+          <a
+            href={s.href}
+            aria-label={`${s.label} (opens in a new tab)`}
+            data-tip={`${s.label} profile`}
+            target="_blank"
+            rel="noopener"
+            class="icon-tile h-12 w-12 rounded-[0.85rem]"
+          >
+            <Icon name={s.icon} size={24} />
+          </a>
+        ))}
       </div>
     </div>
 
@@ -111,8 +105,7 @@ const typed = [
         class="absolute inset-6 rounded-full opacity-20 blur-3xl"
         style="background: conic-gradient(from 210deg, var(--c-accent), transparent 40%, var(--c-ember) 70%, var(--c-accent))"
         aria-hidden="true"
-      >
-      </div>
+      ></div>
       <div class="portrait-ring portrait-fill relative overflow-hidden">
         <Image
           src={portrait}
@@ -160,8 +153,7 @@ const typed = [
     display: block;
     border-radius: 50%;
     transform: translate(-50%, -50%);
-    /* Screen over the near-black ground is what makes these read as light
-       rather than paint — overlapping fields add up instead of occluding. */
+    /* Screen over the near-black ground is what makes these read as light rather than paint — overlapping fields add up instead of occluding. */
     mix-blend-mode: var(--hero-blend);
   }
 

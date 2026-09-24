@@ -8,10 +8,8 @@ import Icon from './Icon.astro';
   class="m-0 h-full max-h-none w-full max-w-none bg-transparent p-0 backdrop:bg-black/70 backdrop:backdrop-blur-sm"
   aria-label="Search"
 >
-  {
-    /* Phone: the dialog is the page — a 3-inch-wide popup with a scrolling list
-      inside it wastes most of the screen. From `sm` up it returns to a panel. */
-  }
+  {/* Phone: the dialog is the page — a 3-inch-wide popup with a scrolling list
+      inside it wastes most of the screen. From `sm` up it returns to a panel. */}
   <div
     class="flex min-h-full items-stretch justify-center p-0 sm:items-start sm:p-4 sm:pt-[10vh]"
     data-search-backdrop
@@ -60,10 +58,9 @@ import Icon from './Icon.astro';
             class="absolute -top-1 -right-1 grid h-4 min-w-4 place-items-center rounded-full bg-accent px-1 text-[0.6rem] font-semibold text-accent-contrast"
           ></span>
         </button>
-        <kbd
-          class="hidden shrink-0 rounded border border-line px-1.5 py-0.5 font-mono text-[0.65rem] text-faint sm:block"
-          >esc</kbd
-        >
+        <kbd class="hidden shrink-0 rounded border border-line px-1.5 py-0.5 font-mono text-[0.65rem] text-faint sm:block">
+          esc
+        </kbd>
       </div>
 
       <!-- body: results + filter rail -->
@@ -91,25 +88,24 @@ import Icon from './Icon.astro';
               type="button"
               data-filter-clear
               hidden
-              class="text-caption text-accent-ink hover:underline">Clear</button
+              class="text-caption text-accent-ink hover:underline"
             >
+              Clear
+            </button>
           </div>
           <div class="mt-4 grid gap-5" data-filter-groups></div>
         </aside>
       </div>
 
       <!-- hint bar -->
-      <div
-        class="flex items-center gap-4 border-t border-line px-4 py-2.5 font-mono text-[0.65rem] text-faint"
-      >
-        <span class="flex items-center gap-1.5"
-          ><kbd class="rounded border border-line px-1">↑</kbd><kbd
-            class="rounded border border-line px-1">↓</kbd
-          > navigate</span
-        >
-        <span class="flex items-center gap-1.5"
-          ><kbd class="rounded border border-line px-1">↵</kbd> open</span
-        >
+      <div class="flex items-center gap-4 border-t border-line px-4 py-2.5 font-mono text-[0.65rem] text-faint">
+        <span class="flex items-center gap-1.5">
+          <kbd class="rounded border border-line px-1">↑</kbd>
+          <kbd class="rounded border border-line px-1">↓</kbd> navigate
+        </span>
+        <span class="flex items-center gap-1.5">
+          <kbd class="rounded border border-line px-1">↵</kbd> open
+        </span>
         <span class="ml-auto" data-search-status aria-live="polite"></span>
       </div>
     </div>
@@ -127,8 +123,7 @@ import Icon from './Icon.astro';
       z-index: 2;
       width: min(13.5rem, 58%);
       background: var(--c-surface);
-      /* Only along the left edge, and only enough to lift the panel off the
-         list behind it. */
+      /* Only along the left edge, and only enough to lift the panel off the list behind it. */
       box-shadow: -6px 0 10px -8px rgb(0 0 0 / 0.45);
     }
   }

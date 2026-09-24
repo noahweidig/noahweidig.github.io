@@ -44,26 +44,20 @@ const jsonLd = {
 ---
 
 <nav aria-label="Breadcrumb" class={klass} data-pagefind-ignore>
-  <ol
-    class="flex max-w-full flex-nowrap items-center gap-x-1.5 overflow-hidden font-mono text-caption tracking-[0.1em] text-faint uppercase"
-  >
-    {
-      items.map((c) => (
-        <li class="flex shrink-0 items-center gap-1.5 whitespace-nowrap">
-          <a href={c.href ?? u('/')} class="transition-colors hover:text-accent-ink">
-            {c.label}
-          </a>
-          <span aria-hidden="true" class="text-line-strong">
-            /
-          </span>
-        </li>
-      ))
-    }
+  <ol class="flex max-w-full flex-nowrap items-center gap-x-1.5 overflow-hidden font-mono text-caption tracking-[0.1em] text-faint uppercase">
+    {items.map((c) => (
+      <li class="flex shrink-0 items-center gap-1.5 whitespace-nowrap">
+        <a href={c.href ?? u('/')} class="transition-colors hover:text-accent-ink">
+          {c.label}
+        </a>
+        <span aria-hidden="true" class="text-line-strong">
+          /
+        </span>
+      </li>
+    ))}
     <li class="min-w-0">
-      {
-        /* The current page is named but not linked, which is what aria-current
-          marks; truncating keeps a long title from wrapping the whole trail. */
-      }
+      {/* The current page is named but not linked, which is what aria-current
+          marks; truncating keeps a long title from wrapping the whole trail. */}
       <span
         aria-current="page"
         data-truncate-words
@@ -80,4 +74,4 @@ const jsonLd = {
   document.addEventListener('astro:page-load', initTruncateWords);
 </script>
 
-<script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />
+<script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)}></script>
