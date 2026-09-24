@@ -51,9 +51,7 @@ const altmetricTip = altmetric
   data-reveal
 >
   <div class="flex flex-col items-center gap-2 pt-0.5">
-    <span
-      class="grid h-9 w-9 place-items-center rounded-lg border border-line bg-raised text-accent-ink transition-colors group-hover:border-accent/50"
-    >
+    <span class="grid h-9 w-9 place-items-center rounded-lg border border-line bg-raised text-accent-ink transition-colors group-hover:border-accent/50">
       <Icon name={icon} size={17} />
     </span>
     <span class="font-mono text-2xs tracking-wide text-faint">{year(d.date)}</span>
@@ -71,154 +69,138 @@ const altmetricTip = altmetric
       </a>
     </h3>
 
-    {
-      d['pub-authors'] && (
-        <p class="mt-1.5 text-sm leading-relaxed text-dim">
-          <Fragment set:html={inlineMarkup(d['pub-authors'])} />
-          {d['pub-venue'] && (
-            <>
-              {' · '}
-              <em class="text-ink/80">{d['pub-venue']}</em>
-            </>
-          )}
-          {d['pub-details'] && <span class="text-faint">{`, ${d['pub-details']}`}</span>}
-        </p>
-      )
-    }
+    {d['pub-authors'] && (
+      <p class="mt-1.5 text-sm leading-relaxed text-dim">
+        <Fragment set:html={inlineMarkup(d['pub-authors'])} />
+        {d['pub-venue'] && (
+          <>
+            {' · '}
+            <em class="text-ink/80">{d['pub-venue']}</em>
+          </>
+        )}
+        {d['pub-details'] && <span class="text-faint">{`, ${d['pub-details']}`}</span>}
+      </p>
+    )}
 
-    {
-      appearances.length > 1 && (
-        <p class="mt-1.5 text-[0.82rem] text-faint">
-          Presented at{' '}
-          {appearances.map((a, i) => (
-            <>
-              {i ? ', ' : ''}
-              {a.url ? (
-                <a
-                  href={a.url}
-                  target="_blank"
-                  rel="noopener"
-                  aria-label={`${a.venue} (opens in a new tab)`}
-                  class="underline underline-offset-2 hover:text-accent-ink"
-                >
-                  {a.venue}
-                </a>
-              ) : (
-                a.venue
-              )}
-              {a.when ? ` (${a.when})` : ''}
-            </>
-          ))}
-        </p>
-      )
-    }
+    {appearances.length > 1 && (
+      <p class="mt-1.5 text-[0.82rem] text-faint">
+        Presented at{' '}
+        {appearances.map((a, i) => (
+          <>
+            {i ? ', ' : ''}
+            {a.url ? (
+              <a
+                href={a.url}
+                target="_blank"
+                rel="noopener"
+                aria-label={`${a.venue} (opens in a new tab)`}
+                class="underline underline-offset-2 hover:text-accent-ink"
+              >
+                {a.venue}
+              </a>
+            ) : (
+              a.venue
+            )}
+            {a.when ? ` (${a.when})` : ''}
+          </>
+        ))}
+      </p>
+    )}
 
     {!compact && summary && <p class="mt-2.5 text-sm leading-relaxed text-dim">{summary}</p>}
 
     <div class="mt-3 flex flex-wrap items-center gap-2 text-[0.75rem]">
-      {
-        cats.slice(0, 2).map((c) => (
-          <a
-            href={u(tagHref(c))}
-            class="chip transition-colors hover:border-accent hover:text-accent-ink"
-          >
-            {tagIcon(c) && <Icon name={tagIcon(c)!} size={12} />}
-            {c}
-          </a>
-        ))
-      }
-      {
-        dimensions ? (
-          <a
-            href={dimensions.url}
-            target="_blank"
-            rel="noopener"
-            class="chip transition-colors hover:border-accent hover:text-accent-ink"
-            data-tip-title="Dimensions"
-            data-tip={dimensionsTip}
-          >
+      {cats.slice(0, 2).map((c) => (
+        <a
+          href={u(tagHref(c))}
+          class="chip transition-colors hover:border-accent hover:text-accent-ink"
+        >
+          {tagIcon(c) && <Icon name={tagIcon(c)!} size={12} />}
+          {c}
+        </a>
+      ))}
+      {dimensions ? (
+        <a
+          href={dimensions.url}
+          target="_blank"
+          rel="noopener"
+          class="chip transition-colors hover:border-accent hover:text-accent-ink"
+          data-tip-title="Dimensions"
+          data-tip={dimensionsTip}
+        >
+          <img
+            src={u('/media/icons/custom/dimensions.svg')}
+            alt=""
+            width="16"
+            height="16"
+            loading="lazy"
+            decoding="async"
+          />
+          {dimensions.timesCited} citation{dimensions.timesCited === 1 ? '' : 's'}
+        </a>
+      ) : (
+        cites > 0 && (
+          <span class="chip">
+            {cites} citation{cites === 1 ? '' : 's'}
+          </span>
+        )
+      )}
+      {d['pub-oa'] && <span class="chip chip-accent">Open Access</span>}
+      {d['pub-doi'] && (
+        <a
+          href={`https://doi.org/${d['pub-doi']}`}
+          target="_blank"
+          rel="noopener"
+          aria-label="View DOI (opens in a new tab)"
+          class="chip chip-accent transition-colors hover:border-accent"
+        >
+          DOI
+        </a>
+      )}
+      {d['pub-url'] && !d['pub-doi'] && (
+        <a
+          href={d['pub-url']}
+          target="_blank"
+          rel="noopener"
+          aria-label="View source (opens in a new tab)"
+          class="chip chip-accent transition-colors hover:border-accent"
+        >
+          Source
+        </a>
+      )}
+      {d['pub-pdf'] && (
+        <a
+          href={u(d['pub-pdf'])}
+          target="_blank"
+          rel="noopener"
+          aria-label="View full PDF (opens in a new tab)"
+          class="chip chip-accent transition-colors hover:border-accent"
+        >
+          View full PDF
+        </a>
+      )}
+      {altmetric && (
+        <a
+          href={altmetric.detailsUrl}
+          target="_blank"
+          rel="noopener"
+          class="chip chip-accent transition-colors hover:border-accent"
+          data-tip-title="Altmetric Attention Score"
+          data-tip={altmetricTip}
+        >
+          {altmetric.imageUrl && (
             <img
-              src={u('/media/icons/custom/dimensions.svg')}
+              src={altmetric.imageUrl}
               alt=""
               width="16"
               height="16"
               loading="lazy"
               decoding="async"
             />
-            {dimensions.timesCited} citation{dimensions.timesCited === 1 ? '' : 's'}
-          </a>
-        ) : (
-          cites > 0 && (
-            <span class="chip">
-              {cites} citation{cites === 1 ? '' : 's'}
-            </span>
-          )
-        )
-      }
-      {d['pub-oa'] && <span class="chip chip-accent">Open Access</span>}
-      {
-        d['pub-doi'] && (
-          <a
-            href={`https://doi.org/${d['pub-doi']}`}
-            target="_blank"
-            rel="noopener"
-            aria-label="View DOI (opens in a new tab)"
-            class="chip chip-accent transition-colors hover:border-accent"
-          >
-            DOI
-          </a>
-        )
-      }
-      {
-        d['pub-url'] && !d['pub-doi'] && (
-          <a
-            href={d['pub-url']}
-            target="_blank"
-            rel="noopener"
-            aria-label="View source (opens in a new tab)"
-            class="chip chip-accent transition-colors hover:border-accent"
-          >
-            Source
-          </a>
-        )
-      }
-      {
-        d['pub-pdf'] && (
-          <a
-            href={u(d['pub-pdf'])}
-            target="_blank"
-            rel="noopener"
-            aria-label="View full PDF (opens in a new tab)"
-            class="chip chip-accent transition-colors hover:border-accent"
-          >
-            View full PDF
-          </a>
-        )
-      }
-      {
-        altmetric && (
-          <a
-            href={altmetric.detailsUrl}
-            target="_blank"
-            rel="noopener"
-            class="chip chip-accent transition-colors hover:border-accent"
-            data-tip-title="Altmetric Attention Score"
-            data-tip={altmetricTip}
-          >
-            {altmetric.imageUrl && (
-              <img
-                src={altmetric.imageUrl}
-                alt=""
-                width="16"
-                height="16"
-                loading="lazy"
-                decoding="async"
-              />
-            )}
-            {Math.round(altmetric.score)}
-          </a>
-        )
-      }
+          )}
+          {Math.round(altmetric.score)}
+        </a>
+      )}
     </div>
   </div>
 </article>

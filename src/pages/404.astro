@@ -29,28 +29,29 @@ const destinations = nav.filter((n) => ['Projects', 'Publications', 'Blog'].incl
 
       <div class="mt-8 flex flex-wrap justify-center gap-3">
         <button type="button" class="btn btn-primary" data-search-open>
-          <Icon name="search" size={15} />Search the site
+          <Icon name="search" size={15} />
+          Search the site
         </button>
-        <a class="btn btn-ghost" href={u('/')}>Go home</a>
+        <a class="btn btn-ghost" href={u('/')}>
+          Go home
+        </a>
       </div>
 
       <div class="mt-14 grid gap-5 text-left md:grid-cols-3">
-        {
-          destinations.map((d) => (
-            <a href={u(d.href)} class="card card-hover group p-6">
-              <h2 class="text-xl">{d.text}</h2>
-              <p class="mt-2 text-sm text-dim">{blurbs[d.text]}</p>
-              <span class="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-accent-ink">
-                Go to this section
-                <Icon
-                  name="arrow"
-                  size={15}
-                  class="transition-transform duration-300 group-hover:translate-x-1"
-                />
-              </span>
-            </a>
-          ))
-        }
+        {destinations.map((d) => (
+          <a href={u(d.href)} class="card card-hover group p-6">
+            <h2 class="text-xl">{d.text}</h2>
+            <p class="mt-2 text-sm text-dim">{blurbs[d.text]}</p>
+            <span class="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-accent-ink">
+              Go to this section
+              <Icon
+                name="arrow"
+                size={15}
+                class="transition-transform duration-300 group-hover:translate-x-1"
+              />
+            </span>
+          </a>
+        ))}
       </div>
     </div>
   </section>

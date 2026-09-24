@@ -73,20 +73,18 @@ const icons = [
       system by flipping one attribute on <code class="chip">&lt;html&gt;</code>.
     </p>
     <div class="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-      {
-        palette.map(([token, use]) => (
-          <div class="card flex items-center gap-3.5 p-3">
-            <span
-              class="h-11 w-11 shrink-0 rounded-md border border-line-strong"
-              style={`background: var(${token})`}
-            />
-            <span class="min-w-0">
-              <code class="block font-mono text-[0.78rem] text-accent-ink">{token}</code>
-              <span class="block truncate text-[0.8rem] text-faint">{use}</span>
-            </span>
-          </div>
-        ))
-      }
+      {palette.map(([token, use]) => (
+        <div class="card flex items-center gap-3.5 p-3">
+          <span
+            class="h-11 w-11 shrink-0 rounded-md border border-line-strong"
+            style={`background: var(${token})`}
+          />
+          <span class="min-w-0">
+            <code class="block font-mono text-[0.78rem] text-accent-ink">{token}</code>
+            <span class="block truncate text-[0.8rem] text-faint">{use}</span>
+          </span>
+        </div>
+      ))}
     </div>
   </section>
 
@@ -97,34 +95,51 @@ const icons = [
       Both are self-hosted subsets.
     </p>
     <div class="mt-6 divide-y divide-line border-y border-line">
-      {
-        typeScale.map(([name, size, use]) => (
-          <div class="grid gap-2 py-5 sm:grid-cols-[10rem_1fr] sm:gap-6">
-            <div>
-              <p class="font-mono text-2xs tracking-[0.14em] text-faint uppercase">{name}</p>
-              <p class="mt-1 text-[0.78rem] text-faint">{size}</p>
-            </div>
-            <p class="font-display text-2xl">{use}</p>
+      {typeScale.map(([name, size, use]) => (
+        <div class="grid gap-2 py-5 sm:grid-cols-[10rem_1fr] sm:gap-6">
+          <div>
+            <p class="font-mono text-2xs tracking-[0.14em] text-faint uppercase">{name}</p>
+            <p class="mt-1 text-[0.78rem] text-faint">{size}</p>
           </div>
-        ))
-      }
+          <p class="font-display text-2xl">{use}</p>
+        </div>
+      ))}
     </div>
   </section>
 
   <section class="mt-16">
     <h2 class="font-display text-2xl">Buttons &amp; chips</h2>
     <div class="mt-6 flex flex-wrap items-center gap-3">
-      <a class="btn btn-primary" href="#">Primary<Icon name="arrow" size={15} /></a>
-      <a class="btn btn-ghost" href="#">Ghost</a>
-      <a class="btn btn-primary btn-sm" href="#">Primary small</a>
-      <a class="btn btn-ghost btn-sm" href="#">Ghost small</a>
+      <a class="btn btn-primary" href="#">
+        Primary
+        <Icon name="arrow" size={15} />
+      </a>
+      <a class="btn btn-ghost" href="#">
+        Ghost
+      </a>
+      <a class="btn btn-primary btn-sm" href="#">
+        Primary small
+      </a>
+      <a class="btn btn-ghost btn-sm" href="#">
+        Ghost small
+      </a>
     </div>
     <div class="mt-5 flex flex-wrap items-center gap-2">
-      <span class="chip"><Icon name="earth" size={12} />Geospatial</span>
-      <span class="chip"><Icon name="flame" size={12} />Fire</span>
+      <span class="chip">
+        <Icon name="earth" size={12} />
+        Geospatial
+      </span>
+      <span class="chip">
+        <Icon name="flame" size={12} />
+        Fire
+      </span>
       <span class="chip chip-accent">Open Access</span>
-      <button type="button" class="pill" aria-pressed="true">Selected pill</button>
-      <button type="button" class="pill" aria-pressed="false">Pill</button>
+      <button type="button" class="pill" aria-pressed="true">
+        Selected pill
+      </button>
+      <button type="button" class="pill" aria-pressed="false">
+        Pill
+      </button>
     </div>
   </section>
 
@@ -152,14 +167,12 @@ const icons = [
       Lucide geometry, inlined as path data so a glyph costs no request.
     </p>
     <div class="mt-6 grid grid-cols-4 gap-3 sm:grid-cols-8">
-      {
-        icons.map((name) => (
-          <div class="card grid aspect-square place-items-center gap-1.5 p-2 text-dim">
-            <Icon name={name} size={22} />
-            <code class="text-[0.6rem] text-faint">{name}</code>
-          </div>
-        ))
-      }
+      {icons.map((name) => (
+        <div class="card grid aspect-square place-items-center gap-1.5 p-2 text-dim">
+          <Icon name={name} size={22} />
+          <code class="text-[0.6rem] text-faint">{name}</code>
+        </div>
+      ))}
     </div>
   </section>
 
@@ -168,9 +181,9 @@ const icons = [
     <div class="prose-nw mt-6 rounded-lg border border-line p-6">
       <h3>A third-level heading</h3>
       <p>
-        Body copy runs at 17px with a 1.75 line height and a <a href="#">link treatment</a> that underlines
-        at a low-contrast accent and firms up on hover. Inline <code>code</code> sits in its own tinted
-        box.
+        Body copy runs at 17px with a 1.75 line height and a <a href="#">link treatment</a> that
+        underlines at a low-contrast accent and firms up on hover. Inline <code>code</code> sits in
+        its own tinted box.
       </p>
       <blockquote>
         Pull quotes switch to the display serif, which keeps them distinct from body copy without a

@@ -52,41 +52,39 @@ const lightInvert = new Set(['Codex']);
     <Icon name="play" size={16} class="marquee-toggle-icon-play" />
   </button>
   <div class="marquee-track py-2" data-marquee>
-    {
-      tech.map(([label, src]) => (
-        <span class="flex shrink-0 items-center gap-2.5 text-sm text-dim">
+    {tech.map(([label, src]) => (
+      <span class="flex shrink-0 items-center gap-2.5 text-sm text-dim">
+        <img
+          data-src={u(src!)}
+          alt=""
+          width="40"
+          height="40"
+          loading="lazy"
+          decoding="async"
+          class:list={[
+            'h-9 w-9 object-contain opacity-70 transition-opacity duration-300 hover:opacity-100',
+            invert.has(label!) && 'dark:invert',
+            lightInvert.has(label!) && 'invert dark:invert-0',
+          ]}
+        />
+        <noscript>
           <img
-            data-src={u(src!)}
+            src={u(src!)}
             alt=""
             width="40"
             height="40"
             loading="lazy"
             decoding="async"
             class:list={[
-              'h-9 w-9 object-contain opacity-70 transition-opacity duration-300 hover:opacity-100',
+              'h-9 w-9 object-contain opacity-70',
               invert.has(label!) && 'dark:invert',
               lightInvert.has(label!) && 'invert dark:invert-0',
             ]}
           />
-          <noscript>
-            <img
-              src={u(src!)}
-              alt=""
-              width="40"
-              height="40"
-              loading="lazy"
-              decoding="async"
-              class:list={[
-                'h-9 w-9 object-contain opacity-70',
-                invert.has(label!) && 'dark:invert',
-                lightInvert.has(label!) && 'invert dark:invert-0',
-              ]}
-            />
-          </noscript>
-          {label}
-        </span>
-      ))
-    }
+        </noscript>
+        {label}
+      </span>
+    ))}
   </div>
 </div>
 

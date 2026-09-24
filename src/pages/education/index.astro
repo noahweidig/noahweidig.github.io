@@ -21,12 +21,10 @@ const items = (await getCollection('education')).sort(
 >
   <h2 class="sr-only-nw">All education</h2>
   <ul class="ml-1">
-    {
-      items.map((entry, i) => (
-        <li>
-          <TimelineItem entry={entry} base="education" current={i === 0} />
-        </li>
-      ))
-    }
+    {items.map((entry, i) => (
+      <li>
+        <TimelineItem entry={entry} base="education" current={i === 0} />
+      </li>
+    ))}
   </ul>
 </Page>

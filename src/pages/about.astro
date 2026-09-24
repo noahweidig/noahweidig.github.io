@@ -85,19 +85,17 @@ const beyondWork = [
     <div class="mx-auto mt-14 max-w-3xl">
       <h2 class="font-display text-2xl">Beyond the work</h2>
       <div class="mt-6 grid gap-4 sm:grid-cols-2">
-        {
-          beyondWork.map((b, i) => (
-            <div class="card flex gap-4 p-5" data-reveal style={`--reveal-delay:${i * 60}ms`}>
-              <span class="grid h-10 w-10 shrink-0 place-items-center rounded-lg border border-line bg-raised text-accent-ink">
-                <Icon name={b.icon} size={18} />
-              </span>
-              <div>
-                <b class="block font-medium">{b.title}</b>
-                <p class="mt-1 text-sm leading-relaxed text-dim">{b.body}</p>
-              </div>
+        {beyondWork.map((b, i) => (
+          <div class="card flex gap-4 p-5" data-reveal style={`--reveal-delay:${i * 60}ms`}>
+            <span class="grid h-10 w-10 shrink-0 place-items-center rounded-lg border border-line bg-raised text-accent-ink">
+              <Icon name={b.icon} size={18} />
+            </span>
+            <div>
+              <b class="block font-medium">{b.title}</b>
+              <p class="mt-1 text-sm leading-relaxed text-dim">{b.body}</p>
             </div>
-          ))
-        }
+          </div>
+        ))}
       </div>
     </div>
 
@@ -109,16 +107,18 @@ const beyondWork = [
         "The best spatial analysis still starts with actually knowing the place."
       </p>
       <p class="mt-4 text-sm text-dim">
-        If you want the CV-and-papers version of me, that lives on the
-        {' '}
-        <a class="text-accent-ink underline underline-offset-3" href={u('/cv/')}>CV page</a>. This
-        page is the rest of it.
+        If you want the CV-and-papers version of me, that lives on the{' '}
+        <a class="text-accent-ink underline underline-offset-3" href={u('/cv/')}>
+          CV page
+        </a>
+        . This page is the rest of it.
       </p>
     </div>
 
     <div class="mx-auto mt-14 flex max-w-3xl flex-wrap items-center justify-center gap-3">
       <a class="btn btn-primary" href={u('/contact/')}>
-        <Icon name="mail" size={15} />Get in touch
+        <Icon name="mail" size={15} />
+        Get in touch
       </a>
       <a class="btn btn-ghost" href={`mailto:${site.email}`}>
         {site.email}

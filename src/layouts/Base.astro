@@ -109,9 +109,11 @@ const jsonLd = {
     <meta name="author" content={site.name} />
     <meta
       name="robots"
-      content={noindex
-        ? 'noindex, nofollow'
-        : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'}
+      content={
+        noindex
+          ? 'noindex, nofollow'
+          : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'
+      }
     />
     <meta name="google-site-verification" content="0ktlvQnqLH01fphPI1cDMDTuQSmCG7mHBQdovXQs2TQ" />
     <meta name="theme-color" content="#07080b" />
@@ -132,11 +134,9 @@ const jsonLd = {
       property="og:logo"
       content={new URL(u('/web-app-manifest-512x512.png'), Astro.site).href}
     />
-    {
-      publishedTime && (
-        <meta property="article:published_time" content={publishedTime.toISOString()} />
-      )
-    }
+    {publishedTime && (
+      <meta property="article:published_time" content={publishedTime.toISOString()} />
+    )}
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
@@ -156,31 +156,25 @@ const jsonLd = {
       href={u('/rss.xml')}
     />
 
-    {
-      /* The gtag script is `async` at the end of <body>, so the connection to
+    {/* The gtag script is `async` at the end of <body>, so the connection to
         each Google host is opened only once the browser reaches it. The
         2026-09-07 production audit measured 302ms for googletagmanager and
-        308ms for google-analytics spent on that handshake. */
-    }
+        308ms for google-analytics spent on that handshake. */}
     <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
     <link rel="preconnect" href="https://www.google-analytics.com" crossorigin />
 
-    {
-      /* Ahead of the fonts: on a throttled connection the two latin subsets are
-        88KB of higher-priority bytes, and the LCP image queues behind them. */
-    }
-    {
-      preloadImage && (
-        <link
-          rel="preload"
-          as="image"
-          href={preloadImage.href}
-          imagesrcset={preloadImage.srcset}
-          imagesizes={preloadImage.sizes}
-          fetchpriority="high"
-        />
-      )
-    }
+    {/* Ahead of the fonts: on a throttled connection the two latin subsets are
+        88KB of higher-priority bytes, and the LCP image queues behind them. */}
+    {preloadImage && (
+      <link
+        rel="preload"
+        as="image"
+        href={preloadImage.href}
+        imagesrcset={preloadImage.srcset}
+        imagesizes={preloadImage.sizes}
+        fetchpriority="high"
+      />
+    )}
 
     <link
       rel="preload"
@@ -229,9 +223,7 @@ const jsonLd = {
         }
       })();
     </script>
-
-    <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
-
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)}></script>
     <script
       is:inline
       type="speculationrules"
@@ -243,34 +235,31 @@ const jsonLd = {
           },
         ],
       })}
-    />
-
+    ></script>
     <ClientRouter />
 
     <slot name="head" />
   </head>
 
   <body class={bodyClass}>
-    <a href="#main" class="sr-only-nw focus:not-sr-only fixed top-3 left-3 z-100 btn btn-primary"
-      >Skip to content</a
-    >
+    <a href="#main" class="sr-only-nw focus:not-sr-only fixed top-3 left-3 z-100 btn btn-primary">
+      Skip to content
+    </a>
     <AnnouncementBanner />
     <Header />
     <main id="main" data-pagefind-body>
-      {
-        /* Empty elements carrying an explicit value: Pagefind reads the facet
-          off the attribute, so nothing lands in the indexed text. */
-      }
-      {
-        filters.section && (
-          <div
-            hidden
-            data-pagefind-filter={`section:${filters.section}`}
-            data-pagefind-meta={`section:${filters.section}`}
-          />
-        )
-      }
-      {(filters.tags ?? []).map((t) => <div hidden data-pagefind-filter={`tag:${t}`} />)}
+      {/* Empty elements carrying an explicit value: Pagefind reads the facet
+          off the attribute, so nothing lands in the indexed text. */}
+      {filters.section && (
+        <div
+          hidden
+          data-pagefind-filter={`section:${filters.section}`}
+          data-pagefind-meta={`section:${filters.section}`}
+        />
+      )}
+      {(filters.tags ?? []).map((t) => (
+        <div hidden data-pagefind-filter={`tag:${t}`} />
+      ))}
       <slot />
     </main>
     <Footer />
@@ -283,12 +272,12 @@ const jsonLd = {
     <script>
       import '../scripts/ui';
     </script>
-
     <script
       is:inline
       async
       src={`https://www.googletagmanager.com/gtag/js?id=${site.analyticsId}`}
-      data-astro-rerun></script>
+      data-astro-rerun
+    ></script>
     <script is:inline define:vars={{ id: site.analyticsId }}>
       window.dataLayer = window.dataLayer || [];
       function gtag() {

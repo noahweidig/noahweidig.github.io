@@ -17,16 +17,14 @@ const { kicker, title, subtitle, href, linkText } = Astro.props;
     <h2 class="section-title">{title}</h2>
     {subtitle && <p class="lede mt-3">{subtitle}</p>}
   </div>
-  {
-    href && (
-      <a href={href} class="btn btn-ghost btn-sm group hidden shrink-0 md:inline-flex">
-        {linkText ?? 'View all'}
-        <Icon
-          name="arrow"
-          size={15}
-          class="transition-transform duration-300 group-hover:translate-x-1"
-        />
-      </a>
-    )
-  }
+  {href && (
+    <a href={href} class="btn btn-ghost btn-sm group hidden shrink-0 md:inline-flex">
+      {linkText ?? 'View all'}
+      <Icon
+        name="arrow"
+        size={15}
+        class="transition-transform duration-300 group-hover:translate-x-1"
+      />
+    </a>
+  )}
 </div>
