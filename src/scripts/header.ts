@@ -1,6 +1,21 @@
 /* --------------------------------------------------------------- header -- */
 import { on } from './dom';
 
+/* iOS Safari ignores overflow:hidden on <html>/<body> for touch scrolling, so
+   pin the body in place and restore the offset on close. */
+let lockedY = 0;
+function lockScroll(lock: boolean) {
+  const b = document.body.style;
+  if (lock) {
+    if (b.position === 'fixed') return;
+    lockedY = window.scrollY;
+    Object.assign(b, { position: 'fixed', top: `-${lockedY}px`, left: '0', right: '0' });
+  } else if (b.position === 'fixed') {
+    Object.assign(b, { position: '', top: '', left: '', right: '' });
+    window.scrollTo({ top: lockedY, behavior: 'instant' });
+  }
+}
+
 export function initHeader() {
   const header = document.getElementById('site-header');
   if (!header) return;
@@ -24,7 +39,7 @@ export function initHeader() {
       if (open) scrim.style.top = `${Math.max(0, header.getBoundingClientRect().bottom)}px`;
     }
     header.toggleAttribute('data-menu-open', open);
-    document.documentElement.style.overflow = open ? 'hidden' : '';
+    lockScroll(open);
     toggle.setAttribute('aria-expanded', String(open));
     openIcon?.toggleAttribute('hidden', open);
     closeIcon?.toggleAttribute('hidden', !open);

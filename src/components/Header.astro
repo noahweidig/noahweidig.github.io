@@ -133,13 +133,16 @@ const isActive = (href: string) => {
       aria-label="Mobile"
       class="shell flex h-full flex-col items-center justify-center py-[3dvh]"
     >
-      <ul class="flex w-full flex-col text-center">
+      <ul class="flex min-h-0 w-full flex-1 flex-col text-center">
         {nav.map((item, i) => (
-          <li class="mobile-nav-item" style={`--i:${i}`}>
+          <li
+            class="mobile-nav-item flex min-h-0 flex-1 items-center justify-center"
+            style={`--i:${i}`}
+          >
             <a
               href={u(item.href)}
               class:list={[
-                'mobile-nav-link nav-link block rounded-full px-4 font-display font-semibold tracking-tight',
+                'mobile-nav-link nav-link rounded-full px-6 font-display font-semibold tracking-tight',
                 isActive(item.href) ? 'nav-link-active' : '',
               ]}
               aria-current={isActive(item.href) ? 'page' : undefined}
@@ -182,13 +185,11 @@ const isActive = (href: string) => {
   #site-header[data-menu-open] {
     background-color: var(--c-bg);
   }
-  /* 8 links share what's left of the viewport after the bar, padding and
-     the CTA, so the menu never scrolls. */
+  /* Links split the panel height evenly; type scales with viewport height. */
   .mobile-nav-link {
-    --row: calc((100dvh - 12rem) / 8);
-    font-size: min(3rem, calc(var(--row) * 0.5));
-    line-height: 1;
-    padding-block: calc(var(--row) * 0.2);
+    font-size: clamp(1.75rem, 5.5dvh, 3.25rem);
+    line-height: 1.1;
+    padding-block: 0.1em;
   }
   .mobile-nav:not([hidden]) {
     animation: menu-fade 0.35s var(--ease-out-soft) both;
