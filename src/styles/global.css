@@ -858,7 +858,7 @@
     width: 2.25rem;
     height: 2.25rem;
     flex-shrink: 0;
-    border-radius: 0.65rem;
+    border-radius: var(--radius-pill);
     border: 1px solid var(--c-line);
     color: var(--c-dim);
     transition:
