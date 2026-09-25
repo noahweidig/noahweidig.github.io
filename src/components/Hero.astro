@@ -14,7 +14,10 @@ const typed = [
 ];
 ---
 
-<section class="relative overflow-hidden border-b border-line" id="hero">
+<section
+  class="relative -mt-14 overflow-hidden border-b border-line pt-14 md:-mt-16 md:pt-16"
+  id="hero"
+>
   {/* Three large, heavily blurred fields rather than one glow: the colour has
       to carry the section, and overlapping blurs are what give the soft
       mesh-like falloff. Sized in vw so the composition holds at any width. */}
@@ -22,6 +25,7 @@ const typed = [
     <span class="hero-blob hero-blob-1"></span>
     <span class="hero-blob hero-blob-2"></span>
     <span class="hero-blob hero-blob-3"></span>
+    <span class="hero-blob hero-blob-4"></span>
   </div>
   {/* Readability scrim: the mesh at full strength put the copy on a bright
       field and the body text stopped clearing AA. This pulls the area behind
@@ -204,7 +208,24 @@ const typed = [
     );
   }
 
+  .hero-blob-4 {
+    top: 78%;
+    left: 84%;
+    width: 70vw;
+    height: 70vw;
+    background: radial-gradient(
+      circle at center,
+      var(--hero-3) 0%,
+      var(--hero-3) 26%,
+      transparent 64%
+    );
+  }
+
   @media (min-width: 1024px) {
+    .hero-blob-4 {
+      width: 44vw;
+      height: 44vw;
+    }
     .hero-blob-1 {
       width: 62vw;
       height: 62vw;
@@ -229,6 +250,9 @@ const typed = [
     .hero-blob-3 {
       animation: drift-c 38s var(--ease-in-out-soft) infinite alternate;
     }
+    .hero-blob-4 {
+      animation: drift-a 34s var(--ease-in-out-soft) infinite alternate-reverse;
+    }
   }
 
   /* Transform only — animating the blur or the gradient would repaint the
@@ -250,7 +274,7 @@ const typed = [
     }
   }
 
-  /* Flat gold blob behind the cutout. The clip box shares the blob's bottom
+  /* Flat accent blob behind the cutout. The clip box shares the blob's bottom
      shape plus the band above it, so the head clears the blob. */
   .portrait-blob {
     position: absolute;

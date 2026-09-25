@@ -54,7 +54,7 @@ const isActive = (href: string) => {
               data-tip={item.tip}
               aria-current={isActive(item.href) ? 'page' : undefined}
               class:list={[
-                'nav-link rounded-[0.7rem] px-2.5 py-2 text-sm xl:px-3',
+                'nav-link rounded-full px-2.5 py-2 text-sm xl:px-3',
                 isActive(item.href) ? 'nav-link-active' : '',
               ]}
             >
@@ -136,7 +136,7 @@ const isActive = (href: string) => {
             <a
               href={u(item.href)}
               class:list={[
-                'nav-link flex items-center justify-between rounded-[0.7rem] px-3 py-2.5 text-body-lg',
+                'nav-link flex items-center justify-between rounded-full px-3 py-2.5 text-body-lg',
                 isActive(item.href) ? 'nav-link-active' : '',
               ]}
               aria-current={isActive(item.href) ? 'page' : undefined}
