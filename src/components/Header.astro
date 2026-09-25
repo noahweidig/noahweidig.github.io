@@ -45,8 +45,8 @@ const isActive = (href: string) => {
       </span>
     </a>
 
-    <nav aria-label="Primary" class="ml-auto hidden min-w-0 lg:block">
-      <ul class="flex items-center gap-0.5">
+    <nav aria-label="Primary" class="mx-4 hidden min-w-0 flex-1 lg:block xl:mx-8">
+      <ul class="flex items-center justify-evenly gap-0.5">
         {nav.map((item) => (
           <li>
             <a
@@ -65,7 +65,7 @@ const isActive = (href: string) => {
       </ul>
     </nav>
 
-    <div class="ml-auto flex shrink-0 items-center gap-1.5 lg:ml-2">
+    <div class="ml-auto flex shrink-0 items-center gap-1.5 lg:ml-0">
       <button
         type="button"
         data-search-open
