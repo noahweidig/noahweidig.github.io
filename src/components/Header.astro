@@ -127,27 +127,35 @@ const isActive = (href: string) => {
   <div
     id="mobile-nav"
     hidden
-    class="absolute inset-x-0 top-full max-h-[calc(100vh-4rem)] overflow-y-auto border-t border-line bg-surface backdrop-blur-xl lg:hidden"
+    class="mobile-nav absolute inset-x-0 top-full h-[calc(100dvh-3.5rem)] overflow-y-auto border-t border-line bg-bg md:h-[calc(100dvh-4rem)] lg:hidden"
   >
-    <nav aria-label="Mobile" class="shell py-4">
-      <ul class="grid gap-1">
-        {nav.map((item) => (
-          <li>
+    <nav
+      aria-label="Mobile"
+      class="shell flex min-h-full flex-col items-center justify-center py-10"
+    >
+      <ul class="grid w-full gap-2 text-center">
+        {nav.map((item, i) => (
+          <li class="mobile-nav-item" style={`--i:${i}`}>
             <a
               href={u(item.href)}
               class:list={[
-                'nav-link flex items-center justify-between rounded-full px-3 py-2.5 text-body-lg',
+                'nav-link block rounded-full px-4 py-3 font-display text-3xl font-semibold tracking-tight',
                 isActive(item.href) ? 'nav-link-active' : '',
               ]}
               aria-current={isActive(item.href) ? 'page' : undefined}
             >
               {item.text}
-              <Icon name="arrow" size={16} class="opacity-40" />
             </a>
           </li>
         ))}
       </ul>
-      <a class="btn btn-primary mt-4 w-full" href={site.booking} target="_blank" rel="noopener">
+      <a
+        class="mobile-nav-item btn btn-primary mt-8"
+        style={`--i:${nav.length}`}
+        href={site.booking}
+        target="_blank"
+        rel="noopener"
+      >
         Book a call
         <span class="sr-only-nw"> (opens in a new tab)</span>
         <Icon name="arrow" size={15} />
@@ -163,7 +171,7 @@ const isActive = (href: string) => {
   data-menu-scrim
   hidden
   aria-hidden="true"
-  class="fixed inset-x-0 bottom-0 z-40 bg-black/70 backdrop-blur-sm lg:hidden"
+  class="fixed inset-x-0 bottom-0 z-40 bg-bg lg:hidden"
 ></div>
 
 <Search />
@@ -173,6 +181,32 @@ const isActive = (href: string) => {
      show it through. */
   #site-header[data-menu-open] {
     background-color: var(--c-bg);
+  }
+  .mobile-nav:not([hidden]) {
+    animation: menu-fade 0.35s var(--ease-out-soft) both;
+  }
+  .mobile-nav:not([hidden]) .mobile-nav-item {
+    animation: menu-item 0.55s var(--ease-out-soft) both;
+    animation-delay: calc(0.06s + var(--i) * 0.045s);
+  }
+  @keyframes menu-fade {
+    from {
+      opacity: 0;
+      backdrop-filter: blur(12px);
+    }
+  }
+  @keyframes menu-item {
+    from {
+      opacity: 0;
+      filter: blur(6px);
+      transform: translateY(14px) scale(0.97);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .mobile-nav:not([hidden]),
+    .mobile-nav:not([hidden]) .mobile-nav-item {
+      animation: none;
+    }
   }
   #site-header[data-stuck] {
     background-color: color-mix(in oklab, var(--c-bg) 78%, transparent);
