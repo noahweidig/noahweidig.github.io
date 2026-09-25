@@ -1240,6 +1240,17 @@
 }
 
 @layer utilities {
+  /* Top band that runs up behind the transparent header. */
+  .under-nav {
+    margin-top: -3.5rem;
+    padding-top: 3.5rem;
+  }
+  @media (min-width: 48rem) {
+    .under-nav {
+      margin-top: -4rem;
+      padding-top: 4rem;
+    }
+  }
   .skip-link {
     position: fixed;
     top: 0.75rem;
