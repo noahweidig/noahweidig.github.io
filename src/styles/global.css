@@ -22,19 +22,19 @@
    ========================================================================= */
 :root,
 :root[data-theme='dark'] {
-  --c-bg: #07080b;
-  --c-bg-deep: #040507;
-  --c-surface: #0c0e13;
-  --c-raised: #11141b;
-  --c-line: #1c202a;
-  --c-line-strong: #2a303d;
+  --c-bg: #000000;
+  --c-bg-deep: #000000;
+  --c-surface: #101216;
+  --c-raised: #171a20;
+  --c-line: #23272f;
+  --c-line-strong: #333845;
   --c-ink: #e9ecf2;
   --c-dim: #99a1b1;
   --c-faint: #7c8494;
 
-  --c-accent: #f5c451;
-  --c-accent-ink: #f5c451;
-  --c-accent-contrast: #000000;
+  --c-accent: #0072e3;
+  --c-accent-ink: #6ba4ff;
+  --c-accent-contrast: #ffffff;
   --c-ember: #ff8f45;
   --c-moss: #4bd0a0;
   --c-violet: #a988ff;
@@ -43,10 +43,10 @@
   --c-sheen: rgb(255 255 255 / 0.04);
   --grid-line: rgb(255 255 255 / 0.045);
   --topo-opacity: 0.05;
-  /* Both hero fields are the site's own accent gold, so the mesh reads as one
-     colour instead of a two-hue gradient. */
-  --hero-1: var(--c-accent);
+  --hero-1: var(--c-violet);
   --hero-2: var(--c-accent);
+  --hero-3: #ff4d5e;
+  --hero-4: #ff5a36;
   --hero-opacity: 0.22;
   --hero-blur: 70px;
   --hero-blend: screen;
@@ -64,9 +64,9 @@
   --c-dim: #565d6b;
   --c-faint: #636a78;
 
-  --c-accent: #f5c451;
-  --c-accent-ink: #8a6a12;
-  --c-accent-contrast: #000000;
+  --c-accent: #0072e3;
+  --c-accent-ink: #0a54ba;
+  --c-accent-contrast: #ffffff;
   --c-ember: #a44a16;
   --c-moss: #0f7a56;
   --c-violet: #6541c9;
@@ -77,8 +77,10 @@
   --topo-opacity: 0.045;
   /* Screen on a near-white ground just bleaches; the light theme paints the
      same fields normally, sat well back so the copy stays the loudest thing. */
-  --hero-1: var(--c-accent);
+  --hero-1: var(--c-violet);
   --hero-2: var(--c-accent);
+  --hero-3: #e11d48;
+  --hero-4: #ea580c;
   --hero-opacity: 0.1;
   --hero-blur: 90px;
   --hero-blend: normal;
@@ -111,10 +113,9 @@
   --radius-md: 14px;
   --radius-lg: 20px;
   --radius-xl: 28px;
-  /* Shared corner radius for pill-shaped chrome (buttons, chips, filter
-     pills, back-to-top) so they read as one rounding language instead of
-     each rounding all the way to a stadium/999px shape. */
-  --radius-pill: 0.7rem;
+  /* Fully rounded radius for pill-shaped chrome (buttons, chips, filter
+     pills, back-to-top). */
+  --radius-pill: 9999px;
 
   /* Named steps for the micro-type cluster that used to ship as one-off
      arbitrary values (text-[0.68rem] etc.) — see #138. */
@@ -783,7 +784,7 @@
     place-items: center;
     width: 2.5rem;
     height: 2.5rem;
-    border-radius: 0.7rem;
+    border-radius: var(--radius-pill);
     color: var(--c-ink);
     transition:
       background-color 0.2s var(--ease-out-soft),
@@ -859,7 +860,7 @@
     width: 2.25rem;
     height: 2.25rem;
     flex-shrink: 0;
-    border-radius: 0.65rem;
+    border-radius: var(--radius-pill);
     border: 1px solid var(--c-line);
     color: var(--c-dim);
     transition:
@@ -928,7 +929,7 @@
     align-items: center;
     gap: 0.6rem;
     padding: 0.55rem 0.6rem;
-    border-radius: 0.6rem;
+    border-radius: var(--radius-pill);
     border: 1px solid transparent;
     color: var(--c-dim);
     font-size: 0.85rem;
@@ -1239,6 +1240,16 @@
 }
 
 @layer utilities {
+  .skip-link {
+    position: fixed;
+    top: 0.75rem;
+    left: 0.75rem;
+    z-index: 100;
+    transform: translateY(-200%);
+  }
+  .skip-link:focus {
+    transform: none;
+  }
   .sr-only-nw {
     position: absolute;
     width: 1px;
@@ -1302,7 +1313,7 @@
     /* Light theme's values — AA against the white ground this block forces,
        unlike dark theme's light-on-dark accent/faint colors. */
     --c-faint: #636a78;
-    --c-accent: #0f62d6;
+    --c-accent: #0072e3;
     --c-accent-ink: #0a54ba;
   }
   body {
@@ -1311,7 +1322,6 @@
   }
   header[data-site-header],
   footer[data-site-footer],
-  #announcement-banner,
   .nw-tip,
   .lightbox,
   .heading-anchor,
