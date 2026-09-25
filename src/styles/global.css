@@ -46,6 +46,7 @@
   --hero-1: var(--c-violet);
   --hero-2: var(--c-accent);
   --hero-3: #ff4d5e;
+  --hero-4: #ff5a36;
   --hero-opacity: 0.22;
   --hero-blur: 70px;
   --hero-blend: screen;
@@ -79,6 +80,7 @@
   --hero-1: var(--c-violet);
   --hero-2: var(--c-accent);
   --hero-3: #e11d48;
+  --hero-4: #ea580c;
   --hero-opacity: 0.1;
   --hero-blur: 90px;
   --hero-blend: normal;

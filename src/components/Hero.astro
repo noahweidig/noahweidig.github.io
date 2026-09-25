@@ -26,6 +26,7 @@ const typed = [
     <span class="hero-blob hero-blob-2"></span>
     <span class="hero-blob hero-blob-3"></span>
     <span class="hero-blob hero-blob-4"></span>
+    <span class="hero-blob hero-blob-5"></span>
   </div>
   {/* Readability scrim: the mesh at full strength put the copy on a bright
       field and the body text stopped clearing AA. This pulls the area behind
@@ -221,7 +222,25 @@ const typed = [
     );
   }
 
+  .hero-blob-5 {
+    top: 50%;
+    left: 55%;
+    width: 60vw;
+    height: 60vw;
+    opacity: 0.55;
+    background: radial-gradient(
+      circle at center,
+      var(--hero-4) 0%,
+      var(--hero-4) 22%,
+      transparent 62%
+    );
+  }
+
   @media (min-width: 1024px) {
+    .hero-blob-5 {
+      width: 38vw;
+      height: 38vw;
+    }
     .hero-blob-4 {
       width: 44vw;
       height: 44vw;
@@ -249,6 +268,9 @@ const typed = [
     }
     .hero-blob-3 {
       animation: drift-c 38s var(--ease-in-out-soft) infinite alternate;
+    }
+    .hero-blob-5 {
+      animation: drift-c 30s var(--ease-in-out-soft) infinite alternate-reverse;
     }
     .hero-blob-4 {
       animation: drift-a 34s var(--ease-in-out-soft) infinite alternate-reverse;
