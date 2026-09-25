@@ -32,9 +32,9 @@
   --c-dim: #99a1b1;
   --c-faint: #7c8494;
 
-  --c-accent: #3d86ff;
+  --c-accent: #0072e3;
   --c-accent-ink: #6ba4ff;
-  --c-accent-contrast: #040507;
+  --c-accent-contrast: #ffffff;
   --c-ember: #ff8f45;
   --c-moss: #4bd0a0;
   --c-violet: #a988ff;
@@ -63,7 +63,7 @@
   --c-dim: #565d6b;
   --c-faint: #636a78;
 
-  --c-accent: #0f62d6;
+  --c-accent: #0072e3;
   --c-accent-ink: #0a54ba;
   --c-accent-contrast: #ffffff;
   --c-ember: #a44a16;
@@ -1301,7 +1301,7 @@
     /* Light theme's values — AA against the white ground this block forces,
        unlike dark theme's light-on-dark accent/faint colors. */
     --c-faint: #636a78;
-    --c-accent: #0f62d6;
+    --c-accent: #0072e3;
     --c-accent-ink: #0a54ba;
   }
   body {
@@ -1310,7 +1310,6 @@
   }
   header[data-site-header],
   footer[data-site-footer],
-  #announcement-banner,
   .nw-tip,
   .lightbox,
   .heading-anchor,
