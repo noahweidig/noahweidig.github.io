@@ -102,7 +102,7 @@ const badges = Astro.slots.has('badges') ? (await Astro.slots.render('badges')).
     <slot name="head" />
   </Fragment>
   <article>
-    <header class="relative overflow-hidden border-b border-line bg-bg-deep">
+    <header class="under-nav relative overflow-hidden border-b border-line bg-bg-deep">
       <div class="grid-bg absolute inset-0" aria-hidden="true"></div>
       <div class="shell relative py-12 text-center md:py-16">
         <Breadcrumbs

@@ -182,11 +182,11 @@ const isActive = (href: string) => {
   #site-header[data-menu-open] {
     background-color: var(--c-bg);
   }
-  /* 13 links share what's left of the viewport after the bar, padding and
+  /* 8 links share what's left of the viewport after the bar, padding and
      the CTA, so the menu never scrolls. */
   .mobile-nav-link {
-    --row: calc((100dvh - 12rem) / 13);
-    font-size: min(1.875rem, calc(var(--row) * 0.6));
+    --row: calc((100dvh - 12rem) / 8);
+    font-size: min(3rem, calc(var(--row) * 0.5));
     line-height: 1;
     padding-block: calc(var(--row) * 0.2);
   }
