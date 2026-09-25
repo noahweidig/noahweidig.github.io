@@ -24,6 +24,7 @@ export function initHeader() {
       if (open) scrim.style.top = `${Math.max(0, header.getBoundingClientRect().bottom)}px`;
     }
     header.toggleAttribute('data-menu-open', open);
+    document.documentElement.style.overflow = open ? 'hidden' : '';
     toggle.setAttribute('aria-expanded', String(open));
     openIcon?.toggleAttribute('hidden', open);
     closeIcon?.toggleAttribute('hidden', !open);
