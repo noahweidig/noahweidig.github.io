@@ -103,13 +103,10 @@ const typed = [
     >
       <div class="portrait-frame relative aspect-square">
         <svg class="portrait-blob" viewBox="0 0 1 1" preserveAspectRatio="none" aria-hidden="true">
-          <path d="M.08 .3C.25 .18 .7 .12 .9 .25 1.02 .35 1.02 .6 .85 .78 .7 .93 .55 1 .45 1 .2 .98 .02 .75 .02 .5 .02 .4 .04 .34 .08 .3Z"></path>
+          <path d="M.998 .559C.996 .629 .952 .706 .914 .765C.876 .824 .824 .876 .769 .914C.714 .952 .649 .98 .585 .993C.522 1.005 .449 1.007 .388 .99C.327 .973 .267 .933 .222 .891C.176 .849 .146 .793 .116 .737C.087 .682 .063 .628 .044 .559C.024 .491-.02 .392 0 .325C.021 .258 .098 .18 .164 .156C.231 .132 .333 .172 .4 .181C.467 .19 .511 .198 .566 .21C.621 .222 .67 .23 .73 .253C.79 .276 .881 .297 .926 .348C.971 .399 1 .49 .998 .559Z"></path>
           <clipPath id="portrait-clip" clipPathUnits="objectBoundingBox">
             <rect width="1" height=".62"></rect>
-            <path
-              transform="translate(0 .25) scale(1 .75)"
-              d="M.08 .3C.25 .18 .7 .12 .9 .25 1.02 .35 1.02 .6 .85 .78 .7 .93 .55 1 .45 1 .2 .98 .02 .75 .02 .5 .02 .4 .04 .34 .08 .3Z"
-            ></path>
+            <path d="M.998 .559C.996 .629 .952 .706 .914 .765C.876 .824 .824 .876 .769 .914C.714 .952 .649 .98 .585 .993C.522 1.005 .449 1.007 .388 .99C.327 .973 .267 .933 .222 .891C.176 .849 .146 .793 .116 .737C.087 .682 .063 .628 .044 .559C.024 .491-.02 .392 0 .325C.021 .258 .098 .18 .164 .156C.231 .132 .333 .172 .4 .181C.467 .19 .511 .198 .566 .21C.621 .222 .67 .23 .73 .253C.79 .276 .881 .297 .926 .348C.971 .399 1 .49 .998 .559Z"></path>
           </clipPath>
         </svg>
         <div class="portrait-clip">
@@ -257,9 +254,9 @@ const typed = [
      shape plus the band above it, so the head clears the blob. */
   .portrait-blob {
     position: absolute;
-    inset: 25% 0 0;
+    inset: 0;
     width: 100%;
-    height: 75%;
+    height: 100%;
     fill: var(--c-accent);
   }
   .portrait-clip {
