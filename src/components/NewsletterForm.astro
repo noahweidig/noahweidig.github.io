@@ -10,13 +10,13 @@ const substackUrl = 'https://noahweidig.substack.com';
 const frameName = 'substack-newsletter-frame';
 ---
 
-<div class="newsletter-form" data-newsletter>
+<div class="newsletter-form w-full max-w-full min-w-0 sm:w-auto" data-newsletter>
   <form
     action={`${substackUrl}/api/v1/free`}
     method="post"
     target={frameName}
     data-newsletter-form
-    class="flex flex-nowrap items-stretch justify-center gap-2"
+    class="flex w-full min-w-0 flex-nowrap items-stretch justify-center gap-2"
   >
     <label for="newsletter-email" class="sr-only-nw">
       Email address
@@ -28,7 +28,7 @@ const frameName = 'substack-newsletter-frame';
       required
       placeholder="you@example.com"
       autocomplete="email"
-      class="newsletter-input h-11 min-w-0 flex-1 rounded-full border border-line px-4 text-body-lg text-ink focus-visible:border-accent-ink focus-visible:outline-none sm:w-72 sm:flex-none"
+      class="newsletter-input h-11 w-0 min-w-0 flex-1 rounded-full border border-line px-4 text-body-lg text-ink focus-visible:border-accent-ink focus-visible:outline-none sm:w-72 sm:flex-none"
     />
     <button type="submit" class="btn btn-primary newsletter-submit h-11 shrink-0 px-5">
       Subscribe
