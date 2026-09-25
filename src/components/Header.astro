@@ -127,19 +127,19 @@ const isActive = (href: string) => {
   <div
     id="mobile-nav"
     hidden
-    class="mobile-nav absolute inset-x-0 top-full h-[calc(100dvh-3.5rem)] overflow-y-auto border-t border-line bg-bg md:h-[calc(100dvh-4rem)] lg:hidden"
+    class="mobile-nav absolute inset-x-0 top-full h-[calc(100dvh-3.5rem)] overflow-hidden border-t border-line bg-bg md:h-[calc(100dvh-4rem)] lg:hidden"
   >
     <nav
       aria-label="Mobile"
-      class="shell flex min-h-full flex-col items-center justify-center py-10"
+      class="shell flex h-full flex-col items-center justify-center py-[3dvh]"
     >
-      <ul class="grid w-full gap-2 text-center">
+      <ul class="flex w-full flex-col text-center">
         {nav.map((item, i) => (
           <li class="mobile-nav-item" style={`--i:${i}`}>
             <a
               href={u(item.href)}
               class:list={[
-                'nav-link block rounded-full px-4 py-3 font-display text-3xl font-semibold tracking-tight',
+                'mobile-nav-link nav-link block rounded-full px-4 font-display font-semibold tracking-tight',
                 isActive(item.href) ? 'nav-link-active' : '',
               ]}
               aria-current={isActive(item.href) ? 'page' : undefined}
@@ -150,7 +150,7 @@ const isActive = (href: string) => {
         ))}
       </ul>
       <a
-        class="mobile-nav-item btn btn-primary mt-8"
+        class="mobile-nav-item btn btn-primary mt-[2dvh] shrink-0"
         style={`--i:${nav.length}`}
         href={site.booking}
         target="_blank"
@@ -181,6 +181,14 @@ const isActive = (href: string) => {
      show it through. */
   #site-header[data-menu-open] {
     background-color: var(--c-bg);
+  }
+  /* 13 links share what's left of the viewport after the bar, padding and
+     the CTA, so the menu never scrolls. */
+  .mobile-nav-link {
+    --row: calc((100dvh - 12rem) / 13);
+    font-size: min(1.875rem, calc(var(--row) * 0.6));
+    line-height: 1;
+    padding-block: calc(var(--row) * 0.2);
   }
   .mobile-nav:not([hidden]) {
     animation: menu-fade 0.35s var(--ease-out-soft) both;
