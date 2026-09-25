@@ -16,7 +16,7 @@ const frameName = 'substack-newsletter-frame';
     method="post"
     target={frameName}
     data-newsletter-form
-    class="flex flex-wrap items-center justify-center gap-3"
+    class="flex flex-nowrap items-stretch justify-center gap-2"
   >
     <label for="newsletter-email" class="sr-only-nw">
       Email address
@@ -28,9 +28,9 @@ const frameName = 'substack-newsletter-frame';
       required
       placeholder="you@example.com"
       autocomplete="email"
-      class="newsletter-input w-full rounded-full border border-line px-4 py-2.5 text-body-lg text-ink focus-visible:border-accent-ink focus-visible:outline-none sm:w-72"
+      class="newsletter-input h-11 min-w-0 flex-1 rounded-full border border-line px-4 text-body-lg text-ink focus-visible:border-accent-ink focus-visible:outline-none sm:w-72 sm:flex-none"
     />
-    <button type="submit" class="btn btn-primary btn-sm newsletter-submit shrink-0">
+    <button type="submit" class="btn btn-primary newsletter-submit h-11 shrink-0 px-5">
       Subscribe
     </button>
   </form>
@@ -41,14 +41,7 @@ const frameName = 'substack-newsletter-frame';
 </div>
 
 <style>
-  /* .btn is a pill by default (border-radius: 999px); this form wants the
-     squared-off rectangle look of the input next to it instead. The two-class
-     selector reliably beats the single-class .btn rule within the same
-     `components` layer, regardless of source order. */
   @layer components {
-    .newsletter-form .newsletter-submit {
-      border-radius: 0.5rem;
-    }
     .newsletter-form .newsletter-input {
       background: var(--c-raised);
       color: var(--c-ink);
