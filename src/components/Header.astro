@@ -153,7 +153,7 @@ const isActive = (href: string) => {
         ))}
       </ul>
       <a
-        class="mobile-nav-item btn btn-primary mt-[2dvh] shrink-0"
+        class="mobile-nav-item mobile-nav-cta btn btn-primary mt-[2dvh] shrink-0 font-display font-semibold tracking-tight"
         style={`--i:${nav.length}`}
         href={site.booking}
         target="_blank"
@@ -190,6 +190,11 @@ const isActive = (href: string) => {
     font-size: clamp(1.75rem, 5.5dvh, 3.25rem);
     line-height: 1.1;
     padding-block: 0.1em;
+  }
+  .mobile-nav-cta {
+    font-size: clamp(1.75rem, 5.5dvh, 3.25rem);
+    line-height: 1.1;
+    padding: 0.3em 1em;
   }
   .mobile-nav:not([hidden]) {
     animation: menu-fade 0.35s var(--ease-out-soft) both;
