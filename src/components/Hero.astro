@@ -123,7 +123,7 @@ const cols = [
     </div>
 
     <div
-      class="geo relative order-first mx-auto aspect-square w-full max-w-[17rem] sm:max-w-[22rem] lg:order-last lg:max-w-[30rem]"
+      class="geo relative order-first mx-auto mt-6 aspect-square w-full max-w-[17rem] sm:max-w-[22rem] lg:order-last lg:max-w-[30rem]"
       data-reveal
       data-geo
       style="--reveal-delay:160ms"
@@ -391,14 +391,16 @@ const cols = [
      animations pause while the hero is off screen (.geo-off). */
   .geo {
     --g: var(--c-accent);
+    container-type: inline-size;
     perspective: 1500px;
-    contain: layout paint;
   }
+  /* Raised layers project up out of the box, so the stage sits low and small
+     enough that the top layer clears the hero's overflow clip. */
   .geo-stage {
     position: absolute;
-    top: 48%;
+    top: 60%;
     left: 50%;
-    width: 78%;
+    width: 58%;
     aspect-ratio: 1.35;
     transform: translate(-50%, -50%) rotateX(58deg) rotateZ(-32deg);
     transform-style: preserve-3d;
@@ -432,29 +434,29 @@ const cols = [
   .geo-l1 {
     overflow: hidden;
     background: color-mix(in oklab, var(--g) 16%, var(--c-bg) 50%);
-    transform: translateZ(165px);
+    transform: translateZ(34cqw);
   }
   .geo-l2 {
-    transform: translateZ(105px);
+    transform: translateZ(22cqw);
   }
   .geo-l3 {
-    transform: translateZ(45px);
+    transform: translateZ(9cqw);
   }
   .geo-l4 {
     opacity: 0.55;
-    transform: translateZ(-15px);
+    transform: translateZ(-3cqw);
   }
   .geo:hover .geo-l1 {
-    transform: translateZ(195px);
+    transform: translateZ(40cqw);
   }
   .geo:hover .geo-l2 {
-    transform: translateZ(115px);
+    transform: translateZ(24cqw);
   }
   .geo:hover .geo-l3 {
-    transform: translateZ(35px);
+    transform: translateZ(7cqw);
   }
   .geo:hover .geo-l4 {
-    transform: translateZ(-45px);
+    transform: translateZ(-9cqw);
   }
   .geo-tag {
     position: absolute;
@@ -540,17 +542,17 @@ const cols = [
     width: 2px;
     height: var(--h);
     background: linear-gradient(to top, transparent, var(--g));
-    transform: translateZ(180px);
+    transform: translateZ(37cqw);
     transform-origin: bottom;
   }
   .geo-orbit {
     position: absolute;
-    inset: -15%;
+    inset: -8%;
     border: 1px dashed color-mix(in oklab, var(--g) 25%, transparent);
     border-radius: 50%;
   }
   .geo-orbit-2 {
-    inset: -31%;
+    inset: -18%;
     border-style: solid;
     opacity: 0.4;
   }
@@ -647,7 +649,7 @@ const cols = [
   }
   @keyframes geo-col {
     to {
-      transform: translateZ(180px) scaleY(0.55);
+      transform: translateZ(37cqw) scaleY(0.55);
     }
   }
   @keyframes geo-spin {
