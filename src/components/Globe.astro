@@ -28,4 +28,14 @@ const { class: klass = '' } = Astro.props;
   [data-theme='dark'] .maplibregl-ctrl-group .maplibregl-ctrl-icon {
     filter: invert(1);
   }
+  .maplibregl-popup-content {
+    color: #111;
+  }
+  [data-theme='dark'] .maplibregl-popup-content {
+    background: var(--c-surface);
+    color: var(--c-ink);
+  }
+  [data-theme='dark'] .maplibregl-popup-anchor-bottom .maplibregl-popup-tip {
+    border-top-color: var(--c-surface);
+  }
 </style>

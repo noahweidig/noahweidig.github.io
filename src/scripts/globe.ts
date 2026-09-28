@@ -78,7 +78,7 @@ export function initGlobe() {
       el.querySelector('.maplibregl-ctrl-attrib')?.classList.remove('maplibregl-compact-show'),
     );
 
-    const popup = new maplibregl.Popup({ offset: 12, closeOnClick: false })
+    const popup = new maplibregl.Popup({ offset: 12, closeOnClick: false, focusAfterOpen: false })
       .setLngLat(ORLANDO)
       .setText('Orlando, Florida');
     // setStyle drops images/layers, so re-add the dot on every style load.
