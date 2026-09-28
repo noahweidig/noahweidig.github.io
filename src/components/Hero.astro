@@ -28,6 +28,13 @@ const nodes = [
   [404, 309],
   [492, 237],
 ];
+/* Attribute rows: deterministic so the build is stable. */
+const rows = Array.from({ length: 7 }, (_, i) => [
+  `F${String(101 + i * 7).padStart(4, '0')}`,
+  (0.21 + ((i * 37) % 61) / 100).toFixed(2),
+  String(142 + ((i * 53) % 97)),
+  (1.4 + ((i * 29) % 43) / 10).toFixed(1),
+]);
 const cols = [
   [12, 38, 0.1],
   [25, 65, 0.4],
@@ -132,6 +139,28 @@ const cols = [
       <div class="geo-stage" data-geo-stage>
         <span class="geo-orbit geo-orbit-1"></span>
         <span class="geo-orbit geo-orbit-2"></span>
+        <div class="geo-layer geo-l5">
+          <table class="geo-table">
+            <thead>
+              <tr>
+                <th>FID</th>
+                <th>NDVI</th>
+                <th>ELEV</th>
+                <th>HA</th>
+              </tr>
+            </thead>
+            <tbody>
+              {rows.map((r) => (
+                <tr>
+                  {r.map((c) => (
+                    <td>{c}</td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <span class="geo-tag">05 / Attribute table</span>
+        </div>
         <div class="geo-layer geo-l4">
           <div class="geo-tiles"></div>
           <span class="geo-tag">04 / Infrastructure</span>
@@ -197,7 +226,13 @@ const cols = [
   const st = v?.querySelector<HTMLElement>('[data-geo-stage]');
   const nm = v?.querySelector<HTMLElement>('[data-geo-name]');
   if (v && st && nm) {
-    const ds = ['MULTISPECTRAL / B08', 'ELEVATION / DSM', 'VECTOR / NETWORK', 'ANOMALY / INDEX'];
+    const ds = [
+      'MULTISPECTRAL / B08',
+      'ELEVATION / DSM',
+      'VECTOR / NETWORK',
+      'ANOMALY / INDEX',
+      'ATTRIBUTE / TABLE',
+    ];
     new IntersectionObserver(([e]) => v.classList.toggle('geo-off', !e.isIntersecting)).observe(v);
     if (matchMedia('(pointer: fine)').matches) {
       let raf = 0;
@@ -210,7 +245,7 @@ const cols = [
           const x = lx - 0.5;
           const y = (e.clientY - r.top) / r.height - 0.5;
           st.style.transform = `translate(-50%,-50%) rotateX(${58 - y * 9}deg) rotateZ(${-32 + x * 8}deg)`;
-          nm.textContent = ds[Math.min(3, Math.max(0, Math.floor(lx * 4)))];
+          nm.textContent = ds[Math.min(4, Math.max(0, Math.floor(lx * 5)))];
         });
       });
       v.addEventListener('pointerleave', () => {
@@ -445,6 +480,36 @@ const cols = [
   .geo-l4 {
     opacity: 0.55;
     transform: translateZ(-3cqw);
+  }
+  .geo-l5 {
+    opacity: 0.7;
+    transform: translateZ(-15cqw);
+  }
+  .geo:hover .geo-l5 {
+    transform: translateZ(-24cqw);
+  }
+  .geo-table {
+    position: absolute;
+    inset: 16% 6% 6%;
+    width: 88%;
+    border-collapse: collapse;
+    color: var(--c-dim);
+    font: 0.5rem/1 var(--font-mono, monospace);
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+  }
+  .geo-table th {
+    color: var(--g);
+    font-weight: 500;
+    letter-spacing: 0.1em;
+  }
+  .geo-table th,
+  .geo-table td {
+    padding: 0.35em 0.4em;
+    border-bottom: 1px solid color-mix(in oklab, var(--g) 22%, transparent);
+  }
+  .geo-table :is(th, td):first-child {
+    text-align: left;
   }
   .geo:hover .geo-l1 {
     transform: translateZ(40cqw);
