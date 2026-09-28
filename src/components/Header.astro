@@ -200,8 +200,7 @@ const isActive = (href: string) => {
   @keyframes menu-item {
     from {
       opacity: 0;
-      filter: blur(6px);
-      transform: translateY(14px) scale(0.97);
+      transform: translate3d(0, 14px, 0) scale(0.97);
     }
   }
   @media (prefers-reduced-motion: reduce) {
@@ -214,6 +213,13 @@ const isActive = (href: string) => {
     background-color: color-mix(in oklab, var(--c-bg) 78%, transparent);
     backdrop-filter: blur(16px) saturate(1.4);
     border-bottom-color: var(--c-line);
+  }
+  /* Opaque while open; a live backdrop blur here repaints every frame. */
+  #site-header[data-menu-open] {
+    backdrop-filter: none;
+  }
+  .mobile-nav {
+    contain: layout paint;
   }
 </style>
 
