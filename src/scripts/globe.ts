@@ -5,6 +5,24 @@ import { cleanups } from './dom';
 const ORLANDO: [number, number] = [-81.3789, 28.5384];
 const FONT = ['Noto Sans Regular'];
 
+// 30° graticule, sampled every 5° so lines curve on the globe.
+function graticule(): GeoJSON.FeatureCollection {
+  const line = (coordinates: number[][]): GeoJSON.Feature => ({
+    type: 'Feature',
+    properties: {},
+    geometry: { type: 'LineString', coordinates },
+  });
+  const range = (a: number, b: number, step: number) =>
+    Array.from({ length: Math.round((b - a) / step) + 1 }, (_, i) => a + i * step);
+  return {
+    type: 'FeatureCollection',
+    features: [
+      ...range(-180, 180, 30).map((lon) => line(range(-90, 90, 5).map((lat) => [lon, lat]))),
+      ...range(-60, 60, 30).map((lat) => line(range(-180, 180, 5).map((lon) => [lon, lat]))),
+    ],
+  };
+}
+
 // Vector style built from the site's CSS tokens, so it matches either theme.
 function buildStyle(): StyleSpecification {
   const css = getComputedStyle(document.documentElement);
@@ -36,7 +54,10 @@ function buildStyle(): StyleSpecification {
     version: 8,
     projection: { type: 'globe' },
     glyphs: 'https://tiles.openfreemap.org/fonts/{fontstack}/{range}.pbf',
-    sources: { omt: { type: 'vector', url: 'https://tiles.openfreemap.org/planet' } },
+    sources: {
+      omt: { type: 'vector', url: 'https://tiles.openfreemap.org/planet' },
+      graticule: { type: 'geojson', data: graticule() },
+    },
     layers: [
       { id: 'bg', type: 'background', paint: { 'background-color': land } },
       {
@@ -45,6 +66,12 @@ function buildStyle(): StyleSpecification {
         source: 'omt',
         'source-layer': 'water',
         paint: { 'fill-color': water },
+      },
+      {
+        id: 'graticule',
+        type: 'line',
+        source: 'graticule',
+        paint: { 'line-color': strong, 'line-width': 1 },
       },
       {
         id: 'waterway',
@@ -133,14 +160,12 @@ export function initGlobe() {
     dot.className = 'map-dot';
     dot.setAttribute('aria-label', 'Orlando, Florida');
 
-    const pop = document.createElement('div');
-    pop.innerHTML = '<b>Orlando, Florida · UTC-5</b><code>28.5384&deg; N, 81.3789&deg; W</code>';
     const popup = new maplibregl.Popup({
       closeOnClick: false,
       closeOnMove: false,
       offset: 18,
       maxWidth: 'none',
-    }).setDOMContent(pop);
+    }).setHTML('<b>Orlando, Florida · UTC-5</b><code>28.5384&deg; N, 81.3789&deg; W</code>');
 
     const marker = new maplibregl.Marker({ element: dot })
       .setLngLat(ORLANDO)
