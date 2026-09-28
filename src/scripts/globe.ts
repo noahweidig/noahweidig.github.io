@@ -71,7 +71,6 @@ export function initGlobe() {
       attributionControl: false,
     });
     map.addControl(new maplibregl.NavigationControl());
-    map.addControl(new maplibregl.FullscreenControl());
     map.addControl(new maplibregl.AttributionControl({ compact: true }));
     // compact attribution opens itself on first render; start collapsed.
     map.once('load', () =>

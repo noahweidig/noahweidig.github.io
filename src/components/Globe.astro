@@ -38,4 +38,7 @@ const { class: klass = '' } = Astro.props;
   [data-theme='dark'] .maplibregl-popup-anchor-bottom .maplibregl-popup-tip {
     border-top-color: var(--c-surface);
   }
+  [data-theme='dark'] .maplibregl-ctrl-attrib {
+    filter: invert(1) hue-rotate(180deg);
+  }
 </style>
