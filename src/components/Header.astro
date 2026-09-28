@@ -3,7 +3,6 @@ import { u } from '../lib/url';
 import { nav, site } from '../lib/site';
 import Icon from './Icon.astro';
 import Wordmark from './Wordmark.astro';
-import Logo from './Logo.astro';
 import Search from './Search.astro';
 
 /* Compared against `u(href)`, not the bare href, so the check stays correct if
@@ -30,7 +29,6 @@ const isActive = (href: string) => {
       class="group flex min-w-0 items-center gap-2.5"
       aria-label="Noah Weidig — home"
     >
-      <Logo class="wordmark-icon hidden h-9 md:block w-auto transition-transform duration-500 group-hover:-rotate-6" />
       <Wordmark collapse class="text-[1.75rem] md:text-[2rem]" />
     </a>
 
@@ -123,11 +121,8 @@ const isActive = (href: string) => {
       class="shell flex h-full flex-col items-center justify-center py-[3dvh]"
     >
       <ul class="flex min-h-0 w-full flex-1 flex-col text-center">
-        {nav.map((item, i) => (
-          <li
-            class="mobile-nav-item flex min-h-0 flex-1 items-center justify-center"
-            style={`--i:${i}`}
-          >
+        {nav.map((item) => (
+          <li class="flex min-h-0 flex-1 items-center justify-center">
             <a
               href={u(item.href)}
               class:list={[
@@ -142,8 +137,7 @@ const isActive = (href: string) => {
         ))}
       </ul>
       <a
-        class="mobile-nav-item mobile-nav-cta btn btn-primary mt-[2dvh] shrink-0 font-display font-semibold tracking-tight"
-        style={`--i:${nav.length}`}
+        class="mobile-nav-cta btn btn-primary mt-[2dvh] shrink-0 font-display font-semibold tracking-tight"
         href={site.booking}
         target="_blank"
         rel="noopener"
@@ -156,24 +150,9 @@ const isActive = (href: string) => {
   </div>
 </header>
 
-<!-- Outside the header: a stuck header carries `backdrop-filter`, which makes
-     it the containing block for fixed descendants and collapses this against
-     the bar. Its top edge is set from the header's live bottom in ui.ts. -->
-<div
-  data-menu-scrim
-  hidden
-  aria-hidden="true"
-  class="fixed inset-x-0 bottom-0 z-40 bg-bg lg:hidden"
-></div>
-
 <Search />
 
 <style>
-  /* The scrim sits behind the header, so an otherwise transparent bar would
-     show it through. */
-  #site-header[data-menu-open] {
-    background-color: var(--c-bg);
-  }
   /* Links split the panel height evenly; type scales with viewport height. */
   .mobile-nav-link {
     font-size: clamp(1.75rem, 5.5dvh, 3.25rem);
@@ -185,29 +164,26 @@ const isActive = (href: string) => {
     line-height: 1.1;
     padding: 0.3em 1em;
   }
-  .mobile-nav:not([hidden]) {
-    animation: menu-fade 0.35s var(--ease-out-soft) both;
+  .mobile-nav {
+    contain: strict;
+    touch-action: none;
+    overscroll-behavior: contain;
   }
-  .mobile-nav:not([hidden]) .mobile-nav-item {
-    animation: menu-item 0.55s var(--ease-out-soft) both;
-    animation-delay: calc(0.06s + var(--i) * 0.045s);
+  .mobile-nav:not([hidden]) {
+    animation: menu-fade 0.15s ease-out both;
   }
   @keyframes menu-fade {
     from {
       opacity: 0;
     }
   }
-  @keyframes menu-item {
-    from {
-      opacity: 0;
-      transform: translate3d(0, 14px, 0) scale(0.97);
-    }
-  }
   @media (prefers-reduced-motion: reduce) {
-    .mobile-nav:not([hidden]),
-    .mobile-nav:not([hidden]) .mobile-nav-item {
+    .mobile-nav:not([hidden]) {
       animation: none;
     }
+  }
+  :global(html[data-menu-open]) {
+    overflow: hidden;
   }
   #site-header[data-stuck] {
     background-color: color-mix(in oklab, var(--c-bg) 78%, transparent);
@@ -215,17 +191,16 @@ const isActive = (href: string) => {
     border-bottom-color: var(--c-line);
   }
   /* Opaque while open; a live backdrop blur here repaints every frame. */
+  /* After [data-stuck]: same specificity, so order decides. Opaque while open. */
   #site-header[data-menu-open] {
+    background-color: var(--c-bg);
     backdrop-filter: none;
-  }
-  .mobile-nav {
-    contain: layout paint;
   }
 </style>
 
 <script>
   const set = () => {
-    if (document.body.style.position === 'fixed') return;
+    if (document.documentElement.hasAttribute('data-menu-open')) return;
     document.documentElement.toggleAttribute('data-scrolled', scrollY > 8);
   };
   set();
