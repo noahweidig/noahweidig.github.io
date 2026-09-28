@@ -5,7 +5,5 @@ package-lock.json
 public/
 # Zotero-generated; rewritten wholesale by scripts/update-pubs.js.
 src/content/publications/
-# Machine-projected path data on one very long line.
-src/components/Globe.astro
 .claude/
 .github/
