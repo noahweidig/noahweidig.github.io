@@ -1337,6 +1337,7 @@
   .lightbox,
   .heading-anchor,
   .code-copy,
+  .skip-link,
   .no-print {
     display: none !important;
   }
