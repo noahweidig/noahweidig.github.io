@@ -38,7 +38,7 @@ const cols = [
 ];
 ---
 
-<section class="under-nav relative overflow-hidden border-b border-line" id="hero">
+<section class="under-nav relative border-b border-line" id="hero">
   {/* Three large, heavily blurred fields rather than one glow: the colour has
       to carry the section, and overlapping blurs are what give the soft
       mesh-like falloff. Sized in vw so the composition holds at any width. */}
@@ -137,7 +137,7 @@ const cols = [
           <span class="geo-tag">04 / Infrastructure</span>
         </div>
         <div class="geo-layer geo-l3">
-          <svg class="geo-svg" viewBox="0 0 600 420">
+          <svg class="geo-svg" viewBox="0 0 600 420" preserveAspectRatio="none">
             <g class="geo-vec">
               <path d="M30 281L116 215L183 239L254 174L332 203L386 128L476 151L569 77"></path>
               <path d="M54 105L138 141L208 93L284 127L351 69L431 106L532 48"></path>
@@ -155,7 +155,7 @@ const cols = [
           <span class="geo-tag">03 / Vector network</span>
         </div>
         <div class="geo-layer geo-l2">
-          <svg class="geo-svg geo-contours" viewBox="0 0 600 420">
+          <svg class="geo-svg geo-contours" viewBox="0 0 600 420" preserveAspectRatio="none">
             <path d="M-20 275C59 217 99 310 172 263C237 222 240 126 330 140C415 154 407 245 495 225C551 212 576 167 630 180"></path>
             <path d="M-30 304C47 249 106 341 183 290C253 244 257 153 338 166C426 180 433 273 511 252C567 237 594 195 640 207"></path>
             <path d="M-20 334C74 280 120 371 199 318C272 270 283 188 354 196C440 206 452 304 530 278C581 261 605 226 640 231"></path>
@@ -398,10 +398,10 @@ const cols = [
      enough that the top layer clears the hero's overflow clip. */
   .geo-stage {
     position: absolute;
-    top: 60%;
+    top: 56%;
     left: 50%;
-    width: 58%;
-    aspect-ratio: 1.35;
+    width: 70%;
+    aspect-ratio: 1;
     transform: translate(-50%, -50%) rotateX(58deg) rotateZ(-32deg);
     transform-style: preserve-3d;
     transition: transform 150ms ease-out;
@@ -547,12 +547,12 @@ const cols = [
   }
   .geo-orbit {
     position: absolute;
-    inset: -8%;
+    inset: -15%;
     border: 1px dashed color-mix(in oklab, var(--g) 25%, transparent);
     border-radius: 50%;
   }
   .geo-orbit-2 {
-    inset: -18%;
+    inset: -31%;
     border-style: solid;
     opacity: 0.4;
   }
