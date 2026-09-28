@@ -8,6 +8,47 @@ const styleUrl = () =>
     document.documentElement.dataset.theme === 'light' ? 'positron' : 'dark'
   }.json`;
 
+// Animated dot from MapLibre's "Add an animated icon" example, in the site accent.
+function pulsingDot(map: import('maplibre-gl').Map) {
+  const size = 100;
+  const accent =
+    getComputedStyle(document.documentElement).getPropertyValue('--c-accent').trim() || '#0072e3';
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let ctx: CanvasRenderingContext2D | null = null;
+  return {
+    width: size,
+    height: size,
+    data: new Uint8ClampedArray(size * size * 4),
+    onAdd() {
+      const canvas = document.createElement('canvas');
+      canvas.width = canvas.height = size;
+      ctx = canvas.getContext('2d');
+    },
+    render() {
+      if (!ctx) return false;
+      const t = reduce ? 1 : (performance.now() % 1600) / 1600;
+      const r = (size / 2) * 0.3;
+      ctx.clearRect(0, 0, size, size);
+      ctx.globalAlpha = 1 - t;
+      ctx.beginPath();
+      ctx.arc(size / 2, size / 2, r + (size / 2 - r) * t, 0, Math.PI * 2);
+      ctx.fillStyle = accent;
+      ctx.fill();
+      ctx.globalAlpha = 1;
+      ctx.beginPath();
+      ctx.arc(size / 2, size / 2, r, 0, Math.PI * 2);
+      ctx.fillStyle = accent;
+      ctx.strokeStyle = 'white';
+      ctx.lineWidth = 4;
+      ctx.fill();
+      ctx.stroke();
+      this.data = ctx.getImageData(0, 0, size, size).data;
+      if (!reduce) map.triggerRepaint();
+      return true;
+    },
+  };
+}
+
 // maplibre-gl (~250KB) sits below the fold, so it loads only when the figure
 // nears the viewport.
 export function initGlobe() {
@@ -27,16 +68,40 @@ export function initGlobe() {
       center: ORLANDO,
       zoom: 1.5,
       cooperativeGestures: true,
+      attributionControl: false,
     });
     map.addControl(new maplibregl.NavigationControl());
     map.addControl(new maplibregl.FullscreenControl());
-    map.addControl(new maplibregl.GlobeControl());
-    new maplibregl.Marker()
-      .setLngLat(ORLANDO)
-      .setPopup(new maplibregl.Popup({ offset: 25 }).setText('Orlando, Florida'))
-      .addTo(map);
+    map.addControl(new maplibregl.AttributionControl({ compact: true }));
+    // compact attribution opens itself on first render; start collapsed.
+    map.once('load', () =>
+      el.querySelector('.maplibregl-ctrl-attrib')?.classList.remove('maplibregl-compact-show'),
+    );
 
-    const mo = new MutationObserver(() => map.setStyle(styleUrl()));
+    const popup = new maplibregl.Popup({ offset: 12, closeOnClick: false })
+      .setLngLat(ORLANDO)
+      .setText('Orlando, Florida');
+    // setStyle drops images/layers, so re-add the dot on every style load.
+    map.on('style.load', () => {
+      map.setProjection({ type: 'globe' });
+      map.addImage('pulsing-dot', pulsingDot(map), { pixelRatio: 2 });
+      map.addSource('orlando', {
+        type: 'geojson',
+        data: { type: 'Point', coordinates: ORLANDO },
+      });
+      map.addLayer({
+        id: 'orlando',
+        type: 'symbol',
+        source: 'orlando',
+        layout: { 'icon-image': 'pulsing-dot', 'icon-allow-overlap': true },
+      });
+    });
+    map.once('load', () => popup.addTo(map));
+    map.on('click', 'orlando', () => popup.isOpen() || popup.addTo(map));
+    map.on('mouseenter', 'orlando', () => (map.getCanvas().style.cursor = 'pointer'));
+    map.on('mouseleave', 'orlando', () => (map.getCanvas().style.cursor = ''));
+
+    const mo = new MutationObserver(() => map.setStyle(styleUrl(), { diff: false }));
     mo.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
     cleanups.push(() => {
       mo.disconnect();
