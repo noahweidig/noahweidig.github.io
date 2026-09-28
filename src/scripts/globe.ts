@@ -1,30 +1,195 @@
-/* --------------------------------------------------------------- globe -- */
+/* ----------------------------------------------------------------- map -- */
+import type { StyleSpecification } from 'maplibre-gl';
 import { cleanups } from './dom';
 
-// The globe's ~20KB of inline path data sits below the fold (homepage
-// closing CTA), so it's parked in a <template> and cloned into the DOM only
-// once the figure nears the viewport — keeping those bytes out of the
-// initial HTML parse without losing the CSS-variable theming (#145).
+const ORLANDO: [number, number] = [-81.3789, 28.5384];
+const FONT = ['Noto Sans Regular'];
+
+// 30° graticule, sampled every 5° so lines curve on the globe.
+function graticule(): GeoJSON.FeatureCollection {
+  const line = (coordinates: number[][]): GeoJSON.Feature => ({
+    type: 'Feature',
+    properties: {},
+    geometry: { type: 'LineString', coordinates },
+  });
+  const range = (a: number, b: number, step: number) =>
+    Array.from({ length: Math.round((b - a) / step) + 1 }, (_, i) => a + i * step);
+  return {
+    type: 'FeatureCollection',
+    features: [
+      ...range(-180, 180, 30).map((lon) => line(range(-90, 90, 5).map((lat) => [lon, lat]))),
+      ...range(-60, 60, 30).map((lat) => line(range(-180, 180, 5).map((lon) => [lon, lat]))),
+    ],
+  };
+}
+
+// Vector style built from the site's CSS tokens, so it matches either theme.
+function buildStyle(): StyleSpecification {
+  const css = getComputedStyle(document.documentElement);
+  const c = (n: string) => css.getPropertyValue(n).trim();
+  const [land, water, line, strong, dim, faint] = [
+    '--c-surface',
+    '--c-raised',
+    '--c-line',
+    '--c-line-strong',
+    '--c-dim',
+    '--c-faint',
+  ].map(c);
+  const label = (id: string, filter: unknown[], size: number, color: string, minzoom = 0) => ({
+    id,
+    type: 'symbol' as const,
+    source: 'omt',
+    'source-layer': 'place',
+    filter: filter as never,
+    minzoom,
+    layout: {
+      'text-field': ['coalesce', ['get', 'name:latin'], ['get', 'name']] as never,
+      'text-font': FONT,
+      'text-size': size,
+      'text-max-width': 7,
+    },
+    paint: { 'text-color': color, 'text-halo-color': land, 'text-halo-width': 1.5 },
+  });
+  return {
+    version: 8,
+    projection: { type: 'globe' },
+    glyphs: 'https://tiles.openfreemap.org/fonts/{fontstack}/{range}.pbf',
+    sources: {
+      omt: { type: 'vector', url: 'https://tiles.openfreemap.org/planet' },
+      graticule: { type: 'geojson', data: graticule() },
+    },
+    layers: [
+      { id: 'bg', type: 'background', paint: { 'background-color': land } },
+      {
+        id: 'water',
+        type: 'fill',
+        source: 'omt',
+        'source-layer': 'water',
+        paint: { 'fill-color': water },
+      },
+      {
+        id: 'graticule',
+        type: 'line',
+        source: 'graticule',
+        paint: { 'line-color': line, 'line-width': 0.75 },
+      },
+      {
+        id: 'waterway',
+        type: 'line',
+        source: 'omt',
+        'source-layer': 'waterway',
+        minzoom: 7,
+        paint: { 'line-color': water, 'line-width': 1 },
+      },
+      {
+        id: 'roads',
+        type: 'line',
+        source: 'omt',
+        'source-layer': 'transportation',
+        minzoom: 6,
+        filter: ['in', 'class', 'motorway', 'trunk', 'primary'],
+        paint: {
+          'line-color': line,
+          'line-width': ['interpolate', ['linear'], ['zoom'], 6, 0.5, 12, 2],
+        },
+      },
+      {
+        id: 'state',
+        type: 'line',
+        source: 'omt',
+        'source-layer': 'boundary',
+        filter: ['all', ['==', 'admin_level', 4], ['!=', 'maritime', 1]],
+        paint: { 'line-color': strong, 'line-width': 1, 'line-dasharray': [3, 2] },
+      },
+      {
+        id: 'country',
+        type: 'line',
+        source: 'omt',
+        'source-layer': 'boundary',
+        filter: ['all', ['==', 'admin_level', 2], ['!=', 'maritime', 1]],
+        paint: { 'line-color': strong, 'line-width': 1.4 },
+      },
+      label('place-country', ['==', 'class', 'country'], 12, faint),
+      label('place-state', ['==', 'class', 'state'], 11, faint, 3),
+      label(
+        'place-city',
+        ['all', ['in', 'class', 'city', 'town'], ['!=', 'name', 'Orlando']],
+        12,
+        dim,
+        5,
+      ),
+    ],
+  };
+}
+
+// maplibre-gl (~250KB) sits below the fold, so it loads only when the figure
+// nears the viewport.
 export function initGlobe() {
-  const mounts = document.querySelectorAll<HTMLElement>('[data-globe-mount]');
+  const mounts = document.querySelectorAll<HTMLElement>('[data-map-mount]');
   if (!mounts.length) return;
 
-  const fill = (mount: HTMLElement) => {
-    const template = mount.querySelector<HTMLTemplateElement>('[data-globe-template]');
-    if (!template) return;
-    mount.append(template.content.cloneNode(true));
-    template.remove();
+  const mount = async (el: HTMLElement) => {
+    const [maplibregl, { default: workerUrl }] = await Promise.all([
+      import('maplibre-gl'),
+      import('maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url'),
+      import('maplibre-gl/dist/maplibre-gl.css'),
+    ]);
+    maplibregl.setWorkerUrl(workerUrl);
+    const map = new maplibregl.Map({
+      container: el,
+      style: buildStyle(),
+      center: ORLANDO,
+      zoom: 1.5,
+      minZoom: 0.8,
+      maxZoom: 14,
+      attributionControl: false,
+      cooperativeGestures: true,
+      dragRotate: false,
+      pitchWithRotate: false,
+    });
+    map.touchZoomRotate.disableRotation();
+    map.addControl(
+      new maplibregl.AttributionControl({
+        compact: true,
+      }),
+      'bottom-right',
+    );
+
+    const dot = document.createElement('button');
+    dot.type = 'button';
+    dot.className = 'map-dot';
+    dot.setAttribute('aria-label', 'Orlando, Florida');
+
+    const popup = new maplibregl.Popup({
+      closeOnClick: false,
+      closeOnMove: false,
+      offset: 18,
+      maxWidth: 'none',
+    }).setHTML('<b>Orlando, Florida · UTC-5</b><code>28.5384&deg; N, 81.3789&deg; W</code>');
+
+    const marker = new maplibregl.Marker({ element: dot })
+      .setLngLat(ORLANDO)
+      .setPopup(popup)
+      .addTo(map);
+    marker.togglePopup();
+
+    const mo = new MutationObserver(() => map.setStyle(buildStyle()));
+    mo.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+    cleanups.push(() => {
+      mo.disconnect();
+      map.remove();
+    });
   };
 
   if (!('IntersectionObserver' in window)) {
-    mounts.forEach(fill);
+    mounts.forEach(mount);
     return;
   }
   const io = new IntersectionObserver(
     (entries) => {
       entries.forEach((e) => {
         if (!e.isIntersecting) return;
-        fill(e.target as HTMLElement);
+        mount(e.target as HTMLElement);
         io.unobserve(e.target);
       });
     },

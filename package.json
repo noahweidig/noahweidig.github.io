@@ -17,7 +17,6 @@
     "covers:ensure": "node scripts/ensure-blog-covers.mjs",
     "dev": "astro dev",
     "format": "prettier --write .",
-    "globe": "node scripts/generate-globe-svg.mjs",
     "icons": "node scripts/generate-icons.mjs",
     "logos:pkg": "node scripts/generate-pkg-logo-srcset.mjs",
     "lint": "prettier --check . && astro check",
@@ -37,6 +36,7 @@
     "@tailwindcss/vite": "^4.3.3",
     "astro": "^7.3.3",
     "bytemd": "^1.21.0",
+    "maplibre-gl": "^6.11.2",
     "remark-github-blockquote-alert": "^2.1.0",
     "sanitize-html": "^2.17.7",
     "tailwindcss": "^4.3.3"
