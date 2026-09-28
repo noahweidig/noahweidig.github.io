@@ -24,7 +24,32 @@ const { class: klass = '' } = Astro.props;
 </figure>
 
 <style is:global>
+  .maplibregl-map .maplibregl-popup-close-button {
+    top: 4px;
+    right: 4px;
+    width: 22px;
+    height: 22px;
+    border-radius: 999px;
+    color: var(--c-faint);
+    font-size: 16px;
+    line-height: 1;
+  }
+  .maplibregl-map .maplibregl-popup-close-button:hover {
+    background: var(--c-line);
+    color: var(--c-ink);
+  }
+  .maplibregl-map .maplibregl-popup-close-button:focus:not(:focus-visible) {
+    outline: none;
+    box-shadow: none;
+  }
+  .maplibregl-map .maplibregl-popup-close-button:focus-visible {
+    outline: 2px solid var(--c-accent);
+  }
   .map-dot {
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
     position: relative;
     width: 22px;
     height: 22px;
@@ -75,7 +100,7 @@ const { class: klass = '' } = Astro.props;
     display: none;
   }
   .maplibregl-map .maplibregl-popup-content {
-    padding: 0.625rem 1rem;
+    padding: 0.625rem 2rem;
     border: 1px solid var(--c-line);
     border-radius: 0.5rem;
     background: color-mix(in oklab, var(--c-bg) 85%, transparent);
@@ -83,7 +108,6 @@ const { class: klass = '' } = Astro.props;
     color: var(--c-ink);
     text-align: center;
     box-shadow: none;
-    pointer-events: none;
   }
   .maplibregl-map .maplibregl-popup-content b {
     display: block;

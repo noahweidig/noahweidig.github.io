@@ -128,22 +128,25 @@ export function initGlobe() {
       'bottom-right',
     );
 
-    const dot = document.createElement('div');
+    const dot = document.createElement('button');
+    dot.type = 'button';
     dot.className = 'map-dot';
-    new maplibregl.Marker({ element: dot }).setLngLat(ORLANDO).addTo(map);
+    dot.setAttribute('aria-label', 'Orlando, Florida');
 
     const pop = document.createElement('div');
     pop.innerHTML = '<b>Orlando, Florida · UTC-5</b><code>28.5384&deg; N, 81.3789&deg; W</code>';
-    new maplibregl.Popup({
-      closeButton: false,
+    const popup = new maplibregl.Popup({
       closeOnClick: false,
       closeOnMove: false,
       offset: 18,
       maxWidth: 'none',
-    })
+    }).setDOMContent(pop);
+
+    const marker = new maplibregl.Marker({ element: dot })
       .setLngLat(ORLANDO)
-      .setDOMContent(pop)
+      .setPopup(popup)
       .addTo(map);
+    marker.togglePopup();
 
     const mo = new MutationObserver(() => map.setStyle(buildStyle()));
     mo.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
