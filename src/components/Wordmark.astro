@@ -1,0 +1,68 @@
+---
+interface Props {
+  class?: string;
+  collapse?: boolean;
+}
+const { class: cls = '', collapse = false } = Astro.props;
+---
+
+<span
+  class:list={['wm font-display font-bold italic tracking-tight', { 'wm-collapse': collapse }, cls]}
+>
+  <span class="wm-ink">n</span>
+  <span class="wm-fade wm-oah wm-ink">oah</span>
+  <span class="wm-blue">w</span>
+  <span class="wm-fade wm-eidig wm-blue">eidig</span>
+  <span class="wm-dot wm-ink">.</span>
+</span>
+
+<style>
+  .wm {
+    display: inline-flex;
+    white-space: nowrap;
+  }
+  .wm > span {
+    display: inline-block;
+  }
+  .wm-ink {
+    color: var(--c-ink, #14161a);
+  }
+  .wm-blue {
+    color: var(--c-accent, #0072e3);
+  }
+  .wm-dot {
+    display: none !important;
+  }
+  .wm-collapse .wm-dot {
+    display: inline-block !important;
+    max-width: 0;
+    opacity: 0;
+  }
+  .wm-collapse .wm-fade,
+  .wm-collapse .wm-dot {
+    transition:
+      max-width 0.45s var(--ease-out-soft),
+      opacity 0.3s var(--ease-out-soft);
+  }
+  .wm-collapse .wm-oah {
+    max-width: 2.2em;
+  }
+  .wm-collapse .wm-eidig {
+    max-width: 2.8em;
+  }
+  :global(html[data-scrolled]) .wm-collapse .wm-fade {
+    max-width: 0;
+    opacity: 0;
+    overflow: hidden;
+  }
+  :global(html[data-scrolled]) .wm-collapse .wm-dot {
+    max-width: 0.5em;
+    opacity: 1;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .wm-collapse .wm-fade,
+    .wm-collapse .wm-dot {
+      transition-duration: 1ms;
+    }
+  }
+</style>
