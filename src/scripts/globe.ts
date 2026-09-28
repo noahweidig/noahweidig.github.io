@@ -34,6 +34,7 @@ function buildStyle(): StyleSpecification {
   });
   return {
     version: 8,
+    projection: { type: 'globe' },
     glyphs: 'https://tiles.openfreemap.org/fonts/{fontstack}/{range}.pbf',
     sources: { omt: { type: 'vector', url: 'https://tiles.openfreemap.org/planet' } },
     layers: [
@@ -111,8 +112,8 @@ export function initGlobe() {
       container: el,
       style: buildStyle(),
       center: ORLANDO,
-      zoom: 5.4,
-      minZoom: 2,
+      zoom: 1.5,
+      minZoom: 0.8,
       maxZoom: 14,
       attributionControl: false,
       cooperativeGestures: true,
