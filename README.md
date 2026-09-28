@@ -74,7 +74,7 @@ Built with [Astro 7](https://astro.build), TypeScript and [Tailwind CSS 4](https
 | `src/content.config.ts` | the Zod schema each collection is validated against at build time             |
 | `src/pages/`            | routes — file-based, with `[...slug].astro` generating every detail page      |
 | `src/layouts/`          | `Base` (head, chrome, analytics), `Page` (section index), `Detail` (article)  |
-| `src/components/`       | cards, rows, marquees, the search dialog, the globe                           |
+| `src/components/`       | cards, rows, marquees, the search dialog, the map                             |
 | `src/styles/`           | the design tokens and component layer; `fonts.css` holds the `@font-face` set |
 | `src/lib/`              | site constants and the date/citation formatters                               |
 | `public/`               | static assets served verbatim — media, fonts, PDFs, favicons                  |
@@ -148,7 +148,6 @@ npm test                       # vitest run
 npm run covers                 # generate blog cover images
 npm run covers:all             # generate covers for site, collections, and pages
 npm run covers:ensure          # backfill missing blog covers only
-npm run globe                  # redraw the homepage globe SVG
 npm run icons                  # regenerate favicons/app icons
 npm run logos:pkg              # generate package-logo srcsets
 npm run lint                   # prettier --check + astro check
@@ -176,9 +175,9 @@ node scripts/update-pubs.js    # refresh publications from Zotero
 
 Every workflow that needs a build goes through the `.github/actions/build-site` composite action, so each check scores the same bytes that get deployed.
 
-### The homepage globe
+### The homepage map
 
-The globe in the closing CTA is static — one fixed rotation with Orlando facing the camera — so it is projected at build time rather than drawn in the browser. `scripts/generate-globe-svg.mjs` reads world-atlas 110m TopoJSON, projects the borders and graticule, simplifies them, and writes the SVG into `src/components/Globe.astro` between the `<!-- globe:start -->` and `<!-- globe:end -->` markers. Run `npm run globe` to redraw it; nothing else needs to change.
+The closing CTA has a MapLibre map centred on Orlando (`src/components/Globe.astro`, `src/scripts/globe.ts`). `maplibre-gl` loads lazily when the map nears the viewport. Tiles come from OpenFreeMap; the style is built from the CSS tokens and rebuilt when the theme changes.
 
 ### Blog cover images
 
