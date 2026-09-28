@@ -1346,3 +1346,17 @@
     text-decoration: none !important;
   }
 }
+
+/* Touch devices: per-chip backdrop blurs each allocate a compositor layer;
+   the chips already sit on bg-black/55. */
+@media (max-width: 1023px) {
+  .backdrop-blur-md {
+    backdrop-filter: none;
+  }
+}
+
+/* Skip layout/paint of off-screen home sections until they near the viewport. */
+.cv-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 900px;
+}
