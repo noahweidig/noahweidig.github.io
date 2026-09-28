@@ -2,6 +2,7 @@
 import { u } from '../lib/url';
 import { nav, site } from '../lib/site';
 import Icon from './Icon.astro';
+import Wordmark from './Wordmark.astro';
 import Logo from './Logo.astro';
 import Search from './Search.astro';
 
@@ -30,23 +31,11 @@ const isActive = (href: string) => {
       aria-label="Noah Weidig — home"
     >
       <Logo class="wordmark-icon h-7 w-auto transition-transform duration-500 group-hover:-rotate-6" />
-      <span
-        data-text="Noah Weidig"
-        class="wordmark-wipe truncate font-display text-[1.3rem] font-bold tracking-tight max-[360px]:hidden md:text-[1.45rem]"
-      >
-        Noah Weidig
-      </span>
-      <span
-        aria-hidden="true"
-        data-text="Nw."
-        class="wordmark-wipe hidden font-display text-[1.3rem] font-bold tracking-tight max-[360px]:block"
-      >
-        Nw.
-      </span>
+      <Wordmark collapse class="text-[1.3rem] md:text-[1.45rem]" />
     </a>
 
     <nav aria-label="Primary" class="mx-4 hidden min-w-0 flex-1 lg:block xl:mx-8">
-      <ul class="flex items-center justify-evenly gap-0.5">
+      <ul class="flex items-center justify-end gap-0.5">
         {nav.map((item) => (
           <li>
             <a
@@ -228,3 +217,9 @@ const isActive = (href: string) => {
     border-bottom-color: var(--c-line);
   }
 </style>
+
+<script>
+  const set = () => document.documentElement.toggleAttribute('data-scrolled', scrollY > 8);
+  set();
+  addEventListener('scroll', set, { passive: true });
+</script>
