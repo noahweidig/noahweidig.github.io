@@ -6,13 +6,15 @@ interface Props {
 const { class: cls = '', collapse = false } = Astro.props;
 ---
 
-<span class:list={['wm font-display font-bold italic tracking-tight', { 'wm-collapse': collapse }, cls]}
-  ><span class="text-ink">n</span><span class="wm-fade wm-oah text-ink">oah</span><span
-    class="text-accent">w</span
-  ><span class="wm-fade wm-eidig text-accent">eidig</span><span class="wm-dot text-ink"
-    >.</span
-  ></span
+<span
+  class:list={['wm font-display font-bold italic tracking-tight', { 'wm-collapse': collapse }, cls]}
 >
+  <span class="text-ink">n</span>
+  <span class="wm-fade wm-oah text-ink">oah</span>
+  <span class="text-accent">w</span>
+  <span class="wm-fade wm-eidig text-accent">eidig</span>
+  <span class="wm-dot text-ink">.</span>
+</span>
 
 <style>
   .wm {
