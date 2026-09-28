@@ -30,7 +30,7 @@ const isActive = (href: string) => {
       class="group flex min-w-0 items-center gap-2.5"
       aria-label="Noah Weidig — home"
     >
-      <Logo class="wordmark-icon h-7 w-auto transition-transform duration-500 group-hover:-rotate-6" />
+      <Logo class="wordmark-icon hidden h-7 md:block w-auto transition-transform duration-500 group-hover:-rotate-6" />
       <Wordmark collapse class="text-[1.3rem] md:text-[1.45rem]" />
     </a>
 
@@ -219,7 +219,10 @@ const isActive = (href: string) => {
 </style>
 
 <script>
-  const set = () => document.documentElement.toggleAttribute('data-scrolled', scrollY > 8);
+  const set = () => {
+    if (document.body.style.position === 'fixed') return;
+    document.documentElement.toggleAttribute('data-scrolled', scrollY > 8);
+  };
   set();
   addEventListener('scroll', set, { passive: true });
 </script>
