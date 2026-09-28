@@ -154,6 +154,22 @@ export function initGlobe() {
       }),
       'bottom-right',
     );
+    // compact mode re-opens the credit on load, resize and source updates;
+    // keep it collapsed until the user opens it.
+    const credit = el.querySelector('.maplibregl-ctrl-attrib');
+    let userOpened = false;
+    const collapseCredit = () => {
+      if (userOpened) return;
+      credit?.classList.remove('maplibregl-compact-show');
+      credit?.removeAttribute('open');
+    };
+    credit?.querySelector('.maplibregl-ctrl-attrib-button')?.addEventListener('click', () => {
+      userOpened = !!credit.classList.contains('maplibregl-compact-show');
+    });
+    map.on('dragstart', () => (userOpened = false));
+    map.on('resize', collapseCredit);
+    map.on('idle', collapseCredit);
+    collapseCredit();
 
     const dot = document.createElement('button');
     dot.type = 'button';
