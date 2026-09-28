@@ -41,8 +41,12 @@ const { class: cls = '', collapse = false } = Astro.props;
   .wm-collapse .wm-fade,
   .wm-collapse .wm-dot {
     transition:
-      max-width 0.45s var(--ease-out-soft),
-      opacity 0.3s var(--ease-out-soft);
+      max-width 0.7s var(--ease-out-soft),
+      opacity 0.5s var(--ease-out-soft);
+  }
+  .wm-collapse .wm-fade {
+    overflow: clip;
+    overflow-clip-margin: 0.15em;
   }
   .wm-collapse .wm-oah {
     max-width: 2.2em;
@@ -53,7 +57,6 @@ const { class: cls = '', collapse = false } = Astro.props;
   :global(html[data-scrolled]) .wm-collapse .wm-fade {
     max-width: 0;
     opacity: 0;
-    overflow: hidden;
   }
   :global(html[data-scrolled]) .wm-collapse .wm-dot {
     max-width: 0.5em;
