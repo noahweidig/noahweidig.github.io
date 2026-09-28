@@ -71,7 +71,7 @@ function buildStyle(): StyleSpecification {
         id: 'graticule',
         type: 'line',
         source: 'graticule',
-        paint: { 'line-color': strong, 'line-width': 1 },
+        paint: { 'line-color': line, 'line-width': 0.75 },
       },
       {
         id: 'waterway',
