@@ -153,9 +153,6 @@ const isActive = (href: string) => {
 <Search />
 
 <style>
-  #site-header[data-menu-open] {
-    background-color: var(--c-bg);
-  }
   /* Links split the panel height evenly; type scales with viewport height. */
   .mobile-nav-link {
     font-size: clamp(1.75rem, 5.5dvh, 3.25rem);
@@ -194,7 +191,9 @@ const isActive = (href: string) => {
     border-bottom-color: var(--c-line);
   }
   /* Opaque while open; a live backdrop blur here repaints every frame. */
+  /* After [data-stuck]: same specificity, so order decides. Opaque while open. */
   #site-header[data-menu-open] {
+    background-color: var(--c-bg);
     backdrop-filter: none;
   }
 </style>
