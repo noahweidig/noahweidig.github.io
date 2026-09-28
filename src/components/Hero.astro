@@ -369,6 +369,14 @@ const cols = [
     );
   }
 
+  /* Mobile: a static field. Animating blobs under a 70px filter re-blurs the
+     whole layer every frame, which is the bulk of the page's GPU memory. */
+  @media (max-width: 1023px) {
+    .hero-blob {
+      animation: none !important;
+    }
+  }
+
   @media (min-width: 1024px) {
     .hero-blob-5 {
       width: 38vw;
