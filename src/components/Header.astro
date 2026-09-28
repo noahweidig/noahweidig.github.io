@@ -155,6 +155,9 @@ const isActive = (href: string) => {
 <Search />
 
 <style>
+  #site-header[data-menu-open] {
+    background-color: var(--c-bg);
+  }
   /* Links split the panel height evenly; type scales with viewport height. */
   .mobile-nav-link {
     font-size: clamp(1.75rem, 5.5dvh, 3.25rem);
@@ -191,6 +194,10 @@ const isActive = (href: string) => {
     background-color: color-mix(in oklab, var(--c-bg) 78%, transparent);
     backdrop-filter: blur(16px) saturate(1.4);
     border-bottom-color: var(--c-line);
+  }
+  /* Opaque while open; a live backdrop blur here repaints every frame. */
+  #site-header[data-menu-open] {
+    backdrop-filter: none;
   }
 </style>
 
