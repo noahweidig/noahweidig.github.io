@@ -45,7 +45,7 @@ const cols = [
 ];
 ---
 
-<section class="under-nav relative border-b border-line" id="hero">
+<section class="under-nav relative border-b border-line" id="hero" data-hero>
   {/* Three large, heavily blurred fields rather than one glow: the colour has
       to carry the section, and overlapping blurs are what give the soft
       mesh-like falloff. Sized in vw so the composition holds at any width. */}
@@ -222,6 +222,12 @@ const cols = [
 </section>
 
 <script>
+  const hero = document.querySelector<HTMLElement>('[data-hero]');
+  if (hero) {
+    new IntersectionObserver(([e]) => hero.classList.toggle('hero-off', !e.isIntersecting)).observe(
+      hero,
+    );
+  }
   const v = document.querySelector<HTMLElement>('[data-geo]');
   const st = v?.querySelector<HTMLElement>('[data-geo-stage]');
   const nm = v?.querySelector<HTMLElement>('[data-geo-name]');
@@ -264,6 +270,7 @@ const cols = [
     overflow: hidden;
     filter: blur(var(--hero-blur));
     opacity: var(--hero-opacity);
+    contain: strict;
   }
 
   /* Positioned by centre and pulled back half its own size, so the bright core
@@ -702,7 +709,9 @@ const cols = [
     .geo-orbit-2 {
       animation: geo-spin 34s linear infinite reverse;
     }
-    .geo-off * {
+    .geo-off *,
+    .hero-off .hero-blob,
+    :global(html[data-menu-open]) :is(.hero-blob, .geo *) {
       animation-play-state: paused !important;
     }
   }
