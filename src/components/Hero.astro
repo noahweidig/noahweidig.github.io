@@ -441,6 +441,17 @@ const cols = [
     transform-style: preserve-3d;
     transition: transform 150ms ease-out;
   }
+  :global(:root:not([data-theme='light'])) .geo {
+    --g: var(--c-accent-ink);
+  }
+  :global(:root:not([data-theme='light'])) .geo-layer {
+    border-color: color-mix(in oklab, var(--g) 70%, transparent);
+    box-shadow: 0 0 24px color-mix(in oklab, var(--g) 18%, transparent);
+  }
+  :global(:root:not([data-theme='light'])) .geo-l4,
+  :global(:root:not([data-theme='light'])) .geo-l5 {
+    opacity: 0.9;
+  }
   .geo-layer {
     position: absolute;
     inset: 0;
