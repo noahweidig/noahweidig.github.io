@@ -1,18 +1,12 @@
 ---
-/** Interactive MapLibre map centred on Orlando. Loaded lazily by src/scripts/globe.ts;
-    the style is built from the site's CSS tokens so it repaints with the theme. */
+/** Interactive MapLibre map centred on Orlando. Loaded lazily by src/scripts/globe.ts. */
 interface Props {
   class?: string;
 }
 const { class: klass = '' } = Astro.props;
 ---
 
-<figure
-  class:list={[
-    'relative aspect-square w-full overflow-hidden rounded-xl border border-line bg-surface',
-    klass,
-  ]}
->
+<figure class:list={['card relative isolate aspect-square w-full overflow-hidden', klass]}>
   <div class="absolute inset-0">
     <div
       class="h-full w-full"
@@ -24,158 +18,24 @@ const { class: klass = '' } = Astro.props;
 </figure>
 
 <style is:global>
-  .maplibregl-map .maplibregl-popup-close-button {
-    top: 6px;
-    right: 6px;
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    font-size: 16px;
-    line-height: 1;
-    color: var(--c-faint);
-  }
-  .maplibregl-map .maplibregl-popup-close-button:hover {
-    background: var(--c-line);
-    color: var(--c-ink);
-  }
-  .maplibregl-map .maplibregl-popup-close-button:focus:not(:focus-visible) {
-    outline: none;
-    box-shadow: none;
-  }
-  .maplibregl-map .maplibregl-popup-close-button:focus-visible {
-    outline: 2px solid var(--c-accent);
-    outline-offset: 0;
-    box-shadow: none;
-  }
-  .map-dot {
-    padding: 0;
-    border: 0;
-    background: none;
-    cursor: pointer;
-    position: relative;
-    width: 22px;
-    height: 22px;
-  }
-  .map-dot::before,
-  .map-dot::after {
-    content: '';
-    position: absolute;
-    border-radius: 50%;
-    background: var(--c-accent);
-  }
-  .map-dot::before {
-    inset: 5px;
-    border: 2px solid var(--c-surface);
-    box-shadow: 0 0 0 5px color-mix(in oklab, var(--c-accent) 18%, transparent);
-  }
-  .map-dot::after {
-    inset: 0;
-    opacity: 0.28;
-    animation: map-ping 3.4s ease-out infinite;
-  }
-  @keyframes map-ping {
-    0% {
-      transform: scale(0.55);
-      opacity: 0.28;
-    }
-    70%,
-    100% {
-      transform: scale(2.4);
-      opacity: 0;
-    }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .map-dot::after {
-      animation: none;
-      opacity: 0;
-    }
-  }
-
-  .maplibregl-map {
-    font: inherit;
+  [data-theme='dark'] .maplibregl-ctrl-group {
     background: var(--c-surface);
+    box-shadow: 0 0 0 1px var(--c-line);
   }
-  .maplibregl-map .maplibregl-canvas {
-    outline: none;
+  [data-theme='dark'] .maplibregl-ctrl-group button + button {
+    border-top-color: var(--c-line);
   }
-  .maplibregl-map .maplibregl-popup-tip {
-    display: none;
+  [data-theme='dark'] .maplibregl-ctrl-group .maplibregl-ctrl-icon {
+    filter: invert(1);
   }
-  .maplibregl-map .maplibregl-popup-content {
-    padding: 0.625rem 2rem;
-    border: 1px solid var(--c-line);
-    border-radius: 0.5rem;
-    background: color-mix(in oklab, var(--c-bg) 85%, transparent);
-    backdrop-filter: blur(12px);
-    color: var(--c-ink);
-    text-align: center;
-    box-shadow: none;
+  .maplibregl-popup-content {
+    color: #111;
   }
-  .maplibregl-map .maplibregl-popup-content b {
-    display: block;
-    font-size: 0.875rem;
-    font-weight: 500;
-  }
-  .maplibregl-map .maplibregl-popup-content code {
-    display: block;
-    margin-top: 0.125rem;
-    font-family: var(--font-mono, ui-monospace, monospace);
-    font-size: var(--text-micro);
-    color: var(--c-faint);
-  }
-
-  .maplibregl-map .maplibregl-ctrl-bottom-right .maplibregl-ctrl {
-    margin: 0 0.5rem 0.5rem 0;
-  }
-  .maplibregl-map .maplibregl-ctrl-attrib.maplibregl-compact {
-    min-height: 28px;
-    margin: 0 0.5rem 0.5rem 0;
-    padding: 0 28px 0 0;
-    border: 1px solid var(--c-line);
-    border-radius: 999px;
-    background: color-mix(in oklab, var(--c-bg) 85%, transparent);
-    backdrop-filter: blur(12px);
-    color: var(--c-dim);
-    font-size: var(--text-micro);
-    line-height: 26px;
-  }
-  .maplibregl-map .maplibregl-ctrl-attrib.maplibregl-compact-show {
-    padding: 0 10px 0 30px;
-  }
-  .maplibregl-map .maplibregl-ctrl-attrib.maplibregl-compact::after {
-    display: none;
-  }
-  .maplibregl-map .maplibregl-ctrl-attrib a {
-    color: var(--c-dim);
-  }
-  .maplibregl-map .maplibregl-ctrl-attrib a:hover {
+  [data-theme='dark'] .maplibregl-popup-content {
+    background: var(--c-surface);
     color: var(--c-ink);
   }
-  .maplibregl-map .maplibregl-ctrl-attrib-button {
-    inset: 0 auto 0 0;
-    width: 28px;
-    height: 100%;
-    background: none !important;
-    border-radius: 999px;
-    color: var(--c-dim);
-  }
-  .maplibregl-map .maplibregl-ctrl-attrib-button::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: currentColor;
-    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath fill-rule='evenodd' d='M10 4a6 6 0 1 0 0 12 6 6 0 0 0 0-12m-1 3a1 1 0 1 1 2 0 1 1 0 0 1-2 0m0 3h2v4H9z'/%3E%3C/svg%3E")
-      center / 18px no-repeat;
-    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath fill-rule='evenodd' d='M10 4a6 6 0 1 0 0 12 6 6 0 0 0 0-12m-1 3a1 1 0 1 1 2 0 1 1 0 0 1-2 0m0 3h2v4H9z'/%3E%3C/svg%3E")
-      center / 18px no-repeat;
-  }
-  .maplibregl-map .maplibregl-ctrl-attrib-button:hover {
-    color: var(--c-ink);
-  }
-  .maplibregl-map .maplibregl-ctrl-attrib-button:focus-visible {
-    box-shadow: 0 0 0 2px var(--c-accent);
-  }
-  .maplibregl-map .maplibregl-ctrl-attrib.maplibregl-compact-show .maplibregl-ctrl-attrib-button {
-    background: none !important;
+  [data-theme='dark'] .maplibregl-popup-anchor-bottom .maplibregl-popup-tip {
+    border-top-color: var(--c-surface);
   }
 </style>

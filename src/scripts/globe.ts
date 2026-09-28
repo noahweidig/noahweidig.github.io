@@ -1,124 +1,51 @@
 /* ----------------------------------------------------------------- map -- */
-import type { StyleSpecification } from 'maplibre-gl';
 import { cleanups } from './dom';
 
 const ORLANDO: [number, number] = [-81.3789, 28.5384];
-const FONT = ['Noto Sans Regular'];
+// OpenFreeMap Positron/Dark, self-hosted from public/map/ (tiles still from OpenFreeMap).
+const styleUrl = () =>
+  `${import.meta.env.BASE_URL.replace(/\/?$/, '/')}map/${
+    document.documentElement.dataset.theme === 'light' ? 'positron' : 'dark'
+  }.json`;
 
-// 30° graticule, sampled every 5° so lines curve on the globe.
-function graticule(): GeoJSON.FeatureCollection {
-  const line = (coordinates: number[][]): GeoJSON.Feature => ({
-    type: 'Feature',
-    properties: {},
-    geometry: { type: 'LineString', coordinates },
-  });
-  const range = (a: number, b: number, step: number) =>
-    Array.from({ length: Math.round((b - a) / step) + 1 }, (_, i) => a + i * step);
+// Animated dot from MapLibre's "Add an animated icon" example, in the site accent.
+function pulsingDot(map: import('maplibre-gl').Map) {
+  const size = 100;
+  const accent =
+    getComputedStyle(document.documentElement).getPropertyValue('--c-accent').trim() || '#0072e3';
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let ctx: CanvasRenderingContext2D | null = null;
   return {
-    type: 'FeatureCollection',
-    features: [
-      ...range(-180, 180, 30).map((lon) => line(range(-90, 90, 5).map((lat) => [lon, lat]))),
-      ...range(-60, 60, 30).map((lat) => line(range(-180, 180, 5).map((lon) => [lon, lat]))),
-    ],
-  };
-}
-
-// Vector style built from the site's CSS tokens, so it matches either theme.
-function buildStyle(): StyleSpecification {
-  const css = getComputedStyle(document.documentElement);
-  const c = (n: string) => css.getPropertyValue(n).trim();
-  const [land, water, line, strong, dim, faint] = [
-    '--c-surface',
-    '--c-raised',
-    '--c-line',
-    '--c-line-strong',
-    '--c-dim',
-    '--c-faint',
-  ].map(c);
-  const label = (id: string, filter: unknown[], size: number, color: string, minzoom = 0) => ({
-    id,
-    type: 'symbol' as const,
-    source: 'omt',
-    'source-layer': 'place',
-    filter: filter as never,
-    minzoom,
-    layout: {
-      'text-field': ['coalesce', ['get', 'name:latin'], ['get', 'name']] as never,
-      'text-font': FONT,
-      'text-size': size,
-      'text-max-width': 7,
+    width: size,
+    height: size,
+    data: new Uint8ClampedArray(size * size * 4),
+    onAdd() {
+      const canvas = document.createElement('canvas');
+      canvas.width = canvas.height = size;
+      ctx = canvas.getContext('2d');
     },
-    paint: { 'text-color': color, 'text-halo-color': land, 'text-halo-width': 1.5 },
-  });
-  return {
-    version: 8,
-    projection: { type: 'globe' },
-    glyphs: 'https://tiles.openfreemap.org/fonts/{fontstack}/{range}.pbf',
-    sources: {
-      omt: { type: 'vector', url: 'https://tiles.openfreemap.org/planet' },
-      graticule: { type: 'geojson', data: graticule() },
+    render() {
+      if (!ctx) return false;
+      const t = reduce ? 1 : (performance.now() % 1600) / 1600;
+      const r = (size / 2) * 0.3;
+      ctx.clearRect(0, 0, size, size);
+      ctx.globalAlpha = 1 - t;
+      ctx.beginPath();
+      ctx.arc(size / 2, size / 2, r + (size / 2 - r) * t, 0, Math.PI * 2);
+      ctx.fillStyle = accent;
+      ctx.fill();
+      ctx.globalAlpha = 1;
+      ctx.beginPath();
+      ctx.arc(size / 2, size / 2, r, 0, Math.PI * 2);
+      ctx.fillStyle = accent;
+      ctx.strokeStyle = 'white';
+      ctx.lineWidth = 4;
+      ctx.fill();
+      ctx.stroke();
+      this.data = ctx.getImageData(0, 0, size, size).data;
+      if (!reduce) map.triggerRepaint();
+      return true;
     },
-    layers: [
-      { id: 'bg', type: 'background', paint: { 'background-color': land } },
-      {
-        id: 'water',
-        type: 'fill',
-        source: 'omt',
-        'source-layer': 'water',
-        paint: { 'fill-color': water },
-      },
-      {
-        id: 'graticule',
-        type: 'line',
-        source: 'graticule',
-        paint: { 'line-color': line, 'line-width': 0.75 },
-      },
-      {
-        id: 'waterway',
-        type: 'line',
-        source: 'omt',
-        'source-layer': 'waterway',
-        minzoom: 7,
-        paint: { 'line-color': water, 'line-width': 1 },
-      },
-      {
-        id: 'roads',
-        type: 'line',
-        source: 'omt',
-        'source-layer': 'transportation',
-        minzoom: 6,
-        filter: ['in', 'class', 'motorway', 'trunk', 'primary'],
-        paint: {
-          'line-color': line,
-          'line-width': ['interpolate', ['linear'], ['zoom'], 6, 0.5, 12, 2],
-        },
-      },
-      {
-        id: 'state',
-        type: 'line',
-        source: 'omt',
-        'source-layer': 'boundary',
-        filter: ['all', ['==', 'admin_level', 4], ['!=', 'maritime', 1]],
-        paint: { 'line-color': strong, 'line-width': 1, 'line-dasharray': [3, 2] },
-      },
-      {
-        id: 'country',
-        type: 'line',
-        source: 'omt',
-        'source-layer': 'boundary',
-        filter: ['all', ['==', 'admin_level', 2], ['!=', 'maritime', 1]],
-        paint: { 'line-color': strong, 'line-width': 1.4 },
-      },
-      label('place-country', ['==', 'class', 'country'], 12, faint),
-      label('place-state', ['==', 'class', 'state'], 11, faint, 3),
-      label(
-        'place-city',
-        ['all', ['in', 'class', 'city', 'town'], ['!=', 'name', 'Orlando']],
-        12,
-        dim,
-        5,
-      ),
-    ],
   };
 }
 
@@ -137,59 +64,44 @@ export function initGlobe() {
     maplibregl.setWorkerUrl(workerUrl);
     const map = new maplibregl.Map({
       container: el,
-      style: buildStyle(),
+      style: styleUrl(),
       center: ORLANDO,
       zoom: 1.5,
-      minZoom: 0.8,
-      maxZoom: 14,
-      attributionControl: false,
       cooperativeGestures: true,
-      dragRotate: false,
-      pitchWithRotate: false,
+      attributionControl: false,
     });
-    map.touchZoomRotate.disableRotation();
-    map.addControl(
-      new maplibregl.AttributionControl({
-        compact: true,
-      }),
-      'bottom-right',
+    map.addControl(new maplibregl.NavigationControl());
+    map.addControl(new maplibregl.FullscreenControl());
+    map.addControl(new maplibregl.AttributionControl({ compact: true }));
+    // compact attribution opens itself on first render; start collapsed.
+    map.once('load', () =>
+      el.querySelector('.maplibregl-ctrl-attrib')?.classList.remove('maplibregl-compact-show'),
     );
-    // compact mode re-opens the credit on load, resize and source updates;
-    // keep it collapsed until the user opens it.
-    const credit = el.querySelector('.maplibregl-ctrl-attrib');
-    let userOpened = false;
-    const collapseCredit = () => {
-      if (userOpened) return;
-      credit?.classList.remove('maplibregl-compact-show');
-      credit?.removeAttribute('open');
-    };
-    credit?.querySelector('.maplibregl-ctrl-attrib-button')?.addEventListener('click', () => {
-      userOpened = !!credit.classList.contains('maplibregl-compact-show');
-    });
-    map.on('dragstart', () => (userOpened = false));
-    map.on('resize', collapseCredit);
-    map.on('idle', collapseCredit);
-    collapseCredit();
 
-    const dot = document.createElement('button');
-    dot.type = 'button';
-    dot.className = 'map-dot';
-    dot.setAttribute('aria-label', 'Orlando, Florida');
-
-    const popup = new maplibregl.Popup({
-      closeOnClick: false,
-      closeOnMove: false,
-      offset: 18,
-      maxWidth: 'none',
-    }).setHTML('<b>Orlando, Florida · UTC-5</b><code>28.5384&deg; N, 81.3789&deg; W</code>');
-
-    const marker = new maplibregl.Marker({ element: dot })
+    const popup = new maplibregl.Popup({ offset: 12, closeOnClick: false, focusAfterOpen: false })
       .setLngLat(ORLANDO)
-      .setPopup(popup)
-      .addTo(map);
-    marker.togglePopup();
+      .setText('Orlando, Florida');
+    // setStyle drops images/layers, so re-add the dot on every style load.
+    map.on('style.load', () => {
+      map.setProjection({ type: 'globe' });
+      map.addImage('pulsing-dot', pulsingDot(map), { pixelRatio: 2 });
+      map.addSource('orlando', {
+        type: 'geojson',
+        data: { type: 'Point', coordinates: ORLANDO },
+      });
+      map.addLayer({
+        id: 'orlando',
+        type: 'symbol',
+        source: 'orlando',
+        layout: { 'icon-image': 'pulsing-dot', 'icon-allow-overlap': true },
+      });
+    });
+    map.once('load', () => popup.addTo(map));
+    map.on('click', 'orlando', () => popup.isOpen() || popup.addTo(map));
+    map.on('mouseenter', 'orlando', () => (map.getCanvas().style.cursor = 'pointer'));
+    map.on('mouseleave', 'orlando', () => (map.getCanvas().style.cursor = ''));
 
-    const mo = new MutationObserver(() => map.setStyle(buildStyle()));
+    const mo = new MutationObserver(() => map.setStyle(styleUrl(), { diff: false }));
     mo.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
     cleanups.push(() => {
       mo.disconnect();
