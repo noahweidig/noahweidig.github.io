@@ -1,21 +1,6 @@
 /* --------------------------------------------------------------- header -- */
 import { on } from './dom';
 
-/* iOS Safari ignores overflow:hidden on <html>/<body> for touch scrolling, so
-   pin the body in place and restore the offset on close. */
-let lockedY = 0;
-function lockScroll(lock: boolean) {
-  const b = document.body.style;
-  if (lock) {
-    if (b.position === 'fixed') return;
-    lockedY = window.scrollY;
-    Object.assign(b, { position: 'fixed', top: `-${lockedY}px`, left: '0', right: '0' });
-  } else if (b.position === 'fixed') {
-    Object.assign(b, { position: '', top: '', left: '', right: '' });
-    window.scrollTo({ top: lockedY, behavior: 'instant' });
-  }
-}
-
 export function initHeader() {
   const header = document.getElementById('site-header');
   if (!header) return;
@@ -28,34 +13,18 @@ export function initHeader() {
   if (!toggle || !panel) return;
   const openIcon = toggle.querySelector('[data-menu-icon-open]');
   const closeIcon = toggle.querySelector('[data-menu-icon-close]');
-  const scrim = document.querySelector<HTMLElement>('[data-menu-scrim]');
+  /* Cheap lock: overflow on <html> + touch-action:none on the panel. The old
+     body position:fixed lock relaid out the whole page on every toggle. */
   const setOpen = (open: boolean) => {
+    if (open === !panel.hidden) return;
     panel.hidden = !open;
-    if (scrim) {
-      scrim.hidden = !open;
-      /* Anchored to the header's live bottom edge so the bar and any banner
-         above it stay unblurred, and the scrim keeps covering the page while
-         the reader scrolls with the menu open. */
-      if (open) scrim.style.top = `${Math.max(0, header.getBoundingClientRect().bottom)}px`;
-    }
     header.toggleAttribute('data-menu-open', open);
     document.documentElement.toggleAttribute('data-menu-open', open);
-    lockScroll(open);
     toggle.setAttribute('aria-expanded', String(open));
     openIcon?.toggleAttribute('hidden', open);
     closeIcon?.toggleAttribute('hidden', !open);
   };
   on(toggle, 'click', () => setOpen(panel.hidden));
-  on(
-    window,
-    'scroll',
-    () => {
-      if (!panel.hidden && scrim) {
-        scrim.style.top = `${Math.max(0, header.getBoundingClientRect().bottom)}px`;
-      }
-    },
-    { passive: true } as AddEventListenerOptions,
-  );
   panel.querySelectorAll('a').forEach((a) => on(a, 'click', () => setOpen(false)));
   on(window, 'resize', () => {
     if (window.innerWidth >= 1024) setOpen(false);
