@@ -1,0 +1,56 @@
+---
+interface Props {
+  class?: string;
+  collapse?: boolean;
+}
+const { class: cls = '', collapse = false } = Astro.props;
+---
+
+<span class:list={['wm font-display font-bold italic tracking-tight', { 'wm-collapse': collapse }, cls]}
+  ><span class="text-ink">n</span><span class="wm-fade wm-oah text-ink">oah</span><span
+    class="text-accent">w</span
+  ><span class="wm-fade wm-eidig text-accent">eidig</span><span class="wm-dot text-ink"
+    >.</span
+  ></span
+>
+
+<style>
+  .wm {
+    display: inline-flex;
+    white-space: nowrap;
+  }
+  .wm > span {
+    display: inline-block;
+  }
+  .wm-fade,
+  .wm-dot {
+    overflow: hidden;
+    transition:
+      max-width 0.45s var(--ease-out-soft),
+      opacity 0.3s var(--ease-out-soft);
+  }
+  .wm-oah {
+    max-width: 2.2em;
+  }
+  .wm-eidig {
+    max-width: 2.8em;
+  }
+  .wm-dot {
+    max-width: 0;
+    opacity: 0;
+  }
+  :global(html[data-scrolled]) .wm-collapse .wm-fade {
+    max-width: 0;
+    opacity: 0;
+  }
+  :global(html[data-scrolled]) .wm-collapse .wm-dot {
+    max-width: 0.5em;
+    opacity: 1;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .wm-fade,
+    .wm-dot {
+      transition-duration: 1ms;
+    }
+  }
+</style>
