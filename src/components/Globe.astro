@@ -35,7 +35,23 @@ const { class: klass = '' } = Astro.props;
     background: var(--c-surface);
     color: var(--c-ink);
   }
-  [data-theme='dark'] .maplibregl-popup-anchor-bottom .maplibregl-popup-tip {
+  [data-theme='dark'] .maplibregl-popup-anchor-bottom .maplibregl-popup-tip,
+  [data-theme='dark'] .maplibregl-popup-anchor-bottom-left .maplibregl-popup-tip,
+  [data-theme='dark'] .maplibregl-popup-anchor-bottom-right .maplibregl-popup-tip {
     border-top-color: var(--c-surface);
+  }
+  [data-theme='dark'] .maplibregl-popup-anchor-top .maplibregl-popup-tip,
+  [data-theme='dark'] .maplibregl-popup-anchor-top-left .maplibregl-popup-tip,
+  [data-theme='dark'] .maplibregl-popup-anchor-top-right .maplibregl-popup-tip {
+    border-bottom-color: var(--c-surface);
+  }
+  [data-theme='dark'] .maplibregl-popup-anchor-left .maplibregl-popup-tip {
+    border-right-color: var(--c-surface);
+  }
+  [data-theme='dark'] .maplibregl-popup-anchor-right .maplibregl-popup-tip {
+    border-left-color: var(--c-surface);
+  }
+  [data-theme='dark'] .maplibregl-ctrl-attrib {
+    filter: invert(1) hue-rotate(180deg);
   }
 </style>
