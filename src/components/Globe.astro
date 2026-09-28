@@ -16,3 +16,16 @@ const { class: klass = '' } = Astro.props;
     ></div>
   </div>
 </figure>
+
+<style is:global>
+  [data-theme='dark'] .maplibregl-ctrl-group {
+    background: var(--c-surface);
+    box-shadow: 0 0 0 1px var(--c-line);
+  }
+  [data-theme='dark'] .maplibregl-ctrl-group button + button {
+    border-top-color: var(--c-line);
+  }
+  [data-theme='dark'] .maplibregl-ctrl-group .maplibregl-ctrl-icon {
+    filter: invert(1);
+  }
+</style>
