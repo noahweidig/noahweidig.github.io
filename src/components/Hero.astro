@@ -1,8 +1,5 @@
 ---
 import { u } from '../lib/url';
-import { Image } from 'astro:assets';
-import portrait from '../assets/me.webp';
-import { PORTRAIT_SIZES, PORTRAIT_WIDTHS } from '../lib/portrait';
 import Icon from './Icon.astro';
 import { socials } from '../lib/site';
 
@@ -12,9 +9,36 @@ const typed = [
   'data-driven insights',
   'GIS applications',
 ];
+
+/* Raster values are computed at build time so the client ships static rects, no JS. */
+const cells = Array.from({ length: 176 }, (_, i) => {
+  const x = i % 16;
+  const y = Math.floor(i / 16);
+  const v =
+    0.18 +
+    Math.sin(x * 0.72) * Math.cos(y * 0.58) * 0.28 +
+    Math.exp(-((x - 10) ** 2 + (y - 4) ** 2) / 14) * 0.5;
+  return [x, y, Math.max(0.05, Math.min(0.82, v)).toFixed(2)] as const;
+});
+const nodes = [
+  [116, 215],
+  [254, 174],
+  [386, 128],
+  [208, 93],
+  [404, 309],
+  [492, 237],
+];
+const cols = [
+  [12, 38, 0.1],
+  [25, 65, 0.4],
+  [39, 48, 0.7],
+  [54, 82, 0.2],
+  [70, 55, 0.9],
+  [85, 72, 0.5],
+];
 ---
 
-<section class="under-nav relative overflow-hidden border-b border-line" id="hero">
+<section class="under-nav relative border-b border-line" id="hero">
   {/* Three large, heavily blurred fields rather than one glow: the colour has
       to carry the section, and overlapping blurs are what give the soft
       mesh-like falloff. Sized in vw so the composition holds at any width. */}
@@ -99,33 +123,103 @@ const typed = [
     </div>
 
     <div
-      class="relative order-first mx-auto w-full max-w-[13rem] sm:max-w-[17rem] lg:order-last lg:max-w-md"
+      class="geo relative order-first mx-auto mt-6 aspect-square w-full max-w-[17rem] sm:max-w-[22rem] lg:order-last lg:max-w-[30rem]"
       data-reveal
+      data-geo
       style="--reveal-delay:160ms"
+      aria-hidden="true"
     >
-      <div class="portrait-frame relative aspect-square">
-        <svg class="portrait-blob" viewBox="0 0 1 1" preserveAspectRatio="none" aria-hidden="true">
-          <path d="M.99 .552C.987 .595 .969 .639 .952 .678C.934 .717 .911 .753 .887 .786C.862 .818 .834 .848 .803 .874C.773 .899 .74 .922 .706 .94C.671 .957 .634 .971 .596 .98C.559 .988 .52 .991 .482 .99C.444 .989 .404 .987 .368 .976C.333 .965 .298 .945 .268 .923C.238 .901 .211 .874 .188 .846C.165 .818 .146 .787 .129 .756C.111 .725 .096 .693 .081 .659C.067 .625 .055 .591 .043 .552C.031 .513 .014 .47 .01 .426C.005 .381 0 .325 .016 .283C.033 .242 .068 .199 .107 .177C.147 .156 .208 .157 .253 .156C.299 .156 .343 .169 .381 .175C.419 .18 .45 .184 .482 .19C.514 .195 .543 .201 .574 .208C.605 .215 .634 .222 .667 .232C.699 .241 .733 .25 .77 .264C.806 .279 .851 .293 .885 .319C.919 .345 .956 .382 .973 .42C.991 .459 .994 .509 .99 .552Z"></path>
-          <clipPath id="portrait-clip" clipPathUnits="objectBoundingBox">
-            <rect width="1" height=".62"></rect>
-            <path d="M.99 .552C.987 .595 .969 .639 .952 .678C.934 .717 .911 .753 .887 .786C.862 .818 .834 .848 .803 .874C.773 .899 .74 .922 .706 .94C.671 .957 .634 .971 .596 .98C.559 .988 .52 .991 .482 .99C.444 .989 .404 .987 .368 .976C.333 .965 .298 .945 .268 .923C.238 .901 .211 .874 .188 .846C.165 .818 .146 .787 .129 .756C.111 .725 .096 .693 .081 .659C.067 .625 .055 .591 .043 .552C.031 .513 .014 .47 .01 .426C.005 .381 0 .325 .016 .283C.033 .242 .068 .199 .107 .177C.147 .156 .208 .157 .253 .156C.299 .156 .343 .169 .381 .175C.419 .18 .45 .184 .482 .19C.514 .195 .543 .201 .574 .208C.605 .215 .634 .222 .667 .232C.699 .241 .733 .25 .77 .264C.806 .279 .851 .293 .885 .319C.919 .345 .956 .382 .973 .42C.991 .459 .994 .509 .99 .552Z"></path>
-          </clipPath>
-        </svg>
-        <div class="portrait-clip">
-          <Image
-            src={portrait}
-            alt="Noah Weidig"
-            widths={PORTRAIT_WIDTHS}
-            sizes={PORTRAIT_SIZES}
-            loading="eager"
-            fetchpriority="high"
-            class="aspect-square w-full object-cover"
-          />
+      <div class="geo-stage" data-geo-stage>
+        <span class="geo-orbit geo-orbit-1"></span>
+        <span class="geo-orbit geo-orbit-2"></span>
+        <div class="geo-layer geo-l4">
+          <div class="geo-tiles"></div>
+          <span class="geo-tag">04 / Infrastructure</span>
         </div>
+        <div class="geo-layer geo-l3">
+          <svg class="geo-svg" viewBox="0 0 600 420" preserveAspectRatio="none">
+            <g class="geo-vec">
+              <path d="M30 281L116 215L183 239L254 174L332 203L386 128L476 151L569 77"></path>
+              <path d="M54 105L138 141L208 93L284 127L351 69L431 106L532 48"></path>
+              <path d="M89 380L165 307L251 344L325 271L404 309L492 237L579 260"></path>
+              <path d="M98 35L128 109L105 183L151 255L128 337"></path>
+              <path d="M235 12L262 83L240 161L285 234L253 405"></path>
+              <path d="M401 9L380 96L421 180L390 259L438 400"></path>
+            </g>
+            <g class="geo-nodes">
+              {nodes.map(([x, y]) => (
+                <circle cx={x} cy={y} r="5"></circle>
+              ))}
+            </g>
+          </svg>
+          <span class="geo-tag">03 / Vector network</span>
+        </div>
+        <div class="geo-layer geo-l2">
+          <svg class="geo-svg geo-contours" viewBox="0 0 600 420" preserveAspectRatio="none">
+            <path d="M-20 275C59 217 99 310 172 263C237 222 240 126 330 140C415 154 407 245 495 225C551 212 576 167 630 180"></path>
+            <path d="M-30 304C47 249 106 341 183 290C253 244 257 153 338 166C426 180 433 273 511 252C567 237 594 195 640 207"></path>
+            <path d="M-20 334C74 280 120 371 199 318C272 270 283 188 354 196C440 206 452 304 530 278C581 261 605 226 640 231"></path>
+            <path d="M42 206C100 163 137 214 191 180C245 145 247 75 319 76C385 77 412 143 472 126C519 113 539 73 595 91"></path>
+            <path d="M82 139C130 106 160 143 208 112C255 81 275 35 329 37C383 38 404 82 455 69"></path>
+            <path d="M71 380C121 351 151 402 213 370C277 337 300 276 366 286C421 295 457 355 526 323"></path>
+          </svg>
+          <span class="geo-tag">02 / Elevation contours</span>
+        </div>
+        <div class="geo-layer geo-l1">
+          <svg class="geo-svg geo-raster" viewBox="0 0 16 11" preserveAspectRatio="none">
+            {cells.map(([x, y, o]) => (
+              <rect x={x + 0.06} y={y + 0.06} width=".88" height=".88" fill-opacity={o}></rect>
+            ))}
+          </svg>
+          <span class="geo-scan"></span>
+          <span class="geo-target"></span>
+          <span class="geo-tag">01 / Multispectral raster</span>
+        </div>
+        <div class="geo-cols">
+          {cols.map(([x, h, d]) => (
+            <i style={`--x:${x}%;--h:${h}%;--d:${d}s`}></i>
+          ))}
+        </div>
+      </div>
+      <div class="geo-readout">
+        <span class="geo-dot"></span>
+        <span>
+          <small>ACTIVE DATASET</small>
+          <strong data-geo-name>MULTISPECTRAL / B08</strong>
+        </span>
       </div>
     </div>
   </div>
 </section>
+
+<script>
+  const v = document.querySelector<HTMLElement>('[data-geo]');
+  const st = v?.querySelector<HTMLElement>('[data-geo-stage]');
+  const nm = v?.querySelector<HTMLElement>('[data-geo-name]');
+  if (v && st && nm) {
+    const ds = ['MULTISPECTRAL / B08', 'ELEVATION / DSM', 'VECTOR / NETWORK', 'ANOMALY / INDEX'];
+    new IntersectionObserver(([e]) => v.classList.toggle('geo-off', !e.isIntersecting)).observe(v);
+    if (matchMedia('(pointer: fine)').matches) {
+      let raf = 0;
+      v.addEventListener('pointermove', (e) => {
+        if (raf) return;
+        raf = requestAnimationFrame(() => {
+          raf = 0;
+          const r = v.getBoundingClientRect();
+          const lx = (e.clientX - r.left) / r.width;
+          const x = lx - 0.5;
+          const y = (e.clientY - r.top) / r.height - 0.5;
+          st.style.transform = `translate(-50%,-50%) rotateX(${58 - y * 9}deg) rotateZ(${-32 + x * 8}deg)`;
+          nm.textContent = ds[Math.min(3, Math.max(0, Math.floor(lx * 4)))];
+        });
+      });
+      v.addEventListener('pointerleave', () => {
+        st.style.transform = '';
+        nm.textContent = ds[0];
+      });
+    }
+  }
+</script>
 
 <style>
   .hero-mesh {
@@ -293,20 +387,275 @@ const typed = [
     }
   }
 
-  /* Flat accent blob behind the cutout. The clip box shares the blob's bottom
-     shape plus the band above it, so the head clears the blob. */
-  .portrait-blob {
+  /* Geospatial layer stack. Everything animates transform/opacity only, and
+     animations pause while the hero is off screen (.geo-off). */
+  .geo {
+    --g: var(--c-accent);
+    container-type: inline-size;
+    perspective: 1500px;
+  }
+  /* Raised layers project up out of the box, so the stage sits low and small
+     enough that the top layer clears the hero's overflow clip. */
+  .geo-stage {
+    position: absolute;
+    top: 56%;
+    left: 50%;
+    width: 70%;
+    aspect-ratio: 1;
+    transform: translate(-50%, -50%) rotateX(58deg) rotateZ(-32deg);
+    transform-style: preserve-3d;
+    transition: transform 150ms ease-out;
+  }
+  .geo-layer {
     position: absolute;
     inset: 0;
+    border: 1px solid color-mix(in oklab, var(--g) 40%, transparent);
+    background: color-mix(in oklab, var(--c-bg) 55%, transparent);
+    transition: transform 600ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .geo-layer::before,
+  .geo-layer::after {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    content: '';
+    border: 0 solid var(--g);
+  }
+  .geo-layer::before {
+    top: -1px;
+    left: -1px;
+    border-width: 2px 0 0 2px;
+  }
+  .geo-layer::after {
+    right: -1px;
+    bottom: -1px;
+    border-width: 0 2px 2px 0;
+  }
+  .geo-l1 {
+    overflow: hidden;
+    background: color-mix(in oklab, var(--g) 16%, var(--c-bg) 50%);
+    transform: translateZ(34cqw);
+  }
+  .geo-l2 {
+    transform: translateZ(22cqw);
+  }
+  .geo-l3 {
+    transform: translateZ(9cqw);
+  }
+  .geo-l4 {
+    opacity: 0.55;
+    transform: translateZ(-3cqw);
+  }
+  .geo:hover .geo-l1 {
+    transform: translateZ(40cqw);
+  }
+  .geo:hover .geo-l2 {
+    transform: translateZ(24cqw);
+  }
+  .geo:hover .geo-l3 {
+    transform: translateZ(7cqw);
+  }
+  .geo:hover .geo-l4 {
+    transform: translateZ(-9cqw);
+  }
+  .geo-tag {
+    position: absolute;
+    top: 8px;
+    left: 9px;
+    padding: 4px 6px;
+    border-left: 2px solid var(--g);
+    background: color-mix(in oklab, var(--c-bg) 85%, transparent);
+    color: var(--c-dim);
+    font: 0.5rem/1 var(--font-mono, monospace);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .geo-tiles {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(color-mix(in oklab, var(--g) 22%, transparent) 1px, transparent 1px) 0 0 / 10%
+        14%,
+      linear-gradient(90deg, color-mix(in oklab, var(--g) 22%, transparent) 1px, transparent 1px) 0
+        0 / 10% 14%;
+  }
+  .geo-svg {
+    display: block;
     width: 100%;
     height: 100%;
-    fill: var(--c-accent);
-    fill-opacity: 0.18;
+    overflow: visible;
+    fill: none;
   }
-  .portrait-clip {
+  .geo-vec path {
+    stroke: color-mix(in oklab, var(--g) 70%, transparent);
+    stroke-width: 1.4;
+    stroke-dasharray: 8 8;
+  }
+  .geo-nodes circle {
+    fill: var(--c-ink);
+    stroke: var(--g);
+    stroke-width: 3;
+  }
+  .geo-contours path {
+    stroke: color-mix(in oklab, var(--g) 65%, transparent);
+    stroke-width: 1.1;
+  }
+  .geo-contours path:nth-child(even) {
+    stroke-opacity: 0.6;
+  }
+  .geo-raster {
+    fill: var(--g);
+  }
+  .geo-scan {
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 100%;
+    border-left: 2px solid var(--g);
+    background: linear-gradient(
+      90deg,
+      color-mix(in oklab, var(--g) 18%, transparent),
+      transparent 14%
+    );
+    transform: translateX(8%);
+  }
+  .geo-target {
+    position: absolute;
+    top: 34%;
+    left: 61%;
+    width: 46px;
+    height: 46px;
+    border: 1px solid var(--g);
+    border-radius: 50%;
+    background:
+      linear-gradient(var(--g), var(--g)) center / 1px 100% no-repeat,
+      linear-gradient(var(--g), var(--g)) center / 100% 1px no-repeat;
+  }
+  .geo-cols {
     position: absolute;
     inset: 0;
-    clip-path: url(#portrait-clip);
+    transform-style: preserve-3d;
+  }
+  .geo-cols i {
+    position: absolute;
+    bottom: 10%;
+    left: var(--x);
+    width: 2px;
+    height: var(--h);
+    background: linear-gradient(to top, transparent, var(--g));
+    transform: translateZ(37cqw);
+    transform-origin: bottom;
+  }
+  .geo-orbit {
+    position: absolute;
+    inset: -15%;
+    border: 1px dashed color-mix(in oklab, var(--g) 25%, transparent);
+    border-radius: 50%;
+  }
+  .geo-orbit-2 {
+    inset: -31%;
+    border-style: solid;
+    opacity: 0.4;
+  }
+  .geo-readout {
+    position: absolute;
+    right: 0;
+    bottom: 4%;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    min-width: 12rem;
+    padding: 10px 13px;
+    border: 1px solid var(--c-line);
+    background: color-mix(in oklab, var(--c-bg) 85%, transparent);
+    font-family: var(--font-mono, monospace);
+  }
+  .geo-readout span:last-child {
+    display: grid;
+    gap: 3px;
+  }
+  .geo-readout small {
+    color: var(--c-dim);
+    font-size: 0.5rem;
+    letter-spacing: 0.12em;
+  }
+  .geo-readout strong {
+    font-size: 0.65rem;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+  }
+  .geo-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--g);
+  }
+  @media (max-width: 639px) {
+    .geo-readout,
+    .geo-tag {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .geo-vec path {
+      animation: geo-flow 18s linear infinite;
+    }
+    .geo-nodes circle,
+    .geo-dot {
+      animation: geo-pulse 2.4s ease-in-out infinite;
+    }
+    .geo-nodes circle:nth-child(even) {
+      animation-delay: -1.2s;
+    }
+    .geo-scan {
+      animation: geo-scan 5s ease-in-out infinite alternate;
+    }
+    .geo-target {
+      animation: geo-target 2.5s ease-in-out infinite;
+    }
+    .geo-cols i {
+      animation: geo-col 2.8s var(--d) ease-in-out infinite alternate;
+    }
+    .geo-orbit-1 {
+      animation: geo-spin 22s linear infinite;
+    }
+    .geo-orbit-2 {
+      animation: geo-spin 34s linear infinite reverse;
+    }
+    .geo-off * {
+      animation-play-state: paused !important;
+    }
+  }
+  @keyframes geo-flow {
+    to {
+      stroke-dashoffset: -160;
+    }
+  }
+  @keyframes geo-pulse {
+    50% {
+      opacity: 0.35;
+    }
+  }
+  @keyframes geo-scan {
+    to {
+      transform: translateX(88%);
+    }
+  }
+  @keyframes geo-target {
+    50% {
+      opacity: 0.55;
+      transform: scale(1.16);
+    }
+  }
+  @keyframes geo-col {
+    to {
+      transform: translateZ(37cqw) scaleY(0.55);
+    }
+  }
+  @keyframes geo-spin {
+    to {
+      transform: rotate(360deg);
+    }
   }
 
   .hero-btn {
