@@ -472,6 +472,7 @@ const cols = [
     transform: translateZ(34cqw);
   }
   .geo-l2 {
+    overflow: hidden;
     transform: translateZ(22cqw);
   }
   .geo-l3 {
@@ -490,8 +491,11 @@ const cols = [
   }
   .geo-table {
     position: absolute;
-    inset: 16% 6% 6%;
+    top: 16%;
+    left: 6%;
     width: 88%;
+    height: 78%;
+    table-layout: fixed;
     border-collapse: collapse;
     color: var(--c-dim);
     font: 0.5rem/1 var(--font-mono, monospace);
