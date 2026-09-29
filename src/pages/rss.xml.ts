@@ -42,7 +42,7 @@ export async function GET(context: APIContext) {
   const container = await AstroContainer.create();
   const feedSite = context.site ?? new URL(site.url);
 
-  return rss({
+  const res = await rss({
     title: 'Noah Weidig — Blog',
     description: 'Notes on science, data, maps, and the landscapes we live in.',
     site: feedSite,
@@ -73,4 +73,10 @@ export async function GET(context: APIContext) {
     ),
     customData: '<language>en-us</language>',
   });
+  // @astrojs/rss omits `type` on non-XSL stylesheets; some browsers then skip the CSS.
+  const xml = (await res.text()).replace(
+    '<?xml-stylesheet href="/rss/styles.css"?>',
+    '<?xml-stylesheet type="text/css" href="/rss/styles.css"?>',
+  );
+  return new Response(xml, { headers: res.headers });
 }
