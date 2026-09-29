@@ -43,12 +43,13 @@
   --c-sheen: rgb(255 255 255 / 0.04);
   --grid-line: rgb(255 255 255 / 0.045);
   --topo-opacity: 0.05;
-  --hero-1: var(--c-violet);
-  --hero-2: var(--c-accent);
-  --hero-3: #ff4d5e;
-  --hero-4: #ff5a36;
-  --hero-opacity: 0.22;
-  --hero-blur: 70px;
+  --hero-1: #7c5cff;
+  --hero-2: #1f7bff;
+  --hero-3: #e0457b;
+  --hero-4: #ff8a4c;
+  --hero-5: #38b6ff;
+  --hero-opacity: 0.62;
+  --hero-blur: 80px;
   --hero-blend: screen;
   color-scheme: dark;
 }
@@ -77,11 +78,12 @@
   --topo-opacity: 0.045;
   /* Screen on a near-white ground just bleaches; the light theme paints the
      same fields normally, sat well back so the copy stays the loudest thing. */
-  --hero-1: var(--c-violet);
-  --hero-2: var(--c-accent);
-  --hero-3: #e11d48;
-  --hero-4: #ea580c;
-  --hero-opacity: 0.1;
+  --hero-1: #7c5cff;
+  --hero-2: #1f7bff;
+  --hero-3: #e0457b;
+  --hero-4: #ff8a4c;
+  --hero-5: #0ea5e9;
+  --hero-opacity: 0.28;
   --hero-blur: 90px;
   --hero-blend: normal;
   color-scheme: light;
