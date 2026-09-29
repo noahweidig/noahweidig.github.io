@@ -163,15 +163,20 @@ node scripts/update-pubs.js    # refresh publications from Zotero
 
 ### Continuous integration
 
-| Workflow               | Runs on                                       | Does                                                                       |
-| ---------------------- | --------------------------------------------- | -------------------------------------------------------------------------- |
-| `publish.yml`          | push to `main`, PR, called by the Zotero sync | lints, builds, deploys to Pages                                            |
-| `axe.yml`              | PR                                            | axe-core (`heading-order`) over the built site                             |
-| `lighthouse.yml`       | PR                                            | Lighthouse with score assertions and resource budgets (`lighthouserc.cjs`) |
-| `links.yml`            | PR, monthly                                   | lychee over the built site                                                 |
-| `production-audit.yml` | weekly                                        | Lighthouse, axe and lychee against the **live** site                       |
-| `pdfs.yml`             | weekly, content changes                       | re-renders `cv.pdf` and `resume.pdf` from the built site                   |
-| `project-shots.yml`    | weekly, manual                                | recaptures the project screenshots from the live projects                  |
+| Workflow                    | Runs on                                       | Does                                                                       |
+| --------------------------- | --------------------------------------------- | -------------------------------------------------------------------------- |
+| `publish.yml`               | push to `main`, PR, called by the Zotero sync | lints, builds, deploys to Pages                                            |
+| `axe.yml`                   | PR                                            | axe-core (`heading-order`) over the built site                             |
+| `lighthouse.yml`            | PR                                            | Lighthouse with score assertions and resource budgets (`lighthouserc.cjs`) |
+| `links.yml`                 | PR, monthly                                   | lychee over the built site                                                 |
+| `production-audit.yml`      | weekly                                        | Lighthouse, axe and lychee against the **live** site                       |
+| `pdfs.yml`                  | weekly, content changes                       | re-renders `cv.pdf` and `resume.pdf` from the built site                   |
+| `project-shots.yml`         | weekly, manual                                | recaptures the project screenshots from the live projects                  |
+| `post-audit.yml`            | PR, manual                                    | `@casoon/astro-post-audit` over the built site (`npm run audit:post`)      |
+| `blog-covers.yml`           | push touching a blog post, manual             | generates missing blog covers                                              |
+| `update-pubs.yml`           | 1st and 15th monthly, manual                  | Zotero sync of `src/content/publications/`, then deploys                   |
+| `update-citation-stats.yml` | weekly, manual                                | refreshes `src/data/citation-stats.json`, then deploys                     |
+| `seo-audit.yml`             | weekly, manual                                | refreshes `src/data/seo-audit.json` for `/seo/`, then deploys              |
 
 Every workflow that needs a build goes through the `.github/actions/build-site` composite action, so each check scores the same bytes that get deployed.
 
