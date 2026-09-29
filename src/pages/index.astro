@@ -14,15 +14,9 @@ import CitationRow from '../components/CitationRow.astro';
 import TimelineItem from '../components/TimelineItem.astro';
 import Globe from '../components/Globe.astro';
 import Icon from '../components/Icon.astro';
-import { Image, getImage } from 'astro:assets';
-import portrait from '../assets/me.webp';
-import { PORTRAIT_SIZES, PORTRAIT_WIDTHS } from '../lib/portrait';
+import { Image } from 'astro:assets';
 import { readingTime, year } from '../lib/format';
 import { site } from '../lib/site';
-
-/* The hero portrait is this page's LCP element, so it is preloaded from the
-   head rather than discovered where it sits in the body. */
-const heroPortrait = await getImage({ src: portrait, widths: PORTRAIT_WIDTHS });
 
 const byDate = <T extends { data: { date: Date } }>(a: T, b: T) =>
   b.data.date.getTime() - a.data.date.getTime();
@@ -103,15 +97,7 @@ const faqs = [
 ];
 ---
 
-<Base
-  title={site.name}
-  filters={{ section: 'Page' }}
-  preloadImage={{
-    href: heroPortrait.src,
-    srcset: heroPortrait.srcSet.attribute,
-    sizes: PORTRAIT_SIZES,
-  }}
->
+<Base title={site.name} filters={{ section: 'Page' }}>
   <Hero />
 
   <!-- stats + affiliations -->
@@ -149,13 +135,13 @@ const faqs = [
   </section>
 
   <!-- research areas -->
-  <section class="shell scroll-mt-24 py-24 md:py-28" id="interests">
+  <section class="shell scroll-mt-24 py-24 md:py-28 cv-auto" id="interests">
     <SectionHead kicker="Research areas" title="Where I focus my work" />
     <ResearchAreas />
   </section>
 
   <!-- projects -->
-  <section class="shell scroll-mt-24 py-20" id="projects">
+  <section class="shell scroll-mt-24 py-20 cv-auto" id="projects">
     <SectionHead
       kicker="Selected work"
       title="Tools, maps & applications"
@@ -178,7 +164,7 @@ const faqs = [
   </section>
 
   <!-- publications -->
-  <section class="shell scroll-mt-24 py-20" id="publications">
+  <section class="shell scroll-mt-24 py-20 cv-auto" id="publications">
     <SectionHead
       kicker="Publications"
       title="Peer-reviewed & in review"
@@ -201,7 +187,7 @@ const faqs = [
   </section>
 
   <!-- skills -->
-  <section class="scroll-mt-24 border-y border-line bg-bg-deep py-20" id="skills">
+  <section class="scroll-mt-24 border-y border-line bg-bg-deep py-20 cv-auto" id="skills">
     <div class="shell">
       <SectionHead kicker="Tech stack" title="Technologies I use to build things" />
       <TechMarquee />
@@ -209,7 +195,7 @@ const faqs = [
   </section>
 
   <!-- experience + education -->
-  <section class="shell scroll-mt-24 py-24" id="experience">
+  <section class="shell scroll-mt-24 py-24 cv-auto" id="experience">
     <SectionHead kicker="Background" title="Where I've worked and studied" />
     <div class="mt-10 grid gap-12 lg:grid-cols-2 lg:gap-16">
       <div>
@@ -252,7 +238,7 @@ const faqs = [
   </section>
 
   <!-- awards -->
-  <section class="scroll-mt-24 border-y border-line bg-bg-deep py-20" id="awards">
+  <section class="scroll-mt-24 border-y border-line bg-bg-deep py-20 cv-auto" id="awards">
     <div class="shell">
       <SectionHead
         kicker="Recognition"
@@ -339,7 +325,7 @@ const faqs = [
   </section>
 
   <!-- blog -->
-  <section class="shell scroll-mt-24 py-20" id="blog">
+  <section class="shell scroll-mt-24 py-20 cv-auto" id="blog">
     <SectionHead
       kicker="Writing"
       title="Notes & tutorials"
@@ -362,7 +348,7 @@ const faqs = [
   </section>
 
   <!-- faq -->
-  <section class="shell scroll-mt-24 border-t border-line py-20" id="faq">
+  <section class="shell scroll-mt-24 border-t border-line py-20 cv-auto" id="faq">
     <SectionHead
       kicker="FAQ"
       title="About my work"
@@ -376,7 +362,7 @@ const faqs = [
             {/* Drawn rather than a typed "+": the glyph sits off the optical
                   centre at this size, and the vertical bar can collapse into a
                   minus instead of the whole mark spinning. */}
-            <span class="grid h-7 w-7 shrink-0 place-items-center rounded-md border border-line text-faint transition-colors duration-300 group-hover:border-line-strong group-hover:text-ink group-open:border-accent/50 group-open:text-accent-ink">
+            <span class="grid h-7 w-7 shrink-0 place-items-center rounded-full border border-line text-faint transition-colors duration-300 group-hover:border-line-strong group-hover:text-ink group-open:border-accent/50 group-open:text-accent-ink">
               <svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true">
                 <line
                   x1="2.5"
@@ -432,7 +418,7 @@ const faqs = [
   </section>
 
   <!-- cta -->
-  <section class="shell scroll-mt-24 border-t border-line py-20" id="cta">
+  <section class="shell scroll-mt-24 border-t border-line py-20 cv-auto" id="cta">
     <div class="grid gap-10 lg:grid-cols-[1.25fr_0.75fr] lg:items-stretch">
       <div class="card relative overflow-hidden p-8 md:p-11" data-reveal>
         <div class="relative">

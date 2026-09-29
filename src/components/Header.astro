@@ -2,7 +2,7 @@
 import { u } from '../lib/url';
 import { nav, site } from '../lib/site';
 import Icon from './Icon.astro';
-import Logo from './Logo.astro';
+import Wordmark from './Wordmark.astro';
 import Search from './Search.astro';
 
 /* Compared against `u(href)`, not the bare href, so the check stays correct if
@@ -29,24 +29,11 @@ const isActive = (href: string) => {
       class="group flex min-w-0 items-center gap-2.5"
       aria-label="Noah Weidig — home"
     >
-      <Logo class="wordmark-icon h-7 w-auto transition-transform duration-500 group-hover:-rotate-6" />
-      <span
-        data-text="Noah Weidig"
-        class="wordmark-wipe truncate font-display text-[1.3rem] font-bold tracking-tight max-[360px]:hidden md:text-[1.45rem]"
-      >
-        Noah Weidig
-      </span>
-      <span
-        aria-hidden="true"
-        data-text="Nw."
-        class="wordmark-wipe hidden font-display text-[1.3rem] font-bold tracking-tight max-[360px]:block"
-      >
-        Nw.
-      </span>
+      <Wordmark collapse class="text-[1.75rem] max-[389px]:text-[1.5rem] md:text-[2rem]" />
     </a>
 
-    <nav aria-label="Primary" class="ml-auto hidden min-w-0 lg:block">
-      <ul class="flex items-center gap-0.5">
+    <nav aria-label="Primary" class="mx-4 hidden min-w-0 flex-1 lg:block xl:mx-8">
+      <ul class="flex items-center justify-end gap-0.5">
         {nav.map((item) => (
           <li>
             <a
@@ -54,7 +41,7 @@ const isActive = (href: string) => {
               data-tip={item.tip}
               aria-current={isActive(item.href) ? 'page' : undefined}
               class:list={[
-                'nav-link rounded-[0.7rem] px-2.5 py-2 text-sm xl:px-3',
+                'nav-link rounded-full px-2.5 py-2 text-sm xl:px-3',
                 isActive(item.href) ? 'nav-link-active' : '',
               ]}
             >
@@ -65,7 +52,7 @@ const isActive = (href: string) => {
       </ul>
     </nav>
 
-    <div class="ml-auto flex shrink-0 items-center gap-1.5 lg:ml-2">
+    <div class="ml-auto flex shrink-0 items-center gap-1.5 lg:ml-0">
       <button
         type="button"
         data-search-open
@@ -127,27 +114,34 @@ const isActive = (href: string) => {
   <div
     id="mobile-nav"
     hidden
-    class="absolute inset-x-0 top-full max-h-[calc(100vh-4rem)] overflow-y-auto border-t border-line bg-surface backdrop-blur-xl lg:hidden"
+    class="mobile-nav absolute inset-x-0 top-full h-[calc(100dvh-3.5rem)] overflow-hidden border-t border-line bg-bg md:h-[calc(100dvh-4rem)] lg:hidden"
   >
-    <nav aria-label="Mobile" class="shell py-4">
-      <ul class="grid gap-1">
+    <nav
+      aria-label="Mobile"
+      class="shell flex h-full flex-col items-center justify-center py-[3dvh]"
+    >
+      <ul class="flex min-h-0 w-full flex-1 flex-col text-center">
         {nav.map((item) => (
-          <li>
+          <li class="flex min-h-0 flex-1 items-center justify-center">
             <a
               href={u(item.href)}
               class:list={[
-                'nav-link flex items-center justify-between rounded-[0.7rem] px-3 py-2.5 text-body-lg',
+                'mobile-nav-link nav-link rounded-full px-6 font-display font-semibold tracking-tight',
                 isActive(item.href) ? 'nav-link-active' : '',
               ]}
               aria-current={isActive(item.href) ? 'page' : undefined}
             >
               {item.text}
-              <Icon name="arrow" size={16} class="opacity-40" />
             </a>
           </li>
         ))}
       </ul>
-      <a class="btn btn-primary mt-4 w-full" href={site.booking} target="_blank" rel="noopener">
+      <a
+        class="mobile-nav-cta btn btn-primary mt-[2dvh] shrink-0 font-display font-semibold tracking-tight"
+        href={site.booking}
+        target="_blank"
+        rel="noopener"
+      >
         Book a call
         <span class="sr-only-nw"> (opens in a new tab)</span>
         <Icon name="arrow" size={15} />
@@ -156,27 +150,59 @@ const isActive = (href: string) => {
   </div>
 </header>
 
-<!-- Outside the header: a stuck header carries `backdrop-filter`, which makes
-     it the containing block for fixed descendants and collapses this against
-     the bar. Its top edge is set from the header's live bottom in ui.ts. -->
-<div
-  data-menu-scrim
-  hidden
-  aria-hidden="true"
-  class="fixed inset-x-0 bottom-0 z-40 bg-black/70 backdrop-blur-sm lg:hidden"
-></div>
-
 <Search />
 
 <style>
-  /* The scrim sits behind the header, so an otherwise transparent bar would
-     show it through. */
-  #site-header[data-menu-open] {
-    background-color: var(--c-bg);
+  /* Links split the panel height evenly; type scales with viewport height. */
+  .mobile-nav-link {
+    font-size: clamp(1.75rem, 5.5dvh, 3.25rem);
+    line-height: 1.1;
+    padding-block: 0.1em;
+  }
+  .mobile-nav-cta {
+    font-size: clamp(1.75rem, 5.5dvh, 3.25rem);
+    line-height: 1.1;
+    padding: 0.3em 1em;
+  }
+  .mobile-nav {
+    contain: strict;
+    touch-action: none;
+    overscroll-behavior: contain;
+  }
+  .mobile-nav:not([hidden]) {
+    animation: menu-fade 0.15s ease-out both;
+  }
+  @keyframes menu-fade {
+    from {
+      opacity: 0;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .mobile-nav:not([hidden]) {
+      animation: none;
+    }
+  }
+  :global(html[data-menu-open]) {
+    overflow: hidden;
   }
   #site-header[data-stuck] {
     background-color: color-mix(in oklab, var(--c-bg) 78%, transparent);
     backdrop-filter: blur(16px) saturate(1.4);
     border-bottom-color: var(--c-line);
   }
+  /* Opaque while open; a live backdrop blur here repaints every frame. */
+  /* After [data-stuck]: same specificity, so order decides. Opaque while open. */
+  #site-header[data-menu-open] {
+    background-color: var(--c-bg);
+    backdrop-filter: none;
+  }
 </style>
+
+<script>
+  const set = () => {
+    if (document.documentElement.hasAttribute('data-menu-open')) return;
+    document.documentElement.toggleAttribute('data-scrolled', scrollY > 8);
+  };
+  set();
+  addEventListener('scroll', set, { passive: true });
+</script>

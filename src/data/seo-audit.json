@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-09-23T13:35:24.971Z",
+  "generatedAt": "2026-09-28T16:16:06.429Z",
   "totalPages": 100,
   "score": 98,
   "totals": {
     "passes": 1465,
-    "warnings": 26,
+    "warnings": 25,
     "errors": 0
   },
   "audits": [
@@ -34,15 +34,9 @@
     {
       "name": "Schema Markup",
       "passes": 274,
-      "warnings": 1,
+      "warnings": 0,
       "errors": 0,
-      "issues": [
-        {
-          "page": "/blog/index.html",
-          "message": "Blog post missing BlogPosting or Article schema",
-          "severity": "warning"
-        }
-      ]
+      "issues": []
     },
     {
       "name": "Hreflang",
@@ -176,17 +170,17 @@
       "issues": [
         {
           "page": "/blog/favorite-r-packages/index.html",
-          "message": "Total HTML size exceeds 100KB (126.8KB)",
+          "message": "Total HTML size exceeds 100KB (126.1KB)",
           "severity": "warning"
         },
         {
           "page": "/index.html",
-          "message": "Total HTML size exceeds 100KB (184.9KB)",
+          "message": "Total HTML size exceeds 100KB (201.8KB)",
           "severity": "warning"
         },
         {
           "page": "/publications/index.html",
-          "message": "Total HTML size exceeds 100KB (117.8KB)",
+          "message": "Total HTML size exceeds 100KB (117.1KB)",
           "severity": "warning"
         }
       ]

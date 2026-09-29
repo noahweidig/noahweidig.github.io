@@ -2,7 +2,6 @@
 import { u, base } from '../lib/url';
 import '../styles/global.css';
 import { ClientRouter } from 'astro:transitions';
-import AnnouncementBanner from '../components/AnnouncementBanner.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import Icon from '../components/Icon.astro';
@@ -243,10 +242,9 @@ const jsonLd = {
   </head>
 
   <body class={bodyClass}>
-    <a href="#main" class="sr-only-nw focus:not-sr-only fixed top-3 left-3 z-100 btn btn-primary">
+    <a href="#main" class="skip-link btn btn-primary">
       Skip to content
     </a>
-    <AnnouncementBanner />
     <Header />
     <main id="main" data-pagefind-body>
       {/* Empty elements carrying an explicit value: Pagefind reads the facet

@@ -38,19 +38,33 @@ const beyondWork = [
   filters={{ section: 'Page' }}
 >
   <Breadcrumbs trail={[]} current="About" class="sr-only-nw" />
-  <section class="relative overflow-hidden border-b border-line bg-bg-deep">
+  <section class="under-nav relative overflow-hidden border-b border-line bg-bg-deep">
     <div class="grid-bg absolute inset-0" aria-hidden="true"></div>
     <div class="shell relative grid items-center gap-10 py-16 md:grid-cols-[0.8fr_1.2fr] md:py-20">
       <div class="mx-auto w-full max-w-[12rem] md:mx-0 md:max-w-none" data-reveal>
-        <div class="portrait-ring overflow-hidden rounded-full border border-line bg-surface">
-          <Image
-            src={portrait}
-            alt="Noah Weidig"
-            widths={PORTRAIT_WIDTHS}
-            sizes={PORTRAIT_SIZES}
-            loading="eager"
-            class="aspect-square w-full object-cover"
-          />
+        <div class="portrait-frame relative aspect-square">
+          <svg
+            class="portrait-blob"
+            viewBox="0 0 1 1"
+            preserveAspectRatio="none"
+            aria-hidden="true"
+          >
+            <path d="M.99 .552C.987 .595 .969 .639 .952 .678C.934 .717 .911 .753 .887 .786C.862 .818 .834 .848 .803 .874C.773 .899 .74 .922 .706 .94C.671 .957 .634 .971 .596 .98C.559 .988 .52 .991 .482 .99C.444 .989 .404 .987 .368 .976C.333 .965 .298 .945 .268 .923C.238 .901 .211 .874 .188 .846C.165 .818 .146 .787 .129 .756C.111 .725 .096 .693 .081 .659C.067 .625 .055 .591 .043 .552C.031 .513 .014 .47 .01 .426C.005 .381 0 .325 .016 .283C.033 .242 .068 .199 .107 .177C.147 .156 .208 .157 .253 .156C.299 .156 .343 .169 .381 .175C.419 .18 .45 .184 .482 .19C.514 .195 .543 .201 .574 .208C.605 .215 .634 .222 .667 .232C.699 .241 .733 .25 .77 .264C.806 .279 .851 .293 .885 .319C.919 .345 .956 .382 .973 .42C.991 .459 .994 .509 .99 .552Z"></path>
+            <clipPath id="portrait-clip" clipPathUnits="objectBoundingBox">
+              <rect width="1" height=".62"></rect>
+              <path d="M.99 .552C.987 .595 .969 .639 .952 .678C.934 .717 .911 .753 .887 .786C.862 .818 .834 .848 .803 .874C.773 .899 .74 .922 .706 .94C.671 .957 .634 .971 .596 .98C.559 .988 .52 .991 .482 .99C.444 .989 .404 .987 .368 .976C.333 .965 .298 .945 .268 .923C.238 .901 .211 .874 .188 .846C.165 .818 .146 .787 .129 .756C.111 .725 .096 .693 .081 .659C.067 .625 .055 .591 .043 .552C.031 .513 .014 .47 .01 .426C.005 .381 0 .325 .016 .283C.033 .242 .068 .199 .107 .177C.147 .156 .208 .157 .253 .156C.299 .156 .343 .169 .381 .175C.419 .18 .45 .184 .482 .19C.514 .195 .543 .201 .574 .208C.605 .215 .634 .222 .667 .232C.699 .241 .733 .25 .77 .264C.806 .279 .851 .293 .885 .319C.919 .345 .956 .382 .973 .42C.991 .459 .994 .509 .99 .552Z"></path>
+            </clipPath>
+          </svg>
+          <div class="portrait-clip">
+            <Image
+              src={portrait}
+              alt="Noah Weidig"
+              widths={PORTRAIT_WIDTHS}
+              sizes={PORTRAIT_SIZES}
+              loading="eager"
+              class="aspect-square w-full object-cover"
+            />
+          </div>
         </div>
       </div>
       <div class="text-center md:text-left" data-reveal style="--reveal-delay:70ms">
@@ -87,7 +101,7 @@ const beyondWork = [
       <div class="mt-6 grid gap-4 sm:grid-cols-2">
         {beyondWork.map((b, i) => (
           <div class="card flex gap-4 p-5" data-reveal style={`--reveal-delay:${i * 60}ms`}>
-            <span class="grid h-10 w-10 shrink-0 place-items-center rounded-lg border border-line bg-raised text-accent-ink">
+            <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-line bg-raised text-accent-ink">
               <Icon name={b.icon} size={18} />
             </span>
             <div>
@@ -126,3 +140,21 @@ const beyondWork = [
     </div>
   </div>
 </Base>
+
+<style>
+  /* Flat accent blob behind the cutout. The clip box shares the blob's bottom
+     shape plus the band above it, so the head clears the blob. */
+  .portrait-blob {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    fill: var(--c-accent);
+    fill-opacity: 0.18;
+  }
+  .portrait-clip {
+    position: absolute;
+    inset: 0;
+    clip-path: url(#portrait-clip);
+  }
+</style>

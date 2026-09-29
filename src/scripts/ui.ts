@@ -11,7 +11,6 @@
 import { resetCleanups } from './dom';
 import { initTheme } from './theme';
 import { initHeader } from './header';
-import { initBanner } from './banner';
 import { initReveal } from './reveal';
 import { initGlow } from './glow';
 import { initMarquees } from './marquees';
@@ -37,7 +36,6 @@ import { initContactForm } from './contact-form';
 function boot() {
   resetCleanups();
   initTheme();
-  initBanner();
   initHeader();
   initReveal();
   initGlow();
