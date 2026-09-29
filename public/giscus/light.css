@@ -3,7 +3,7 @@
    cannot read the page's custom properties, so the values are literal here. */
 main {
   --color-prettylights-syntax-comment: #636a78;
-  --color-prettylights-syntax-constant: #0a54ba;
+  --color-prettylights-syntax-constant: #8a6a12;
   --color-prettylights-syntax-entity: #6541c9;
   --color-prettylights-syntax-storage-modifier-import: #14161c;
   --color-prettylights-syntax-entity-tag: #0f7a56;
@@ -17,7 +17,7 @@ main {
   --color-prettylights-syntax-carriage-return-bg: #a44a16;
   --color-prettylights-syntax-string-regexp: #0f7a56;
   --color-prettylights-syntax-markup-list: #14161c;
-  --color-prettylights-syntax-markup-heading: #0f62d6;
+  --color-prettylights-syntax-markup-heading: #8a6a12;
   --color-prettylights-syntax-markup-italic: #14161c;
   --color-prettylights-syntax-markup-bold: #14161c;
   --color-prettylights-syntax-markup-deleted-text: #a44a16;
@@ -29,6 +29,8 @@ main {
   --color-prettylights-syntax-markup-ignored-text: #565d6b;
   --color-prettylights-syntax-markup-ignored-bg: #f6f4f0;
   --color-prettylights-syntax-meta-diff-range: #6541c9;
+  --color-prettylights-syntax-brackethighlighter-angle: #565d6b;
+  --color-prettylights-syntax-constant-other-reference-link: #8a6a12;
   --color-prettylights-syntax-sublimelinter-gutter-mark: #636a78;
 
   --color-btn-text: #14161a;
