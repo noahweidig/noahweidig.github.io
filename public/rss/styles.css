@@ -1,0 +1,72 @@
+/* CSS (not XSLT) so the feed renders without Chrome's XSLT deprecation banner. */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap');
+rss {
+  display: block;
+  min-height: 100vh;
+  padding: 3rem 1.25rem 5rem;
+  background: #07080b;
+  color: #e9ecf2;
+  font-family: 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  line-height: 1.6;
+}
+channel {
+  display: block;
+  max-width: 46rem;
+  margin: 0 auto;
+}
+channel > *,
+item > * {
+  display: none;
+}
+channel > title,
+channel > description,
+item,
+item > title,
+item > pubDate,
+item > description,
+item > link {
+  display: block;
+}
+channel > title {
+  font-size: 1.55rem;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+}
+channel > description {
+  margin: 0.25rem 0 2.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #1c202a;
+  color: #99a1b1;
+}
+channel > description::after {
+  content: 'RSS feed. Paste this page\2019s URL into a feed reader to subscribe.';
+  display: block;
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+  color: #6ba4ff;
+}
+item {
+  margin: 0 0 1rem;
+  padding: 1.25rem 1.4rem;
+  background: #0c0e13;
+  border: 1px solid #1c202a;
+  border-radius: 1rem;
+}
+item > title {
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+item > pubDate {
+  font-size: 0.8rem;
+  color: #7c8494;
+}
+item > description {
+  margin-top: 0.4rem;
+  color: #99a1b1;
+}
+item > link {
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  color: #6ba4ff;
+  word-break: break-all;
+}
