@@ -48,7 +48,7 @@
   --hero-3: #e0457b;
   --hero-4: #ff8a4c;
   --hero-5: #38b6ff;
-  --hero-opacity: 0.62;
+  --hero-opacity: 0.38;
   --hero-blur: 80px;
   --hero-blend: screen;
   color-scheme: dark;
@@ -83,7 +83,7 @@
   --hero-3: #e0457b;
   --hero-4: #ff8a4c;
   --hero-5: #0ea5e9;
-  --hero-opacity: 0.28;
+  --hero-opacity: 0.16;
   --hero-blur: 90px;
   --hero-blend: normal;
   color-scheme: light;
