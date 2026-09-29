@@ -1,0 +1,58 @@
+---
+import { u } from '../lib/url';
+import Page from '../layouts/Page.astro';
+---
+
+<Page
+  section="Page"
+  title="AI"
+  kicker="Disclosure"
+  description="How generative AI is used to build this site, and which content is written by hand."
+  wide={false}
+>
+  <div class="prose-nw">
+    <p>
+      This page follows the <a href="https://www.bydamo.la/p/ai-manifesto">/ai manifesto</a>: a
+      plain statement of where generative AI is used, so you can decide how much to trust what you
+      read.
+    </p>
+
+    <h2>The site is built with AI</h2>
+    <p>
+      Most of this site was made by AI. I use <a href="https://claude.ai/code">Claude Code</a>{' '}
+      (Anthropic's Claude models) to write and maintain the code: the Astro pages, layouts,
+      components, Tailwind styles, build scripts, GitHub Actions workflows, the SEO audit, and the
+      style guide. I describe what I want, review the pull requests, and merge them. The repository
+      is public on <a href="https://github.com/noahweidig/noahweidig.github.io">GitHub</a>, and the
+      commit history shows which changes came from AI sessions.
+    </p>
+
+    <h2>The writing is mine</h2>
+    <p>
+      I write my blog posts, publication abstracts, and the descriptions of my research, awards, and
+      experience myself. AI does not draft them, and I don't publish AI-generated text as my own
+      thinking.
+    </p>
+
+    <h2>Where the line gets blurry</h2>
+    <ul>
+      <li>
+        Site copy such as page intros, meta descriptions, and UI labels may be drafted or edited by
+        AI, and I review it.
+      </li>
+      <li>
+        Generated images, such as social cards and blog covers, come from scripts in the repository.
+      </li>
+      <li>
+        Content that is only formatted, structured, or checked by AI (typo fixes, frontmatter,
+        links) is still my writing.
+      </li>
+    </ul>
+
+    <h2>Accountability</h2>
+    <p>
+      I review what ships, and mistakes are mine. If you spot an error,{' '}
+      <a href={u('/contact/')}>tell me</a>.
+    </p>
+  </div>
+</Page>
