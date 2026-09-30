@@ -16,7 +16,7 @@ const frameName = 'substack-newsletter-frame';
     method="post"
     target={frameName}
     data-newsletter-form
-    class="flex w-full min-w-0 flex-nowrap items-stretch justify-center gap-2"
+    class="newsletter-pill flex w-full min-w-0 flex-nowrap items-center rounded-full border border-line sm:w-96"
   >
     <label for="newsletter-email" class="sr-only-nw">
       Email address
@@ -28,12 +28,15 @@ const frameName = 'substack-newsletter-frame';
       required
       placeholder="you@example.com"
       autocomplete="email"
-      class="newsletter-input h-11 w-0 min-w-0 flex-1 rounded-full border border-line px-4 text-body-lg text-ink focus-visible:border-accent-ink focus-visible:outline-none sm:w-72 sm:flex-none"
+      class="newsletter-input h-11 w-0 min-w-0 flex-1 rounded-full border-0 bg-transparent pr-2 pl-5 text-body-lg text-ink focus-visible:outline-none"
     />
-    <button type="submit" class="btn btn-primary newsletter-submit h-11 shrink-0 px-5">
+    <button type="submit" class="btn btn-primary newsletter-submit m-1 h-9 shrink-0 px-5">
       Subscribe
     </button>
   </form>
+  <p data-newsletter-note class="mt-2 text-center text-sm text-dim">
+    No spam. Unsubscribe anytime.
+  </p>
   <p data-newsletter-confirm hidden class="text-body-lg text-dim">
     Thanks — check your inbox to confirm.
   </p>
@@ -42,8 +45,13 @@ const frameName = 'substack-newsletter-frame';
 
 <style>
   @layer components {
-    .newsletter-form .newsletter-input {
+    .newsletter-form .newsletter-pill {
       background: var(--c-raised);
+    }
+    .newsletter-form .newsletter-pill:focus-within {
+      border-color: var(--c-accent-ink);
+    }
+    .newsletter-form .newsletter-input {
       color: var(--c-ink);
       /* iOS Safari zooms the page on focus when an input's font-size is under 16px; the site's text-body-lg (0.95rem) sits just below that. */
       font-size: max(1rem, var(--text-body-lg));
@@ -58,6 +66,7 @@ const frameName = 'substack-newsletter-frame';
   function bindNewsletterForms() {
     document.querySelectorAll<HTMLElement>('[data-newsletter]').forEach((root) => {
       const form = root.querySelector<HTMLFormElement>('[data-newsletter-form]');
+      const note = root.querySelector<HTMLElement>('[data-newsletter-note]');
       const confirmMsg = root.querySelector<HTMLElement>('[data-newsletter-confirm]');
       if (!form || form.dataset.bound) return;
       form.dataset.bound = 'true';
@@ -65,6 +74,7 @@ const frameName = 'substack-newsletter-frame';
         // The POST still happens (target is the hidden iframe); this just
         // swaps the UI without waiting on a cross-origin response we can't read.
         form.hidden = true;
+        if (note) note.hidden = true;
         if (confirmMsg) confirmMsg.hidden = false;
       });
     });
