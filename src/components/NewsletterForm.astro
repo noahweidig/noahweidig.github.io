@@ -10,7 +10,7 @@ const substackUrl = 'https://noahweidig.substack.com';
 const frameName = 'substack-newsletter-frame';
 ---
 
-<div class="newsletter-form w-full max-w-full min-w-0 sm:w-auto" data-newsletter>
+<div class="newsletter-form relative w-full max-w-full min-w-0 sm:w-auto" data-newsletter>
   <form
     action={`${substackUrl}/api/v1/free`}
     method="post"
@@ -34,7 +34,10 @@ const frameName = 'substack-newsletter-frame';
       Subscribe
     </button>
   </form>
-  <p data-newsletter-note class="mt-2 text-center text-sm text-dim">
+  <p
+    data-newsletter-note
+    class="mt-2 text-center text-sm text-dim sm:absolute sm:inset-x-0 sm:top-full"
+  >
     No spam. Unsubscribe anytime.
   </p>
   <p data-newsletter-confirm hidden class="text-body-lg text-dim">
