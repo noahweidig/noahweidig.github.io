@@ -296,8 +296,12 @@ const isActive = (href: string) => {
       animation: none;
     }
   }
-  :global(html[data-menu-open]) {
+  :global(html[data-menu-open]),
+  :global(html[data-menu-open] body),
+  :global(html[data-search-active]),
+  :global(html[data-search-active] body) {
     overflow: hidden;
+    overscroll-behavior: none;
   }
   /* Scrolled: the bar floats as a glass pill. The header's own box keeps its
      height, so nothing in the page reflows when it switches. */
