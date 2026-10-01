@@ -19,44 +19,47 @@ import Icon from './Icon.astro';
       data-search-panel
     >
       <!-- query row -->
-      <div class="flex items-center gap-3 border-b border-line px-4">
-        {/* Phone: no esc key, so the leading icon doubles as the way out. */}
+      {/* Phone: a pill-shaped field (icon, input, filter toggle) with a text
+          Cancel beside it. `sm:contents` dissolves the pill wrapper so the
+          desktop row is exactly what it was. */}
+      <div class="flex items-center gap-2 border-b border-line px-3 py-2.5 sm:gap-3 sm:px-4 sm:py-0">
+        <div class="flex min-w-0 flex-1 items-center gap-2 rounded-xl bg-raised px-3 sm:contents">
+          <Icon name="search" size={18} class="shrink-0 text-faint" />
+          <input
+            type="text"
+            id="search-input"
+            role="combobox"
+            aria-expanded="true"
+            aria-controls="search-results"
+            aria-autocomplete="list"
+            placeholder="Search projects, papers, posts…"
+            autocomplete="off"
+            spellcheck="false"
+            class="w-full bg-transparent py-3 text-base text-ellipsis text-ink placeholder:text-faint focus-visible:rounded-none focus-visible:outline-none sm:py-4 sm:text-body-lg"
+          />
+          <button
+            type="button"
+            data-filter-toggle
+            aria-expanded="false"
+            aria-controls="search-filters"
+            class="relative grid h-8 w-8 shrink-0 place-items-center rounded-md text-faint transition-colors hover:bg-raised hover:text-ink aria-expanded:bg-line/70 aria-expanded:text-accent-ink sm:aria-expanded:bg-raised"
+            title="Filters"
+          >
+            <Icon name="filter" size={17} />
+            <span class="sr-only-nw">Toggle filters</span>
+            <span
+              data-filter-count
+              hidden
+              class="absolute -top-1 -right-1 grid h-4 min-w-4 place-items-center rounded-full bg-accent px-1 text-[0.6rem] font-semibold text-accent-contrast"
+            ></span>
+          </button>
+        </div>
         <button
           type="button"
           data-search-close
-          class="-ml-1 grid h-8 w-8 shrink-0 place-items-center rounded-md text-faint transition-colors hover:bg-raised hover:text-ink sm:hidden"
+          class="shrink-0 rounded-md px-1 py-2 text-[0.95rem] font-medium text-accent-ink sm:hidden"
         >
-          <Icon name="search" size={18} />
-          <span class="sr-only-nw">Close search</span>
-        </button>
-        <Icon name="search" size={18} class="hidden shrink-0 text-faint sm:block" />
-        <input
-          type="text"
-          id="search-input"
-          role="combobox"
-          aria-expanded="true"
-          aria-controls="search-results"
-          aria-autocomplete="list"
-          placeholder="Search projects, papers, posts…"
-          autocomplete="off"
-          spellcheck="false"
-          class="w-full bg-transparent py-4 text-base text-ink placeholder:text-faint focus-visible:rounded-none focus-visible:outline-none sm:text-body-lg"
-        />
-        <button
-          type="button"
-          data-filter-toggle
-          aria-expanded="false"
-          aria-controls="search-filters"
-          class="relative grid h-8 w-8 shrink-0 place-items-center rounded-md text-faint transition-colors hover:bg-raised hover:text-ink aria-expanded:bg-raised aria-expanded:text-accent-ink"
-          title="Filters"
-        >
-          <Icon name="filter" size={17} />
-          <span class="sr-only-nw">Toggle filters</span>
-          <span
-            data-filter-count
-            hidden
-            class="absolute -top-1 -right-1 grid h-4 min-w-4 place-items-center rounded-full bg-accent px-1 text-[0.6rem] font-semibold text-accent-contrast"
-          ></span>
+          Cancel
         </button>
         <kbd class="hidden shrink-0 rounded border border-line px-1.5 py-0.5 font-mono text-[0.65rem] text-faint sm:block">
           esc
@@ -99,11 +102,11 @@ import Icon from './Icon.astro';
 
       <!-- hint bar -->
       <div class="flex items-center gap-4 border-t border-line px-4 py-2.5 font-mono text-[0.65rem] text-faint">
-        <span class="flex items-center gap-1.5">
+        <span class="hidden items-center gap-1.5 sm:flex">
           <kbd class="rounded border border-line px-1">↑</kbd>
           <kbd class="rounded border border-line px-1">↓</kbd> navigate
         </span>
-        <span class="flex items-center gap-1.5">
+        <span class="hidden items-center gap-1.5 sm:flex">
           <kbd class="rounded border border-line px-1">↵</kbd> open
         </span>
         <span class="ml-auto" data-search-status aria-live="polite"></span>
@@ -113,18 +116,41 @@ import Icon from './Icon.astro';
 </dialog>
 
 <style>
-  /* Phone: the rail slides over the results rather than squeezing them into a
-     column two words wide. The filter button closes it again. */
+  /* Phone: the filter rail drops down from the top of the results as a row of
+     chips, instead of a sheet that hides half the list. The filter button
+     closes it again. */
   @media (max-width: 39.99rem) {
     #search-filters:not([hidden]) {
       position: absolute;
-      inset-block: 0;
-      right: 0;
+      inset-inline: 0;
+      top: 0;
       z-index: 2;
-      width: min(13.5rem, 58%);
+      width: auto;
+      max-height: 70%;
+      border-left: 0;
+      border-bottom: 1px solid var(--c-line);
       background: var(--c-surface);
-      /* Only along the left edge, and only enough to lift the panel off the list behind it. */
-      box-shadow: -6px 0 10px -8px rgb(0 0 0 / 0.45);
+      box-shadow: 0 16px 18px -16px rgb(0 0 0 / 0.4);
+    }
+    #search-filters :global(ul) {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    #search-filters :global(button[data-filter-key]) {
+      width: auto;
+      gap: 0.4rem;
+      padding: 0.4rem 0.8rem;
+      border: 1px solid var(--c-line-strong);
+      border-radius: 9999px;
+      font-size: 0.85rem;
+    }
+    #search-filters :global(button[data-filter-key] > span:first-child) {
+      display: none;
+    }
+    #search-filters :global(button[aria-pressed='true']) {
+      border-color: var(--c-accent);
+      background: color-mix(in oklab, var(--c-accent) 12%, var(--c-surface));
     }
   }
 </style>
