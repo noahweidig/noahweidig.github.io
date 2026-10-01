@@ -93,6 +93,9 @@ const items = filtered.map((h) => {
       color 0.2s var(--ease-out-soft),
       border-color 0.2s var(--ease-out-soft);
   }
+  :global(html[data-menu-open]) :is(.toc-fab, .toc-aside) {
+    display: none;
+  }
   .toc-fab[aria-expanded='true'] {
     border-color: var(--c-accent);
     color: var(--c-accent-ink);

@@ -120,17 +120,16 @@ import Icon from './Icon.astro';
      chips, instead of a sheet that hides half the list. The filter button
      closes it again. */
   @media (max-width: 39.99rem) {
+    [data-search-body] {
+      flex-direction: column;
+    }
     #search-filters:not([hidden]) {
-      position: absolute;
-      inset-inline: 0;
-      top: 0;
-      z-index: 2;
+      order: -1;
       width: auto;
-      max-height: 70%;
+      max-height: 40vh;
       border-left: 0;
       border-bottom: 1px solid var(--c-line);
       background: var(--c-surface);
-      box-shadow: 0 16px 18px -16px rgb(0 0 0 / 0.4);
     }
     #search-filters :global(ul) {
       display: flex;
