@@ -189,7 +189,8 @@ const isActive = (href: string) => {
     display: block;
     animation: menu-drop 0.18s var(--ease-out-soft, ease-out) both;
   }
-  .nav-group[data-open] .nav-chevron {
+  .nav-group[data-open] .nav-chevron,
+  .nav-trigger:hover .nav-chevron {
     rotate: 180deg;
   }
   .nav-chevron {
