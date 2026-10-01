@@ -1,6 +1,6 @@
 ---
 import { u } from '../lib/url';
-import { navGroups } from '../lib/site';
+import { navGroups, site } from '../lib/site';
 import Icon from './Icon.astro';
 import Wordmark from './Wordmark.astro';
 import Search from './Search.astro';
@@ -138,15 +138,20 @@ const isActive = (href: string) => {
     hidden
     class="mobile-nav absolute inset-x-0 top-full h-[calc(100dvh-3.5rem)] overflow-hidden border-t border-line bg-bg md:h-[calc(100dvh-4rem)] lg:hidden"
   >
-    <nav
-      aria-label="Mobile"
-      class="shell flex h-full flex-col items-center justify-center py-[3dvh]"
-    >
-      <ul class="flex min-h-0 w-full flex-1 flex-col justify-evenly text-center">
+    <nav aria-label="Mobile" class="shell flex h-full flex-col pb-5 pt-2">
+      <ul class="min-h-0 flex-1 overflow-y-auto">
         {navGroups.map((group) => (
-          <li>
-            <p class="font-mono text-xs uppercase tracking-[0.2em] text-faint">{group.text}</p>
-            <ul class="mt-1 flex flex-wrap justify-center gap-x-1">
+          <li class="mobile-group border-b border-line">
+            <button
+              type="button"
+              data-mobile-trigger
+              aria-expanded="false"
+              class="flex w-full items-center justify-between py-5 text-left font-display text-3xl font-semibold tracking-tight text-ink"
+            >
+              {group.text}
+              <Icon name="chevron" size={26} stroke-width={1.8} class="nav-chevron" />
+            </button>
+            <ul class="mobile-sub hidden pb-4">
               {group.items.map((item) => (
                 <li>
                   <a
@@ -154,7 +159,7 @@ const isActive = (href: string) => {
                     target={'external' in item ? '_blank' : undefined}
                     rel={'external' in item ? 'noopener' : undefined}
                     class:list={[
-                      'mobile-nav-link nav-link rounded-full px-3 font-display font-semibold tracking-tight',
+                      'nav-link block rounded-lg px-3 py-3 font-display text-xl font-medium',
                       !('external' in item) && isActive(item.href) ? 'nav-link-active' : '',
                     ]}
                     aria-current={!('external' in item) && isActive(item.href) ? 'page' : undefined}
@@ -169,7 +174,16 @@ const isActive = (href: string) => {
         ))}
       </ul>
       <a
-        class="mobile-nav-cta btn btn-primary mt-[2dvh] shrink-0 font-display font-semibold tracking-tight"
+        class="btn mt-4 shrink-0 justify-center border border-line py-3.5 text-base font-semibold"
+        href={site.booking}
+        target="_blank"
+        rel="noopener"
+      >
+        Book a call
+        <span class="sr-only-nw"> (opens in a new tab)</span>
+      </a>
+      <a
+        class="btn btn-primary mt-3 shrink-0 justify-center py-3.5 text-base font-semibold"
         href={u('/contact/')}
       >
         Get in touch
@@ -189,11 +203,11 @@ const isActive = (href: string) => {
     display: block;
     animation: menu-drop 0.18s var(--ease-out-soft, ease-out) both;
   }
-  .nav-group[data-open] .nav-chevron,
-  .nav-trigger:hover .nav-chevron {
+  .nav-group[data-open] :global(.nav-chevron),
+  .nav-trigger:hover :global(.nav-chevron) {
     rotate: 180deg;
   }
-  .nav-chevron {
+  :global(.nav-chevron) {
     transition: rotate 0.2s ease;
   }
   @keyframes menu-drop {
@@ -244,19 +258,15 @@ const isActive = (href: string) => {
     }
   }
   /* Links split the panel height evenly; type scales with viewport height. */
-  .mobile-nav-link {
-    font-size: clamp(1.25rem, 3.6dvh, 2rem);
-    line-height: 1.2;
-    padding-block: 0.1em;
+  .mobile-group[data-open] > .mobile-sub {
+    display: block;
   }
-  .mobile-nav-cta {
-    font-size: clamp(1.75rem, 5.5dvh, 3.25rem);
-    line-height: 1.1;
-    padding: 0.3em 1em;
+  .mobile-group[data-open] :global(.nav-chevron) {
+    rotate: 180deg;
   }
   .mobile-nav {
     contain: strict;
-    touch-action: none;
+    touch-action: pan-y;
     overscroll-behavior: contain;
   }
   .mobile-nav:not([hidden]) {

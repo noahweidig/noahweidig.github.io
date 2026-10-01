@@ -22,14 +22,15 @@ export function initHeader() {
       closeGroups(g);
       setGroup(g, !g.hasAttribute('data-open'));
     });
-    on(g, 'mouseenter', () => {
+    on(g, 'pointerenter', (ev) => {
       clearTimeout(hoverTimer);
-      if (matchMedia('(hover: hover)').matches) {
+      if ((ev as PointerEvent).pointerType === 'mouse') {
         closeGroups(g);
         setGroup(g, true);
       }
     });
-    on(g, 'mouseleave', () => {
+    on(g, 'pointerleave', (ev) => {
+      if ((ev as PointerEvent).pointerType !== 'mouse') return;
       hoverTimer = window.setTimeout(() => setGroup(g, false), 120);
     });
     on(g, 'focusout', (ev) => {
@@ -45,6 +46,21 @@ export function initHeader() {
     if (!open) return;
     closeGroups();
     open.querySelector<HTMLElement>('[data-nav-trigger]')?.focus();
+  });
+
+  const mGroups = [...document.querySelectorAll<HTMLElement>('.mobile-group')];
+  mGroups.forEach((g) => {
+    const t = g.querySelector<HTMLElement>('[data-mobile-trigger]')!;
+    on(t, 'click', () => {
+      const open = !g.hasAttribute('data-open');
+      mGroups.forEach((o) => {
+        o.toggleAttribute('data-open', o === g && open);
+        o.querySelector('[data-mobile-trigger]')?.setAttribute(
+          'aria-expanded',
+          String(o === g && open),
+        );
+      });
+    });
   });
 
   const toggle = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
