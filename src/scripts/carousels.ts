@@ -95,7 +95,7 @@ export function initCarousels() {
        and stopped outright by the toggle beside the dots. */
     const toggle = root.querySelector<HTMLButtonElement>('[data-carousel-toggle]');
     if (slow) {
-      toggle?.remove();
+      if (toggle) toggle.hidden = true;
       return;
     }
     let held = false;
