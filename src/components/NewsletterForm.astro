@@ -28,7 +28,7 @@ const frameName = 'substack-newsletter-frame';
       required
       placeholder="you@example.com"
       autocomplete="email"
-      class="newsletter-input h-11 w-0 min-w-0 flex-1 rounded-full border-0 bg-transparent pr-2 pl-5 text-body-lg text-ink focus-visible:outline-none"
+      class="newsletter-input h-11 w-0 min-w-0 flex-1 rounded-full border-0 pr-2 pl-5 text-body-lg text-ink focus-visible:outline-none"
     />
     <button type="submit" class="btn btn-primary newsletter-submit m-1 h-9 shrink-0 px-5">
       Subscribe
@@ -55,6 +55,7 @@ const frameName = 'substack-newsletter-frame';
       border-color: var(--c-accent-ink);
     }
     .newsletter-form .newsletter-input {
+      background: var(--c-raised);
       color: var(--c-ink);
       /* iOS Safari zooms the page on focus when an input's font-size is under 16px; the site's text-body-lg (0.95rem) sits just below that. */
       font-size: max(1rem, var(--text-body-lg));
