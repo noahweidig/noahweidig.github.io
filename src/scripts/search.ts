@@ -163,6 +163,8 @@ export function initSearch() {
   const clear = dialog.querySelector<HTMLButtonElement>('[data-filter-clear]');
   const status = dialog.querySelector<HTMLElement>('[data-search-status]');
   if (!input || !out || !rail || !groups || !toggle || !badge || !clear) return;
+  /* The full prompt doesn't fit the phone-width field. */
+  if (matchMedia('(max-width: 39.99rem)').matches) input.placeholder = 'Search the site…';
 
   const selected: Record<string, Set<string>> = {};
   let active = -1;
@@ -252,12 +254,12 @@ export function initSearch() {
       .map((r, i) => {
         const chip = r.section ? `<span class="chip shrink-0">${escapeHtml(r.section)}</span>` : '';
         return `<a id="search-opt-${i}" role="option" aria-selected="false" href="${r.href}"
-          class="block rounded-md px-3 py-2.5 transition-colors hover:bg-raised">
-          <span class="flex items-start justify-between gap-3">
-            <span class="text-[0.95rem] font-medium text-ink">${r.title}</span>
+          class="block rounded-none border-b border-line/60 px-3 py-3.5 transition-colors last:border-b-0 hover:bg-raised sm:rounded-md sm:border-b-0 sm:py-2.5">
+          <span class="flex flex-col-reverse items-start gap-1.5 sm:flex-row sm:justify-between sm:gap-3">
+            <span class="text-[1rem] font-medium text-ink sm:text-[0.95rem]">${r.title}</span>
             ${chip}
           </span>
-          ${r.sub ? `<span class="mt-1 block text-[0.82rem] leading-relaxed text-dim">${r.sub}</span>` : ''}
+          ${r.sub ? `<span class="mt-1 line-clamp-2 text-[0.82rem] leading-relaxed text-dim sm:line-clamp-none">${r.sub}</span>` : ''}
         </a>`;
       })
       .join('');
