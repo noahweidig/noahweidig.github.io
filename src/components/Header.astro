@@ -101,12 +101,7 @@ const isActive = (href: string) => {
         class="icon-btn lg:hidden"
         aria-label="Open menu"
       >
-        <span data-menu-icon-open>
-          <Icon name="menu" size={22} stroke-width={1.8} />
-        </span>
-        <span data-menu-icon-close hidden>
-          <Icon name="close" size={22} stroke-width={1.8} />
-        </span>
+        <span class="burger" aria-hidden="true"><i></i><i></i></span>
       </button>
     </div>
   </div>
@@ -153,6 +148,47 @@ const isActive = (href: string) => {
 <Search />
 
 <style>
+  .burger {
+    position: relative;
+    display: block;
+    width: 22px;
+    height: 22px;
+  }
+  .burger i {
+    position: absolute;
+    left: 2px;
+    right: 2px;
+    top: 50%;
+    height: 2.5px;
+    margin-top: -1.25px;
+    border-radius: 2px;
+    background: currentColor;
+    translate: 0 -4.5px;
+    transition:
+      translate 0.18s ease 0.18s,
+      rotate 0.18s ease;
+  }
+  .burger i:last-child {
+    translate: 0 4.5px;
+  }
+  [aria-expanded='true'] .burger i {
+    translate: 0 0;
+    transition:
+      translate 0.18s ease,
+      rotate 0.18s ease 0.18s;
+  }
+  [aria-expanded='true'] .burger i:first-child {
+    rotate: 45deg;
+  }
+  [aria-expanded='true'] .burger i:last-child {
+    rotate: -45deg;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .burger i,
+    [aria-expanded='true'] .burger i {
+      transition: none;
+    }
+  }
   /* Links split the panel height evenly; type scales with viewport height. */
   .mobile-nav-link {
     font-size: clamp(1.75rem, 5.5dvh, 3.25rem);
