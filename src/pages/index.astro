@@ -356,7 +356,7 @@ const faqs = [
     />
     <div class="mt-9 divide-y divide-line border-y border-line">
       {faqs.map((f) => (
-        <details class="faq group" data-reveal>
+        <details class="faq group" name="faq" data-reveal>
           <summary class="flex cursor-pointer list-none items-center justify-between gap-6 py-5 text-[1.05rem] font-medium transition-colors hover:text-accent-ink">
             <span class="min-w-0">{f.q}</span>
             {/* Drawn rather than a typed "+": the glyph sits off the optical
