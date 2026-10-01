@@ -279,6 +279,18 @@ const isActive = (href: string) => {
       clip-path: inset(0);
     }
   }
+  .mobile-nav[data-closing] {
+    animation: menu-wipe-out 0.3s cubic-bezier(0.5, 0, 0.75, 0) both;
+    pointer-events: none;
+  }
+  @keyframes menu-wipe-out {
+    from {
+      clip-path: inset(0);
+    }
+    to {
+      clip-path: inset(0 0 0 100%);
+    }
+  }
   @media (prefers-reduced-motion: reduce) {
     .mobile-nav:not([hidden]) {
       animation: none;
