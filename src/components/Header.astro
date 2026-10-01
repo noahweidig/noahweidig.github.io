@@ -23,7 +23,7 @@ const isActive = (href: string) => {
   class="sticky top-0 z-50 border-b border-transparent transition-[background-color,border-color,backdrop-filter] duration-300"
   id="site-header"
 >
-  <div class="shell flex h-14 items-center gap-4 md:h-16 lg:grid lg:grid-cols-[1fr_auto_1fr]">
+  <div class="shell nav-bar flex h-14 items-center gap-4 md:h-16 lg:grid lg:grid-cols-[1fr_auto_1fr]">
     <a
       href={u('/')}
       class="group flex min-w-0 items-center gap-2.5"
@@ -279,6 +279,18 @@ const isActive = (href: string) => {
       clip-path: inset(0);
     }
   }
+  .mobile-nav[data-closing] {
+    animation: menu-wipe-out 0.3s cubic-bezier(0.5, 0, 0.75, 0) both;
+    pointer-events: none;
+  }
+  @keyframes menu-wipe-out {
+    from {
+      clip-path: inset(0);
+    }
+    to {
+      clip-path: inset(0 0 0 100%);
+    }
+  }
   @media (prefers-reduced-motion: reduce) {
     .mobile-nav:not([hidden]) {
       animation: none;
@@ -287,10 +299,51 @@ const isActive = (href: string) => {
   :global(html[data-menu-open]) {
     overflow: hidden;
   }
+  /* Scrolled: the bar floats as a glass pill. The header's own box keeps its
+     height, so nothing in the page reflows when it switches. */
+  .nav-bar {
+    transition:
+      max-width 0.35s var(--ease-out-soft),
+      translate 0.35s var(--ease-out-soft),
+      border-radius 0.35s var(--ease-out-soft),
+      background-color 0.35s var(--ease-out-soft),
+      box-shadow 0.35s var(--ease-out-soft),
+      border-color 0.35s var(--ease-out-soft),
+      padding-right 0.35s var(--ease-out-soft);
+    border: 1px solid transparent;
+    border-radius: 0;
+  }
   #site-header[data-stuck] {
-    background-color: color-mix(in oklab, var(--c-bg) 78%, transparent);
-    backdrop-filter: blur(16px) saturate(1.4);
-    border-bottom-color: var(--c-line);
+    border-bottom-color: transparent;
+  }
+  #site-header[data-stuck]:not([data-menu-open]) .nav-bar {
+    max-width: min(66rem, calc(100% - 1rem));
+    translate: 0 0.5rem;
+    border-radius: 9999px;
+    border-color: color-mix(in oklab, var(--c-ink) 5%, rgb(255 255 255 / 0.12));
+    background-color: color-mix(in oklab, var(--c-bg) 46%, transparent);
+    backdrop-filter: blur(22px) saturate(1.8);
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.28),
+      0 10px 30px -12px rgb(15 23 42 / 0.28),
+      0 2px 6px -2px rgb(15 23 42 / 0.1);
+  }
+  /* Get in touch sits flush: right inset matches its inset from the pill's top. */
+  @media (min-width: 1024px) {
+    #site-header[data-stuck]:not([data-menu-open]) .nav-bar {
+      padding-right: 0.75rem;
+    }
+  }
+  :global(:root[data-theme='dark']) #site-header[data-stuck]:not([data-menu-open]) .nav-bar {
+    border-color: rgb(255 255 255 / 0.07);
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.04),
+      0 10px 30px -12px rgb(0 0 0 / 0.6);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .nav-bar {
+      transition: none;
+    }
   }
   /* Opaque while open; a live backdrop blur here repaints every frame. */
   /* After [data-stuck]: same specificity, so order decides. Opaque while open. */
