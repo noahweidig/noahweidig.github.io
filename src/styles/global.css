@@ -776,6 +776,26 @@
     transform: scaleY(0);
     opacity: 0;
   }
+  /* Animate height on open and close (name="faq" makes opening one close the
+     others, so both transitions run together). No JS, no per-frame measuring. */
+  :root {
+    interpolate-size: allow-keywords;
+  }
+  .faq::details-content {
+    block-size: 0;
+    overflow: clip;
+    transition:
+      block-size 0.35s var(--ease-out-soft),
+      content-visibility 0.35s allow-discrete;
+  }
+  .faq[open]::details-content {
+    block-size: auto;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .faq::details-content {
+      transition: none;
+    }
+  }
 
   /* --- icon buttons ---
      Square with generous corner rounding rather than a circle: at 36-40px a
