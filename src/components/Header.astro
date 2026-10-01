@@ -101,7 +101,10 @@ const isActive = (href: string) => {
         class="icon-btn lg:hidden"
         aria-label="Open menu"
       >
-        <span class="burger" aria-hidden="true"><i></i><i></i></span>
+        <span class="burger" aria-hidden="true">
+          <i></i>
+          <i></i>
+        </span>
       </button>
     </div>
   </div>
@@ -206,11 +209,14 @@ const isActive = (href: string) => {
     overscroll-behavior: contain;
   }
   .mobile-nav:not([hidden]) {
-    animation: menu-fade 0.15s ease-out both;
+    animation: menu-wipe 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
   }
-  @keyframes menu-fade {
+  @keyframes menu-wipe {
     from {
-      opacity: 0;
+      clip-path: inset(0 0 0 100%);
+    }
+    to {
+      clip-path: inset(0);
     }
   }
   @media (prefers-reduced-motion: reduce) {
