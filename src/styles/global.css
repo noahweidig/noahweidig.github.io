@@ -1304,6 +1304,8 @@
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
+    padding-bottom: 0.15em;
+    margin-bottom: -0.15em;
   }
   .balance {
     text-wrap: balance;
