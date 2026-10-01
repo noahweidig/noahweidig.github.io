@@ -40,6 +40,7 @@ const MAP = {
   cube: 'box',
   download: 'download',
   arrow: 'arrow-right',
+  chevron: 'chevron-down',
   external: 'external-link',
   sun: 'sun',
   moon: 'moon',
