@@ -43,7 +43,7 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
-    "@casoon/astro-post-audit": "0.6.0",
+    "@casoon/astro-post-audit": "0.7.0",
     "@types/node": "^26.6.2",
     "@types/sanitize-html": "^2.16.1",
     "axe-core": "^4.13.0",
