@@ -309,7 +309,7 @@ const isActive = (href: string) => {
       background-color 0.35s var(--ease-out-soft),
       box-shadow 0.35s var(--ease-out-soft),
       border-color 0.35s var(--ease-out-soft),
-      padding-right 0.35s var(--ease-out-soft);
+      padding-inline 0.35s var(--ease-out-soft);
     border: 1px solid transparent;
     border-radius: 0;
   }
@@ -328,10 +328,13 @@ const isActive = (href: string) => {
       0 10px 30px -12px rgb(15 23 42 / 0.28),
       0 2px 6px -2px rgb(15 23 42 / 0.1);
   }
-  /* Get in touch sits flush: right inset matches its inset from the pill's top. */
+  /* Desktop: the pill grows around the bar instead of narrowing, so items stay
+     put. The right inset puts Get in touch as far from the pill's edge as from
+     its top; the logo gets a little more room on the left. */
   @media (min-width: 1024px) {
     #site-header[data-stuck]:not([data-menu-open]) .nav-bar {
-      padding-right: 0.75rem;
+      max-width: min(73.5rem, calc(100% - 2.5rem));
+      padding-inline: 1.25rem 0.75rem;
     }
   }
   :global(:root[data-theme='dark']) #site-header[data-stuck]:not([data-menu-open]) .nav-bar {
