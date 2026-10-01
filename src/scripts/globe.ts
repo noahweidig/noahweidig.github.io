@@ -54,6 +54,15 @@ function pulsingDot(map: import('maplibre-gl').Map) {
 export function initGlobe() {
   const mounts = document.querySelectorAll<HTMLElement>('[data-map-mount]');
   if (!mounts.length) return;
+  // Warm the tile host's TLS handshake while maplibre's chunk is still downloading.
+  if (!document.querySelector('link[href="https://tiles.openfreemap.org"]')) {
+    const l = Object.assign(document.createElement('link'), {
+      rel: 'preconnect',
+      href: 'https://tiles.openfreemap.org',
+      crossOrigin: 'anonymous',
+    });
+    document.head.append(l);
+  }
 
   const mount = async (el: HTMLElement) => {
     const [maplibregl, { default: workerUrl }] = await Promise.all([
@@ -120,7 +129,7 @@ export function initGlobe() {
         io.unobserve(e.target);
       });
     },
-    { rootMargin: '200px 0px' },
+    { rootMargin: '600px 0px' },
   );
   mounts.forEach((m) => io.observe(m));
   cleanups.push(() => io.disconnect());

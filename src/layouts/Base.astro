@@ -156,13 +156,6 @@ const jsonLd = {
       href={u('/rss.xml')}
     />
 
-    {/* The gtag script is `async` at the end of <body>, so the connection to
-        each Google host is opened only once the browser reaches it. The
-        2026-09-07 production audit measured 302ms for googletagmanager and
-        308ms for google-analytics spent on that handshake. */}
-    <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
-    <link rel="preconnect" href="https://www.google-analytics.com" crossorigin />
-
     {/* Ahead of the fonts: on a throttled connection the two latin subsets are
         88KB of higher-priority bytes, and the LCP image queues behind them. */}
     {preloadImage && (
@@ -271,12 +264,6 @@ const jsonLd = {
     <script>
       import '../scripts/ui';
     </script>
-    <script
-      is:inline
-      async
-      src={`https://www.googletagmanager.com/gtag/js?id=${site.analyticsId}`}
-      data-astro-rerun
-    ></script>
     <script is:inline define:vars={{ id: site.analyticsId }}>
       window.dataLayer = window.dataLayer || [];
       function gtag() {
@@ -285,6 +272,20 @@ const jsonLd = {
       window.gtag = gtag;
       gtag('js', new Date());
       gtag('config', id, { anonymize_ip: true, client_storage: 'none' });
+      // gtag.js is ~150KB, more than the site's own JS. Fetch it once, after
+      // load and when the main thread is idle, so it never competes with the
+      // page. dataLayer queues calls made before it arrives.
+      addEventListener('load', function () {
+        (window.requestIdleCallback || setTimeout)(
+          function () {
+            var s = document.createElement('script');
+            s.async = true;
+            s.src = 'https://www.googletagmanager.com/gtag/js?id=' + id;
+            document.head.append(s);
+          },
+          { timeout: 4000 },
+        );
+      });
       document.addEventListener('astro:page-load', function () {
         gtag('event', 'page_view', { page_path: location.pathname + location.search });
       });
