@@ -18,9 +18,11 @@ export function initHeader() {
   let hoverTimer: number | undefined;
   groups.forEach((g) => {
     const trigger = g.querySelector<HTMLElement>('[data-nav-trigger]');
-    on(trigger!, 'click', () => {
+    on(trigger!, 'click', (ev) => {
       closeGroups(g);
-      setGroup(g, !g.hasAttribute('data-open'));
+      /* A mouse click lands after hover already opened it; toggling would close it. */
+      const mouse = (ev as PointerEvent).pointerType === 'mouse';
+      setGroup(g, mouse || !g.hasAttribute('data-open'));
     });
     on(g, 'pointerenter', (ev) => {
       clearTimeout(hoverTimer);
