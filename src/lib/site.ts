@@ -5,6 +5,7 @@ export const site = {
   email: 'noah@noahweidig.com',
   location: 'Orlando, FL',
   booking: 'https://cal.com/noahweidig/meet',
+  newsletter: 'https://noahweidig.substack.com',
   resume: '/uploads/resume.pdf',
   cv: '/uploads/cv.pdf',
   description:
@@ -37,6 +38,33 @@ export const nav = [
   { text: 'Blog', href: '/blog/', tip: 'Notes and tutorials on R and spatial work' },
   { text: 'CV', href: '/cv/', tip: 'Full record, plus CV and résumé PDFs' },
   { text: 'Contact', href: '/contact/', tip: 'Email, booking and the contact form' },
+] as const;
+
+export const navGroups = [
+  {
+    text: 'Work',
+    items: [
+      { text: 'Projects', href: '/projects/', tip: 'Open tools, maps and applications' },
+      { text: 'Publications', href: '/publications/', tip: 'Papers, talks and peer review' },
+      { text: 'Experience', href: '/experience/', tip: 'Roles, research posts and internships' },
+    ],
+  },
+  {
+    text: 'Background',
+    items: [
+      { text: 'About', href: '/about/', tip: 'A bit more about who I am' },
+      { text: 'Education', href: '/education/', tip: 'Degrees and training' },
+      { text: 'Awards', href: '/awards/', tip: 'Fellowships, scholarships and honors' },
+      { text: 'CV', href: '/cv/', tip: 'Full record, plus CV and résumé PDFs' },
+    ],
+  },
+  {
+    text: 'Writing',
+    items: [
+      { text: 'Blog', href: '/blog/', tip: 'Notes and tutorials on R and spatial work' },
+      { text: 'Newsletter', href: site.newsletter, tip: 'Subscribe on Substack', external: true },
+    ],
+  },
 ] as const;
 
 export const socials = [

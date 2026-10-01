@@ -1,6 +1,6 @@
 ---
 import { u } from '../lib/url';
-import { nav, site } from '../lib/site';
+import { navGroups } from '../lib/site';
 import Icon from './Icon.astro';
 import Wordmark from './Wordmark.astro';
 import Search from './Search.astro';
@@ -23,7 +23,7 @@ const isActive = (href: string) => {
   class="sticky top-0 z-50 border-b border-transparent transition-[background-color,border-color,backdrop-filter] duration-300"
   id="site-header"
 >
-  <div class="shell flex h-14 items-center gap-4 md:h-16">
+  <div class="shell flex h-14 items-center gap-4 md:h-16 lg:grid lg:grid-cols-[1fr_auto_1fr]">
     <a
       href={u('/')}
       class="group flex min-w-0 items-center gap-2.5"
@@ -32,27 +32,54 @@ const isActive = (href: string) => {
       <Wordmark collapse class="text-[1.75rem] max-[389px]:text-[1.5rem] md:text-[2rem]" />
     </a>
 
-    <nav aria-label="Primary" class="mx-4 hidden min-w-0 flex-1 lg:block xl:mx-8">
-      <ul class="flex items-center justify-end gap-0.5">
-        {nav.map((item) => (
-          <li>
-            <a
-              href={u(item.href)}
-              data-tip={item.tip}
-              aria-current={isActive(item.href) ? 'page' : undefined}
-              class:list={[
-                'nav-link rounded-full px-2.5 py-2 text-sm xl:px-3',
-                isActive(item.href) ? 'nav-link-active' : '',
-              ]}
-            >
-              {item.text}
-            </a>
-          </li>
-        ))}
+    <nav aria-label="Primary" class="mx-auto hidden lg:block">
+      <ul class="flex items-center gap-1">
+        {navGroups.map((group) => {
+          const active = group.items.some((i) => !('external' in i) && isActive(i.href));
+          return (
+            <li class="nav-group relative">
+              <button
+                type="button"
+                data-nav-trigger
+                aria-expanded="false"
+                aria-haspopup="true"
+                class:list={[
+                  'nav-link nav-trigger inline-flex items-center gap-1.5 rounded-full px-4 py-2 font-display text-[0.95rem] font-semibold tracking-tight xl:px-5 xl:text-base',
+                  active ? 'nav-link-active' : '',
+                ]}
+              >
+                {group.text}
+                <Icon name="chevron" size={14} stroke-width={2.2} class="nav-chevron" />
+              </button>
+              <ul class="nav-menu card absolute left-1/2 top-full z-10 hidden min-w-52 -translate-x-1/2 p-1.5">
+                {group.items.map((item) => (
+                  <li>
+                    <a
+                      href={'external' in item ? item.href : u(item.href)}
+                      target={'external' in item ? '_blank' : undefined}
+                      rel={'external' in item ? 'noopener' : undefined}
+                      data-tip={item.tip}
+                      aria-current={
+                        !('external' in item) && isActive(item.href) ? 'page' : undefined
+                      }
+                      class:list={[
+                        'nav-link block rounded-lg px-3 py-2 text-sm font-medium',
+                        !('external' in item) && isActive(item.href) ? 'nav-link-active' : '',
+                      ]}
+                    >
+                      {item.text}
+                      {'external' in item && <span class="sr-only-nw"> (opens in a new tab)</span>}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </li>
+          );
+        })}
       </ul>
     </nav>
 
-    <div class="ml-auto flex shrink-0 items-center gap-1.5 lg:ml-0">
+    <div class="ml-auto flex shrink-0 items-center gap-1.5 lg:justify-self-end">
       <button
         type="button"
         data-search-open
@@ -83,13 +110,10 @@ const isActive = (href: string) => {
 
       <a
         class="btn btn-primary ml-1 hidden px-2.5 py-2 text-sm xl:px-3 lg:inline-flex"
-        href={site.booking}
-        target="_blank"
-        rel="noopener"
-        data-tip="Book a 30-minute call on Cal.com"
+        href={u('/contact/')}
+        data-tip="Email, booking and the contact form"
       >
-        Book now
-        <span class="sr-only-nw"> (opens in a new tab)</span>
+        Get in touch
         <Icon name="arrow" size={15} />
       </a>
 
@@ -118,30 +142,37 @@ const isActive = (href: string) => {
       aria-label="Mobile"
       class="shell flex h-full flex-col items-center justify-center py-[3dvh]"
     >
-      <ul class="flex min-h-0 w-full flex-1 flex-col text-center">
-        {nav.map((item) => (
-          <li class="flex min-h-0 flex-1 items-center justify-center">
-            <a
-              href={u(item.href)}
-              class:list={[
-                'mobile-nav-link nav-link rounded-full px-6 font-display font-semibold tracking-tight',
-                isActive(item.href) ? 'nav-link-active' : '',
-              ]}
-              aria-current={isActive(item.href) ? 'page' : undefined}
-            >
-              {item.text}
-            </a>
+      <ul class="flex min-h-0 w-full flex-1 flex-col justify-evenly text-center">
+        {navGroups.map((group) => (
+          <li>
+            <p class="font-mono text-xs uppercase tracking-[0.2em] text-faint">{group.text}</p>
+            <ul class="mt-1 flex flex-wrap justify-center gap-x-1">
+              {group.items.map((item) => (
+                <li>
+                  <a
+                    href={'external' in item ? item.href : u(item.href)}
+                    target={'external' in item ? '_blank' : undefined}
+                    rel={'external' in item ? 'noopener' : undefined}
+                    class:list={[
+                      'mobile-nav-link nav-link rounded-full px-3 font-display font-semibold tracking-tight',
+                      !('external' in item) && isActive(item.href) ? 'nav-link-active' : '',
+                    ]}
+                    aria-current={!('external' in item) && isActive(item.href) ? 'page' : undefined}
+                  >
+                    {item.text}
+                    {'external' in item && <span class="sr-only-nw"> (opens in a new tab)</span>}
+                  </a>
+                </li>
+              ))}
+            </ul>
           </li>
         ))}
       </ul>
       <a
         class="mobile-nav-cta btn btn-primary mt-[2dvh] shrink-0 font-display font-semibold tracking-tight"
-        href={site.booking}
-        target="_blank"
-        rel="noopener"
+        href={u('/contact/')}
       >
-        Book a call
-        <span class="sr-only-nw"> (opens in a new tab)</span>
+        Get in touch
         <Icon name="arrow" size={15} />
       </a>
     </nav>
@@ -151,6 +182,25 @@ const isActive = (href: string) => {
 <Search />
 
 <style>
+  .nav-menu {
+    box-shadow: var(--shadow-lg, 0 12px 32px -8px rgb(0 0 0 / 0.18));
+  }
+  .nav-group[data-open] > .nav-menu {
+    display: block;
+    animation: menu-drop 0.18s var(--ease-out-soft, ease-out) both;
+  }
+  .nav-group[data-open] .nav-chevron {
+    rotate: 180deg;
+  }
+  .nav-chevron {
+    transition: rotate 0.2s ease;
+  }
+  @keyframes menu-drop {
+    from {
+      opacity: 0;
+      translate: 0 -4px;
+    }
+  }
   .burger {
     position: relative;
     display: block;
@@ -194,8 +244,8 @@ const isActive = (href: string) => {
   }
   /* Links split the panel height evenly; type scales with viewport height. */
   .mobile-nav-link {
-    font-size: clamp(1.75rem, 5.5dvh, 3.25rem);
-    line-height: 1.1;
+    font-size: clamp(1.25rem, 3.6dvh, 2rem);
+    line-height: 1.2;
     padding-block: 0.1em;
   }
   .mobile-nav-cta {

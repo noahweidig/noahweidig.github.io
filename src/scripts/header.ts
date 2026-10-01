@@ -8,6 +8,45 @@ export function initHeader() {
   sync();
   on(window, 'scroll', sync, { passive: true } as AddEventListenerOptions);
 
+  const groups = [...document.querySelectorAll<HTMLElement>('.nav-group')];
+  const setGroup = (g: HTMLElement, open: boolean) => {
+    g.toggleAttribute('data-open', open);
+    g.querySelector('[data-nav-trigger]')?.setAttribute('aria-expanded', String(open));
+  };
+  const closeGroups = (except?: HTMLElement) =>
+    groups.forEach((g) => g !== except && setGroup(g, false));
+  let hoverTimer: number | undefined;
+  groups.forEach((g) => {
+    const trigger = g.querySelector<HTMLElement>('[data-nav-trigger]');
+    on(trigger!, 'click', () => {
+      closeGroups(g);
+      setGroup(g, !g.hasAttribute('data-open'));
+    });
+    on(g, 'mouseenter', () => {
+      clearTimeout(hoverTimer);
+      if (matchMedia('(hover: hover)').matches) {
+        closeGroups(g);
+        setGroup(g, true);
+      }
+    });
+    on(g, 'mouseleave', () => {
+      hoverTimer = window.setTimeout(() => setGroup(g, false), 120);
+    });
+    on(g, 'focusout', (ev) => {
+      if (!g.contains((ev as FocusEvent).relatedTarget as Node)) setGroup(g, false);
+    });
+  });
+  on(document, 'click', (ev) => {
+    if (!groups.some((g) => g.contains(ev.target as Node))) closeGroups();
+  });
+  on(document, 'keydown', (ev) => {
+    if ((ev as KeyboardEvent).key !== 'Escape') return;
+    const open = groups.find((g) => g.hasAttribute('data-open'));
+    if (!open) return;
+    closeGroups();
+    open.querySelector<HTMLElement>('[data-nav-trigger]')?.focus();
+  });
+
   const toggle = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
   const panel = document.getElementById('mobile-nav');
   if (!toggle || !panel) return;
