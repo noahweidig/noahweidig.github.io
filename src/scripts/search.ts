@@ -368,7 +368,7 @@ export function initSearch() {
   const open = () => {
     lastFocused = document.activeElement as HTMLElement | null;
     if (!dialog.open) dialog.showModal();
-    document.documentElement.setAttribute('data-search-active', '');
+    document.documentElement.dataset.searchActive = '';
     input.focus();
     input.select();
     void run();
@@ -379,7 +379,7 @@ export function initSearch() {
     lastFocused?.focus();
   };
 
-  on(dialog, 'close', () => document.documentElement.removeAttribute('data-search-active'));
+  on(dialog, 'close', () => delete document.documentElement.dataset.searchActive);
   document.querySelectorAll('[data-search-open]').forEach((b) => on(b, 'click', open));
   dialog.querySelectorAll('[data-search-close]').forEach((b) => on(b, 'click', close));
   on(dialog, 'click', (ev) => {
