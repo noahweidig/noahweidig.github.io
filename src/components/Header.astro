@@ -297,9 +297,7 @@ const isActive = (href: string) => {
     }
   }
   :global(html[data-menu-open]),
-  :global(html[data-menu-open] body),
-  :global(html[data-search-active]),
-  :global(html[data-search-active] body) {
+  :global(html[data-search-active]) {
     overflow: hidden;
     overscroll-behavior: none;
   }
