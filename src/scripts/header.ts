@@ -22,7 +22,7 @@ export function initHeader() {
       closeGroups(g);
       /* A mouse click lands after hover already opened it; toggling would close it. */
       const mouse = (ev as PointerEvent).pointerType === 'mouse';
-      setGroup(g, mouse || !g.hasAttribute('data-open'));
+      setGroup(g, mouse || g.dataset.open === undefined);
     });
     on(g, 'pointerenter', (ev) => {
       clearTimeout(hoverTimer);
@@ -44,7 +44,7 @@ export function initHeader() {
   });
   on(document, 'keydown', (ev) => {
     if ((ev as KeyboardEvent).key !== 'Escape') return;
-    const open = groups.find((g) => g.hasAttribute('data-open'));
+    const open = groups.find((g) => g.dataset.open !== undefined);
     if (!open) return;
     closeGroups();
     open.querySelector<HTMLElement>('[data-nav-trigger]')?.focus();
@@ -54,7 +54,7 @@ export function initHeader() {
   mGroups.forEach((g) => {
     const t = g.querySelector<HTMLElement>('[data-mobile-trigger]')!;
     on(t, 'click', () => {
-      const open = !g.hasAttribute('data-open');
+      const open = g.dataset.open === undefined;
       mGroups.forEach((o) => {
         o.toggleAttribute('data-open', o === g && open);
         o.querySelector('[data-mobile-trigger]')?.setAttribute(
@@ -70,25 +70,43 @@ export function initHeader() {
   if (!toggle || !panel) return;
   /* Cheap lock: overflow on <html> + touch-action:none on the panel. The old
      body position:fixed lock relaid out the whole page on every toggle. */
+  let isOpen = false;
+  let closeTimer: number | undefined;
   const setOpen = (open: boolean) => {
-    if (open === !panel.hidden) return;
-    panel.hidden = !open;
+    if (open === isOpen) return;
+    isOpen = open;
+    clearTimeout(closeTimer);
     header.toggleAttribute('data-menu-open', open);
     document.documentElement.toggleAttribute('data-menu-open', open);
     toggle.setAttribute('aria-expanded', String(open));
+    if (open) {
+      panel.removeAttribute('data-closing');
+      panel.hidden = false;
+      return;
+    }
+    /* Wipe out to the right (CSS), then hide once it finishes. */
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      panel.hidden = true;
+      return;
+    }
+    panel.setAttribute('data-closing', '');
+    closeTimer = window.setTimeout(() => {
+      panel.hidden = true;
+      panel.removeAttribute('data-closing');
+    }, 300);
   };
-  on(toggle, 'click', () => setOpen(panel.hidden));
+  on(toggle, 'click', () => setOpen(!isOpen));
   panel.querySelectorAll('a').forEach((a) => on(a, 'click', () => setOpen(false)));
   on(window, 'resize', () => {
     if (window.innerWidth >= 1024) setOpen(false);
   });
   on(document, 'click', (ev) => {
-    if (panel.hidden) return;
+    if (!isOpen) return;
     const target = ev.target as Node;
     if (!panel.contains(target) && !toggle.contains(target)) setOpen(false);
   });
   on(document, 'keydown', (ev) => {
-    if ((ev as KeyboardEvent).key === 'Escape' && !panel.hidden) {
+    if ((ev as KeyboardEvent).key === 'Escape' && isOpen) {
       setOpen(false);
       toggle.focus();
     }
