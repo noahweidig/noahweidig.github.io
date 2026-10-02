@@ -11,20 +11,20 @@ import Icon from './Icon.astro';
   {/* Phone: the dialog is the page — a 3-inch-wide popup with a scrolling list
       inside it wastes most of the screen. From `sm` up it returns to a panel. */}
   <div
-    class="flex min-h-full items-stretch justify-center p-0 sm:items-start sm:p-4 sm:pt-[10vh]"
+    class="flex min-h-full items-stretch justify-center p-0 sm:items-start sm:p-6 sm:pt-[9vh]"
     data-search-backdrop
   >
     <div
-      class="card flex w-full max-w-none flex-col overflow-hidden rounded-none border-0 sm:max-w-3xl sm:rounded-[14px] sm:border"
+      class="card flex w-full max-w-none flex-col overflow-hidden rounded-none border-0 sm:max-w-4xl sm:rounded-2xl sm:border sm:border-line-strong sm:shadow-[0_32px_80px_-20px_rgb(0_0_0/0.55),0_0_0_1px_rgb(255_255_255/0.04)]"
       data-search-panel
     >
       <!-- query row -->
       {/* Phone: a pill-shaped field (icon, input, filter toggle) with a text
           Cancel beside it. `sm:contents` dissolves the pill wrapper so the
           desktop row is exactly what it was. */}
-      <div class="flex items-center gap-2 border-b border-line px-3 py-2.5 sm:gap-3 sm:px-4 sm:py-0">
+      <div class="flex items-center gap-2 border-b border-line px-3 py-2.5 sm:gap-3.5 sm:bg-raised/40 sm:px-6 sm:py-1">
         <div class="flex min-w-0 flex-1 items-center gap-2 rounded-xl bg-raised px-3 sm:contents">
-          <Icon name="search" size={18} class="shrink-0 text-faint" />
+          <Icon name="search" size={18} class="shrink-0 text-faint sm:text-accent-ink" />
           <input
             type="text"
             id="search-input"
@@ -35,14 +35,14 @@ import Icon from './Icon.astro';
             placeholder="Search projects, papers, posts…"
             autocomplete="off"
             spellcheck="false"
-            class="w-full bg-transparent py-3 text-base text-ellipsis text-ink placeholder:text-faint focus-visible:rounded-none focus-visible:outline-none sm:py-4 sm:text-body-lg"
+            class="w-full bg-transparent py-3 text-base text-ellipsis text-ink placeholder:text-faint focus-visible:rounded-none focus-visible:outline-none sm:py-5 sm:text-xl sm:tracking-tight"
           />
           <button
             type="button"
             data-filter-toggle
             aria-expanded="false"
             aria-controls="search-filters"
-            class="relative grid h-8 w-8 shrink-0 place-items-center rounded-md text-faint transition-colors hover:bg-raised hover:text-ink aria-expanded:bg-line/70 aria-expanded:text-accent-ink sm:aria-expanded:bg-raised"
+            class="relative grid h-8 w-8 shrink-0 place-items-center rounded-md text-faint transition-colors hover:bg-raised hover:text-ink aria-expanded:bg-line/70 aria-expanded:text-accent-ink sm:h-9 sm:w-9 sm:rounded-lg sm:border sm:border-line sm:aria-expanded:border-accent/50 sm:aria-expanded:bg-accent/10"
             title="Filters"
           >
             <Icon name="filter" size={17} />
@@ -61,20 +61,23 @@ import Icon from './Icon.astro';
         >
           Cancel
         </button>
-        <kbd class="hidden shrink-0 rounded border border-line px-1.5 py-0.5 font-mono text-[0.65rem] text-faint sm:block">
+        <kbd class="hidden shrink-0 rounded-md border border-line-strong bg-surface px-2 py-1 font-mono text-[0.68rem] text-faint shadow-[0_1px_0_var(--c-line-strong)] sm:block">
           esc
         </kbd>
       </div>
 
       <!-- body: results + filter rail -->
-      <div class="relative flex min-h-[16rem] flex-1 sm:max-h-[62vh] sm:flex-none" data-search-body>
+      <div
+        class="relative flex min-h-[16rem] flex-1 sm:h-[min(36rem,68vh)] sm:flex-none"
+        data-search-body
+      >
         <div
-          class="min-w-0 flex-1 overflow-y-auto p-2"
+          class="min-w-0 flex-1 overflow-y-auto p-2 sm:p-3"
           id="search-results"
           role="listbox"
           aria-label="Search results"
         >
-          <p class="px-3 py-10 text-center text-sm text-faint" data-search-empty>
+          <p class="px-3 py-10 text-center text-sm text-faint sm:py-24" data-search-empty>
             Type to search, or pick a filter.
           </p>
         </div>
@@ -82,7 +85,7 @@ import Icon from './Icon.astro';
         <aside
           id="search-filters"
           hidden
-          class="w-44 shrink-0 overflow-y-auto border-l border-line bg-raised/60 p-4 sm:w-56"
+          class="w-44 shrink-0 overflow-y-auto border-l border-line bg-raised/60 p-4 sm:w-64 sm:p-6"
           aria-label="Filters"
         >
           <div class="flex items-center justify-between">
@@ -101,13 +104,13 @@ import Icon from './Icon.astro';
       </div>
 
       <!-- hint bar -->
-      <div class="flex items-center gap-4 border-t border-line px-4 py-2.5 font-mono text-[0.65rem] text-faint">
+      <div class="flex items-center gap-4 border-t border-line px-4 py-2.5 font-mono text-[0.65rem] text-faint sm:bg-raised/40 sm:px-6 sm:py-3">
         <span class="hidden items-center gap-1.5 sm:flex">
-          <kbd class="rounded border border-line px-1">↑</kbd>
-          <kbd class="rounded border border-line px-1">↓</kbd> navigate
+          <kbd class="rounded border border-line-strong bg-surface px-1.5 py-0.5">↑</kbd>
+          <kbd class="rounded border border-line-strong bg-surface px-1.5 py-0.5">↓</kbd> navigate
         </span>
         <span class="hidden items-center gap-1.5 sm:flex">
-          <kbd class="rounded border border-line px-1">↵</kbd> open
+          <kbd class="rounded border border-line-strong bg-surface px-1.5 py-0.5">↵</kbd> open
         </span>
         <span class="ml-auto" data-search-status aria-live="polite"></span>
       </div>
