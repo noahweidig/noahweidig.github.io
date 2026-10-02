@@ -2,11 +2,34 @@
 import { getCollection } from 'astro:content';
 import { u } from '../../lib/url';
 import Page from '../../layouts/Page.astro';
-import TimelineItem from '../../components/TimelineItem.astro';
+import StatStrip from '../../components/StatStrip.astro';
+import Icon from '../../components/Icon.astro';
 
 const items = (await getCollection('education')).sort(
   (a, b) => b.data.date.getTime() - a.data.date.getTime(),
 );
+
+const LEVEL: Record<string, string> = { Master: 'M.S.', Bachelor: 'B.S.' };
+
+const years = items.flatMap((e) => (e.data.dates ?? '').match(/\d{4}/g) ?? []).map(Number);
+const gpas = items.flatMap((e) => /([\d.]+) GPA/.exec(e.data.description ?? '')?.[1] ?? []);
+const stats = [
+  { value: items.length, label: 'Degrees' },
+  { value: new Set(items.map((e) => e.data.org)).size, label: 'Universities' },
+  {
+    value: gpas.length && gpas.every((g) => g === gpas[0]) ? Number(gpas[0]).toFixed(1) : '4.0',
+    label: 'GPA',
+  },
+  { value: Math.max(...years) - Math.min(...years), label: 'Years of study' },
+];
+
+/* "Master of Science, Forest Resources & Conservation" → degree / field. */
+const splitTitle = (title: string) => {
+  const at = title.indexOf(',');
+  return at < 0
+    ? { degree: title, field: '' }
+    : { degree: title.slice(0, at), field: title.slice(at + 1).trim() };
+};
 ---
 
 <Page
@@ -15,16 +38,92 @@ const items = (await getCollection('education')).sort(
   kicker="Background"
   description="Degrees and academic training in biology, ecology, and geospatial science."
   intro="Degrees and academic training in biology, ecology, and geospatial science."
-  wide={false}
   image={u('/media/og/education.webp')}
   imageAlt="Noah Weidig's education timeline"
 >
+  <StatStrip stats={stats} />
   <h2 class="sr-only-nw">All education</h2>
-  <ul class="ml-1">
-    {items.map((entry, i) => (
-      <li>
-        <TimelineItem entry={entry} base="education" current={i === 0} />
-      </li>
-    ))}
+  <ul class="mt-12 grid gap-6 md:mt-16 md:grid-cols-2">
+    {items.map((entry, i) => {
+      const d = entry.data;
+      const { degree, field } = splitTitle(d.title);
+      const level = LEVEL[degree.split(' ')[0] ?? ''] ?? 'Deg.';
+      const current = i === 0;
+      const facts = (d.description ?? '').split(' · ').filter(Boolean);
+      return (
+        <li data-reveal class="flex">
+          <article
+            class="card card-hover group relative flex w-full flex-col p-7 md:p-9"
+            data-tip-title={d.title}
+            data-tip={`${d.org ?? ''}${d.dates ? ` · ${d.dates}` : ''} — open the full entry`}
+          >
+            <div class="flex items-start justify-between gap-4">
+              <span
+                aria-hidden="true"
+                class:list={[
+                  'grid h-14 w-14 place-items-center rounded-xl border font-mono text-sm font-semibold tracking-tight',
+                  current
+                    ? 'border-accent/40 bg-accent/10 text-accent-ink'
+                    : 'border-line-strong bg-raised text-dim',
+                ]}
+              >
+                {level}
+              </span>
+              <p class="pt-1 text-right font-mono text-2xs tracking-[0.08em] text-faint uppercase">
+                {d.dates}
+              </p>
+            </div>
+
+            <p class="mt-6 font-mono text-2xs tracking-[0.12em] text-faint uppercase">{degree}</p>
+            <h3 class="mt-1.5 text-2xl leading-tight">
+              <a
+                href={u(`/education/${entry.id}/`)}
+                class="transition-colors group-hover:text-accent-ink after:absolute after:inset-0 after:content-['']"
+              >
+                {field || degree}
+              </a>
+            </h3>
+
+            {d.org && <p class="mt-3 text-base font-medium text-accent-ink">{d.org}</p>}
+            {d.location && (
+              <p class="mt-1 flex items-center gap-1.5 font-mono text-2xs tracking-[0.08em] text-faint uppercase">
+                <Icon name="pin" size={12} />
+                {d.location}
+              </p>
+            )}
+
+            {facts.length > 0 && (
+              <ul class="mt-6 flex flex-wrap gap-2">
+                {facts.map((f) => (
+                  <li class="chip">{f}</li>
+                ))}
+              </ul>
+            )}
+
+            <div class="mt-auto flex flex-wrap items-center gap-x-5 gap-y-2 pt-7">
+              <span class="inline-flex items-center gap-1.5 text-sm font-medium text-accent-ink">
+                Read more
+                <Icon
+                  name="arrow"
+                  size={14}
+                  class="transition-transform group-hover:translate-x-0.5"
+                />
+              </span>
+              {d.links.map((l) => (
+                <a
+                  href={l.href}
+                  target={l.external ? '_blank' : undefined}
+                  rel={l.external ? 'noopener noreferrer' : undefined}
+                  class="relative z-10 inline-flex items-center gap-1.5 text-sm text-dim underline-offset-4 hover:text-ink hover:underline"
+                >
+                  {l.label}
+                  <Icon name="external" size={13} />
+                </a>
+              ))}
+            </div>
+          </article>
+        </li>
+      );
+    })}
   </ul>
 </Page>
