@@ -241,7 +241,7 @@ export function initSearch() {
     }
 
     if (!rows.length) {
-      out.innerHTML = `<p class="px-3 py-10 text-center text-sm text-faint">No matches${
+      out.innerHTML = `<p class="px-3 py-10 text-center text-sm text-faint sm:py-24">No matches${
         q ? ` for &ldquo;${escapeHtml(q)}&rdquo;` : ''
       }.</p>`;
       setActive(-1);
@@ -254,12 +254,12 @@ export function initSearch() {
       .map((r, i) => {
         const chip = r.section ? `<span class="chip shrink-0">${escapeHtml(r.section)}</span>` : '';
         return `<a id="search-opt-${i}" role="option" aria-selected="false" href="${r.href}"
-          class="block rounded-none border-b border-line/60 px-3 py-3.5 transition-colors last:border-b-0 hover:bg-raised sm:rounded-md sm:border-b-0 sm:py-2.5">
-          <span class="flex flex-col-reverse items-start gap-1.5 sm:flex-row sm:justify-between sm:gap-3">
-            <span class="text-[1rem] font-medium text-ink sm:text-[0.95rem]">${r.title}</span>
+          class="block rounded-none border-b border-line/60 px-3 py-3.5 transition-colors last:border-b-0 hover:bg-raised sm:rounded-xl sm:border-b-0 sm:px-4 sm:py-3.5 sm:[&[aria-selected=true]]:ring-1 sm:[&[aria-selected=true]]:ring-accent/40 sm:[&[aria-selected=true]]:ring-inset">
+          <span class="flex flex-col-reverse items-start gap-1.5 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+            <span class="text-[1rem] font-medium text-ink sm:text-[1.02rem]">${r.title}</span>
             ${chip}
           </span>
-          ${r.sub ? `<span class="mt-1 line-clamp-2 text-[0.82rem] leading-relaxed text-dim sm:line-clamp-none">${r.sub}</span>` : ''}
+          ${r.sub ? `<span class="mt-1 line-clamp-2 text-[0.82rem] leading-relaxed text-dim sm:mt-1.5 sm:text-[0.86rem]">${r.sub}</span>` : ''}
         </a>`;
       })
       .join('');
@@ -340,7 +340,7 @@ export function initSearch() {
     const hasFilters = Object.keys(filters).length > 0;
     if (!q && !hasFilters) {
       out.innerHTML =
-        '<p class="px-3 py-10 text-center text-sm text-faint">Type to search, or pick a filter.</p>';
+        '<p class="px-3 py-10 text-center text-sm text-faint sm:py-24">Type to search, or pick a filter.</p>';
       if (status) status.textContent = '';
       renderFilters(await pf.filters());
       syncBadge();
