@@ -2,11 +2,28 @@
 import { getCollection } from 'astro:content';
 import { u } from '../../lib/url';
 import Page from '../../layouts/Page.astro';
-import TimelineItem from '../../components/TimelineItem.astro';
+import StatStrip from '../../components/StatStrip.astro';
+import Icon from '../../components/Icon.astro';
 
 const items = (await getCollection('experience')).sort(
   (a, b) => b.data.date.getTime() - a.data.date.getTime(),
 );
+
+const orgs = new Set(items.map((e) => e.data.org).filter(Boolean));
+const states = new Set(items.map((e) => e.data.location?.split(', ').pop()).filter(Boolean));
+const since = Math.min(...items.map((e) => e.data.date.getUTCFullYear()));
+const stats = [
+  { value: items.length, label: 'Roles' },
+  { value: orgs.size, label: 'Organizations' },
+  { value: new Date().getFullYear() - since, label: 'Years in the field' },
+  { value: states.size, label: 'States worked in' },
+];
+
+/* "Aug 2025 – Present" → the start / end halves for the date rail. */
+const span = (dates = '') => {
+  const [from, to] = dates.split(/\s[–-]\s/);
+  return { from: from ?? '', to: to ?? '' };
+};
 ---
 
 <Page
@@ -15,16 +32,77 @@ const items = (await getCollection('experience')).sort(
   kicker="Background"
   description="Roles and internships across GIS, remote sensing, and ecological research."
   intro="Roles and internships across GIS, remote sensing, and ecological research."
-  wide={false}
   image={u('/media/og/experience.webp')}
   imageAlt="Noah Weidig's work experience timeline"
 >
+  <StatStrip stats={stats} />
   <h2 class="sr-only-nw">All experience</h2>
-  <ul class="ml-1">
-    {items.map((entry, i) => (
-      <li>
-        <TimelineItem entry={entry} base="experience" current={i === 0} />
-      </li>
-    ))}
-  </ul>
+  <ol class="relative mt-12 md:mt-16">
+    <span
+      aria-hidden="true"
+      class="absolute top-2 bottom-2 left-[5px] w-px bg-gradient-to-b from-accent/60 via-line-strong to-transparent md:left-[calc(11rem+5px)]"
+    ></span>
+    {items.map((entry, i) => {
+      const d = entry.data;
+      const { from, to } = span(d.dates);
+      const current = i === 0 && /present/i.test(to);
+      return (
+        <li
+          class="relative grid gap-3 pb-8 pl-8 last:pb-0 md:grid-cols-[11rem_1fr] md:gap-x-10 md:pb-10 md:pl-0"
+          data-reveal
+        >
+          <div class="md:pt-5 md:pr-10 md:text-right">
+            <p class="font-mono text-xs font-medium tracking-[0.08em] text-ink uppercase">{from}</p>
+            <p class="font-mono text-2xs tracking-[0.08em] text-faint uppercase">
+              {to ? `→ ${to}` : ''}
+            </p>
+          </div>
+          <span
+            aria-hidden="true"
+            class:list={[
+              'absolute top-[0.35rem] left-0 h-[11px] w-[11px] rounded-full border-2 md:top-[1.6rem] md:left-[11rem]',
+              current ? 'border-accent bg-accent' : 'border-line-strong bg-bg',
+            ]}
+          />
+          {current && (
+            <span
+              aria-hidden="true"
+              class="absolute top-[-0.05rem] -left-[5px] h-[22px] w-[22px] animate-ping rounded-full bg-accent/25 md:top-[1.2rem] md:left-[calc(11rem-5px)]"
+            />
+          )}
+          <a
+            href={u(`/experience/${entry.id}/`)}
+            class="card card-hover group block p-6 md:p-7"
+            data-tip-title={d.title}
+            data-tip={`${d.org ?? ''}${d.dates ? ` · ${d.dates}` : ''} — open the full entry`}
+          >
+            <div class="flex flex-wrap items-start justify-between gap-x-4 gap-y-2">
+              <h3 class="text-xl leading-snug transition-colors group-hover:text-accent-ink">
+                {d.title}
+              </h3>
+              {current && <span class="chip chip-accent shrink-0">Current</span>}
+            </div>
+            {d.org && <p class="mt-1.5 text-[0.95rem] font-medium text-accent-ink">{d.org}</p>}
+            {d.location && (
+              <p class="mt-1 flex items-center gap-1.5 font-mono text-2xs tracking-[0.08em] text-faint uppercase">
+                <Icon name="pin" size={12} />
+                {d.location}
+              </p>
+            )}
+            {d.description && (
+              <p class="mt-4 max-w-[62ch] leading-relaxed text-dim">{d.description}</p>
+            )}
+            <span class="mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-accent-ink">
+              Read more
+              <Icon
+                name="arrow"
+                size={14}
+                class="transition-transform group-hover:translate-x-0.5"
+              />
+            </span>
+          </a>
+        </li>
+      );
+    })}
+  </ol>
 </Page>
