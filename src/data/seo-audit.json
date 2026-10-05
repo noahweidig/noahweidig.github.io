@@ -1,16 +1,16 @@
 {
-  "generatedAt": "2026-09-28T16:16:06.429Z",
-  "totalPages": 100,
+  "generatedAt": "2026-10-05T16:37:08.818Z",
+  "totalPages": 101,
   "score": 98,
   "totals": {
-    "passes": 1465,
+    "passes": 1477,
     "warnings": 25,
-    "errors": 0
+    "errors": 1
   },
   "audits": [
     {
       "name": "Meta Tags",
-      "passes": 500,
+      "passes": 505,
       "warnings": 3,
       "errors": 0,
       "issues": [
@@ -33,21 +33,27 @@
     },
     {
       "name": "Schema Markup",
-      "passes": 274,
+      "passes": 276,
       "warnings": 0,
       "errors": 0,
       "issues": []
     },
     {
       "name": "Hreflang",
-      "passes": 1,
+      "passes": 0,
       "warnings": 0,
-      "errors": 0,
-      "issues": []
+      "errors": 1,
+      "issues": [
+        {
+          "page": "/ai/index.html",
+          "message": "i18n page missing hreflang tags",
+          "severity": "error"
+        }
+      ]
     },
     {
       "name": "Sitemap",
-      "passes": 101,
+      "passes": 102,
       "warnings": 0,
       "errors": 0,
       "issues": []
@@ -61,7 +67,7 @@
     },
     {
       "name": "Headings",
-      "passes": 200,
+      "passes": 202,
       "warnings": 19,
       "errors": 0,
       "issues": [
@@ -164,23 +170,23 @@
     },
     {
       "name": "Performance",
-      "passes": 297,
+      "passes": 300,
       "warnings": 3,
       "errors": 0,
       "issues": [
         {
           "page": "/blog/favorite-r-packages/index.html",
-          "message": "Total HTML size exceeds 100KB (126.1KB)",
+          "message": "Total HTML size exceeds 100KB (123.9KB)",
           "severity": "warning"
         },
         {
           "page": "/index.html",
-          "message": "Total HTML size exceeds 100KB (201.8KB)",
+          "message": "Total HTML size exceeds 100KB (174.9KB)",
           "severity": "warning"
         },
         {
           "page": "/publications/index.html",
-          "message": "Total HTML size exceeds 100KB (117.1KB)",
+          "message": "Total HTML size exceeds 100KB (110.7KB)",
           "severity": "warning"
         }
       ]
