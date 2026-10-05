@@ -18,7 +18,7 @@
     "dimensions": {
       "timesCited": 9,
       "recentCitations": 9,
-      "fieldCitationRatio": 2.64,
+      "fieldCitationRatio": 2.6,
       "relativeCitationRatio": null,
       "url": "https://badge.dimensions.ai/details/doi/10.1029/2024gl110586"
     },
@@ -47,10 +47,10 @@
       "url": "https://badge.dimensions.ai/details/doi/10.1186/s42408-026-00574-5"
     },
     "altmetric": {
-      "score": 9,
-      "postsCount": 5,
+      "score": 16,
+      "postsCount": 6,
       "detailsUrl": "https://www.altmetric.com/details.php?citation_id=204398202",
-      "imageUrl": "https://badges.altmetric.com/?size=64&score=9&types=bbttuuuu"
+      "imageUrl": "https://badges.altmetric.com/?size=64&score=16&types=mbbttuuu"
     }
   },
   "10.1371/journal.pone.0277237": {
