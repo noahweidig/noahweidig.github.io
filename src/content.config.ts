@@ -39,6 +39,7 @@ const publications = defineCollection({
     citation: z.string().optional(),
     links: z.array(link).default([]),
     'pub-authors': z.string().optional(),
+    'short-title': z.string().optional(),
     'pub-venue': z.string().optional(),
     'pub-details': z.string().optional(),
     'pub-doi': z.string().optional(),

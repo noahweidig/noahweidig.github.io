@@ -61,6 +61,16 @@ const ogImageExists = existsSync(
   fileURLToPath(new URL(`../../../public${ogImagePath}`, import.meta.url)),
 );
 
+// Several entries share a title and abstract (a talk, its paper, the thesis),
+// so the <title> and meta description carry the year and kind to stay unique.
+const year = d.date.getUTCFullYear();
+const kind = d.categories[0] ?? 'Publication';
+const metaTitle = `${d['short-title'] ?? truncateTitle(d.title, 45)} (${kind}, ${year})`;
+const metaDescription = truncateTitle(
+  `${kind}, ${year}${d['pub-venue'] ? `, ${d['pub-venue']}` : ''}. ${firstSentence(d.description, 155)}`,
+  158,
+).replace(/…$/, '');
+
 const pubLd = {
   '@context': 'https://schema.org',
   '@type': 'ScholarlyArticle',
@@ -75,18 +85,22 @@ const pubLd = {
         value: d['pub-doi'],
       }
     : undefined,
-  isPartOf: d['pub-venue'] ? { '@type': 'CreativeWork', name: d['pub-venue'] } : undefined,
+  sameAs: d['pub-doi'] ? `https://doi.org/${d['pub-doi']}` : undefined,
+  isAccessibleForFree: d['pub-oa'] ? true : undefined,
+  inLanguage: 'en',
+  isPartOf: d['pub-venue']
+    ? { '@type': kind === 'Journal Article' ? 'Periodical' : 'CreativeWork', name: d['pub-venue'] }
+    : undefined,
   author: authors.length
     ? authors.map((name) => ({ '@type': 'Person', name }))
     : { '@id': `${site.url}/#person` },
-  publisher: { '@id': `${site.url}/#person` },
 };
 ---
 
 <Detail
   title={d.title}
-  metaTitle={truncateTitle(d.title, 45)}
-  description={firstSentence(d.description, 155)}
+  metaTitle={metaTitle}
+  description={metaDescription}
   kicker={d.categories[0] ?? 'Publication'}
   meta={fullDate(d.date)}
   section="Publications"

@@ -2,7 +2,7 @@
 import { u } from '../../lib/url';
 import { getCollection, render } from 'astro:content';
 import Detail from '../../layouts/Detail.astro';
-import { fullDate } from '../../lib/format';
+import { fullDate, truncateTitle } from '../../lib/format';
 import { site } from '../../lib/site';
 
 export async function getStaticPaths() {
@@ -25,11 +25,16 @@ const { Content } = await render(entry);
 const d = entry.data;
 
 const repoLink = d.links.find((l) => /github|repo/i.test(l.label))?.href;
+const kindText = d.categories.length ? `${d.categories.join(' / ')} project` : 'project';
+const metaDescription = truncateTitle(
+  `${d.description.replace(/[.\s]+$/, '')}. ${d.title} is a ${kindText} by ${site.name}${repoLink ? ', open source on GitHub' : ''}.`,
+  158,
+).replace(/…$/, '');
 const projectLd = {
   '@context': 'https://schema.org',
-  '@type': 'CreativeWork',
+  '@type': repoLink ? 'SoftwareSourceCode' : 'CreativeWork',
   name: d.title,
-  description: d.description,
+  description: metaDescription,
   dateCreated: d.date.toISOString(),
   url: new URL(Astro.url.pathname, Astro.site).href,
   codeRepository: repoLink,
@@ -40,7 +45,7 @@ const projectLd = {
 
 <Detail
   title={d.title}
-  description={d.description}
+  description={metaDescription}
   kicker={d.featured ? 'Featured project' : 'Project'}
   meta={fullDate(d.date)}
   section="Projects"
