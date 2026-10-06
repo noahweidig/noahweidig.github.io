@@ -145,6 +145,7 @@ const pubLd = {
             class="chip transition-colors hover:border-accent hover:text-accent-ink"
             data-tip-title="Dimensions"
             data-tip={dimensionsTip}
+            aria-label={`${dimensions.timesCited} citation${dimensions.timesCited === 1 ? '' : 's'} on Dimensions (opens in a new tab)`}
           >
             <img
               src={u('/media/icons/custom/dimensions.svg')}
@@ -165,6 +166,7 @@ const pubLd = {
             class="chip chip-accent transition-colors hover:border-accent"
             data-tip-title="Altmetric Attention Score"
             data-tip={altmetricTip}
+            aria-label={`Altmetric attention score ${Math.round(altmetric.score)} (opens in a new tab)`}
           >
             {altmetric.imageUrl && (
               <img

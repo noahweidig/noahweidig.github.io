@@ -31,6 +31,11 @@ export function initTypewriter() {
       deleting = false;
       w = (w + 1) % words.length;
       delay = 320;
+      if (w === 0) {
+        // One pass through the list is enough; looping forever has no pause control (WCAG 2.2.2).
+        el.textContent = words[0]!;
+        return;
+      }
     }
     timer = window.setTimeout(tick, delay);
   };

@@ -249,7 +249,7 @@ const faqs = [
     </div>
     <div class="shell mt-10" data-carousel data-reveal>
       <div
-        class="carousel-track flex snap-x snap-mandatory gap-5 overflow-x-auto pb-2 [scroll-padding-inline:0px]"
+        class="carousel-track flex snap-x snap-mandatory gap-5 overflow-x-auto -mx-1.5 px-1.5 pt-1.5 pb-2 [scroll-padding-inline:6px]"
         data-carousel-track
       >
         {featuredAwards.map((entry) => (
@@ -285,14 +285,13 @@ const faqs = [
       </div>
 
       <div class="mt-6 flex items-center justify-center gap-1.5">
-        <div class="flex items-center gap-1.5" role="tablist" aria-label="Featured awards">
+        <div class="flex items-center gap-1.5" role="group" aria-label="Choose an award to show">
           {featuredAwards.map((entry, i) => (
             <button
               type="button"
-              role="tab"
               class="carousel-dot"
               data-carousel-dot
-              aria-selected={i === 0}
+              aria-current={i === 0 ? 'true' : undefined}
               aria-label={`Show ${entry.data.title}`}
             >
               <span aria-hidden="true" />
@@ -454,7 +453,7 @@ const faqs = [
           </ul>
           <div class="mt-8 flex flex-wrap gap-2.5">
             <a
-              class="btn btn-primary w-[13.5rem]"
+              class="btn btn-primary w-full sm:w-[13.5rem]"
               href={u(site.resume)}
               target="_blank"
               rel="noopener"
@@ -463,7 +462,7 @@ const faqs = [
               Download resume
               <span class="sr-only-nw"> (opens in a new tab)</span>
             </a>
-            <a class="btn btn-ghost w-[13.5rem]" href={u('/contact/')}>
+            <a class="btn btn-ghost w-full sm:w-[13.5rem]" href={u('/contact/')}>
               <Icon name="mail" size={15} />
               Get in touch
             </a>
