@@ -238,4 +238,9 @@ const byCat = (c: string) => pubs.filter((p) => p.data.categories.includes(c));
   .cv-page {
     --c-accent-ink: var(--c-ink);
   }
+  .cv-page a:not(.btn) {
+    text-decoration: underline;
+    text-decoration-color: var(--c-dim);
+    text-underline-offset: 2px;
+  }
 </style>

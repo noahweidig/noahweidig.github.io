@@ -28,6 +28,7 @@
   --c-raised: #171a20;
   --c-line: #23272f;
   --c-line-strong: #333845;
+  --c-control-border: #6b7385;
   --c-ink: #e9ecf2;
   --c-dim: #99a1b1;
   --c-faint: #7c8494;
@@ -60,6 +61,7 @@
   --c-raised: #f4f4f4;
   --c-line: #e2e2e2;
   --c-line-strong: #cbcbcb;
+  --c-control-border: #7a808c;
   --c-ink: #14161a;
   --c-dim: #565d6b;
   --c-faint: #636a78;
@@ -94,6 +96,7 @@
   --color-raised: var(--c-raised);
   --color-line: var(--c-line);
   --color-line-strong: var(--c-line-strong);
+  --color-control: var(--c-control-border);
   --color-ink: var(--c-ink);
   --color-dim: var(--c-dim);
   --color-faint: var(--c-faint);
@@ -370,7 +373,7 @@
     color: var(--c-accent-contrast);
   }
   .btn-primary:hover {
-    background: color-mix(in oklab, var(--c-accent) 86%, white);
+    background: color-mix(in oklab, var(--c-accent) 86%, black);
   }
 
   .btn-ghost {
@@ -435,7 +438,7 @@
     width: 0.5rem;
     height: 0.5rem;
     border-radius: 999px;
-    background: var(--c-line-strong);
+    background: var(--c-control-border);
     transition:
       width 0.35s cubic-bezier(0.22, 1, 0.36, 1),
       background-color 0.25s ease;
@@ -747,7 +750,21 @@
     animation: marquee-drift 48s linear infinite;
     mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
   }
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track {
+      animation: none;
+      width: auto;
+      flex-wrap: wrap;
+      justify-content: center;
+      mask-image: none;
+    }
+    .marquee-track > [aria-hidden='true'],
+    .marquee-toggle {
+      display: none;
+    }
+  }
   .marquee:hover .marquee-track,
+  .marquee:focus-within .marquee-track,
   .marquee[data-paused] .marquee-track {
     animation-play-state: paused;
   }
@@ -1304,6 +1321,12 @@
     color: transparent;
     padding-bottom: 0.15em;
     margin-bottom: -0.15em;
+  }
+  @media (forced-colors: active) {
+    .text-gradient {
+      background: none;
+      color: CanvasText;
+    }
   }
   .balance {
     text-wrap: balance;
