@@ -144,11 +144,7 @@ const beyondWork = [
       </h2>
       <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
         {beyondWork.map((b, i) => (
-          <div
-            class="card flex flex-col p-6"
-            data-reveal
-            style={`--reveal-delay:${i * 60}ms`}
-          >
+          <div class="card flex flex-col p-6" data-reveal style={`--reveal-delay:${i * 60}ms`}>
             <span class="grid h-12 w-12 place-items-center rounded-xl border border-line bg-raised text-accent-ink">
               <Icon name={b.icon} size={22} />
             </span>
