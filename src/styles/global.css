@@ -446,7 +446,7 @@
   .carousel-dot:hover > span {
     background: var(--c-dim);
   }
-  .carousel-dot[aria-selected='true'] > span {
+  .carousel-dot[aria-current='true'] > span {
     width: 1.4rem;
     background: var(--c-accent);
   }
@@ -1098,7 +1098,7 @@
       display: inline-grid;
       vertical-align: middle;
       margin-left: 0.35rem;
-      opacity: 0.45;
+      opacity: 1;
     }
   }
 

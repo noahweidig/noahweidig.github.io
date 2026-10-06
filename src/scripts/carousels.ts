@@ -21,8 +21,8 @@ export function initCarousels() {
       current = nearest();
       while (current < dots.length - 1 && dots[current]!.hidden) current += 1;
       dots.forEach((d, i) => {
-        d.setAttribute('aria-selected', String(i === current));
-        d.tabIndex = i === current ? 0 : -1;
+        if (i === current) d.setAttribute('aria-current', 'true');
+        else d.removeAttribute('aria-current');
       });
     };
 

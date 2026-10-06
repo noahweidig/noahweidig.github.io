@@ -58,7 +58,7 @@ import Icon from './Icon.astro';
         <button
           type="button"
           data-search-close
-          class="shrink-0 rounded-md px-1 py-2 text-[0.95rem] font-medium text-accent-ink sm:hidden"
+          class="shrink-0 rounded-md px-1 py-2 text-[0.95rem] font-medium text-accent-ink"
         >
           Cancel
         </button>
@@ -78,7 +78,11 @@ import Icon from './Icon.astro';
           role="listbox"
           aria-label="Search results"
         >
-          <p class="px-3 py-10 text-center text-sm text-faint sm:py-24" data-search-empty>
+          <p
+            role="presentation"
+            class="px-3 py-10 text-center text-sm text-faint sm:py-24"
+            data-search-empty
+          >
             Type to search, or pick a filter.
           </p>
         </div>
