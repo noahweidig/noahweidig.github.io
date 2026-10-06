@@ -40,7 +40,7 @@ const frameName = 'substack-newsletter-frame';
   >
     No spam. Unsubscribe anytime.
   </p>
-  <p data-newsletter-confirm hidden class="text-body-lg text-dim">
+  <p data-newsletter-confirm hidden tabindex="-1" class="text-body-lg text-dim">
     Thanks — check your inbox to confirm.
   </p>
   <iframe name={frameName} hidden title="Newsletter subscription"></iframe>
@@ -81,7 +81,10 @@ const frameName = 'substack-newsletter-frame';
         // swaps the UI without waiting on a cross-origin response we can't read.
         form.hidden = true;
         if (note) note.hidden = true;
-        if (confirmMsg) confirmMsg.hidden = false;
+        if (confirmMsg) {
+          confirmMsg.hidden = false;
+          confirmMsg.focus();
+        }
       });
     });
   }
