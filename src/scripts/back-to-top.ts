@@ -21,6 +21,9 @@ export function initBackToTop() {
   on(window, 'scroll', sync, { passive: true } as AddEventListenerOptions);
 
   on(btn, 'click', () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({
+      top: 0,
+      behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+    });
   });
 }

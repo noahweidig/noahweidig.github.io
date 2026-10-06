@@ -271,7 +271,11 @@ const faqs = [
               </span>
             </div>
             <div class="p-5">
-              <b class="block text-body-lg leading-snug font-medium transition-colors group-hover:text-accent-ink">
+              <b
+                role="heading"
+                aria-level="3"
+                class="block text-body-lg leading-snug font-medium transition-colors group-hover:text-accent-ink"
+              >
                 {entry.data.title}
               </b>
               <span class="mt-1.5 block text-[0.82rem] text-dim">{entry.data.description}</span>
@@ -466,7 +470,10 @@ const faqs = [
           </div>
           <p class="mt-6 text-sm text-faint">
             Prefer email? Reach me directly at{' '}
-            <a class="font-medium text-accent-ink" href={`mailto:${site.email}`}>
+            <a
+              class="font-medium text-accent-ink underline underline-offset-2"
+              href={`mailto:${site.email}`}
+            >
               {site.email}
             </a>
           </p>

@@ -16,7 +16,7 @@ const frameName = 'substack-newsletter-frame';
     method="post"
     target={frameName}
     data-newsletter-form
-    class="newsletter-pill flex w-full min-w-0 flex-nowrap items-center rounded-full border border-line sm:w-96"
+    class="newsletter-pill flex w-full min-w-0 flex-nowrap items-center rounded-full border border-control sm:w-96"
   >
     <label for="newsletter-email" class="sr-only-nw">
       Email address
@@ -40,7 +40,7 @@ const frameName = 'substack-newsletter-frame';
   >
     No spam. Unsubscribe anytime.
   </p>
-  <p data-newsletter-confirm hidden class="text-body-lg text-dim">
+  <p data-newsletter-confirm hidden tabindex="-1" class="text-body-lg text-dim">
     Thanks — check your inbox to confirm.
   </p>
   <iframe name={frameName} hidden title="Newsletter subscription"></iframe>
@@ -53,6 +53,8 @@ const frameName = 'substack-newsletter-frame';
     }
     .newsletter-form .newsletter-pill:focus-within {
       border-color: var(--c-accent-ink);
+      outline: 2px solid var(--c-accent);
+      outline-offset: 2px;
     }
     .newsletter-form .newsletter-input {
       background: var(--c-raised);
@@ -79,7 +81,10 @@ const frameName = 'substack-newsletter-frame';
         // swaps the UI without waiting on a cross-origin response we can't read.
         form.hidden = true;
         if (note) note.hidden = true;
-        if (confirmMsg) confirmMsg.hidden = false;
+        if (confirmMsg) {
+          confirmMsg.hidden = false;
+          confirmMsg.focus();
+        }
       });
     });
   }

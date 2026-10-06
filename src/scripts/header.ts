@@ -79,6 +79,8 @@ export function initHeader() {
     header.toggleAttribute('data-menu-open', open);
     document.documentElement.toggleAttribute('data-menu-open', open);
     toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    document.querySelectorAll('main, footer').forEach((el) => el.toggleAttribute('inert', open));
     if (open) {
       panel.removeAttribute('data-closing');
       panel.hidden = false;
