@@ -13,7 +13,8 @@ export function initHeadingAnchors() {
       a.className = 'heading-anchor';
       a.href = `#${h.id}`;
       a.dataset.tip = 'Copy link to this section';
-      a.setAttribute('aria-label', `Copy link to section: ${h.textContent?.trim() ?? h.id}`);
+      a.setAttribute('role', 'button');
+      a.setAttribute('aria-label', 'Copy link to this section');
       a.innerHTML =
         '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9h16"/><path d="M4 15h16"/><path d="M10 3 8 21"/><path d="M16 3l-2 18"/></svg>';
 
@@ -38,6 +39,6 @@ export function initHeadingAnchors() {
         }, 1600);
       });
 
-      h.prepend(a);
+      h.append(a);
     });
 }
