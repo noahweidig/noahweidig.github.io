@@ -21,7 +21,10 @@ export function initHeadingAnchors() {
         ev.preventDefault();
         const url = `${location.origin}${location.pathname}#${h.id}`;
         history.replaceState(history.state, '', `#${h.id}`);
-        h.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        h.scrollIntoView({
+          behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+          block: 'start',
+        });
         try {
           await navigator.clipboard.writeText(url);
           a.dataset.tip = 'Link copied';

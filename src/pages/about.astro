@@ -152,7 +152,9 @@ const beyondWork = [
             <span class="grid h-12 w-12 place-items-center rounded-xl border border-line bg-raised text-accent-ink">
               <Icon name={b.icon} size={22} />
             </span>
-            <b class="mt-5 block text-lg font-medium">{b.title}</b>
+            <b role="heading" aria-level="3" class="mt-5 block text-lg font-medium">
+              {b.title}
+            </b>
             <p class="mt-2 text-sm leading-relaxed text-dim">{b.body}</p>
           </div>
         ))}

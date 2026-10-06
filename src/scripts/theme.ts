@@ -20,6 +20,13 @@ function applyThemeImages(theme: 'light' | 'dark') {
   });
 }
 
+function updateToggleLabels(pref: ThemePref) {
+  const next = THEME_ORDER[(THEME_ORDER.indexOf(pref) + 1) % THEME_ORDER.length];
+  document.querySelectorAll<HTMLButtonElement>('[data-theme-toggle]').forEach((b) => {
+    b.setAttribute('aria-label', `Color theme: ${pref}. Switch to ${next}`);
+  });
+}
+
 function applyTheme(pref: ThemePref) {
   const theme = resolveTheme(pref);
   document.documentElement.dataset.theme = theme;
@@ -31,11 +38,13 @@ function applyTheme(pref: ThemePref) {
   }
   document
     .querySelector('meta[name="theme-color"]')
-    ?.setAttribute('content', theme === 'light' ? '#fbfaf7' : '#07080b');
+    ?.setAttribute('content', theme === 'light' ? '#ffffff' : '#000000');
   applyThemeImages(theme);
+  updateToggleLabels(pref);
 }
 
 export function initTheme() {
+  updateToggleLabels((document.documentElement.dataset.themePref as ThemePref) ?? 'system');
   document.querySelectorAll<HTMLButtonElement>('[data-theme-toggle]').forEach((btn) => {
     on(btn, 'click', () => {
       const current = (document.documentElement.dataset.themePref as ThemePref) ?? 'system';

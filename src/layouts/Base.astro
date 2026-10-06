@@ -116,7 +116,7 @@ const jsonLd = {
       }
     />
     <meta name="google-site-verification" content="0ktlvQnqLH01fphPI1cDMDTuQSmCG7mHBQdovXQs2TQ" />
-    <meta name="theme-color" content="#07080b" />
+    <meta name="theme-color" content="#000000" />
     <meta name="generator" content={Astro.generator} />
 
     <meta property="og:type" content={type} />
@@ -203,7 +203,7 @@ const jsonLd = {
           document.documentElement.dataset.theme = t;
           document.documentElement.dataset.themePref = p;
           var m = document.querySelector('meta[name="theme-color"]');
-          if (m) m.setAttribute('content', t === 'light' ? '#fbfaf7' : '#07080b');
+          if (m) m.setAttribute('content', t === 'light' ? '#ffffff' : '#000000');
         }
         apply();
         // A view-transition swap copies <html>'s attributes from the incoming
@@ -223,7 +223,13 @@ const jsonLd = {
       set:html={JSON.stringify({
         prefetch: [
           {
-            where: { and: [{ href_matches: '/*' }, { not: { href_matches: '/uploads/*' } }] },
+            where: {
+              and: [
+                { href_matches: '/*' },
+                { not: { href_matches: '/uploads/*' } },
+                { not: { selector_matches: 'a[href$=".pdf"]' } },
+              ],
+            },
             eagerness: 'moderate',
           },
         ],
