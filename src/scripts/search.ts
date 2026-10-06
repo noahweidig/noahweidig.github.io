@@ -241,7 +241,7 @@ export function initSearch() {
     }
 
     if (!rows.length) {
-      out.innerHTML = `<p class="px-3 py-10 text-center text-sm text-faint sm:py-24">No matches${
+      out.innerHTML = `<p role="presentation" class="px-3 py-10 text-center text-sm text-faint sm:py-24">No matches${
         q ? ` for &ldquo;${escapeHtml(q)}&rdquo;` : ''
       }.</p>`;
       setActive(-1);
