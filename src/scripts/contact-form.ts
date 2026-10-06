@@ -11,7 +11,6 @@ export function initContactForm() {
 
   const say = (msg: string, ok: boolean) => {
     if (!status) return;
-    status.hidden = false;
     status.textContent = msg;
     status.dataset.state = ok ? 'ok' : 'error';
   };
