@@ -5,6 +5,18 @@ import { u } from '../../lib/url';
 import { tagGroups, tagIcon } from '../../lib/tags';
 
 const groups = await tagGroups();
+const sections = ['Projects', 'Publications', 'Blog'] as const;
+const total = new Set(groups.flatMap((g) => g.items.map((i) => i.href))).size;
+const stats = [
+  { label: 'Tags', value: groups.length },
+  { label: 'Items filed', value: total },
+  ...sections.map((s) => ({
+    label: s,
+    value: new Set(groups.flatMap((g) => g.items.filter((i) => i.section === s).map((i) => i.href)))
+      .size,
+  })),
+];
+const max = Math.max(...groups.map((g) => g.items.length), 1);
 ---
 
 <Page
@@ -14,20 +26,58 @@ const groups = await tagGroups();
   section="Tags"
   description="Every topic used across projects, publications and writing, with the work filed under each."
   intro="Every topic used across projects, publications and writing, with the work filed under each."
-  wide={false}
   image={u('/media/og/tags.webp')}
   imageAlt="Index of every topic tag used across the site"
 >
-  <ul class="flex flex-wrap gap-2">
+  <dl class="mb-10 grid grid-cols-2 gap-3 sm:grid-cols-5">
+    {stats.map((s) => (
+      <div class="card px-4 py-3 max-sm:last:col-span-2">
+        <dd class="text-2xl font-semibold tabular-nums">{s.value}</dd>
+        <dt class="font-mono text-2xs tracking-[0.16em] text-faint uppercase">{s.label}</dt>
+      </div>
+    ))}
+  </dl>
+
+  <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
     {groups.map((g) => (
       <li>
         <a
           href={u(`/tags/${g.slug}/`)}
-          class="chip transition-colors hover:border-accent hover:text-accent-ink"
+          class="card card-hover group flex h-full flex-col gap-4 p-5"
         >
-          {tagIcon(g.name) && <Icon name={tagIcon(g.name)!} size={12} />}
-          {g.name}
-          <span class="text-faint">{g.items.length}</span>
+          <div class="flex items-center gap-3">
+            <span class="grid size-9 shrink-0 place-items-center rounded-full bg-matte text-accent-ink">
+              <Icon name={tagIcon(g.name) ?? 'hash'} size={16} />
+            </span>
+            <h2 class="min-w-0 flex-1 truncate text-[1.05rem] font-medium transition-colors group-hover:text-accent-ink">
+              {g.name}
+            </h2>
+            <span class="font-mono text-sm text-dim tabular-nums">{g.items.length}</span>
+          </div>
+          <div class="h-1 overflow-hidden rounded-full bg-line" aria-hidden="true">
+            <div
+              class="h-full rounded-full bg-accent"
+              style={`width:${Math.max((g.items.length / max) * 100, 6)}%`}
+            ></div>
+          </div>
+          <ul class="flex flex-col gap-1.5 text-sm text-dim">
+            {g.items.slice(0, 3).map((i) => (
+              <li class="flex gap-2">
+                <span class="mt-[0.55em] size-1 shrink-0 rounded-full bg-faint"></span>
+                <span class="line-clamp-1">{i.title}</span>
+              </li>
+            ))}
+          </ul>
+          <div class="mt-auto flex flex-wrap gap-1.5 pt-1">
+            {sections.map((s) => {
+              const n = g.items.filter((i) => i.section === s).length;
+              return n ? (
+                <span class="chip">
+                  {s} <span class="text-faint">{n}</span>
+                </span>
+              ) : null;
+            })}
+          </div>
         </a>
       </li>
     ))}
