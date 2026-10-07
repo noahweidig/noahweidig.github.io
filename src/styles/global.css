@@ -308,7 +308,7 @@
   }
 
   /* --- page hero ---
-     The always-dark band that opens every inner page: breadcrumb pill, kicker,
+     The theme-following band that opens every inner page: breadcrumb pill, kicker,
      large title, intro and actions on the left, an optional frosted panel on
      the right. Collapses to one column below 52rem. */
   .page-hero {
