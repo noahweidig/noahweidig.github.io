@@ -3,7 +3,6 @@ import { u } from '../lib/url';
 import type { CollectionEntry } from 'astro:content';
 import { fullDate } from '../lib/format';
 import { IMAGE_WIDTHS } from '../lib/images';
-import { tagIcon } from '../lib/tags';
 import Icon from './Icon.astro';
 import ThemeImage from './ThemeImage.astro';
 
@@ -15,7 +14,7 @@ interface Props {
   reveal?: boolean;
   class?: string;
 }
-const { entry, readingTime, index = 0, cta = false, reveal = true, class: cls } = Astro.props;
+const { entry, readingTime, index = 0, reveal = true, class: cls } = Astro.props;
 const { title, description, date, categories, image } = entry.data;
 const imageLight = entry.data['image-light'] ?? image!;
 const alt = entry.data['image-alt'] ?? '';
@@ -75,19 +74,7 @@ const alt = entry.data['image-alt'] ?? '';
       </a>
     </h3>
     <p class="mt-2 flex-1 text-sm leading-relaxed text-dim line-clamp-4">{description}</p>
-    <div class="mt-4 flex items-end justify-between gap-3">
-      {cta ? (
-        <span />
-      ) : (
-        <div class="flex flex-wrap gap-1.5">
-          {categories.map((c) => (
-            <span class="chip">
-              {tagIcon(c) && <Icon name={tagIcon(c)!} size={12} />}
-              {c}
-            </span>
-          ))}
-        </div>
-      )}
+    <div class="mt-4 flex justify-end">
       <span
         class="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-line bg-raised transition-colors group-hover:bg-accent group-hover:text-white"
         aria-hidden="true"

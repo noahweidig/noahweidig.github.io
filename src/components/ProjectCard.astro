@@ -6,7 +6,6 @@ import type { CollectionEntry } from 'astro:content';
 import { Image } from 'astro:assets';
 import Icon from './Icon.astro';
 import { IMAGE_WIDTHS, shotFor } from '../lib/images';
-import { tagIcon } from '../lib/tags';
 
 interface Props {
   entry: CollectionEntry<'projects'>;
@@ -15,7 +14,7 @@ interface Props {
   reveal?: boolean;
   class?: string;
 }
-const { entry, index = 0, cta = false, reveal = true, class: cls } = Astro.props;
+const { entry, index = 0, reveal = true, class: cls } = Astro.props;
 const { title, description, categories, featured } = entry.data;
 const slug = entry.id;
 
@@ -76,19 +75,7 @@ const shot = shotFor(slug);
       </a>
     </h3>
     <p class="mt-2 flex-1 text-sm leading-relaxed text-dim">{description}</p>
-    <div class="mt-4 flex items-end justify-between gap-3">
-      {cta ? (
-        <span />
-      ) : (
-        <div class="flex flex-wrap gap-1.5">
-          {categories.map((c) => (
-            <span class="chip">
-              {tagIcon(c) && <Icon name={tagIcon(c)!} size={12} />}
-              {c}
-            </span>
-          ))}
-        </div>
-      )}
+    <div class="mt-4 flex justify-end">
       <span
         class="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-line bg-raised transition-colors group-hover:bg-accent group-hover:text-white"
         aria-hidden="true"
