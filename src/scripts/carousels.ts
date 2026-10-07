@@ -93,6 +93,7 @@ export function initCarousels() {
 
     /* Auto-advance, paused while the reader is on it or the tab is hidden,
        and stopped outright by the toggle beside the dots. */
+    const noun = root.dataset.carouselLabel ?? 'awards';
     const toggle = root.querySelector<HTMLButtonElement>('[data-carousel-toggle]');
     if (slow) {
       if (toggle) toggle.hidden = true;
@@ -121,7 +122,7 @@ export function initCarousels() {
       on(toggle, 'click', () => {
         stopped = !stopped;
         toggle.setAttribute('aria-pressed', String(stopped));
-        const label = stopped ? 'Play the awards carousel' : 'Pause the awards carousel';
+        const label = stopped ? `Play the ${noun} carousel` : `Pause the ${noun} carousel`;
         toggle.setAttribute('aria-label', label);
         toggle.dataset.tip = stopped ? 'Play the carousel' : 'Pause the carousel';
         if (pauseIcon) pauseIcon.hidden = stopped;
