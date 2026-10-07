@@ -17,7 +17,8 @@ export function initPopups() {
     };
     dialog.querySelector('[data-popup-close]')?.addEventListener('click', close);
     on(dialog, 'click', (ev) => {
-      const box = dialog.getBoundingClientRect();
+      const card = dialog.querySelector('[data-popup-card]') ?? dialog;
+      const box = card.getBoundingClientRect();
       const { clientX: x, clientY: y } = ev as MouseEvent;
       if (x < box.left || x > box.right || y < box.top || y > box.bottom) close();
     });
