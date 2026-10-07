@@ -75,24 +75,29 @@ const alt = entry.data['image-alt'] ?? '';
       </a>
     </h3>
     <p class="mt-2 flex-1 text-sm leading-relaxed text-dim line-clamp-4">{description}</p>
-    {cta ? (
-      <span class="btn btn-ghost btn-sm mt-4 self-end">
-        Read post
+    <div class="mt-4 flex items-end justify-between gap-3">
+      {cta ? (
+        <span />
+      ) : (
+        <div class="flex flex-wrap gap-1.5">
+          {categories.map((c) => (
+            <span class="chip">
+              {tagIcon(c) && <Icon name={tagIcon(c)!} size={12} />}
+              {c}
+            </span>
+          ))}
+        </div>
+      )}
+      <span
+        class="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-line bg-raised transition-colors group-hover:bg-accent group-hover:text-white"
+        aria-hidden="true"
+      >
         <Icon
-          name="arrow"
-          size={15}
-          class="transition-transform duration-300 group-hover:translate-x-1"
+          name="chevron"
+          size={16}
+          class="-rotate-90 transition-transform duration-300 group-hover:translate-x-0.5"
         />
       </span>
-    ) : (
-      <div class="mt-4 flex flex-wrap gap-1.5">
-        {categories.map((c) => (
-          <span class="chip">
-            {tagIcon(c) && <Icon name={tagIcon(c)!} size={12} />}
-            {c}
-          </span>
-        ))}
-      </div>
-    )}
+    </div>
   </div>
 </article>
