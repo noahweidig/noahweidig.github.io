@@ -4,6 +4,7 @@ import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import HeroPanel from '../components/HeroPanel.astro';
 import Icon from '../components/Icon.astro';
+import Globe from '../components/Globe.astro';
 import { Image } from 'astro:assets';
 import portrait from '../assets/me.webp';
 import { PORTRAIT_SIZES, PORTRAIT_WIDTHS } from '../lib/portrait';
@@ -164,6 +165,15 @@ const beyondWork = [
             <p class="mt-2 text-sm leading-relaxed text-dim">{b.body}</p>
           </div>
         ))}
+      </div>
+    </div>
+
+    <div class="mt-20 md:mt-24" id="map">
+      <h2 class="font-display text-3xl" data-reveal>
+        Where I'm based
+      </h2>
+      <div class="mt-8" data-reveal>
+        <Globe class="aspect-4/3 md:aspect-21/9" />
       </div>
     </div>
 
