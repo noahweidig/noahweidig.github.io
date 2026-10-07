@@ -1,9 +1,10 @@
 /**
- * Rebuild src/lib/icons.generated.ts from lucide-static.
+ * Rebuild src/lib/icons.generated.ts from @fluentui/svg-icons.
  *
- * Every non-brand icon on the site comes from Lucide so the whole set shares
- * one grid, one stroke and one set of terminals. Brand marks stay hand-drawn
- * in Icon.astro — Lucide does not ship them.
+ * Every non-brand icon on the site comes from Fluent UI System Icons (filled)
+ * so the whole set shares one grid and one weight. The SVGs are copied into
+ * the repo, so nothing is fetched at runtime. Brand marks live in
+ * `public/uploads/`.
  *
  *   node scripts/generate-icons.mjs
  */
@@ -15,102 +16,121 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const require = createRequire(import.meta.url);
-const iconsDir = path.join(path.dirname(require.resolve('lucide-static/package.json')), 'icons');
+const iconsDir = path.join(
+  path.dirname(require.resolve('@fluentui/svg-icons/package.json')),
+  'icons',
+);
 
-/** site name -> lucide icon file name */
+/** site name -> Fluent icon name (the `_<size>_filled` suffix is added below) */
 const MAP = {
   rss: 'rss',
   mail: 'mail',
-  message: 'message-square-text',
-  calendar: 'calendar-days',
-  briefcase: 'briefcase-business',
-  school: 'school',
-  code: 'code-xml',
-  users: 'users',
-  sparkles: 'sparkles',
-  layers: 'layers',
+  message: 'chat',
+  calendar: 'calendar_ltr',
+  briefcase: 'briefcase',
+  school: 'building_government',
+  code: 'code',
+  users: 'people',
+  sparkles: 'sparkle',
+  layers: 'stack',
   trophy: 'trophy',
   bulb: 'lightbulb',
-  file: 'file-text',
-  pencil: 'pencil',
-  help: 'circle-question-mark',
+  file: 'document_text',
+  pencil: 'edit',
+  help: 'question_circle',
   search: 'search',
-  pin: 'map-pin',
+  pin: 'location',
   clock: 'clock',
-  cube: 'box',
-  download: 'download',
-  arrow: 'arrow-right',
-  chevron: 'chevron-down',
-  external: 'external-link',
-  sun: 'sun',
-  moon: 'moon',
-  sunMoon: 'sun-moon',
-  menu: 'menu',
-  close: 'x',
-  satellite: 'satellite',
-  chart: 'chart-column',
-  ai: 'brain-circuit',
-  leaf: 'leaf',
+  cube: 'cube',
+  download: 'arrow_download',
+  arrow: 'arrow_right',
+  chevron: 'chevron_down',
+  external: 'open',
+  sun: 'weather_sunny',
+  moon: 'weather_moon',
+  sunMoon: 'dark_theme',
+  menu: 'line_horizontal_3',
+  close: 'dismiss',
+  satellite: 'planet',
+  chart: 'data_bar_vertical',
+  ai: 'brain_circuit',
+  leaf: 'leaf_two',
   database: 'database',
-  terminal: 'square-terminal',
-  quote: 'quote',
+  terminal: 'window_console',
+  quote: 'text_quote',
   video: 'video',
-  news: 'newspaper',
-  shield: 'shield-check',
-  slides: 'presentation',
-  book: 'book-open',
-  report: 'clipboard-check',
-  preprint: 'file-clock',
-  graduationCap: 'graduation-cap',
-  check: 'check',
+  news: 'news',
+  shield: 'shield_checkmark',
+  slides: 'presenter',
+  book: 'book_open',
+  report: 'clipboard_task',
+  preprint: 'document_text_clock',
+  graduationCap: 'hat_graduation',
+  check: 'checkmark',
   tag: 'tag',
   copy: 'copy',
   link: 'link',
-  hash: 'hash',
-  reader: 'book-open-text',
-  expand: 'expand',
-  zoom: 'zoom-in',
-  left: 'chevron-left',
-  right: 'chevron-right',
-  printer: 'printer',
-  filePdf: 'file-down',
-  filter: 'list-filter',
+  hash: 'number_symbol',
+  reader: 'book_open',
+  expand: 'full_screen_maximize',
+  zoom: 'zoom_in',
+  left: 'chevron_left',
+  right: 'chevron_right',
+  printer: 'print',
+  filePdf: 'document_pdf',
+  filter: 'filter',
   info: 'info',
   pause: 'pause',
   play: 'play',
-  circleArrowUp: 'circle-arrow-up',
+  circleArrowUp: 'arrow_circle_up',
   rocket: 'rocket',
-  ellipsis: 'ellipsis',
-  share: 'share-2',
+  ellipsis: 'more_horizontal',
+  share: 'share',
   earth: 'earth',
-  cpu: 'cpu',
-  broom: 'broom-sparkles',
-  flame: 'flame',
-  flaskConical: 'flask-conical',
-  plug: 'webhook',
+  cpu: 'developer_board',
+  broom: 'broom',
+  flame: 'fire',
+  flaskConical: 'beaker',
+  plug: 'plug_connected',
 };
 
-/** The children of the <svg>, whitespace collapsed. Sliced rather than matched:
-    a regex spanning the whole file backtracks for no benefit here. */
-const inner = (svg) => {
+/** Fluent ships each icon at several sizes; take 24px, else the nearest. */
+const SIZES = [24, 20, 28, 32, 16, 48];
+
+/** { viewBox, body } — the children of the <svg>, whitespace collapsed. Sliced
+    rather than matched: a regex spanning the whole file backtracks for no
+    benefit here. */
+const parse = (svg) => {
   const open = svg.indexOf('>', svg.indexOf('<svg'));
   const close = svg.lastIndexOf('</svg>');
-  return svg
+  const viewBox = /viewBox="([^"]+)"/.exec(svg.slice(0, open))?.[1] ?? '0 0 24 24';
+  const body = svg
     .slice(open + 1, close)
     .replace(/\s+/g, ' ')
     .replaceAll(' />', '/>')
     .trim();
+  return { viewBox, body };
 };
 
 const entries = [];
 for (const [name, file] of Object.entries(MAP)) {
-  const svg = await readFile(path.join(iconsDir, `${file}.svg`), 'utf8');
-  entries.push(`  ${name}: ${JSON.stringify(inner(svg))},`);
+  let svg;
+  for (const size of SIZES) {
+    svg = await readFile(path.join(iconsDir, `${file}_${size}_filled.svg`), 'utf8').catch(
+      () => null,
+    );
+    if (svg) break;
+  }
+  if (!svg) throw new Error(`No filled Fluent icon for "${name}" (${file})`);
+  const { viewBox, body } = parse(svg);
+  entries.push(
+    `  ${name}: { viewBox: ${JSON.stringify(viewBox)}, body: ${JSON.stringify(body)} },`,
+  );
 }
 
 const out = `/* Generated by scripts/generate-icons.mjs — do not edit by hand.
-   Lucide (ISC, lucide.dev), 24x24 grid, stroke-width 2 as authored. */
-export const lucideIcons: Record<string, string> = {
+   Fluent UI System Icons (MIT, Microsoft), filled, copied from @fluentui/svg-icons. */
+export const fluentIcons: Record<string, { viewBox: string; body: string }> = {
 ${entries.join('\n')}
 };
 `;
