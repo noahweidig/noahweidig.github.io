@@ -11,8 +11,11 @@ import { tagIcon } from '../lib/tags';
 interface Props {
   entry: CollectionEntry<'projects'>;
   index?: number;
+  cta?: boolean;
+  reveal?: boolean;
+  class?: string;
 }
-const { entry, index = 0 } = Astro.props;
+const { entry, index = 0, cta = false, reveal = true, class: cls } = Astro.props;
 const { title, description, categories, featured } = entry.data;
 const slug = entry.id;
 
@@ -22,9 +25,9 @@ const shot = shotFor(slug);
 ---
 
 <article
-  class="card card-hover group relative flex flex-col overflow-hidden"
+  class:list={['card card-hover group relative flex flex-col overflow-hidden', cls]}
   data-cats={categories.join('|')}
-  data-reveal
+  data-reveal={reveal ? '' : undefined}
   style={`--reveal-delay:${Math.min(index, 5) * 60}ms`}
 >
   <a
@@ -73,13 +76,24 @@ const shot = shotFor(slug);
       </a>
     </h3>
     <p class="mt-2 flex-1 text-sm leading-relaxed text-dim">{description}</p>
-    <div class="mt-4 flex flex-wrap gap-1.5">
-      {categories.map((c) => (
-        <span class="chip">
-          {tagIcon(c) && <Icon name={tagIcon(c)!} size={12} />}
-          {c}
-        </span>
-      ))}
-    </div>
+    {cta ? (
+      <span class="btn btn-ghost btn-sm mt-4 self-start">
+        View project
+        <Icon
+          name="arrow"
+          size={15}
+          class="transition-transform duration-300 group-hover:translate-x-1"
+        />
+      </span>
+    ) : (
+      <div class="mt-4 flex flex-wrap gap-1.5">
+        {categories.map((c) => (
+          <span class="chip">
+            {tagIcon(c) && <Icon name={tagIcon(c)!} size={12} />}
+            {c}
+          </span>
+        ))}
+      </div>
+    )}
   </div>
 </article>
