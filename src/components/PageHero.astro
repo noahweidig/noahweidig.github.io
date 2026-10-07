@@ -1,0 +1,70 @@
+---
+import Breadcrumbs from './Breadcrumbs.astro';
+import Icon from './Icon.astro';
+
+interface Props {
+  title: string;
+  kicker?: string;
+  /** Name of an icon in `icons.generated.ts`, drawn in a round chip beside the kicker. */
+  icon?: string;
+  intro?: string;
+  trail?: { label: string; href?: string }[];
+  /** Tighter padding, for pages that are mostly a document. */
+  compact?: boolean;
+  /** `md` suits long titles (a paper's name); `lg` is the default. */
+  size?: 'lg' | 'md';
+  /** Whether the `actions` / `aside` slots carry anything; a forwarded slot
+      always reports as present, so the caller says. */
+  hasActions?: boolean;
+  hasAside?: boolean;
+}
+const {
+  title,
+  kicker,
+  icon,
+  intro,
+  trail = [],
+  compact = false,
+  size = 'lg',
+  hasActions = Astro.slots.has('actions'),
+  hasAside = Astro.slots.has('aside'),
+} = Astro.props;
+---
+
+<section
+  class:list={[
+    'page-hero band-dark under-nav relative overflow-hidden border-b border-line',
+    compact && 'page-hero-compact',
+  ]}
+>
+  <div class="page-hero-mesh" aria-hidden="true"></div>
+  <div class="page-hero-grid" aria-hidden="true"></div>
+  <div class:list={['shell page-hero-inner', hasAside && 'has-aside']}>
+    <div class="page-hero-copy">
+      <Breadcrumbs trail={trail} current={title} pill />
+      {kicker && (
+        <p class="page-hero-kicker" data-pagefind-ignore>
+          {icon && (
+            <span class="page-hero-kicker-icon">
+              <Icon name={icon} size={14} />
+            </span>
+          )}
+          {kicker}
+        </p>
+      )}
+      <h1 class:list={['page-hero-title', size === 'md' && 'page-hero-title-md']}>{title}</h1>
+      {intro && <p class="page-hero-lede">{intro}</p>}
+      <slot />
+      {hasActions && (
+        <div class="page-hero-actions" data-pagefind-ignore>
+          <slot name="actions" />
+        </div>
+      )}
+    </div>
+    {hasAside && (
+      <div class="page-hero-aside" data-pagefind-ignore>
+        <slot name="aside" />
+      </div>
+    )}
+  </div>
+</section>

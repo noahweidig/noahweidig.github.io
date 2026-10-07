@@ -1,9 +1,9 @@
 ---
 import { u } from '../lib/url';
 import Base from '../layouts/Base.astro';
-import Breadcrumbs from '../components/Breadcrumbs.astro';
+import PageHero from '../components/PageHero.astro';
+import HeroPanel from '../components/HeroPanel.astro';
 import Icon from '../components/Icon.astro';
-import HeroMesh from '../components/HeroMesh.astro';
 import { Image } from 'astro:assets';
 import portrait from '../assets/me.webp';
 import { PORTRAIT_SIZES, PORTRAIT_WIDTHS } from '../lib/portrait';
@@ -57,12 +57,26 @@ const beyondWork = [
   description="A bit more about who I am outside of the papers and the projects."
   filters={{ section: 'Page' }}
 >
-  <Breadcrumbs trail={[]} current="About" class="sr-only-nw" />
-  <section class="under-nav relative overflow-hidden border-b border-line bg-bg-deep">
-    <HeroMesh />
-    <div class="grid-bg absolute inset-0" aria-hidden="true"></div>
-    <div class="shell relative grid items-center gap-10 py-16 md:grid-cols-[0.8fr_1.2fr] md:py-20">
-      <div class="mx-auto w-full max-w-[12rem] md:mx-0 md:max-w-none" data-reveal>
+  <PageHero
+    title="Hi, I'm Noah."
+    kicker="About"
+    icon="users"
+    intro="By day I turn spatial data into decisions. Outside of that, I'm still mostly outdoors — just without the laptop."
+    hasActions
+    hasAside
+  >
+    <Fragment slot="actions">
+      <a class="btn btn-primary" href={u('/contact/')}>
+        Get in touch
+        <Icon name="arrow" size={14} />
+      </a>
+      <a class="btn btn-ghost" href={u(site.cv)}>
+        Download CV
+        <Icon name="download" size={14} />
+      </a>
+    </Fragment>
+    <HeroPanel slot="aside">
+      <div class="mx-auto w-full max-w-[13rem]">
         <div class="portrait-frame relative aspect-square">
           <svg
             class="portrait-blob"
@@ -88,16 +102,12 @@ const beyondWork = [
           </div>
         </div>
       </div>
-      <div class="text-center md:text-left" data-reveal style="--reveal-delay:70ms">
-        <p class="kicker md:justify-start">About</p>
-        <h1 class="display-2 mt-4 font-display font-bold">Hi, I'm Noah.</h1>
-        <p class="lede mx-auto mt-5 md:mx-0">
-          By day I turn spatial data into decisions. Outside of that, I'm still mostly outdoors —
-          just without the laptop.
-        </p>
-      </div>
-    </div>
-  </section>
+      <p class="mt-5 flex flex-wrap justify-center gap-2">
+        <span class="chip">{site.role}</span>
+        <span class="chip">{site.location}</span>
+      </p>
+    </HeroPanel>
+  </PageHero>
 
   <div class="shell py-16 md:py-24">
     <div class="grid gap-10 lg:grid-cols-[19rem_1fr] lg:gap-16">

@@ -2,9 +2,11 @@
 import { getCollection } from 'astro:content';
 import { u } from '../../lib/url';
 import Page from '../../layouts/Page.astro';
+import HeroPanel from '../../components/HeroPanel.astro';
+import Icon from '../../components/Icon.astro';
+import { socials } from '../../lib/site';
 import ProjectCard from '../../components/ProjectCard.astro';
 import FilterBar from '../../components/FilterBar.astro';
-import StatStrip from '../../components/StatStrip.astro';
 import { year } from '../../lib/format';
 
 const projects = (await getCollection('projects')).sort(
@@ -20,6 +22,7 @@ const stats = [
 ---
 
 <Page
+  icon="terminal"
   section="Projects"
   title="Selected Projects"
   kicker="Selected work"
@@ -28,7 +31,22 @@ const stats = [
   image={u('/media/og/projects.webp')}
   imageAlt="Noah Weidig's project portfolio"
 >
-  <StatStrip stats={stats} />
+  <HeroPanel slot="hero-aside" title="At a glance" stats={stats} />
+  <Fragment slot="hero-actions">
+    <a class="btn btn-primary" href={'#project-grid'}>
+      Browse all projects
+      <Icon name="arrow" size={14} />
+    </a>
+    <a
+      class="btn btn-ghost"
+      href={socials.find((s) => s.label === 'GitHub')!.href}
+      target="_blank"
+      rel="noopener"
+    >
+      GitHub
+      <Icon name="github" size={14} />
+    </a>
+  </Fragment>
 
   <div class="mt-10">
     <FilterBar

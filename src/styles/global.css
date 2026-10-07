@@ -307,6 +307,171 @@
     text-wrap: pretty;
   }
 
+  /* --- page hero ---
+     The always-dark band that opens every inner page: breadcrumb pill, kicker,
+     large title, intro and actions on the left, an optional frosted panel on
+     the right. Collapses to one column below 52rem. */
+  .page-hero {
+    background: var(--c-bg);
+    color: var(--c-ink);
+  }
+  .page-hero-mesh {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(
+        40rem 22rem at 85% 0%,
+        color-mix(in oklab, #7c5cff 38%, transparent),
+        transparent 70%
+      ),
+      radial-gradient(
+        34rem 20rem at 5% 100%,
+        color-mix(in oklab, #1f7bff 34%, transparent),
+        transparent 70%
+      ),
+      radial-gradient(
+        22rem 14rem at 60% 110%,
+        color-mix(in oklab, #e0457b 22%, transparent),
+        transparent 70%
+      );
+  }
+  .page-hero-grid {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.28;
+    background-image:
+      linear-gradient(var(--c-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--c-line) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: linear-gradient(#000, transparent 85%);
+  }
+  .page-hero-inner {
+    position: relative;
+    display: grid;
+    gap: 2rem;
+    align-items: center;
+    padding-block: 2.75rem 3rem;
+  }
+  .page-hero-compact .page-hero-inner {
+    padding-block: 2.25rem 2.5rem;
+  }
+  .page-hero-copy {
+    min-width: 0;
+  }
+  .page-hero-copy > nav {
+    display: flex;
+  }
+  .page-hero-kicker {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    margin-top: 1.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--c-accent-ink);
+  }
+  .page-hero-kicker-icon {
+    display: grid;
+    place-items: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 50%;
+    background: var(--c-matte);
+  }
+  .page-hero-title {
+    margin-top: 1rem;
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 7vw, 4rem);
+    font-weight: 700;
+    line-height: 1.02;
+    letter-spacing: -0.035em;
+    text-wrap: balance;
+  }
+  .page-hero-title-md {
+    font-size: clamp(2rem, 5vw, 3rem);
+    line-height: 1.08;
+    letter-spacing: -0.03em;
+  }
+  .page-hero-lede {
+    max-width: 34rem;
+    margin-top: 1.25rem;
+    font-size: clamp(1rem, 2.2vw, 1.19rem);
+    line-height: 1.55;
+    color: var(--c-dim);
+    text-wrap: pretty;
+  }
+  .page-hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 2rem;
+  }
+  @media (max-width: 51.99rem) {
+    .page-hero-actions .btn {
+      flex: 1 1 auto;
+    }
+  }
+  .hero-panel {
+    padding: 1.25rem;
+    border-radius: 1.5rem;
+    background: color-mix(in oklab, var(--c-ink) 7%, var(--c-bg));
+    backdrop-filter: blur(16px);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.06);
+  }
+  .hero-panel-title {
+    margin-bottom: 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.69rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--c-faint);
+  }
+  .hero-panel-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+  }
+  .hero-panel-stats dd {
+    font-family: var(--font-mono);
+    font-size: 1.75rem;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .hero-panel-stats dt {
+    margin-top: 0.4rem;
+    font-size: 0.82rem;
+    color: var(--c-dim);
+  }
+  .hero-panel-stats > div {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+  @media (min-width: 52rem) {
+    .page-hero-inner {
+      padding-block: 4.5rem 5rem;
+    }
+    .page-hero-compact .page-hero-inner {
+      padding-block: 3.5rem 3.75rem;
+    }
+    .page-hero-inner.has-aside {
+      grid-template-columns: 1.25fr 0.75fr;
+      gap: 3rem;
+    }
+    .hero-panel {
+      padding: 1.5rem;
+    }
+    .hero-panel-stats dd {
+      font-size: 2.1rem;
+    }
+  }
+
   /* --- dark bands ---
      Full-width sections that stay dark in both themes. Redeclares the dark
      palette for everything inside, so every text-ink / border-line / .card

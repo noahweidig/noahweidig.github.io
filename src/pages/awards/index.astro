@@ -2,8 +2,9 @@
 import { getCollection } from 'astro:content';
 import { u } from '../../lib/url';
 import Page from '../../layouts/Page.astro';
+import HeroPanel from '../../components/HeroPanel.astro';
+import Icon from '../../components/Icon.astro';
 import AwardCard from '../../components/AwardCard.astro';
-import StatStrip from '../../components/StatStrip.astro';
 import { year } from '../../lib/format';
 
 const awards = (await getCollection('awards')).sort(
@@ -32,6 +33,7 @@ const stats = [
 ---
 
 <Page
+  icon="trophy"
   section="Awards"
   title="Awards & Honors"
   kicker="Recognition"
@@ -39,7 +41,17 @@ const stats = [
   intro="Awards, scholarships, grants, and honors I've received over the years."
   image={u('/media/og/awards.webp')}
 >
-  <StatStrip stats={stats} />
+  <HeroPanel slot="hero-aside" title="By the numbers" stats={stats} />
+  <Fragment slot="hero-actions">
+    <a class="btn btn-primary" href={u('/cv/')}>
+      View CV
+      <Icon name="file" size={14} />
+    </a>
+    <a class="btn btn-ghost" href={u('/education/')}>
+      Education
+      <Icon name="graduationCap" size={14} />
+    </a>
+  </Fragment>
   <h2 class="sr-only-nw">All awards</h2>
   <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
     {awards.map((entry, i) => (

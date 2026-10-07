@@ -2,7 +2,7 @@
 import { getCollection } from 'astro:content';
 import { u } from '../../lib/url';
 import Page from '../../layouts/Page.astro';
-import StatStrip from '../../components/StatStrip.astro';
+import HeroPanel from '../../components/HeroPanel.astro';
 import Icon from '../../components/Icon.astro';
 
 const items = (await getCollection('education')).sort(
@@ -33,6 +33,7 @@ const splitTitle = (title: string) => {
 ---
 
 <Page
+  icon="graduationCap"
   section="Education"
   title="Education"
   kicker="Background"
@@ -41,7 +42,17 @@ const splitTitle = (title: string) => {
   image={u('/media/og/education.webp')}
   imageAlt="Noah Weidig's education timeline"
 >
-  <StatStrip stats={stats} />
+  <HeroPanel slot="hero-aside" title="By the numbers" stats={stats} />
+  <Fragment slot="hero-actions">
+    <a class="btn btn-primary" href={u('/experience/')}>
+      View experience
+      <Icon name="briefcase" size={14} />
+    </a>
+    <a class="btn btn-ghost" href={u('/cv/')}>
+      View CV
+      <Icon name="file" size={14} />
+    </a>
+  </Fragment>
   <h2 class="sr-only-nw">All education</h2>
   <ul class="mt-12 grid gap-6 md:mt-16 md:grid-cols-2">
     {items.map((entry, i) => {
