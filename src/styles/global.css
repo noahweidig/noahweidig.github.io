@@ -1130,16 +1130,33 @@
   .popup {
     position: fixed;
     inset: 0;
-    margin: auto;
-    width: min(40rem, calc(100vw - 2rem));
-    height: fit-content;
-    max-height: calc(100dvh - 2rem);
+    margin: 0;
+    width: 100%;
+    max-width: none;
+    height: 100%;
+    max-height: none;
+    padding: 1rem;
     overflow-y: auto;
+    border: 0;
+    background: transparent;
+    color: var(--c-ink);
+  }
+  .popup[open] {
+    display: flex;
+  }
+  /* The dialog is a full-viewport scroller, so a tall card grows past the
+     fold and scrolls with one scrollbar at the window edge, not inside it. */
+  html:has(.popup[open]) {
+    overflow: hidden;
+  }
+  .popup-card {
+    position: relative;
+    margin: auto;
+    width: min(40rem, 100%);
     padding: clamp(1.5rem, 5vw, 3rem);
     border-radius: 1.75rem;
     border: 1px solid var(--c-line-strong);
     background: var(--c-surface);
-    color: var(--c-ink);
     box-shadow: 0 30px 70px -30px rgb(0 0 0 / 0.8);
   }
   .popup::backdrop {
@@ -1171,7 +1188,7 @@
     background: var(--c-matte-hover);
     color: var(--c-ink);
   }
-  .popup[open] {
+  .popup[open] .popup-card {
     animation: popup-in 0.28s var(--ease-out-soft);
   }
   @keyframes popup-in {
@@ -1181,7 +1198,7 @@
     }
   }
   @media (prefers-reduced-motion: reduce) {
-    .popup[open] {
+    .popup[open] .popup-card {
       animation: none;
     }
   }
