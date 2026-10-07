@@ -45,6 +45,7 @@
     "@astrojs/check": "^0.9.10",
     "@casoon/astro-post-audit": "0.7.0",
     "@fluentui/svg-icons": "^1.1.343",
+    "@fortawesome/fontawesome-free": "^7.3.1",
     "@types/node": "^26.6.3",
     "@types/sanitize-html": "^2.16.1",
     "axe-core": "^4.13.0",

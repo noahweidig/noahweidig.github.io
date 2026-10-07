@@ -2,13 +2,12 @@
 /**
  * One icon component for the whole site.
  *
- * Non-brand marks are filled Fluent UI System Icons (MIT) and live in
+ * UI icons are filled Fluent UI System Icons (MIT); brand marks are Font
+ * Awesome Free (CC BY 4.0). Both live in
  * `src/lib/icons.generated.ts` — regenerate them with
- * `node scripts/generate-icons.mjs`. Brand marks are the SVGs in
- * `public/uploads/`, inlined at build time so they can take `currentColor`.
+ * `node scripts/generate-icons.mjs`.
  */
-import { fluentIcons } from '../lib/icons.generated';
-import { BRAND_ALIAS, brand } from '../lib/brand-icons';
+import { icons } from '../lib/icons.generated';
 
 interface Props {
   name: string;
@@ -17,8 +16,7 @@ interface Props {
 }
 const { name, size = 20, class: klass = '' } = Astro.props;
 
-const mark = brand[BRAND_ALIAS[name] ?? name];
-const glyph = mark ?? fluentIcons[name];
+const glyph = icons[name];
 if (!glyph) {
   throw new Error(`Icon: unknown icon name "${name}"`);
 }
