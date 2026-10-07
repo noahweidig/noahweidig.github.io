@@ -31,6 +31,8 @@
   --c-bg: #000000;
   --c-bg-deep: #000000;
   --c-surface: #101216;
+  --c-card: #16191f;
+  --card-shadow-hover: 0 14px 34px -12px rgb(0 0 0 / 0.9), 0 4px 10px -4px rgb(0 0 0 / 0.6);
   --c-raised: #171a20;
   --c-line: #23272f;
   --c-line-strong: #333845;
@@ -64,6 +66,8 @@
   --c-bg: #ffffff;
   --c-bg-deep: #f4f4f4;
   --c-surface: #fafafa;
+  --c-card: #eef0f3;
+  --card-shadow-hover: 0 14px 34px -12px rgb(20 25 40 / 0.28), 0 4px 10px -4px rgb(20 25 40 / 0.14);
   --c-raised: #f4f4f4;
   --c-line: #e2e2e2;
   --c-line-strong: #cbcbcb;
@@ -420,9 +424,8 @@
   .hero-panel {
     padding: 1.25rem;
     border-radius: 1.5rem;
-    background: color-mix(in oklab, var(--c-surface) 72%, transparent);
+    background: color-mix(in oklab, var(--c-card) 85%, transparent);
     backdrop-filter: blur(16px);
-    box-shadow: inset 0 0 0 1px var(--c-line);
   }
   .hero-panel-title {
     margin-bottom: 1rem;
@@ -483,6 +486,8 @@
     --c-bg: #0b0d11;
     --c-bg-deep: #0b0d11;
     --c-surface: #14171d;
+    --c-card: #1b1f27;
+    --card-shadow-hover: 0 14px 34px -12px rgb(0 0 0 / 0.9), 0 4px 10px -4px rgb(0 0 0 / 0.6);
     --c-raised: #1b1f27;
     --c-line: #262b35;
     --c-line-strong: #363c4a;
@@ -506,39 +511,25 @@
   /* --- surfaces --- */
   .card {
     position: relative;
-    background: var(--c-surface);
+    background: var(--c-card);
     /* The search dialog lives in the top layer, where the UA sets
        `color: canvastext`; naming the token here keeps a card readable
        wherever it renders. */
     color: var(--c-ink);
-    border: 1px solid var(--c-line);
+    border: 0;
     border-radius: var(--radius-md);
-    transition: border-color 0.35s var(--ease-out-soft);
+    transition:
+      transform 0.35s var(--ease-out-soft),
+      box-shadow 0.35s var(--ease-out-soft);
   }
   .card-hover:hover {
-    border-color: var(--c-line-strong);
+    transform: scale(1.015);
+    box-shadow: var(--card-shadow-hover);
   }
-  .card-hover:hover::after {
-    opacity: 1;
-  }
-  .card-hover::after {
-    content: '';
-    position: absolute;
-    inset: -1px;
-    border-radius: inherit;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 0.35s var(--ease-out-soft);
-    background: radial-gradient(
-      42rem 22rem at var(--mx, 50%) var(--my, 0%),
-      var(--c-glow),
-      transparent 65%
-    );
-    mask:
-      linear-gradient(#000 0 0) content-box,
-      linear-gradient(#000 0 0);
-    mask-composite: exclude;
-    padding: 1px;
+  @media (prefers-reduced-motion: reduce) {
+    .card-hover:hover {
+      transform: none;
+    }
   }
 
   /* --- buttons --- */
@@ -1654,6 +1645,7 @@
   :root {
     --c-bg: #fff;
     --c-surface: #fff;
+    --c-card: #fff;
     --c-ink: #14161a;
     --c-dim: #333;
     --c-line: #ccc;
