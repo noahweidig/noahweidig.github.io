@@ -2,9 +2,11 @@
 import { getCollection } from 'astro:content';
 import { u } from '../../lib/url';
 import Page from '../../layouts/Page.astro';
+import HeroPanel from '../../components/HeroPanel.astro';
+import Icon from '../../components/Icon.astro';
+import { socials, site } from '../../lib/site';
 import CitationRow from '../../components/CitationRow.astro';
 import FilterBar from '../../components/FilterBar.astro';
-import StatStrip from '../../components/StatStrip.astro';
 
 const all = (await getCollection('publications')).sort(
   (a, b) => b.data.date.getTime() - a.data.date.getTime(),
@@ -30,6 +32,7 @@ const stats = [
 ---
 
 <Page
+  icon="file"
   section="Publications"
   title="Publications"
   kicker="Research output"
@@ -38,7 +41,22 @@ const stats = [
   image={u('/media/og/publications.webp')}
   imageAlt="Noah Weidig's publications and research output"
 >
-  <StatStrip stats={stats} />
+  <HeroPanel slot="hero-aside" title="By the numbers" stats={stats} />
+  <Fragment slot="hero-actions">
+    <a
+      class="btn btn-ghost"
+      href={socials.find((s) => s.label === 'Google Scholar')!.href}
+      target="_blank"
+      rel="noopener"
+    >
+      Google Scholar
+      <Icon name="scholar" size={14} />
+    </a>
+    <a class="btn btn-ghost" href={u(site.cv)}>
+      Download CV
+      <Icon name="download" size={14} />
+    </a>
+  </Fragment>
 
   <div class="mt-10">
     <FilterBar

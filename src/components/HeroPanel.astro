@@ -1,0 +1,22 @@
+---
+interface Props {
+  title?: string;
+  stats?: { value: string | number; label: string }[];
+}
+const { title, stats } = Astro.props;
+---
+
+<div class="hero-panel">
+  {title && <p class="hero-panel-title">{title}</p>}
+  {stats && (
+    <dl class="hero-panel-stats">
+      {stats.map((s) => (
+        <div>
+          <dt>{s.label}</dt>
+          <dd>{s.value}</dd>
+        </div>
+      ))}
+    </dl>
+  )}
+  <slot />
+</div>

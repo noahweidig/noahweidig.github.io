@@ -4,6 +4,8 @@ import { u } from '../../lib/url';
 import Page from '../../layouts/Page.astro';
 import PostCard from '../../components/PostCard.astro';
 import FilterBar from '../../components/FilterBar.astro';
+import HeroPanel from '../../components/HeroPanel.astro';
+import Icon from '../../components/Icon.astro';
 import { readingTime } from '../../lib/format';
 import { site } from '../../lib/site';
 
@@ -35,6 +37,7 @@ const blogLd = {
 ---
 
 <Page
+  icon="pencil"
   section="Blog"
   title="Blog"
   kicker="Writing"
@@ -43,6 +46,31 @@ const blogLd = {
   image={u('/media/og/blog.webp')}
   imageAlt="Noah Weidig's blog"
 >
+  <HeroPanel slot="hero-aside" title="Latest post">
+    <a href={u(`/blog/${posts[0]!.id}/`)} class="group block">
+      <h2 class="text-xl leading-snug font-semibold group-hover:text-accent-ink">
+        {posts[0]!.data.title}
+      </h2>
+      <p class="mt-2 line-clamp-3 text-sm leading-relaxed text-dim">{posts[0]!.data.description}</p>
+      <p class="mt-4 flex flex-wrap gap-2">
+        {posts[0]!.data.categories.map((c) => (
+          <span class="chip">{c}</span>
+        ))}
+        <span class="chip">{readingTime(posts[0]!.body ?? '')}</span>
+      </p>
+    </a>
+  </HeroPanel>
+  <Fragment slot="hero-actions">
+    <a class="btn btn-primary" href={u('/rss.xml')}>
+      Subscribe via RSS
+      <Icon name="rss" size={14} />
+    </a>
+    <button type="button" class="btn btn-ghost" data-search-open>
+      Search posts
+      <Icon name="search" size={14} />
+    </button>
+  </Fragment>
+
   <FilterBar categories={categories} target="#post-grid" noun="posts" total={posts.length} />
 
   <h2 class="sr-only-nw">All posts</h2>
