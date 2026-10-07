@@ -1,7 +1,7 @@
 @import 'tailwindcss';
 @import './fonts.css';
 
-@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *, .band-dark, .band-dark *));
 
 /* Theme-toggle icon: light/dark/system, driven by [data-theme-pref] on <html>
    rather than the resolved [data-theme] so the sun-moon icon shows even
@@ -305,6 +305,36 @@
     font-size: 1.05rem;
     max-width: 46rem;
     text-wrap: pretty;
+  }
+
+  /* --- dark bands ---
+     Full-width sections that stay dark in both themes. Redeclares the dark
+     palette for everything inside, so every text-ink / border-line / .card
+     utility reads correctly without per-component overrides. The matte
+     tokens are rebuilt here too: they were resolved on :root, so they would
+     otherwise carry the page theme's greys in. */
+  .band-dark {
+    --c-bg: #0b0d11;
+    --c-bg-deep: #0b0d11;
+    --c-surface: #14171d;
+    --c-raised: #1b1f27;
+    --c-line: #262b35;
+    --c-line-strong: #363c4a;
+    --c-control-border: #6b7385;
+    --c-ink: #e9ecf2;
+    --c-dim: #99a1b1;
+    --c-faint: #7c8494;
+    --c-accent: #0072e3;
+    --c-accent-ink: #6ba4ff;
+    --c-accent-contrast: #ffffff;
+    --c-ember: #ff8f45;
+    --c-moss: #4bd0a0;
+    --c-violet: #a988ff;
+    --c-glow: color-mix(in oklab, var(--c-accent) 26%, transparent);
+    --c-matte: color-mix(in oklab, var(--c-ink) 12%, var(--c-surface));
+    --c-matte-hover: color-mix(in oklab, var(--c-ink) 20%, var(--c-surface));
+    color: var(--c-ink);
+    color-scheme: dark;
   }
 
   /* --- surfaces --- */

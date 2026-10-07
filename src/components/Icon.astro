@@ -3,7 +3,8 @@
  * One icon component for the whole site.
  *
  * UI and brand icons are Font Awesome Free
- * (CC BY 4.0). They live in
+ * (CC BY 4.0), except the nav bar's search and theme icons, which are Lucide
+ * (ISC). They live in
  * `src/lib/icons.generated.ts` — regenerate them with
  * `node scripts/generate-icons.mjs`.
  */
@@ -13,8 +14,9 @@ interface Props {
   name: string;
   size?: number | string;
   class?: string;
+  'stroke-width'?: number;
 }
-const { name, size = 20, class: klass = '' } = Astro.props;
+const { name, size = 20, class: klass = '', 'stroke-width': sw = 2 } = Astro.props;
 
 const glyph = icons[name];
 if (!glyph) {
@@ -36,7 +38,11 @@ seen.add(id);
   viewBox={glyph.viewBox}
   width={size}
   height={size}
-  fill="currentColor"
+  fill={glyph.stroke ? 'none' : 'currentColor'}
+  stroke={glyph.stroke ? 'currentColor' : undefined}
+  stroke-width={glyph.stroke ? sw : undefined}
+  stroke-linecap={glyph.stroke ? 'round' : undefined}
+  stroke-linejoin={glyph.stroke ? 'round' : undefined}
   aria-hidden="true"
   focusable="false"
   class={klass}
