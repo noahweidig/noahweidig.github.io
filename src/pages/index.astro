@@ -511,20 +511,20 @@ const faqs = [
     id="cta"
   >
     <div
-      class="pointer-events-none absolute inset-0 -z-10 opacity-70"
-      style="background: radial-gradient(60% 80% at 15% 100%, var(--c-violet), transparent 70%), radial-gradient(60% 80% at 85% 100%, var(--c-ember), transparent 70%), radial-gradient(50% 60% at 50% 110%, var(--c-accent), transparent 70%);"
+      class="pointer-events-none absolute inset-0 -z-10"
+      style="background: linear-gradient(to bottom, rgb(255 255 255 / 0.12), transparent 40%), linear-gradient(120deg, #7b2cbf 0%, #b3197a 45%, #e5132b 100%);"
       aria-hidden="true"
     ></div>
     <div class="shell-narrow" data-reveal>
-      <p class="font-mono text-2xs tracking-[0.18em] text-faint uppercase">
+      <p class="font-mono text-2xs tracking-[0.18em] text-white/80 uppercase">
         Open to data science &amp; GIS roles
       </p>
       <h2 class="mt-5 font-display text-[clamp(2rem,1.3rem+2.8vw,3.5rem)] leading-[1.1] font-semibold tracking-tight text-balance">
         Let's talk about spatial problems worth solving.
       </h2>
-      <p class="lede mx-auto mt-6 max-w-[40ch]">
-        Looking for <strong class="text-ink">data scientist</strong> and{' '}
-        <strong class="text-ink">GIS analyst</strong> roles where rigorous spatial analysis drives
+      <p class="lede mx-auto mt-6 max-w-[40ch] text-white/90">
+        Looking for <strong class="text-white">data scientist</strong> and{' '}
+        <strong class="text-white">GIS analyst</strong> roles where rigorous spatial analysis drives
         real decisions. Replies within 24 hours.
       </p>
       <div class="mt-10 flex flex-wrap justify-center gap-3">
@@ -538,10 +538,10 @@ const faqs = [
           <span class="sr-only-nw"> (opens in a new tab)</span>
         </a>
       </div>
-      <p class="mt-6 text-sm text-faint">
+      <p class="mt-6 text-sm text-white/80">
         Prefer email?{' '}
         <a
-          class="font-medium text-accent-ink underline underline-offset-2"
+          class="font-medium text-white underline underline-offset-2"
           href={`mailto:${site.email}`}
         >
           {site.email}
