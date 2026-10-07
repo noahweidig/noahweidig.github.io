@@ -14,6 +14,7 @@ import CitationRow from '../components/CitationRow.astro';
 import TimelineItem from '../components/TimelineItem.astro';
 import Globe from '../components/Globe.astro';
 import Icon from '../components/Icon.astro';
+import Popup from '../components/Popup.astro';
 import { Image } from 'astro:assets';
 import { readingTime, year } from '../lib/format';
 import { site } from '../lib/site';
@@ -47,8 +48,19 @@ const stats = [
   { value: featuredProjects.length, label: 'Featured Projects' },
 ];
 
+const researchAreas = [
+  'Remote Sensing',
+  'Land-Use Change',
+  'Spatial Statistics',
+  'Applied AI',
+  'Biodiversity',
+  'Geospatial Engineering',
+];
+
 const starts = [
   {
+    id: 'pop-research',
+    items: researchAreas.map((t) => ({ t, href: '#interests' })),
     href: '#interests',
     icon: 'layers',
     title: 'Research',
@@ -56,6 +68,8 @@ const starts = [
     cta: 'Read the research',
   },
   {
+    id: 'pop-tools',
+    items: projects.map((p) => ({ t: p.data.title, href: u(`/projects/${p.id}/`) })),
     href: '#projects',
     icon: 'terminal',
     title: 'Tools & maps',
@@ -63,6 +77,8 @@ const starts = [
     cta: 'Browse the work',
   },
   {
+    id: 'pop-writing',
+    items: posts.map((p) => ({ t: p.data.title, href: u(`/blog/${p.id}/`) })),
     href: '#blog',
     icon: 'pencil',
     title: 'Writing',
@@ -110,9 +126,8 @@ const faqs = [
   <section class="shell pb-8">
     <div class="grid gap-5 md:grid-cols-3">
       {starts.map((s, i) => (
-        <a
-          href={s.href}
-          class="card card-hover group flex flex-col p-6"
+        <div
+          class="card card-hover group relative flex flex-col p-6"
           data-reveal
           style={`--reveal-delay:${i * 70}ms`}
         >
@@ -121,18 +136,50 @@ const faqs = [
           </span>
           <h2 class="mt-5 text-xl">{s.title}</h2>
           <p class="mt-2 flex-1 text-sm leading-relaxed text-dim">{s.body}</p>
-          <span class="mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-accent-ink">
-            {s.cta}
-            <Icon
-              name="arrow"
-              size={15}
-              class="transition-transform duration-300 group-hover:translate-x-1"
-            />
-          </span>
-        </a>
+          <button
+            type="button"
+            class="icon-tile mt-5 ml-auto after:absolute after:inset-0 after:rounded-[inherit] after:content-['']"
+            data-popup-open={s.id}
+            aria-haspopup="dialog"
+            aria-label={`More about ${s.title}`}
+          >
+            <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">
+              <path
+                d="M8 2.5v11M2.5 8h11"
+                stroke="currentColor"
+                stroke-width="1.6"
+                stroke-linecap="round"
+                fill="none"
+              />
+            </svg>
+          </button>
+        </div>
       ))}
     </div>
   </section>
+
+  {starts.map((s) => (
+    <Popup id={s.id} eyebrow={s.title} title={s.cta}>
+      <p class="text-lg leading-relaxed">{s.body}</p>
+      <ul class="divide-y divide-line border-y border-line text-ink">
+        {s.items.map((it) => (
+          <li>
+            <a
+              class="flex items-center justify-between gap-4 py-3 hover:text-accent-ink"
+              href={it.href}
+            >
+              {it.t}
+              <Icon name="arrow" size={15} class="shrink-0" />
+            </a>
+          </li>
+        ))}
+      </ul>
+      <a class="inline-flex items-center gap-1.5 font-medium text-accent-ink" href={s.href}>
+        {s.cta}
+        <Icon name="arrow" size={15} />
+      </a>
+    </Popup>
+  ))}
 
   <!-- research areas -->
   <section class="shell scroll-mt-24 py-24 md:py-28 cv-auto" id="interests">
