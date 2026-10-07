@@ -4,7 +4,8 @@ import { tagHref, tagIcon } from '../lib/tags';
 import Base from './Base.astro';
 import Icon from '../components/Icon.astro';
 import ShareRow from '../components/ShareRow.astro';
-import Breadcrumbs from '../components/Breadcrumbs.astro';
+import PageHero from '../components/PageHero.astro';
+import HeroPanel from '../components/HeroPanel.astro';
 import PrevNext from '../components/PrevNext.astro';
 import Toc from '../components/Toc.astro';
 import PostAside from '../components/PostAside.astro';
@@ -102,86 +103,75 @@ const badges = Astro.slots.has('badges') ? (await Astro.slots.render('badges')).
     <slot name="head" />
   </Fragment>
   <article>
-    <header class="under-nav relative overflow-hidden border-b border-line bg-bg-deep">
-      <div class="grid-bg absolute inset-0" aria-hidden="true"></div>
-      <div class="shell relative py-12 text-center md:py-16">
-        <Breadcrumbs
-          trail={[{ label: section, href: backHref }]}
-          current={title}
-          class="flex justify-center"
-        />
+    <PageHero
+      title={title}
+      kicker={kicker}
+      trail={[{ label: section, href: backHref }]}
+      size="md"
+      hasActions={links.length > 0}
+      hasAside={Boolean(badges)}
+    >
+      {meta && (
+        <p class="mt-4 text-sm text-dim" data-pagefind-ignore>
+          {meta}
+        </p>
+      )}
 
-        {kicker && (
-          <p class="kicker mt-6 justify-center" data-pagefind-ignore>
-            {kicker}
-          </p>
-        )}
-        <h1 class="display-3 mx-auto mt-4 max-w-4xl font-display font-bold">{title}</h1>
-        {meta && (
-          <p class="mt-4 text-sm text-dim" data-pagefind-ignore>
-            {meta}
-          </p>
-        )}
+      {author && (
+        <p class="mt-3 flex items-center gap-2 text-sm text-dim" data-pagefind-ignore>
+          <img
+            src={u(authorImage ?? '/media/authors/me.webp')}
+            alt=""
+            width="28"
+            height="28"
+            loading="eager"
+            decoding="async"
+            class="h-7 w-7 rounded-full object-cover ring-1 ring-accent ring-offset-2 ring-offset-bg-deep"
+          />
+          <span>by {author}</span>
+        </p>
+      )}
 
-        {author && (
-          <p
-            class="mt-3 flex items-center justify-center gap-2 text-sm text-dim"
-            data-pagefind-ignore
+      {chips.length > 0 && (
+        <div class="mt-5 flex flex-wrap gap-1.5" data-pagefind-ignore>
+          {chips.map((c) => (
+            <a
+              href={u(tagHref(c))}
+              data-tip={`Browse everything tagged ${c}`}
+              class="chip transition-colors hover:bg-matte-hover hover:text-ink"
+            >
+              {tagIcon(c) && <Icon name={tagIcon(c)!} size={12} />}
+              {c}
+            </a>
+          ))}
+        </div>
+      )}
+
+      <Fragment slot="actions">
+        {links.map((l) => (
+          <a
+            class:list={[
+              'btn',
+              'max-w-full whitespace-normal text-center',
+              l.variant === 'primary' ? 'btn-primary' : 'btn-ghost',
+            ]}
+            href={u(l.href)}
+            target={l.external ? '_blank' : undefined}
+            rel={l.external ? 'noopener' : undefined}
           >
-            <img
-              src={u(authorImage ?? '/media/authors/me.webp')}
-              alt=""
-              width="28"
-              height="28"
-              loading="eager"
-              decoding="async"
-              class="h-7 w-7 rounded-full object-cover ring-1 ring-accent ring-offset-2 ring-offset-bg-deep"
-            />
-            <span>by {author}</span>
-          </p>
-        )}
+            {l.label === 'GitHub' && <Icon name="github" size={14} />}
+            {l.label}
+            {l.label === 'BibTeX' && <Icon name="download" size={14} />}
+            {l.external && l.label !== 'GitHub' && <Icon name="external" size={14} />}
+            {l.external && <span class="sr-only-nw"> (opens in a new tab)</span>}
+          </a>
+        ))}
+      </Fragment>
 
-        {chips.length > 0 && (
-          <div class="mt-5 flex flex-wrap justify-center gap-1.5" data-pagefind-ignore>
-            {chips.map((c) => (
-              <a
-                href={u(tagHref(c))}
-                data-tip={`Browse everything tagged ${c}`}
-                class="chip transition-colors hover:border-accent hover:text-accent-ink"
-              >
-                {tagIcon(c) && <Icon name={tagIcon(c)!} size={12} />}
-                {c}
-              </a>
-            ))}
-          </div>
-        )}
-
-        {links.length > 0 && (
-          <div class="mt-7 flex flex-wrap justify-center gap-2.5" data-pagefind-ignore>
-            {links.map((l) => (
-              <a
-                class:list={[
-                  'btn',
-                  'max-w-full whitespace-normal text-center',
-                  l.variant === 'primary' ? 'btn-primary' : 'btn-ghost',
-                ]}
-                href={u(l.href)}
-                target={l.external ? '_blank' : undefined}
-                rel={l.external ? 'noopener' : undefined}
-              >
-                {l.label === 'GitHub' && <Icon name="github" size={14} />}
-                {l.label}
-                {l.label === 'BibTeX' && <Icon name="download" size={14} />}
-                {l.external && l.label !== 'GitHub' && <Icon name="external" size={14} />}
-                {l.external && <span class="sr-only-nw"> (opens in a new tab)</span>}
-              </a>
-            ))}
-          </div>
-        )}
-
-        {badges && <div class="mt-6 flex justify-center" data-pagefind-ignore set:html={badges} />}
-      </div>
-    </header>
+      <HeroPanel slot="aside" title="Metrics">
+        <div set:html={badges} />
+      </HeroPanel>
+    </PageHero>
 
     {hasToc ? (
       <div class="shell py-12 md:py-16">

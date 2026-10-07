@@ -48,7 +48,7 @@ const isActive = (href: string) => {
                 ]}
               >
                 {group.text}
-                <Icon name="chevron" size={14} stroke-width={2.2} class="nav-chevron" />
+                <Icon name="chevron" size={14} class="nav-chevron" />
               </button>
               <ul class="nav-menu card absolute left-1/2 top-full z-10 hidden min-w-52 -translate-x-1/2 p-1.5">
                 {group.items.map((item) => (
@@ -86,7 +86,7 @@ const isActive = (href: string) => {
         class="icon-btn"
         aria-label="Search the site"
       >
-        <Icon name="search" size={21} stroke-width={1.8} />
+        <Icon name="nav-search" size={21} stroke-width={1.8} />
       </button>
 
       <button
@@ -97,13 +97,13 @@ const isActive = (href: string) => {
         aria-label="Switch color theme"
       >
         <span data-theme-icon="light">
-          <Icon name="sun" size={21} stroke-width={1.8} />
+          <Icon name="nav-sun" size={21} stroke-width={1.8} />
         </span>
         <span data-theme-icon="dark">
-          <Icon name="moon" size={21} stroke-width={1.8} />
+          <Icon name="nav-moon" size={21} stroke-width={1.8} />
         </span>
         <span data-theme-icon="system">
-          <Icon name="sunMoon" size={21} stroke-width={1.8} />
+          <Icon name="nav-sunMoon" size={21} stroke-width={1.8} />
         </span>
       </button>
 
@@ -148,7 +148,7 @@ const isActive = (href: string) => {
               class="flex w-full items-center justify-between py-5 text-left font-display text-3xl font-semibold tracking-tight text-ink"
             >
               {group.text}
-              <Icon name="chevron" size={26} stroke-width={1.8} class="nav-chevron" />
+              <Icon name="chevron" size={26} class="nav-chevron" />
             </button>
             <ul class="mobile-sub hidden pb-4">
               {group.items.map((item) => (

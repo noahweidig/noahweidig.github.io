@@ -2,13 +2,13 @@
 /**
  * One icon component for the whole site.
  *
- * Non-brand marks come from Lucide (ISC, lucide.dev) and live in
+ * UI and brand icons are Font Awesome Free
+ * (CC BY 4.0), except the nav bar's search and theme icons, which are Lucide
+ * (ISC). They live in
  * `src/lib/icons.generated.ts` — regenerate them with
- * `node scripts/generate-icons.mjs`. Brand marks are the SVGs in
- * `public/uploads/`, inlined at build time so they can take `currentColor`.
+ * `node scripts/generate-icons.mjs`.
  */
-import { lucideIcons } from '../lib/icons.generated';
-import { BRAND_ALIAS, brand } from '../lib/brand-icons';
+import { icons } from '../lib/icons.generated';
 
 interface Props {
   name: string;
@@ -16,13 +16,15 @@ interface Props {
   class?: string;
   'stroke-width'?: number;
 }
-const { name, size = 20, class: klass = '', 'stroke-width': sw = 1.6 } = Astro.props;
+const { name, size = 20, class: klass = '', 'stroke-width': sw = 2 } = Astro.props;
 
-const mark = brand[BRAND_ALIAS[name] ?? name];
-if (!mark && !lucideIcons[name]) {
+const glyph = icons[name];
+/* The <symbol> carries the glyph's own viewBox (origin included); the outer svg
+   only needs its size, or the origin offset would be applied twice. */
+const box = glyph?.viewBox.split(' ') ?? [];
+if (!glyph) {
   throw new Error(`Icon: unknown icon name "${name}"`);
 }
-const d = mark ? mark.body : lucideIcons[name]!;
 
 /* Each icon's paths go into the page once, as a <symbol> on its first use;
    every later use is a <use> reference. Cuts ~60KB of repeated path data
@@ -31,34 +33,21 @@ const seen = ((Astro.locals as { icons?: Set<string> }).icons ??= new Set<string
 const id = `i-${name}`;
 const body = seen.has(id)
   ? `<use href="#${id}"/>`
-  : `<symbol id="${id}" viewBox="${mark ? mark.viewBox : '0 0 24 24'}">${d}</symbol><use href="#${id}"/>`;
+  : `<symbol id="${id}" viewBox="${glyph.viewBox}">${glyph.body}</symbol><use href="#${id}"/>`;
 seen.add(id);
 ---
 
-{mark ? (
-  <svg
-    viewBox={mark.viewBox}
-    width={size}
-    height={size}
-    fill="currentColor"
-    aria-hidden="true"
-    focusable="false"
-    class={klass}
-    set:html={body}
-  />
-) : (
-  <svg
-    viewBox="0 0 24 24"
-    width={size}
-    height={size}
-    fill="none"
-    stroke="currentColor"
-    stroke-width={sw}
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    aria-hidden="true"
-    focusable="false"
-    class={klass}
-    set:html={body}
-  />
-)}
+<svg
+  viewBox={`0 0 ${box[2]} ${box[3]}`}
+  width={size}
+  height={size}
+  fill={glyph.stroke ? 'none' : 'currentColor'}
+  stroke={glyph.stroke ? 'currentColor' : undefined}
+  stroke-width={glyph.stroke ? sw : undefined}
+  stroke-linecap={glyph.stroke ? 'round' : undefined}
+  stroke-linejoin={glyph.stroke ? 'round' : undefined}
+  aria-hidden="true"
+  focusable="false"
+  class={klass}
+  set:html={body}
+/>
