@@ -317,7 +317,7 @@
   }
   .page-hero-mesh {
     position: absolute;
-    inset: 0;
+    inset: 0 0 -7rem;
     pointer-events: none;
     background:
       radial-gradient(
