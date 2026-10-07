@@ -41,11 +41,55 @@ const education = (await getCollection('education')).sort(byDate);
 const awards = (await getCollection('awards')).sort(byDate);
 const featuredAwards = awards.filter((a) => a.data.image).slice(0, 6);
 
+const pubCounts = Object.entries(
+  allPubs.reduce<Record<string, number>>((acc, p) => {
+    const c = p.data.categories[0] ?? 'Other';
+    acc[c] = (acc[c] ?? 0) + 1;
+    return acc;
+  }, {}),
+).sort((a, b) => b[1] - a[1]);
+
 const stats = [
-  { value: `${allPubs.length}+`, label: 'Papers & Talks' },
-  { value: '8+', label: 'Years Research Experience' },
-  { value: '20+', label: 'Tools Mastered' },
-  { value: featuredProjects.length, label: 'Featured Projects' },
+  {
+    value: `${allPubs.length}+`,
+    label: 'Papers & Talks',
+    id: 'pop-pubs',
+    body: 'Journal articles, conference presentations, webinars and media coverage, by type.',
+    items: pubCounts.map(([t, n]) => ({ t: `${t}s`, n: String(n), href: u('/publications/') })),
+    href: u('/publications/'),
+    cta: 'All publications',
+  },
+  {
+    value: '8+',
+    label: 'Years Research Experience',
+    id: 'pop-years',
+    body: 'Research, GIS, and data roles across universities, a federal agency, and local government.',
+    items: experience.map((e) => ({
+      t: `${e.data.title}, ${e.data.org}`,
+      n: String(year(e.data.date)),
+      href: u(`/experience/${e.id}/`),
+    })),
+    href: '#experience',
+    cta: 'See the full background',
+  },
+  {
+    value: '20+',
+    label: 'Tools Mastered',
+    id: 'pop-tools-count',
+    body: 'Mostly R and Python for analysis and modeling, SQL for data wrangling, and GIS tools (ArcGIS Pro, QGIS, GEE, GDAL) for spatial work.',
+    items: [],
+    href: '#skills',
+    cta: 'See the tech stack',
+  },
+  {
+    value: featuredProjects.length,
+    label: 'Featured Projects',
+    id: 'pop-featured',
+    body: 'Open tools, maps, and packages built and maintained in the open.',
+    items: projects.map((p) => ({ t: p.data.title, href: u(`/projects/${p.id}/`) })),
+    href: '#projects',
+    cta: 'Browse the work',
+  },
 ];
 
 const researchAreas = [
@@ -158,22 +202,28 @@ const faqs = [
     </div>
   </section>
 
-  {starts.map((s) => (
-    <Popup id={s.id} eyebrow={s.title} title={s.cta}>
+  {[...stats, ...starts].map((s) => (
+    <Popup id={s.id} eyebrow={'label' in s ? s.label : s.title} title={s.cta}>
       <p class="text-lg leading-relaxed">{s.body}</p>
-      <ul class="divide-y divide-line border-y border-line text-ink">
-        {s.items.map((it) => (
-          <li>
-            <a
-              class="flex items-center justify-between gap-4 py-3 hover:text-accent-ink"
-              href={it.href}
-            >
-              {it.t}
-              <Icon name="arrow" size={15} class="shrink-0" />
-            </a>
-          </li>
-        ))}
-      </ul>
+      {s.items.length > 0 && (
+        <ul class="divide-y divide-line border-y border-line text-ink">
+          {s.items.map((it) => (
+            <li>
+              <a
+                class="flex items-center justify-between gap-4 py-3 hover:text-accent-ink"
+                href={it.href}
+              >
+                <span>{it.t}</span>
+                {'n' in it ? (
+                  <span class="font-mono text-sm text-faint">{it.n}</span>
+                ) : (
+                  <Icon name="arrow" size={15} class="shrink-0" />
+                )}
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
       <a class="inline-flex items-center gap-1.5 font-medium text-accent-ink" href={s.href}>
         {s.cta}
         <Icon name="arrow" size={15} />
@@ -331,8 +381,8 @@ const faqs = [
         ))}
       </div>
 
-      <div class="mt-6 flex items-center justify-center gap-1.5">
-        <div class="flex items-center gap-1.5" role="group" aria-label="Choose an award to show">
+      <div class="mt-8 flex items-center justify-center gap-3">
+        <div class="carousel-pill" role="group" aria-label="Choose an award to show">
           {featuredAwards.map((entry, i) => (
             <button
               type="button"
@@ -347,17 +397,17 @@ const faqs = [
         </div>
         <button
           type="button"
-          class="icon-tile ml-2 h-8 w-8"
+          class="popup-plus carousel-toggle"
           data-carousel-toggle
           aria-pressed="false"
           aria-label="Pause the awards carousel"
           data-tip="Pause the carousel"
         >
           <span data-carousel-icon-pause>
-            <Icon name="pause" size={15} />
+            <Icon name="pause" size={18} />
           </span>
           <span data-carousel-icon-play hidden>
-            <Icon name="play" size={15} />
+            <Icon name="play" size={18} />
           </span>
         </button>
       </div>
@@ -412,7 +462,7 @@ const faqs = [
             {/* Drawn rather than a typed "+": the glyph sits off the optical
                   centre at this size, and the vertical bar can collapse into a
                   minus instead of the whole mark spinning. */}
-            <span class="grid h-7 w-7 shrink-0 place-items-center rounded-full border border-line text-faint transition-colors duration-300 group-hover:border-line-strong group-hover:text-ink group-open:border-accent/50 group-open:text-accent-ink">
+            <span class="popup-plus shrink-0">
               <svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true">
                 <line
                   x1="2.5"
