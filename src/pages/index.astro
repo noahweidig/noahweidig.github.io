@@ -516,31 +516,17 @@ const faqs = [
     <div class="mt-9 divide-y divide-line border-y border-line">
       {faqs.map((f) => (
         <details class="faq group" name="faq" data-reveal>
-          <summary class="flex cursor-pointer list-none items-center justify-between gap-6 py-5 text-[1.05rem] font-medium transition-colors hover:text-accent-ink">
+          <summary class="flex cursor-pointer list-none items-center justify-between gap-6 py-5 text-[1.05rem] font-semibold transition-colors hover:text-accent-ink">
             <span class="min-w-0">{f.q}</span>
-            {/* Drawn rather than a typed "+": the glyph sits off the optical
-                  centre at this size, and the vertical bar can collapse into a
-                  minus instead of the whole mark spinning. */}
-            <span class="popup-plus shrink-0">
-              <svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true">
-                <line
-                  x1="2.5"
-                  y1="8"
-                  x2="13.5"
-                  y2="8"
+            <span class="faq-chevron shrink-0" aria-hidden="true">
+              <svg viewBox="0 0 16 16" width="18" height="18">
+                <path
+                  d="M2.5 5.5 8 11l5.5-5.5"
+                  fill="none"
                   stroke="currentColor"
                   stroke-width="1.6"
                   stroke-linecap="round"
-                />
-                <line
-                  class="faq-bar"
-                  x1="8"
-                  y1="2.5"
-                  x2="8"
-                  y2="13.5"
-                  stroke="currentColor"
-                  stroke-width="1.6"
-                  stroke-linecap="round"
+                  stroke-linejoin="round"
                 />
               </svg>
             </span>
