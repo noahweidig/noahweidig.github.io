@@ -399,7 +399,7 @@ const faqs = [
         {featuredAwards.map((entry) => (
           <a
             href={u(`/awards/${entry.id}/`)}
-            class="card card-hover group w-[min(19rem,calc(100vw-6rem))] shrink-0 snap-start overflow-hidden"
+            class="card card-hover group flex w-[min(19rem,calc(100vw-6rem))] shrink-0 snap-start flex-col overflow-hidden"
           >
             <div class="relative aspect-4/3 overflow-hidden border-b border-line bg-raised">
               <Image
@@ -414,7 +414,7 @@ const faqs = [
                 {year(entry.data.date)}
               </span>
             </div>
-            <div class="p-5">
+            <div class="flex flex-1 flex-col p-5">
               <b
                 role="heading"
                 aria-level="3"
@@ -423,7 +423,7 @@ const faqs = [
                 {entry.data.title}
               </b>
               <span class="mt-1.5 block text-[0.82rem] text-dim">{entry.data.description}</span>
-              <span class="mt-4 flex justify-end">
+              <span class="mt-auto flex justify-end pt-4">
                 <span class="btn btn-ghost btn-sm">
                   View award
                   <Icon
