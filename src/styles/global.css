@@ -32,7 +32,7 @@
   --c-bg-deep: #000000;
   --c-surface: #101216;
   --c-card: #16191f;
-  --card-shadow-hover: 0 14px 34px -12px rgb(0 0 0 / 0.9), 0 4px 10px -4px rgb(0 0 0 / 0.6);
+  --card-shadow-hover: 0 0 22px 2px rgb(255 255 255 / 0.07);
   --c-raised: #171a20;
   --c-line: #23272f;
   --c-line-strong: #333845;
@@ -67,7 +67,7 @@
   --c-bg-deep: #f4f4f4;
   --c-surface: #fafafa;
   --c-card: #eef0f3;
-  --card-shadow-hover: 0 14px 34px -12px rgb(20 25 40 / 0.28), 0 4px 10px -4px rgb(20 25 40 / 0.14);
+  --card-shadow-hover: 0 0 22px 2px rgb(20 25 40 / 0.14);
   --c-raised: #f4f4f4;
   --c-line: #e2e2e2;
   --c-line-strong: #cbcbcb;
@@ -487,7 +487,7 @@
     --c-bg-deep: #0b0d11;
     --c-surface: #14171d;
     --c-card: #1b1f27;
-    --card-shadow-hover: 0 14px 34px -12px rgb(0 0 0 / 0.9), 0 4px 10px -4px rgb(0 0 0 / 0.6);
+    --card-shadow-hover: 0 0 22px 2px rgb(255 255 255 / 0.07);
     --c-raised: #1b1f27;
     --c-line: #262b35;
     --c-line-strong: #363c4a;
@@ -519,11 +519,11 @@
     border: 0;
     border-radius: var(--radius-md);
     transition:
-      transform 0.35s var(--ease-out-soft),
-      box-shadow 0.35s var(--ease-out-soft);
+      transform 0.6s var(--ease-out-soft),
+      box-shadow 0.6s var(--ease-out-soft);
   }
   .card-hover:hover {
-    transform: scale(1.015);
+    transform: scale(1.006);
     box-shadow: var(--card-shadow-hover);
   }
   @media (prefers-reduced-motion: reduce) {
