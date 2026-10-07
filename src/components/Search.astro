@@ -20,7 +20,7 @@ import Icon from './Icon.astro';
     >
       <!-- query row -->
       {/* Phone: a pill-shaped field (icon, input, filter toggle) with a text
-          Cancel beside it. `sm:contents` dissolves the pill wrapper so the
+          close circle beside it. `sm:contents` dissolves the pill wrapper so the
           desktop row is exactly what it was. */}
       <div class="flex items-center gap-2 border-b border-line px-3 py-2.5 sm:gap-3.5 sm:bg-raised/40 sm:px-6 sm:py-1">
         <div class="flex min-w-0 flex-1 items-center gap-2 rounded-xl bg-raised px-3 sm:contents">
@@ -43,7 +43,7 @@ import Icon from './Icon.astro';
             data-filter-toggle
             aria-expanded="false"
             aria-controls="search-filters"
-            class="relative grid h-8 w-8 shrink-0 place-items-center rounded-md text-faint transition-colors hover:bg-raised hover:text-ink aria-expanded:bg-line/70 aria-expanded:text-accent-ink sm:h-9 sm:w-9 sm:rounded-lg sm:border sm:border-line sm:aria-expanded:border-accent/50 sm:aria-expanded:bg-accent/10"
+            class="icon-tile relative h-8 w-8 shrink-0 text-faint aria-expanded:bg-accent aria-expanded:text-accent-contrast sm:h-9 sm:w-9"
             title="Filters"
           >
             <Icon name="filter" size={17} />
@@ -58,13 +58,11 @@ import Icon from './Icon.astro';
         <button
           type="button"
           data-search-close
-          class="shrink-0 rounded-md px-1 py-2 text-[0.95rem] font-medium text-accent-ink"
+          class="icon-tile h-8 w-8 shrink-0 sm:h-9 sm:w-9"
+          aria-label="Close search"
         >
-          Cancel
+          <Icon name="close" size={16} />
         </button>
-        <kbd class="hidden shrink-0 rounded-md border border-line-strong bg-surface px-2 py-1 font-mono text-[0.68rem] text-faint shadow-[0_1px_0_var(--c-line-strong)] sm:block">
-          esc
-        </kbd>
       </div>
 
       <!-- body: results + filter rail -->

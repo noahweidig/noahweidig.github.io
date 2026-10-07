@@ -1,7 +1,8 @@
 ---
 import { u } from '../lib/url';
 import Base from '../layouts/Base.astro';
-import Breadcrumbs from '../components/Breadcrumbs.astro';
+import PageHero from '../components/PageHero.astro';
+import HeroPanel from '../components/HeroPanel.astro';
 import Icon from '../components/Icon.astro';
 import { site } from '../lib/site';
 
@@ -20,17 +21,40 @@ const facts = [
   imageAlt="Contact Noah Weidig"
   filters={{ section: 'Page' }}
 >
-  <Breadcrumbs trail={[]} current="Get in touch" class="sr-only-nw" />
-  <section class="under-nav relative overflow-hidden border-b border-line bg-bg-deep">
-    <div class="grid-bg absolute inset-0" aria-hidden="true"></div>
-    <div class="shell relative py-16 text-center md:py-20">
-      <p class="kicker justify-center">Contact</p>
-      <h1 class="display-2 mt-4 font-display font-bold">Get in touch</h1>
-      <p class="lede mx-auto mt-5">
-        Email me, book a call, or send a message — I reply within 24 hours.
-      </p>
-    </div>
-  </section>
+  <PageHero
+    title="Get in touch"
+    kicker="Contact"
+    icon="mail"
+    intro="Email me, book a call, or send a message — I reply within 24 hours."
+    hasActions
+    hasAside
+  >
+    <Fragment slot="actions">
+      <a class="btn btn-primary" href={`mailto:${site.email}`}>
+        {site.email}
+        <Icon name="mail" size={14} />
+      </a>
+      <a class="btn btn-ghost" href={site.booking} target="_blank" rel="noopener">
+        Book a call
+        <Icon name="calendar" size={14} />
+        <span class="sr-only-nw"> (opens in a new tab)</span>
+      </a>
+    </Fragment>
+    <HeroPanel slot="aside" title="Quick facts">
+      <ul class="grid">
+        {[
+          ['mail', site.email],
+          ['pin', site.location],
+          ['clock', 'Replies within 24 hours'],
+        ].map(([icon, text]) => (
+          <li class="flex items-center gap-3 border-b border-line py-3 text-[0.95rem] last:border-0">
+            <Icon name={icon!} size={15} class="shrink-0 text-accent-ink" />
+            {text}
+          </li>
+        ))}
+      </ul>
+    </HeroPanel>
+  </PageHero>
 
   <div class="shell py-14 md:py-20">
     <div class="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:gap-14 [&>*]:min-w-0">
@@ -45,7 +69,7 @@ const facts = [
         <ul class="mt-8 grid gap-3">
           {facts.map((f) => (
             <li class="card flex min-w-0 items-center gap-4 p-4">
-              <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-line bg-raised text-accent-ink">
+              <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-matte text-accent-ink">
                 <Icon name={f.icon} size={18} />
               </span>
               <span class="min-w-0">

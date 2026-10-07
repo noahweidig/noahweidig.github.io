@@ -1,6 +1,6 @@
 ---
 interface Props {
-  stats: { value: string | number; label: string }[];
+  stats: { value: string | number; label: string; id?: string }[];
 }
 const { stats } = Astro.props;
 ---
@@ -10,7 +10,7 @@ const { stats } = Astro.props;
   data-reveal
 >
   {stats.map((s) => (
-    <div class="bg-surface px-5 py-6 text-center">
+    <div class="group relative bg-surface px-5 py-6 text-center">
       <dt class="sr-only-nw">{s.label}</dt>
       <dd>
         <b class="block font-mono text-3xl font-medium tracking-tight text-ink md:text-4xl">
@@ -22,6 +22,25 @@ const { stats } = Astro.props;
         >
           {s.label}
         </span>
+        {s.id && (
+          <button
+            type="button"
+            class="popup-plus mx-auto mt-3 after:absolute after:inset-0 after:content-['']"
+            data-popup-open={s.id}
+            aria-haspopup="dialog"
+            aria-label={`More about ${s.label}`}
+          >
+            <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">
+              <path
+                d="M8 2.5v11M2.5 8h11"
+                stroke="currentColor"
+                stroke-width="1.6"
+                stroke-linecap="round"
+                fill="none"
+              />
+            </svg>
+          </button>
+        )}
       </dd>
     </div>
   ))}

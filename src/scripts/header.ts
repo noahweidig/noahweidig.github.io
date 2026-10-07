@@ -4,9 +4,24 @@ import { on } from './dom';
 export function initHeader() {
   const header = document.getElementById('site-header');
   if (!header) return;
-  const sync = () => header.toggleAttribute('data-stuck', window.scrollY > 8);
+  /* Over a dark band the glass pill would show dark ground behind light-theme
+     text, so the header takes the band's palette while one sits under it. */
+  const bands = [...document.querySelectorAll<HTMLElement>('section.band-dark')];
+  const probe = () => header.getBoundingClientRect().top + header.offsetHeight / 2 + 8;
+  const overDark = () => {
+    const y = probe();
+    return bands.some((b) => {
+      const r = b.getBoundingClientRect();
+      return r.top <= y && r.bottom >= y;
+    });
+  };
+  const sync = () => {
+    header.toggleAttribute('data-stuck', window.scrollY > 8);
+    header.classList.toggle('band-dark', overDark());
+  };
   sync();
   on(window, 'scroll', sync, { passive: true } as AddEventListenerOptions);
+  on(window, 'resize', sync);
 
   const groups = [...document.querySelectorAll<HTMLElement>('.nav-group')];
   const setGroup = (g: HTMLElement, open: boolean) => {

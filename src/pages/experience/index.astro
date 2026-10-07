@@ -2,7 +2,7 @@
 import { getCollection } from 'astro:content';
 import { u } from '../../lib/url';
 import Page from '../../layouts/Page.astro';
-import StatStrip from '../../components/StatStrip.astro';
+import HeroPanel from '../../components/HeroPanel.astro';
 import Icon from '../../components/Icon.astro';
 
 const items = (await getCollection('experience')).sort(
@@ -27,6 +27,7 @@ const span = (dates = '') => {
 ---
 
 <Page
+  icon="briefcase"
   section="Experience"
   title="Experience"
   kicker="Background"
@@ -35,7 +36,17 @@ const span = (dates = '') => {
   image={u('/media/og/experience.webp')}
   imageAlt="Noah Weidig's work experience timeline"
 >
-  <StatStrip stats={stats} />
+  <HeroPanel slot="hero-aside" title="By the numbers" stats={stats} />
+  <Fragment slot="hero-actions">
+    <a class="btn btn-primary" href={u('/cv/')}>
+      View CV
+      <Icon name="file" size={14} />
+    </a>
+    <a class="btn btn-ghost" href={u('/education/')}>
+      Education
+      <Icon name="graduationCap" size={14} />
+    </a>
+  </Fragment>
   <h2 class="sr-only-nw">All experience</h2>
   <ol class="relative mt-12 md:mt-16">
     <span

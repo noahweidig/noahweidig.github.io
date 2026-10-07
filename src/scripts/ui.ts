@@ -30,6 +30,7 @@ import { initCarousels } from './carousels';
 import { initFaqAccordion } from './faq-accordion';
 import { initCopy } from './copy';
 import { initShareRow } from './share-row';
+import { initPopups } from './popup';
 import { initContactForm } from './contact-form';
 
 /* ------------------------------------------------------------------ boot -- */
@@ -54,6 +55,7 @@ function boot() {
   initTooltips();
   initToc();
   initShareRow();
+  initPopups();
   initFaqAccordion();
   initContactForm();
   initBackToTop();

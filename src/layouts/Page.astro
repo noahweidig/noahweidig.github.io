@@ -1,10 +1,14 @@
 ---
 import Base from './Base.astro';
-import Breadcrumbs from '../components/Breadcrumbs.astro';
+import PageHero from '../components/PageHero.astro';
 
 interface Props {
   title: string;
   kicker?: string;
+  /** Icon in the round chip beside the kicker. */
+  icon?: string;
+  /** Tighter hero, for pages that are mostly a document. */
+  compact?: boolean;
   description?: string;
   intro?: string;
   wide?: boolean;
@@ -20,6 +24,8 @@ interface Props {
 const {
   title,
   kicker,
+  icon,
+  compact,
   description,
   intro,
   wide = true,
@@ -42,26 +48,19 @@ const {
   <Fragment slot="head">
     <slot name="head" />
   </Fragment>
-  <section class="under-nav relative overflow-hidden border-b border-line bg-bg-deep">
-    <div class="grid-bg absolute inset-0" aria-hidden="true"></div>
-    <div
-      class="pointer-events-none absolute -top-40 left-1/2 h-80 w-[52rem] -translate-x-1/2 rounded-full opacity-50 blur-3xl"
-      style="background: radial-gradient(closest-side, var(--c-glow), transparent)"
-      aria-hidden="true"
-    ></div>
-    <div class="shell relative py-16 md:py-24">
-      <Breadcrumbs trail={trail} current={title} class="mb-10 flex justify-center" />
-      <div class="text-center">
-        {kicker && (
-          <p class="kicker justify-center" data-pagefind-ignore>
-            {kicker}
-          </p>
-        )}
-        <h1 class="display-2 mt-4 font-display font-bold">{title}</h1>
-        {intro && <p class="lede mx-auto mt-5 text-balance">{intro}</p>}
-      </div>
-    </div>
-  </section>
+  <PageHero
+    title={title}
+    kicker={kicker}
+    icon={icon}
+    compact={compact}
+    intro={intro}
+    trail={trail}
+    hasActions={Astro.slots.has('hero-actions')}
+    hasAside={Astro.slots.has('hero-aside')}
+  >
+    <slot name="hero-actions" slot="actions" />
+    <slot name="hero-aside" slot="aside" />
+  </PageHero>
 
   <div class:list={[wide ? 'shell' : 'shell-narrow', 'py-14 md:py-20']}>
     <slot />
