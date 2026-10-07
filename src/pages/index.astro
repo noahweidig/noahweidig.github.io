@@ -424,12 +424,14 @@ const faqs = [
               </b>
               <span class="mt-1.5 block text-[0.82rem] text-dim">{entry.data.description}</span>
               <span class="mt-auto flex justify-end pt-4">
-                <span class="btn btn-ghost btn-sm">
-                  View award
+                <span
+                  class="grid h-9 w-9 place-items-center rounded-full border border-line bg-raised transition-colors group-hover:bg-accent group-hover:text-white"
+                  aria-hidden="true"
+                >
                   <Icon
                     name="arrow"
-                    size={15}
-                    class="transition-transform duration-300 group-hover:translate-x-1"
+                    size={16}
+                    class="transition-transform duration-300 group-hover:translate-x-0.5"
                   />
                 </span>
               </span>
