@@ -939,6 +939,26 @@
     top: 1rem;
     right: 1rem;
   }
+  .popup-close,
+  .popup-plus {
+    display: grid;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border: 0;
+    border-radius: 50%;
+    background: color-mix(in oklab, var(--c-ink) 12%, var(--c-surface));
+    color: var(--c-dim);
+    cursor: pointer;
+    transition:
+      background-color 0.2s var(--ease-out-soft),
+      color 0.2s var(--ease-out-soft);
+  }
+  .popup-close:hover,
+  .group:hover .popup-plus {
+    background: color-mix(in oklab, var(--c-ink) 20%, var(--c-surface));
+    color: var(--c-ink);
+  }
   .popup[open] {
     animation: popup-in 0.28s var(--ease-out-soft);
   }

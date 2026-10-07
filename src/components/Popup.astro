@@ -9,7 +9,7 @@ const { id, eyebrow, title } = Astro.props;
 ---
 
 <dialog class="popup" id={id} aria-labelledby={`${id}-title`} data-popup>
-  <button type="button" class="icon-tile popup-close" data-popup-close aria-label="Close">
+  <button type="button" class="popup-close" data-popup-close aria-label="Close">
     <Icon name="close" size={16} />
   </button>
   <p class="font-mono text-2xs tracking-[0.14em] text-accent-ink uppercase">{eyebrow}</p>
