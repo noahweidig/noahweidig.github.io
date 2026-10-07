@@ -5,12 +5,9 @@ interface Props {
 const { stats } = Astro.props;
 ---
 
-<dl
-  class="grid grid-cols-2 gap-px overflow-hidden rounded-lg border border-line bg-line md:grid-cols-4"
-  data-reveal
->
+<dl class="grid grid-cols-2 gap-px overflow-hidden rounded-lg bg-line md:grid-cols-4" data-reveal>
   {stats.map((s) => (
-    <div class="group relative bg-surface px-5 py-6 text-center">
+    <div class="group relative bg-[var(--c-card)] px-5 py-6 text-center">
       <dt class="sr-only-nw">{s.label}</dt>
       <dd>
         <b class="block font-mono text-3xl font-medium tracking-tight text-ink md:text-4xl">
