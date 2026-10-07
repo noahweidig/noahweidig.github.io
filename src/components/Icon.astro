@@ -19,6 +19,9 @@ interface Props {
 const { name, size = 20, class: klass = '', 'stroke-width': sw = 2 } = Astro.props;
 
 const glyph = icons[name];
+/* The <symbol> carries the glyph's own viewBox (origin included); the outer svg
+   only needs its size, or the origin offset would be applied twice. */
+const box = glyph?.viewBox.split(' ') ?? [];
 if (!glyph) {
   throw new Error(`Icon: unknown icon name "${name}"`);
 }
@@ -35,7 +38,7 @@ seen.add(id);
 ---
 
 <svg
-  viewBox={glyph.viewBox}
+  viewBox={`0 0 ${box[2]} ${box[3]}`}
   width={size}
   height={size}
   fill={glyph.stroke ? 'none' : 'currentColor'}
