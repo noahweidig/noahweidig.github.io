@@ -4,6 +4,7 @@ import type { CollectionEntry } from 'astro:content';
 import { Image } from 'astro:assets';
 import { year } from '../lib/format';
 import { IMAGE_WIDTHS } from '../lib/images';
+import Icon from './Icon.astro';
 
 interface Props {
   entry: CollectionEntry<'awards'>;
@@ -37,5 +38,14 @@ const d = entry.data;
   <div class="flex flex-1 flex-col p-5">
     <h3 class="text-base leading-snug transition-colors group-hover:text-accent-ink">{d.title}</h3>
     {d.description && <p class="mt-2 text-sm leading-relaxed text-dim">{d.description}</p>}
+    <span class="mt-auto flex justify-end pt-4" aria-hidden="true">
+      <span class="grid h-9 w-9 place-items-center rounded-full border border-line bg-raised transition-colors group-hover:bg-accent group-hover:text-white">
+        <Icon
+          name="chevron"
+          size={16}
+          class="-rotate-90 transition-transform duration-300 group-hover:translate-x-0.5"
+        />
+      </span>
+    </span>
   </div>
 </a>
