@@ -1,10 +1,9 @@
 /**
- * Rebuild src/lib/icons.generated.ts from @fluentui/svg-icons.
+ * Rebuild src/lib/icons.generated.ts from @fortawesome/fontawesome-free.
  *
- * Every non-brand icon on the site comes from Fluent UI System Icons (filled)
- * so the whole set shares one grid and one weight. The SVGs are copied into
- * the repo, so nothing is fetched at runtime. Brand marks come from Font
- * Awesome Free (brands), also copied in.
+ * Every icon on the site comes from Font Awesome Free (solid for UI marks,
+ * brands for logos) so the whole set shares one weight. The SVGs are copied
+ * into the repo, so nothing is fetched at runtime.
  *
  *   node scripts/generate-icons.mjs
  */
@@ -16,86 +15,86 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const require = createRequire(import.meta.url);
-const iconsDir = path.join(
-  path.dirname(require.resolve('@fluentui/svg-icons/package.json')),
-  'icons',
+const svgDir = path.join(
+  path.dirname(require.resolve('@fortawesome/fontawesome-free/package.json')),
+  'svgs',
 );
 
-/** site name -> Fluent icon name (the `_<size>_filled` suffix is added below) */
-const MAP = {
+/** site name -> Font Awesome solid icon (svgs/solid/<file>.svg) */
+const SOLID = {
   rss: 'rss',
-  mail: 'mail',
-  message: 'chat',
-  calendar: 'calendar_ltr',
+  mail: 'envelope',
+  envelope: 'envelope',
+  message: 'message',
+  calendar: 'calendar-days',
   briefcase: 'briefcase',
-  school: 'building_government',
+  school: 'school',
   code: 'code',
-  users: 'people',
-  sparkles: 'sparkle',
-  layers: 'stack',
+  users: 'users',
+  sparkles: 'wand-magic-sparkles',
+  layers: 'layer-group',
   trophy: 'trophy',
   bulb: 'lightbulb',
-  file: 'document_text',
-  pencil: 'edit',
-  help: 'question_circle',
-  search: 'search',
-  pin: 'location',
+  file: 'file-lines',
+  pencil: 'pencil',
+  help: 'circle-question',
+  search: 'magnifying-glass',
+  pin: 'location-dot',
   clock: 'clock',
   cube: 'cube',
-  download: 'arrow_download',
-  arrow: 'arrow_right',
-  chevron: 'chevron_down',
-  external: 'open',
-  sun: 'weather_sunny',
-  moon: 'weather_moon',
-  sunMoon: 'dark_theme',
-  menu: 'line_horizontal_3',
-  close: 'dismiss',
-  satellite: 'planet',
-  chart: 'data_bar_vertical',
-  ai: 'brain_circuit',
-  leaf: 'leaf_two',
+  download: 'download',
+  arrow: 'arrow-right',
+  chevron: 'chevron-down',
+  external: 'arrow-up-right-from-square',
+  sun: 'sun',
+  moon: 'moon',
+  sunMoon: 'circle-half-stroke',
+  menu: 'bars',
+  close: 'xmark',
+  satellite: 'satellite',
+  chart: 'chart-column',
+  ai: 'brain',
+  leaf: 'leaf',
   database: 'database',
-  terminal: 'window_console',
-  quote: 'text_quote',
+  terminal: 'terminal',
+  quote: 'quote-left',
   video: 'video',
-  news: 'news',
-  shield: 'shield_checkmark',
-  slides: 'presenter',
-  book: 'book_open',
-  report: 'clipboard_task',
-  preprint: 'document_text_clock',
-  graduationCap: 'hat_graduation',
-  check: 'checkmark',
+  news: 'newspaper',
+  shield: 'shield-halved',
+  slides: 'chalkboard',
+  book: 'book-open',
+  report: 'clipboard-check',
+  preprint: 'file-pen',
+  graduationCap: 'graduation-cap',
+  check: 'check',
   tag: 'tag',
   copy: 'copy',
   link: 'link',
-  hash: 'number_symbol',
-  reader: 'book_open',
-  expand: 'full_screen_maximize',
-  zoom: 'zoom_in',
-  left: 'chevron_left',
-  right: 'chevron_right',
+  hash: 'hashtag',
+  reader: 'book-open-reader',
+  expand: 'expand',
+  zoom: 'magnifying-glass-plus',
+  left: 'chevron-left',
+  right: 'chevron-right',
   printer: 'print',
-  filePdf: 'document_pdf',
+  filePdf: 'file-pdf',
   filter: 'filter',
-  info: 'info',
+  info: 'circle-info',
   pause: 'pause',
   play: 'play',
-  circleArrowUp: 'arrow_circle_up',
+  circleArrowUp: 'circle-arrow-up',
   rocket: 'rocket',
-  ellipsis: 'more_horizontal',
-  share: 'share',
-  earth: 'earth',
-  cpu: 'developer_board',
+  ellipsis: 'ellipsis',
+  share: 'share-nodes',
+  earth: 'earth-americas',
+  cpu: 'microchip',
   broom: 'broom',
   flame: 'fire',
-  flaskConical: 'beaker',
-  plug: 'plug_connected',
-  envelope: 'mail',
+  flaskConical: 'flask',
+  plug: 'plug',
 };
 
-/** site name -> Font Awesome Free brand icon (svgs/brands/<file>.svg) */
+/** site name -> Font Awesome brand icon (svgs/brands/<file>.svg) */
 const BRANDS = {
   bluesky: 'bluesky',
   facebook: 'facebook',
@@ -115,56 +114,44 @@ const BRANDS = {
   twitter: 'x-twitter',
   'x-twitter': 'x-twitter',
 };
-const brandsDir = path.join(
-  path.dirname(require.resolve('@fortawesome/fontawesome-free/package.json')),
-  'svgs',
-  'brands',
-);
 
-/** Fluent ships each icon at several sizes; take 24px, else the nearest. */
-const SIZES = [24, 20, 28, 32, 16, 48];
-
-/** { viewBox, body } — the children of the <svg>, whitespace collapsed. Sliced
-    rather than matched: a regex spanning the whole file backtracks for no
-    benefit here. */
+/** { viewBox, body } — the children of the <svg>. The viewBox is padded out to
+    a square (Font Awesome glyphs vary in width) so every icon sits centred in
+    the same box at any size. Sliced rather than matched: a regex spanning the
+    whole file backtracks for no benefit here. */
 const parse = (svg) => {
   const open = svg.indexOf('>', svg.indexOf('<svg'));
   const close = svg.lastIndexOf('</svg>');
-  const viewBox = /viewBox="([^"]+)"/.exec(svg.slice(0, open))?.[1] ?? '0 0 24 24';
+  const [x, y, w, h] = (/viewBox="([^"]+)"/.exec(svg.slice(0, open))?.[1] ?? '0 0 512 512')
+    .split(/\s+/)
+    .map(Number);
+  const side = Math.max(w, h);
+  const viewBox = [x - (side - w) / 2, y - (side - h) / 2, side, side].join(' ');
   const body = svg
     .slice(open + 1, close)
+    .replace(/<!--[\s\S]*?-->/g, '')
     .replace(/\s+/g, ' ')
     .replaceAll(' />', '/>')
     .trim();
   return { viewBox, body };
 };
 
-const entries = [];
-for (const [name, file] of Object.entries(MAP)) {
-  let svg;
-  for (const size of SIZES) {
-    svg = await readFile(path.join(iconsDir, `${file}_${size}_filled.svg`), 'utf8').catch(
-      () => null,
-    );
-    if (svg) break;
-  }
-  if (!svg) throw new Error(`No filled Fluent icon for "${name}" (${file})`);
-  const { viewBox, body } = parse(svg);
-  entries.push(
-    `  ${name}: { viewBox: ${JSON.stringify(viewBox)}, body: ${JSON.stringify(body)} },`,
-  );
-}
+const load =
+  (dir) =>
+  async ([name, file]) => {
+    const svg = await readFile(path.join(svgDir, dir, `${file}.svg`), 'utf8').catch(() => null);
+    if (!svg) throw new Error(`No Font Awesome ${dir} icon for "${name}" (${file})`);
+    const { viewBox, body } = parse(svg);
+    return `  ${JSON.stringify(name)}: { viewBox: ${JSON.stringify(viewBox)}, body: ${JSON.stringify(body)} },`;
+  };
 
-for (const [name, file] of Object.entries(BRANDS)) {
-  const { viewBox, body } = parse(await readFile(path.join(brandsDir, `${file}.svg`), 'utf8'));
-  entries.push(
-    `  ${JSON.stringify(name)}: { viewBox: ${JSON.stringify(viewBox)}, body: ${JSON.stringify(body)} },`,
-  );
-}
+const entries = [
+  ...(await Promise.all(Object.entries(SOLID).map(load('solid')))),
+  ...(await Promise.all(Object.entries(BRANDS).map(load('brands')))),
+];
 
 const out = `/* Generated by scripts/generate-icons.mjs — do not edit by hand.
-   UI icons: Fluent UI System Icons (MIT, Microsoft), filled, from @fluentui/svg-icons.
-   Brand icons: Font Awesome Free 7 (icons CC BY 4.0, https://fontawesome.com/license/free). */
+   Font Awesome Free 7 (solid + brands), icons CC BY 4.0, https://fontawesome.com/license/free */
 export const icons: Record<string, { viewBox: string; body: string }> = {
 ${entries.join('\n')}
 };
