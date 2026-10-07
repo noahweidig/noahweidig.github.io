@@ -105,7 +105,7 @@ const beyondWork = [
         <dl class="card divide-y divide-line">
           {glance.map((g) => (
             <div class="flex gap-4 p-5">
-              <span class="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-line bg-raised text-accent-ink">
+              <span class="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-matte text-accent-ink">
                 <Icon name={g.icon} size={16} />
               </span>
               <div class="min-w-0">
@@ -145,7 +145,7 @@ const beyondWork = [
       <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
         {beyondWork.map((b, i) => (
           <div class="card flex flex-col p-6" data-reveal style={`--reveal-delay:${i * 60}ms`}>
-            <span class="grid h-12 w-12 place-items-center rounded-xl border border-line bg-raised text-accent-ink">
+            <span class="grid h-12 w-12 place-items-center rounded-xl bg-matte text-accent-ink">
               <Icon name={b.icon} size={22} />
             </span>
             <b role="heading" aria-level="3" class="mt-5 block text-lg font-medium">

@@ -20,6 +20,12 @@
    toggle can swap the whole system by flipping one attribute on <html>.
    Dark is the default; :root[data-theme='light'] overrides the same names.
    ========================================================================= */
+:root {
+  /* Matte fills for buttons, tags and controls: a flat grey step off the
+     surface, in whichever theme is active. */
+  --c-matte: color-mix(in oklab, var(--c-ink) 12%, var(--c-surface));
+  --c-matte-hover: color-mix(in oklab, var(--c-ink) 20%, var(--c-surface));
+}
 :root,
 :root[data-theme='dark'] {
   --c-bg: #000000;
@@ -94,6 +100,7 @@
   --color-bg-deep: var(--c-bg-deep);
   --color-surface: var(--c-surface);
   --color-raised: var(--c-raised);
+  --color-matte: var(--c-matte);
   --color-line: var(--c-line);
   --color-line-strong: var(--c-line-strong);
   --color-control: var(--c-control-border);
@@ -377,14 +384,11 @@
   }
 
   .btn-ghost {
-    border-color: var(--c-line-strong);
     color: var(--c-ink);
-    background: color-mix(in oklab, var(--c-surface) 70%, transparent);
+    background: var(--c-matte);
   }
   .btn-ghost:hover {
-    border-color: var(--c-ink);
-    background: var(--c-ink);
-    color: var(--c-bg);
+    background: var(--c-matte-hover);
   }
 
   .btn-sm {
@@ -459,7 +463,7 @@
     height: 3rem;
     padding-inline: 1rem;
     border-radius: 999px;
-    background: color-mix(in oklab, var(--c-ink) 12%, var(--c-surface));
+    background: var(--c-matte);
   }
   .popup-plus.carousel-toggle {
     width: 3rem;
@@ -482,8 +486,8 @@
     gap: 0.35rem;
     padding: 0.2rem 0.6rem;
     border-radius: var(--radius-pill);
-    border: 1px solid var(--c-line);
-    background: var(--c-raised);
+    border: 0;
+    background: var(--c-matte);
     color: var(--c-dim);
     font-family: var(--font-mono);
     font-size: 0.68rem;
@@ -491,8 +495,8 @@
     white-space: nowrap;
   }
   .chip-accent {
-    border-color: var(--c-line-strong);
-    background: var(--c-raised);
+    background: var(--c-matte-hover);
+    color: var(--c-ink);
   }
 
   /* The Altmetric donut in a citation chip is a small vendor-served image
@@ -514,8 +518,8 @@
   .pill {
     padding: 0.4rem 0.9rem;
     border-radius: var(--radius-pill);
-    border: 1px solid var(--c-line);
-    background: transparent;
+    border: 0;
+    background: var(--c-matte);
     color: var(--c-dim);
     font-size: 0.8rem;
     font-weight: 500;
@@ -524,12 +528,11 @@
   }
   .pill:hover {
     color: var(--c-ink);
-    border-color: var(--c-line-strong);
+    background: var(--c-matte-hover);
   }
   .pill[aria-pressed='true'],
   .pill[aria-selected='true'] {
     background: var(--c-accent);
-    border-color: var(--c-accent);
     color: var(--c-accent-contrast);
   }
 
@@ -914,18 +917,26 @@
     height: 2.25rem;
     flex-shrink: 0;
     border-radius: var(--radius-pill);
-    border: 1px solid var(--c-line);
+    border: 0;
+    background: var(--c-matte);
     color: var(--c-dim);
     transition:
       transform 0.2s var(--ease-out-soft),
-      border-color 0.2s var(--ease-out-soft),
       background-color 0.2s var(--ease-out-soft),
       color 0.2s var(--ease-out-soft);
   }
   .icon-tile:hover {
     transform: translateY(-2px);
-    border-color: var(--c-accent);
-    background: color-mix(in oklab, var(--c-accent) 10%, transparent);
+    background: var(--c-matte-hover);
+    color: var(--c-ink);
+  }
+
+  /* Same hit area and hover lift, with no circle around the glyph. */
+  .icon-tile.icon-bare,
+  .icon-tile.icon-bare:hover {
+    background: none;
+  }
+  .icon-tile.icon-bare:hover {
     color: var(--c-accent-ink);
   }
 
@@ -963,7 +974,7 @@
     height: 2.25rem;
     border: 0;
     border-radius: 50%;
-    background: color-mix(in oklab, var(--c-ink) 12%, var(--c-surface));
+    background: var(--c-matte);
     color: var(--c-dim);
     cursor: pointer;
     transition:
@@ -972,7 +983,7 @@
   }
   .popup-close:hover,
   .group:hover .popup-plus {
-    background: color-mix(in oklab, var(--c-ink) 20%, var(--c-surface));
+    background: var(--c-matte-hover);
     color: var(--c-ink);
   }
   .popup[open] {
