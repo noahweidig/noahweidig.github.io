@@ -438,17 +438,33 @@
     width: 0.5rem;
     height: 0.5rem;
     border-radius: 999px;
-    background: var(--c-control-border);
+    background: var(--c-faint);
     transition:
       width 0.35s cubic-bezier(0.22, 1, 0.36, 1),
       background-color 0.25s ease;
   }
   .carousel-dot:hover > span {
-    background: var(--c-dim);
+    background: var(--c-ink);
   }
   .carousel-dot[aria-current='true'] > span {
-    width: 1.4rem;
-    background: var(--c-accent);
+    width: 1.5rem;
+    background: var(--c-ink);
+  }
+  /* Dots sit in a grey matte pill, with the play/pause toggle a separate
+     grey circle beside it. */
+  .carousel-pill {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    height: 3rem;
+    padding-inline: 1rem;
+    border-radius: 999px;
+    background: color-mix(in oklab, var(--c-ink) 12%, var(--c-surface));
+  }
+  .popup-plus.carousel-toggle {
+    width: 3rem;
+    height: 3rem;
+    color: var(--c-ink);
   }
   @media (prefers-reduced-motion: reduce) {
     .carousel-track {
