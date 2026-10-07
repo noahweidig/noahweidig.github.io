@@ -913,6 +913,47 @@
     color: var(--c-accent-ink);
   }
 
+  /* --- popup card ---
+     Apple-style detail card: opened from a "+" on a card, blurs the page. */
+  .popup {
+    position: fixed;
+    inset: 0;
+    margin: auto;
+    width: min(40rem, calc(100vw - 2rem));
+    height: fit-content;
+    max-height: calc(100dvh - 2rem);
+    overflow-y: auto;
+    padding: clamp(1.5rem, 5vw, 3rem);
+    border-radius: 1.75rem;
+    border: 1px solid var(--c-line-strong);
+    background: var(--c-surface);
+    color: var(--c-ink);
+    box-shadow: 0 30px 70px -30px rgb(0 0 0 / 0.8);
+  }
+  .popup::backdrop {
+    background: rgb(6 8 12 / 0.5);
+    backdrop-filter: blur(10px) saturate(1.1);
+  }
+  .popup-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+  }
+  .popup[open] {
+    animation: popup-in 0.28s var(--ease-out-soft);
+  }
+  @keyframes popup-in {
+    from {
+      opacity: 0;
+      transform: translateY(12px) scale(0.97);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .popup[open] {
+      animation: none;
+    }
+  }
+
   /* --- share dialog ---
      The Share button opens this as a modal: every target sits in one grid and
      the page behind it blurs out under the backdrop. */
