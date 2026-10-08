@@ -610,53 +610,31 @@
     }
   }
 
-  /* A 24px hit area around a small bar, so the dots stay tappable. */
-  .carousel-dot {
-    display: grid;
-    place-items: center;
-    width: 1.5rem;
-    height: 1.5rem;
-    cursor: pointer;
-  }
-  .carousel-dot > span {
-    display: block;
-    width: 0.5rem;
-    height: 0.5rem;
-    border-radius: 999px;
-    background: var(--c-faint);
-    transition:
-      width 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-      background-color 0.25s ease;
-  }
-  .carousel-dot:hover > span {
-    background: var(--c-ink);
-  }
-  .carousel-dot[aria-current='true'] > span {
-    width: 1.5rem;
-    background: var(--c-ink);
-  }
-  /* Dots sit in a grey matte pill, with the play/pause toggle a separate
-     grey circle beside it. */
-  .carousel-pill {
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-    height: 3rem;
-    padding-inline: 1rem;
-    border-radius: 999px;
-    background: var(--c-matte);
-  }
-  .popup-plus.carousel-toggle {
+  .popup-plus.carousel-btn {
     width: 3rem;
     height: 3rem;
     color: var(--c-ink);
   }
+  .popup-plus.carousel-btn:hover:not(:disabled) {
+    background: var(--c-matte-hover);
+  }
+  .popup-plus.carousel-btn:disabled {
+    color: var(--c-faint);
+    cursor: default;
+    opacity: 0.5;
+  }
+  .carousel-chev {
+    display: grid;
+  }
+  .carousel-chev-prev {
+    transform: rotate(90deg);
+  }
+  .carousel-chev-next {
+    transform: rotate(-90deg);
+  }
   @media (prefers-reduced-motion: reduce) {
     .carousel-track {
       scroll-behavior: auto;
-    }
-    .carousel-dot > span {
-      transition: none;
     }
   }
 

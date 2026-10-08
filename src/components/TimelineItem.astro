@@ -11,8 +11,10 @@ interface Props {
       outline reflects that nesting instead of running two heading levels
       in parallel. */
   headingLevel?: 3 | 4;
+  /** Grey matte card instead of the timeline rail; fills its grid cell. */
+  card?: boolean;
 }
-const { entry, base, current = false, headingLevel = 3 } = Astro.props;
+const { entry, base, current = false, headingLevel = 3, card = false } = Astro.props;
 const d = entry.data;
 const Heading = `h${headingLevel}` as 'h3' | 'h4';
 ---
@@ -21,18 +23,25 @@ const Heading = `h${headingLevel}` as 'h3' | 'h4';
   href={u(`/${base}/${entry.id}/`)}
   data-tip-title={d.title}
   data-tip={`${d.org ?? ''}${d.dates ? ` · ${d.dates}` : ''} — open the full entry`}
-  class="group relative block border-l border-line py-5 pl-7 transition-colors hover:border-accent/50"
+  class:list={[
+    'group relative block',
+    card
+      ? 'h-full rounded-[var(--radius-md)] bg-matte p-6 transition-transform duration-[1.4s] ease-[var(--ease-out-soft)] hover:scale-[1.008] motion-reduce:hover:scale-100'
+      : 'border-l border-line py-5 pl-7 transition-colors hover:border-accent/50',
+  ]}
   data-reveal
 >
-  <span
-    class:list={[
-      'absolute top-7 -left-[5px] h-2.5 w-2.5 rounded-full border-2 transition-colors',
-      current
-        ? 'border-accent bg-accent'
-        : 'border-line-strong bg-bg group-hover:border-accent group-hover:bg-accent',
-    ]}
-  ></span>
-  {current && (
+  {!card && (
+    <span
+      class:list={[
+        'absolute top-7 -left-[5px] h-2.5 w-2.5 rounded-full border-2 transition-colors',
+        current
+          ? 'border-accent bg-accent'
+          : 'border-line-strong bg-bg group-hover:border-accent group-hover:bg-accent',
+      ]}
+    ></span>
+  )}
+  {!card && current && (
     <span class="absolute top-[22px] -left-[9px] h-[18px] w-[18px] animate-ping rounded-full bg-accent/25" />
   )}
 
