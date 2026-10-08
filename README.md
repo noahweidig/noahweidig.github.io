@@ -74,7 +74,7 @@ Built with [Astro 7](https://astro.build), TypeScript and [Tailwind CSS 4](https
 | `src/content.config.ts` | the Zod schema each collection is validated against at build time             |
 | `src/pages/`            | routes — file-based, with `[...slug].astro` generating every detail page      |
 | `src/layouts/`          | `Base` (head, chrome, analytics), `Page` (section index), `Detail` (article)  |
-| `src/components/`       | cards, rows, marquees, the search dialog, the map                             |
+| `src/components/`       | cards, rows, the search dialog, the map                                       |
 | `src/styles/`           | the design tokens and component layer; `fonts.css` holds the `@font-face` set |
 | `src/lib/`              | site constants and the date/citation formatters                               |
 | `public/`               | static assets served verbatim — media, fonts, PDFs, favicons                  |

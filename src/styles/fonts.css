@@ -1,6 +1,15 @@
 /* Self-hosted subsets under /fonts. Ranges mirror what Google's css2 endpoint
    serves for the same families, so a visitor only downloads the scripts they
    actually render. */
+/* The header/footer wordmark only: bold italic, just the letters in "noahweidig."
+   (1.4 KB), so the full italic faces below load only on pages that use <em>. */
+@font-face {
+  font-family: 'DM Sans Wordmark';
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/dmsans-italic-wordmark.woff2') format('woff2');
+}
 @font-face {
   font-family: 'DM Sans';
   font-style: normal;
@@ -36,7 +45,7 @@
 @font-face {
   font-family: 'DM Sans';
   font-style: italic;
-  font-weight: 100 1000;
+  font-weight: 400 700;
   font-display: swap;
   src: url('/fonts/dmsans-italic-latin.woff2') format('woff2');
   unicode-range:

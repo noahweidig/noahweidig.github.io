@@ -958,58 +958,138 @@
     }
   }
 
-  /* --- marquee --- */
-  .marquee {
-    position: relative;
-    overflow: hidden;
-  }
-  .marquee-toggle {
-    position: absolute;
-    top: 0.25rem;
-    right: 0.25rem;
-    z-index: 1;
-  }
-  .marquee-toggle-icon-play {
-    display: none;
-  }
-  .marquee[data-paused] .marquee-toggle-icon-pause {
-    display: none;
-  }
-  .marquee[data-paused] .marquee-toggle-icon-play {
-    display: block;
-  }
-  .marquee-track {
+  /* --- tech tiles ---
+     The icons are single-color SVGs drawn as a mask, so they take the text
+     color in either theme (and inside .band-dark) with no filter. */
+  .tech-tile {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 3.5rem;
-    width: max-content;
-    animation: marquee-drift 48s linear infinite;
-    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+    justify-content: center;
+    gap: 0.7rem;
+    min-height: 6.25rem;
+    padding: 1rem 0.25rem 0.85rem;
+    text-align: center;
   }
-  @media (prefers-reduced-motion: reduce) {
-    .marquee-track {
-      animation: none;
-      width: auto;
-      flex-wrap: wrap;
-      justify-content: center;
-      mask-image: none;
+  .tech-ic {
+    display: block;
+    width: 1.65rem;
+    height: 1.65rem;
+    background: var(--c-ink);
+    opacity: 0.85;
+    transition: opacity 0.3s var(--ease-out-soft);
+    mask: var(--tech-ic) center / contain no-repeat;
+    -webkit-mask: var(--tech-ic) center / contain no-repeat;
+  }
+  .tech-tile:hover .tech-ic {
+    opacity: 1;
+  }
+  .tech-tile-cat {
+    margin-top: -0.3rem;
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--c-faint);
+  }
+  .tech-tile-more {
+    position: relative;
+    border-radius: var(--radius-md);
+    box-shadow: inset 0 0 0 1px var(--c-line);
+    transition: background-color 0.3s var(--ease-out-soft);
+  }
+  .tech-tile-more:hover {
+    background: var(--c-matte);
+  }
+  @media (max-width: 767px) {
+    .tech-tile {
+      min-height: 5.6rem;
+      gap: 0.55rem;
     }
-    .marquee-track > [aria-hidden='true'],
-    .marquee-toggle {
+    .tech-ic {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+    .tech-tile .text-sm {
+      font-size: 0.72rem;
+    }
+    .tech-tile-cat {
       display: none;
     }
   }
-  .marquee:hover .marquee-track,
-  .marquee:focus-within .marquee-track,
-  .marquee[data-paused] .marquee-track {
-    animation-play-state: paused;
-  }
-  @keyframes marquee-drift {
-    from {
-      transform: translate3d(0, 0, 0);
+  @media (min-width: 768px) {
+    .tech-tile {
+      min-height: 7.5rem;
+      padding-top: 1.35rem;
     }
-    to {
-      transform: translate3d(-50%, 0, 0);
+    .tech-ic {
+      width: 1.9rem;
+      height: 1.9rem;
+    }
+  }
+
+  /* --- affiliations ---
+     Logos are drawn as masks in the text color. Wide screens show every card;
+     narrow ones swipe, with a fade on the trailing edge. Nothing moves on its own. */
+  .affil-track {
+    display: flex;
+    gap: 0.6rem;
+    margin: 0;
+    padding: 0.15rem 0;
+    list-style: none;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+  }
+  .affil-track::-webkit-scrollbar {
+    display: none;
+  }
+  .affil-card {
+    display: grid;
+    flex: none;
+    place-items: center;
+    width: 9rem;
+    padding: 1.15rem 0.75rem;
+    scroll-snap-align: start;
+    transition: background-color 0.3s var(--ease-out-soft);
+  }
+  .affil-card:hover,
+  .affil-card:focus-visible {
+    background: var(--c-matte);
+  }
+  .affil-logo {
+    display: block;
+    width: 100%;
+    height: 2rem;
+    background: var(--c-ink);
+    opacity: 0.6;
+    transition: opacity 0.3s var(--ease-out-soft);
+    mask: var(--affil-logo) center / contain no-repeat;
+    -webkit-mask: var(--affil-logo) center / contain no-repeat;
+  }
+  .affil-card:hover .affil-logo,
+  .affil-card:focus-visible .affil-logo {
+    opacity: 1;
+  }
+  .affil-fade {
+    background: linear-gradient(90deg, transparent, var(--c-bg));
+  }
+  @media (min-width: 64rem) {
+    .affil-track {
+      display: grid;
+      grid-template-columns: repeat(8, minmax(0, 1fr));
+      overflow: visible;
+    }
+    .affil-card {
+      width: auto;
+      padding-block: 1.35rem;
+    }
+    .affil-logo {
+      height: 2.25rem;
+    }
+    .affil-fade,
+    .affil-hint {
+      display: none;
     }
   }
 

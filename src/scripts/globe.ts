@@ -65,11 +65,18 @@ export function initGlobe() {
   }
 
   const mount = async (el: HTMLElement) => {
-    const [maplibregl, { default: workerUrl }] = await Promise.all([
+    const [maplibregl, { default: workerUrl }, { default: cssUrl }] = await Promise.all([
       import('maplibre-gl'),
       import('maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url'),
-      import('maplibre-gl/dist/maplibre-gl.css'),
+      // As a URL, not a bundled import, so the stylesheet isn't a render-blocking
+      // <link> on every page that merely contains a map mount.
+      import('maplibre-gl/dist/maplibre-gl.css?url'),
     ]);
+    if (!document.querySelector(`link[href="${cssUrl}"]`)) {
+      document.head.append(
+        Object.assign(document.createElement('link'), { rel: 'stylesheet', href: cssUrl }),
+      );
+    }
     maplibregl.setWorkerUrl(workerUrl);
     const map = new maplibregl.Map({
       container: el,
