@@ -709,7 +709,7 @@
   }
   @media (max-width: 767px) {
     .pill-row {
-      flex-wrap: nowrap;
+      flex-wrap: nowrap !important;
       overflow-x: auto;
       margin-inline: -1.25rem;
       padding-inline: 1.25rem;
