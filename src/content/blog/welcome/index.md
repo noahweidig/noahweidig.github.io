@@ -6,7 +6,7 @@ categories:
   - Thoughts
 image: './cover.webp'
 image-light: './cover-light.webp'
-image-alt: "Cover card reading “Welcome to My Blog” over the site's accent and violet gradient"
+image-alt: 'Cover card reading “Welcome to My Blog” over a halftone dot pattern in lime and teal'
 ---
 
 ## Welcome
