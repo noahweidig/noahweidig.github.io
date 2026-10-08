@@ -20,16 +20,16 @@ const isActive = (href: string) => {
 <header
   data-pagefind-ignore
   data-site-header
-  class="sticky top-0 z-50 border-b border-transparent transition-[background-color,border-color,backdrop-filter] duration-300"
+  class="nav-glass band-dark sticky top-0 z-50"
   id="site-header"
 >
-  <div class="shell nav-bar flex h-14 items-center gap-4 md:h-16 lg:grid lg:grid-cols-[1fr_auto_1fr]">
+  <div class="shell nav-bar flex h-11 items-center gap-4 lg:grid lg:grid-cols-[1fr_auto_1fr]">
     <a
       href={u('/')}
       class="group flex min-w-0 items-center gap-2.5"
       aria-label="Noah Weidig — home"
     >
-      <Wordmark collapse class="text-[1.75rem] max-[389px]:text-[1.5rem] md:text-[2rem]" />
+      <Wordmark collapse class="text-[1.35rem]" />
     </a>
 
     <nav aria-label="Primary" class="mx-auto hidden lg:block">
@@ -121,7 +121,7 @@ const isActive = (href: string) => {
         data-menu-toggle
         aria-expanded="false"
         aria-controls="mobile-nav"
-        class="icon-btn lg:hidden"
+        class="icon-btn burger-btn lg:hidden"
         aria-label="Open menu"
       >
         <span class="burger" aria-hidden="true">
@@ -135,7 +135,7 @@ const isActive = (href: string) => {
   <div
     id="mobile-nav"
     hidden
-    class="mobile-nav absolute inset-x-0 top-full h-[calc(100dvh-3.5rem)] overflow-hidden border-t border-line bg-bg md:h-[calc(100dvh-4rem)] lg:hidden"
+    class="mobile-nav absolute inset-x-0 top-full h-[calc(100dvh-2.75rem)] overflow-hidden bg-bg lg:hidden"
   >
     <nav aria-label="Mobile" class="shell flex h-full flex-col pb-5 pt-2">
       <ul class="min-h-0 flex-1 overflow-y-auto">
@@ -306,60 +306,27 @@ const isActive = (href: string) => {
     overflow: hidden;
     overscroll-behavior: none;
   }
-  /* Scrolled: the bar floats as a glass pill. The header's own box keeps its
-     height, so nothing in the page reflows when it switches. */
-  .nav-bar {
-    transition:
-      max-width 0.35s var(--ease-out-soft),
-      translate 0.35s var(--ease-out-soft),
-      border-radius 0.35s var(--ease-out-soft),
-      background-color 0.35s var(--ease-out-soft),
-      box-shadow 0.35s var(--ease-out-soft),
-      border-color 0.35s var(--ease-out-soft),
-      padding-inline 0.35s var(--ease-out-soft);
-    border: 1px solid transparent;
-    border-radius: 0;
+  /* One flat glass bar, always dark. Light theme gets a lighter graphite. */
+  .nav-glass {
+    background-color: rgb(22 22 24 / 0.82);
+    backdrop-filter: saturate(1.8) blur(20px);
   }
-  #site-header[data-stuck] {
-    border-bottom-color: transparent;
+  :global(:root[data-theme='light']) .nav-glass {
+    background-color: rgb(56 56 60 / 0.86);
   }
-  #site-header[data-stuck]:not([data-menu-open]) .nav-bar {
-    max-width: min(66rem, calc(100% - 1rem));
-    translate: 0 0.5rem;
-    border-radius: 9999px;
-    border-color: color-mix(in oklab, var(--c-ink) 5%, rgb(255 255 255 / 0.12));
-    background-color: color-mix(in oklab, var(--c-bg) 80%, transparent);
-    backdrop-filter: blur(22px) saturate(1.8);
-    box-shadow:
-      inset 0 1px 0 rgb(255 255 255 / 0.28),
-      0 10px 30px -12px rgb(15 23 42 / 0.28),
-      0 2px 6px -2px rgb(15 23 42 / 0.1);
+  .nav-glass .nav-link:not(.nav-link-active) {
+    color: color-mix(in oklab, var(--c-ink) 82%, transparent);
   }
-  /* Desktop: the pill grows around the bar instead of narrowing, so items stay
-     put. The right inset puts Get in touch as far from the pill's edge as from
-     its top; the logo gets a little more room on the left. */
-  @media (min-width: 1024px) {
-    #site-header[data-stuck]:not([data-menu-open]) .nav-bar {
-      max-width: min(73.5rem, calc(100% - 2.5rem));
-      padding-inline: 1.25rem 0.75rem;
-    }
+  .nav-glass .nav-link:not(.nav-link-active):hover {
+    color: var(--c-ink);
   }
-  :global(:root[data-theme='dark']) #site-header[data-stuck]:not([data-menu-open]) .nav-bar {
-    border-color: rgb(255 255 255 / 0.07);
-    box-shadow:
-      inset 0 1px 0 rgb(255 255 255 / 0.04),
-      0 10px 30px -12px rgb(0 0 0 / 0.6);
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .nav-bar {
-      transition: none;
-    }
-  }
-  /* Opaque while open; a live backdrop blur here repaints every frame. */
-  /* After [data-stuck]: same specificity, so order decides. Opaque while open. */
-  #site-header[data-menu-open] {
+  :global(:root) #site-header.nav-glass[data-menu-open] {
     background-color: var(--c-bg);
     backdrop-filter: none;
+    box-shadow: none;
+  }
+  .burger-btn:hover {
+    background: transparent;
   }
 </style>
 
