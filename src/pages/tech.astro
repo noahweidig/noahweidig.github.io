@@ -1,0 +1,29 @@
+---
+import Page from '../layouts/Page.astro';
+import FilterBar from '../components/FilterBar.astro';
+import TechTile from '../components/TechTile.astro';
+import { allTools, techCategories } from '../lib/tech';
+
+const intro = 'The languages, libraries and tools I use for research, mapping and the web.';
+---
+
+<Page icon="cpu" section="Page" title="Tech stack" kicker="Tools" description={intro} intro={intro}>
+  <div class="mt-10">
+    <FilterBar
+      categories={techCategories.map((c) => c.name)}
+      target="#tech-grid"
+      noun="tools"
+      total={allTools.length}
+    />
+  </div>
+
+  <h2 class="sr-only-nw">All tools</h2>
+  <ul
+    id="tech-grid"
+    class="mt-8 grid grid-cols-3 gap-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 lg:gap-2.5"
+  >
+    {allTools.map((t) => (
+      <TechTile name={t.name} icon={t.icon} category={t.category} />
+    ))}
+  </ul>
+</Page>

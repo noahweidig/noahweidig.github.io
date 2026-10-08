@@ -1,0 +1,29 @@
+---
+import { u } from '../lib/url';
+import { allTools, featuredTools } from '../lib/tech';
+import Icon from './Icon.astro';
+import TechTile from './TechTile.astro';
+
+const more = allTools.length - featuredTools.length;
+---
+
+<ul class="mt-10 grid grid-cols-4 gap-2 md:grid-cols-6 md:gap-2.5" data-reveal>
+  {featuredTools.map((t) => (
+    <TechTile name={t.name} icon={t.icon} />
+  ))}
+  <li class="tech-tile tech-tile-more">
+    <a href={u('/tech/')} class="absolute inset-0 z-10 rounded-[inherit]">
+      <span class="sr-only-nw">View all {allTools.length} tools</span>
+    </a>
+    <span class="font-mono text-xl tracking-tight text-ink">+{more}</span>
+    <span class="inline-flex items-center gap-1.5 text-sm leading-tight text-dim">
+      All tools
+      <Icon name="arrow" size={13} />
+    </span>
+  </li>
+</ul>
+
+<a href={u('/tech/')} class="btn btn-ghost mt-5 flex md:hidden">
+  View all tools
+  <Icon name="arrow" size={14} />
+</a>

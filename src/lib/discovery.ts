@@ -12,6 +12,7 @@ export const DISCOVERY_COLLECTIONS = [
 export const DISCOVERY_PAGES = [
   ['Home', '/'],
   ['Curriculum Vitae', '/cv/'],
+  ['Tech stack', '/tech/'],
   ['Contact', '/contact/'],
   ['Tags', '/tags/'],
   ['Privacy', '/privacy/'],

@@ -1,7 +1,20 @@
 /* -------------------------------------------------------------- marquee -- */
-import { cleanups } from './dom';
+import { cleanups, on } from './dom';
+
+/** Pause/play buttons: each toggles `data-paused` on its enclosing marquee. */
+function bindToggles() {
+  document.querySelectorAll<HTMLButtonElement>('[data-marquee-toggle]').forEach((btn) => {
+    on(btn, 'click', () => {
+      const paused = btn.closest('.marquee')?.toggleAttribute('data-paused');
+      btn.setAttribute('aria-pressed', String(!!paused));
+      const label = btn.dataset.label ?? '';
+      btn.setAttribute('aria-label', `${paused ? 'Play' : 'Pause'} ${label}`);
+    });
+  });
+}
 
 export function initMarquees() {
+  bindToggles();
   const tracks = Array.from(document.querySelectorAll<HTMLElement>('[data-marquee]'));
   if (!tracks.length) return;
 
