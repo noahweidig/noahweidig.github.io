@@ -408,6 +408,19 @@
     line-height: 1.02;
     letter-spacing: -0.035em;
     text-wrap: balance;
+    width: fit-content;
+    max-width: 100%;
+    padding-bottom: 0.1em;
+    background-image: linear-gradient(
+      100deg in oklab,
+      var(--inf-b1) 0%,
+      var(--inf-b2) 35%,
+      var(--inf-b3) 70%,
+      var(--inf-b4) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
   }
   .page-hero-title-md {
     font-size: clamp(2rem, 5vw, 3rem);
@@ -1674,7 +1687,8 @@
   @media (forced-colors: active) {
     .text-gradient,
     .text-inferno-a,
-    .text-inferno-b {
+    .text-inferno-b,
+    .page-hero-title {
       background: none;
       color: CanvasText;
     }
