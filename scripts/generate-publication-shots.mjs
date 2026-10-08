@@ -2,7 +2,9 @@
  * Builds the hero image for every publication that has a "Source" link:
  * a YouTube thumbnail, the Vimeo oEmbed thumbnail, or else the page's own
  * og:image / twitter:image. Pages with no usable share image get none (the
- * detail page falls back to its Metrics panel); a stale file is removed.
+ * detail page falls back to its Metrics panel). An existing file is never
+ * deleted: publishers answer CI runners with bot walls, and a miss must not
+ * wipe a good image.
  * Screenshots are not used: publisher pages come out as cookie banners and
  * paywalls.
  *
@@ -125,7 +127,6 @@ async function main() {
       let buf = (await thumbnail(url)) ?? (await pageImage(url));
       if (buf && !(await usable(buf))) buf = null;
       if (!buf) {
-        fs.rmSync(file, { force: true });
         console.log(`· ${slug} no usable image at ${url}`);
         continue;
       }
