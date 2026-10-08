@@ -123,7 +123,7 @@ const pubLd = {
   publishedTime={d.date}
   noindex={Boolean(d['pub-appearance-of'])}
 >
-  {shot ? (
+  {shot && (
     <Image
       slot="hero-image"
       src={shot}
@@ -132,18 +132,6 @@ const pubLd = {
       sizes="(min-width: 832px) 40vw, 92vw"
       loading="eager"
     />
-  ) : (
-    ogImageExists && (
-      <img
-        slot="hero-image"
-        src={u(ogImagePath)}
-        alt={`Citation card for “${d.title}”`}
-        width="2400"
-        height="1350"
-        loading="eager"
-        decoding="async"
-      />
-    )
   )}
   {credit && (
     <figcaption slot="hero-image" class="px-3 py-1.5 text-xs text-dim">
