@@ -115,7 +115,6 @@ const jsonLd = {
       }
     />
     <meta name="google-site-verification" content="0ktlvQnqLH01fphPI1cDMDTuQSmCG7mHBQdovXQs2TQ" />
-    <meta name="theme-color" content="#000000" />
     <meta name="generator" content={Astro.generator} />
 
     <meta property="og:type" content={type} />
@@ -201,8 +200,6 @@ const jsonLd = {
           var t = resolve(p);
           document.documentElement.dataset.theme = t;
           document.documentElement.dataset.themePref = p;
-          var m = document.querySelector('meta[name="theme-color"]');
-          if (m) m.setAttribute('content', t === 'light' ? '#ffffff' : '#000000');
         }
         apply();
         // A view-transition swap copies <html>'s attributes from the incoming
