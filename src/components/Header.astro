@@ -17,12 +17,7 @@ const isActive = (href: string) => {
 };
 ---
 
-<header
-  data-pagefind-ignore
-  data-site-header
-  class="nav-glass band-dark sticky top-0 z-50"
-  id="site-header"
->
+<header data-pagefind-ignore data-site-header class="nav-glass sticky top-0 z-50" id="site-header">
   <div class="shell nav-bar flex h-11 items-center gap-4 lg:grid lg:grid-cols-[1fr_auto_1fr]">
     <a
       href={u('/')}
@@ -306,16 +301,13 @@ const isActive = (href: string) => {
     overflow: hidden;
     overscroll-behavior: none;
   }
-  /* One flat glass bar, always dark. Light theme gets a lighter graphite. */
+  /* One flat glass bar: white in light theme, near-black in dark. */
   .nav-glass {
-    background: linear-gradient(rgb(255 255 255 / 0.04), transparent 70%), rgb(22 22 23 / 0.8);
+    background: linear-gradient(rgb(255 255 255 / 0.6), transparent 70%), rgb(255 255 255 / 0.78);
     backdrop-filter: saturate(1.8) blur(20px);
   }
-  .nav-glass .nav-link:not(.nav-link-active) {
-    color: color-mix(in oklab, var(--c-ink) 82%, transparent);
-  }
-  .nav-glass .nav-link:not(.nav-link-active):hover {
-    color: var(--c-ink);
+  :global(:root[data-theme='dark']) .nav-glass {
+    background: linear-gradient(rgb(255 255 255 / 0.05), transparent 70%), rgb(10 10 12 / 0.8);
   }
   :global(:root) #site-header.nav-glass[data-menu-open] {
     background: var(--c-bg);
