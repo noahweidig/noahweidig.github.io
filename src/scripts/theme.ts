@@ -36,9 +36,6 @@ function applyTheme(pref: ThemePref) {
   } catch {
     /* private mode — the in-page toggle still works for this session */
   }
-  document
-    .querySelector('meta[name="theme-color"]')
-    ?.setAttribute('content', theme === 'light' ? '#ffffff' : '#000000');
   applyThemeImages(theme);
   updateToggleLabels(pref);
 }
