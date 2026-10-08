@@ -71,7 +71,7 @@ const enabled = Boolean(giscus.repoId && giscus.categoryId);
   // Comments sit below the fold on every post; only fetch giscus.app's
   // client.js and iframe once the section is actually about to be seen,
   // mirroring the IntersectionObserver-gated loading used for the globe
-  // and tech marquee elsewhere on the site.
+  // elsewhere on the site.
   function observe() {
     const section = document.querySelector<HTMLElement>('[data-comments]');
     if (!section) return;

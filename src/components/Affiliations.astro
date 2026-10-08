@@ -1,6 +1,5 @@
 ---
 import { u } from '../lib/url';
-import Icon from './Icon.astro';
 const orgs = [
   ['University of Florida', 'https://www.ufl.edu/', '/media/icons/custom/uf.svg'],
   [
@@ -17,68 +16,41 @@ const orgs = [
     'https://boonecountyclerk.ky.gov/',
     '/media/icons/custom/boone.svg',
   ],
-  [
-    'Garage Living',
-    'https://www.garageliving.com/f/cincinnati',
-    '/media/icons/custom/garage-living.svg',
-  ],
   ['ECOS', 'https://www.instagram.com/nku_ecos/', '/media/icons/custom/ecos.svg'],
 ];
 ---
 
 <div class="mt-12" id="affiliations" data-reveal>
   <p class="text-center font-mono text-micro tracking-[0.18em] text-faint uppercase">Worked with</p>
-  <div class="marquee mt-5" role="group" aria-label="Affiliations">
-    <button
-      type="button"
-      data-marquee-toggle
-      data-label="scrolling affiliations"
-      aria-pressed="false"
-      aria-label="Pause scrolling affiliations"
-      class="icon-btn marquee-toggle"
-    >
-      <Icon name="pause" size={16} class="marquee-toggle-icon-pause" />
-      <Icon name="play" size={16} class="marquee-toggle-icon-play" />
-    </button>
-    <div class="marquee-track py-1" data-marquee>
+  <div class="relative mt-5">
+    <ul class="affil-track" tabindex="0" aria-label="Institutions I have worked with">
       {orgs.map(([name, href, src]) => (
-        <a
-          href={href}
-          target="_blank"
-          rel="noopener"
-          aria-label={`${name} (opens in a new tab)`}
-          class="group/logo shrink-0"
-        >
-          <img
-            data-src={u(src!)}
-            alt=""
-            width="140"
-            height="48"
-            loading="lazy"
-            decoding="async"
-            class="h-10 w-[9rem] object-contain opacity-45 grayscale transition duration-300 group-hover/logo:opacity-100 group-hover/logo:grayscale-0 dark:hidden"
-          />
-          <noscript>
-            <img
-              src={u(src!)}
-              alt=""
-              width="140"
-              height="48"
-              loading="lazy"
-              decoding="async"
-              class="h-10 w-[9rem] object-contain opacity-45 grayscale"
-            />
-          </noscript>
-          {/* Dark mode recolors via mask instead of filter: brightness-0/invert
-                 chains render as solid black on some iOS Safari versions, so this
-                 draws a plain currentColor silhouette instead. */}
-          <span
-            aria-hidden="true"
-            data-mask-src={u(src!)}
-            class="hidden h-10 w-[9rem] max-w-[9rem] bg-current opacity-55 transition duration-300 group-hover/logo:opacity-100 dark:block [mask-position:center] [mask-repeat:no-repeat] [mask-size:contain] [-webkit-mask-position:center] [-webkit-mask-repeat:no-repeat] [-webkit-mask-size:contain]"
-          />
-        </a>
+        <li class="contents">
+          <a
+            href={href}
+            target="_blank"
+            rel="noopener"
+            aria-label={`${name} (opens in a new tab)`}
+            class="card affil-card"
+          >
+            <span
+              class="affil-logo"
+              style={`--affil-logo:url(${u(src!)})`}
+              aria-hidden="true"
+            ></span>
+          </a>
+        </li>
       ))}
-    </div>
+    </ul>
+    <span
+      class="affil-fade pointer-events-none absolute inset-y-0 right-0 w-10"
+      aria-hidden="true"
+    ></span>
   </div>
+  <p
+    class="affil-hint mt-3 text-center font-mono text-micro tracking-[0.12em] text-faint uppercase"
+    aria-hidden="true"
+  >
+    Swipe →
+  </p>
 </div>

@@ -1028,58 +1028,68 @@
     }
   }
 
-  /* --- marquee --- */
-  .marquee {
-    position: relative;
-    overflow: hidden;
-  }
-  .marquee-toggle {
-    position: absolute;
-    top: 0.25rem;
-    right: 0.25rem;
-    z-index: 1;
-  }
-  .marquee-toggle-icon-play {
-    display: none;
-  }
-  .marquee[data-paused] .marquee-toggle-icon-pause {
-    display: none;
-  }
-  .marquee[data-paused] .marquee-toggle-icon-play {
-    display: block;
-  }
-  .marquee-track {
+  /* --- affiliations ---
+     Logos are drawn as masks in the text color. Wide screens show every card;
+     narrow ones swipe, with a fade on the trailing edge. Nothing moves on its own. */
+  .affil-track {
     display: flex;
-    align-items: center;
-    gap: 3.5rem;
-    width: max-content;
-    animation: marquee-drift 48s linear infinite;
-    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+    gap: 0.6rem;
+    margin: 0;
+    padding: 0.15rem 0;
+    list-style: none;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
   }
-  @media (prefers-reduced-motion: reduce) {
-    .marquee-track {
-      animation: none;
+  .affil-track::-webkit-scrollbar {
+    display: none;
+  }
+  .affil-card {
+    display: grid;
+    flex: none;
+    place-items: center;
+    width: 9rem;
+    padding: 1.15rem 0.75rem;
+    scroll-snap-align: start;
+    transition: background-color 0.3s var(--ease-out-soft);
+  }
+  .affil-card:hover,
+  .affil-card:focus-visible {
+    background: var(--c-matte);
+  }
+  .affil-logo {
+    display: block;
+    width: 100%;
+    height: 2rem;
+    background: var(--c-ink);
+    opacity: 0.6;
+    transition: opacity 0.3s var(--ease-out-soft);
+    mask: var(--affil-logo) center / contain no-repeat;
+    -webkit-mask: var(--affil-logo) center / contain no-repeat;
+  }
+  .affil-card:hover .affil-logo,
+  .affil-card:focus-visible .affil-logo {
+    opacity: 1;
+  }
+  .affil-fade {
+    background: linear-gradient(90deg, transparent, var(--c-bg));
+  }
+  @media (min-width: 64rem) {
+    .affil-track {
+      display: grid;
+      grid-template-columns: repeat(8, minmax(0, 1fr));
+      overflow: visible;
+    }
+    .affil-card {
       width: auto;
-      flex-wrap: wrap;
-      justify-content: center;
-      mask-image: none;
+      padding-block: 1.35rem;
     }
-    .marquee-track > [aria-hidden='true'],
-    .marquee-toggle {
+    .affil-logo {
+      height: 2.25rem;
+    }
+    .affil-fade,
+    .affil-hint {
       display: none;
-    }
-  }
-  .marquee:hover .marquee-track,
-  .marquee:focus-within .marquee-track,
-  .marquee[data-paused] .marquee-track {
-    animation-play-state: paused;
-  }
-  @keyframes marquee-drift {
-    from {
-      transform: translate3d(0, 0, 0);
-    }
-    to {
-      transform: translate3d(-50%, 0, 0);
     }
   }
 
