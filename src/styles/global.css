@@ -1402,6 +1402,11 @@
   }
 
   /* --- code blocks --- */
+  /* flow-root: the <pre> is a BFC and narrows beside a floated image; the
+     wrapper must too, or the button anchors to the full-width box. */
+  [data-code-block] {
+    display: flow-root;
+  }
   .code-copy {
     position: absolute;
     top: 0.6rem;
