@@ -1479,6 +1479,9 @@
     font-size: 0.85rem;
   }
   .lightbox .icon-tile {
+    /* Explicit ground: the default tile fill follows the page theme, so in
+       light mode it is a pale grey under this always-light glyph. */
+    background: #14171d;
     border-color: rgb(255 255 255 / 0.18);
     color: rgb(233 236 242 / 0.85);
   }
