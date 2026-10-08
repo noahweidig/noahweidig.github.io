@@ -1,7 +1,7 @@
 ---
 import { u } from '../../lib/url';
 import { getCollection, render } from 'astro:content';
-import { getImage } from 'astro:assets';
+import { Image, getImage } from 'astro:assets';
 import Detail from '../../layouts/Detail.astro';
 import { fullDate, truncateTitle } from '../../lib/format';
 import { site } from '../../lib/site';
@@ -30,6 +30,8 @@ const ogImageResult = d.image ? await getImage({ src: d.image, width: 1200 }) : 
 const ogImage = ogImageResult?.src;
 const ogImageWidth = ogImageResult?.attributes.width;
 const ogImageHeight = ogImageResult?.attributes.height;
+
+const HERO_SIZES = '(min-width: 832px) 40vw, 92vw';
 
 // Same generic CreativeWork shape the Projects detail page uses — schema.org
 // has no dedicated "Award" entity, so this keeps the page's structured data
@@ -64,6 +66,16 @@ const awardLd = {
   imageHeight={ogImageHeight}
   publishedTime={d.date}
 >
+  {d.image && (
+    <Image
+      slot="hero-image"
+      src={d.image}
+      alt={d['image-alt'] ?? ''}
+      widths={[600, 1000, 1200]}
+      sizes={HERO_SIZES}
+      loading="eager"
+    />
+  )}
   <Content />
 </Detail>
 

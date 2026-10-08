@@ -13,5 +13,3 @@ links:
 ---
 
 I was recognized as the Outstanding Graduate in Biology from Northern Kentucky University's Department of Biological Sciences upon completing my undergraduate degree. This honor reflected my academic achievements and contributions to the study of biology.
-
-![Outstanding Graduate in Biology award](./featured.webp)

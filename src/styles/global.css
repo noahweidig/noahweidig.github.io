@@ -425,6 +425,20 @@
     background: color-mix(in oklab, var(--c-card) 85%, transparent);
     backdrop-filter: blur(16px);
   }
+  /* Cover or screenshot in the hero's right column. */
+  .hero-media {
+    margin: 0;
+    overflow: hidden;
+    border-radius: 1.25rem;
+    border: 1px solid var(--c-line);
+    background: var(--c-card);
+    box-shadow: 0 30px 70px -40px rgb(0 0 0 / 0.6);
+  }
+  .hero-media img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
   .hero-panel-title {
     margin-bottom: 1rem;
     font-family: var(--font-mono);
@@ -1479,6 +1493,9 @@
     font-size: 0.85rem;
   }
   .lightbox .icon-tile {
+    /* Explicit ground: the default tile fill follows the page theme, so in
+       light mode it is a pale grey under this always-light glyph. */
+    background: #14171d;
     border-color: rgb(255 255 255 / 0.18);
     color: rgb(233 236 242 / 0.85);
   }

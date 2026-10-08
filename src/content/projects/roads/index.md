@@ -11,9 +11,8 @@ links:
     href: 'https://gee-community-catalog.org/projects/tiger_roads/'
     variant: primary
     external: true
+image-alt: 'The TIGER Roads dataset page in the GEE Community Catalog'
 ---
-
-<img src="../../media/albums/projects/roads.webp" alt="The TIGER Roads dataset page in the GEE Community Catalog" width="1600" height="1000" loading="lazy" decoding="async">
 
 TIGER Roads makes the U.S. Census Bureau's national road network available directly inside Google Earth Engine. The full TIGER/Line roads file is enormous and awkward to work with, so I processed it into an Earth Engine asset that you can pull into an analysis without downloading and converting anything first.
 
