@@ -17,19 +17,14 @@ const isActive = (href: string) => {
 };
 ---
 
-<header
-  data-pagefind-ignore
-  data-site-header
-  class="sticky top-0 z-50 border-b border-transparent transition-[background-color,border-color,backdrop-filter] duration-300"
-  id="site-header"
->
-  <div class="shell nav-bar flex h-14 items-center gap-4 md:h-16 lg:grid lg:grid-cols-[1fr_auto_1fr]">
+<header data-pagefind-ignore data-site-header class="nav-glass sticky top-0 z-50" id="site-header">
+  <div class="shell nav-bar flex h-16 items-center md:h-[4.5rem] gap-4 lg:grid lg:grid-cols-[1fr_auto_1fr]">
     <a
       href={u('/')}
       class="group flex min-w-0 items-center gap-2.5"
       aria-label="Noah Weidig — home"
     >
-      <Wordmark collapse class="text-[1.75rem] max-[389px]:text-[1.5rem] md:text-[2rem]" />
+      <Wordmark collapse class="text-[2.25rem] max-[389px]:text-[1.9rem]" />
     </a>
 
     <nav aria-label="Primary" class="mx-auto hidden lg:block">
@@ -108,7 +103,7 @@ const isActive = (href: string) => {
       </button>
 
       <a
-        class="btn btn-primary ml-1 hidden px-2.5 py-2 text-sm xl:px-3 lg:inline-flex"
+        class="btn btn-primary ml-1 hidden px-4 py-2.5 text-sm lg:inline-flex"
         href={u('/contact/')}
         data-tip="Email, booking and the contact form"
       >
@@ -135,7 +130,7 @@ const isActive = (href: string) => {
   <div
     id="mobile-nav"
     hidden
-    class="mobile-nav absolute inset-x-0 top-full h-[calc(100dvh-3.5rem)] overflow-hidden border-t border-line bg-bg md:h-[calc(100dvh-4rem)] lg:hidden"
+    class="mobile-nav absolute inset-x-0 top-full h-[calc(100dvh-4rem)] md:h-[calc(100dvh-4.5rem)] overflow-hidden bg-bg lg:hidden"
   >
     <nav aria-label="Mobile" class="shell flex h-full flex-col pb-5 pt-2">
       <ul class="min-h-0 flex-1 overflow-y-auto">
@@ -226,6 +221,11 @@ const isActive = (href: string) => {
     width: 22px;
     height: 22px;
   }
+  /* Top-level items: no hover pill, the label just brightens. */
+  .nav-trigger:not(.nav-link-active):hover {
+    background: transparent;
+    color: var(--c-ink);
+  }
   .burger i {
     position: absolute;
     left: 2px;
@@ -306,60 +306,53 @@ const isActive = (href: string) => {
     overflow: hidden;
     overscroll-behavior: none;
   }
-  /* Scrolled: the bar floats as a glass pill. The header's own box keeps its
-     height, so nothing in the page reflows when it switches. */
-  .nav-bar {
+  /* Transparent at the top of the page; flat glass once scrolled: white in
+     light theme, near-black in dark. */
+  .nav-glass {
+    background-color: transparent;
     transition:
-      max-width 0.35s var(--ease-out-soft),
-      translate 0.35s var(--ease-out-soft),
-      border-radius 0.35s var(--ease-out-soft),
-      background-color 0.35s var(--ease-out-soft),
-      box-shadow 0.35s var(--ease-out-soft),
-      border-color 0.35s var(--ease-out-soft),
-      padding-inline 0.35s var(--ease-out-soft);
-    border: 1px solid transparent;
-    border-radius: 0;
+      background-color 0.3s var(--ease-out-soft),
+      backdrop-filter 0.3s var(--ease-out-soft);
   }
-  #site-header[data-stuck] {
-    border-bottom-color: transparent;
+  .nav-glass::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: linear-gradient(rgb(255 255 255 / 0.6), transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s var(--ease-out-soft);
   }
-  #site-header[data-stuck]:not([data-menu-open]) .nav-bar {
-    max-width: min(66rem, calc(100% - 1rem));
-    translate: 0 0.5rem;
-    border-radius: 9999px;
-    border-color: color-mix(in oklab, var(--c-ink) 5%, rgb(255 255 255 / 0.12));
-    background-color: color-mix(in oklab, var(--c-bg) 80%, transparent);
-    backdrop-filter: blur(22px) saturate(1.8);
-    box-shadow:
-      inset 0 1px 0 rgb(255 255 255 / 0.28),
-      0 10px 30px -12px rgb(15 23 42 / 0.28),
-      0 2px 6px -2px rgb(15 23 42 / 0.1);
+  :global(html[data-scrolled]) .nav-glass {
+    background-color: rgb(255 255 255 / 0.78);
+    backdrop-filter: saturate(1.8) blur(20px);
   }
-  /* Desktop: the pill grows around the bar instead of narrowing, so items stay
-     put. The right inset puts Get in touch as far from the pill's edge as from
-     its top; the logo gets a little more room on the left. */
-  @media (min-width: 1024px) {
-    #site-header[data-stuck]:not([data-menu-open]) .nav-bar {
-      max-width: min(73.5rem, calc(100% - 2.5rem));
-      padding-inline: 1.25rem 0.75rem;
-    }
+  :global(html[data-scrolled]) .nav-glass::before {
+    opacity: 1;
   }
-  :global(:root[data-theme='dark']) #site-header[data-stuck]:not([data-menu-open]) .nav-bar {
-    border-color: rgb(255 255 255 / 0.07);
-    box-shadow:
-      inset 0 1px 0 rgb(255 255 255 / 0.04),
-      0 10px 30px -12px rgb(0 0 0 / 0.6);
+  :global(html[data-scrolled]:root[data-theme='dark']) .nav-glass {
+    background-color: rgb(10 10 12 / 0.8);
   }
-  @media (prefers-reduced-motion: reduce) {
-    .nav-bar {
-      transition: none;
-    }
+  :global(html[data-scrolled]:root[data-theme='dark']) .nav-glass::before {
+    background: linear-gradient(rgb(255 255 255 / 0.05), transparent 70%);
   }
-  /* Opaque while open; a live backdrop blur here repaints every frame. */
-  /* After [data-stuck]: same specificity, so order decides. Opaque while open. */
-  #site-header[data-menu-open] {
-    background-color: var(--c-bg);
+  :global(:root) #site-header.nav-glass[data-menu-open] {
+    background: var(--c-bg);
     backdrop-filter: none;
+  }
+  :global(:root) #site-header.nav-glass[data-menu-open]::before {
+    opacity: 0;
+  }
+  /* No hover tile on the bar's icon buttons. Resting is a step off full ink, so
+     hover reads lighter in dark theme and darker in light theme. */
+  .icon-btn {
+    color: color-mix(in oklab, var(--c-ink) 72%, transparent);
+    transition: color 0.2s var(--ease-out-soft);
+  }
+  .icon-btn:hover {
+    background: transparent;
+    color: var(--c-ink);
   }
 </style>
 

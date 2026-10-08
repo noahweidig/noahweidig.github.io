@@ -18,7 +18,10 @@ const d = entry.data;
   data-reveal={reveal ? '' : undefined}
   style={`--reveal-delay:${Math.min(index, 5) * 55}ms`}
 >
-  <a href={u(`/awards/${entry.id}/`)} class="relative block aspect-16/10 overflow-hidden bg-raised">
+  <a
+    href={u(`/awards/${entry.id}/`)}
+    class="relative block aspect-16/10 overflow-hidden rounded-[var(--radius-md)] bg-raised"
+  >
     {d.image && (
       <Image
         src={d.image}

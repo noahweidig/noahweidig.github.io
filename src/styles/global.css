@@ -1690,18 +1690,16 @@
 }
 
 @layer utilities {
-  /* Top band that runs up behind the transparent header. */
+  /* Top band that runs up behind the transparent header (4rem, 4.5rem from
+     48rem up; keep in step with the h- classes on .nav-bar in Header.astro). */
   .under-nav {
-    /* The header is 3.5rem plus its 1px transparent border-bottom, so the
-       band has to reach 1px further up or a strip of page background shows
-       above it. */
-    margin-top: calc(-3.5rem - 1px);
-    padding-top: calc(3.5rem + 1px);
+    margin-top: -4rem;
+    padding-top: 4rem;
   }
   @media (min-width: 48rem) {
     .under-nav {
-      margin-top: calc(-4rem - 1px);
-      padding-top: calc(4rem + 1px);
+      margin-top: -4.5rem;
+      padding-top: 4.5rem;
     }
   }
   .skip-link {
