@@ -2,8 +2,7 @@ name: Refresh publication images
 
 on:
   schedule:
-    # 05:00 UTC every Monday, after the project job so the Puppeteer runs
-    # do not overlap.
+    # 05:00 UTC every Monday, after the project job.
     - cron: '0 5 * * 1'
   push:
     branches: [main]
@@ -39,10 +38,6 @@ jobs:
         with:
           build: 'false'
 
-      # Same as the PDF job: the install skips lifecycle scripts, so Puppeteer
-      # has no browser yet and this is the supported way to fetch one after.
-      - name: Install Chrome for Puppeteer
-        run: npm exec --no --ignore-scripts -- puppeteer browsers install chrome
 
       # Through env, not string interpolation, so the dispatch input can't
       # become shell. Only slug-shaped words survive.
