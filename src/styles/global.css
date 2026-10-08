@@ -707,6 +707,23 @@
     cursor: pointer;
     transition: all 0.22s var(--ease-out-soft);
   }
+  @media (max-width: 767px) {
+    .pill-row {
+      flex-wrap: nowrap !important;
+      overflow-x: auto;
+      margin-inline: -1.25rem;
+      padding-inline: 1.25rem;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    .pill-row::-webkit-scrollbar {
+      display: none;
+    }
+    .pill-row > * {
+      flex-shrink: 0;
+      white-space: nowrap;
+    }
+  }
   .pill:hover {
     color: var(--c-ink);
     background: var(--c-matte-hover);
