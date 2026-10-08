@@ -7,6 +7,12 @@
     "kind": "video",
     "source": "https://www.youtube.com/watch?v=vdZSXsaz7c0"
   },
+  "ivey-regional-differences-26": {
+    "kind": "pdf"
+  },
+  "ivey-woody-cover-24": {
+    "kind": "pdf"
+  },
   "ivory-ii-fueling-fire-26": {
     "kind": "page",
     "source": "https://doi.org/10.1186/s42408-026-00574-5"
@@ -18,5 +24,14 @@
   "weidig-burning-boundaries-25": {
     "kind": "video",
     "source": "https://www.youtube.com/watch?v=HdklLrpJKkM"
+  },
+  "weidig-changing-large-24-gmcj": {
+    "kind": "pdf"
+  },
+  "weidig-goldilocks-principle-22": {
+    "kind": "pdf"
+  },
+  "weidig-patterns-drivers-25": {
+    "kind": "pdf"
   }
 }
