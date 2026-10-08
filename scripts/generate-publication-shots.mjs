@@ -194,7 +194,11 @@ async function main() {
   }
   fs.writeFileSync(
     manifestPath,
-    JSON.stringify(Object.fromEntries(Object.entries(manifest).sort()), null, 2) + '\n',
+    JSON.stringify(
+      Object.fromEntries(Object.entries(manifest).sort(([a], [b]) => a.localeCompare(b))),
+      null,
+      2,
+    ) + '\n',
   );
   console.log(`${done} refreshed, ${failed.length} failed`);
   if (done === 0 && failed.length > 0) {
