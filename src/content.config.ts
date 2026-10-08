@@ -26,6 +26,8 @@ const projects = defineCollection({
     categories: z.array(z.string()).default([]),
     featured: z.boolean().default(false),
     links: z.array(link).default([]),
+    /** Describes the screenshot in `src/assets/albums/projects/<slug>.webp`. */
+    'image-alt': z.string().optional(),
   }),
 });
 

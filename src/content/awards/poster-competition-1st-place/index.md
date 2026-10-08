@@ -12,5 +12,3 @@ links:
 ---
 
 I received first place in the Entomological Society of America's Undergraduate Student Poster Competition for my research presentation. This award recognized my contributions to entomological research and effective science communication.
-
-![1st Place Undergraduate Student Poster Competition award](./featured.webp)

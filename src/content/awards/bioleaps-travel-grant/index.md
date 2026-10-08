@@ -12,5 +12,3 @@ links:
 ---
 
 I received the BioLEAPS Travel Grant that covered all my travel expenses for attending the 2025 International Association of Landscape Ecology - North America annual conference in Raleigh, North Carolina.
-
-![BioLEAPS Travel Grant award certificate](./featured.webp)
