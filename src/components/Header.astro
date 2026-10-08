@@ -17,14 +17,19 @@ const isActive = (href: string) => {
 };
 ---
 
-<header data-pagefind-ignore data-site-header class="nav-glass sticky top-0 z-50" id="site-header">
+<header
+  data-pagefind-ignore
+  data-site-header
+  class="nav-glass fixed inset-x-0 top-0 z-50"
+  id="site-header"
+>
   <div class="shell nav-bar flex h-16 items-center md:h-[4.5rem] gap-4 lg:grid lg:grid-cols-[1fr_auto_1fr]">
     <a
       href={u('/')}
       class="group flex min-w-0 items-center gap-2.5"
       aria-label="Noah Weidig — home"
     >
-      <Wordmark collapse class="text-[2.25rem] max-[389px]:text-[1.9rem]" />
+      <Wordmark collapse class="text-[clamp(1.25rem,calc((100vw-12rem)/5.45),2.25rem)]" />
     </a>
 
     <nav aria-label="Primary" class="mx-auto hidden lg:block">
@@ -186,6 +191,9 @@ const isActive = (href: string) => {
     </nav>
   </div>
 </header>
+<!-- The bar is fixed (a sticky bar lags behind touch scrolling on iOS), so this holds its
+     place in the flow. Keep it in step with the h- classes on .nav-bar. -->
+<div class="h-16 md:h-[4.5rem] print:hidden" aria-hidden="true" data-pagefind-ignore></div>
 
 <Search />
 
