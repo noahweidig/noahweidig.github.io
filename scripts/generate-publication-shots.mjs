@@ -1,8 +1,12 @@
 /**
  * Builds the hero image for every publication that has a "Source" link:
  * a YouTube thumbnail, the Vimeo oEmbed thumbnail, or else the page's own
- * og:image / twitter:image. Pages with no usable share image get none (the
- * detail page falls back to its Metrics panel); a stale file is removed.
+ * og:image / twitter:image (read through headless Chrome when a plain fetch is
+ * refused). Where each image came from is recorded in
+ * src/data/publication-images.json for the on-page credit. Pages with no usable share image get none (the
+ * detail page falls back to its Metrics panel). An existing file is never
+ * deleted: publishers answer CI runners with bot walls, and a miss must not
+ * wipe a good image.
  * Screenshots are not used: publisher pages come out as cookie banners and
  * paywalls.
  *
@@ -19,6 +23,7 @@ import sharp from 'sharp';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const pubsDir = path.join(root, 'src/content/publications');
 const outDir = path.join(root, 'src/assets/albums/publications');
+const manifestPath = path.join(root, 'src/data/publication-images.json');
 const WIDTH = 1600;
 const QUALITY = 88;
 
@@ -83,22 +88,44 @@ async function thumbnail(url) {
 const UA = 'Mozilla/5.0 (compatible; noahweidig.com image bot)';
 
 /** The page's share image: og:image, else twitter:image, made absolute. */
-async function pageImage(url) {
-  const res = await fetch(url, {
-    redirect: 'follow',
-    headers: { 'user-agent': UA, accept: 'text/html' },
-    signal: AbortSignal.timeout(30_000),
-  });
-  if (!res.ok) throw new Error(`${res.status} ${url}`);
-  const html = (await res.text()).slice(0, 400_000);
+function metaImage(html, base) {
   for (const key of ['og:image', 'twitter:image']) {
     for (const tag of html.match(/<meta\b[^>]*>/gi) ?? []) {
       if (!new RegExp(`(?:property|name)=["']${key}(?::src)?["']`, 'i').test(tag)) continue;
       const src = tag.match(/content=["']([^"']+)["']/i)?.[1];
-      if (src) return fetchBuf(new URL(src.replaceAll('&amp;', '&'), res.url).href);
+      if (src) return new URL(src.replaceAll('&amp;', '&'), base).href;
     }
   }
   return null;
+}
+
+/** The page's share image. A refused plain fetch is retried in headless Chrome; only the meta tag is read, never a screenshot. */
+async function pageImage(url, getBrowser) {
+  let html;
+  let base = url;
+  try {
+    const res = await fetch(url, {
+      redirect: 'follow',
+      headers: { 'user-agent': UA, accept: 'text/html' },
+      signal: AbortSignal.timeout(30_000),
+    });
+    if (!res.ok) throw new Error(`${res.status} ${url}`);
+    html = (await res.text()).slice(0, 400_000);
+    base = res.url;
+  } catch (err) {
+    const browser = await getBrowser();
+    if (!browser) throw err;
+    const page = await browser.newPage();
+    try {
+      await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 45_000 });
+      html = await page.content();
+      base = page.url();
+    } finally {
+      await page.close();
+    }
+  }
+  const src = metaImage(html, base);
+  return src ? fetchBuf(src) : null;
 }
 
 /** Site logos and tiny icons make a bad hero; keep only landscape images big enough to fill it. */
@@ -114,32 +141,65 @@ async function main() {
     fs.existsSync(path.join(pubsDir, s, 'index.md')),
   );
   fs.mkdirSync(outDir, { recursive: true });
+  const manifest = fs.existsSync(manifestPath)
+    ? JSON.parse(fs.readFileSync(manifestPath, 'utf8'))
+    : {};
+
+  let browser;
+  const getBrowser = async () => {
+    if (browser === undefined) {
+      try {
+        const { default: puppeteer } = await import('puppeteer');
+        browser = await puppeteer.launch({
+          args: ['--no-sandbox', '--disable-setuid-sandbox', '--hide-scrollbars'],
+          ...(process.env.PUPPETEER_EXECUTABLE_PATH
+            ? { executablePath: process.env.PUPPETEER_EXECUTABLE_PATH }
+            : {}),
+        });
+      } catch {
+        browser = null;
+      }
+    }
+    return browser;
+  };
 
   let done = 0;
   const failed = [];
-  for (const slug of slugs) {
-    const url = sourceUrl(fs.readFileSync(path.join(pubsDir, slug, 'index.md'), 'utf8'));
-    if (!url || /\.pdf($|\?)/i.test(url)) continue;
-    const file = path.join(outDir, `${slug}.webp`);
-    try {
-      let buf = (await thumbnail(url)) ?? (await pageImage(url));
-      if (buf && !(await usable(buf))) buf = null;
-      if (!buf) {
-        fs.rmSync(file, { force: true });
-        console.log(`· ${slug} no usable image at ${url}`);
-        continue;
+  try {
+    for (const slug of slugs) {
+      const url = sourceUrl(fs.readFileSync(path.join(pubsDir, slug, 'index.md'), 'utf8'));
+      if (!url || /\.pdf($|\?)/i.test(url)) continue;
+      try {
+        const video = await thumbnail(url);
+        let buf = video ?? (await pageImage(url, getBrowser));
+        if (buf && !(await usable(buf))) buf = null;
+        if (!buf) {
+          console.log(`· ${slug} no usable image at ${url}`);
+          continue;
+        }
+        await sharp(buf)
+          .resize({ width: WIDTH, withoutEnlargement: true })
+          .webp({ quality: QUALITY })
+          .toFile(path.join(outDir, `${slug}.webp`));
+        manifest[slug] = { kind: video ? 'video' : 'page', source: url };
+        done += 1;
+        console.log(`✓ ${slug} ← ${url}`);
+      } catch (err) {
+        failed.push(slug);
+        console.log(`::warning::${slug} not refreshed (${url}): ${err.message}`);
       }
-      await sharp(buf)
-        .resize({ width: WIDTH, withoutEnlargement: true })
-        .webp({ quality: QUALITY })
-        .toFile(file);
-      done += 1;
-      console.log(`✓ ${slug} ← ${url}`);
-    } catch (err) {
-      failed.push(slug);
-      console.log(`::warning::${slug} not refreshed (${url}): ${err.message}`);
     }
+  } finally {
+    await browser?.close();
   }
+  fs.writeFileSync(
+    manifestPath,
+    JSON.stringify(
+      Object.fromEntries(Object.entries(manifest).sort(([a], [b]) => a.localeCompare(b))),
+      null,
+      2,
+    ) + '\n',
+  );
   console.log(`${done} refreshed, ${failed.length} failed`);
   if (done === 0 && failed.length > 0) {
     console.error('::error::every publication image failed');

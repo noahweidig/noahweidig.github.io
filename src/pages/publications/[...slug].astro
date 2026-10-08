@@ -15,6 +15,7 @@ import {
 } from '../../lib/format';
 import { site } from '../../lib/site';
 import { citationStatsFor } from '../../lib/citation-stats';
+import pubImages from '../../data/publication-images.json';
 
 export async function getStaticPaths() {
   // Sorted the way the listing is, so "previous" and "next" mean what a reader
@@ -37,8 +38,6 @@ const d = entry.data;
 
 const authors = d['pub-authors'] ? splitAuthors(d['pub-authors']) : [];
 const pdfUrl = d['pub-pdf'] ? new URL(u(d['pub-pdf']), Astro.site).href : undefined;
-
-const shot = pubShotFor(entry.id);
 
 const stats = citationStatsFor(d['pub-doi']);
 const dimensions = stats?.dimensions && stats.dimensions.timesCited > 0 ? stats.dimensions : null;
@@ -64,6 +63,10 @@ const ogImagePath = `/media/og/publications/${entry.id}.webp`;
 const ogImageExists = existsSync(
   fileURLToPath(new URL(`../../../public${ogImagePath}`, import.meta.url)),
 );
+
+const shot = pubShotFor(entry.id);
+const shotMeta = (pubImages as Record<string, { kind: string; source: string }>)[entry.id];
+const credit = shot && shotMeta?.kind === 'page' ? new URL(shotMeta.source) : null;
 
 // Several entries share a title and abstract (a talk, its paper, the thesis),
 // so the <title> and meta description carry the year and kind to stay unique.
@@ -119,7 +122,7 @@ const pubLd = {
   publishedTime={d.date}
   noindex={Boolean(d['pub-appearance-of'])}
 >
-  {shot && (
+  {shot ? (
     <Image
       slot="hero-image"
       src={shot}
@@ -128,6 +131,26 @@ const pubLd = {
       sizes="(min-width: 832px) 40vw, 92vw"
       loading="eager"
     />
+  ) : (
+    ogImageExists && (
+      <img
+        slot="hero-image"
+        src={u(ogImagePath)}
+        alt={`Citation card for “${d.title}”`}
+        width="2400"
+        height="1350"
+        loading="eager"
+        decoding="async"
+      />
+    )
+  )}
+  {credit && (
+    <figcaption slot="hero-image" class="px-3 py-1.5 text-xs text-dim">
+      Image from{' '}
+      <a href={credit.href} target="_blank" rel="noopener" class="underline">
+        {credit.hostname.replace(/^www\./, '')}
+      </a>
+    </figcaption>
   )}
   <Fragment slot="head">
     {/* Highwire Press tags: Google Scholar and reference managers (Zotero,
