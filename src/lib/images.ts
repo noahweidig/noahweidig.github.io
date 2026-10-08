@@ -20,3 +20,12 @@ const projectShots = import.meta.glob<{ default: ImageMetadata }>(
 );
 export const shotFor = (slug: string) =>
   projectShots[`../assets/albums/projects/${slug}.webp`]?.default;
+
+/** Hero images for publications with a Source link, from
+    scripts/generate-publication-shots.mjs. */
+const pubShots = import.meta.glob<{ default: ImageMetadata }>(
+  '../assets/albums/publications/*.webp',
+  { eager: true },
+);
+export const pubShotFor = (slug: string) =>
+  pubShots[`../assets/albums/publications/${slug}.webp`]?.default;
