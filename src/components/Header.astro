@@ -18,13 +18,13 @@ const isActive = (href: string) => {
 ---
 
 <header data-pagefind-ignore data-site-header class="nav-glass sticky top-0 z-50" id="site-header">
-  <div class="shell nav-bar flex h-14 items-center gap-4 lg:grid lg:grid-cols-[1fr_auto_1fr]">
+  <div class="shell nav-bar flex h-16 items-center md:h-[4.5rem] gap-4 lg:grid lg:grid-cols-[1fr_auto_1fr]">
     <a
       href={u('/')}
       class="group flex min-w-0 items-center gap-2.5"
       aria-label="Noah Weidig — home"
     >
-      <Wordmark collapse class="text-[1.6rem]" />
+      <Wordmark collapse class="text-[2.25rem] max-[389px]:text-[1.9rem]" />
     </a>
 
     <nav aria-label="Primary" class="mx-auto hidden lg:block">
@@ -130,7 +130,7 @@ const isActive = (href: string) => {
   <div
     id="mobile-nav"
     hidden
-    class="mobile-nav absolute inset-x-0 top-full h-[calc(100dvh-3.5rem)] overflow-hidden bg-bg lg:hidden"
+    class="mobile-nav absolute inset-x-0 top-full h-[calc(100dvh-4rem)] md:h-[calc(100dvh-4.5rem)] overflow-hidden bg-bg lg:hidden"
   >
     <nav aria-label="Mobile" class="shell flex h-full flex-col pb-5 pt-2">
       <ul class="min-h-0 flex-1 overflow-y-auto">
@@ -301,18 +301,43 @@ const isActive = (href: string) => {
     overflow: hidden;
     overscroll-behavior: none;
   }
-  /* One flat glass bar: white in light theme, near-black in dark. */
+  /* Transparent at the top of the page; flat glass once scrolled: white in
+     light theme, near-black in dark. */
   .nav-glass {
-    background: linear-gradient(rgb(255 255 255 / 0.6), transparent 70%), rgb(255 255 255 / 0.78);
+    background-color: transparent;
+    transition:
+      background-color 0.3s var(--ease-out-soft),
+      backdrop-filter 0.3s var(--ease-out-soft);
+  }
+  .nav-glass::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: linear-gradient(rgb(255 255 255 / 0.6), transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s var(--ease-out-soft);
+  }
+  :global(html[data-scrolled]) .nav-glass {
+    background-color: rgb(255 255 255 / 0.78);
     backdrop-filter: saturate(1.8) blur(20px);
   }
-  :global(:root[data-theme='dark']) .nav-glass {
-    background: linear-gradient(rgb(255 255 255 / 0.05), transparent 70%), rgb(10 10 12 / 0.8);
+  :global(html[data-scrolled]) .nav-glass::before {
+    opacity: 1;
+  }
+  :global(html[data-scrolled]:root[data-theme='dark']) .nav-glass {
+    background-color: rgb(10 10 12 / 0.8);
+  }
+  :global(html[data-scrolled]:root[data-theme='dark']) .nav-glass::before {
+    background: linear-gradient(rgb(255 255 255 / 0.05), transparent 70%);
   }
   :global(:root) #site-header.nav-glass[data-menu-open] {
     background: var(--c-bg);
     backdrop-filter: none;
-    box-shadow: none;
+  }
+  :global(:root) #site-header.nav-glass[data-menu-open]::before {
+    opacity: 0;
   }
   .burger-btn:hover {
     background: transparent;
