@@ -1,6 +1,6 @@
 /**
  * Site behaviour: theme toggle, sticky header, mobile menu, scroll reveal,
- * pointer-tracked card glow, filter bars, tabs, marquee cloning and the
+ * pointer-tracked card glow, filter bars, tabs and the
  * Pagefind search dialog. Everything re-binds on `astro:page-load` so it
  * survives client-side navigations.
  *
@@ -13,8 +13,8 @@ import { initTheme } from './theme';
 import { initHeader } from './header';
 import { initReveal } from './reveal';
 import { initGlow } from './glow';
-import { initMarquees } from './marquees';
 import { initGlobe } from './globe';
+import { initAffiliations } from './affiliations';
 import { initFilters } from './filters';
 import { initTabs } from './tabs';
 import { initSearch } from './search';
@@ -40,8 +40,8 @@ function boot() {
   initHeader();
   initReveal();
   initGlow();
-  initMarquees();
   initGlobe();
+  initAffiliations();
   initFilters();
   initTabs();
   initSearch();

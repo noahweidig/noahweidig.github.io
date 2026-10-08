@@ -49,6 +49,7 @@ export const GET: APIRoute = async () => {
   for (const [t, u, d] of [
     ['Home', '/', 'Portfolio home: research, tools and writing'],
     ['Curriculum Vitae', '/cv/', 'Education, experience, publications and awards'],
+    ['Tech stack', '/tech/', 'Languages, libraries and tools I use'],
     ['Contact', '/contact/', 'Email, booking and the contact form'],
     ['Tags', '/tags/', 'Every tag used across the site'],
     ['Styleguide', '/styleguide/', 'The design system behind the site'],

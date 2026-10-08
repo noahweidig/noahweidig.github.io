@@ -1,0 +1,21 @@
+---
+import { u } from '../lib/url';
+
+interface Props {
+  name: string;
+  icon: string;
+  /** Category label under the name, and the key the /tech filter bar matches. */
+  category?: string;
+}
+const { name, icon, category } = Astro.props;
+---
+
+<li class="card card-hover tech-tile" data-cats={category}>
+  <span
+    class="tech-ic"
+    style={`--tech-ic:url(${u(`/media/icons/tech/${icon}.svg`)})`}
+    aria-hidden="true"
+  ></span>
+  <span class="text-sm leading-tight text-ink">{name}</span>
+  {category && <span class="tech-tile-cat">{category}</span>}
+</li>

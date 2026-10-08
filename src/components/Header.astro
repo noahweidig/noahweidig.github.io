@@ -202,12 +202,18 @@ const isActive = (href: string) => {
     display: block;
     animation: menu-drop 0.18s var(--ease-out-soft, ease-out) both;
   }
+  /* Same flip as the FAQ chevron: about the horizontal axis, toward the viewer. */
   .nav-group[data-open] :global(.nav-chevron),
   .nav-trigger:hover :global(.nav-chevron) {
-    rotate: 180deg;
+    transform: perspective(120px) rotateX(180deg);
   }
   :global(.nav-chevron) {
-    transition: rotate 0.2s ease;
+    transition: transform 0.4s var(--ease-out-soft, ease);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    :global(.nav-chevron) {
+      transition: none;
+    }
   }
   @keyframes menu-drop {
     from {
@@ -260,7 +266,7 @@ const isActive = (href: string) => {
     display: block;
   }
   .mobile-group[data-open] :global(.nav-chevron) {
-    rotate: 180deg;
+    transform: perspective(120px) rotateX(180deg);
   }
   .mobile-nav {
     contain: strict;
