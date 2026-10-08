@@ -308,11 +308,8 @@ const isActive = (href: string) => {
   }
   /* One flat glass bar, always dark. Light theme gets a lighter graphite. */
   .nav-glass {
-    background: linear-gradient(rgb(255 255 255 / 0.05), transparent 60%), rgb(14 14 16 / 0.96);
+    background: linear-gradient(rgb(255 255 255 / 0.04), transparent 70%), rgb(22 22 23 / 0.8);
     backdrop-filter: saturate(1.8) blur(20px);
-  }
-  :global(:root[data-theme='light']) .nav-glass {
-    background: linear-gradient(rgb(255 255 255 / 0.07), transparent 60%), rgb(36 36 39 / 0.96);
   }
   .nav-glass .nav-link:not(.nav-link-active) {
     color: color-mix(in oklab, var(--c-ink) 82%, transparent);
