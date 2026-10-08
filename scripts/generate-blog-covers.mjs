@@ -2,8 +2,10 @@
  * Renders each blog post's cover art (dark and light) straight from the
  * site's own tokens — accent/ember/moss/violet glows, the grid, the self-hosted
  * DM Sans/JetBrains Mono faces — instead of a hand-maintained image.
- * A post's slug seeds which two hues glow and where the contour-ring mark
- * sits, so covers read as one family without being identical.
+ * Blog covers are a seeded halftone dot field (scripts/lib/blog-cover.mjs):
+ * the slug picks the palette and seeds the dot layout, so each post is unique.
+ * The other cards below keep the glow-and-contour-ring design, where the slug
+ * seeds which two hues glow and which corner the rings sit in.
  *
  * The same renderer also covers every other page that doesn't already carry
  * a real photo: one og:image per projects/publications/experience/education
@@ -18,9 +20,11 @@
  *   node scripts/generate-blog-covers.mjs --pages       # section-index & utility-page covers
  */
 import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import puppeteer from 'puppeteer';
+import { coverHtml } from './lib/blog-cover.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const blogDir = path.join(root, 'src/content/blog');
@@ -321,13 +325,18 @@ function readEntryMeta(collDir, slug, kickerFor) {
   return { title: fm.title, kicker: kickerFor(fm) };
 }
 
-async function renderCover(browser, opts, outFile) {
+// Loaded from a file:// page rather than setContent(): about:blank may not
+// load file:// fonts, which silently falls back to a system face.
+async function renderCover(browser, opts, outFile, html = pageHtml(opts)) {
+  const tmp = path.join(os.tmpdir(), `cover-${process.pid}-${path.basename(outFile)}.html`);
+  fs.writeFileSync(tmp, html);
   const page = await browser.newPage();
   await page.setViewport({ width: WIDTH, height: HEIGHT, deviceScaleFactor: 2 });
-  await page.setContent(pageHtml(opts), { waitUntil: 'networkidle0' });
+  await page.goto(`file://${tmp}`, { waitUntil: 'networkidle0' });
   await page.evaluate(() => document.fonts.ready);
   await page.screenshot({ path: outFile, type: 'webp', quality: 92 });
   await page.close();
+  fs.rmSync(tmp, { force: true });
 }
 
 async function main() {
@@ -359,8 +368,13 @@ async function main() {
     const { title, kicker } = readPostMeta(slug);
     const darkOut = path.join(blogDir, slug, 'cover.webp');
     const lightOut = path.join(blogDir, slug, 'cover-light.webp');
-    await renderCover(browser, { title, kicker, mode: 'dark', slug }, darkOut);
-    await renderCover(browser, { title, kicker, mode: 'light', slug }, lightOut);
+    for (const [mode, out] of [
+      ['dark', darkOut],
+      ['light', lightOut],
+    ]) {
+      const opts = { title, kicker, mode, slug };
+      await renderCover(browser, opts, out, coverHtml({ ...opts, fontCss: FONT_FACE_CSS }));
+    }
     console.log(`✓ ${slug}`);
   }
 
