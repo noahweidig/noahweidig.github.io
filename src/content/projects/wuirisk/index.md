@@ -15,9 +15,8 @@ links:
     href: 'https://doi.org/10.1071/WF24110'
     variant: ghost
     external: true
+image-alt: 'The WUI Wildfire Explorer mapping large fires across the United States'
 ---
-
-<img src="../../media/albums/projects/wuirisk.webp" alt="The WUI Wildfire Explorer mapping large fires across the United States" width="1600" height="1000" loading="lazy" decoding="async">
 
 The WUI Wildfire Explorer is a Google Earth Engine app built from the analysis behind my master's thesis: 35 years of large wildfires (>200 ha) across the eastern United States, 1986–2021, joined to the USFS wildland-urban interface (WUI) layer and modeled against weather, fuel, ignition, and suppression variables. The published result, in the _International Journal of Wildland Fire_ ([Weidig et al. 2024](https://doi.org/10.1071/WF24110)): WUI fires made up 45% of large wildfires and 55% of the area burned, ran 46% larger on average than fires outside the WUI, and were becoming more frequent in spring — even as most of the recent growth in fire activity was happening outside the WUI, not inside it.
 

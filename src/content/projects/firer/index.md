@@ -16,9 +16,8 @@ links:
     href: 'https://github.com/noahweidig/fireR'
     variant: ghost
     external: true
+image-alt: 'The fireR package documentation site'
 ---
-
-<img src="../../media/albums/projects/firer.webp" alt="The fireR package documentation site" width="1600" height="1000" loading="lazy" decoding="async">
 
 fireR takes the pain out of getting U.S. wildfire data. The federal fire datasets are scattered across agencies, arrive in different formats, and some are large enough to be a chore to download by hand, so I wrapped the whole process in one consistent set of functions.
 

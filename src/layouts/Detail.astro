@@ -84,6 +84,11 @@ const hasToc = headings.filter((h) => h.depth === 2 || h.depth === 3).length > 1
    passes the slot but has nothing to put in it (a publication with no DOI)
    leaves no empty row under the buttons. */
 const badges = Astro.slots.has('badges') ? (await Astro.slots.render('badges')).trim() : '';
+
+/* A cover or screenshot sits in the hero's right column on wide screens (it
+   stacks under the copy on narrow ones). It shares that column with the
+   metrics panel, but no page has both. */
+const hasHeroImage = Astro.slots.has('hero-image');
 ---
 
 <Base
@@ -109,7 +114,7 @@ const badges = Astro.slots.has('badges') ? (await Astro.slots.render('badges')).
       trail={[{ label: section, href: backHref }]}
       size="md"
       hasActions={links.length > 0}
-      hasAside={Boolean(badges)}
+      hasAside={Boolean(badges) || hasHeroImage}
     >
       {meta && (
         <p class="mt-4 text-sm text-dim" data-pagefind-ignore>
@@ -168,9 +173,17 @@ const badges = Astro.slots.has('badges') ? (await Astro.slots.render('badges')).
         ))}
       </Fragment>
 
-      <HeroPanel slot="aside" title="Metrics">
-        <div set:html={badges} />
-      </HeroPanel>
+      <Fragment slot="aside">
+        {hasHeroImage ? (
+          <figure class="hero-media" data-zoomable>
+            <slot name="hero-image" />
+          </figure>
+        ) : (
+          <HeroPanel title="Metrics">
+            <div set:html={badges} />
+          </HeroPanel>
+        )}
+      </Fragment>
     </PageHero>
 
     {hasToc ? (

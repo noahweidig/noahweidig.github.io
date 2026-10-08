@@ -15,9 +15,8 @@ links:
     href: 'https://github.com/noahweidig/shelf'
     variant: ghost
     external: true
+image-alt: 'Shelf, my reading journal'
 ---
-
-<img src="../../media/albums/projects/shelf.webp" alt="Shelf, my reading journal" width="1600" height="1000" loading="lazy" decoding="async">
 
 Shelf is my reading journal — the books I've finished, the ones I'm partway through, and the pile I mean to get to. For each one I keep a rating, a few favorite quotes, and whatever stuck with me.
 

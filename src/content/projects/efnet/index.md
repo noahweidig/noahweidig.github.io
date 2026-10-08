@@ -11,9 +11,8 @@ links:
     href: 'https://www.easternfirenetwork.org/'
     variant: primary
     external: true
+image-alt: 'The Eastern Fire Network website'
 ---
-
-<img src="../../media/albums/projects/efnet.webp" alt="The Eastern Fire Network website" width="1600" height="1000" loading="lazy" decoding="async">
 
 I built the website for the Eastern Fire Network (EFNet), a research network studying wildfire risks, impacts, and preparedness across the eastern United States. EFNet brings together researchers, land managers, and decision-makers to set a shared research agenda, find data gaps, and inform management and policy.
 
