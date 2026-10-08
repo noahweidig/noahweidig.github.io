@@ -1,13 +1,15 @@
 /**
  * Builds the hero image for every publication that has a "Source" link:
- * a YouTube thumbnail for YouTube links, the oEmbed thumbnail for Vimeo,
- * and a Puppeteer screenshot of the page for anything else.
+ * a YouTube thumbnail, the Vimeo oEmbed thumbnail, or else the page's own
+ * og:image / twitter:image. Pages with no usable share image get none (the
+ * detail page falls back to its Metrics panel); a stale file is removed.
+ * Screenshots are not used: publisher pages come out as cookie banners and
+ * paywalls.
  *
  *   node scripts/generate-publication-shots.mjs [slug ...]
  *
- * Output: src/assets/albums/publications/<slug>.webp (Astro <Image>, read
- * through shotFor-style glob in src/lib/images.ts). A failed fetch leaves the
- * committed image alone.
+ * Output: src/assets/albums/publications/<slug>.webp (read through
+ * pubShotFor in src/lib/images.ts). A failed fetch leaves the file alone.
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -18,7 +20,6 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const pubsDir = path.join(root, 'src/content/publications');
 const outDir = path.join(root, 'src/assets/albums/publications');
 const WIDTH = 1600;
-const HEIGHT = 1000;
 const QUALITY = 88;
 
 /** Href of the `label: "Source"` link, falling back to `pub-url`. */
@@ -79,24 +80,32 @@ async function thumbnail(url) {
   return null;
 }
 
-async function screenshot(browser, url) {
-  const page = await browser.newPage();
-  try {
-    await page.setViewport({ width: WIDTH, height: HEIGHT, deviceScaleFactor: 1 });
-    await page.emulateMediaFeatures([
-      { name: 'prefers-color-scheme', value: 'dark' },
-      { name: 'prefers-reduced-motion', value: 'reduce' },
-    ]);
-    await page.goto(url, { waitUntil: 'networkidle2', timeout: 60_000 });
-    await page.addStyleTag({
-      content: `::-webkit-scrollbar{display:none!important}
-                *,*::before,*::after{animation-play-state:paused!important;transition:none!important}`,
-    });
-    await new Promise((r) => setTimeout(r, 3000));
-    return await page.screenshot({ type: 'png', captureBeyondViewport: false });
-  } finally {
-    await page.close();
+const UA = 'Mozilla/5.0 (compatible; noahweidig.com image bot)';
+
+/** The page's share image: og:image, else twitter:image, made absolute. */
+async function pageImage(url) {
+  const res = await fetch(url, {
+    redirect: 'follow',
+    headers: { 'user-agent': UA, accept: 'text/html' },
+    signal: AbortSignal.timeout(30_000),
+  });
+  if (!res.ok) throw new Error(`${res.status} ${url}`);
+  const html = (await res.text()).slice(0, 400_000);
+  for (const key of ['og:image', 'twitter:image']) {
+    for (const tag of html.match(/<meta\b[^>]*>/gi) ?? []) {
+      if (!new RegExp(`(?:property|name)=["']${key}(?::src)?["']`, 'i').test(tag)) continue;
+      const src = tag.match(/content=["']([^"']+)["']/i)?.[1];
+      if (src) return fetchBuf(new URL(src.replaceAll('&amp;', '&'), res.url).href);
+    }
   }
+  return null;
+}
+
+/** Site logos and tiny icons make a bad hero; keep only landscape images big enough to fill it. */
+async function usable(buf) {
+  const { width = 0, height = 1 } = await sharp(buf).metadata();
+  const ratio = width / height;
+  return width >= 600 && ratio >= 1 && ratio <= 2.5;
 }
 
 async function main() {
@@ -106,42 +115,30 @@ async function main() {
   );
   fs.mkdirSync(outDir, { recursive: true });
 
-  let browser;
   let done = 0;
   const failed = [];
-  try {
-    for (const slug of slugs) {
-      const url = sourceUrl(fs.readFileSync(path.join(pubsDir, slug, 'index.md'), 'utf8'));
-      if (!url || /\.pdf($|\?)/i.test(url)) continue;
-      try {
-        let buf = await thumbnail(url);
-        let fit = 'cover';
-        if (!buf) {
-          if (!browser) {
-            const { default: puppeteer } = await import('puppeteer');
-            browser = await puppeteer.launch({
-              args: ['--no-sandbox', '--disable-setuid-sandbox', '--hide-scrollbars'],
-              ...(process.env.PUPPETEER_EXECUTABLE_PATH
-                ? { executablePath: process.env.PUPPETEER_EXECUTABLE_PATH }
-                : {}),
-            });
-          }
-          buf = await screenshot(browser, url);
-          fit = 'cover';
-        }
-        await sharp(buf)
-          .resize({ width: WIDTH, withoutEnlargement: true, fit })
-          .webp({ quality: QUALITY })
-          .toFile(path.join(outDir, `${slug}.webp`));
-        done += 1;
-        console.log(`✓ ${slug} ← ${url}`);
-      } catch (err) {
-        failed.push(slug);
-        console.log(`::warning::${slug} not refreshed (${url}): ${err.message}`);
+  for (const slug of slugs) {
+    const url = sourceUrl(fs.readFileSync(path.join(pubsDir, slug, 'index.md'), 'utf8'));
+    if (!url || /\.pdf($|\?)/i.test(url)) continue;
+    const file = path.join(outDir, `${slug}.webp`);
+    try {
+      let buf = (await thumbnail(url)) ?? (await pageImage(url));
+      if (buf && !(await usable(buf))) buf = null;
+      if (!buf) {
+        fs.rmSync(file, { force: true });
+        console.log(`· ${slug} no usable image at ${url}`);
+        continue;
       }
+      await sharp(buf)
+        .resize({ width: WIDTH, withoutEnlargement: true })
+        .webp({ quality: QUALITY })
+        .toFile(file);
+      done += 1;
+      console.log(`✓ ${slug} ← ${url}`);
+    } catch (err) {
+      failed.push(slug);
+      console.log(`::warning::${slug} not refreshed (${url}): ${err.message}`);
     }
-  } finally {
-    await browser?.close();
   }
   console.log(`${done} refreshed, ${failed.length} failed`);
   if (done === 0 && failed.length > 0) {
