@@ -1392,8 +1392,8 @@
      down hides it again, tracked in src/scripts/ui.ts. */
   .back-to-top {
     position: fixed;
-    left: 50%;
-    bottom: 1.5rem;
+    right: max(1.25rem, env(safe-area-inset-right));
+    bottom: max(1.5rem, env(safe-area-inset-bottom));
     z-index: 90;
     display: grid;
     place-items: center;
@@ -1408,7 +1408,7 @@
     box-shadow: 0 18px 40px -22px rgb(0 0 0 / 0.75);
     opacity: 0;
     visibility: hidden;
-    translate: -50% 0.5rem;
+    translate: 0 0.5rem;
     transition:
       opacity 0.22s var(--ease-out-soft),
       translate 0.22s var(--ease-out-soft),
@@ -1420,7 +1420,7 @@
   .back-to-top[data-show] {
     opacity: 1;
     visibility: visible;
-    translate: -50% 0;
+    translate: 0 0;
     transition-delay: 0s;
   }
   .back-to-top:hover {
