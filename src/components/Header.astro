@@ -339,14 +339,15 @@ const isActive = (href: string) => {
   :global(:root) #site-header.nav-glass[data-menu-open]::before {
     opacity: 0;
   }
-  /* No hover tile on the bar's icon buttons; they just lighten. */
+  /* No hover tile on the bar's icon buttons. Resting is a step off full ink, so
+     hover reads lighter in dark theme and darker in light theme. */
   .icon-btn {
-    transition: opacity 0.2s var(--ease-out-soft);
+    color: color-mix(in oklab, var(--c-ink) 72%, transparent);
+    transition: color 0.2s var(--ease-out-soft);
   }
   .icon-btn:hover {
     background: transparent;
     color: var(--c-ink);
-    opacity: 0.6;
   }
 </style>
 
