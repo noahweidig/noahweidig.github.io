@@ -116,7 +116,7 @@ const isActive = (href: string) => {
         data-menu-toggle
         aria-expanded="false"
         aria-controls="mobile-nav"
-        class="icon-btn burger-btn lg:hidden"
+        class="icon-btn lg:hidden"
         aria-label="Open menu"
       >
         <span class="burger" aria-hidden="true">
@@ -339,8 +339,14 @@ const isActive = (href: string) => {
   :global(:root) #site-header.nav-glass[data-menu-open]::before {
     opacity: 0;
   }
-  .burger-btn:hover {
+  /* No hover tile on the bar's icon buttons; they just lighten. */
+  .icon-btn {
+    transition: opacity 0.2s var(--ease-out-soft);
+  }
+  .icon-btn:hover {
     background: transparent;
+    color: var(--c-ink);
+    opacity: 0.6;
   }
 </style>
 
