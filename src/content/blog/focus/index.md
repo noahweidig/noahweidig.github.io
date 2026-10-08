@@ -7,7 +7,7 @@ categories:
 draft: false
 image: './cover.webp'
 image-light: './cover-light.webp'
-image-alt: "Cover card reading “Focus” over the site's violet and moss gradient"
+image-alt: 'Cover card reading “Focus” over a halftone dot pattern in amber and ember'
 ---
 
 ## The problem
