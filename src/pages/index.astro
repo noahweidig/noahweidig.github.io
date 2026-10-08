@@ -9,6 +9,7 @@ import TechPreview from '../components/TechPreview.astro';
 import SectionHead from '../components/SectionHead.astro';
 import StatStrip from '../components/StatStrip.astro';
 import ProjectCard from '../components/ProjectCard.astro';
+import AwardCard from '../components/AwardCard.astro';
 import PostCard from '../components/PostCard.astro';
 import CitationRow from '../components/CitationRow.astro';
 import TimelineItem from '../components/TimelineItem.astro';
@@ -409,47 +410,13 @@ const faqs = [
         class="carousel-track flex snap-x snap-mandatory gap-4 overflow-x-auto -mx-4 -my-6 px-4 py-6 [scroll-padding-inline:16px]"
         data-carousel-track
       >
-        {featuredAwards.map((entry) => (
-          <a
-            href={u(`/awards/${entry.id}/`)}
-            class="card card-hover group flex w-[min(19rem,calc(100vw-6rem))] shrink-0 snap-start flex-col overflow-hidden"
-          >
-            <div class="relative aspect-4/3 overflow-hidden border-b border-line bg-raised">
-              <Image
-                src={entry.data.image!}
-                alt={entry.data['image-alt'] ?? ''}
-                widths={[320, 640]}
-                sizes="(max-width: 25rem) calc(100vw - 6rem), 304px"
-                loading="lazy"
-                class="h-full w-full object-cover transition-transform duration-700 ease-out-soft group-hover:scale-[1.05]"
-              />
-              <span class="absolute top-3 left-3 chip bg-black/55 text-white backdrop-blur-md">
-                {year(entry.data.date)}
-              </span>
-            </div>
-            <div class="flex flex-1 flex-col p-5">
-              <b
-                role="heading"
-                aria-level="3"
-                class="block text-body-lg leading-snug font-medium transition-colors group-hover:text-accent-ink"
-              >
-                {entry.data.title}
-              </b>
-              <span class="mt-1.5 block text-[0.82rem] text-dim">{entry.data.description}</span>
-              <span class="mt-auto flex justify-end pt-4">
-                <span
-                  class="grid h-9 w-9 place-items-center rounded-full border border-line bg-raised transition-colors group-hover:bg-accent group-hover:text-white"
-                  aria-hidden="true"
-                >
-                  <Icon
-                    name="chevron"
-                    size={16}
-                    class="-rotate-90 transition-transform duration-300 group-hover:translate-x-0.5"
-                  />
-                </span>
-              </span>
-            </div>
-          </a>
+        {featuredAwards.map((entry, i) => (
+          <AwardCard
+            entry={entry}
+            index={i}
+            reveal={false}
+            class="w-[min(52rem,calc(100vw-3rem))] shrink-0 snap-start"
+          />
         ))}
       </div>
 
