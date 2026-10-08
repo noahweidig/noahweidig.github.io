@@ -1,20 +1,21 @@
 /**
- * Builds the hero image for every publication that has a "Source" link:
- * a YouTube thumbnail, the Vimeo oEmbed thumbnail, or else the page's own
- * og:image / twitter:image (read through headless Chrome when a plain fetch is
- * refused). Where each image came from is recorded in
- * src/data/publication-images.json for the on-page credit. Pages with no usable share image get none (the
- * detail page falls back to its Metrics panel). An existing file is never
- * deleted: publishers answer CI runners with bot walls, and a miss must not
- * wipe a good image.
- * Screenshots are not used: publisher pages come out as cookie banners and
- * paywalls.
+ * Builds the hero image for every publication, first hit wins:
+ *   1. YouTube thumbnail / Vimeo oEmbed thumbnail of the "Source" link
+ *   2. the Source page's og:image / twitter:image (read through headless
+ *      Chrome when a plain fetch is refused; the meta tag only, no screenshot)
+ *   3. page 1 of the entry's own PDF, cropped from the top (needs pdftoppm)
+ * Anything left has no file; the detail page then shows its citation card.
+ * Where each image came from is recorded in src/data/publication-images.json
+ * for the on-page credit. An existing image from steps 1-2 is never deleted
+ * or replaced by a PDF page: publishers answer CI runners with bot walls, and
+ * a miss must not wipe a good image.
  *
  *   node scripts/generate-publication-shots.mjs [slug ...]
  *
  * Output: src/assets/albums/publications/<slug>.webp (read through
- * pubShotFor in src/lib/images.ts). A failed fetch leaves the file alone.
+ * pubShotFor in src/lib/images.ts).
  */
+import { spawnSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -25,6 +26,7 @@ const pubsDir = path.join(root, 'src/content/publications');
 const outDir = path.join(root, 'src/assets/albums/publications');
 const manifestPath = path.join(root, 'src/data/publication-images.json');
 const WIDTH = 1600;
+const HEIGHT = 1000;
 const QUALITY = 88;
 
 /** Href of the `label: "Source"` link, falling back to `pub-url`. */
@@ -135,6 +137,20 @@ async function usable(buf) {
   return width >= 600 && ratio >= 1 && ratio <= 2.5;
 }
 
+/** Page 1 of the entry's own PDF (public/publications/<slug>/<slug>.pdf) as a PNG, or null. Needs poppler's pdftoppm. */
+function pdfFirstPage(slug) {
+  const pdf = path.join(root, 'public/publications', slug, `${slug}.pdf`);
+  if (!fs.existsSync(pdf)) return null;
+  const out = spawnSync(
+    'pdftoppm',
+    ['-f', '1', '-l', '1', '-png', '-r', '150', '-singlefile', pdf],
+    {
+      maxBuffer: 64 * 1024 * 1024,
+    },
+  );
+  return out.status === 0 && out.stdout.length ? out.stdout : null;
+}
+
 async function main() {
   const only = process.argv.slice(2).filter((a) => !a.startsWith('--'));
   const slugs = (only.length ? only : fs.readdirSync(pubsDir).sort()).filter((s) =>
@@ -167,26 +183,48 @@ async function main() {
   const failed = [];
   try {
     for (const slug of slugs) {
-      const url = sourceUrl(fs.readFileSync(path.join(pubsDir, slug, 'index.md'), 'utf8'));
-      if (!url || /\.pdf($|\?)/i.test(url)) continue;
+      const raw = fs.readFileSync(path.join(pubsDir, slug, 'index.md'), 'utf8');
+      let url = sourceUrl(raw);
+      if (url && /\.pdf($|\?)/i.test(url)) url = null;
+      const file = path.join(outDir, `${slug}.webp`);
       try {
-        const video = await thumbnail(url);
-        let buf = video ?? (await pageImage(url, getBrowser));
-        if (buf && !(await usable(buf))) buf = null;
+        let buf = null;
+        let kind = 'page';
+        if (url) {
+          try {
+            buf = await thumbnail(url);
+            if (buf) kind = 'video';
+            else buf = await pageImage(url, getBrowser);
+            if (buf && !(await usable(buf))) buf = null;
+          } catch (err) {
+            failed.push(slug);
+            console.log(`::warning::${slug} source not read (${url}): ${err.message}`);
+          }
+        }
+        // A good image from an earlier run beats a first-page render.
+        const kept = manifest[slug] && manifest[slug].kind !== 'pdf';
+        if (!buf && !kept) {
+          buf = pdfFirstPage(slug);
+          if (buf) kind = 'pdf';
+        }
         if (!buf) {
-          console.log(`· ${slug} no usable image at ${url}`);
+          console.log(`· ${slug} no usable image${url ? ` at ${url}` : ''}`);
           continue;
         }
         await sharp(buf)
-          .resize({ width: WIDTH, withoutEnlargement: true })
+          .resize({
+            width: WIDTH,
+            ...(kind === 'pdf' ? { height: HEIGHT, fit: 'cover', position: 'top' } : {}),
+            withoutEnlargement: true,
+          })
           .webp({ quality: QUALITY })
-          .toFile(path.join(outDir, `${slug}.webp`));
-        manifest[slug] = { kind: video ? 'video' : 'page', source: url };
+          .toFile(file);
+        manifest[slug] = kind === 'pdf' ? { kind } : { kind, source: url };
         done += 1;
-        console.log(`✓ ${slug} ← ${url}`);
+        console.log(`✓ ${slug} ← ${kind === 'pdf' ? 'PDF page 1' : url}`);
       } catch (err) {
         failed.push(slug);
-        console.log(`::warning::${slug} not refreshed (${url}): ${err.message}`);
+        console.log(`::warning::${slug} not refreshed: ${err.message}`);
       }
     }
   } finally {
