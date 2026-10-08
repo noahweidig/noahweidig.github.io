@@ -265,37 +265,39 @@ const faqs = [
         ))}
       </div>
 
-      <div class="mt-8 flex items-center justify-end gap-3">
-        <button
-          type="button"
-          class="popup-plus carousel-btn"
-          data-carousel-prev
-          aria-label="Previous project"
-        >
-          <span class="carousel-chev carousel-chev-prev">
-            <Icon name="chevron" size={18} />
-          </span>
-        </button>
-        <button
-          type="button"
-          class="popup-plus carousel-btn"
-          data-carousel-next
-          aria-label="Next project"
-        >
-          <span class="carousel-chev carousel-chev-next">
-            <Icon name="chevron" size={18} />
-          </span>
-        </button>
+      <div class="mt-8 flex items-center justify-between gap-3 md:justify-end">
+        <a class="btn btn-ghost group h-12 md:hidden" href={u('/projects/')}>
+          Browse all projects
+          <Icon
+            name="arrow"
+            size={15}
+            class="transition-transform duration-300 group-hover:translate-x-1"
+          />
+        </a>
+        <div class="flex items-center gap-3">
+          <button
+            type="button"
+            class="popup-plus carousel-btn"
+            data-carousel-prev
+            aria-label="Previous project"
+          >
+            <span class="carousel-chev carousel-chev-prev">
+              <Icon name="chevron" size={18} />
+            </span>
+          </button>
+          <button
+            type="button"
+            class="popup-plus carousel-btn"
+            data-carousel-next
+            aria-label="Next project"
+          >
+            <span class="carousel-chev carousel-chev-next">
+              <Icon name="chevron" size={18} />
+            </span>
+          </button>
+        </div>
       </div>
     </div>
-    <a class="btn btn-ghost btn-sm group mt-6 md:hidden" href={u('/projects/')}>
-      Browse all projects
-      <Icon
-        name="arrow"
-        size={15}
-        class="transition-transform duration-300 group-hover:translate-x-1"
-      />
-    </a>
   </section>
 
   <!-- publications -->
@@ -311,7 +313,7 @@ const faqs = [
         <CitationRow entry={entry} compact />
       ))}
     </div>
-    <a class="btn btn-ghost btn-sm group mt-6 md:hidden" href={u('/publications/')}>
+    <a class="btn btn-ghost group mt-6 h-12 md:hidden" href={u('/publications/')}>
       All publications
       <Icon
         name="arrow"
@@ -440,38 +442,38 @@ const faqs = [
         ))}
       </div>
 
-      <div class="mt-8 flex items-center justify-end gap-3">
-        <button
-          type="button"
-          class="popup-plus carousel-btn"
-          data-carousel-prev
-          aria-label="Previous award"
-        >
-          <span class="carousel-chev carousel-chev-prev">
-            <Icon name="chevron" size={18} />
-          </span>
-        </button>
-        <button
-          type="button"
-          class="popup-plus carousel-btn"
-          data-carousel-next
-          aria-label="Next award"
-        >
-          <span class="carousel-chev carousel-chev-next">
-            <Icon name="chevron" size={18} />
-          </span>
-        </button>
+      <div class="mt-8 flex items-center justify-between gap-3 md:justify-end">
+        <a class="btn btn-ghost group h-12 md:hidden" href={u('/awards/')}>
+          All awards
+          <Icon
+            name="arrow"
+            size={15}
+            class="transition-transform duration-300 group-hover:translate-x-1"
+          />
+        </a>
+        <div class="flex items-center gap-3">
+          <button
+            type="button"
+            class="popup-plus carousel-btn"
+            data-carousel-prev
+            aria-label="Previous award"
+          >
+            <span class="carousel-chev carousel-chev-prev">
+              <Icon name="chevron" size={18} />
+            </span>
+          </button>
+          <button
+            type="button"
+            class="popup-plus carousel-btn"
+            data-carousel-next
+            aria-label="Next award"
+          >
+            <span class="carousel-chev carousel-chev-next">
+              <Icon name="chevron" size={18} />
+            </span>
+          </button>
+        </div>
       </div>
-    </div>
-    <div class="shell">
-      <a class="btn btn-ghost btn-sm group mt-6 md:hidden" href={u('/awards/')}>
-        All awards
-        <Icon
-          name="arrow"
-          size={15}
-          class="transition-transform duration-300 group-hover:translate-x-1"
-        />
-      </a>
     </div>
   </section>
 
@@ -488,7 +490,7 @@ const faqs = [
         <PostCard entry={entry} index={i} cta readingTime={readingTime(entry.body)} />
       ))}
     </div>
-    <a class="btn btn-ghost btn-sm group mt-6 md:hidden" href={u('/blog/')}>
+    <a class="btn btn-ghost group mt-6 h-12 md:hidden" href={u('/blog/')}>
       Read more posts
       <Icon
         name="arrow"
