@@ -103,7 +103,7 @@ const isActive = (href: string) => {
       </button>
 
       <a
-        class="btn btn-primary ml-1 hidden px-3.5 py-1.5 text-sm lg:inline-flex"
+        class="btn btn-primary ml-1 hidden px-4 py-2.5 text-sm lg:inline-flex"
         href={u('/contact/')}
         data-tip="Email, booking and the contact form"
       >
@@ -220,6 +220,11 @@ const isActive = (href: string) => {
     display: block;
     width: 22px;
     height: 22px;
+  }
+  /* Top-level items: no hover pill, the label just brightens. */
+  .nav-trigger:not(.nav-link-active):hover {
+    background: transparent;
+    color: var(--c-ink);
   }
   .burger i {
     position: absolute;
