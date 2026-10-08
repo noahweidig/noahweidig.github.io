@@ -65,8 +65,9 @@ const ogImageExists = existsSync(
 );
 
 const shot = pubShotFor(entry.id);
-const shotMeta = (pubImages as Record<string, { kind: string; source: string }>)[entry.id];
-const credit = shot && shotMeta?.kind === 'page' ? new URL(shotMeta.source) : null;
+const shotMeta = (pubImages as Record<string, { kind: string; source?: string }>)[entry.id];
+const credit =
+  shot && shotMeta?.kind === 'page' && shotMeta.source ? new URL(shotMeta.source) : null;
 
 // Several entries share a title and abstract (a talk, its paper, the thesis),
 // so the <title> and meta description carry the year and kind to stay unique.
