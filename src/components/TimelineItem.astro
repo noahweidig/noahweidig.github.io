@@ -24,10 +24,10 @@ const Heading = `h${headingLevel}` as 'h3' | 'h4';
   data-tip-title={d.title}
   data-tip={`${d.org ?? ''}${d.dates ? ` · ${d.dates}` : ''} — open the full entry`}
   class:list={[
-    'group relative block transition-colors',
+    'group relative block',
     card
-      ? 'h-full rounded-[var(--radius-md)] bg-matte p-6 hover:bg-[var(--c-matte-hover)]'
-      : 'border-l border-line py-5 pl-7 hover:border-accent/50',
+      ? 'h-full rounded-[var(--radius-md)] bg-matte p-6 transition-transform duration-[1.4s] ease-[var(--ease-out-soft)] hover:scale-[1.008] motion-reduce:hover:scale-100'
+      : 'border-l border-line py-5 pl-7 transition-colors hover:border-accent/50',
   ]}
   data-reveal
 >
