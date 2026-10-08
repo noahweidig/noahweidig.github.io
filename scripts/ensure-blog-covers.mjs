@@ -55,7 +55,10 @@ for (const slug of needFrontmatter) {
   const file = path.join(blogDir, slug, 'index.md');
   const raw = fs.readFileSync(file, 'utf8');
   const title = parseTitle(raw);
-  const alt = `Cover card reading “${title}” over a halftone dot pattern in ${paletteFor(slug).alt}`;
+  const altText = `Cover card reading “${title}” over a halftone dot pattern in ${paletteFor(slug).alt}`;
+  // Same quote choice Prettier makes for YAML strings, so the lint job
+  // doesn't flag a freshly wired post.
+  const alt = altText.includes("'") ? `"${altText}"` : `'${altText}'`;
 
   // The frontmatter block is `---\n...\n---\n`; insert right before the
   // closing fence so new fields land where the existing posts put them.
@@ -64,7 +67,7 @@ for (const slug of needFrontmatter) {
     console.error(`Skipping ${slug}: could not find closing frontmatter fence.`);
     continue;
   }
-  const insert = `image: './cover.webp'\nimage-light: './cover-light.webp'\nimage-alt: "${alt}"\n`;
+  const insert = `image: './cover.webp'\nimage-light: './cover-light.webp'\nimage-alt: ${alt}\n`;
   const updated = raw.slice(0, closingIndex + 1) + insert + raw.slice(closingIndex + 1);
   fs.writeFileSync(file, updated);
   console.log(`Wired frontmatter: ${slug}`);
