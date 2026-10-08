@@ -49,6 +49,13 @@
 
   --c-glow: color-mix(in oklab, var(--c-accent) 26%, transparent);
   --c-sheen: rgb(255 255 255 / 0.04);
+  --inf-a1: #a988ff;
+  --inf-a2: #ff6f91;
+  --inf-a3: #ff8f45;
+  --inf-b1: #8a5cf0;
+  --inf-b2: #e0457b;
+  --inf-b3: #ff8f45;
+  --inf-b4: #ffe9b8;
   --grid-line: rgb(255 255 255 / 0.045);
   --topo-opacity: 0.05;
   --hero-1: #7c5cff;
@@ -83,6 +90,13 @@
 
   --c-glow: color-mix(in oklab, var(--c-accent) 16%, transparent);
   --c-sheen: rgb(15 20 30 / 0.02);
+  --inf-a1: #6541c9;
+  --inf-a2: #c8286a;
+  --inf-a3: #c4501a;
+  --inf-b1: #5a35c0;
+  --inf-b2: #c8286a;
+  --inf-b3: #c4501a;
+  --inf-b4: #a86a00;
   --grid-line: rgb(20 25 40 / 0.045);
   --topo-opacity: 0.045;
   /* Screen on a near-white ground just bleaches; the light theme paints the
@@ -394,6 +408,19 @@
     line-height: 1.02;
     letter-spacing: -0.035em;
     text-wrap: balance;
+    width: fit-content;
+    max-width: 100%;
+    padding-bottom: 0.1em;
+    background-image: linear-gradient(
+      100deg in oklab,
+      var(--inf-b1) 0%,
+      var(--inf-b2) 35%,
+      var(--inf-b3) 70%,
+      var(--inf-b4) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
   }
   .page-hero-title-md {
     font-size: clamp(2rem, 5vw, 3rem);
@@ -1632,8 +1659,36 @@
     padding-bottom: 0.15em;
     margin-bottom: -0.15em;
   }
+  .text-inferno-a,
+  .text-inferno-b {
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    padding-bottom: 0.15em;
+    margin-bottom: -0.15em;
+  }
+  .text-inferno-a {
+    background-image: linear-gradient(
+      100deg in oklab,
+      var(--inf-a1) 0%,
+      var(--inf-a2) 60%,
+      var(--inf-a3) 100%
+    );
+  }
+  .text-inferno-b {
+    background-image: linear-gradient(
+      100deg in oklab,
+      var(--inf-b1) 0%,
+      var(--inf-b2) 35%,
+      var(--inf-b3) 70%,
+      var(--inf-b4) 100%
+    );
+  }
   @media (forced-colors: active) {
-    .text-gradient {
+    .text-gradient,
+    .text-inferno-a,
+    .text-inferno-b,
+    .page-hero-title {
       background: none;
       color: CanvasText;
     }
