@@ -41,7 +41,11 @@ jobs:
 
       # PDF first pages are rendered with poppler's pdftoppm.
       - name: Ensure pdftoppm
-        run: command -v pdftoppm || sudo apt-get install -y --no-install-recommends poppler-utils
+        run: |
+          command -v pdftoppm || {
+            sudo apt-get update
+            sudo apt-get install -y --no-install-recommends poppler-utils
+          }
 
       # The install skips lifecycle scripts, so Puppeteer has no browser yet.
       # It is used only to read og:image from pages that refuse a plain fetch.
