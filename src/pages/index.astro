@@ -332,17 +332,23 @@ const faqs = [
   <!-- experience + education -->
   <section class="shell scroll-mt-24 py-24 cv-auto" id="experience">
     <SectionHead kicker="Background" title="Where I've worked and studied" />
-    <div class="mt-10 grid gap-12 lg:grid-cols-2 lg:gap-16">
-      <div>
+    <div class="mt-10 grid gap-x-16 gap-y-12 lg:grid-cols-2 lg:gap-y-0">
+      <div class="grid content-start gap-y-5 lg:row-span-4 lg:grid-rows-subgrid">
         <h3 class="font-mono text-2xs tracking-[0.18em] text-faint uppercase">Experience</h3>
-        <ul class="mt-5 ml-1">
+        <ul class="grid gap-4 lg:row-span-2 lg:grid-rows-subgrid">
           {experience.slice(0, 2).map((entry, i) => (
             <li>
-              <TimelineItem entry={entry} base="experience" current={i === 0} headingLevel={4} />
+              <TimelineItem
+                entry={entry}
+                base="experience"
+                current={i === 0}
+                headingLevel={4}
+                card
+              />
             </li>
           ))}
         </ul>
-        <a class="btn btn-ghost btn-sm group mt-6" href={u('/experience/')}>
+        <a class="btn btn-ghost btn-sm group mt-1 justify-self-start" href={u('/experience/')}>
           See all experience
           <Icon
             name="arrow"
@@ -351,16 +357,19 @@ const faqs = [
           />
         </a>
       </div>
-      <div id="education" class="scroll-mt-24">
+      <div
+        id="education"
+        class="grid scroll-mt-24 content-start gap-y-5 lg:row-span-4 lg:grid-rows-subgrid"
+      >
         <h3 class="font-mono text-2xs tracking-[0.18em] text-faint uppercase">Education</h3>
-        <ul class="mt-5 ml-1">
+        <ul class="grid gap-4 lg:row-span-2 lg:grid-rows-subgrid">
           {education.slice(0, 2).map((entry) => (
             <li>
-              <TimelineItem entry={entry} base="education" headingLevel={4} />
+              <TimelineItem entry={entry} base="education" headingLevel={4} card />
             </li>
           ))}
         </ul>
-        <a class="btn btn-ghost btn-sm group mt-6" href={u('/education/')}>
+        <a class="btn btn-ghost btn-sm group mt-1 justify-self-start" href={u('/education/')}>
           See all education
           <Icon
             name="arrow"
