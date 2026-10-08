@@ -42,70 +42,28 @@ const HUES = {
   },
 };
 
-// `blobs` are [hue, left%, top%, size%] glow fields; `dots` is the colour of
-// the dense dot clusters. `alt` is what ensure-blog-covers.mjs writes into
-// the post's image-alt.
+// Glow fields share one layout; a palette only picks the three hues.
+// `dots` is the colour of the dense dot clusters, `alt` is what
+// ensure-blog-covers.mjs writes into the post's image-alt.
+const BLOB_LAYOUT = [
+  [85, 20, 70],
+  [60, 95, 55],
+  [100, 100, 50],
+];
+const palette = (id, hues, dots, alt) => ({
+  id,
+  dots,
+  alt,
+  blobs: hues.map((hue, i) => [hue, ...BLOB_LAYOUT[i]]),
+});
+
 export const PALETTES = [
-  {
-    id: 'violet-cyan',
-    dots: 'sky',
-    blobs: [
-      ['violet', 85, 20, 70],
-      ['sky', 60, 95, 55],
-      ['magenta', 100, 100, 50],
-    ],
-    alt: 'violet and cyan',
-  },
-  {
-    id: 'lime-teal',
-    dots: 'lime',
-    blobs: [
-      ['teal', 85, 20, 70],
-      ['moss', 60, 95, 55],
-      ['blue', 100, 100, 50],
-    ],
-    alt: 'lime and teal',
-  },
-  {
-    id: 'sunset',
-    dots: 'amber',
-    blobs: [
-      ['ember', 85, 20, 70],
-      ['pink', 60, 95, 55],
-      ['amber', 100, 100, 50],
-    ],
-    alt: 'amber and ember',
-  },
-  {
-    id: 'magenta-ember',
-    dots: 'magenta',
-    blobs: [
-      ['magenta', 85, 20, 70],
-      ['ember', 60, 95, 55],
-      ['violet', 100, 100, 50],
-    ],
-    alt: 'magenta and ember',
-  },
-  {
-    id: 'ocean',
-    dots: 'teal',
-    blobs: [
-      ['blue', 85, 20, 70],
-      ['teal', 60, 95, 55],
-      ['violet', 100, 100, 50],
-    ],
-    alt: 'blue and teal',
-  },
-  {
-    id: 'rose',
-    dots: 'red',
-    blobs: [
-      ['pink', 85, 20, 70],
-      ['violet', 60, 95, 55],
-      ['ember', 100, 100, 50],
-    ],
-    alt: 'rose and violet',
-  },
+  palette('violet-cyan', ['violet', 'sky', 'magenta'], 'sky', 'violet and cyan'),
+  palette('lime-teal', ['teal', 'moss', 'blue'], 'lime', 'lime and teal'),
+  palette('sunset', ['ember', 'pink', 'amber'], 'amber', 'amber and ember'),
+  palette('magenta-ember', ['magenta', 'ember', 'violet'], 'magenta', 'magenta and ember'),
+  palette('ocean', ['blue', 'teal', 'violet'], 'teal', 'blue and teal'),
+  palette('rose', ['pink', 'violet', 'ember'], 'red', 'rose and violet'),
 ];
 
 // Existing posts pin a palette so each looks different from the others.
