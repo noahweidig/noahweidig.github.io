@@ -249,7 +249,7 @@ const faqs = [
       href={u('/projects/')}
       linkText="Browse all projects"
     />
-    <div class="mt-10" data-carousel data-carousel-label="projects" data-reveal>
+    <div class="mt-10" data-carousel data-reveal>
       <div
         class="carousel-track flex snap-x snap-mandatory gap-5 overflow-x-auto -mx-4 -my-6 px-4 py-6 [scroll-padding-inline:16px]"
         data-carousel-track
@@ -265,45 +265,39 @@ const faqs = [
         ))}
       </div>
 
-      <div class="mt-8 flex items-center justify-center gap-3">
-        <div class="carousel-pill" role="group" aria-label="Choose a project to show">
-          {projects.map((entry, i) => (
-            <button
-              type="button"
-              class="carousel-dot"
-              data-carousel-dot
-              aria-current={i === 0 ? 'true' : undefined}
-              aria-label={`Show ${entry.data.title}`}
-            >
-              <span aria-hidden="true" />
-            </button>
-          ))}
+      <div class="mt-8 flex items-center justify-between gap-3 md:justify-end">
+        <a class="btn btn-ghost group h-12 md:hidden" href={u('/projects/')}>
+          Browse all projects
+          <Icon
+            name="arrow"
+            size={15}
+            class="transition-transform duration-300 group-hover:translate-x-1"
+          />
+        </a>
+        <div class="flex items-center gap-3">
+          <button
+            type="button"
+            class="popup-plus carousel-btn"
+            data-carousel-prev
+            aria-label="Previous project"
+          >
+            <span class="carousel-chev carousel-chev-prev">
+              <Icon name="chevron" size={18} />
+            </span>
+          </button>
+          <button
+            type="button"
+            class="popup-plus carousel-btn"
+            data-carousel-next
+            aria-label="Next project"
+          >
+            <span class="carousel-chev carousel-chev-next">
+              <Icon name="chevron" size={18} />
+            </span>
+          </button>
         </div>
-        <button
-          type="button"
-          class="popup-plus carousel-toggle"
-          data-carousel-toggle
-          aria-pressed="false"
-          aria-label="Pause the projects carousel"
-          data-tip="Pause the carousel"
-        >
-          <span data-carousel-icon-pause>
-            <Icon name="pause" size={18} />
-          </span>
-          <span data-carousel-icon-play hidden>
-            <Icon name="play" size={18} />
-          </span>
-        </button>
       </div>
     </div>
-    <a class="btn btn-ghost btn-sm group mt-6 md:hidden" href={u('/projects/')}>
-      Browse all projects
-      <Icon
-        name="arrow"
-        size={15}
-        class="transition-transform duration-300 group-hover:translate-x-1"
-      />
-    </a>
   </section>
 
   <!-- publications -->
@@ -319,7 +313,7 @@ const faqs = [
         <CitationRow entry={entry} compact />
       ))}
     </div>
-    <a class="btn btn-ghost btn-sm group mt-6 md:hidden" href={u('/publications/')}>
+    <a class="btn btn-ghost group mt-6 h-12 md:hidden" href={u('/publications/')}>
       All publications
       <Icon
         name="arrow"
@@ -340,17 +334,23 @@ const faqs = [
   <!-- experience + education -->
   <section class="shell scroll-mt-24 py-24 cv-auto" id="experience">
     <SectionHead kicker="Background" title="Where I've worked and studied" />
-    <div class="mt-10 grid gap-12 lg:grid-cols-2 lg:gap-16">
-      <div>
+    <div class="mt-10 grid gap-x-16 gap-y-12 lg:grid-cols-2 lg:gap-y-0">
+      <div class="grid content-start gap-y-5 lg:row-span-4 lg:grid-rows-subgrid">
         <h3 class="font-mono text-2xs tracking-[0.18em] text-faint uppercase">Experience</h3>
-        <ul class="mt-5 ml-1">
+        <ul class="grid gap-4 lg:row-span-2 lg:grid-rows-subgrid">
           {experience.slice(0, 2).map((entry, i) => (
             <li>
-              <TimelineItem entry={entry} base="experience" current={i === 0} headingLevel={4} />
+              <TimelineItem
+                entry={entry}
+                base="experience"
+                current={i === 0}
+                headingLevel={4}
+                card
+              />
             </li>
           ))}
         </ul>
-        <a class="btn btn-ghost btn-sm group mt-6" href={u('/experience/')}>
+        <a class="btn btn-ghost btn-sm group mt-1 justify-self-start" href={u('/experience/')}>
           See all experience
           <Icon
             name="arrow"
@@ -359,16 +359,19 @@ const faqs = [
           />
         </a>
       </div>
-      <div id="education" class="scroll-mt-24">
+      <div
+        id="education"
+        class="grid scroll-mt-24 content-start gap-y-5 lg:row-span-4 lg:grid-rows-subgrid"
+      >
         <h3 class="font-mono text-2xs tracking-[0.18em] text-faint uppercase">Education</h3>
-        <ul class="mt-5 ml-1">
+        <ul class="grid gap-4 lg:row-span-2 lg:grid-rows-subgrid">
           {education.slice(0, 2).map((entry) => (
             <li>
-              <TimelineItem entry={entry} base="education" headingLevel={4} />
+              <TimelineItem entry={entry} base="education" headingLevel={4} card />
             </li>
           ))}
         </ul>
-        <a class="btn btn-ghost btn-sm group mt-6" href={u('/education/')}>
+        <a class="btn btn-ghost btn-sm group mt-1 justify-self-start" href={u('/education/')}>
           See all education
           <Icon
             name="arrow"
@@ -439,46 +442,38 @@ const faqs = [
         ))}
       </div>
 
-      <div class="mt-8 flex items-center justify-center gap-3">
-        <div class="carousel-pill" role="group" aria-label="Choose an award to show">
-          {featuredAwards.map((entry, i) => (
-            <button
-              type="button"
-              class="carousel-dot"
-              data-carousel-dot
-              aria-current={i === 0 ? 'true' : undefined}
-              aria-label={`Show ${entry.data.title}`}
-            >
-              <span aria-hidden="true" />
-            </button>
-          ))}
+      <div class="mt-8 flex items-center justify-between gap-3 md:justify-end">
+        <a class="btn btn-ghost group h-12 md:hidden" href={u('/awards/')}>
+          All awards
+          <Icon
+            name="arrow"
+            size={15}
+            class="transition-transform duration-300 group-hover:translate-x-1"
+          />
+        </a>
+        <div class="flex items-center gap-3">
+          <button
+            type="button"
+            class="popup-plus carousel-btn"
+            data-carousel-prev
+            aria-label="Previous award"
+          >
+            <span class="carousel-chev carousel-chev-prev">
+              <Icon name="chevron" size={18} />
+            </span>
+          </button>
+          <button
+            type="button"
+            class="popup-plus carousel-btn"
+            data-carousel-next
+            aria-label="Next award"
+          >
+            <span class="carousel-chev carousel-chev-next">
+              <Icon name="chevron" size={18} />
+            </span>
+          </button>
         </div>
-        <button
-          type="button"
-          class="popup-plus carousel-toggle"
-          data-carousel-toggle
-          aria-pressed="false"
-          aria-label="Pause the awards carousel"
-          data-tip="Pause the carousel"
-        >
-          <span data-carousel-icon-pause>
-            <Icon name="pause" size={18} />
-          </span>
-          <span data-carousel-icon-play hidden>
-            <Icon name="play" size={18} />
-          </span>
-        </button>
       </div>
-    </div>
-    <div class="shell">
-      <a class="btn btn-ghost btn-sm group mt-6 md:hidden" href={u('/awards/')}>
-        All awards
-        <Icon
-          name="arrow"
-          size={15}
-          class="transition-transform duration-300 group-hover:translate-x-1"
-        />
-      </a>
     </div>
   </section>
 
@@ -495,7 +490,7 @@ const faqs = [
         <PostCard entry={entry} index={i} cta readingTime={readingTime(entry.body)} />
       ))}
     </div>
-    <a class="btn btn-ghost btn-sm group mt-6 md:hidden" href={u('/blog/')}>
+    <a class="btn btn-ghost group mt-6 h-12 md:hidden" href={u('/blog/')}>
       Read more posts
       <Icon
         name="arrow"
