@@ -308,11 +308,11 @@ const isActive = (href: string) => {
   }
   /* One flat glass bar, always dark. Light theme gets a lighter graphite. */
   .nav-glass {
-    background-color: rgb(22 22 24 / 0.82);
+    background: linear-gradient(rgb(255 255 255 / 0.05), transparent 60%), rgb(14 14 16 / 0.96);
     backdrop-filter: saturate(1.8) blur(20px);
   }
   :global(:root[data-theme='light']) .nav-glass {
-    background-color: rgb(56 56 60 / 0.86);
+    background: linear-gradient(rgb(255 255 255 / 0.07), transparent 60%), rgb(36 36 39 / 0.96);
   }
   .nav-glass .nav-link:not(.nav-link-active) {
     color: color-mix(in oklab, var(--c-ink) 82%, transparent);
@@ -321,7 +321,7 @@ const isActive = (href: string) => {
     color: var(--c-ink);
   }
   :global(:root) #site-header.nav-glass[data-menu-open] {
-    background-color: var(--c-bg);
+    background: var(--c-bg);
     backdrop-filter: none;
     box-shadow: none;
   }
