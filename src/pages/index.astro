@@ -5,7 +5,7 @@ import Base from '../layouts/Base.astro';
 import Hero from '../components/Hero.astro';
 import Affiliations from '../components/Affiliations.astro';
 import ResearchAreas from '../components/ResearchAreas.astro';
-import TechMarquee from '../components/TechMarquee.astro';
+import TechPreview from '../components/TechPreview.astro';
 import SectionHead from '../components/SectionHead.astro';
 import StatStrip from '../components/StatStrip.astro';
 import ProjectCard from '../components/ProjectCard.astro';
@@ -326,8 +326,13 @@ const faqs = [
   <!-- skills -->
   <section class="band-dark scroll-mt-24 border-y border-line bg-bg-deep py-20 cv-auto" id="skills">
     <div class="shell">
-      <SectionHead kicker="Tech stack" title="Technologies I use to build things" />
-      <TechMarquee />
+      <SectionHead
+        kicker="Tech stack"
+        title="Technologies I use to build things"
+        href={u('/tech/')}
+        linkText="View all tools"
+      />
+      <TechPreview />
     </div>
   </section>
 
