@@ -160,13 +160,13 @@ const faqs = [
   <Hero />
 
   <!-- stats + affiliations -->
-  <section class="shell py-16 md:py-20">
+  <section class="shell py-20 md:py-28">
     <StatStrip stats={stats} />
     <Affiliations />
   </section>
 
   <!-- three ways in -->
-  <section class="shell pb-8">
+  <section class="shell pb-12 md:pb-16">
     <div class="grid gap-5 md:grid-cols-3">
       {starts.map((s, i) => (
         <div
@@ -232,7 +232,7 @@ const faqs = [
 
   <!-- research areas -->
   <section
-    class="band-dark scroll-mt-24 border-y border-line bg-bg-deep py-24 md:py-28 cv-auto"
+    class="band-dark scroll-mt-24 border-y border-line bg-bg-deep py-28 md:py-36 cv-auto"
     id="interests"
   >
     <div class="shell">
@@ -242,7 +242,7 @@ const faqs = [
   </section>
 
   <!-- projects -->
-  <section class="shell scroll-mt-24 py-20 cv-auto" id="projects">
+  <section class="shell scroll-mt-24 py-24 md:py-32 cv-auto" id="projects">
     <SectionHead
       kicker="Selected work"
       title="Tools, maps & applications"
@@ -301,7 +301,7 @@ const faqs = [
   </section>
 
   <!-- publications -->
-  <section class="shell scroll-mt-24 py-20 cv-auto" id="publications">
+  <section class="shell scroll-mt-24 py-24 md:py-32 cv-auto" id="publications">
     <SectionHead
       kicker="Publications"
       title="Peer-reviewed & in review"
@@ -324,7 +324,10 @@ const faqs = [
   </section>
 
   <!-- skills -->
-  <section class="band-dark scroll-mt-24 border-y border-line bg-bg-deep py-20 cv-auto" id="skills">
+  <section
+    class="band-dark scroll-mt-24 border-y border-line bg-bg-deep py-24 md:py-32 cv-auto"
+    id="skills"
+  >
     <div class="shell">
       <SectionHead
         kicker="Tech stack"
@@ -337,7 +340,7 @@ const faqs = [
   </section>
 
   <!-- experience + education -->
-  <section class="shell scroll-mt-24 py-24 cv-auto" id="experience">
+  <section class="shell scroll-mt-24 py-28 md:py-36 cv-auto" id="experience">
     <SectionHead kicker="Background" title="Where I've worked and studied" />
     <div class="mt-10 grid gap-x-16 gap-y-12 lg:grid-cols-2 lg:gap-y-0">
       <div class="grid content-start gap-y-5 lg:row-span-4 lg:grid-rows-subgrid">
@@ -389,7 +392,10 @@ const faqs = [
   </section>
 
   <!-- awards -->
-  <section class="band-dark scroll-mt-24 border-y border-line bg-bg-deep py-20 cv-auto" id="awards">
+  <section
+    class="band-dark scroll-mt-24 border-y border-line bg-bg-deep py-24 md:py-32 cv-auto"
+    id="awards"
+  >
     <div class="shell">
       <SectionHead
         kicker="Recognition"
@@ -483,7 +489,7 @@ const faqs = [
   </section>
 
   <!-- blog -->
-  <section class="shell scroll-mt-24 py-20 cv-auto" id="blog">
+  <section class="shell scroll-mt-24 py-24 md:py-32 cv-auto" id="blog">
     <SectionHead
       kicker="Writing"
       title="Notes & tutorials"
@@ -507,7 +513,7 @@ const faqs = [
 
   <!-- cta -->
   <section
-    class="band-dark relative isolate scroll-mt-24 overflow-hidden bg-bg-deep py-24 text-center md:py-32 cv-auto"
+    class="band-dark relative isolate scroll-mt-24 overflow-hidden bg-bg-deep py-28 text-center md:py-40 cv-auto"
     id="cta"
   >
     <div
@@ -551,7 +557,7 @@ const faqs = [
   </section>
 
   <!-- faq -->
-  <section class="shell scroll-mt-24 py-20 cv-auto" id="faq">
+  <section class="shell scroll-mt-24 py-24 md:py-32 cv-auto" id="faq">
     <SectionHead
       kicker="FAQ"
       title="About my work"
