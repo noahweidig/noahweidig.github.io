@@ -425,6 +425,20 @@
     background: color-mix(in oklab, var(--c-card) 85%, transparent);
     backdrop-filter: blur(16px);
   }
+  /* Cover or screenshot in the hero's right column. */
+  .hero-media {
+    margin: 0;
+    overflow: hidden;
+    border-radius: 1.25rem;
+    border: 1px solid var(--c-line);
+    background: var(--c-card);
+    box-shadow: 0 30px 70px -40px rgb(0 0 0 / 0.6);
+  }
+  .hero-media img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
   .hero-panel-title {
     margin-bottom: 1rem;
     font-family: var(--font-mono);

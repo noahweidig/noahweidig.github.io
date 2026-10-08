@@ -15,9 +15,8 @@ links:
     href: 'https://github.com/noahweidig/framelab'
     variant: ghost
     external: true
+image-alt: 'FrameLab wrapping a screenshot in a browser window'
 ---
-
-<img src="../../media/albums/projects/framelab.webp" alt="FrameLab wrapping a screenshot in a browser window" width="1600" height="1000" loading="lazy" decoding="async">
 
 FrameLab wraps a screenshot in a clean browser window, the kind of framed mockup you see in app-store listings and portfolio shots. You give it a URL or an image, pick a light or dark frame, and it renders the result ready to save.
 
