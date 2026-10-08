@@ -137,17 +137,16 @@ async function usable(buf) {
   return width >= 600 && ratio >= 1 && ratio <= 2.5;
 }
 
+// Absolute, so the lookup doesn't depend on PATH (Sonar S4036).
+const PDFTOPPM = '/usr/bin/pdftoppm';
+
 /** Page 1 of the entry's own PDF (public/publications/<slug>/<slug>.pdf) as a PNG, or null. Needs poppler's pdftoppm. */
 function pdfFirstPage(slug) {
   const pdf = path.join(root, 'public/publications', slug, `${slug}.pdf`);
   if (!fs.existsSync(pdf)) return null;
-  const out = spawnSync(
-    'pdftoppm',
-    ['-f', '1', '-l', '1', '-png', '-r', '150', '-singlefile', pdf],
-    {
-      maxBuffer: 64 * 1024 * 1024,
-    },
-  );
+  const out = spawnSync(PDFTOPPM, ['-f', '1', '-l', '1', '-png', '-r', '150', '-singlefile', pdf], {
+    maxBuffer: 64 * 1024 * 1024,
+  });
   return out.status === 0 && out.stdout.length ? out.stdout : null;
 }
 
