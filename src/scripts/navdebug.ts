@@ -16,7 +16,7 @@ const note = (label: string) => {
   try {
     const log: string[] = JSON.parse(sessionStorage.getItem(LOG) ?? '[]');
     log.push(`${(performance.now() / 1000).toFixed(1)}s ${label} ${snap()}`);
-    sessionStorage.setItem(LOG, JSON.stringify(log.slice(-9)));
+    sessionStorage.setItem(LOG, JSON.stringify(log.slice(-14)));
   } catch {
     /* storage unavailable */
   }
@@ -83,4 +83,5 @@ export function initNavDebug() {
     document.addEventListener(t, (e) => (note(`${t} ${id(e)}`), draw()), true);
   document.addEventListener('click', (e) => (note(`click ${id(e)}`), draw()), true);
   addEventListener('pagehide', () => note('pagehide'));
+  document.addEventListener('navdebug', (e) => (note((e as CustomEvent<string>).detail), draw()));
 }
