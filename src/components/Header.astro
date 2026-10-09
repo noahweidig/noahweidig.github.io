@@ -186,6 +186,12 @@ const isActive = (href: string) => {
     </nav>
   </div>
 </header>
+<div
+  id="nav-spacer"
+  class="h-16 md:h-[4.5rem] print:hidden"
+  aria-hidden="true"
+  data-pagefind-ignore
+></div>
 <Search />
 
 <style>
@@ -305,15 +311,58 @@ const isActive = (href: string) => {
     overflow: hidden;
     overscroll-behavior: none;
   }
-  /* Transparent at the top of the page; solid once scrolled. No backdrop-filter:
-     toggling it on scroll makes iOS Safari re-layer the bar and nudge it. */
+  /* Transparent at the top of the page; flat glass once scrolled: white in
+     light theme, near-black in dark. */
   .nav-glass {
     background-color: transparent;
-    transition: background-color 0.2s var(--ease-out-soft);
+    transition:
+      background-color 0.3s var(--ease-out-soft),
+      backdrop-filter 0.3s var(--ease-out-soft);
   }
-  :global(html[data-scrolled]) .nav-glass,
+  .nav-glass::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: linear-gradient(rgb(255 255 255 / 0.6), transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s var(--ease-out-soft);
+  }
+  :global(html[data-scrolled]) .nav-glass {
+    background-color: rgb(255 255 255 / 0.78);
+    backdrop-filter: saturate(1.8) blur(20px);
+  }
+  :global(html[data-scrolled]) .nav-glass::before {
+    opacity: 1;
+  }
+  :global(html[data-scrolled]:root[data-theme='dark']) .nav-glass {
+    background-color: rgb(10 10 12 / 0.8);
+  }
+  :global(html[data-scrolled]:root[data-theme='dark']) .nav-glass::before {
+    background: linear-gradient(rgb(255 255 255 / 0.05), transparent 70%);
+  }
   :global(:root) #site-header.nav-glass[data-menu-open] {
-    background-color: var(--c-bg);
+    background: var(--c-bg);
+    backdrop-filter: none;
+  }
+  :global(:root) #site-header.nav-glass[data-menu-open]::before {
+    opacity: 0;
+  }
+  /* TEMPORARY test toggles (URL params), removed once the iOS shift is pinned down. */
+  #nav-spacer {
+    display: none;
+  }
+  :global(html[data-t-pos='fixed']) #nav-spacer {
+    display: block;
+  }
+  :global(html[data-t-pos='fixed']) #site-header {
+    position: fixed;
+    inset-inline: 0;
+    top: 0;
+  }
+  :global(html[data-t-blur='0']) .nav-glass {
+    backdrop-filter: none !important;
   }
   /* No hover tile on the bar's icon buttons. Resting is a step off full ink, so
      hover reads lighter in dark theme and darker in light theme. */
@@ -328,6 +377,19 @@ const isActive = (href: string) => {
 </style>
 
 <script>
+  {
+    const q = new URLSearchParams(location.search);
+    const de = document.documentElement;
+    if (q.get('pos') === 'fixed') de.dataset.tPos = 'fixed';
+    if (q.get('blur') === '0') de.dataset.tBlur = '0';
+    if (q.get('ovf') === 'body') de.dataset.tOvf = 'body';
+    if (q.get('tc') === '1') {
+      const m = document.createElement('meta');
+      m.name = 'theme-color';
+      m.content = de.dataset.theme === 'light' ? '#ffffff' : '#000000';
+      document.head.append(m);
+    }
+  }
   const set = () => {
     if (document.documentElement.hasAttribute('data-menu-open')) return;
     document.documentElement.toggleAttribute('data-scrolled', scrollY > 8);

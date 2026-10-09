@@ -200,6 +200,9 @@
   footer {
     overflow-x: clip;
   }
+  html[data-t-ovf='body'] body {
+    overflow-x: clip;
+  }
 
   h1,
   h2,
