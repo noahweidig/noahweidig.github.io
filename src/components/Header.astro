@@ -22,12 +22,7 @@ const mobileItems: MobileItem[] = [
 ];
 ---
 
-<header
-  data-pagefind-ignore
-  data-site-header
-  class="nav-glass fixed inset-x-0 top-0 z-50"
-  id="site-header"
->
+<header data-pagefind-ignore data-site-header class="nav-glass sticky top-0 z-50" id="site-header">
   <div class="shell nav-bar relative z-10 flex h-16 items-center md:h-[4.5rem] gap-4 lg:grid lg:grid-cols-[1fr_auto_1fr]">
     <a
       href={u('/')}
@@ -163,9 +158,9 @@ const mobileItems: MobileItem[] = [
     </nav>
   </div>
 </header>
-<!-- The bar is fixed (a sticky bar lags behind touch scrolling on iOS), so this holds its
-     place in the flow. Keep it in step with the h- classes on .nav-bar. -->
-<div class="h-16 md:h-[4.5rem] print:hidden" aria-hidden="true" data-pagefind-ignore></div>
+<!-- Sticky, not fixed: iOS Safari pins a fixed bar to the layout viewport, which can end up
+     68px above the visible area for the rest of the tab (seen after using search), so the
+     bar slid off the top on scroll. A sticky bar stays with the page. -->
 
 <Search />
 
