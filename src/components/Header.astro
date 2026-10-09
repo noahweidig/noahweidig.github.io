@@ -306,43 +306,59 @@ const mobileItems: MobileItem[] = [
     overflow: hidden;
     overscroll-behavior: none;
   }
-  /* Transparent at the top of the page; flat glass once scrolled: white in
-     light theme, near-black in dark. */
+  /* Transparent at the top of the page. Scrolled, the bar floats as a glass
+     pill inset from the screen edges: white in light theme, near-black in
+     dark. Nothing full-width with a background sits on the top edge: iOS
+     Safari treats a full-bleed bar there as part of its own toolbar, and after
+     search it left that bar stranded above the screen. The floating pill
+     (before 10-08) never did. */
   .nav-glass {
     background-color: transparent;
+  }
+  .nav-bar {
+    border: 1px solid transparent;
+    border-radius: 0;
     transition:
-      background-color 0.3s var(--ease-out-soft),
-      backdrop-filter 0.3s var(--ease-out-soft);
+      max-width 0.35s var(--ease-out-soft),
+      translate 0.35s var(--ease-out-soft),
+      border-radius 0.35s var(--ease-out-soft),
+      background-color 0.35s var(--ease-out-soft),
+      box-shadow 0.35s var(--ease-out-soft),
+      border-color 0.35s var(--ease-out-soft),
+      padding-inline 0.35s var(--ease-out-soft);
   }
-  .nav-glass::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    pointer-events: none;
-    background: linear-gradient(rgb(255 255 255 / 0.6), transparent 70%);
-    opacity: 0;
-    transition: opacity 0.3s var(--ease-out-soft);
-  }
-  :global(html[data-scrolled]) .nav-glass {
+  :global(html[data-scrolled]) #site-header:not([data-menu-open]) .nav-bar {
+    max-width: min(66rem, calc(100% - 1rem));
+    translate: 0 0.5rem;
+    border-radius: 9999px;
+    border-color: rgb(15 23 42 / 0.08);
     background-color: rgb(255 255 255 / 0.78);
     backdrop-filter: saturate(1.8) blur(20px);
+    box-shadow:
+      0 10px 30px -12px rgb(15 23 42 / 0.28),
+      0 2px 6px -2px rgb(15 23 42 / 0.1);
   }
-  :global(html[data-scrolled]) .nav-glass::before {
-    opacity: 1;
+  /* Desktop: the pill grows around the bar instead of narrowing, so items
+     stay put. */
+  @media (min-width: 1024px) {
+    :global(html[data-scrolled]) #site-header:not([data-menu-open]) .nav-bar {
+      max-width: min(73.5rem, calc(100% - 2.5rem));
+      padding-inline: 1.25rem 0.75rem;
+    }
   }
-  :global(html[data-scrolled]:root[data-theme='dark']) .nav-glass {
+  :global(html[data-scrolled]:root[data-theme='dark']) #site-header:not([data-menu-open]) .nav-bar {
+    border-color: rgb(255 255 255 / 0.07);
     background-color: rgb(10 10 12 / 0.8);
+    box-shadow: 0 10px 30px -12px rgb(0 0 0 / 0.6);
   }
-  :global(html[data-scrolled]:root[data-theme='dark']) .nav-glass::before {
-    background: linear-gradient(rgb(255 255 255 / 0.05), transparent 70%);
+  @media (prefers-reduced-motion: reduce) {
+    .nav-bar {
+      transition: none;
+    }
   }
   :global(:root) #site-header.nav-glass[data-menu-open] {
     background: var(--c-bg);
     backdrop-filter: none;
-  }
-  :global(:root) #site-header.nav-glass[data-menu-open]::before {
-    opacity: 0;
   }
   /* No hover tile on the bar's icon buttons. Resting is a step off full ink, so
      hover reads lighter in dark theme and darker in light theme. */
