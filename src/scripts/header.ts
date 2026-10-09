@@ -15,7 +15,9 @@ export function initHeader() {
       scrollTarget(),
       'scroll',
       () => {
-        const y = pageScrollY();
+        // Clamped: iOS rubber-banding past either end isn't a change of direction.
+        const max = document.body.scrollHeight - document.body.clientHeight;
+        const y = Math.min(Math.max(pageScrollY(), 0), max);
         const dy = y - lastY;
         if (Math.abs(dy) < 8) return;
         lastY = y;
