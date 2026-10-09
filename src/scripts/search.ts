@@ -1,6 +1,5 @@
 /* ---------------------------------------------------------------- fuzzy -- */
 import { basePath, on } from './dom';
-import { bodyScrolls } from './scroll-root';
 
 /* Pagefind matches whole words, so "wildfre" or "gldilocks" find nothing. The
    title index in /search-index.json is scored character-by-character and fills
@@ -195,13 +194,7 @@ export function initSearch() {
       el.classList.toggle('bg-raised', on);
       if (on) {
         input.setAttribute('aria-activedescendant', el.id);
-        // Scroll the list only. scrollIntoView also pans the visual viewport, and
-        // iOS Safari never pans it back: the fixed nav bar then sits 68px above
-        // the screen for the rest of the tab.
-        const r = el.getBoundingClientRect();
-        const box = out.getBoundingClientRect();
-        if (r.top < box.top) out.scrollTop += r.top - box.top;
-        else if (r.bottom > box.bottom) out.scrollTop += r.bottom - box.bottom;
+        el.scrollIntoView({ block: 'nearest' });
       }
     });
   };
@@ -375,38 +368,19 @@ export function initSearch() {
 
   /* ---- open / close ---- */
   let lastFocused: HTMLElement | null = null;
-  /* iOS Safari ignores overflow:hidden on <html>, so on phones the page is
-     pinned with position:fixed (CSS) and its scroll position restored on close.
-     Touch devices that scroll <body> (scroll-root.ts) need neither: CSS stops
-     the body scrolling while search is open. */
-  let lockedY: number | null = null;
-  const lockPage = () => {
-    if (lockedY !== null || bodyScrolls() || !matchMedia('(max-width: 39.99rem)').matches) return;
-    lockedY = scrollY;
-    document.documentElement.style.setProperty('--search-lock-y', `-${lockedY}px`);
-    document.documentElement.dataset.searchLock = '';
-  };
-  const unlockPage = () => {
-    if (lockedY === null) return;
-    delete document.documentElement.dataset.searchLock;
-    document.documentElement.style.removeProperty('--search-lock-y');
-    scrollTo({ top: lockedY, behavior: 'instant' });
-    lockedY = null;
-  };
   const open = () => {
     lastFocused = document.activeElement as HTMLElement | null;
     if (!dialog.open) dialog.showModal();
-    lockPage();
     document.documentElement.dataset.searchActive = '';
     syncClear();
-    input.focus({ preventScroll: true });
+    input.focus();
     input.select();
     void run();
   };
   const close = () => {
     if (!dialog.open) return;
     dialog.close();
-    lastFocused?.focus({ preventScroll: true });
+    lastFocused?.focus();
   };
   on(dialog, 'cancel', (ev) => {
     ev.preventDefault();
@@ -415,15 +389,6 @@ export function initSearch() {
 
   on(dialog, 'close', () => {
     delete document.documentElement.dataset.searchActive;
-    unlockPage();
-  });
-  /* ClientRouter swaps <body> but keeps <html>: a result click would leave the
-     lock attrs behind and pin the new page's body (fixed nav, no scroll). */
-  on(document, 'astro:before-swap', () => {
-    delete document.documentElement.dataset.searchLock;
-    delete document.documentElement.dataset.searchActive;
-    document.documentElement.style.removeProperty('--search-lock-y');
-    lockedY = null;
   });
   document.querySelectorAll('[data-search-open]').forEach((b) => on(b, 'click', open));
   dialog.querySelectorAll('[data-search-close]').forEach((b) => on(b, 'click', close));

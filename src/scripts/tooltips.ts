@@ -1,6 +1,5 @@
 /* --------------------------------------------------------------- tooltip -- */
 import { cleanups, on } from './dom';
-import { scrollTarget } from './scroll-root';
 
 /* One floating element for the whole page: an ancestor with overflow hidden
    would clip a tooltip rendered inside the trigger. */
@@ -76,7 +75,7 @@ export function initTooltips() {
   }
   on(document, 'focusin', enter);
   on(document, 'focusout', leave);
-  on(scrollTarget(), 'scroll', hideTip, { passive: true } as AddEventListenerOptions);
+  on(window, 'scroll', hideTip, { passive: true } as AddEventListenerOptions);
   on(document, 'keydown', (ev) => {
     if ((ev as KeyboardEvent).key === 'Escape') hideTip();
   });

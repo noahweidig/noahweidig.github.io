@@ -1,35 +1,9 @@
 /* --------------------------------------------------------------- header -- */
 import { on } from './dom';
-import { bodyScrolls, pageScrollY, scrollTarget } from './scroll-root';
 
 export function initHeader() {
   const header = document.getElementById('site-header');
   if (!header) return;
-
-  /* Touch devices: the bar slides away while the reader scrolls down and comes
-     back on any scroll up (CSS in Header.astro). */
-  if (bodyScrolls()) {
-    const show = () => delete header.dataset.hidden;
-    let lastY = pageScrollY();
-    on(
-      scrollTarget(),
-      'scroll',
-      () => {
-        // Clamped: iOS rubber-banding past either end isn't a change of direction.
-        const max = document.body.scrollHeight - document.body.clientHeight;
-        const y = Math.min(Math.max(pageScrollY(), 0), max);
-        const dy = y - lastY;
-        if (Math.abs(dy) < 8) return;
-        lastY = y;
-        // A jump of over half a screen is a restore or an anchor, not a swipe.
-        if (y <= header.offsetHeight || dy < 0 || dy > innerHeight / 2) show();
-        else header.dataset.hidden = '';
-      },
-      { passive: true },
-    );
-    on(header, 'focusin', show);
-  }
-
   const groups = [...document.querySelectorAll<HTMLElement>('.nav-group')];
   const setGroup = (g: HTMLElement, open: boolean) => {
     g.toggleAttribute('data-open', open);
