@@ -150,7 +150,7 @@ const mobileItems: MobileItem[] = [
               href={'external' in item ? item.href : u(item.href)}
               target={'external' in item ? '_blank' : undefined}
               rel={'external' in item ? 'noopener' : undefined}
-              class="mobile-link flex w-full items-center justify-between py-3.5 font-display text-2xl font-semibold tracking-tight text-ink"
+              class="mobile-link flex w-full items-center justify-between py-2.5 font-display text-2xl font-semibold tracking-tight text-ink"
               aria-current={!('external' in item) && isActive(item.href) ? 'page' : undefined}
             >
               {item.text}
@@ -241,12 +241,12 @@ const mobileItems: MobileItem[] = [
       transition: none;
     }
   }
-  .mobile-chevron {
+  :global(.mobile-chevron) {
     opacity: 0;
     transition: opacity 0.2s ease;
   }
-  .mobile-link:hover .mobile-chevron,
-  .mobile-link:focus-visible .mobile-chevron {
+  .mobile-link:hover :global(.mobile-chevron),
+  .mobile-link:focus-visible :global(.mobile-chevron) {
     opacity: 1;
   }
   .mobile-nav {
@@ -299,7 +299,7 @@ const mobileItems: MobileItem[] = [
     .mobile-nav:not([hidden]),
     .mobile-nav[data-closing],
     .mobile-nav .mobile-item,
-    .mobile-chevron,
+    :global(.mobile-chevron),
     .bar-fade {
       animation: none !important;
       transition: none !important;
