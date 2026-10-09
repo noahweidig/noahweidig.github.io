@@ -199,9 +199,6 @@ export function initSearch() {
     });
   };
 
-  /* Result links do a full page load (data-astro-reload), not a ClientRouter swap:
-     iOS Safari left the nav bar mispositioned after swapping out a page that had
-     the search lock and keyboard up. A fresh document starts from clean state. */
   const renderResults = (items: PagefindData[], hits: Hit[], q: string) => {
     /* Trailing slashes trimmed by hand: a `/+$` regex backtracks on a long
        run of them for no gain. */
@@ -256,7 +253,7 @@ export function initSearch() {
       .slice(0, 20)
       .map((r, i) => {
         const chip = r.section ? `<span class="chip shrink-0">${escapeHtml(r.section)}</span>` : '';
-        return `<a id="search-opt-${i}" role="option" aria-selected="false" href="${r.href}" data-astro-reload
+        return `<a id="search-opt-${i}" role="option" aria-selected="false" href="${r.href}"
           class="block rounded-none border-b border-line/60 px-3 py-3.5 transition-colors last:border-b-0 hover:bg-raised sm:rounded-xl sm:border-b-0 sm:px-4 sm:py-3.5 sm:[&[aria-selected=true]]:ring-1 sm:[&[aria-selected=true]]:ring-accent/40 sm:[&[aria-selected=true]]:ring-inset">
           <span class="flex flex-col-reverse items-start gap-1.5 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
             <span class="text-[1rem] font-medium text-ink sm:text-[1.02rem]">${r.title}</span>
@@ -411,9 +408,13 @@ export function initSearch() {
     delete document.documentElement.dataset.searchActive;
     unlockPage();
   });
-  /* Back button restores this page from the bfcache with the dialog still open. */
-  on(window, 'pageshow', (ev) => {
-    if ((ev as PageTransitionEvent).persisted && dialog.open) dialog.close();
+  /* ClientRouter swaps <body> but keeps <html>: a result click would leave the
+     lock attrs behind and pin the new page's body (fixed nav, no scroll). */
+  on(document, 'astro:before-swap', () => {
+    delete document.documentElement.dataset.searchLock;
+    delete document.documentElement.dataset.searchActive;
+    document.documentElement.style.removeProperty('--search-lock-y');
+    lockedY = null;
   });
   document.querySelectorAll('[data-search-open]').forEach((b) => on(b, 'click', open));
   dialog.querySelectorAll('[data-search-close]').forEach((b) => on(b, 'click', close));
