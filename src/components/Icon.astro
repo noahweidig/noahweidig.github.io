@@ -2,13 +2,13 @@
 /**
  * One icon component for the whole site.
  *
- * UI and brand icons are Font Awesome Free
- * (CC BY 4.0), except the nav bar's search and theme icons, which are Lucide
- * (ISC). They live in
- * `src/lib/icons.generated.ts` — regenerate them with
- * `node scripts/generate-icons.mjs`.
+ * UI icons are Font Awesome Free (CC BY 4.0), except the nav bar's icons,
+ * which are Lucide (ISC). They live in `src/lib/icons.generated.ts` —
+ * regenerate them with `node scripts/generate-icons.mjs`. Brand marks are the
+ * SVGs in `public/uploads/`, inlined at build time (`src/lib/brand-icons.ts`).
  */
 import { icons } from '../lib/icons.generated';
+import { BRAND_ALIAS, brand } from '../lib/brand-icons';
 
 interface Props {
   name: string;
@@ -18,7 +18,10 @@ interface Props {
 }
 const { name, size = 20, class: klass = '', 'stroke-width': sw = 2 } = Astro.props;
 
-const glyph = icons[name];
+/* Social/brand marks are the SVGs in `public/uploads/`; they win over the
+   generated set. */
+const glyph: { viewBox: string; body: string; stroke?: boolean } | undefined =
+  brand[BRAND_ALIAS[name] ?? name] ?? icons[name];
 /* The <symbol> carries the glyph's own viewBox (origin included); the outer svg
    only needs its size, or the origin offset would be applied twice. */
 const box = glyph?.viewBox.split(' ') ?? [];
