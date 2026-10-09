@@ -194,7 +194,13 @@ export function initSearch() {
       el.classList.toggle('bg-raised', on);
       if (on) {
         input.setAttribute('aria-activedescendant', el.id);
-        el.scrollIntoView({ block: 'nearest' });
+        // Scroll the list only. scrollIntoView also pans the visual viewport, and
+        // iOS Safari never pans it back: the fixed nav bar then sits 68px above
+        // the screen for the rest of the tab.
+        const r = el.getBoundingClientRect();
+        const box = out.getBoundingClientRect();
+        if (r.top < box.top) out.scrollTop += r.top - box.top;
+        else if (r.bottom > box.bottom) out.scrollTop += r.bottom - box.bottom;
       }
     });
   };
@@ -384,61 +390,37 @@ export function initSearch() {
     scrollTo({ top: lockedY, behavior: 'instant' });
     lockedY = null;
   };
-  /* Phones open the dialog non-modally and stand in for the modal's inertness by
-     hand. iOS Safari puts a tab into a broken state after a modal <dialog> (the
-     top layer) covers the screen: from then on the visual viewport sits 68px
-     below the layout viewport, so the fixed nav bar slides off the top on scroll
-     until the tab is closed. The mobile menu, a plain fixed layer, never does. */
-  const phone = () => matchMedia('(max-width: 39.99rem)').matches;
-  const setInert = (state: boolean) =>
-    document
-      .querySelectorAll('#site-header, main, footer')
-      .forEach((el) => el.toggleAttribute('inert', state));
   const open = () => {
     lastFocused = document.activeElement as HTMLElement | null;
-    if (!dialog.open) {
-      if (phone()) {
-        dialog.show();
-        setInert(true);
-        // TEMPORARY navdebug flag (?sx=below): keep the nav bar visible above search.
-        let below = false;
-        try {
-          below = sessionStorage.getItem('sx') === 'below';
-        } catch {
-          /* storage unavailable */
-        }
-        const bar = document.getElementById('site-header');
-        dialog.style.top = below && bar ? `${bar.offsetHeight}px` : '';
-      } else {
-        dialog.showModal();
-      }
-    }
+    if (!dialog.open) dialog.showModal();
     lockPage();
     document.documentElement.dataset.searchActive = '';
     syncClear();
-    input.focus();
+    input.focus({ preventScroll: true });
     input.select();
     void run();
   };
   const close = () => {
     if (!dialog.open) return;
     dialog.close();
-    setInert(false);
-    lastFocused?.focus();
+    lastFocused?.focus({ preventScroll: true });
   };
   on(dialog, 'cancel', (ev) => {
     ev.preventDefault();
     close();
   });
-  /* A non-modal dialog gets no `cancel` on Escape. */
-  on(dialog, 'keydown', (ev) => {
-    if ((ev as KeyboardEvent).key === 'Escape' && !dialog.matches(':modal')) close();
-  });
 
   on(dialog, 'close', () => {
     delete document.documentElement.dataset.searchActive;
-    setInert(false);
     unlockPage();
+  });
+  /* ClientRouter swaps <body> but keeps <html>: a result click would leave the
+     lock attrs behind and pin the new page's body (fixed nav, no scroll). */
+  on(document, 'astro:before-swap', () => {
+    delete document.documentElement.dataset.searchLock;
+    delete document.documentElement.dataset.searchActive;
+    document.documentElement.style.removeProperty('--search-lock-y');
+    lockedY = null;
   });
   document.querySelectorAll('[data-search-open]').forEach((b) => on(b, 'click', open));
   dialog.querySelectorAll('[data-search-close]').forEach((b) => on(b, 'click', close));

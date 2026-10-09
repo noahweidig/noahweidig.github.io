@@ -32,7 +32,6 @@ import { initCopy } from './copy';
 import { initShareRow } from './share-row';
 import { initPopups } from './popup';
 import { initContactForm } from './contact-form';
-import { initNavDebug } from './navdebug';
 
 /* ------------------------------------------------------------------ boot -- */
 function boot() {
@@ -60,7 +59,6 @@ function boot() {
   initFaqAccordion();
   initContactForm();
   initBackToTop();
-  initNavDebug();
 }
 
 boot();
