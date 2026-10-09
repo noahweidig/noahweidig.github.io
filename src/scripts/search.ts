@@ -194,7 +194,11 @@ export function initSearch() {
       el.classList.toggle('bg-raised', on);
       if (on) {
         input.setAttribute('aria-activedescendant', el.id);
-        el.scrollIntoView({ block: 'nearest' });
+        // The list only: scrollIntoView would also move the page behind.
+        const r = el.getBoundingClientRect();
+        const box = out.getBoundingClientRect();
+        if (r.top < box.top) out.scrollTop += r.top - box.top;
+        else if (r.bottom > box.bottom) out.scrollTop += r.bottom - box.bottom;
       }
     });
   };

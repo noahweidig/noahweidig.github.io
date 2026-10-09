@@ -22,7 +22,12 @@ const mobileItems: MobileItem[] = [
 ];
 ---
 
-<header data-pagefind-ignore data-site-header class="nav-glass sticky top-0 z-50" id="site-header">
+<header
+  data-pagefind-ignore
+  data-site-header
+  class="nav-glass fixed inset-x-0 top-0 z-50"
+  id="site-header"
+>
   <div class="shell nav-bar relative z-10 flex h-16 items-center md:h-[4.5rem] gap-4 lg:grid lg:grid-cols-[1fr_auto_1fr]">
     <a
       href={u('/')}
@@ -158,9 +163,9 @@ const mobileItems: MobileItem[] = [
     </nav>
   </div>
 </header>
-<!-- Sticky, not fixed: iOS Safari pins a fixed bar to the layout viewport, which can end up
-     68px above the visible area for the rest of the tab (seen after using search), so the
-     bar slid off the top on scroll. A sticky bar stays with the page. -->
+<!-- The bar is fixed (a sticky bar lags behind touch scrolling on iOS), so this holds its
+     place in the flow. Keep it in step with the h- classes on .nav-bar. -->
+<div class="h-16 md:h-[4.5rem] print:hidden" aria-hidden="true" data-pagefind-ignore></div>
 
 <Search />
 
@@ -306,59 +311,43 @@ const mobileItems: MobileItem[] = [
     overflow: hidden;
     overscroll-behavior: none;
   }
-  /* Transparent at the top of the page. Scrolled, the bar floats as a glass
-     pill inset from the screen edges: white in light theme, near-black in
-     dark. Nothing full-width with a background sits on the top edge: iOS
-     Safari treats a full-bleed bar there as part of its own toolbar, and after
-     search it left that bar stranded above the screen. The floating pill
-     (before 10-08) never did. */
+  /* Transparent at the top of the page; flat glass once scrolled: white in
+     light theme, near-black in dark. */
   .nav-glass {
     background-color: transparent;
-  }
-  .nav-bar {
-    border: 1px solid transparent;
-    border-radius: 0;
     transition:
-      max-width 0.35s var(--ease-out-soft),
-      translate 0.35s var(--ease-out-soft),
-      border-radius 0.35s var(--ease-out-soft),
-      background-color 0.35s var(--ease-out-soft),
-      box-shadow 0.35s var(--ease-out-soft),
-      border-color 0.35s var(--ease-out-soft),
-      padding-inline 0.35s var(--ease-out-soft);
+      background-color 0.3s var(--ease-out-soft),
+      backdrop-filter 0.3s var(--ease-out-soft);
   }
-  :global(html[data-scrolled]) #site-header:not([data-menu-open]) .nav-bar {
-    max-width: min(66rem, calc(100% - 1rem));
-    translate: 0 0.5rem;
-    border-radius: 9999px;
-    border-color: rgb(15 23 42 / 0.08);
+  .nav-glass::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: linear-gradient(rgb(255 255 255 / 0.6), transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s var(--ease-out-soft);
+  }
+  :global(html[data-scrolled]) .nav-glass {
     background-color: rgb(255 255 255 / 0.78);
     backdrop-filter: saturate(1.8) blur(20px);
-    box-shadow:
-      0 10px 30px -12px rgb(15 23 42 / 0.28),
-      0 2px 6px -2px rgb(15 23 42 / 0.1);
   }
-  /* Desktop: the pill grows around the bar instead of narrowing, so items
-     stay put. */
-  @media (min-width: 1024px) {
-    :global(html[data-scrolled]) #site-header:not([data-menu-open]) .nav-bar {
-      max-width: min(73.5rem, calc(100% - 2.5rem));
-      padding-inline: 1.25rem 0.75rem;
-    }
+  :global(html[data-scrolled]) .nav-glass::before {
+    opacity: 1;
   }
-  :global(html[data-scrolled]:root[data-theme='dark']) #site-header:not([data-menu-open]) .nav-bar {
-    border-color: rgb(255 255 255 / 0.07);
+  :global(html[data-scrolled]:root[data-theme='dark']) .nav-glass {
     background-color: rgb(10 10 12 / 0.8);
-    box-shadow: 0 10px 30px -12px rgb(0 0 0 / 0.6);
   }
-  @media (prefers-reduced-motion: reduce) {
-    .nav-bar {
-      transition: none;
-    }
+  :global(html[data-scrolled]:root[data-theme='dark']) .nav-glass::before {
+    background: linear-gradient(rgb(255 255 255 / 0.05), transparent 70%);
   }
   :global(:root) #site-header.nav-glass[data-menu-open] {
     background: var(--c-bg);
     backdrop-filter: none;
+  }
+  :global(:root) #site-header.nav-glass[data-menu-open]::before {
+    opacity: 0;
   }
   /* No hover tile on the bar's icon buttons. Resting is a step off full ink, so
      hover reads lighter in dark theme and darker in light theme. */
@@ -376,10 +365,20 @@ const mobileItems: MobileItem[] = [
 </style>
 
 <script>
+  import { pageScrollY } from '../scripts/scroll-root';
+
   const set = () => {
     if (document.documentElement.hasAttribute('data-menu-open')) return;
-    document.documentElement.toggleAttribute('data-scrolled', scrollY > 8);
+    document.documentElement.toggleAttribute('data-scrolled', pageScrollY() > 8);
   };
   set();
-  addEventListener('scroll', set, { passive: true });
+  // Capture, so the scrolling <body> on touch devices is heard too; scroll
+  // events from inner scrollers (carousels, search results) are ignored.
+  document.addEventListener(
+    'scroll',
+    (ev) => {
+      if (ev.target === document || ev.target === document.body) set();
+    },
+    { capture: true, passive: true },
+  );
 </script>
