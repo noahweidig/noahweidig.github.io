@@ -45,6 +45,15 @@ import Icon from './Icon.astro';
           />
           <button
             type="button"
+            data-search-clear
+            hidden
+            class="grid h-5 w-5 shrink-0 place-items-center rounded-full bg-faint text-bg"
+            aria-label="Clear search"
+          >
+            <Icon name="nav-x" size={12} stroke-width={3} />
+          </button>
+          <button
+            type="button"
             data-filter-toggle
             aria-expanded="false"
             aria-controls="search-filters"
