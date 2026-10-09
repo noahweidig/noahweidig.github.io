@@ -24,7 +24,12 @@ import Icon from './Icon.astro';
           desktop row is exactly what it was. */}
       <div class="flex h-16 items-center gap-2 border-b border-line px-5 sm:h-auto sm:gap-3.5 sm:bg-raised/40 sm:px-6 sm:py-1">
         <div class="flex min-w-0 flex-1 items-center gap-2 rounded-xl bg-raised px-3 sm:contents">
-          <Icon name="nav-search" size={21} stroke-width={1.8} class="shrink-0 text-faint sm:text-accent-ink" />
+          <Icon
+            name="nav-search"
+            size={21}
+            stroke-width={1.8}
+            class="shrink-0 text-faint sm:text-accent-ink"
+          />
           <input
             type="text"
             id="search-input"
@@ -92,8 +97,7 @@ import Icon from './Icon.astro';
           class="w-44 shrink-0 overflow-y-auto border-l border-line bg-raised/60 p-4 sm:w-64 sm:p-6"
           aria-label="Filters"
         >
-          <div class="flex items-center justify-between">
-            <h2 class="font-mono text-micro tracking-[0.16em] text-faint uppercase">Filters</h2>
+          <div class="flex items-center justify-end">
             <button
               type="button"
               data-filter-clear
@@ -179,9 +183,18 @@ import Icon from './Icon.astro';
     #search-filters :global(button[data-filter-key] > span:first-child) {
       display: none;
     }
-    #search-filters :global(button[aria-pressed='true']) {
-      border-color: var(--c-accent);
-      background: color-mix(in oklab, var(--c-accent) 12%, var(--c-surface));
-    }
+  }
+  /* Selected filters: solid accent fill, white text. */
+  #search-filters :global(button[aria-pressed='true']) {
+    border-color: var(--c-accent);
+    background: var(--c-accent);
+    color: var(--c-accent-contrast);
+  }
+  #search-filters :global(button[aria-pressed='true'] span) {
+    color: inherit;
+  }
+  #search-filters :global(button[aria-pressed='true'] > span:first-child) {
+    border-color: currentColor;
+    background: transparent;
   }
 </style>
