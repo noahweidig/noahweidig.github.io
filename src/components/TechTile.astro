@@ -6,11 +6,12 @@ interface Props {
   icon: string;
   /** Category label under the name, and the key the /tech filter bar matches. */
   category?: string;
+  class?: string;
 }
-const { name, icon, category } = Astro.props;
+const { name, icon, category, class: klass } = Astro.props;
 ---
 
-<li class="card card-hover tech-tile" data-cats={category}>
+<li class:list={['card card-hover tech-tile', klass]} data-cats={category}>
   <span
     class="tech-ic"
     style={`--tech-ic:url(${u(`/media/icons/tech/${icon}.svg`)})`}
