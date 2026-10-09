@@ -4,18 +4,32 @@ import { allTools, featuredTools } from '../lib/tech';
 import Icon from './Icon.astro';
 import TechTile from './TechTile.astro';
 
+/* Under 26rem (a 13 mini is 375px) the grid is 3 columns by 3 rows: 8 tools
+   plus the "all tools" tile, so the rest are hidden there. */
+const NARROW_TOOLS = 8;
 const more = allTools.length - featuredTools.length;
+const moreNarrow = allTools.length - Math.min(NARROW_TOOLS, featuredTools.length);
 ---
 
-<ul class="mt-10 grid grid-cols-4 gap-2 md:grid-cols-6 md:gap-2.5" data-reveal>
-  {featuredTools.map((t) => (
-    <TechTile name={t.name} icon={t.icon} />
+<ul
+  class="mt-10 grid grid-cols-4 gap-2 max-[25.99rem]:grid-cols-3 md:grid-cols-6 md:gap-2.5"
+  data-reveal
+>
+  {featuredTools.map((t, i) => (
+    <TechTile
+      name={t.name}
+      icon={t.icon}
+      class={i >= NARROW_TOOLS ? 'max-[25.99rem]:hidden' : undefined}
+    />
   ))}
   <li class="tech-tile tech-tile-more">
     <a href={u('/tech/')} class="absolute inset-0 z-10 rounded-[inherit]">
       <span class="sr-only-nw">View all {allTools.length} tools</span>
     </a>
-    <span class="font-mono text-xl tracking-tight text-ink">+{more}</span>
+    <span class="font-mono text-xl tracking-tight text-ink max-[25.99rem]:hidden">+{more}</span>
+    <span class="hidden font-mono text-xl tracking-tight text-ink max-[25.99rem]:inline">
+      +{moreNarrow}
+    </span>
     <span class="inline-flex items-center gap-1.5 text-sm leading-tight text-dim">
       All tools
       <Icon name="arrow" size={13} />
