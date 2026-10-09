@@ -46,21 +46,6 @@ export function initHeader() {
     open.querySelector<HTMLElement>('[data-nav-trigger]')?.focus();
   });
 
-  const mGroups = [...document.querySelectorAll<HTMLElement>('.mobile-group')];
-  mGroups.forEach((g) => {
-    const t = g.querySelector<HTMLElement>('[data-mobile-trigger]')!;
-    on(t, 'click', () => {
-      const open = g.dataset.open === undefined;
-      mGroups.forEach((o) => {
-        o.toggleAttribute('data-open', o === g && open);
-        o.querySelector('[data-mobile-trigger]')?.setAttribute(
-          'aria-expanded',
-          String(o === g && open),
-        );
-      });
-    });
-  });
-
   const toggle = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
   const panel = document.getElementById('mobile-nav');
   if (!toggle || !panel) return;
@@ -82,7 +67,7 @@ export function initHeader() {
       panel.hidden = false;
       return;
     }
-    /* Wipe out to the right (CSS), then hide once it finishes. */
+    /* Fade out (CSS), then hide once it finishes. */
     if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
       panel.hidden = true;
       return;
@@ -91,7 +76,7 @@ export function initHeader() {
     closeTimer = window.setTimeout(() => {
       panel.hidden = true;
       panel.removeAttribute('data-closing');
-    }, 300);
+    }, 250);
   };
   on(toggle, 'click', () => setOpen(!isOpen));
   panel.querySelectorAll('a').forEach((a) => on(a, 'click', () => setOpen(false)));

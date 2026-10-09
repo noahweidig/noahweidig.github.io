@@ -22,9 +22,14 @@ import Icon from './Icon.astro';
       {/* Phone: a pill-shaped field (icon, input, filter toggle) with a text
           close circle beside it. `sm:contents` dissolves the pill wrapper so the
           desktop row is exactly what it was. */}
-      <div class="flex items-center gap-2 border-b border-line px-3 py-2.5 sm:gap-3.5 sm:bg-raised/40 sm:px-6 sm:py-1">
+      <div class="flex h-16 items-center gap-2 border-b border-line px-5 sm:h-auto sm:gap-3.5 sm:bg-raised/40 sm:px-6 sm:py-1">
         <div class="flex min-w-0 flex-1 items-center gap-2 rounded-xl bg-raised px-3 sm:contents">
-          <Icon name="search" size={18} class="shrink-0 text-faint sm:text-accent-ink" />
+          <Icon
+            name="nav-search"
+            size={21}
+            stroke-width={1.8}
+            class="shrink-0 text-faint sm:text-accent-ink"
+          />
           <input
             type="text"
             id="search-input"
@@ -40,13 +45,22 @@ import Icon from './Icon.astro';
           />
           <button
             type="button"
+            data-search-clear
+            hidden
+            class="grid h-5 w-5 shrink-0 place-items-center rounded-full bg-faint text-bg"
+            aria-label="Clear search"
+          >
+            <Icon name="nav-x" size={12} stroke-width={3} />
+          </button>
+          <button
+            type="button"
             data-filter-toggle
             aria-expanded="false"
             aria-controls="search-filters"
-            class="icon-tile icon-bare relative h-8 w-8 shrink-0 text-faint hover:transform-none! aria-expanded:bg-accent aria-expanded:text-accent-contrast sm:h-9 sm:w-9"
+            class="icon-tile icon-bare relative h-8 w-8 shrink-0 max-sm:-mr-1 text-faint hover:transform-none! aria-expanded:bg-accent aria-expanded:text-accent-contrast sm:h-9 sm:w-9"
             title="Filters"
           >
-            <Icon name="filter" size={17} />
+            <Icon name="nav-listFilter" size={17} stroke-width={2.2} />
             <span class="sr-only-nw">Toggle filters</span>
             <span
               data-filter-count
@@ -58,10 +72,11 @@ import Icon from './Icon.astro';
         <button
           type="button"
           data-search-close
-          class="icon-tile icon-bare h-8 w-8 shrink-0 hover:transform-none! sm:h-9 sm:w-9"
+          class="icon-tile icon-bare h-10 w-10 shrink-0 hover:transform-none! sm:h-9 sm:w-9"
           aria-label="Close search"
         >
-          <Icon name="close" size={16} />
+          <Icon name="nav-x" size={28} stroke-width={1.36} class="sm:hidden" />
+          <Icon name="nav-x" size={17} stroke-width={2.2} class="hidden sm:block" />
         </button>
       </div>
 
@@ -91,18 +106,7 @@ import Icon from './Icon.astro';
           class="w-44 shrink-0 overflow-y-auto border-l border-line bg-raised/60 p-4 sm:w-64 sm:p-6"
           aria-label="Filters"
         >
-          <div class="flex items-center justify-between">
-            <h2 class="font-mono text-micro tracking-[0.16em] text-faint uppercase">Filters</h2>
-            <button
-              type="button"
-              data-filter-clear
-              hidden
-              class="text-caption text-accent-ink hover:underline"
-            >
-              Clear
-            </button>
-          </div>
-          <div class="mt-4 grid gap-5" data-filter-groups></div>
+          <div class="grid gap-5" data-filter-groups></div>
         </aside>
       </div>
 
@@ -126,21 +130,77 @@ import Icon from './Icon.astro';
      chips, instead of a sheet that hides half the list. The filter button
      closes it again. */
   @media (max-width: 39.99rem) {
+    :global(html[data-search-lock] body) {
+      position: fixed;
+      inset-inline: 0;
+      top: var(--search-lock-y, 0);
+      width: 100%;
+    }
+    /* The dialog never scrolls: the query row and filter row stay put and only
+       the results list scrolls. Same background as the mobile menu. */
+    #site-search {
+      height: 100dvh;
+      overflow: hidden;
+    }
+    #site-search[data-closing] {
+      animation: search-fade-out 0.25s ease-in both;
+      pointer-events: none;
+    }
+    [data-search-backdrop] {
+      height: 100%;
+      min-height: 0;
+    }
+    [data-search-panel] {
+      height: 100%;
+      min-height: 0;
+      background: var(--c-bg);
+    }
     [data-search-body] {
       flex-direction: column;
+      min-height: 0;
+    }
+    #search-results {
+      min-height: 0;
+      overscroll-behavior: contain;
     }
     #search-filters:not([hidden]) {
       order: -1;
       width: auto;
       max-height: 40vh;
+      padding: 0.5rem 1.25rem 1rem;
       border-left: 0;
       border-bottom: 1px solid var(--c-line);
-      background: var(--c-surface);
+      background: var(--c-bg);
     }
-    #search-filters :global(ul) {
+    #search-filters {
+      overflow: hidden;
+    }
+    /* One swipeable row that runs off the right edge of the screen. */
+    #search-filters [data-filter-groups] {
       display: flex;
-      flex-wrap: wrap;
       gap: 0.5rem;
+      margin-inline: -1.25rem;
+      padding-inline: 1.25rem;
+      overflow-x: auto;
+      overscroll-behavior-x: contain;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    #search-filters [data-filter-groups]::-webkit-scrollbar {
+      display: none;
+    }
+    #search-filters [data-filter-groups] :global(div),
+    #search-filters [data-filter-groups] :global(ul) {
+      display: contents;
+    }
+    #search-filters [data-filter-groups] :global(h3) {
+      display: none;
+    }
+    #search-filters [data-filter-groups] :global(li) {
+      flex: none;
+    }
+    #search-filters :global(button[data-filter-key]) {
+      white-space: nowrap;
     }
     #search-filters :global(button[data-filter-key]) {
       width: auto;
@@ -153,9 +213,23 @@ import Icon from './Icon.astro';
     #search-filters :global(button[data-filter-key] > span:first-child) {
       display: none;
     }
-    #search-filters :global(button[aria-pressed='true']) {
-      border-color: var(--c-accent);
-      background: color-mix(in oklab, var(--c-accent) 12%, var(--c-surface));
+  }
+  /* Selected filters: solid accent fill, white text. */
+  #search-filters :global(button[aria-pressed='true']) {
+    border-color: var(--c-accent);
+    background: var(--c-accent);
+    color: var(--c-accent-contrast);
+  }
+  #search-filters :global(button[aria-pressed='true'] span) {
+    color: inherit;
+  }
+  #search-filters :global(button[aria-pressed='true'] > span:first-child) {
+    border-color: currentColor;
+    background: transparent;
+  }
+  @keyframes search-fade-out {
+    to {
+      opacity: 0;
     }
   }
 </style>

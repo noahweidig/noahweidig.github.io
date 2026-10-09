@@ -49,9 +49,6 @@
 
   --c-glow: color-mix(in oklab, var(--c-accent) 26%, transparent);
   --c-sheen: rgb(255 255 255 / 0.04);
-  --inf-a1: #a988ff;
-  --inf-a2: #ff6f91;
-  --inf-a3: #ff8f45;
   --inf-b1: #8a5cf0;
   --inf-b2: #e0457b;
   --inf-b3: #ff8f45;
@@ -90,9 +87,6 @@
 
   --c-glow: color-mix(in oklab, var(--c-accent) 16%, transparent);
   --c-sheen: rgb(15 20 30 / 0.02);
-  --inf-a1: #6541c9;
-  --inf-a2: #c8286a;
-  --inf-a3: #c4501a;
   --inf-b1: #5a35c0;
   --inf-b2: #c8286a;
   --inf-b3: #c4501a;
@@ -1736,23 +1730,12 @@
     padding-bottom: 0.15em;
     margin-bottom: -0.15em;
   }
-  .text-inferno-a,
   .text-inferno-b {
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
     padding-bottom: 0.15em;
     margin-bottom: -0.15em;
-  }
-  .text-inferno-a {
-    background-image: linear-gradient(
-      100deg in oklab,
-      var(--inf-a1) 0%,
-      var(--inf-a2) 60%,
-      var(--inf-a3) 100%
-    );
-  }
-  .text-inferno-b {
     background-image: linear-gradient(
       100deg in oklab,
       var(--inf-b1) 0%,
@@ -1763,7 +1746,6 @@
   }
   @media (forced-colors: active) {
     .text-gradient,
-    .text-inferno-a,
     .text-inferno-b,
     .page-hero-title {
       background: none;

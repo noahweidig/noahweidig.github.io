@@ -359,7 +359,10 @@ const faqs = [
             </li>
           ))}
         </ul>
-        <a class="btn btn-ghost btn-sm group mt-1 justify-self-start" href={u('/experience/')}>
+        <a
+          class="btn btn-ghost btn-sm group mt-1 justify-self-start max-md:h-12 max-md:px-[1.15rem] max-md:text-sm"
+          href={u('/experience/')}
+        >
           See all experience
           <Icon
             name="arrow"
@@ -380,7 +383,10 @@ const faqs = [
             </li>
           ))}
         </ul>
-        <a class="btn btn-ghost btn-sm group mt-1 justify-self-start" href={u('/education/')}>
+        <a
+          class="btn btn-ghost btn-sm group mt-1 justify-self-start max-md:h-12 max-md:px-[1.15rem] max-md:text-sm"
+          href={u('/education/')}
+        >
           See all education
           <Icon
             name="arrow"
@@ -505,7 +511,12 @@ const faqs = [
           <Icon name="mail" size={15} />
           Get in touch
         </a>
-        <a class="btn btn-ghost" href={u(site.resume)} target="_blank" rel="noopener">
+        <a
+          class="btn btn-ghost border-white bg-transparent text-white hover:bg-white/10"
+          href={u(site.resume)}
+          target="_blank"
+          rel="noopener"
+        >
           <Icon name="download" size={15} />
           Download resume
           <span class="sr-only-nw"> (opens in a new tab)</span>
