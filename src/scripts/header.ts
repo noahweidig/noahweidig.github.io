@@ -1,9 +1,33 @@
 /* --------------------------------------------------------------- header -- */
 import { on } from './dom';
+import { bodyScrolls, pageScrollY, scrollTarget } from './scroll-root';
 
 export function initHeader() {
   const header = document.getElementById('site-header');
   if (!header) return;
+
+  /* Touch devices: the bar slides away while the reader scrolls down and comes
+     back on any scroll up (CSS in Header.astro). */
+  if (bodyScrolls()) {
+    let lastY = pageScrollY();
+    on(
+      scrollTarget(),
+      'scroll',
+      () => {
+        const y = pageScrollY();
+        if (y <= header.offsetHeight) {
+          header.removeAttribute('data-hidden');
+          lastY = y;
+          return;
+        }
+        if (Math.abs(y - lastY) < 8) return;
+        header.toggleAttribute('data-hidden', y > lastY);
+        lastY = y;
+      },
+      { passive: true },
+    );
+    on(header, 'focusin', () => header.removeAttribute('data-hidden'));
+  }
   const groups = [...document.querySelectorAll<HTMLElement>('.nav-group')];
   const setGroup = (g: HTMLElement, open: boolean) => {
     g.toggleAttribute('data-open', open);
