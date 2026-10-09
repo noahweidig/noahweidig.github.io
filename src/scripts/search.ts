@@ -160,9 +160,8 @@ export function initSearch() {
   const groups = dialog.querySelector<HTMLElement>('[data-filter-groups]');
   const toggle = dialog.querySelector<HTMLButtonElement>('[data-filter-toggle]');
   const badge = dialog.querySelector<HTMLElement>('[data-filter-count]');
-  const clear = dialog.querySelector<HTMLButtonElement>('[data-filter-clear]');
   const status = dialog.querySelector<HTMLElement>('[data-search-status]');
-  if (!input || !out || !rail || !groups || !toggle || !badge || !clear) return;
+  if (!input || !out || !rail || !groups || !toggle || !badge) return;
   /* The full prompt doesn't fit the phone-width field. */
   if (matchMedia('(max-width: 39.99rem)').matches) input.placeholder = 'Search the site…';
 
@@ -310,7 +309,6 @@ export function initSearch() {
     const n = chosenCount();
     badge.hidden = n === 0;
     badge.textContent = String(n);
-    clear.hidden = n === 0;
   };
 
   /* ---- the one query path ---- */
@@ -441,12 +439,6 @@ export function initSearch() {
     if (set.has(value)) set.delete(value);
     else set.add(value);
     void run();
-  });
-
-  on(clear, 'click', () => {
-    for (const k of Object.keys(selected)) selected[k]!.clear();
-    void run();
-    input.focus();
   });
 }
 
