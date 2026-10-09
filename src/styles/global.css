@@ -201,7 +201,6 @@
     font-weight: 700;
     letter-spacing: -0.015em;
     line-height: 1.12;
-    text-wrap: balance;
   }
 
   a {
@@ -316,7 +315,6 @@
     color: var(--c-dim);
     font-size: 1.05rem;
     max-width: 46rem;
-    text-wrap: pretty;
   }
 
   /* --- page hero ---
@@ -403,7 +401,6 @@
     font-weight: 700;
     line-height: 1.02;
     letter-spacing: -0.035em;
-    text-wrap: balance;
     width: fit-content;
     max-width: 100%;
     padding-bottom: 0.1em;
@@ -419,7 +416,6 @@
     font-size: clamp(1rem, 2.2vw, 1.19rem);
     line-height: 1.55;
     color: var(--c-dim);
-    text-wrap: pretty;
   }
   /* Secondary hero button: blue outline, text and icon; fills blue on hover.
      Apple's button blues: #0066cc on light, #2997ff on dark (--c-btn2), hover
@@ -809,9 +805,6 @@
   .prose-nw h4 {
     font-size: 1.05rem;
     margin-top: 1.6em;
-  }
-  .prose-nw p {
-    text-wrap: pretty;
   }
   .prose-nw a:not(.btn) {
     color: var(--c-accent-ink);
