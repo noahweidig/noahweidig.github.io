@@ -142,6 +142,10 @@ import Icon from './Icon.astro';
       height: 100dvh;
       overflow: hidden;
     }
+    #site-search[data-closing] {
+      animation: search-fade-out 0.25s ease-in both;
+      pointer-events: none;
+    }
     [data-search-backdrop] {
       height: 100%;
       min-height: 0;
@@ -222,5 +226,10 @@ import Icon from './Icon.astro';
   #search-filters :global(button[aria-pressed='true'] > span:first-child) {
     border-color: currentColor;
     background: transparent;
+  }
+  @keyframes search-fade-out {
+    to {
+      opacity: 0;
+    }
   }
 </style>
