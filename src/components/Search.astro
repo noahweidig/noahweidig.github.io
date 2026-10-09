@@ -121,8 +121,28 @@ import Icon from './Icon.astro';
      chips, instead of a sheet that hides half the list. The filter button
      closes it again. */
   @media (max-width: 39.99rem) {
+    /* The dialog never scrolls: the query row and filter row stay put and only
+       the results list scrolls. Same background as the mobile menu. */
+    #site-search {
+      height: 100dvh;
+      overflow: hidden;
+    }
+    [data-search-backdrop] {
+      height: 100%;
+      min-height: 0;
+    }
+    [data-search-panel] {
+      height: 100%;
+      min-height: 0;
+      background: var(--c-bg);
+    }
     [data-search-body] {
       flex-direction: column;
+      min-height: 0;
+    }
+    #search-results {
+      min-height: 0;
+      overscroll-behavior: contain;
     }
     #search-filters:not([hidden]) {
       order: -1;
@@ -131,7 +151,7 @@ import Icon from './Icon.astro';
       padding: 0.5rem 1.25rem 1rem;
       border-left: 0;
       border-bottom: 1px solid var(--c-line);
-      background: var(--c-surface);
+      background: var(--c-bg);
     }
     #search-filters {
       overflow: hidden;
