@@ -1,6 +1,6 @@
 ---
 import { u } from '../lib/url';
-import { navGroups, site } from '../lib/site';
+import { navGroups } from '../lib/site';
 import Icon from './Icon.astro';
 import Wordmark from './Wordmark.astro';
 import Search from './Search.astro';
@@ -15,6 +15,10 @@ const isActive = (href: string) => {
   const target = slash(u(href));
   return target === home ? path === home : path === target || path.startsWith(target);
 };
+const mobileItems = [
+  ...navGroups.flatMap((g) => g.items),
+  { text: 'Get in touch', href: '/contact/' },
+];
 ---
 
 <header
@@ -139,55 +143,22 @@ const isActive = (href: string) => {
   >
     <nav aria-label="Mobile" class="shell flex h-full flex-col pb-5 pt-2">
       <ul class="min-h-0 flex-1 overflow-y-auto">
-        {navGroups.map((group, gi) => (
-          <li class="mobile-group border-b border-line" style={`--i:${gi}`}>
-            <button
-              type="button"
-              data-mobile-trigger
-              aria-expanded="false"
-              class="flex w-full items-center justify-between py-5 text-left font-display text-3xl font-semibold tracking-tight text-ink"
+        {mobileItems.map((item, i) => (
+          <li class="mobile-item border-b border-line" style={`--i:${i}`}>
+            <a
+              href={'external' in item ? item.href : u(item.href)}
+              target={'external' in item ? '_blank' : undefined}
+              rel={'external' in item ? 'noopener' : undefined}
+              class="mobile-link flex w-full items-center justify-between py-4 font-display text-2xl font-semibold tracking-tight text-ink"
+              aria-current={!('external' in item) && isActive(item.href) ? 'page' : undefined}
             >
-              {group.text}
-              <Icon name="chevron" size={26} class="nav-chevron" />
-            </button>
-            <ul class="mobile-sub hidden pb-4">
-              {group.items.map((item) => (
-                <li>
-                  <a
-                    href={'external' in item ? item.href : u(item.href)}
-                    target={'external' in item ? '_blank' : undefined}
-                    rel={'external' in item ? 'noopener' : undefined}
-                    class:list={[
-                      'nav-link block rounded-lg px-3 py-3 font-display text-xl font-medium',
-                      !('external' in item) && isActive(item.href) ? 'nav-link-active' : '',
-                    ]}
-                    aria-current={!('external' in item) && isActive(item.href) ? 'page' : undefined}
-                  >
-                    {item.text}
-                    {'external' in item && <span class="sr-only-nw"> (opens in a new tab)</span>}
-                  </a>
-                </li>
-              ))}
-            </ul>
+              {item.text}
+              {'external' in item && <span class="sr-only-nw"> (opens in a new tab)</span>}
+              <Icon name="chevron" size={22} class="mobile-chevron" />
+            </a>
           </li>
         ))}
       </ul>
-      <a
-        class="btn mt-4 shrink-0 justify-center border border-line py-3.5 text-base font-semibold"
-        href={site.booking}
-        target="_blank"
-        rel="noopener"
-      >
-        Book a call
-        <span class="sr-only-nw"> (opens in a new tab)</span>
-      </a>
-      <a
-        class="btn btn-primary mt-3 shrink-0 justify-center py-3.5 text-base font-semibold"
-        href={u('/contact/')}
-      >
-        Get in touch
-        <Icon name="arrow" size={15} />
-      </a>
     </nav>
   </div>
 </header>
@@ -269,12 +240,14 @@ const isActive = (href: string) => {
       transition: none;
     }
   }
-  /* Links split the panel height evenly; type scales with viewport height. */
-  .mobile-group[data-open] > .mobile-sub {
-    display: block;
+  .mobile-chevron {
+    opacity: 0;
+    rotate: -90deg;
+    transition: opacity 0.2s ease;
   }
-  .mobile-group[data-open] :global(.nav-chevron) {
-    transform: perspective(120px) rotateX(180deg);
+  .mobile-link:hover .mobile-chevron,
+  .mobile-link:focus-visible .mobile-chevron {
+    opacity: 1;
   }
   .mobile-nav {
     contain: strict;
@@ -298,8 +271,7 @@ const isActive = (href: string) => {
       opacity: 0;
     }
   }
-  .mobile-nav:not([hidden]):not([data-closing]) .mobile-group,
-  .mobile-nav:not([hidden]):not([data-closing]) nav > a {
+  .mobile-nav:not([hidden]):not([data-closing]) .mobile-item {
     animation: menu-item-in 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
     animation-delay: calc(0.05s + var(--i, 0) * 0.05s);
   }
@@ -326,8 +298,8 @@ const isActive = (href: string) => {
   @media (prefers-reduced-motion: reduce) {
     .mobile-nav:not([hidden]),
     .mobile-nav[data-closing],
-    .mobile-nav .mobile-group,
-    .mobile-nav nav > a,
+    .mobile-nav .mobile-item,
+    .mobile-chevron,
     .bar-fade {
       animation: none !important;
       transition: none !important;

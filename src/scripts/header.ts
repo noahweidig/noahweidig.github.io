@@ -46,21 +46,6 @@ export function initHeader() {
     open.querySelector<HTMLElement>('[data-nav-trigger]')?.focus();
   });
 
-  const mGroups = [...document.querySelectorAll<HTMLElement>('.mobile-group')];
-  mGroups.forEach((g) => {
-    const t = g.querySelector<HTMLElement>('[data-mobile-trigger]')!;
-    on(t, 'click', () => {
-      const open = g.dataset.open === undefined;
-      mGroups.forEach((o) => {
-        o.toggleAttribute('data-open', o === g && open);
-        o.querySelector('[data-mobile-trigger]')?.setAttribute(
-          'aria-expanded',
-          String(o === g && open),
-        );
-      });
-    });
-  });
-
   const toggle = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
   const panel = document.getElementById('mobile-nav');
   if (!toggle || !panel) return;
