@@ -1,9 +1,12 @@
 /**
- * Rebuild src/lib/icons.generated.ts from @fortawesome/fontawesome-free.
+ * Rebuild src/lib/icons.generated.ts from lucide-static.
  *
- * Every icon on the site comes from Font Awesome Free (solid for UI marks,
- * brands for logos) so the whole set shares one weight. The SVGs are copied
- * into the repo, so nothing is fetched at runtime.
+ * Every UI icon on the site is Lucide (ISC, lucide.dev): one 24px grid, one
+ * stroke, one set of terminals. Brand marks are not generated here: they are
+ * the SVGs in public/uploads/, loaded by src/lib/brand-icons.ts. The two
+ * `FIXED` glyphs below are the desktop nav bar's arrow and dropdown chevron,
+ * kept exactly as they were drawn (Font Awesome Free, CC BY 4.0) so the nav
+ * bar does not change.
  *
  *   node scripts/generate-icons.mjs
  */
@@ -15,108 +18,80 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const require = createRequire(import.meta.url);
-const svgDir = path.join(
-  path.dirname(require.resolve('@fortawesome/fontawesome-free/package.json')),
-  'svgs',
-);
+const lucideDir = path.join(path.dirname(require.resolve('lucide-static/package.json')), 'icons');
 
-/** site name -> Font Awesome solid icon (svgs/solid/<file>.svg) */
-const SOLID = {
-  mail: 'envelope',
-  envelope: 'envelope',
-  message: 'message',
+/** site name -> Lucide icon file (icons/<file>.svg) */
+const MAP = {
+  rss: 'rss',
+  mail: 'mail',
+  envelope: 'mail',
+  message: 'message-square-text',
   calendar: 'calendar-days',
-  briefcase: 'briefcase',
+  briefcase: 'briefcase-business',
   school: 'school',
-  code: 'code',
+  code: 'code-xml',
   users: 'users',
-  sparkles: 'wand-magic-sparkles',
-  layers: 'layer-group',
+  sparkles: 'sparkles',
+  layers: 'layers',
   trophy: 'trophy',
   bulb: 'lightbulb',
-  file: 'file-lines',
+  file: 'file-text',
   pencil: 'pencil',
-  help: 'circle-question',
-  search: 'magnifying-glass',
-  pin: 'location-dot',
+  help: 'circle-question-mark',
+  search: 'search',
+  pin: 'map-pin',
   clock: 'clock',
-  cube: 'cube',
+  cube: 'box',
   download: 'download',
   arrow: 'arrow-right',
   chevron: 'chevron-down',
-  external: 'arrow-up-right-from-square',
+  external: 'external-link',
   sun: 'sun',
   moon: 'moon',
-  sunMoon: 'circle-half-stroke',
-  menu: 'bars',
-  close: 'xmark',
+  sunMoon: 'sun-moon',
+  menu: 'menu',
+  close: 'x',
   satellite: 'satellite',
   chart: 'chart-column',
-  ai: 'brain',
+  ai: 'brain-circuit',
   leaf: 'leaf',
   database: 'database',
-  terminal: 'terminal',
-  quote: 'quote-left',
+  terminal: 'square-terminal',
+  quote: 'quote',
   video: 'video',
   news: 'newspaper',
-  shield: 'shield-halved',
-  slides: 'chalkboard',
+  shield: 'shield-check',
+  slides: 'presentation',
   book: 'book-open',
   report: 'clipboard-check',
-  preprint: 'file-pen',
+  preprint: 'file-clock',
   graduationCap: 'graduation-cap',
   check: 'check',
   tag: 'tag',
   copy: 'copy',
   link: 'link',
-  hash: 'hashtag',
-  reader: 'book-open-reader',
+  hash: 'hash',
+  reader: 'book-open-text',
   expand: 'expand',
-  zoom: 'magnifying-glass-plus',
+  zoom: 'zoom-in',
   left: 'chevron-left',
   right: 'chevron-right',
-  printer: 'print',
-  filePdf: 'file-pdf',
-  filter: 'filter',
-  info: 'circle-info',
+  printer: 'printer',
+  filePdf: 'file-down',
+  filter: 'list-filter',
+  info: 'info',
   pause: 'pause',
   play: 'play',
   circleArrowUp: 'circle-arrow-up',
   rocket: 'rocket',
   ellipsis: 'ellipsis',
-  share: 'share-nodes',
-  earth: 'earth-americas',
-  cpu: 'microchip',
-  broom: 'broom',
-  flame: 'fire',
-  flaskConical: 'flask',
-  plug: 'plug',
-};
-
-/** site name -> Font Awesome brand icon (svgs/brands/<file>.svg) */
-const BRANDS = {
-  bluesky: 'bluesky',
-  facebook: 'facebook',
-  github: 'github',
-  linkedin: 'linkedin',
-  mastodon: 'mastodon',
-  orcid: 'orcid',
-  pinterest: 'pinterest',
-  reddit: 'reddit',
-  researchgate: 'researchgate',
-  scholar: 'google-scholar',
-  telegram: 'telegram',
-  threads: 'threads',
-  tumblr: 'tumblr',
-  whatsapp: 'whatsapp',
-  x: 'x-twitter',
-  twitter: 'x-twitter',
-  'x-twitter': 'x-twitter',
-};
-
-/** site name -> Lucide icon (ISC). Stroke icons: the nav bar's and the RSS feed icon. */
-const LUCIDE = {
-  rss: 'rss',
+  share: 'share-2',
+  earth: 'earth',
+  cpu: 'cpu',
+  broom: 'broom-sparkles',
+  flame: 'flame',
+  flaskConical: 'flask-conical',
+  plug: 'webhook',
   'nav-search': 'search',
   'nav-sun': 'sun',
   'nav-moon': 'moon',
@@ -125,53 +100,46 @@ const LUCIDE = {
   'nav-x': 'x',
   'nav-chevronRight': 'chevron-right',
 };
-const lucideDir = path.join(path.dirname(require.resolve('lucide-static/package.json')), 'icons');
 
-/** { viewBox, body } — the children of the <svg>. The viewBox is padded out to
-    a square (Font Awesome glyphs vary in width) so every icon sits centred in
-    the same box at any size. Sliced rather than matched: a regex spanning the
-    whole file backtracks for no benefit here. */
-const parse = (svg) => {
+/** Filled glyphs kept as drawn, for the desktop nav bar only. */
+const FIXED = {
+  'nav-arrow': {
+    viewBox: '0 0 512 512',
+    body: '<path fill="currentColor" d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l370.7 0-105.4 105.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"/>',
+  },
+  'nav-chevron': {
+    viewBox: '-32 0 512 512',
+    body: '<path fill="currentColor" d="M201.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 338.7 54.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/>',
+  },
+};
+
+/** The children of the <svg>, whitespace collapsed. Sliced rather than matched:
+    a regex spanning the whole file backtracks for no benefit here. */
+const inner = (svg) => {
   const open = svg.indexOf('>', svg.indexOf('<svg'));
   const close = svg.lastIndexOf('</svg>');
-  const [x, y, w, h] = (/viewBox="([^"]+)"/.exec(svg.slice(0, open))?.[1] ?? '0 0 512 512')
-    .split(/\s+/)
-    .map(Number);
-  const side = Math.max(w, h);
-  const viewBox = [x - (side - w) / 2, y - (side - h) / 2, side, side].join(' ');
-  const body = svg
+  return svg
     .slice(open + 1, close)
-    .replace(/<!--[\s\S]*?-->/g, '')
     .replace(/\s+/g, ' ')
     .replaceAll(' />', '/>')
     .trim();
-  return { viewBox, body };
 };
 
-const load =
-  (dir) =>
-  async ([name, file]) => {
-    const svg = await readFile(path.join(svgDir, dir, `${file}.svg`), 'utf8').catch(() => null);
-    if (!svg) throw new Error(`No Font Awesome ${dir} icon for "${name}" (${file})`);
-    const { viewBox, body } = parse(svg);
-    return `  ${JSON.stringify(name)}: { viewBox: ${JSON.stringify(viewBox)}, body: ${JSON.stringify(body)} },`;
-  };
-
-const loadLucide = async ([name, file]) => {
+const entries = [];
+for (const [name, file] of Object.entries(MAP)) {
   const svg = await readFile(path.join(lucideDir, `${file}.svg`), 'utf8');
-  const { viewBox, body } = parse(svg);
-  return `  ${JSON.stringify(name)}: { viewBox: ${JSON.stringify(viewBox)}, body: ${JSON.stringify(body)}, stroke: true },`;
-};
-
-const entries = [
-  ...(await Promise.all(Object.entries(SOLID).map(load('solid')))),
-  ...(await Promise.all(Object.entries(BRANDS).map(load('brands')))),
-  ...(await Promise.all(Object.entries(LUCIDE).map(loadLucide))),
-];
+  entries.push(
+    `  ${JSON.stringify(name)}: { viewBox: "0 0 24 24", body: ${JSON.stringify(inner(svg))}, stroke: true },`,
+  );
+}
+for (const [name, g] of Object.entries(FIXED)) {
+  entries.push(
+    `  ${JSON.stringify(name)}: { viewBox: ${JSON.stringify(g.viewBox)}, body: ${JSON.stringify(g.body)} },`,
+  );
+}
 
 const out = `/* Generated by scripts/generate-icons.mjs — do not edit by hand.
-   Font Awesome Free 7 (solid + brands), icons CC BY 4.0, https://fontawesome.com/license/free
-   Nav-bar stroke icons: Lucide (ISC, lucide.dev). */
+   Lucide (ISC, lucide.dev), 24x24 grid. The two nav-bar glyphs without stroke are Font Awesome Free (CC BY 4.0). */
 export const icons: Record<string, { viewBox: string; body: string; stroke?: boolean }> = {
 ${entries.join('\n')}
 };
