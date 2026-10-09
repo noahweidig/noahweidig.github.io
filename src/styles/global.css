@@ -419,6 +419,20 @@
     color: var(--c-dim);
     text-wrap: pretty;
   }
+  /* Secondary hero button: blue outline, text and icon; fills blue on hover.
+     The primary button next to it stays solid blue. */
+  .page-hero-actions .btn-ghost,
+  .hero-btn.btn-ghost {
+    border-color: var(--c-accent-ink);
+    background: transparent;
+    color: var(--c-accent-ink);
+  }
+  .page-hero-actions .btn-ghost:hover,
+  .hero-btn.btn-ghost:hover {
+    border-color: var(--c-accent);
+    background: var(--c-accent);
+    color: var(--c-accent-contrast);
+  }
   .page-hero-actions {
     display: flex;
     flex-wrap: wrap;
