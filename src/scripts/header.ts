@@ -9,25 +9,25 @@ export function initHeader() {
   /* Touch devices: the bar slides away while the reader scrolls down and comes
      back on any scroll up (CSS in Header.astro). */
   if (bodyScrolls()) {
+    const show = () => delete header.dataset.hidden;
     let lastY = pageScrollY();
     on(
       scrollTarget(),
       'scroll',
       () => {
         const y = pageScrollY();
-        if (y <= header.offsetHeight) {
-          header.removeAttribute('data-hidden');
-          lastY = y;
-          return;
-        }
-        if (Math.abs(y - lastY) < 8) return;
-        header.toggleAttribute('data-hidden', y > lastY);
+        const dy = y - lastY;
+        if (Math.abs(dy) < 8) return;
         lastY = y;
+        // A jump of over half a screen is a restore or an anchor, not a swipe.
+        if (y <= header.offsetHeight || dy < 0 || dy > innerHeight / 2) show();
+        else header.dataset.hidden = '';
       },
       { passive: true },
     );
-    on(header, 'focusin', () => header.removeAttribute('data-hidden'));
+    on(header, 'focusin', show);
   }
+
   const groups = [...document.querySelectorAll<HTMLElement>('.nav-group')];
   const setGroup = (g: HTMLElement, open: boolean) => {
     g.toggleAttribute('data-open', open);
