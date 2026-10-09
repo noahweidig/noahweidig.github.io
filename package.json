@@ -19,6 +19,7 @@
     "format": "prettier --write .",
     "icons": "node scripts/generate-icons.mjs",
     "logos:pkg": "node scripts/generate-pkg-logo-srcset.mjs",
+    "optimize:icons": "svgo --config scripts/svgo.config.cjs -f public/media/icons/tech -o public/media/icons/tech",
     "lint": "prettier --check . && astro check",
     "pdfs": "node scripts/generate-pdfs.mjs",
     "seo:audit": "node scripts/run-seo-audit.mjs",
@@ -57,6 +58,7 @@
     "puppeteer": "^25.12.0",
     "sharp": "^0.35.4",
     "svelte": "^5.57.1",
+    "svgo": "^4.1.0",
     "typescript": "^5.7.0",
     "vitest": "^5.0.2"
   }
