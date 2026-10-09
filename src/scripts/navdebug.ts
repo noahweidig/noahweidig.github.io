@@ -26,6 +26,8 @@ export function initNavDebug() {
   try {
     const q = new URLSearchParams(location.search).get(KEY);
     if (q === '1') sessionStorage.setItem(KEY, '1');
+    const sx = new URLSearchParams(location.search).get('sx');
+    if (sx !== null) sessionStorage.setItem('sx', sx);
     if (q === '0') {
       sessionStorage.removeItem(KEY);
       sessionStorage.removeItem(LOG);
@@ -34,7 +36,7 @@ export function initNavDebug() {
   } catch {
     return;
   }
-  note(`load ${location.pathname}`);
+  note(`load ${location.pathname} sx=${sessionStorage.getItem('sx') ?? ''}`);
   let el = document.getElementById('navdebug');
   if (!el) {
     el = document.createElement('pre');
