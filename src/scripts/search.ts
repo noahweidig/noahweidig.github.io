@@ -386,12 +386,24 @@ export function initSearch() {
   };
   const open = () => {
     lastFocused = document.activeElement as HTMLElement | null;
-    if (!dialog.open) dialog.showModal();
-    lockPage();
+    // TEMPORARY navdebug bisect flags (?sx=nolock|nofocus|nomodal).
+    let sx = '';
+    try {
+      sx = sessionStorage.getItem('sx') ?? '';
+    } catch {
+      /* storage unavailable */
+    }
+    if (!dialog.open) {
+      if (sx === 'nomodal') dialog.show();
+      else dialog.showModal();
+    }
+    if (sx !== 'nolock') lockPage();
     document.documentElement.dataset.searchActive = '';
     syncClear();
-    input.focus();
-    input.select();
+    if (sx !== 'nofocus') {
+      input.focus();
+      input.select();
+    }
     void run();
   };
   const close = () => {
