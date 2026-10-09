@@ -145,17 +145,17 @@ const mobileItems: MobileItem[] = [
     <nav aria-label="Mobile" class="shell flex h-full flex-col pb-5 pt-2">
       <ul class="min-h-0 flex-1 overflow-y-auto">
         {mobileItems.map((item, i) => (
-          <li class="mobile-item border-b border-line" style={`--i:${i}`}>
+          <li class="mobile-item" style={`--i:${i}`}>
             <a
               href={'external' in item ? item.href : u(item.href)}
               target={'external' in item ? '_blank' : undefined}
               rel={'external' in item ? 'noopener' : undefined}
-              class="mobile-link flex w-full items-center justify-between py-4 font-display text-2xl font-semibold tracking-tight text-ink"
+              class="mobile-link flex w-full items-center justify-between py-3.5 font-display text-2xl font-semibold tracking-tight text-ink"
               aria-current={!('external' in item) && isActive(item.href) ? 'page' : undefined}
             >
               {item.text}
               {'external' in item && <span class="sr-only-nw"> (opens in a new tab)</span>}
-              <Icon name="chevron" size={22} class="mobile-chevron" />
+              <Icon name="nav-chevronRight" size={22} stroke-width={1.72} class="mobile-chevron" />
             </a>
           </li>
         ))}
@@ -243,7 +243,6 @@ const mobileItems: MobileItem[] = [
   }
   .mobile-chevron {
     opacity: 0;
-    rotate: -90deg;
     transition: opacity 0.2s ease;
   }
   .mobile-link:hover .mobile-chevron,
