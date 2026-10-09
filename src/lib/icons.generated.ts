@@ -380,9 +380,5 @@ export const icons: Record<string, { viewBox: string; body: string; stroke?: boo
     body: '<path d="M18 6 6 18"/> <path d="m6 6 12 12"/>',
     stroke: true,
   },
-  'nav-chevronRight': {
-    viewBox: '0 0 24 24',
-    body: '<path d="m9 18 6-6-6-6"/>',
-    stroke: true,
-  },
+  'nav-chevronRight': { viewBox: '0 0 24 24', body: '<path d="m9 18 6-6-6-6"/>', stroke: true },
 };
