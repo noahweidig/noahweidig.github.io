@@ -139,7 +139,10 @@ import Icon from './Icon.astro';
     /* The dialog never scrolls: the query row and filter row stay put and only
        the results list scrolls. Same background as the mobile menu. */
     #site-search {
-      height: 100dvh;
+      position: fixed;
+      inset: 0;
+      z-index: 60;
+      height: auto;
       overflow: hidden;
     }
     [data-search-backdrop] {
