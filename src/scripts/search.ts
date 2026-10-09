@@ -397,7 +397,7 @@ export function initSearch() {
   /* On phones the dialog fades out (CSS) like the mobile menu before closing. */
   let closing = false;
   const finishClose = () => {
-    dialog.removeAttribute('data-closing');
+    delete dialog.dataset.closing;
     closing = false;
     dialog.close();
     lastFocused?.focus();
@@ -412,7 +412,7 @@ export function initSearch() {
       return;
     }
     closing = true;
-    dialog.setAttribute('data-closing', '');
+    dialog.dataset.closing = '';
     window.setTimeout(finishClose, 250);
   };
   on(dialog, 'cancel', (ev) => {
