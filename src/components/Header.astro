@@ -375,4 +375,22 @@ const isActive = (href: string) => {
   };
   set();
   addEventListener('scroll', set, { passive: true });
+
+  if (location.search.includes('navdebug')) {
+    const hdr = document.getElementById('site-header')!;
+    const box = document.createElement('pre');
+    box.style.cssText =
+      'position:fixed;left:0;bottom:90px;z-index:9999;margin:0;padding:6px;font:11px/1.3 monospace;background:#000c;color:#0f0;pointer-events:none';
+    document.body.append(box);
+    const min = { hdr: 0, off: 0 };
+    const tick = () => {
+      const vv = window.visualViewport!;
+      const top = Math.round(hdr.getBoundingClientRect().top);
+      min.hdr = Math.min(min.hdr, top);
+      min.off = Math.min(min.off, Math.round(vv.offsetTop));
+      box.textContent = `hdrTop ${top} (min ${min.hdr})\nvv.offTop ${Math.round(vv.offsetTop)} (min ${min.off})\nvv.pageTop ${Math.round(vv.pageTop)}\nscrollY ${Math.round(scrollY)}\ninnerH ${innerHeight} vvH ${Math.round(vv.height)}\nclientH ${document.documentElement.clientHeight}\nscale ${vv.scale}\nscrollW ${document.documentElement.scrollWidth} innerW ${innerWidth}`;
+      requestAnimationFrame(tick);
+    };
+    tick();
+  }
 </script>
