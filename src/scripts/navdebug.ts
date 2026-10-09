@@ -27,7 +27,10 @@ export function initNavDebug() {
     const q = new URLSearchParams(location.search).get(KEY);
     if (q === '1') sessionStorage.setItem(KEY, '1');
     const sx = new URLSearchParams(location.search).get('sx');
-    if (sx !== null) sessionStorage.setItem('sx', sx);
+    if (sx !== null) {
+      const flag = ['nolock', 'nofocus', 'nomodal'].find((f) => f === sx) ?? '';
+      sessionStorage.setItem('sx', flag);
+    }
     if (q === '0') {
       sessionStorage.removeItem(KEY);
       sessionStorage.removeItem(LOG);
