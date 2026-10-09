@@ -1,4 +1,5 @@
 /* ---------------------------------------------------------------- fuzzy -- */
+import { navigate } from 'astro:transitions/client';
 import { basePath, on } from './dom';
 
 /* Pagefind matches whole words, so "wildfre" or "gldilocks" find nothing. The
@@ -406,7 +407,34 @@ export function initSearch() {
 
   on(dialog, 'close', () => {
     delete document.documentElement.dataset.searchActive;
+    input.blur();
     unlockPage();
+  });
+  /* iOS Safari: leaving the page while the keyboard is up (or still sliding away)
+     strands the visual viewport 68px below the layout viewport, so the fixed nav
+     bar scrolls off the top until the tab is closed. Drop the keyboard, let the
+     viewport finish resizing, then navigate. */
+  on(out, 'click', (ev) => {
+    const e = ev as MouseEvent;
+    const a = (e.target as HTMLElement).closest<HTMLAnchorElement>('a[href]');
+    if (!a || e.defaultPrevented || e.button !== 0) return;
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    const vv = window.visualViewport;
+    if (!vv || document.activeElement !== input) return;
+    e.preventDefault();
+    input.blur();
+    let timer = 0;
+    const go = () => {
+      vv.removeEventListener('resize', arm);
+      window.clearTimeout(timer);
+      navigate(a.href);
+    };
+    const arm = () => {
+      window.clearTimeout(timer);
+      timer = window.setTimeout(go, 150);
+    };
+    vv.addEventListener('resize', arm);
+    timer = window.setTimeout(go, 300);
   });
   /* ClientRouter swaps <body> but keeps <html>: a result click would leave the
      lock attrs behind and pin the new page's body (fixed nav, no scroll). */
