@@ -121,6 +121,8 @@ const LUCIDE = {
   'nav-sun': 'sun',
   'nav-moon': 'moon',
   'nav-sunMoon': 'sun-moon',
+  'nav-listFilter': 'list-filter',
+  'nav-x': 'x',
 };
 const lucideDir = path.join(path.dirname(require.resolve('lucide-static/package.json')), 'icons');
 
