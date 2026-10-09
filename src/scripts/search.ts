@@ -400,6 +400,15 @@ export function initSearch() {
       if (phone()) {
         dialog.show();
         setInert(true);
+        // TEMPORARY navdebug flag (?sx=below): keep the nav bar visible above search.
+        let below = false;
+        try {
+          below = sessionStorage.getItem('sx') === 'below';
+        } catch {
+          /* storage unavailable */
+        }
+        const bar = document.getElementById('site-header');
+        dialog.style.top = below && bar ? `${bar.offsetHeight}px` : '';
       } else {
         dialog.showModal();
       }
