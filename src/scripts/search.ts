@@ -1,5 +1,6 @@
 /* ---------------------------------------------------------------- fuzzy -- */
 import { basePath, on } from './dom';
+import { bodyScrolls } from './scroll-root';
 
 /* Pagefind matches whole words, so "wildfre" or "gldilocks" find nothing. The
    title index in /search-index.json is scored character-by-character and fills
@@ -375,10 +376,12 @@ export function initSearch() {
   /* ---- open / close ---- */
   let lastFocused: HTMLElement | null = null;
   /* iOS Safari ignores overflow:hidden on <html>, so on phones the page is
-     pinned with position:fixed (CSS) and its scroll position restored on close. */
+     pinned with position:fixed (CSS) and its scroll position restored on close.
+     Touch devices that scroll <body> (scroll-root.ts) need neither: CSS stops
+     the body scrolling while search is open. */
   let lockedY: number | null = null;
   const lockPage = () => {
-    if (lockedY !== null || !matchMedia('(max-width: 39.99rem)').matches) return;
+    if (lockedY !== null || bodyScrolls() || !matchMedia('(max-width: 39.99rem)').matches) return;
     lockedY = scrollY;
     document.documentElement.style.setProperty('--search-lock-y', `-${lockedY}px`);
     document.documentElement.dataset.searchLock = '';

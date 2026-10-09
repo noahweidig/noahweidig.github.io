@@ -193,6 +193,28 @@
     overflow-x: clip;
   }
 
+  /* Touch devices scroll <body>, not the window: iOS Safari can strand the
+     fixed nav bar off-screen after resizing its toolbar on window scroll. See
+     src/scripts/scroll-root.ts, which must use the same query. */
+  @media (pointer: coarse) {
+    html {
+      height: 100%;
+      overflow: hidden;
+      scroll-behavior: auto;
+    }
+    body {
+      height: 100%;
+      overflow-x: hidden;
+      overflow-y: auto;
+      scroll-behavior: smooth;
+      scroll-padding-top: 6rem;
+    }
+    html[data-menu-open] body,
+    html[data-search-active] body {
+      overflow-y: hidden;
+    }
+  }
+
   h1,
   h2,
   h3,
@@ -246,7 +268,8 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    html {
+    html,
+    body {
       scroll-behavior: auto;
     }
     *,
