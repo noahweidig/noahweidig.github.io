@@ -199,6 +199,9 @@ export function initSearch() {
     });
   };
 
+  /* Result links do a full page load (data-astro-reload), not a ClientRouter swap:
+     iOS Safari left the nav bar mispositioned after swapping out a page that had
+     the search lock and keyboard up. A fresh document starts from clean state. */
   const renderResults = (items: PagefindData[], hits: Hit[], q: string) => {
     /* Trailing slashes trimmed by hand: a `/+$` regex backtracks on a long
        run of them for no gain. */
@@ -253,7 +256,7 @@ export function initSearch() {
       .slice(0, 20)
       .map((r, i) => {
         const chip = r.section ? `<span class="chip shrink-0">${escapeHtml(r.section)}</span>` : '';
-        return `<a id="search-opt-${i}" role="option" aria-selected="false" href="${r.href}"
+        return `<a id="search-opt-${i}" role="option" aria-selected="false" href="${r.href}" data-astro-reload
           class="block rounded-none border-b border-line/60 px-3 py-3.5 transition-colors last:border-b-0 hover:bg-raised sm:rounded-xl sm:border-b-0 sm:px-4 sm:py-3.5 sm:[&[aria-selected=true]]:ring-1 sm:[&[aria-selected=true]]:ring-accent/40 sm:[&[aria-selected=true]]:ring-inset">
           <span class="flex flex-col-reverse items-start gap-1.5 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
             <span class="text-[1rem] font-medium text-ink sm:text-[1.02rem]">${r.title}</span>
@@ -406,18 +409,11 @@ export function initSearch() {
 
   on(dialog, 'close', () => {
     delete document.documentElement.dataset.searchActive;
-    input.blur();
     unlockPage();
   });
-  /* Unlock and drop the keyboard before the router navigates: iOS Safari keeps a
-     stale fixed-position layout (nav bar scrolls away) if the page swaps while
-     <body> is pinned or the search field still holds focus. */
-  on(out, 'click', (ev) => {
-    const e = ev as MouseEvent;
-    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
-    if (!(e.target as HTMLElement).closest('a[href]')) return;
-    input.blur();
-    dialog.close();
+  /* Back button restores this page from the bfcache with the dialog still open. */
+  on(window, 'pageshow', (ev) => {
+    if ((ev as PageTransitionEvent).persisted && dialog.open) dialog.close();
   });
   document.querySelectorAll('[data-search-open]').forEach((b) => on(b, 'click', open));
   dialog.querySelectorAll('[data-search-close]').forEach((b) => on(b, 'click', close));
