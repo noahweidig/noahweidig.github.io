@@ -408,13 +408,12 @@ export function initSearch() {
     delete document.documentElement.dataset.searchActive;
     unlockPage();
   });
-  /* ClientRouter swaps <body> but keeps <html>: a result click would leave the
-     lock attrs behind and pin the new page's body (fixed nav, no scroll). */
-  on(document, 'astro:before-swap', () => {
-    delete document.documentElement.dataset.searchLock;
-    delete document.documentElement.dataset.searchActive;
-    document.documentElement.style.removeProperty('--search-lock-y');
-    lockedY = null;
+  /* Unlock before the router navigates: iOS Safari keeps a stale fixed-position
+     layout (nav bar scrolls away) if the page swaps while <body> is pinned. */
+  on(out, 'click', (ev) => {
+    const e = ev as MouseEvent;
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+    if ((e.target as HTMLElement).closest('a[href]')) dialog.close();
   });
   document.querySelectorAll('[data-search-open]').forEach((b) => on(b, 'click', open));
   dialog.querySelectorAll('[data-search-close]').forEach((b) => on(b, 'click', close));
