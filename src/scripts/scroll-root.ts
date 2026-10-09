@@ -63,8 +63,8 @@ export function initScrollRestore() {
       const restoreFocus = swapFunctions.saveFocus();
       const body = document.body;
       const next = e.newDocument.body;
-      for (const a of [...body.attributes]) body.removeAttribute(a.name);
-      for (const a of [...next.attributes]) body.setAttribute(a.name, a.value);
+      while (body.attributes.length) body.removeAttribute(body.attributes[0]!.name);
+      for (const a of next.attributes) body.setAttribute(a.name, a.value);
       body.replaceChildren(...next.childNodes);
       body.scrollTop = restoreTo;
       restoreFocus();
