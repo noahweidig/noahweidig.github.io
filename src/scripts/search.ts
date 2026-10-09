@@ -363,9 +363,26 @@ export function initSearch() {
 
   /* ---- open / close ---- */
   let lastFocused: HTMLElement | null = null;
+  /* iOS Safari ignores overflow:hidden on <html>, so on phones the page is
+     pinned with position:fixed (CSS) and its scroll position restored on close. */
+  let lockedY: number | null = null;
+  const lockPage = () => {
+    if (lockedY !== null || !matchMedia('(max-width: 39.99rem)').matches) return;
+    lockedY = scrollY;
+    document.documentElement.style.setProperty('--search-lock-y', `-${lockedY}px`);
+    document.documentElement.dataset.searchLock = '';
+  };
+  const unlockPage = () => {
+    if (lockedY === null) return;
+    delete document.documentElement.dataset.searchLock;
+    document.documentElement.style.removeProperty('--search-lock-y');
+    scrollTo({ top: lockedY, behavior: 'instant' });
+    lockedY = null;
+  };
   const open = () => {
     lastFocused = document.activeElement as HTMLElement | null;
     if (!dialog.open) dialog.showModal();
+    lockPage();
     document.documentElement.dataset.searchActive = '';
     input.focus();
     input.select();
@@ -377,7 +394,10 @@ export function initSearch() {
     lastFocused?.focus();
   };
 
-  on(dialog, 'close', () => delete document.documentElement.dataset.searchActive);
+  on(dialog, 'close', () => {
+    delete document.documentElement.dataset.searchActive;
+    unlockPage();
+  });
   document.querySelectorAll('[data-search-open]').forEach((b) => on(b, 'click', open));
   dialog.querySelectorAll('[data-search-close]').forEach((b) => on(b, 'click', close));
   on(dialog, 'click', (ev) => {
