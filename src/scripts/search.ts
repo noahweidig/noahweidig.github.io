@@ -386,21 +386,21 @@ export function initSearch() {
   };
   const open = () => {
     lastFocused = document.activeElement as HTMLElement | null;
-    // TEMPORARY navdebug bisect flags (?sx=nolock|nofocus|nomodal).
-    let sx = '';
+    // TEMPORARY navdebug bisect flags (?sx=nolock,nofocus,nomodal,noactive).
+    let sx: string[] = [];
     try {
-      sx = sessionStorage.getItem('sx') ?? '';
+      sx = (sessionStorage.getItem('sx') ?? '').split(',');
     } catch {
       /* storage unavailable */
     }
     if (!dialog.open) {
-      if (sx === 'nomodal') dialog.show();
+      if (sx.includes('nomodal')) dialog.show();
       else dialog.showModal();
     }
-    if (sx !== 'nolock') lockPage();
-    document.documentElement.dataset.searchActive = '';
+    if (!sx.includes('nolock')) lockPage();
+    if (!sx.includes('noactive')) document.documentElement.dataset.searchActive = '';
     syncClear();
-    if (sx !== 'nofocus') {
+    if (!sx.includes('nofocus')) {
       input.focus();
       input.select();
     }
