@@ -15,8 +15,9 @@ const isActive = (href: string) => {
   const target = slash(u(href));
   return target === home ? path === home : path === target || path.startsWith(target);
 };
-const mobileItems = [
-  ...navGroups.flatMap((g) => g.items),
+type MobileItem = { text: string; href: string; external?: true };
+const mobileItems: MobileItem[] = [
+  ...navGroups.flatMap((g): MobileItem[] => [...g.items]),
   { text: 'Get in touch', href: '/contact/' },
 ];
 ---
