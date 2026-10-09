@@ -22,7 +22,6 @@ const svgDir = path.join(
 
 /** site name -> Font Awesome solid icon (svgs/solid/<file>.svg) */
 const SOLID = {
-  rss: 'rss',
   mail: 'envelope',
   envelope: 'envelope',
   message: 'message',
@@ -115,8 +114,9 @@ const BRANDS = {
   'x-twitter': 'x-twitter',
 };
 
-/** site name -> Lucide icon (ISC). Stroke icons, used only in the nav bar. */
+/** site name -> Lucide icon (ISC). Stroke icons: the nav bar's and the RSS feed icon. */
 const LUCIDE = {
+  rss: 'rss',
   'nav-search': 'search',
   'nav-sun': 'sun',
   'nav-moon': 'moon',
