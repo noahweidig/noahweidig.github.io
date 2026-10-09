@@ -130,17 +130,16 @@ import Icon from './Icon.astro';
      chips, instead of a sheet that hides half the list. The filter button
      closes it again. */
   @media (max-width: 39.99rem) {
-    :global(html[data-search-lock] body) {
-      position: fixed;
-      inset-inline: 0;
-      top: var(--search-lock-y, 0);
-      width: 100%;
-    }
     /* The dialog never scrolls: the query row and filter row stay put and only
-       the results list scrolls. Same background as the mobile menu. */
+       the results list scrolls. Same background as the mobile menu.
+       No 100dvh and no position:fixed body lock: either makes the dialog or
+       the page overflow the layout viewport, iOS Safari pans the visual
+       viewport into it, and the fixed nav bar is left above the screen for
+       the rest of the tab. h-full fills the viewport; overflow:hidden on
+       <html> (Header.astro) holds the page behind, as for the mobile menu. */
     #site-search {
-      height: 100dvh;
       overflow: hidden;
+      overscroll-behavior: contain;
     }
     [data-search-backdrop] {
       height: 100%;
