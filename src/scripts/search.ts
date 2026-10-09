@@ -406,14 +406,18 @@ export function initSearch() {
 
   on(dialog, 'close', () => {
     delete document.documentElement.dataset.searchActive;
+    input.blur();
     unlockPage();
   });
-  /* Unlock before the router navigates: iOS Safari keeps a stale fixed-position
-     layout (nav bar scrolls away) if the page swaps while <body> is pinned. */
+  /* Unlock and drop the keyboard before the router navigates: iOS Safari keeps a
+     stale fixed-position layout (nav bar scrolls away) if the page swaps while
+     <body> is pinned or the search field still holds focus. */
   on(out, 'click', (ev) => {
     const e = ev as MouseEvent;
     if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
-    if ((e.target as HTMLElement).closest('a[href]')) dialog.close();
+    if (!(e.target as HTMLElement).closest('a[href]')) return;
+    input.blur();
+    dialog.close();
   });
   document.querySelectorAll('[data-search-open]').forEach((b) => on(b, 'click', open));
   dialog.querySelectorAll('[data-search-close]').forEach((b) => on(b, 'click', close));
