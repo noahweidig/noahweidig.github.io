@@ -1,5 +1,6 @@
 /* ------------------------------------------------------------ back to top -- */
 import { on } from './dom';
+import { pageScrollTo, pageScrollY, scrollTarget } from './scroll-root';
 
 /* Only appears while the reader is actively scrolling up, and only past a
    fold's worth of scroll — so it never fights a page that's still scrolling
@@ -9,21 +10,18 @@ export function initBackToTop() {
   const btn = document.getElementById('back-to-top');
   if (!btn) return;
   const threshold = window.innerHeight * 0.75;
-  let lastY = window.scrollY;
+  let lastY = pageScrollY();
 
   const sync = () => {
-    const y = window.scrollY;
+    const y = pageScrollY();
     const scrollingUp = y < lastY;
     btn.toggleAttribute('data-show', scrollingUp && y > threshold);
     lastY = y;
   };
   sync();
-  on(window, 'scroll', sync, { passive: true } as AddEventListenerOptions);
+  on(scrollTarget(), 'scroll', sync, { passive: true } as AddEventListenerOptions);
 
   on(btn, 'click', () => {
-    window.scrollTo({
-      top: 0,
-      behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
-    });
+    pageScrollTo(0, matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth');
   });
 }

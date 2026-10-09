@@ -365,10 +365,20 @@ const mobileItems: MobileItem[] = [
 </style>
 
 <script>
+  import { pageScrollY } from '../scripts/scroll-root';
+
   const set = () => {
     if (document.documentElement.hasAttribute('data-menu-open')) return;
-    document.documentElement.toggleAttribute('data-scrolled', scrollY > 8);
+    document.documentElement.toggleAttribute('data-scrolled', pageScrollY() > 8);
   };
   set();
-  addEventListener('scroll', set, { passive: true });
+  // Capture, so the scrolling <body> on touch devices is heard too; scroll
+  // events from inner scrollers (carousels, search results) are ignored.
+  document.addEventListener(
+    'scroll',
+    (ev) => {
+      if (ev.target === document || ev.target === document.body) set();
+    },
+    { capture: true, passive: true },
+  );
 </script>
