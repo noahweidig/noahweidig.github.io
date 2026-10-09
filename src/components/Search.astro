@@ -22,7 +22,7 @@ import Icon from './Icon.astro';
       {/* Phone: a pill-shaped field (icon, input, filter toggle) with a text
           close circle beside it. `sm:contents` dissolves the pill wrapper so the
           desktop row is exactly what it was. */}
-      <div class="flex items-center gap-2 border-b border-line px-3 py-2.5 sm:gap-3.5 sm:bg-raised/40 sm:px-6 sm:py-1">
+      <div class="flex h-16 items-center gap-2 border-b border-line px-5 sm:h-auto sm:gap-3.5 sm:bg-raised/40 sm:px-6 sm:py-1">
         <div class="flex min-w-0 flex-1 items-center gap-2 rounded-xl bg-raised px-3 sm:contents">
           <Icon name="search" size={18} class="shrink-0 text-faint sm:text-accent-ink" />
           <input
@@ -58,10 +58,11 @@ import Icon from './Icon.astro';
         <button
           type="button"
           data-search-close
-          class="icon-tile icon-bare h-8 w-8 shrink-0 hover:transform-none! sm:h-9 sm:w-9"
+          class="icon-tile icon-bare h-10 w-10 shrink-0 hover:transform-none! sm:h-9 sm:w-9"
           aria-label="Close search"
         >
-          <Icon name="nav-x" size={17} stroke-width={2.2} />
+          <Icon name="nav-x" size={21} stroke-width={1.8} class="sm:hidden" />
+          <Icon name="nav-x" size={17} stroke-width={2.2} class="hidden sm:block" />
         </button>
       </div>
 
@@ -137,10 +138,35 @@ import Icon from './Icon.astro';
       border-bottom: 1px solid var(--c-line);
       background: var(--c-surface);
     }
-    #search-filters :global(ul) {
+    #search-filters {
+      overflow: hidden;
+    }
+    /* One swipeable row that runs off the right edge of the screen. */
+    #search-filters [data-filter-groups] {
       display: flex;
-      flex-wrap: wrap;
       gap: 0.5rem;
+      margin-inline: -1rem;
+      padding-inline: 1rem;
+      overflow-x: auto;
+      overscroll-behavior-x: contain;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    #search-filters [data-filter-groups]::-webkit-scrollbar {
+      display: none;
+    }
+    #search-filters [data-filter-groups] :global(div),
+    #search-filters [data-filter-groups] :global(ul) {
+      display: contents;
+    }
+    #search-filters [data-filter-groups] :global(h3) {
+      display: none;
+    }
+    #search-filters [data-filter-groups] :global(li) {
+      flex: none;
+    }
+    #search-filters :global(button[data-filter-key]) {
+      white-space: nowrap;
     }
     #search-filters :global(button[data-filter-key]) {
       width: auto;
