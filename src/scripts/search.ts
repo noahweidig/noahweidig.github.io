@@ -1,5 +1,4 @@
 /* ---------------------------------------------------------------- fuzzy -- */
-import { navigate } from 'astro:transitions/client';
 import { basePath, on } from './dom';
 
 /* Pagefind matches whole words, so "wildfre" or "gldilocks" find nothing. The
@@ -153,18 +152,16 @@ const FILTER_ORDER = ['section', 'tag'];
 const FILTER_LABEL: Record<string, string> = { section: 'Section', tag: 'Tags' };
 
 export function initSearch() {
-  /* The dialog on every page, or the panel on /search/ (no dialog there). */
-  const root = document.getElementById('site-search');
-  if (!root) return;
-  const dialog = root instanceof HTMLDialogElement ? root : null;
-  const input = root.querySelector<HTMLInputElement>('#search-input');
-  const out = root.querySelector<HTMLElement>('#search-results');
-  const rail = root.querySelector<HTMLElement>('#search-filters');
-  const groups = root.querySelector<HTMLElement>('[data-filter-groups]');
-  const toggle = root.querySelector<HTMLButtonElement>('[data-filter-toggle]');
-  const badge = root.querySelector<HTMLElement>('[data-filter-count]');
-  const status = root.querySelector<HTMLElement>('[data-search-status]');
-  const clearBtn = root.querySelector<HTMLButtonElement>('[data-search-clear]');
+  const dialog = document.getElementById('site-search') as HTMLDialogElement | null;
+  if (!dialog) return;
+  const input = dialog.querySelector<HTMLInputElement>('#search-input');
+  const out = dialog.querySelector<HTMLElement>('#search-results');
+  const rail = dialog.querySelector<HTMLElement>('#search-filters');
+  const groups = dialog.querySelector<HTMLElement>('[data-filter-groups]');
+  const toggle = dialog.querySelector<HTMLButtonElement>('[data-filter-toggle]');
+  const badge = dialog.querySelector<HTMLElement>('[data-filter-count]');
+  const status = dialog.querySelector<HTMLElement>('[data-search-status]');
+  const clearBtn = dialog.querySelector<HTMLButtonElement>('[data-search-clear]');
   if (!input || !out || !rail || !groups || !toggle || !badge || !clearBtn) return;
   /* The full prompt doesn't fit the phone-width field. */
   if (matchMedia('(max-width: 39.99rem)').matches) input.placeholder = 'Search the site…';
@@ -218,20 +215,18 @@ export function initSearch() {
        and sorting on that fixes the order without discarding full-text hits. */
     type Row = { href: string; title: string; section: string; sub: string; score: number };
 
-    const rows: Row[] = items
-      .filter((d) => !key(resultHref(d.url)).endsWith('/search/'))
-      .map((d, i) => {
-        const title = d.meta.title ?? d.url;
-        const titleScore = scoreDoc(q, { t: title, u: d.url, s: d.meta.section ?? '' })?.score ?? 0;
-        return {
-          href: resultHref(d.url),
-          title: markQuery(title, q),
-          section: d.meta.section ?? '',
-          sub: d.excerpt,
-          // A full-text hit is worth something even when the title says nothing.
-          score: titleScore + 24 - i * 0.5,
-        };
-      });
+    const rows: Row[] = items.map((d, i) => {
+      const title = d.meta.title ?? d.url;
+      const titleScore = scoreDoc(q, { t: title, u: d.url, s: d.meta.section ?? '' })?.score ?? 0;
+      return {
+        href: resultHref(d.url),
+        title: markQuery(title, q),
+        section: d.meta.section ?? '',
+        sub: d.excerpt,
+        // A full-text hit is worth something even when the title says nothing.
+        score: titleScore + 24 - i * 0.5,
+      };
+    });
 
     for (const h of hits) {
       const href = resultHref(h.doc.u);
@@ -372,21 +367,8 @@ export function initSearch() {
   };
 
   /* ---- open / close ---- */
-  /* Phones and tablets get the /search/ page instead of the dialog. On iOS
-     Safari any full-screen overlay over a scrolling page could leave the tab
-     with its visual viewport 68px below the layout viewport, so the fixed nav
-     bar slid off the top on every later scroll. A normal page has no overlay. */
-  const usePage = () => matchMedia('(pointer: coarse), (max-width: 39.99rem)').matches;
   let lastFocused: HTMLElement | null = null;
   const open = () => {
-    if (!dialog) {
-      input.focus();
-      return;
-    }
-    if (usePage()) {
-      void navigate(`${basePath()}/search/`);
-      return;
-    }
     lastFocused = document.activeElement as HTMLElement | null;
     if (!dialog.open) dialog.showModal();
     document.documentElement.dataset.searchActive = '';
@@ -396,33 +378,24 @@ export function initSearch() {
     void run();
   };
   const close = () => {
-    if (!dialog) {
-      if (history.length > 1) history.back();
-      else void navigate(`${basePath()}/`);
-      return;
-    }
     if (!dialog.open) return;
     dialog.close();
     lastFocused?.focus();
   };
-  if (dialog) {
-    on(dialog, 'cancel', (ev) => {
-      ev.preventDefault();
-      close();
-    });
-    on(dialog, 'close', () => {
-      delete document.documentElement.dataset.searchActive;
-    });
-    on(dialog, 'click', (ev) => {
-      const target = ev.target as HTMLElement;
-      if (!target.closest('[data-search-panel]')) close();
-    });
-  } else {
-    syncClear();
-    void run();
-  }
+  on(dialog, 'cancel', (ev) => {
+    ev.preventDefault();
+    close();
+  });
+
+  on(dialog, 'close', () => {
+    delete document.documentElement.dataset.searchActive;
+  });
   document.querySelectorAll('[data-search-open]').forEach((b) => on(b, 'click', open));
-  root.querySelectorAll('[data-search-close]').forEach((b) => on(b, 'click', close));
+  dialog.querySelectorAll('[data-search-close]').forEach((b) => on(b, 'click', close));
+  on(dialog, 'click', (ev) => {
+    const target = ev.target as HTMLElement;
+    if (!target.closest('[data-search-panel]')) close();
+  });
   on(document, 'keydown', (ev) => {
     const e = ev as KeyboardEvent;
     if ((e.key === 'k' && (e.metaKey || e.ctrlKey)) || (e.key === '/' && !isTyping(e.target))) {

@@ -1,22 +1,11 @@
 ---
 import Icon from './Icon.astro';
-
-interface Props {
-  /** Render as the in-flow panel of the /search/ page instead of the dialog. */
-  page?: boolean;
-}
-const { page = false } = Astro.props;
-const Tag = page ? 'div' : 'dialog';
 ---
 
-<Tag
+<dialog
   data-pagefind-ignore
   id="site-search"
-  class={
-    page
-      ? 'w-full'
-      : 'm-0 h-full max-h-none w-full max-w-none bg-transparent p-0 backdrop:bg-black/70 backdrop:backdrop-blur-sm'
-  }
+  class="m-0 h-full max-h-none w-full max-w-none bg-transparent p-0 backdrop:bg-black/70 backdrop:backdrop-blur-sm"
   aria-label="Search"
 >
   {/* Phone: the dialog is the page — a 3-inch-wide popup with a scrolling list
@@ -134,7 +123,7 @@ const Tag = page ? 'div' : 'dialog';
       </div>
     </div>
   </div>
-</Tag>
+</dialog>
 
 <style>
   /* Phone: the filter rail drops down from the top of the results as a row of
