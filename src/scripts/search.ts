@@ -394,26 +394,10 @@ export function initSearch() {
     input.select();
     void run();
   };
-  /* On phones the dialog fades out (CSS) like the mobile menu before closing. */
-  let closing = false;
-  const finishClose = () => {
-    delete dialog.dataset.closing;
-    closing = false;
+  const close = () => {
+    if (!dialog.open) return;
     dialog.close();
     lastFocused?.focus();
-  };
-  const close = () => {
-    if (!dialog.open || closing) return;
-    if (
-      !matchMedia('(max-width: 39.99rem)').matches ||
-      matchMedia('(prefers-reduced-motion: reduce)').matches
-    ) {
-      finishClose();
-      return;
-    }
-    closing = true;
-    dialog.dataset.closing = '';
-    window.setTimeout(finishClose, 250);
   };
   on(dialog, 'cancel', (ev) => {
     ev.preventDefault();
@@ -423,6 +407,14 @@ export function initSearch() {
   on(dialog, 'close', () => {
     delete document.documentElement.dataset.searchActive;
     unlockPage();
+  });
+  /* ClientRouter swaps <body> but keeps <html>: a result click would leave the
+     lock attrs behind and pin the new page's body (fixed nav, no scroll). */
+  on(document, 'astro:before-swap', () => {
+    delete document.documentElement.dataset.searchLock;
+    delete document.documentElement.dataset.searchActive;
+    document.documentElement.style.removeProperty('--search-lock-y');
+    lockedY = null;
   });
   document.querySelectorAll('[data-search-open]').forEach((b) => on(b, 'click', open));
   dialog.querySelectorAll('[data-search-close]').forEach((b) => on(b, 'click', close));
