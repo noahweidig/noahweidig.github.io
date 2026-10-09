@@ -192,9 +192,13 @@
       'ss03' 1;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
-    /* clip, not hidden: overflow-x: hidden turns body into a scroll
-       container and breaks position: sticky for descendants (e.g. the
-       article TOC) in Chrome/Firefox. clip avoids that. */
+  }
+
+  /* Not on body: body's overflow propagates to the viewport, and a clipped
+     viewport lets iOS Safari offset fixed elements (the nav bar) as its toolbar
+     collapses. clip, not hidden, keeps position: sticky working inside. */
+  main,
+  footer {
     overflow-x: clip;
   }
 
