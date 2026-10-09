@@ -165,7 +165,8 @@
   html {
     scroll-behavior: smooth;
     scroll-padding-top: 6rem;
-    -webkit-text-size-adjust: 100%;  }
+    -webkit-text-size-adjust: 100%;
+  }
 
   /* Reserve the scrollbar track so opening the search dialog, which locks
      document scrolling, does not reflow the page under it. Scoped to

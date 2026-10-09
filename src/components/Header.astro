@@ -17,12 +17,7 @@ const isActive = (href: string) => {
 };
 ---
 
-<header
-  data-pagefind-ignore
-  data-site-header
-  class="nav-glass sticky top-0 z-50"
-  id="site-header"
->
+<header data-pagefind-ignore data-site-header class="nav-glass sticky top-0 z-50" id="site-header">
   <div class="shell nav-bar flex h-16 items-center md:h-[4.5rem] gap-4 lg:grid lg:grid-cols-[1fr_auto_1fr]">
     <a
       href={u('/')}
@@ -367,7 +362,6 @@ const isActive = (href: string) => {
   };
   set();
   addEventListener('scroll', set, { passive: true });
-
 
   if (location.search.includes('navdebug')) {
     const hdr = document.getElementById('site-header')!;
