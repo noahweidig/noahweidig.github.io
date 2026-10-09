@@ -1,5 +1,4 @@
 /* ---------------------------------------------------------------- fuzzy -- */
-import { navigate } from 'astro:transitions/client';
 import { basePath, on } from './dom';
 
 /* Pagefind matches whole words, so "wildfre" or "gldilocks" find nothing. The
@@ -375,7 +374,6 @@ export function initSearch() {
   const lockPage = () => {
     if (lockedY !== null || !matchMedia('(max-width: 39.99rem)').matches) return;
     lockedY = scrollY;
-    document.dispatchEvent(new CustomEvent('navdebug', { detail: 'lock' }));
     document.documentElement.style.setProperty('--search-lock-y', `-${lockedY}px`);
     document.documentElement.dataset.searchLock = '';
   };
@@ -384,7 +382,6 @@ export function initSearch() {
     delete document.documentElement.dataset.searchLock;
     document.documentElement.style.removeProperty('--search-lock-y');
     scrollTo({ top: lockedY, behavior: 'instant' });
-    document.dispatchEvent(new CustomEvent('navdebug', { detail: 'unlock' }));
     lockedY = null;
   };
   const open = () => {
@@ -409,47 +406,15 @@ export function initSearch() {
 
   on(dialog, 'close', () => {
     delete document.documentElement.dataset.searchActive;
-    input.blur();
     unlockPage();
   });
-  /* iOS Safari: leaving the page while the keyboard is up or the body is pinned
-     strands the visual viewport 68px below the layout viewport, so the fixed nav
-     bar scrolls off the top until the tab is closed. Drop the keyboard, let the
-     viewport settle, unpin the page, let it settle again, then navigate. */
-  const debug = (label: string) =>
-    document.dispatchEvent(new CustomEvent('navdebug', { detail: label }));
-  const settle = (fn: () => void) => {
-    const vv = window.visualViewport;
-    if (!vv) return fn();
-    let timer = 0;
-    const done = () => {
-      vv.removeEventListener('resize', arm);
-      window.clearTimeout(timer);
-      fn();
-    };
-    const arm = () => {
-      window.clearTimeout(timer);
-      timer = window.setTimeout(done, 150);
-    };
-    vv.addEventListener('resize', arm);
-    timer = window.setTimeout(done, 300);
-  };
-  on(out, 'click', (ev) => {
-    const e = ev as MouseEvent;
-    const a = (e.target as HTMLElement).closest<HTMLAnchorElement>('a[href]');
-    if (!a || e.defaultPrevented || e.button !== 0) return;
-    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-    e.preventDefault();
-    debug('blur');
-    input.blur();
-    settle(() => {
-      debug('close-dialog');
-      dialog.close();
-      settle(() => {
-        debug('navigate');
-        navigate(a.href);
-      });
-    });
+  /* ClientRouter swaps <body> but keeps <html>: a result click would leave the
+     lock attrs behind and pin the new page's body (fixed nav, no scroll). */
+  on(document, 'astro:before-swap', () => {
+    delete document.documentElement.dataset.searchLock;
+    delete document.documentElement.dataset.searchActive;
+    document.documentElement.style.removeProperty('--search-lock-y');
+    lockedY = null;
   });
   document.querySelectorAll('[data-search-open]').forEach((b) => on(b, 'click', open));
   dialog.querySelectorAll('[data-search-close]').forEach((b) => on(b, 'click', close));
