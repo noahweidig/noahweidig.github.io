@@ -26,12 +26,6 @@ export function initNavDebug() {
   try {
     const q = new URLSearchParams(location.search).get(KEY);
     if (q === '1') sessionStorage.setItem(KEY, '1');
-    const sx = new URLSearchParams(location.search).get('sx');
-    if (sx !== null) {
-      const allowed = ['nolock', 'nofocus', 'nomodal', 'noactive'];
-      const flags = sx === 'bare' ? ['nolock', 'nofocus', 'noactive'] : sx.split(',');
-      sessionStorage.setItem('sx', allowed.filter((f) => flags.includes(f)).join(','));
-    }
     if (q === '0') {
       sessionStorage.removeItem(KEY);
       sessionStorage.removeItem(LOG);
@@ -40,7 +34,7 @@ export function initNavDebug() {
   } catch {
     return;
   }
-  note(`load ${location.pathname} sx=${sessionStorage.getItem('sx') ?? ''}`);
+  note(`load ${location.pathname}`);
   let el = document.getElementById('navdebug');
   if (!el) {
     el = document.createElement('pre');

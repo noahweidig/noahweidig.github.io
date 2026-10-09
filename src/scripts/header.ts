@@ -4,22 +4,6 @@ import { on } from './dom';
 export function initHeader() {
   const header = document.getElementById('site-header');
   if (!header) return;
-
-  /* iOS Safari can strand the visual viewport below the layout viewport for the
-     rest of a tab (seen after using search: offsetTop 68), which parks the fixed
-     bar above the screen. Pin it to the visual viewport's top edge instead.
-     `top`, not a transform: a transform would trap the fixed mobile menu inside. */
-  const vv = window.visualViewport;
-  if (vv) {
-    const follow = () => {
-      const y = vv.scale === 1 ? Math.max(0, Math.round(vv.offsetTop)) : 0;
-      header.style.top = y ? `${y}px` : '';
-    };
-    follow();
-    on(vv, 'resize', follow);
-    on(vv, 'scroll', follow);
-  }
-
   const groups = [...document.querySelectorAll<HTMLElement>('.nav-group')];
   const setGroup = (g: HTMLElement, open: boolean) => {
     g.toggleAttribute('data-open', open);
