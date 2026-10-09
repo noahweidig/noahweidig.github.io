@@ -82,7 +82,7 @@ export function initHeader() {
       panel.hidden = false;
       return;
     }
-    /* Wipe out to the right (CSS), then hide once it finishes. */
+    /* Fade out (CSS), then hide once it finishes. */
     if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
       panel.hidden = true;
       return;
@@ -91,7 +91,7 @@ export function initHeader() {
     closeTimer = window.setTimeout(() => {
       panel.hidden = true;
       panel.removeAttribute('data-closing');
-    }, 300);
+    }, 250);
   };
   on(toggle, 'click', () => setOpen(!isOpen));
   panel.querySelectorAll('a').forEach((a) => on(a, 'click', () => setOpen(false)));
