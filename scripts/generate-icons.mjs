@@ -1,9 +1,11 @@
 /**
- * Rebuild src/lib/icons.generated.ts from @fortawesome/fontawesome-free.
+ * Rebuild src/lib/icons.generated.ts from lucide-static.
  *
- * Every icon on the site comes from Font Awesome Free (solid for UI marks,
- * brands for logos) so the whole set shares one weight. The SVGs are copied
- * into the repo, so nothing is fetched at runtime.
+ * Every UI icon on the site is Lucide (ISC, lucide.dev): one 24px grid, one
+ * stroke, one set of terminals. Brand marks are not generated here: they are
+ * the SVGs in public/uploads/, loaded by src/lib/brand-icons.ts. Each icon is
+ * run through SVGO (shapes to paths, paths merged, path data minified) so the
+ * homepage ships as few bytes as possible.
  *
  *   node scripts/generate-icons.mjs
  */
@@ -13,162 +15,134 @@ import { promisify } from 'node:util';
 import { createRequire } from 'node:module';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { optimize } from 'svgo';
 
 const require = createRequire(import.meta.url);
-const svgDir = path.join(
-  path.dirname(require.resolve('@fortawesome/fontawesome-free/package.json')),
-  'svgs',
-);
+const lucideDir = path.join(path.dirname(require.resolve('lucide-static/package.json')), 'icons');
 
-/** site name -> Font Awesome solid icon (svgs/solid/<file>.svg) */
-const SOLID = {
+/** site name -> Lucide icon file (icons/<file>.svg) */
+const MAP = {
   rss: 'rss',
-  mail: 'envelope',
-  envelope: 'envelope',
-  message: 'message',
+  mail: 'mail',
+  envelope: 'mail',
+  message: 'message-square-text',
   calendar: 'calendar-days',
-  briefcase: 'briefcase',
+  briefcase: 'briefcase-business',
   school: 'school',
-  code: 'code',
+  code: 'code-xml',
   users: 'users',
-  sparkles: 'wand-magic-sparkles',
-  layers: 'layer-group',
+  sparkles: 'sparkles',
+  layers: 'layers',
   trophy: 'trophy',
   bulb: 'lightbulb',
-  file: 'file-lines',
+  file: 'file-text',
   pencil: 'pencil',
-  help: 'circle-question',
-  search: 'magnifying-glass',
-  pin: 'location-dot',
+  help: 'circle-question-mark',
+  search: 'search',
+  pin: 'map-pin',
   clock: 'clock',
-  cube: 'cube',
+  cube: 'box',
   download: 'download',
   arrow: 'arrow-right',
   chevron: 'chevron-down',
-  external: 'arrow-up-right-from-square',
+  external: 'external-link',
   sun: 'sun',
   moon: 'moon',
-  sunMoon: 'circle-half-stroke',
-  menu: 'bars',
-  close: 'xmark',
+  sunMoon: 'sun-moon',
+  menu: 'menu',
+  close: 'x',
   satellite: 'satellite',
   chart: 'chart-column',
-  ai: 'brain',
+  ai: 'brain-circuit',
   leaf: 'leaf',
   database: 'database',
-  terminal: 'terminal',
-  quote: 'quote-left',
+  terminal: 'square-terminal',
+  quote: 'quote',
   video: 'video',
   news: 'newspaper',
-  shield: 'shield-halved',
-  slides: 'chalkboard',
+  shield: 'shield-check',
+  slides: 'presentation',
   book: 'book-open',
   report: 'clipboard-check',
-  preprint: 'file-pen',
+  preprint: 'file-clock',
   graduationCap: 'graduation-cap',
   check: 'check',
   tag: 'tag',
   copy: 'copy',
   link: 'link',
-  hash: 'hashtag',
-  reader: 'book-open-reader',
+  hash: 'hash',
+  reader: 'book-open-text',
   expand: 'expand',
-  zoom: 'magnifying-glass-plus',
+  zoom: 'zoom-in',
   left: 'chevron-left',
   right: 'chevron-right',
-  printer: 'print',
-  filePdf: 'file-pdf',
-  filter: 'filter',
-  info: 'circle-info',
+  printer: 'printer',
+  filePdf: 'file-down',
+  filter: 'list-filter',
+  info: 'info',
   pause: 'pause',
   play: 'play',
   circleArrowUp: 'circle-arrow-up',
   rocket: 'rocket',
   ellipsis: 'ellipsis',
-  share: 'share-nodes',
-  earth: 'earth-americas',
-  cpu: 'microchip',
-  broom: 'broom',
-  flame: 'fire',
-  flaskConical: 'flask',
-  plug: 'plug',
-};
-
-/** site name -> Font Awesome brand icon (svgs/brands/<file>.svg) */
-const BRANDS = {
-  bluesky: 'bluesky',
-  facebook: 'facebook',
-  github: 'github',
-  linkedin: 'linkedin',
-  mastodon: 'mastodon',
-  orcid: 'orcid',
-  pinterest: 'pinterest',
-  reddit: 'reddit',
-  researchgate: 'researchgate',
-  scholar: 'google-scholar',
-  telegram: 'telegram',
-  threads: 'threads',
-  tumblr: 'tumblr',
-  whatsapp: 'whatsapp',
-  x: 'x-twitter',
-  twitter: 'x-twitter',
-  'x-twitter': 'x-twitter',
-};
-
-/** site name -> Lucide icon (ISC). Stroke icons, used only in the nav bar. */
-const LUCIDE = {
+  share: 'share-2',
+  earth: 'earth',
+  cpu: 'cpu',
+  broom: 'broom-sparkles',
+  flame: 'flame',
+  flaskConical: 'flask-conical',
+  plug: 'webhook',
   'nav-search': 'search',
   'nav-sun': 'sun',
   'nav-moon': 'moon',
   'nav-sunMoon': 'sun-moon',
+  'nav-listFilter': 'list-filter',
+  'nav-x': 'x',
+  'nav-chevronRight': 'chevron-right',
 };
-const lucideDir = path.join(path.dirname(require.resolve('lucide-static/package.json')), 'icons');
 
-/** { viewBox, body } — the children of the <svg>. The viewBox is padded out to
-    a square (Font Awesome glyphs vary in width) so every icon sits centred in
-    the same box at any size. Sliced rather than matched: a regex spanning the
-    whole file backtracks for no benefit here. */
-const parse = (svg) => {
+/** The children of the <svg>, whitespace collapsed. Sliced rather than matched:
+    a regex spanning the whole file backtracks for no benefit here. */
+const inner = (svg) => {
   const open = svg.indexOf('>', svg.indexOf('<svg'));
   const close = svg.lastIndexOf('</svg>');
-  const [x, y, w, h] = (/viewBox="([^"]+)"/.exec(svg.slice(0, open))?.[1] ?? '0 0 512 512')
-    .split(/\s+/)
-    .map(Number);
-  const side = Math.max(w, h);
-  const viewBox = [x - (side - w) / 2, y - (side - h) / 2, side, side].join(' ');
-  const body = svg
+  return svg
     .slice(open + 1, close)
-    .replace(/<!--[\s\S]*?-->/g, '')
     .replace(/\s+/g, ' ')
     .replaceAll(' />', '/>')
     .trim();
-  return { viewBox, body };
 };
 
-const load =
-  (dir) =>
-  async ([name, file]) => {
-    const svg = await readFile(path.join(svgDir, dir, `${file}.svg`), 'utf8').catch(() => null);
-    if (!svg) throw new Error(`No Font Awesome ${dir} icon for "${name}" (${file})`);
-    const { viewBox, body } = parse(svg);
-    return `  ${JSON.stringify(name)}: { viewBox: ${JSON.stringify(viewBox)}, body: ${JSON.stringify(body)} },`;
-  };
+/** Lucide's own attributes, repeated on the wrapper so SVGO sees the same
+    context the icon renders in. */
+const WRAP =
+  'xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"';
 
-const loadLucide = async ([name, file]) => {
-  const svg = await readFile(path.join(lucideDir, `${file}.svg`), 'utf8');
-  const { viewBox, body } = parse(svg);
-  return `  ${JSON.stringify(name)}: { viewBox: ${JSON.stringify(viewBox)}, body: ${JSON.stringify(body)}, stroke: true },`;
+const slim = (body) =>
+  inner(
+    optimize(`<svg ${WRAP}>${body}</svg>`, {
+      multipass: true,
+      floatPrecision: 3,
+      plugins: [{ name: 'preset-default', params: { overrides: { cleanupIds: false } } }],
+    }).data,
+  );
+
+/** Exact bodies for icons whose drawing must not move when Lucide is updated. */
+const PINNED = {
+  'nav-listFilter': '<path d="M3 6h18"/> <path d="M7 12h10"/> <path d="M10 18h4"/>',
 };
 
-const entries = [
-  ...(await Promise.all(Object.entries(SOLID).map(load('solid')))),
-  ...(await Promise.all(Object.entries(BRANDS).map(load('brands')))),
-  ...(await Promise.all(Object.entries(LUCIDE).map(loadLucide))),
-];
+const entries = await Promise.all(
+  Object.entries(MAP).map(async ([name, file]) => {
+    const svg = await readFile(path.join(lucideDir, `${file}.svg`), 'utf8');
+    /* The nav bar and search dialog icons (nav-*) are kept exactly as drawn. */
+    const body = PINNED[name] ?? (name.startsWith('nav-') ? inner(svg) : slim(inner(svg)));
+    return `  ${JSON.stringify(name)}: { viewBox: "0 0 24 24", body: ${JSON.stringify(body)}, stroke: true },`;
+  }),
+);
 
 const out = `/* Generated by scripts/generate-icons.mjs — do not edit by hand.
-   Font Awesome Free 7 (solid + brands), icons CC BY 4.0, https://fontawesome.com/license/free
-   Nav-bar stroke icons: Lucide (ISC, lucide.dev). */
+   Lucide (ISC, lucide.dev), 24x24 grid, optimized with SVGO. */
 export const icons: Record<string, { viewBox: string; body: string; stroke?: boolean }> = {
 ${entries.join('\n')}
 };

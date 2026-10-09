@@ -160,9 +160,9 @@ export function initSearch() {
   const groups = dialog.querySelector<HTMLElement>('[data-filter-groups]');
   const toggle = dialog.querySelector<HTMLButtonElement>('[data-filter-toggle]');
   const badge = dialog.querySelector<HTMLElement>('[data-filter-count]');
-  const clear = dialog.querySelector<HTMLButtonElement>('[data-filter-clear]');
   const status = dialog.querySelector<HTMLElement>('[data-search-status]');
-  if (!input || !out || !rail || !groups || !toggle || !badge || !clear) return;
+  const clearBtn = dialog.querySelector<HTMLButtonElement>('[data-search-clear]');
+  if (!input || !out || !rail || !groups || !toggle || !badge || !clearBtn) return;
   /* The full prompt doesn't fit the phone-width field. */
   if (matchMedia('(max-width: 39.99rem)').matches) input.placeholder = 'Search the site…';
 
@@ -310,7 +310,6 @@ export function initSearch() {
     const n = chosenCount();
     badge.hidden = n === 0;
     badge.textContent = String(n);
-    clear.hidden = n === 0;
   };
 
   /* ---- the one query path ---- */
@@ -363,23 +362,68 @@ export function initSearch() {
     }
   };
 
+  const syncClear = () => {
+    clearBtn.hidden = input.value === '';
+  };
+
   /* ---- open / close ---- */
   let lastFocused: HTMLElement | null = null;
+  /* iOS Safari ignores overflow:hidden on <html>, so on phones the page is
+     pinned with position:fixed (CSS) and its scroll position restored on close. */
+  let lockedY: number | null = null;
+  const lockPage = () => {
+    if (lockedY !== null || !matchMedia('(max-width: 39.99rem)').matches) return;
+    lockedY = scrollY;
+    document.documentElement.style.setProperty('--search-lock-y', `-${lockedY}px`);
+    document.documentElement.dataset.searchLock = '';
+  };
+  const unlockPage = () => {
+    if (lockedY === null) return;
+    delete document.documentElement.dataset.searchLock;
+    document.documentElement.style.removeProperty('--search-lock-y');
+    scrollTo({ top: lockedY, behavior: 'instant' });
+    lockedY = null;
+  };
   const open = () => {
     lastFocused = document.activeElement as HTMLElement | null;
     if (!dialog.open) dialog.showModal();
+    lockPage();
     document.documentElement.dataset.searchActive = '';
+    syncClear();
     input.focus();
     input.select();
     void run();
   };
-  const close = () => {
-    if (!dialog.open) return;
+  /* On phones the dialog fades out (CSS) like the mobile menu before closing. */
+  let closing = false;
+  const finishClose = () => {
+    delete dialog.dataset.closing;
+    closing = false;
     dialog.close();
     lastFocused?.focus();
   };
+  const close = () => {
+    if (!dialog.open || closing) return;
+    if (
+      !matchMedia('(max-width: 39.99rem)').matches ||
+      matchMedia('(prefers-reduced-motion: reduce)').matches
+    ) {
+      finishClose();
+      return;
+    }
+    closing = true;
+    dialog.dataset.closing = '';
+    window.setTimeout(finishClose, 250);
+  };
+  on(dialog, 'cancel', (ev) => {
+    ev.preventDefault();
+    close();
+  });
 
-  on(dialog, 'close', () => delete document.documentElement.dataset.searchActive);
+  on(dialog, 'close', () => {
+    delete document.documentElement.dataset.searchActive;
+    unlockPage();
+  });
   document.querySelectorAll('[data-search-open]').forEach((b) => on(b, 'click', open));
   dialog.querySelectorAll('[data-search-close]').forEach((b) => on(b, 'click', close));
   on(dialog, 'click', (ev) => {
@@ -420,8 +464,16 @@ export function initSearch() {
 
   let timer: number | undefined;
   on(input, 'input', () => {
+    syncClear();
     window.clearTimeout(timer);
     timer = window.setTimeout(run, 140);
+  });
+
+  on(clearBtn, 'click', () => {
+    input.value = '';
+    syncClear();
+    input.focus();
+    void run();
   });
 
   /* ---- filter rail wiring ---- */
@@ -441,12 +493,6 @@ export function initSearch() {
     if (set.has(value)) set.delete(value);
     else set.add(value);
     void run();
-  });
-
-  on(clear, 'click', () => {
-    for (const k of Object.keys(selected)) selected[k]!.clear();
-    void run();
-    input.focus();
   });
 }
 

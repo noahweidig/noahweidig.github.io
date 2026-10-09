@@ -1,6 +1,6 @@
 ---
 import { u } from '../lib/url';
-import { navGroups, site } from '../lib/site';
+import { navGroups } from '../lib/site';
 import Icon from './Icon.astro';
 import Wordmark from './Wordmark.astro';
 import Search from './Search.astro';
@@ -15,6 +15,11 @@ const isActive = (href: string) => {
   const target = slash(u(href));
   return target === home ? path === home : path === target || path.startsWith(target);
 };
+type MobileItem = { text: string; href: string; external?: true };
+const mobileItems: MobileItem[] = [
+  ...navGroups.flatMap((g): MobileItem[] => [...g.items]),
+  { text: 'Get in touch', href: '/contact/' },
+];
 ---
 
 <header
@@ -23,10 +28,10 @@ const isActive = (href: string) => {
   class="nav-glass fixed inset-x-0 top-0 z-50"
   id="site-header"
 >
-  <div class="shell nav-bar flex h-16 items-center md:h-[4.5rem] gap-4 lg:grid lg:grid-cols-[1fr_auto_1fr]">
+  <div class="shell nav-bar relative z-10 flex h-16 items-center md:h-[4.5rem] gap-4 lg:grid lg:grid-cols-[1fr_auto_1fr]">
     <a
       href={u('/')}
-      class="group flex min-w-0 items-center gap-2.5"
+      class="bar-fade group flex min-w-0 items-center gap-2.5"
       aria-label="Noah Weidig — home"
     >
       <Wordmark collapse class="text-[clamp(1.25rem,calc((100vw-12rem)/5.45),2.25rem)]" />
@@ -48,7 +53,7 @@ const isActive = (href: string) => {
                 ]}
               >
                 {group.text}
-                <Icon name="chevron" size={14} class="nav-chevron" />
+                <Icon name="nav-chevronRight" size={14} stroke-width={2.6} class="nav-chevron" />
               </button>
               <ul class="nav-menu card absolute left-1/2 top-full z-10 hidden min-w-52 -translate-x-1/2 p-1.5">
                 {group.items.map((item) => (
@@ -83,7 +88,7 @@ const isActive = (href: string) => {
         type="button"
         data-search-open
         data-tip="Search — press /"
-        class="icon-btn"
+        class="icon-btn bar-fade"
         aria-label="Search the site"
       >
         <Icon name="nav-search" size={21} stroke-width={1.8} />
@@ -93,7 +98,7 @@ const isActive = (href: string) => {
         type="button"
         data-theme-toggle
         data-tip="Switch color theme"
-        class="icon-btn"
+        class="icon-btn bar-fade"
         aria-label="Switch color theme"
       >
         <span data-theme-icon="light">
@@ -135,59 +140,26 @@ const isActive = (href: string) => {
   <div
     id="mobile-nav"
     hidden
-    class="mobile-nav absolute inset-x-0 top-full h-[calc(100dvh-4rem)] md:h-[calc(100dvh-4.5rem)] overflow-hidden bg-bg lg:hidden"
+    class="mobile-nav fixed inset-0 overflow-hidden bg-bg pt-16 md:pt-[4.5rem] lg:hidden"
   >
     <nav aria-label="Mobile" class="shell flex h-full flex-col pb-5 pt-2">
       <ul class="min-h-0 flex-1 overflow-y-auto">
-        {navGroups.map((group) => (
-          <li class="mobile-group border-b border-line">
-            <button
-              type="button"
-              data-mobile-trigger
-              aria-expanded="false"
-              class="flex w-full items-center justify-between py-5 text-left font-display text-3xl font-semibold tracking-tight text-ink"
+        {mobileItems.map((item, i) => (
+          <li class="mobile-item" style={`--i:${i}`}>
+            <a
+              href={'external' in item ? item.href : u(item.href)}
+              target={'external' in item ? '_blank' : undefined}
+              rel={'external' in item ? 'noopener' : undefined}
+              class="mobile-link flex w-full items-center justify-between py-2.5 font-display text-2xl font-semibold tracking-tight text-ink"
+              aria-current={!('external' in item) && isActive(item.href) ? 'page' : undefined}
             >
-              {group.text}
-              <Icon name="chevron" size={26} class="nav-chevron" />
-            </button>
-            <ul class="mobile-sub hidden pb-4">
-              {group.items.map((item) => (
-                <li>
-                  <a
-                    href={'external' in item ? item.href : u(item.href)}
-                    target={'external' in item ? '_blank' : undefined}
-                    rel={'external' in item ? 'noopener' : undefined}
-                    class:list={[
-                      'nav-link block rounded-lg px-3 py-3 font-display text-xl font-medium',
-                      !('external' in item) && isActive(item.href) ? 'nav-link-active' : '',
-                    ]}
-                    aria-current={!('external' in item) && isActive(item.href) ? 'page' : undefined}
-                  >
-                    {item.text}
-                    {'external' in item && <span class="sr-only-nw"> (opens in a new tab)</span>}
-                  </a>
-                </li>
-              ))}
-            </ul>
+              {item.text}
+              {'external' in item && <span class="sr-only-nw"> (opens in a new tab)</span>}
+              <Icon name="nav-chevronRight" size={22} stroke-width={1.72} class="mobile-chevron" />
+            </a>
           </li>
         ))}
       </ul>
-      <a
-        class="btn mt-4 shrink-0 justify-center border border-line py-3.5 text-base font-semibold"
-        href={site.booking}
-        target="_blank"
-        rel="noopener"
-      >
-        Book a call
-        <span class="sr-only-nw"> (opens in a new tab)</span>
-      </a>
-      <a
-        class="btn btn-primary mt-3 shrink-0 justify-center py-3.5 text-base font-semibold"
-        href={u('/contact/')}
-      >
-        Get in touch
-        <Icon name="arrow" size={15} />
-      </a>
     </nav>
   </div>
 </header>
@@ -205,13 +177,14 @@ const isActive = (href: string) => {
     display: block;
     animation: menu-drop 0.18s var(--ease-out-soft, ease-out) both;
   }
-  /* Same flip as the FAQ chevron: about the horizontal axis, toward the viewer. */
+  /* The right-pointing chevron is turned to point down, and up when open. */
+  :global(.nav-chevron) {
+    rotate: 90deg;
+    transition: rotate 0.4s var(--ease-out-soft, ease);
+  }
   .nav-group[data-open] :global(.nav-chevron),
   .nav-trigger:hover :global(.nav-chevron) {
-    transform: perspective(120px) rotateX(180deg);
-  }
-  :global(.nav-chevron) {
-    transition: transform 0.4s var(--ease-out-soft, ease);
+    rotate: -90deg;
   }
   @media (prefers-reduced-motion: reduce) {
     :global(.nav-chevron) {
@@ -236,11 +209,11 @@ const isActive = (href: string) => {
   }
   .burger i {
     position: absolute;
-    left: 2px;
-    right: 2px;
+    left: 1px;
+    right: 1px;
     top: 50%;
-    height: 2.5px;
-    margin-top: -1.25px;
+    height: 1.6px;
+    margin-top: -0.8px;
     border-radius: 2px;
     background: currentColor;
     translate: 0 -4.5px;
@@ -269,12 +242,13 @@ const isActive = (href: string) => {
       transition: none;
     }
   }
-  /* Links split the panel height evenly; type scales with viewport height. */
-  .mobile-group[data-open] > .mobile-sub {
-    display: block;
+  :global(.mobile-chevron) {
+    opacity: 0;
+    transition: opacity 0.2s ease;
   }
-  .mobile-group[data-open] :global(.nav-chevron) {
-    transform: perspective(120px) rotateX(180deg);
+  .mobile-link:hover :global(.mobile-chevron),
+  .mobile-link:focus-visible :global(.mobile-chevron) {
+    opacity: 1;
   }
   .mobile-nav {
     contain: strict;
@@ -282,31 +256,54 @@ const isActive = (href: string) => {
     overscroll-behavior: contain;
   }
   .mobile-nav:not([hidden]) {
-    animation: menu-wipe 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation: menu-fade 0.3s ease-out both;
   }
-  @keyframes menu-wipe {
+  @keyframes menu-fade {
     from {
-      clip-path: inset(0 0 0 100%);
-    }
-    to {
-      clip-path: inset(0);
+      opacity: 0;
     }
   }
   .mobile-nav[data-closing] {
-    animation: menu-wipe-out 0.3s cubic-bezier(0.5, 0, 0.75, 0) both;
+    animation: menu-fade-out 0.25s ease-in both;
     pointer-events: none;
   }
-  @keyframes menu-wipe-out {
-    from {
-      clip-path: inset(0);
-    }
+  @keyframes menu-fade-out {
     to {
-      clip-path: inset(0 0 0 100%);
+      opacity: 0;
     }
   }
+  .mobile-nav:not([hidden]):not([data-closing]) .mobile-item {
+    animation: menu-item-in 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: calc(0.05s + var(--i, 0) * 0.05s);
+  }
+  @keyframes menu-item-in {
+    from {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+  }
+  .bar-fade {
+    transition:
+      opacity 0.2s ease,
+      visibility 0s 0s;
+  }
+  :global(#site-header[data-menu-open]) .bar-fade {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition:
+      color 0.2s var(--ease-out-soft),
+      opacity 0.2s ease,
+      visibility 0s 0.2s;
+  }
   @media (prefers-reduced-motion: reduce) {
-    .mobile-nav:not([hidden]) {
-      animation: none;
+    .mobile-nav:not([hidden]),
+    .mobile-nav[data-closing],
+    .mobile-nav .mobile-item,
+    :global(.mobile-chevron),
+    .bar-fade {
+      animation: none !important;
+      transition: none !important;
     }
   }
   :global(html[data-menu-open]),
@@ -356,7 +353,10 @@ const isActive = (href: string) => {
      hover reads lighter in dark theme and darker in light theme. */
   .icon-btn {
     color: color-mix(in oklab, var(--c-ink) 72%, transparent);
-    transition: color 0.2s var(--ease-out-soft);
+    transition:
+      color 0.2s var(--ease-out-soft),
+      opacity 0.2s ease,
+      visibility 0s 0s;
   }
   .icon-btn:hover {
     background: transparent;
