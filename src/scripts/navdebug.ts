@@ -29,7 +29,12 @@ export function initNavDebug() {
       `scrollY ${Math.round(scrollY)}  inner ${innerWidth}x${innerHeight}  client ${d.clientWidth}x${d.clientHeight}`,
       `vv off ${v?.offsetLeft.toFixed(1)},${v?.offsetTop.toFixed(1)} page ${v?.pageLeft.toFixed(1)},${v?.pageTop.toFixed(1)} size ${v?.width.toFixed(1)}x${v?.height.toFixed(1)} scale ${v?.scale}`,
       `header top ${h ? Math.round(h.top) : '-'} h ${h ? Math.round(h.height) : '-'}  body ${getComputedStyle(document.body).position}`,
-      `html: ${[...d.attributes].map((a) => a.name).filter((n) => /search|menu|scrolled/.test(n)).join(' ') || '-'}`,
+      `html: ${
+        [...d.attributes]
+          .map((a) => a.name)
+          .filter((n) => /search|menu|scrolled/.test(n))
+          .join(' ') || '-'
+      }`,
     ].join('\n');
   };
   draw();
