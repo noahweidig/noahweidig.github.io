@@ -2,7 +2,7 @@
 # (deployed from `main` via .github/workflows/publish.yml).
 [build]
   publish = "dist"
-  command = "npm ci && npm run build:fast"
+  command = "npm ci --ignore-scripts --no-audit --no-fund && npm run build:fast"
 
 [build.environment]
   NODE_VERSION = "22.22.2"
