@@ -91,17 +91,14 @@ const cols = [
           View my work
           <Icon name="arrow" size={15} />
         </a>
-        <a
-          class="btn btn-ghost hero-btn border-ink bg-transparent text-ink hover:bg-ink/10"
-          href={u('/contact/')}
-        >
+        <a class="btn btn-ghost hero-btn" href={u('/contact/')}>
           Get in touch
           <Icon name="mail" size={15} />
         </a>
       </div>
 
       <div
-        class="mt-8 flex items-center justify-center gap-2 lg:justify-start"
+        class="mt-8 flex flex-wrap items-center justify-center gap-2 lg:justify-start"
         data-reveal
         style="--reveal-delay:320ms"
       >
@@ -112,9 +109,9 @@ const cols = [
             data-tip={`${s.label} profile`}
             target="_blank"
             rel="noopener"
-            class="icon-tile icon-bare h-12 w-12"
+            class="icon-tile icon-bare h-12 w-12 hover:transform-none! sm:h-14 sm:w-14"
           >
-            <Icon name={s.icon} size={24} />
+            <Icon name={s.icon} size={28} class="size-7 sm:size-8" />
           </a>
         ))}
       </div>
