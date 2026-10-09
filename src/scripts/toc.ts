@@ -1,6 +1,5 @@
 /* ------------------------------------------------------------------ toc -- */
 import { on } from './dom';
-import { pageScrollY, pageViewportHeight, scrollTarget } from './scroll-root';
 import { initTocFab } from './toc-fab';
 
 export function initToc() {
@@ -40,13 +39,13 @@ export function initToc() {
       else break;
     }
     // At the very bottom the last section may never reach the line.
-    if (pageViewportHeight() + pageScrollY() >= document.body.scrollHeight - 4) {
+    if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 4) {
       current = headings[headings.length - 1]!.id;
     }
     mark(current);
   };
 
   sync();
-  on(scrollTarget(), 'scroll', sync, { passive: true } as AddEventListenerOptions);
+  on(window, 'scroll', sync, { passive: true } as AddEventListenerOptions);
   on(window, 'resize', sync);
 }
