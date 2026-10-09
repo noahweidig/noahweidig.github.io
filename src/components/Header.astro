@@ -305,43 +305,15 @@ const isActive = (href: string) => {
     overflow: hidden;
     overscroll-behavior: none;
   }
-  /* Transparent at the top of the page; flat glass once scrolled: white in
-     light theme, near-black in dark. */
+  /* Transparent at the top of the page; solid once scrolled. No backdrop-filter:
+     toggling it on scroll makes iOS Safari re-layer the bar and nudge it. */
   .nav-glass {
     background-color: transparent;
-    transition:
-      background-color 0.3s var(--ease-out-soft),
-      backdrop-filter 0.3s var(--ease-out-soft);
+    transition: background-color 0.2s var(--ease-out-soft);
   }
-  .nav-glass::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    pointer-events: none;
-    background: linear-gradient(rgb(255 255 255 / 0.6), transparent 70%);
-    opacity: 0;
-    transition: opacity 0.3s var(--ease-out-soft);
-  }
-  :global(html[data-scrolled]) .nav-glass {
-    background-color: rgb(255 255 255 / 0.78);
-    backdrop-filter: saturate(1.8) blur(20px);
-  }
-  :global(html[data-scrolled]) .nav-glass::before {
-    opacity: 1;
-  }
-  :global(html[data-scrolled]:root[data-theme='dark']) .nav-glass {
-    background-color: rgb(10 10 12 / 0.8);
-  }
-  :global(html[data-scrolled]:root[data-theme='dark']) .nav-glass::before {
-    background: linear-gradient(rgb(255 255 255 / 0.05), transparent 70%);
-  }
+  :global(html[data-scrolled]) .nav-glass,
   :global(:root) #site-header.nav-glass[data-menu-open] {
-    background: var(--c-bg);
-    backdrop-filter: none;
-  }
-  :global(:root) #site-header.nav-glass[data-menu-open]::before {
-    opacity: 0;
+    background-color: var(--c-bg);
   }
   /* No hover tile on the bar's icon buttons. Resting is a step off full ink, so
      hover reads lighter in dark theme and darker in light theme. */
