@@ -1,39 +1,214 @@
 {
-  "generatedAt": "2026-10-05T16:37:08.818Z",
-  "totalPages": 101,
-  "score": 98,
+  "generatedAt": "2026-10-09T16:11:37.196Z",
+  "totalPages": 104,
+  "score": 86,
   "totals": {
-    "passes": 1477,
-    "warnings": 25,
-    "errors": 1
+    "passes": 1487,
+    "warnings": 61,
+    "errors": 59
   },
   "audits": [
     {
       "name": "Meta Tags",
-      "passes": 505,
-      "warnings": 3,
+      "passes": 482,
+      "warnings": 38,
       "errors": 0,
       "issues": [
         {
-          "page": "/publications/weidig-goldilocks-principle-21-w24i/index.html, /publications/weidig-goldilocks-principle-22/index.html",
-          "message": "Duplicate title: \"The Goldilocks principle: Finding the… | Noah Weidig\"",
+          "page": "/publications/alexander-shifting-forest-25/index.html",
+          "message": "Title too long (77 chars, max 60): \"Shifting forest structure and composition… (Presentation, 20...\"",
           "severity": "warning"
         },
         {
-          "page": "/publications/weidig-changing-large-24-gmcj/index.html, /publications/weidig-changing-large-24-y29q/index.html, /publications/weidig-patterns-drivers-25/index.html",
-          "message": "Duplicate meta description: \"The recent increase in large wildfires in the east...\"",
+          "page": "/publications/borenstein-georgia-blaze-26/index.html",
+          "message": "Title too long (80 chars, max 60): \"Georgia blaze shows how climate change has… (Media Coverage,...\"",
           "severity": "warning"
         },
         {
-          "page": "/publications/weidig-goldilocks-principle-21-w24i/index.html, /publications/weidig-goldilocks-principle-22/index.html",
-          "message": "Duplicate meta description: \"Females of container-breeding mosquito species use...\"",
+          "page": "/publications/borenstein-georgia-blaze-26/index.html",
+          "message": "Meta description too long (157 chars, max 155)",
+          "severity": "warning"
+        },
+        {
+          "page": "/publications/carl-rumble-cogongrass-24/index.html",
+          "message": "Title too long (74 chars, max 60): \"Rumble in the Cogongrass Jungle: Shrub… (Presentation, 2024)...\"",
+          "severity": "warning"
+        },
+        {
+          "page": "/publications/donovan-changing-large-24/index.html",
+          "message": "Title too long (71 chars, max 60): \"Changing Large Wildfire Risk in the… (Presentation, 2024) | ...\"",
+          "severity": "warning"
+        },
+        {
+          "page": "/publications/donovan-changing-large-25/index.html",
+          "message": "Title too long (73 chars, max 60): \"Changing large wildfire regime dynamics in… (Webinar, 2025) ...\"",
+          "severity": "warning"
+        },
+        {
+          "page": "/publications/donovan-changing-large-25/index.html",
+          "message": "Meta description too long (161 chars, max 155)",
+          "severity": "warning"
+        },
+        {
+          "page": "/publications/donovan-increasing-large-24/index.html",
+          "message": "Title too long (72 chars, max 60): \"Increasing Large Wildfires in the Eastern… (Webinar, 2024) |...\"",
+          "severity": "warning"
+        },
+        {
+          "page": "/publications/donovan-referee-report-25/index.html",
+          "message": "Title too long (71 chars, max 60): \"Referee report. For: Integrated Fire… (Peer Review, 2025) | ...\"",
+          "severity": "warning"
+        },
+        {
+          "page": "/publications/donovan-unravelling-changing-25-jebk/index.html",
+          "message": "Title too long (72 chars, max 60): \"Unravelling changing wildfire regime… (Presentation, 2025) |...\"",
+          "severity": "warning"
+        },
+        {
+          "page": "/publications/fernandez-changing-large-25/index.html",
+          "message": "Title too long (77 chars, max 60): \"Changing Large Wildfire Dynamics in the… (Media Coverage, 20...\"",
+          "severity": "warning"
+        },
+        {
+          "page": "/publications/fernandez-changing-large-25/index.html",
+          "message": "Meta description too long (156 chars, max 155)",
+          "severity": "warning"
+        },
+        {
+          "page": "/publications/ivey-regional-differences-26/index.html",
+          "message": "Title too long (76 chars, max 60): \"Regional differences in infilling and… (Journal Article, 202...\"",
+          "severity": "warning"
+        },
+        {
+          "page": "/publications/ivey-woody-cover-24/index.html",
+          "message": "Title too long (83 chars, max 60): \"Woody cover fuels large wildfire risk in the… (Journal Artic...\"",
+          "severity": "warning"
+        },
+        {
+          "page": "/publications/ivey-woody-cover-24/index.html",
+          "message": "Meta description too long (157 chars, max 155)",
+          "severity": "warning"
+        },
+        {
+          "page": "/publications/ivey-woody-cover-25-jt88/index.html",
+          "message": "Title too long (82 chars, max 60): \"Woody Cover Fuels Large Wildfire Risk in the… (Media Coverag...\"",
+          "severity": "warning"
+        },
+        {
+          "page": "/publications/ivey-woody-cover-25-jt88/index.html",
+          "message": "Meta description too long (158 chars, max 155)",
+          "severity": "warning"
+        },
+        {
+          "page": "/publications/ivey-woody-cover-25-kv2m/index.html",
+          "message": "Title too long (74 chars, max 60): \"Woody cover increases linked to forest… (Presentation, 2025)...\"",
+          "severity": "warning"
+        },
+        {
+          "page": "/publications/ivey-woody-cover-25-kv2m/index.html",
+          "message": "Meta description too long (156 chars, max 155)",
+          "severity": "warning"
+        },
+        {
+          "page": "/publications/ivory-ii-fueling-fire-26/index.html",
+          "message": "Title too long (78 chars, max 60): \"Fueling the fire: predicting cogongrass… (Journal Article, 2...\"",
+          "severity": "warning"
+        },
+        {
+          "page": "/publications/ivory-ii-fueling-fire-26/index.html",
+          "message": "Meta description too long (157 chars, max 155)",
+          "severity": "warning"
+        },
+        {
+          "page": "/publications/ivory-ii-southeastern-myotis-25/index.html",
+          "message": "Title too long (79 chars, max 60): \"Southeastern Myotis (Myotis austroriparius)… (Presentation, ...\"",
+          "severity": "warning"
+        },
+        {
+          "page": "/publications/lester-wildfire-surges-24/index.html",
+          "message": "Title too long (82 chars, max 60): \"Wildfire surges in East, Southeast US fueled… (Media Coverag...\"",
+          "severity": "warning"
+        },
+        {
+          "page": "/publications/weidig-burning-boundaries-25/index.html",
+          "message": "Title too long (74 chars, max 60): \"Burning Boundaries: Large Wildfire Patterns… (Webinar, 2025)...\"",
+          "severity": "warning"
+        },
+        {
+          "page": "/publications/weidig-burning-boundaries-25/index.html",
+          "message": "Meta description too long (157 chars, max 155)",
+          "severity": "warning"
+        },
+        {
+          "page": "/publications/weidig-changing-large-24-gmcj/index.html",
+          "message": "Title too long (78 chars, max 60): \"Changing large wildfire dynamics in the… (Journal Article, 2...\"",
+          "severity": "warning"
+        },
+        {
+          "page": "/publications/weidig-changing-large-24-y29q/index.html",
+          "message": "Title too long (75 chars, max 60): \"Changing Large Wildfire Patterns in the… (Presentation, 2024...\"",
+          "severity": "warning"
+        },
+        {
+          "page": "/publications/weidig-fire-fringe-25-f839/index.html",
+          "message": "Title too long (72 chars, max 60): \"Fire at the fringe: Drivers of large… (Presentation, 2025) |...\"",
+          "severity": "warning"
+        },
+        {
+          "page": "/publications/weidig-goldilocks-principle-21-w24i/index.html",
+          "message": "Title too long (73 chars, max 60): \"The Goldilocks principle: Finding the… (Presentation, 2021) ...\"",
+          "severity": "warning"
+        },
+        {
+          "page": "/publications/weidig-goldilocks-principle-22/index.html",
+          "message": "Title too long (76 chars, max 60): \"The Goldilocks principle: Finding the… (Journal Article, 202...\"",
+          "severity": "warning"
+        },
+        {
+          "page": "/publications/weidig-goldilocks-principle-22/index.html",
+          "message": "Meta description too long (157 chars, max 155)",
+          "severity": "warning"
+        },
+        {
+          "page": "/publications/weidig-inflammation-mediated-22/index.html",
+          "message": "Title too long (74 chars, max 60): \"Inflammation mediated reprogramming of… (Presentation, 2022)...\"",
+          "severity": "warning"
+        },
+        {
+          "page": "/publications/weidig-inflammation-mediated-22/index.html",
+          "message": "Meta description too long (157 chars, max 155)",
+          "severity": "warning"
+        },
+        {
+          "page": "/publications/weidig-key-drivers-25/index.html",
+          "message": "Title too long (78 chars, max 60): \"Key drivers of large wildfires in and near… (Presentation, 2...\"",
+          "severity": "warning"
+        },
+        {
+          "page": "/publications/weidig-large-wildfire-24/index.html",
+          "message": "Title too long (66 chars, max 60): \"Large Wildfire Patterns in the… (Presentation, 2024) | Noah ...\"",
+          "severity": "warning"
+        },
+        {
+          "page": "/publications/weidig-large-wildfire-24/index.html",
+          "message": "Meta description too long (157 chars, max 155)",
+          "severity": "warning"
+        },
+        {
+          "page": "/publications/weidig-patterns-drivers-25/index.html",
+          "message": "Title too long (69 chars, max 60): \"Patterns and drivers of large wildfires… (Thesis, 2025) | No...\"",
+          "severity": "warning"
+        },
+        {
+          "page": "/publications/weidig-r-markdown-24/index.html",
+          "message": "Title too long (70 chars, max 60): \"R Markdown: A Reproducible Workflow (Presentation, 2024) | N...\"",
           "severity": "warning"
         }
       ]
     },
     {
       "name": "Schema Markup",
-      "passes": 276,
+      "passes": 283,
       "warnings": 0,
       "errors": 0,
       "issues": []
@@ -53,21 +228,317 @@
     },
     {
       "name": "Sitemap",
-      "passes": 102,
+      "passes": 105,
       "warnings": 0,
       "errors": 0,
       "issues": []
     },
     {
       "name": "Images",
-      "passes": 92,
-      "warnings": 0,
-      "errors": 0,
-      "issues": []
+      "passes": 100,
+      "warnings": 1,
+      "errors": 58,
+      "issues": [
+        {
+          "page": "/awards/index.html",
+          "message": "Image missing alt attribute: <img src=\"/_astro/featured.CrG6rosN_25aT6f.webp\">",
+          "severity": "error"
+        },
+        {
+          "page": "/awards/index.html",
+          "message": "Image missing alt attribute: <img src=\"/_astro/featured.iPWmLepQ_Z1pHSFW.webp\">",
+          "severity": "error"
+        },
+        {
+          "page": "/awards/index.html",
+          "message": "Image missing alt attribute: <img src=\"/_astro/featured.BhrQ4uwd_Bb2Oy.webp\">",
+          "severity": "error"
+        },
+        {
+          "page": "/awards/index.html",
+          "message": "Image missing alt attribute: <img src=\"/_astro/featured.P3c7YIUh_ZkjTwd.webp\">",
+          "severity": "error"
+        },
+        {
+          "page": "/awards/index.html",
+          "message": "Image missing alt attribute: <img src=\"/_astro/featured.DyWRwyR8_25a8nb.webp\">",
+          "severity": "error"
+        },
+        {
+          "page": "/awards/index.html",
+          "message": "Image missing alt attribute: <img src=\"/_astro/featured.biTmyrWC_Z1558b2.webp\">",
+          "severity": "error"
+        },
+        {
+          "page": "/awards/index.html",
+          "message": "Image missing alt attribute: <img src=\"/_astro/featured.BUDyjlvD_Z7mvFg.webp\">",
+          "severity": "error"
+        },
+        {
+          "page": "/awards/index.html",
+          "message": "Image missing alt attribute: <img src=\"/_astro/featured.DAD_nFj-_Z26WG8i.webp\">",
+          "severity": "error"
+        },
+        {
+          "page": "/awards/index.html",
+          "message": "Image missing alt attribute: <img src=\"/_astro/featured.D4jk3zPi_1M12xT.webp\">",
+          "severity": "error"
+        },
+        {
+          "page": "/awards/index.html",
+          "message": "Image missing alt attribute: <img src=\"/_astro/featured.ldC9dAsn_1Hhzir.webp\">",
+          "severity": "error"
+        },
+        {
+          "page": "/awards/index.html",
+          "message": "Image missing alt attribute: <img src=\"/_astro/featured.Chxb8jy7_4ucae.webp\">",
+          "severity": "error"
+        },
+        {
+          "page": "/awards/index.html",
+          "message": "Image missing alt attribute: <img src=\"/_astro/featured.CcFBYJ48_ZkGRDG.webp\">",
+          "severity": "error"
+        },
+        {
+          "page": "/awards/index.html",
+          "message": "Image missing alt attribute: <img src=\"/_astro/featured.Dc5BF5-3_eyVDQ.webp\">",
+          "severity": "error"
+        },
+        {
+          "page": "/index.html",
+          "message": "Image missing alt attribute: <img src=\"/_astro/faststats.DxUVGJdl_ZGlQrk.webp\">",
+          "severity": "error"
+        },
+        {
+          "page": "/index.html",
+          "message": "Image missing alt attribute: <img src=\"/_astro/maps.BcmIPyX__2aT9DS.webp\">",
+          "severity": "error"
+        },
+        {
+          "page": "/index.html",
+          "message": "Image missing alt attribute: <img src=\"/_astro/gisconvert.CHahqGUQ_ZWzuVB.webp\">",
+          "severity": "error"
+        },
+        {
+          "page": "/index.html",
+          "message": "Image missing alt attribute: <img src=\"/_astro/maplab.DJI_O9dA_Z1wgvmF.webp\">",
+          "severity": "error"
+        },
+        {
+          "page": "/index.html",
+          "message": "Image missing alt attribute: <img src=\"/_astro/chartifyr.Cde8au68_ZtoSS8.webp\">",
+          "severity": "error"
+        },
+        {
+          "page": "/index.html",
+          "message": "Image missing alt attribute: <img src=\"/_astro/r-proj-template.vkSJYnDt_Z1iV15f.webp\">",
+          "severity": "error"
+        },
+        {
+          "page": "/index.html",
+          "message": "Image missing alt attribute: <img src=\"/_astro/ivory-ii-fueling-fire-26.CsjwmJjo_2sjLRo.webp\">",
+          "severity": "error"
+        },
+        {
+          "page": "/index.html",
+          "message": "Image missing alt attribute: <img src=\"/_astro/ivey-regional-differences-26.Dm_lLD1o_24GoGU.webp\">",
+          "severity": "error"
+        },
+        {
+          "page": "/index.html",
+          "message": "Image missing alt attribute: <img src=\"/_astro/ivey-woody-cover-24.BvFoCWao_c8iuT.webp\">",
+          "severity": "error"
+        },
+        {
+          "page": "/index.html",
+          "message": "Image missing alt attribute: <img src=\"/_astro/weidig-changing-large-24-gmcj.9WdITTIA_Zc61yH.webp\">",
+          "severity": "error"
+        },
+        {
+          "page": "/index.html",
+          "message": "Image missing alt attribute: <img src=\"/_astro/featured.CrG6rosN_25aT6f.webp\">",
+          "severity": "error"
+        },
+        {
+          "page": "/index.html",
+          "message": "Image missing alt attribute: <img src=\"/_astro/featured.iPWmLepQ_Z1pHSFW.webp\">",
+          "severity": "error"
+        },
+        {
+          "page": "/index.html",
+          "message": "Image missing alt attribute: <img src=\"/_astro/featured.BhrQ4uwd_Bb2Oy.webp\">",
+          "severity": "error"
+        },
+        {
+          "page": "/index.html",
+          "message": "Image missing alt attribute: <img src=\"/_astro/featured.P3c7YIUh_ZkjTwd.webp\">",
+          "severity": "error"
+        },
+        {
+          "page": "/index.html",
+          "message": "Image missing alt attribute: <img src=\"/_astro/featured.DyWRwyR8_25a8nb.webp\">",
+          "severity": "error"
+        },
+        {
+          "page": "/index.html",
+          "message": "Image missing alt attribute: <img src=\"/_astro/featured.biTmyrWC_Z1558b2.webp\">",
+          "severity": "error"
+        },
+        {
+          "page": "/projects/index.html",
+          "message": "Image missing alt attribute: <img src=\"/_astro/efnet.uYYZJxc9_1tvoe3.webp\">",
+          "severity": "error"
+        },
+        {
+          "page": "/projects/index.html",
+          "message": "Image missing alt attribute: <img src=\"/_astro/faststats.DxUVGJdl_ZGlQrk.webp\">",
+          "severity": "error"
+        },
+        {
+          "page": "/projects/index.html",
+          "message": "Image missing alt attribute: <img src=\"/_astro/maps.BcmIPyX__2aT9DS.webp\">",
+          "severity": "error"
+        },
+        {
+          "page": "/projects/index.html",
+          "message": "Image missing alt attribute: <img src=\"/_astro/gisconvert.CHahqGUQ_ZWzuVB.webp\">",
+          "severity": "error"
+        },
+        {
+          "page": "/projects/index.html",
+          "message": "Image missing alt attribute: <img src=\"/_astro/quickplot.D74bZFak_P2Mqj.webp\">",
+          "severity": "error"
+        },
+        {
+          "page": "/projects/index.html",
+          "message": "Image missing alt attribute: <img src=\"/_astro/maplab.DJI_O9dA_Z1wgvmF.webp\">",
+          "severity": "error"
+        },
+        {
+          "page": "/projects/index.html",
+          "message": "Image missing alt attribute: <img src=\"/_astro/chartifyr.Cde8au68_ZtoSS8.webp\">",
+          "severity": "error"
+        },
+        {
+          "page": "/projects/index.html",
+          "message": "Image missing alt attribute: <img src=\"/_astro/r-proj-template.vkSJYnDt_Z1iV15f.webp\">",
+          "severity": "error"
+        },
+        {
+          "page": "/projects/index.html",
+          "message": "Image missing alt attribute: <img src=\"/_astro/wuirisk.dyOD4mHU_S1nhU.webp\">",
+          "severity": "error"
+        },
+        {
+          "page": "/projects/index.html",
+          "message": "Image missing alt attribute: <img src=\"/_astro/firer.CvvkxWII_13F8nk.webp\">",
+          "severity": "error"
+        },
+        {
+          "page": "/projects/index.html",
+          "message": "Image missing alt attribute: <img src=\"/_astro/roads.DKtV5SXh_QJ6OE.webp\">",
+          "severity": "error"
+        },
+        {
+          "page": "/projects/index.html",
+          "message": "Image missing alt attribute: <img src=\"/_astro/dataviz.oHGX0B2v_Z19XyCT.webp\">",
+          "severity": "error"
+        },
+        {
+          "page": "/projects/index.html",
+          "message": "Image missing alt attribute: <img src=\"/_astro/shelf.CaVFv2s8_yh1U6.webp\">",
+          "severity": "error"
+        },
+        {
+          "page": "/projects/index.html",
+          "message": "Image missing alt attribute: <img src=\"/_astro/imagestudio.DW_NCWmO_Z1Y6L3X.webp\">",
+          "severity": "error"
+        },
+        {
+          "page": "/projects/index.html",
+          "message": "Image missing alt attribute: <img src=\"/_astro/less.BUqk5j6m_Z1LgFGu.webp\">",
+          "severity": "error"
+        },
+        {
+          "page": "/projects/index.html",
+          "message": "Image missing alt attribute: <img src=\"/_astro/lorem-chartsum.gKGHYQuN_tue05.webp\">",
+          "severity": "error"
+        },
+        {
+          "page": "/projects/index.html",
+          "message": "Image missing alt attribute: <img src=\"/_astro/framelab.CVfCmGw4_W1BY2.webp\">",
+          "severity": "error"
+        },
+        {
+          "page": "/projects/index.html",
+          "message": "Image missing alt attribute: <img src=\"/_astro/wildfire.Fqn9dMC__Z2fwekT.webp\">",
+          "severity": "error"
+        },
+        {
+          "page": "/projects/index.html",
+          "message": "Image missing alt attribute: <img src=\"/_astro/wordcloud.zd-seh-x_nnD4v.webp\">",
+          "severity": "error"
+        },
+        {
+          "page": "/publications/index.html",
+          "message": "Image missing alt attribute: <img src=\"/_astro/ivory-ii-fueling-fire-26.CsjwmJjo_2sjLRo.webp\">",
+          "severity": "error"
+        },
+        {
+          "page": "/publications/index.html",
+          "message": "Image missing alt attribute: <img src=\"/_astro/ivey-regional-differences-26.Dm_lLD1o_24GoGU.webp\">",
+          "severity": "error"
+        },
+        {
+          "page": "/publications/index.html",
+          "message": "Image missing alt attribute: <img src=\"/_astro/ivey-woody-cover-24.BvFoCWao_c8iuT.webp\">",
+          "severity": "error"
+        },
+        {
+          "page": "/publications/index.html",
+          "message": "Image missing alt attribute: <img src=\"/_astro/weidig-changing-large-24-gmcj.9WdITTIA_Zc61yH.webp\">",
+          "severity": "error"
+        },
+        {
+          "page": "/publications/index.html",
+          "message": "Image missing alt attribute: <img src=\"/_astro/weidig-goldilocks-principle-22.2sobttzS_trXS2.webp\">",
+          "severity": "error"
+        },
+        {
+          "page": "/publications/index.html",
+          "message": "Image missing alt attribute: <img src=\"/_astro/weidig-burning-boundaries-25.DyXvvfE0_2swzTv.webp\">",
+          "severity": "error"
+        },
+        {
+          "page": "/publications/index.html",
+          "message": "Image missing alt attribute: <img src=\"/_astro/donovan-changing-large-25.DtSrDpOD_YfXsi.webp\">",
+          "severity": "error"
+        },
+        {
+          "page": "/publications/index.html",
+          "message": "Image missing alt attribute: <img src=\"/_astro/weidig-patterns-drivers-25.D6T5qMVz_Z10XCgF.webp\">",
+          "severity": "error"
+        },
+        {
+          "page": "/publications/index.html",
+          "message": "Image missing alt attribute: <img src=\"/_astro/lester-wildfire-surges-24.BbHOzMEA_1xFSe7.webp\">",
+          "severity": "error"
+        },
+        {
+          "page": "/publications/index.html",
+          "message": "Image missing alt attribute: <img src=\"/_astro/donovan-increasing-large-24.h2ZjkGNl_ZXnTUc.webp\">",
+          "severity": "error"
+        },
+        {
+          "page": "/index.html",
+          "message": "3 images without lazy loading",
+          "severity": "warning"
+        }
+      ]
     },
     {
       "name": "Headings",
-      "passes": 202,
+      "passes": 208,
       "warnings": 19,
       "errors": 0,
       "issues": [
@@ -170,23 +641,23 @@
     },
     {
       "name": "Performance",
-      "passes": 300,
+      "passes": 309,
       "warnings": 3,
       "errors": 0,
       "issues": [
         {
           "page": "/blog/favorite-r-packages/index.html",
-          "message": "Total HTML size exceeds 100KB (123.9KB)",
+          "message": "Total HTML size exceeds 100KB (124.8KB)",
           "severity": "warning"
         },
         {
           "page": "/index.html",
-          "message": "Total HTML size exceeds 100KB (174.9KB)",
+          "message": "Total HTML size exceeds 100KB (165.6KB)",
           "severity": "warning"
         },
         {
           "page": "/publications/index.html",
-          "message": "Total HTML size exceeds 100KB (110.7KB)",
+          "message": "Total HTML size exceeds 100KB (108.5KB)",
           "severity": "warning"
         }
       ]
