@@ -232,7 +232,15 @@ const jsonLd = {
       })}
     ></script>
     <ClientRouter />
-
+    <script is:inline>
+      // Touch devices get plain page loads: the page scrolls <body> there (see
+      // scroll-root.ts), and swapping that scrolling element mid-gesture or
+      // under a view transition left iOS Safari with a frozen, half-painted
+      // page. Runs before the router module, which checks for this meta tag.
+      if (matchMedia('(pointer: coarse)').matches) {
+        document.querySelector('meta[name="astro-view-transitions-enabled"]')?.remove();
+      }
+    </script>
     <slot name="head" />
   </head>
 

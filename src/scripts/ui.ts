@@ -32,7 +32,6 @@ import { initCopy } from './copy';
 import { initShareRow } from './share-row';
 import { initPopups } from './popup';
 import { initContactForm } from './contact-form';
-import { initScrollRestore } from './scroll-root';
 
 /* ------------------------------------------------------------------ boot -- */
 function boot() {
@@ -62,6 +61,5 @@ function boot() {
   initBackToTop();
 }
 
-initScrollRestore();
 boot();
 document.addEventListener('astro:page-load', boot);
