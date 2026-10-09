@@ -1736,8 +1736,6 @@
     color: transparent;
     padding-bottom: 0.15em;
     margin-bottom: -0.15em;
-  }
-  .text-inferno-b {
     background-image: linear-gradient(
       100deg in oklab,
       var(--inf-b1) 0%,
