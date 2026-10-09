@@ -320,7 +320,7 @@ const isActive = (href: string) => {
     background-color: transparent;
     /* Own compositing layer: stops iOS Safari nudging the fixed bar during toolbar collapse
        and when backdrop-filter toggles on scroll. */
-    transform: translateZ(0);
+    transform: translate3d(0, var(--vv-top, 0px), 0);
     will-change: transform;
     transition:
       background-color 0.3s var(--ease-out-soft),
@@ -375,6 +375,19 @@ const isActive = (href: string) => {
   };
   set();
   addEventListener('scroll', set, { passive: true });
+
+  /* iOS Safari can leave the visual viewport a few px below the layout viewport's
+     top (toolbar collapse), so a fixed bar renders that many px too high and clips.
+     Push it down by the same offset. */
+  const vv = window.visualViewport;
+  if (vv) {
+    const root = document.documentElement;
+    const pin = () => root.style.setProperty('--vv-top', `${Math.max(0, vv.offsetTop)}px`);
+    pin();
+    vv.addEventListener('scroll', pin);
+    vv.addEventListener('resize', pin);
+    addEventListener('scroll', pin, { passive: true });
+  }
 
   if (location.search.includes('navdebug')) {
     const hdr = document.getElementById('site-header')!;
