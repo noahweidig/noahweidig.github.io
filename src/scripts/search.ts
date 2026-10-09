@@ -394,11 +394,31 @@ export function initSearch() {
     input.select();
     void run();
   };
-  const close = () => {
-    if (!dialog.open) return;
+  /* On phones the dialog fades out (CSS) like the mobile menu before closing. */
+  let closing = false;
+  const finishClose = () => {
+    dialog.removeAttribute('data-closing');
+    closing = false;
     dialog.close();
     lastFocused?.focus();
   };
+  const close = () => {
+    if (!dialog.open || closing) return;
+    if (
+      !matchMedia('(max-width: 39.99rem)').matches ||
+      matchMedia('(prefers-reduced-motion: reduce)').matches
+    ) {
+      finishClose();
+      return;
+    }
+    closing = true;
+    dialog.setAttribute('data-closing', '');
+    window.setTimeout(finishClose, 250);
+  };
+  on(dialog, 'cancel', (ev) => {
+    ev.preventDefault();
+    close();
+  });
 
   on(dialog, 'close', () => {
     delete document.documentElement.dataset.searchActive;
