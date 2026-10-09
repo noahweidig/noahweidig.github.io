@@ -43,6 +43,7 @@
   --c-accent: #0072e3;
   --c-accent-ink: #6ba4ff;
   --c-accent-contrast: #ffffff;
+  --c-btn2: #2997ff;
   --c-ember: #ff8f45;
   --c-moss: #4bd0a0;
   --c-violet: #a988ff;
@@ -81,6 +82,7 @@
   --c-accent: #0072e3;
   --c-accent-ink: #0a54ba;
   --c-accent-contrast: #ffffff;
+  --c-btn2: #0066cc;
   --c-ember: #a44a16;
   --c-moss: #0f7a56;
   --c-violet: #6541c9;
@@ -405,16 +407,6 @@
     width: fit-content;
     max-width: 100%;
     padding-bottom: 0.1em;
-    background-image: linear-gradient(
-      100deg in oklab,
-      var(--inf-b1) 0%,
-      var(--inf-b2) 35%,
-      var(--inf-b3) 70%,
-      var(--inf-b4) 100%
-    );
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
   }
   .page-hero-title-md {
     font-size: clamp(2rem, 5vw, 3rem);
@@ -428,6 +420,26 @@
     line-height: 1.55;
     color: var(--c-dim);
     text-wrap: pretty;
+  }
+  /* Secondary hero button: blue outline, text and icon; fills blue on hover.
+     Apple's button blues: #0066cc on light, #2997ff on dark (--c-btn2), hover
+     #0076df, pressed #006edb. The primary button next to it stays solid blue. */
+  .page-hero-actions .btn-ghost,
+  .hero-btn.btn-ghost {
+    border-color: var(--c-btn2);
+    background: transparent;
+    color: var(--c-btn2);
+  }
+  .page-hero-actions .btn-ghost:hover,
+  .hero-btn.btn-ghost:hover {
+    border-color: #0076df;
+    background: #0076df;
+    color: var(--c-accent-contrast);
+  }
+  .page-hero-actions .btn-ghost:active,
+  .hero-btn.btn-ghost:active {
+    border-color: #006edb;
+    background: #006edb;
   }
   .page-hero-actions {
     display: flex;
@@ -530,6 +542,7 @@
     --c-accent: #0072e3;
     --c-accent-ink: #6ba4ff;
     --c-accent-contrast: #ffffff;
+    --c-btn2: #2997ff;
     --c-ember: #ff8f45;
     --c-moss: #4bd0a0;
     --c-violet: #a988ff;
@@ -1746,8 +1759,7 @@
   }
   @media (forced-colors: active) {
     .text-gradient,
-    .text-inferno-b,
-    .page-hero-title {
+    .text-inferno-b {
       background: none;
       color: CanvasText;
     }
