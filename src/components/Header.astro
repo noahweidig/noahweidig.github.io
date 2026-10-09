@@ -318,6 +318,10 @@ const isActive = (href: string) => {
      light theme, near-black in dark. */
   .nav-glass {
     background-color: transparent;
+    /* Own compositing layer: stops iOS Safari nudging the fixed bar during toolbar collapse
+       and when backdrop-filter toggles on scroll. */
+    transform: translateZ(0);
+    will-change: transform;
     transition:
       background-color 0.3s var(--ease-out-soft),
       backdrop-filter 0.3s var(--ease-out-soft);

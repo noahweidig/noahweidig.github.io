@@ -166,6 +166,7 @@
     scroll-behavior: smooth;
     scroll-padding-top: 6rem;
     -webkit-text-size-adjust: 100%;
+    overscroll-behavior-y: none;
   }
 
   /* Reserve the scrollbar track so opening the search dialog, which locks
