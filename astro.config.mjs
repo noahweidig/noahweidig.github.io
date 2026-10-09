@@ -18,7 +18,14 @@ const lastmodByPath = new Map();
 // Publication "appearance" records (pub-appearance-of set) are noindexed by
 // src/pages/publications/[...slug].astro — excluded here too so the sitemap
 // never contradicts that signal.
-const excludedPaths = new Set(['/404/', '/500/', '/styleguide/', '/seo/', '/blog/write/']);
+const excludedPaths = new Set([
+  '/404/',
+  '/500/',
+  '/styleguide/',
+  '/seo/',
+  '/blog/write/',
+  '/search/',
+]);
 const noindexedPaths = new Set();
 for (const name of COLLECTIONS) {
   const dir = new URL(`./src/content/${name}/`, import.meta.url);

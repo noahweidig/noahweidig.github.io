@@ -5,6 +5,12 @@ import Icon from './Icon.astro';
 import Wordmark from './Wordmark.astro';
 import Search from './Search.astro';
 
+interface Props {
+  /** False on /search/, which renders the search panel in the page itself. */
+  searchDialog?: boolean;
+}
+const { searchDialog = true } = Astro.props;
+
 /* Compared against `u(href)`, not the bare href, so the check stays correct if
    the site is ever served under a base path again: `/publications/` would not
    match `/<base>/publications/` and no nav item would read as current. */
@@ -167,7 +173,7 @@ const mobileItems: MobileItem[] = [
      place in the flow. Keep it in step with the h- classes on .nav-bar. -->
 <div class="h-16 md:h-[4.5rem] print:hidden" aria-hidden="true" data-pagefind-ignore></div>
 
-<Search />
+{searchDialog && <Search />}
 
 <style>
   .nav-menu {

@@ -25,6 +25,8 @@ interface Props {
   filters?: { section?: string; tags?: string[] };
   /** The page's LCP image, preloaded ahead of the fonts. */
   preloadImage?: { href: string; srcset?: string; sizes?: string };
+  /** False on /search/, which renders the search panel in the page itself. */
+  searchDialog?: boolean;
 }
 
 const {
@@ -40,6 +42,7 @@ const {
   publishedTime,
   filters = {},
   preloadImage,
+  searchDialog = true,
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname.replace(/\/*$/, '/'), Astro.site).href;
@@ -240,7 +243,7 @@ const jsonLd = {
     <a href="#main" class="skip-link btn btn-primary">
       Skip to content
     </a>
-    <Header />
+    <Header searchDialog={searchDialog} />
     <main id="main" data-pagefind-body>
       {/* Empty elements carrying an explicit value: Pagefind reads the facet
           off the attribute, so nothing lands in the indexed text. */}
