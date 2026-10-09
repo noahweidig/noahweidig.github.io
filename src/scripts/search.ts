@@ -161,7 +161,8 @@ export function initSearch() {
   const toggle = dialog.querySelector<HTMLButtonElement>('[data-filter-toggle]');
   const badge = dialog.querySelector<HTMLElement>('[data-filter-count]');
   const status = dialog.querySelector<HTMLElement>('[data-search-status]');
-  if (!input || !out || !rail || !groups || !toggle || !badge) return;
+  const clearBtn = dialog.querySelector<HTMLButtonElement>('[data-search-clear]');
+  if (!input || !out || !rail || !groups || !toggle || !badge || !clearBtn) return;
   /* The full prompt doesn't fit the phone-width field. */
   if (matchMedia('(max-width: 39.99rem)').matches) input.placeholder = 'Search the site…';
 
@@ -361,6 +362,10 @@ export function initSearch() {
     }
   };
 
+  const syncClear = () => {
+    clearBtn.hidden = input.value === '';
+  };
+
   /* ---- open / close ---- */
   let lastFocused: HTMLElement | null = null;
   /* iOS Safari ignores overflow:hidden on <html>, so on phones the page is
@@ -384,6 +389,7 @@ export function initSearch() {
     if (!dialog.open) dialog.showModal();
     lockPage();
     document.documentElement.dataset.searchActive = '';
+    syncClear();
     input.focus();
     input.select();
     void run();
@@ -438,8 +444,16 @@ export function initSearch() {
 
   let timer: number | undefined;
   on(input, 'input', () => {
+    syncClear();
     window.clearTimeout(timer);
     timer = window.setTimeout(run, 140);
+  });
+
+  on(clearBtn, 'click', () => {
+    input.value = '';
+    syncClear();
+    input.focus();
+    void run();
   });
 
   /* ---- filter rail wiring ---- */
