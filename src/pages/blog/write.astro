@@ -141,7 +141,41 @@ import Icon from '../../components/Icon.astro';
         </div>
 
         <div class="card min-w-0 overflow-hidden p-0">
-          <div data-write-editor class="bytemd-host"></div>
+          <div
+            role="tablist"
+            aria-label="Editor"
+            class="flex gap-1 border-b border-line bg-raised p-1.5"
+          >
+            <button
+              type="button"
+              role="tab"
+              aria-selected="true"
+              data-write-tab="write"
+              class="write-tab"
+            >
+              Write
+            </button>
+            <button
+              type="button"
+              role="tab"
+              aria-selected="false"
+              data-write-tab="preview"
+              class="write-tab"
+            >
+              Preview
+            </button>
+          </div>
+          <textarea
+            data-write-body
+            aria-label="Post body (Markdown)"
+            placeholder="Write your post in Markdown…"
+            class="block h-[70vh] min-h-[420px] w-full resize-none bg-transparent p-4 font-mono text-sm leading-relaxed"
+          ></textarea>
+          <div
+            data-write-preview
+            class="prose-nw h-[70vh] min-h-[420px] overflow-y-auto p-6"
+            hidden
+          ></div>
         </div>
       </div>
     </div>
@@ -153,82 +187,15 @@ import Icon from '../../components/Icon.astro';
 </Base>
 
 <style>
-  /* ByteMD ships its own CSS (imported in blog-write.ts); this just gives the
-     host a sensible height so the editor doesn't collapse to its content. */
-  .bytemd-host :global(.bytemd) {
-    height: 70vh;
-    min-height: 420px;
-    border: none;
-  }
-
-  /* ByteMD's fullscreen mode (`position: fixed; inset: 0`) ships with no
-     z-index, so it paints below the sticky header's z-50. */
-  .bytemd-host :global(.bytemd-fullscreen) {
-    z-index: 60;
-  }
-
-  /* ByteMD's stylesheet hardcodes a light theme (white surface, GitHub-gray
-     text) with no dark-mode support of its own. Re-point its colors at the
-     site's own dark palette when the site is in dark mode. */
-  :root[data-theme='dark'] .bytemd-host :global(.bytemd) {
-    color: var(--c-ink);
-    background-color: var(--c-surface);
-    border-color: var(--c-line);
-  }
-  :root[data-theme='dark'] .bytemd-host :global(.bytemd-toolbar) {
-    background-color: var(--c-raised);
-    border-color: var(--c-line);
-  }
-  :root[data-theme='dark'] .bytemd-host :global(.bytemd-toolbar-icon:hover) {
-    background-color: var(--c-line);
-  }
-  :root[data-theme='dark'] .bytemd-host :global(.bytemd-status) {
-    border-color: var(--c-line);
-  }
-  :root[data-theme='dark'] .bytemd-host :global(.bytemd-sidebar) {
-    border-color: var(--c-line);
-  }
-  :root[data-theme='dark'] .bytemd-host :global(.bytemd-split .bytemd-preview) {
-    border-color: var(--c-line);
-  }
-  :root[data-theme='dark'] .bytemd-host :global(.CodeMirror) {
-    color: var(--c-ink);
-    background: transparent;
-  }
-  :root[data-theme='dark'] .bytemd-host :global(.CodeMirror-gutters) {
-    background-color: var(--c-raised);
-    border-color: var(--c-line);
-  }
-  :root[data-theme='dark'] .bytemd-host :global(.CodeMirror-cursor) {
-    border-left-color: var(--c-ink);
-  }
-  :root[data-theme='dark'] .bytemd-host :global(.CodeMirror-selected) {
-    background: color-mix(in oklab, var(--c-accent) 25%, transparent);
-  }
-  :root[data-theme='dark'] .bytemd-host :global(.CodeMirror-activeline-background) {
-    background: var(--c-raised);
-  }
-  :root[data-theme='dark']
-    .bytemd-host
-    :global(.bytemd-editor .CodeMirror pre.CodeMirror-placeholder) {
-    color: var(--c-faint);
-  }
-  :root[data-theme='dark'] .bytemd-host :global(.bytemd-toolbar-tab-active),
-  :root[data-theme='dark'] .bytemd-host :global(.bytemd-toolbar-icon-active),
-  :root[data-theme='dark'] .bytemd-host :global(.bytemd-toc-active) {
-    color: var(--c-accent-ink);
-  }
-  :root[data-theme='dark'] .bytemd-host :global(.bytemd-preview .markdown-body pre),
-  :root[data-theme='dark'] .bytemd-host :global(.bytemd-preview .markdown-body code) {
-    background-color: var(--c-raised);
-  }
-  :root[data-theme='dark'] .bytemd-host :global(.bytemd-preview .markdown-body blockquote) {
+  .write-tab {
+    padding: 0.35rem 0.85rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.85rem;
+    font-weight: 500;
     color: var(--c-dim);
-    border-left-color: var(--c-line-strong);
   }
-  :root[data-theme='dark'] .bytemd-host :global(.bytemd-preview .markdown-body hr),
-  :root[data-theme='dark'] .bytemd-host :global(.bytemd-preview .markdown-body table td),
-  :root[data-theme='dark'] .bytemd-host :global(.bytemd-preview .markdown-body table th) {
-    border-color: var(--c-line);
+  .write-tab[aria-selected='true'] {
+    background-color: var(--c-surface);
+    color: var(--c-ink);
   }
 </style>
