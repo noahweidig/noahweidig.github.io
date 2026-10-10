@@ -57,7 +57,7 @@ const palette = (id, hues, dots, alt) => ({
   blobs: hues.map((hue, i) => [hue, ...BLOB_LAYOUT[i]]),
 });
 
-export const PALETTES = [
+const PALETTES = [
   palette('violet-cyan', ['violet', 'sky', 'magenta'], 'sky', 'violet and cyan'),
   palette('lime-teal', ['teal', 'moss', 'blue'], 'lime', 'lime and teal'),
   palette('sunset', ['ember', 'pink', 'amber'], 'amber', 'amber and ember'),
