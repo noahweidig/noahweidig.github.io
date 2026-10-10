@@ -1,5 +1,4 @@
 ---
-import { u } from '../lib/url';
 import { nav, socials } from '../lib/site';
 import Icon from './Icon.astro';
 import Wordmark from './Wordmark.astro';
@@ -16,7 +15,7 @@ const year = new Date().getFullYear();
     <div class="py-10">
       <div class="flex flex-col items-center gap-6 lg:flex-row lg:items-center lg:justify-between">
         <a
-          href={u('/')}
+          href="/"
           class="group inline-flex shrink-0 items-center gap-2.5"
           aria-label="Noah Weidig — home"
         >
@@ -44,7 +43,7 @@ const year = new Date().getFullYear();
                 </span>
               )}
               <a
-                href={u(item.href)}
+                href={item.href}
                 data-tip={item.tip}
                 class="footer-ink text-body-lg font-semibold transition-colors hover:text-accent-ink"
               >
@@ -67,7 +66,7 @@ const year = new Date().getFullYear();
             </a>
           ))}
           <a
-            href={u('/rss.xml')}
+            href="/rss.xml"
             aria-label="RSS Feed"
             data-tip="Subscribe to the blog feed"
             class="icon-tile icon-bare mx-auto h-11 w-11 hover:transform-none! sm:mx-0"
@@ -83,46 +82,46 @@ const year = new Date().getFullYear();
           <span class="mx-1.5 text-faint" aria-hidden="true">
             ·
           </span>
-          <a class="footer-dim hover:text-accent-ink" href={u('/privacy/')}>
+          <a class="footer-dim hover:text-accent-ink" href="/privacy/">
             Privacy Policy
           </a>
           <span class="mx-1.5 text-faint" aria-hidden="true">
             ·
           </span>
-          <a class="footer-dim hover:text-accent-ink" href={u('/terms/')}>
+          <a class="footer-dim hover:text-accent-ink" href="/terms/">
             Terms &amp; Conditions
           </a>
           <span class="mx-1.5 text-faint" aria-hidden="true">
             ·
           </span>
-          <a class="footer-dim hover:text-accent-ink" href={u('/styleguide/')}>
+          <a class="footer-dim hover:text-accent-ink" href="/styleguide/">
             Styleguide
           </a>
           <span class="mx-1.5 text-faint" aria-hidden="true">
             ·
           </span>
-          <a class="footer-dim hover:text-accent-ink" href={u('/ai/')}>
+          <a class="footer-dim hover:text-accent-ink" href="/ai/">
             AI
           </a>
         </p>
         <div class="flex items-center gap-2">
           <span class="font-mono text-caption tracking-[0.12em] text-faint uppercase">Sitemap</span>
           <a
-            href={u('/sitemap-0.xml')}
+            href="/sitemap-0.xml"
             data-tip="XML sitemap for crawlers"
             class="footer-dim rounded-full border border-line px-2.5 py-1 font-mono text-caption transition-colors hover:border-accent-ink hover:text-accent-ink"
           >
             .xml
           </a>
           <a
-            href={u('/sitemap.md')}
+            href="/sitemap.md"
             data-tip="Markdown sitemap for humans and LLMs"
             class="footer-dim rounded-full border border-line px-2.5 py-1 font-mono text-caption transition-colors hover:border-accent-ink hover:text-accent-ink"
           >
             .md
           </a>
           <a
-            href={u('/llms.txt')}
+            href="/llms.txt"
             data-tip="Short site guide for AI agents"
             class="footer-dim rounded-full border border-line px-2.5 py-1 font-mono text-caption transition-colors hover:border-accent-ink hover:text-accent-ink"
           >

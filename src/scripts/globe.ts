@@ -4,9 +4,7 @@ import { cleanups } from './dom';
 const ORLANDO: [number, number] = [-81.3789, 28.5384];
 // OpenFreeMap Positron/Dark, self-hosted from public/map/ (tiles still from OpenFreeMap).
 const styleUrl = () =>
-  `${import.meta.env.BASE_URL.replace(/\/?$/, '/')}map/${
-    document.documentElement.dataset.theme === 'light' ? 'positron' : 'dark'
-  }.json`;
+  `/map/${document.documentElement.dataset.theme === 'light' ? 'positron' : 'dark'}.json`;
 
 // Animated dot from MapLibre's "Add an animated icon" example, in the site accent.
 function pulsingDot(map: import('maplibre-gl').Map) {

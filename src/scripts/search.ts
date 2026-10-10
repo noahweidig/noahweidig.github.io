@@ -1,5 +1,5 @@
 /* ---------------------------------------------------------------- fuzzy -- */
-import { basePath, on } from './dom';
+import { escapeHtml, on } from './dom';
 
 /* Pagefind matches whole words, so "wildfre" or "gldilocks" find nothing. The
    title index in /search-index.json is scored character-by-character and fills
@@ -15,7 +15,7 @@ let fuzzyFailed = false;
 async function loadIndex(): Promise<Doc[]> {
   if (fuzzyIndex || fuzzyFailed) return fuzzyIndex ?? [];
   try {
-    const res = await fetch(`${basePath()}/search-index.json`);
+    const res = await fetch('/search-index.json');
     fuzzyIndex = (await res.json()) as Doc[];
   } catch {
     fuzzyFailed = true;
@@ -128,7 +128,7 @@ async function loadPagefind(): Promise<Pagefind | null> {
   try {
     // Indirect so neither TS nor Vite tries to resolve a bundle that only
     // exists after `pagefind --site dist` runs.
-    const url = `${basePath()}/pagefind/pagefind.js`;
+    const url = '/pagefind/pagefind.js';
     pagefind = (await import(/* @vite-ignore */ url)) as unknown as Pagefind;
     return pagefind;
   } catch {
@@ -136,16 +136,6 @@ async function loadPagefind(): Promise<Pagefind | null> {
     return null;
   }
 }
-
-/**
- * Pagefind already emits URLs carrying the site's base path, so prefixing
- * unconditionally doubled the prefix (/base/base/cv/). Prefix only when it is
- * missing, which keeps this right under any base.
- */
-const resultHref = (url: string) => {
-  const base = basePath();
-  return !base || url.startsWith(`${base}/`) ? url : `${base}${url}`;
-};
 
 /** Section first, then tags: the coarse facet reads better at the top. */
 const FILTER_ORDER = ['section', 'tag'];
@@ -211,7 +201,7 @@ export function initSearch() {
       while (end > 0 && href[end - 1] === '/') end--;
       return `${href.slice(0, end)}/`;
     };
-    const seen = new Set(items.map((d) => key(resultHref(d.url))));
+    const seen = new Set(items.map((d) => key(d.url)));
 
     /* One ranked list rather than two. Pagefind ranks on body text, which puts
        a page whose only tie to the query is a stray initial above the paper the
@@ -223,7 +213,7 @@ export function initSearch() {
       const title = d.meta.title ?? d.url;
       const titleScore = scoreDoc(q, { t: title, u: d.url, s: d.meta.section ?? '' })?.score ?? 0;
       return {
-        href: resultHref(d.url),
+        href: d.url,
         title: markQuery(title, q),
         section: d.meta.section ?? '',
         sub: d.excerpt,
@@ -233,7 +223,7 @@ export function initSearch() {
     });
 
     for (const h of hits) {
-      const href = resultHref(h.doc.u);
+      const href = h.doc.u;
       if (seen.has(key(href))) continue;
       rows.push({
         href,
@@ -468,6 +458,3 @@ export function initSearch() {
 
 const isTyping = (t: EventTarget | null) =>
   t instanceof HTMLElement && /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName);
-
-const escapeHtml = (s: string) =>
-  s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]!);

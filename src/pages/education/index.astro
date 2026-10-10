@@ -1,13 +1,11 @@
 ---
 import { getCollection } from 'astro:content';
-import { u } from '../../lib/url';
+import { byDate } from '../../lib/format';
 import Page from '../../layouts/Page.astro';
 import HeroPanel from '../../components/HeroPanel.astro';
 import Icon from '../../components/Icon.astro';
 
-const items = (await getCollection('education')).sort(
-  (a, b) => b.data.date.getTime() - a.data.date.getTime(),
-);
+const items = (await getCollection('education')).sort(byDate);
 
 const LEVEL: Record<string, string> = { Master: 'M.S.', Bachelor: 'B.S.' };
 
@@ -39,16 +37,16 @@ const splitTitle = (title: string) => {
   kicker="Background"
   description="Degrees and academic training in biology, ecology, and geospatial science."
   intro="Degrees and academic training in biology, ecology, and geospatial science."
-  image={u('/media/og/education.webp')}
+  image="/media/og/education.webp"
   imageAlt="Noah Weidig's education timeline"
 >
   <HeroPanel slot="hero-aside" title="By the numbers" stats={stats} />
   <Fragment slot="hero-actions">
-    <a class="btn btn-primary" href={u('/experience/')}>
+    <a class="btn btn-primary" href="/experience/">
       View experience
       <Icon name="briefcase" size={14} />
     </a>
-    <a class="btn btn-ghost" href={u('/cv/')}>
+    <a class="btn btn-ghost" href="/cv/">
       View CV
       <Icon name="file" size={14} />
     </a>
@@ -88,7 +86,7 @@ const splitTitle = (title: string) => {
             <p class="mt-6 font-mono text-2xs tracking-[0.12em] text-faint uppercase">{degree}</p>
             <h3 class="mt-1.5 text-2xl leading-tight">
               <a
-                href={u(`/education/${entry.id}/`)}
+                href={`/education/${entry.id}/`}
                 class="transition-colors group-hover:text-accent-ink after:absolute after:inset-0 after:content-['']"
               >
                 {field || degree}

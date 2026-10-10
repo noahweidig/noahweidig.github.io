@@ -1,6 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
-import { u } from '../../lib/url';
+import { byDate } from '../../lib/format';
 import Page from '../../layouts/Page.astro';
 import HeroPanel from '../../components/HeroPanel.astro';
 import Icon from '../../components/Icon.astro';
@@ -8,9 +8,7 @@ import { socials, site } from '../../lib/site';
 import CitationRow from '../../components/CitationRow.astro';
 import FilterBar from '../../components/FilterBar.astro';
 
-const all = (await getCollection('publications')).sort(
-  (a, b) => b.data.date.getTime() - a.data.date.getTime(),
-);
+const all = (await getCollection('publications')).sort(byDate);
 /* Zotero exports one record per appearance; only the flagged record is listed
    so a talk given four times reads as one work, not four near-identical rows. */
 const listed = all.filter((p) => p.data['pub-listed'] === 'yes');
@@ -38,7 +36,7 @@ const stats = [
   kicker="Research output"
   description="A live feed of my research output, pulled automatically from Zotero."
   intro="A live feed of my research output, pulled automatically from Zotero. Updated on the 1st and 15th of each month."
-  image={u('/media/og/publications.webp')}
+  image="/media/og/publications.webp"
   imageAlt="Noah Weidig's publications and research output"
 >
   <HeroPanel slot="hero-aside" title="By the numbers" stats={stats} />
@@ -52,7 +50,7 @@ const stats = [
       Google Scholar
       <Icon name="scholar" size={14} />
     </a>
-    <a class="btn btn-ghost" href={u(site.cv)}>
+    <a class="btn btn-ghost" href={site.cv}>
       Download CV
       <Icon name="download" size={14} />
     </a>

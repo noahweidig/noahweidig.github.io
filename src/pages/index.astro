@@ -1,5 +1,4 @@
 ---
-import { u } from '../lib/url';
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import Hero from '../components/Hero.astro';
@@ -15,12 +14,8 @@ import CitationRow from '../components/CitationRow.astro';
 import TimelineItem from '../components/TimelineItem.astro';
 import Icon from '../components/Icon.astro';
 import Popup from '../components/Popup.astro';
-import { Image } from 'astro:assets';
-import { readingTime, year } from '../lib/format';
+import { byDate, readingTime, year } from '../lib/format';
 import { site } from '../lib/site';
-
-const byDate = <T extends { data: { date: Date } }>(a: T, b: T) =>
-  b.data.date.getTime() - a.data.date.getTime();
 
 const allProjects = (await getCollection('projects')).sort(byDate);
 const featuredProjects = allProjects.filter((p) => p.data.featured).slice(0, 6);
@@ -55,8 +50,8 @@ const stats = [
     label: 'Papers & Talks',
     id: 'pop-pubs',
     body: 'Journal articles, conference presentations, webinars and media coverage, by type.',
-    items: pubCounts.map(([t, n]) => ({ t: `${t}s`, n: String(n), href: u('/publications/') })),
-    href: u('/publications/'),
+    items: pubCounts.map(([t, n]) => ({ t: `${t}s`, n: String(n), href: '/publications/' })),
+    href: '/publications/',
     cta: 'All publications',
   },
   {
@@ -67,7 +62,7 @@ const stats = [
     items: experience.map((e) => ({
       t: `${e.data.title}, ${e.data.org}`,
       n: String(year(e.data.date)),
-      href: u(`/experience/${e.id}/`),
+      href: `/experience/${e.id}/`,
     })),
     href: '#experience',
     cta: 'See the full background',
@@ -86,7 +81,7 @@ const stats = [
     label: 'Featured Projects',
     id: 'pop-featured',
     body: 'Open tools, maps, and packages built and maintained in the open.',
-    items: projects.map((p) => ({ t: p.data.title, href: u(`/projects/${p.id}/`) })),
+    items: projects.map((p) => ({ t: p.data.title, href: `/projects/${p.id}/` })),
     href: '#projects',
     cta: 'Browse the work',
   },
@@ -113,7 +108,7 @@ const starts = [
   },
   {
     id: 'pop-tools',
-    items: projects.map((p) => ({ t: p.data.title, href: u(`/projects/${p.id}/`) })),
+    items: projects.map((p) => ({ t: p.data.title, href: `/projects/${p.id}/` })),
     href: '#projects',
     icon: 'terminal',
     title: 'Tools & maps',
@@ -122,7 +117,7 @@ const starts = [
   },
   {
     id: 'pop-writing',
-    items: posts.map((p) => ({ t: p.data.title, href: u(`/blog/${p.id}/`) })),
+    items: posts.map((p) => ({ t: p.data.title, href: `/blog/${p.id}/` })),
     href: '#blog',
     icon: 'pencil',
     title: 'Writing',
@@ -247,7 +242,7 @@ const faqs = [
     <SectionHead
       kicker="Selected work"
       title="Tools, maps & applications"
-      href={u('/projects/')}
+      href="/projects/"
       linkText="Browse all projects"
     />
     <div class="mt-10" data-carousel data-reveal>
@@ -267,7 +262,7 @@ const faqs = [
       </div>
 
       <div class="mt-8 flex items-center justify-between gap-3 md:justify-end">
-        <a class="btn btn-ghost group h-12 md:hidden" href={u('/projects/')}>
+        <a class="btn btn-ghost group h-12 md:hidden" href="/projects/">
           Browse all projects
           <Icon
             name="arrow"
@@ -306,7 +301,7 @@ const faqs = [
     <SectionHead
       kicker="Publications"
       title="Peer-reviewed & in review"
-      href={u('/publications/')}
+      href="/publications/"
       linkText="All publications"
     />
     <div class="mt-8">
@@ -314,7 +309,7 @@ const faqs = [
         <CitationRow entry={entry} compact />
       ))}
     </div>
-    <a class="btn btn-ghost group mt-6 h-12 md:hidden" href={u('/publications/')}>
+    <a class="btn btn-ghost group mt-6 h-12 md:hidden" href="/publications/">
       All publications
       <Icon
         name="arrow"
@@ -333,7 +328,7 @@ const faqs = [
       <SectionHead
         kicker="Tech stack"
         title="Technologies I use to build things"
-        href={u('/tech/')}
+        href="/tech/"
         linkText="View all tools"
       />
       <TechPreview />
@@ -361,7 +356,7 @@ const faqs = [
         </ul>
         <a
           class="btn btn-ghost btn-sm group mt-1 justify-self-start max-md:h-12 max-md:px-[1.15rem] max-md:text-sm"
-          href={u('/experience/')}
+          href="/experience/"
         >
           See all experience
           <Icon
@@ -385,7 +380,7 @@ const faqs = [
         </ul>
         <a
           class="btn btn-ghost btn-sm group mt-1 justify-self-start max-md:h-12 max-md:px-[1.15rem] max-md:text-sm"
-          href={u('/education/')}
+          href="/education/"
         >
           See all education
           <Icon
@@ -407,7 +402,7 @@ const faqs = [
       <SectionHead
         kicker="Recognition"
         title="Featured awards"
-        href={u('/awards/')}
+        href="/awards/"
         linkText="All awards"
       />
     </div>
@@ -427,7 +422,7 @@ const faqs = [
       </div>
 
       <div class="mt-8 flex items-center justify-between gap-3 md:justify-end">
-        <a class="btn btn-ghost group h-12 md:hidden" href={u('/awards/')}>
+        <a class="btn btn-ghost group h-12 md:hidden" href="/awards/">
           All awards
           <Icon
             name="arrow"
@@ -466,7 +461,7 @@ const faqs = [
     <SectionHead
       kicker="Writing"
       title="Notes & tutorials"
-      href={u('/blog/')}
+      href="/blog/"
       linkText="Read more posts"
     />
     <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -474,7 +469,7 @@ const faqs = [
         <PostCard entry={entry} index={i} cta readingTime={readingTime(entry.body)} />
       ))}
     </div>
-    <a class="btn btn-ghost group mt-6 h-12 md:hidden" href={u('/blog/')}>
+    <a class="btn btn-ghost group mt-6 h-12 md:hidden" href="/blog/">
       Read more posts
       <Icon
         name="arrow"
@@ -507,13 +502,13 @@ const faqs = [
         real decisions. Replies within 24 hours.
       </p>
       <div class="mt-10 flex flex-wrap justify-center gap-3">
-        <a class="btn btn-primary" href={u('/contact/')}>
+        <a class="btn btn-primary" href="/contact/">
           <Icon name="mail" size={15} />
           Get in touch
         </a>
         <a
           class="btn btn-ghost border-white bg-transparent text-white hover:bg-white/10"
-          href={u(site.resume)}
+          href={site.resume}
           target="_blank"
           rel="noopener"
         >
@@ -563,7 +558,7 @@ const faqs = [
             {f.link ? (
               <>
                 {f.a.split(f.link.text)[0]}
-                <a class="text-accent-ink underline underline-offset-3" href={u(f.link.href)}>
+                <a class="text-accent-ink underline underline-offset-3" href={f.link.href}>
                   {f.link.text}
                 </a>
                 {f.a.split(f.link.text)[1]}

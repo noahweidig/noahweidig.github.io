@@ -1,5 +1,4 @@
 ---
-import { u } from '../lib/url';
 import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import HeroPanel from '../components/HeroPanel.astro';
@@ -17,7 +16,7 @@ const facts = [
 <Base
   title="Get in touch"
   description="Email me, book a call, or send a message — I reply within 24 hours."
-  image={u('/media/og/contact.webp')}
+  image="/media/og/contact.webp"
   imageAlt="Contact Noah Weidig"
   filters={{ section: 'Page' }}
 >

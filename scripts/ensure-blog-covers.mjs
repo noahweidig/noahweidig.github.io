@@ -12,15 +12,10 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { execFileSync } from 'node:child_process';
 import { paletteFor } from './lib/blog-cover.mjs';
+import { readFrontmatter } from './lib/frontmatter.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const blogDir = path.join(root, 'src/content/blog');
-
-function parseTitle(raw) {
-  const frontmatter = raw.split('---\n', 3)[1] ?? '';
-  const line = frontmatter.split('\n').find((l) => l.startsWith('title:'));
-  return (line ? line.slice('title:'.length).trim() : '').replace(/^['"]|['"]$/g, '');
-}
 
 const slugs = fs
   .readdirSync(blogDir)
@@ -37,10 +32,7 @@ for (const slug of slugs) {
   if (!hasCovers) needCovers.push(slug);
 
   const raw = fs.readFileSync(path.join(dir, 'index.md'), 'utf8');
-  const frontmatter = raw.split('---\n', 3)[1] ?? '';
-  if (!frontmatter.split('\n').some((l) => l.startsWith('image:'))) {
-    needFrontmatter.push(slug);
-  }
+  if (!readFrontmatter(raw).image) needFrontmatter.push(slug);
 }
 
 if (needCovers.length) {
@@ -54,7 +46,7 @@ if (needCovers.length) {
 for (const slug of needFrontmatter) {
   const file = path.join(blogDir, slug, 'index.md');
   const raw = fs.readFileSync(file, 'utf8');
-  const title = parseTitle(raw);
+  const title = String(readFrontmatter(raw).title ?? '');
   const altText = `Cover card reading “${title}” over a halftone dot pattern in ${paletteFor(slug).alt}`;
   // Same quote choice Prettier makes for YAML strings, so the lint job
   // doesn't flag a freshly wired post.

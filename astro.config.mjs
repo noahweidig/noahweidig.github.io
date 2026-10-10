@@ -42,9 +42,6 @@ for (const name of COLLECTIONS) {
 
 export default defineConfig({
   site: 'https://noahweidig.com',
-  // The site is published at the apex. `src/lib/url.ts` reads this value back
-  // out of import.meta.env.BASE_URL, so hand-written root-relative URLs stay
-  // correct if a base path is ever reintroduced.
   base: '/',
   trailingSlash: 'ignore',
   integrations: [
