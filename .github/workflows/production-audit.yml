@@ -54,7 +54,7 @@ jobs:
 
       - name: Install toolchain
         run: |
-          npm ci --ignore-scripts
+          npm ci --ignore-scripts --no-audit --no-fund --prefer-offline
           node ./node_modules/puppeteer/install.mjs
 
       - name: Run axe-core against production
@@ -122,7 +122,7 @@ jobs:
 
       - name: Install toolchain
         run: |
-          npm ci --ignore-scripts
+          npm ci --ignore-scripts --no-audit --no-fund --prefer-offline
           node ./node_modules/puppeteer/install.mjs
 
       - name: Check the form endpoint is still live

@@ -2,9 +2,9 @@
 // src/content/publications/<slug>/index.md for the Astro site, plus the
 // downloadable cite.bib / PDF under public/publications/<slug>/.
 // No npm dependencies — plain Node 22+.
-import fs from 'fs';
-import path from 'path';
-import crypto from 'crypto';
+import fs from 'node:fs';
+import path from 'node:path';
+import crypto from 'node:crypto';
 
 const userID = process.env.ZOTERO_USER_ID || 11988712;
 const pubsDir = path.resolve('src/content/publications');

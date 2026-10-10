@@ -15,12 +15,8 @@ import CitationRow from '../components/CitationRow.astro';
 import TimelineItem from '../components/TimelineItem.astro';
 import Icon from '../components/Icon.astro';
 import Popup from '../components/Popup.astro';
-import { Image } from 'astro:assets';
-import { readingTime, year } from '../lib/format';
+import { byDate, readingTime, year } from '../lib/format';
 import { site } from '../lib/site';
-
-const byDate = <T extends { data: { date: Date } }>(a: T, b: T) =>
-  b.data.date.getTime() - a.data.date.getTime();
 
 const allProjects = (await getCollection('projects')).sort(byDate);
 const featuredProjects = allProjects.filter((p) => p.data.featured).slice(0, 6);

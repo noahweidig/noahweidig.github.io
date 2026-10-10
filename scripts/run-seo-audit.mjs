@@ -5,8 +5,8 @@
 //
 //   node scripts/run-seo-audit.mjs               # ./dist -> src/data/seo-audit.json
 //   node scripts/run-seo-audit.mjs --dir dist
-import fs from 'fs';
-import path from 'path';
+import fs from 'node:fs';
+import path from 'node:path';
 
 const { findHtmlFiles, readFile, getRelativePath } = await import('./seo-audit/lib/utils.cjs');
 const { auditMetaTags } = await import('./seo-audit/lib/auditors/meta-tags.cjs');
