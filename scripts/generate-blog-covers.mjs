@@ -24,7 +24,8 @@ import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import puppeteer from 'puppeteer';
-import { coverHtml } from './lib/blog-cover.mjs';
+import { coverHtml, hash } from './lib/blog-cover.mjs';
+import { readFrontmatter } from './lib/frontmatter.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const blogDir = path.join(root, 'src/content/blog');
@@ -108,12 +109,6 @@ const PRESETS = [
   { a: 'ember', aPos: '105% 115%', b: 'accent', bPos: '-10% -10%', ring: 'right' },
   { a: 'moss', aPos: '95% -15%', b: 'violet', bPos: '105% 115%', ring: 'left' },
 ];
-
-function hash(str) {
-  let h = 5381;
-  for (let i = 0; i < str.length; i += 1) h = (h * 33) ^ str.codePointAt(i);
-  return h >>> 0;
-}
 
 function presetFor(slug) {
   return PRESETS[hash(slug) % PRESETS.length];
@@ -277,40 +272,14 @@ body {
 </html>`;
 }
 
-// Reads just enough of an entry's frontmatter to build its cover: the title,
-// the `categories:` YAML block list, and the `featured:` flag.
+// The title, the `categories` list and the `featured` flag are all a cover needs.
 function parseFrontmatter(raw, slug) {
-  const frontmatter = raw.split('---\n', 3)[1] ?? '';
-  const lines = frontmatter.split('\n');
-
-  const titleLine = lines.find((l) => l.startsWith('title:'));
-  const title = (titleLine ? titleLine.slice('title:'.length).trim() : slug).replace(
-    /^['"]|['"]$/g,
-    '',
-  );
-
-  // `categories:` is a YAML block list — its items are the following lines
-  // indented under it, up to the next unindented (top-level) key.
-  const catIndex = lines.findIndex((l) => l.startsWith('categories:'));
-  const catLines = catIndex === -1 ? [] : lines.slice(catIndex + 1);
-  const indented = [];
-  for (const line of catLines) {
-    if (!line.startsWith(' ') && !line.startsWith('\t')) break;
-    indented.push(line.trim());
-  }
-  const categories = indented
-    .filter((l) => l.startsWith('- '))
-    .map((l) =>
-      l
-        .slice(2)
-        .trim()
-        .replace(/^['"]|['"]$/g, ''),
-    );
-
-  const featuredLine = lines.find((l) => l.startsWith('featured:'));
-  const featured = featuredLine ? featuredLine.slice('featured:'.length).trim() === 'true' : false;
-
-  return { title, categories, featured };
+  const fm = readFrontmatter(raw);
+  return {
+    title: String(fm.title ?? slug),
+    categories: (fm.categories ?? []).map(String),
+    featured: fm.featured === true,
+  };
 }
 
 function readPostMeta(slug) {

@@ -1,14 +1,10 @@
 ---
-import { u } from '../lib/url';
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import Icon from '../components/Icon.astro';
-import { inlineMarkup, year } from '../lib/format';
+import { byDate, inlineMarkup, year } from '../lib/format';
 import { site, socials, skills } from '../lib/site';
-
-const byDate = <T extends { data: { date: Date } }>(a: T, b: T) =>
-  b.data.date.getTime() - a.data.date.getTime();
 
 const education = (await getCollection('education')).sort(byDate);
 const experience = (await getCollection('experience')).sort(byDate);
@@ -22,7 +18,7 @@ const byCat = (c: string) => pubs.filter((p) => p.data.categories.includes(c));
 <Base
   title="Curriculum Vitae"
   description="The full curriculum vitae of Noah Weidig — GIS Analyst & Data Scientist: education, experience, publications, presentations, and awards."
-  image={u('/media/og/cv.webp')}
+  image="/media/og/cv.webp"
   imageAlt="Noah Weidig's curriculum vitae"
   filters={{ section: 'Page' }}
 >
@@ -62,7 +58,7 @@ const byCat = (c: string) => pubs.filter((p) => p.data.categories.includes(c));
       <div class="no-print mt-6 flex flex-wrap justify-center gap-2.5">
         <a
           class="btn btn-primary btn-sm"
-          href={u(site.cv)}
+          href={site.cv}
           target="_blank"
           rel="noopener"
           data-tip="The full record as a PDF, rebuilt weekly"
@@ -72,7 +68,7 @@ const byCat = (c: string) => pubs.filter((p) => p.data.categories.includes(c));
         </a>
         <a
           class="btn btn-ghost btn-sm"
-          href={u(site.resume)}
+          href={site.resume}
           target="_blank"
           rel="noopener"
           data-tip="One page: summary, education, experience, skills"
@@ -101,7 +97,7 @@ const byCat = (c: string) => pubs.filter((p) => p.data.categories.includes(c));
               <div class="flex flex-wrap items-baseline justify-between gap-x-4">
                 <h3 class="text-[1.05rem] font-bold">
                   <a
-                    href={u(`/${group.base}/${entry.id}/`)}
+                    href={`/${group.base}/${entry.id}/`}
                     data-tip-title={entry.data.org}
                     data-tip={entry.data.description ?? 'Open the full entry'}
                     class="transition-colors hover:text-accent-ink"
@@ -165,7 +161,7 @@ const byCat = (c: string) => pubs.filter((p) => p.data.categories.includes(c));
                 {items.map((p) => (
                   <li class="border-l border-line pl-5 text-sm leading-relaxed">
                     <a
-                      href={u(`/publications/${p.id}/`)}
+                      href={`/publications/${p.id}/`}
                       data-tip-title={p.data.categories[0] ?? 'Publication'}
                       data-tip={p.data['pub-venue'] ?? 'Open the record'}
                       class="font-medium transition-colors hover:text-accent-ink"
@@ -201,7 +197,7 @@ const byCat = (c: string) => pubs.filter((p) => p.data.categories.includes(c));
           <div class="flex flex-wrap items-baseline justify-between gap-x-4 border-l border-line pl-5">
             <h3 class="text-[0.98rem] font-bold">
               <a
-                href={u(`/awards/${a.id}/`)}
+                href={`/awards/${a.id}/`}
                 data-tip-title={a.data.title}
                 data-tip={a.data.description ?? 'Open the full entry'}
                 class="transition-colors hover:text-accent-ink"

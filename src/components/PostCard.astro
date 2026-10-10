@@ -1,5 +1,4 @@
 ---
-import { u } from '../lib/url';
 import type { CollectionEntry } from 'astro:content';
 import { fullDate } from '../lib/format';
 import { IMAGE_WIDTHS } from '../lib/images';
@@ -26,15 +25,10 @@ const alt = entry.data['image-alt'] ?? '';
   data-reveal={reveal ? '' : undefined}
   style={`--reveal-delay:${Math.min(index, 5) * 60}ms`}
 >
-  <a
-    href={u(`/blog/${entry.id}/`)}
-    class="absolute inset-0 z-10"
-    tabindex="-1"
-    aria-hidden="true"
-  ></a>
+  <a href={`/blog/${entry.id}/`} class="absolute inset-0 z-10" tabindex="-1" aria-hidden="true"></a>
   {image && (
     <a
-      href={u(`/blog/${entry.id}/`)}
+      href={`/blog/${entry.id}/`}
       tabindex="-1"
       aria-hidden="true"
       class="relative block aspect-16/9 overflow-hidden border-b border-line"
@@ -67,7 +61,7 @@ const alt = entry.data['image-alt'] ?? '';
     </div>
     <h3 class="mt-2.5 text-xl leading-snug">
       <a
-        href={u(`/blog/${entry.id}/`)}
+        href={`/blog/${entry.id}/`}
         class="relative z-20 transition-colors group-hover:text-accent-ink"
       >
         {title}

@@ -28,6 +28,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import puppeteer from 'puppeteer';
+import { readFrontmatter } from './lib/frontmatter.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const projectsDir = path.join(root, 'src/content/projects');
@@ -53,18 +54,10 @@ const SKIP = {
 // chart-heavy paints well after the network goes quiet.
 const SETTLE = { default: 3000, maplab: 6000, maps: 6000, wildfire: 6000, quickplot: 5000 };
 
-/** First http(s) `href:` in the entry's `links:` block. */
+/** First http(s) `href` in the entry's `links` list. */
 function shotUrl(raw) {
-  const frontmatter = raw.split('---\n', 3)[1] ?? '';
-  const lines = frontmatter.split('\n');
-  const start = lines.findIndex((l) => l.startsWith('links:'));
-  if (start === -1) return null;
-  for (const line of lines.slice(start + 1)) {
-    if (!line.startsWith(' ') && !line.startsWith('\t')) break;
-    const m = line.trim().match(/^href:\s*['"]?(https?:\/\/[^'"\s]+)/);
-    if (m) return m[1];
-  }
-  return null;
+  const links = readFrontmatter(raw).links ?? [];
+  return links.map((l) => l?.href).find((h) => /^https?:\/\//.test(h)) ?? null;
 }
 
 async function shoot(browser, slug, url) {

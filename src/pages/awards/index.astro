@@ -1,15 +1,12 @@
 ---
 import { getCollection } from 'astro:content';
-import { u } from '../../lib/url';
 import Page from '../../layouts/Page.astro';
 import HeroPanel from '../../components/HeroPanel.astro';
 import Icon from '../../components/Icon.astro';
 import AwardCard from '../../components/AwardCard.astro';
-import { year } from '../../lib/format';
+import { byDate, year } from '../../lib/format';
 
-const awards = (await getCollection('awards')).sort(
-  (a, b) => b.data.date.getTime() - a.data.date.getTime(),
-);
+const awards = (await getCollection('awards')).sort(byDate);
 
 /* Funding is read off the "· $2,000" tail each award's description carries. */
 const funding = awards.reduce((sum, a) => {
@@ -39,15 +36,15 @@ const stats = [
   kicker="Recognition"
   description="Awards, scholarships, grants, and honors I've received over the years."
   intro="Awards, scholarships, grants, and honors I've received over the years."
-  image={u('/media/og/awards.webp')}
+  image="/media/og/awards.webp"
 >
   <HeroPanel slot="hero-aside" title="By the numbers" stats={stats} />
   <Fragment slot="hero-actions">
-    <a class="btn btn-primary" href={u('/cv/')}>
+    <a class="btn btn-primary" href="/cv/">
       View CV
       <Icon name="file" size={14} />
     </a>
-    <a class="btn btn-ghost" href={u('/education/')}>
+    <a class="btn btn-ghost" href="/education/">
       Education
       <Icon name="graduationCap" size={14} />
     </a>

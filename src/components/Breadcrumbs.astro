@@ -1,5 +1,4 @@
 ---
-import { u } from '../lib/url';
 import { site } from '../lib/site';
 
 export interface Crumb {
@@ -8,11 +7,7 @@ export interface Crumb {
 }
 
 interface Props {
-  /**
-   * Ancestors only; the current page's title is passed separately. Hrefs
-   * arrive ready to use — callers already run them through `u()`, so applying
-   * it again here would prefix the base path twice.
-   */
+  /** Ancestors only; the current page's title is passed separately. */
   trail: Crumb[];
   current: string;
   class?: string;
@@ -21,10 +16,9 @@ interface Props {
 }
 const { trail, current, class: klass, pill = false } = Astro.props;
 
-const items = [{ label: 'Home', href: u('/') }, ...trail];
+const items = [{ label: 'Home', href: '/' }, ...trail];
 
-/* Search engines read the trail from JSON-LD rather than the markup, and the
-   absolute URLs have to include the base path — `u()` already adds it. */
+/* Search engines read the trail from JSON-LD rather than the markup. */
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
@@ -33,7 +27,7 @@ const jsonLd = {
       '@type': 'ListItem',
       position: i + 1,
       name: c.label,
-      item: new URL(c.href ?? u('/'), site.url).href,
+      item: new URL(c.href ?? '/', site.url).href,
     })),
     {
       '@type': 'ListItem',
@@ -56,7 +50,7 @@ const jsonLd = {
   >
     {items.map((c) => (
       <li class="flex shrink-0 items-center gap-1.5 whitespace-nowrap">
-        <a href={c.href ?? u('/')} class="transition-colors hover:text-accent-ink">
+        <a href={c.href ?? '/'} class="transition-colors hover:text-accent-ink">
           {c.label}
         </a>
         <span aria-hidden="true" class="text-line-strong">

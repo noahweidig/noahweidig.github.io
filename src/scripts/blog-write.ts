@@ -1,17 +1,15 @@
 /**
- * /blog/write — GitHub OAuth login, a ByteMD editor, and a "Publish" button
- * that opens a PR adding `src/content/blog/<slug>/index.md`.
+ * /blog/write — GitHub OAuth login, a Markdown editor with a preview tab, and
+ * a "Publish" button that opens a PR adding `src/content/blog/<slug>/index.md`.
  *
  * The OAuth code-exchange step needs the app's client secret, which can't
  * live in this bundle — that step is delegated to a small Cloudflare Worker
  * (see /worker). Everything after that (branch, file, PR) runs client-side
- * against the GitHub API via Octokit, using the token this page holds.
+ * against the GitHub REST API, using the token this page holds.
  */
-import { Editor } from 'bytemd';
-import gfm from '@bytemd/plugin-gfm';
-import { Octokit } from '@octokit/rest';
-import 'bytemd/dist/index.css';
+import { marked } from 'marked';
 import { slugify } from '../lib/format';
+import { escapeHtml } from './dom';
 
 // --- fill these in -------------------------------------------------------
 const OAUTH_CLIENT_ID = 'Ov23licfnB09arlpA4H6';
@@ -25,6 +23,31 @@ const BASE_BRANCH = 'main';
 
 const TOKEN_KEY = 'nw-blog-write-token';
 const STATE_KEY = 'nw-blog-write-oauth-state';
+
+// Raw HTML in the draft is shown as text in the preview, not run: this page
+// holds a GitHub token.
+marked.use({ renderer: { html: ({ text }) => escapeHtml(text) } });
+
+/** GitHub REST call as the signed-in user; throws GitHub's own error message. */
+async function gh<T = unknown>(
+  token: string,
+  path: string,
+  body?: unknown,
+  method = body === undefined ? 'GET' : 'POST',
+): Promise<T> {
+  const res = await fetch(`https://api.github.com${path}`, {
+    method,
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: 'application/vnd.github+json',
+      ...(body === undefined ? {} : { 'Content-Type': 'application/json' }),
+    },
+    body: body === undefined ? undefined : JSON.stringify(body),
+  });
+  const data = (await res.json().catch(() => ({}))) as { message?: string };
+  if (!res.ok) throw new Error(data.message ?? `HTTP ${res.status}`);
+  return data as T;
+}
 
 const app = document.querySelector<HTMLElement>('[data-write-app]');
 if (app) init(app);
@@ -48,7 +71,9 @@ function init(app: HTMLElement) {
   const publishBtn = app.querySelector<HTMLButtonElement>('[data-write-publish]')!;
   const publishLabel = app.querySelector<HTMLElement>('[data-write-publish-label]')!;
   const status = app.querySelector<HTMLElement>('[data-write-status]')!;
-  const editorHost = app.querySelector<HTMLElement>('[data-write-editor]')!;
+  const bodyInput = app.querySelector<HTMLTextAreaElement>('[data-write-body]')!;
+  const preview = app.querySelector<HTMLElement>('[data-write-preview]')!;
+  const tabs = app.querySelectorAll<HTMLButtonElement>('[data-write-tab]');
 
   const say = (el: HTMLElement, msg: string, state: 'ok' | 'error') => {
     el.hidden = false;
@@ -76,8 +101,6 @@ function init(app: HTMLElement) {
     location.reload();
   });
 
-  let editor: Editor | null = null;
-  let markdown = '';
   let slugTouched = false;
 
   titleInput.addEventListener('input', () => {
@@ -98,21 +121,27 @@ function init(app: HTMLElement) {
     workspace.classList.remove('hidden');
     userLabel.textContent = login;
     dateInput.value = new Date().toISOString().slice(0, 10);
-
-    editor = new Editor({
-      target: editorHost,
-      props: { value: '', plugins: [gfm()] },
-    });
-    editor.$on('change', (e: CustomEvent<{ value: string }>) => {
-      markdown = e.detail.value;
-      // Feeds the typed value back in as bytemd's own controlled-component
-      // pattern expects — its "Preview" pane renders from this prop, not
-      // straight from CodeMirror, so skipping this left Preview permanently
-      // blank. Setting it back to the value bytemd itself just emitted is a
-      // no-op for CodeMirror's document, so it doesn't disturb the cursor.
-      editor?.$set({ value: markdown });
-    });
   }
+
+  tabs.forEach((tab) =>
+    tab.addEventListener('click', () => {
+      const showPreview = tab.dataset.writeTab === 'preview';
+      tabs.forEach((t) => t.setAttribute('aria-selected', String(t === tab)));
+      bodyInput.hidden = showPreview;
+      preview.hidden = !showPreview;
+      if (showPreview) {
+        preview.innerHTML = marked.parse(bodyInput.value, { async: false });
+        // Drop script-capable link and image targets from whatever the draft contains.
+        preview.querySelectorAll('[href], [src]').forEach((el) => {
+          for (const attr of ['href', 'src']) {
+            if (/^\s*(javascript|data|vbscript):/i.test(el.getAttribute(attr) ?? '')) {
+              el.removeAttribute(attr);
+            }
+          }
+        });
+      }
+    }),
+  );
 
   function toBase64(str: string): string {
     const bytes = new TextEncoder().encode(str);
@@ -163,6 +192,7 @@ function init(app: HTMLElement) {
       say(status, 'Slug can only contain lowercase letters, numbers and hyphens.', 'error');
       return;
     }
+    const markdown = bodyInput.value;
     if (!markdown.trim()) {
       say(status, 'Write something in the editor first.', 'error');
       return;
@@ -172,37 +202,24 @@ function init(app: HTMLElement) {
     publishLabel.textContent = 'Publishing…';
     status.hidden = true;
 
-    const octokit = new Octokit({ auth: token });
     const branch = `blog/${slug}`;
     const path = `src/content/blog/${slug}/index.md`;
     const content = buildFrontmatter({ title, date, description, categories, draft }) + markdown;
+    const repo = `/repos/${REPO_OWNER}/${REPO_NAME}`;
 
     try {
-      const { data: ref } = await octokit.rest.git.getRef({
-        owner: REPO_OWNER,
-        repo: REPO_NAME,
-        ref: `heads/${BASE_BRANCH}`,
-      });
-
-      await octokit.rest.git.createRef({
-        owner: REPO_OWNER,
-        repo: REPO_NAME,
-        ref: `refs/heads/${branch}`,
-        sha: ref.object.sha,
-      });
-
-      await octokit.rest.repos.createOrUpdateFileContents({
-        owner: REPO_OWNER,
-        repo: REPO_NAME,
-        path,
-        branch,
-        message: `Add blog post: ${title}`,
-        content: toBase64(content),
-      });
-
-      const { data: pr } = await octokit.rest.pulls.create({
-        owner: REPO_OWNER,
-        repo: REPO_NAME,
+      const ref = await gh<{ object: { sha: string } }>(
+        token,
+        `${repo}/git/ref/heads/${BASE_BRANCH}`,
+      );
+      await gh(token, `${repo}/git/refs`, { ref: `refs/heads/${branch}`, sha: ref.object.sha });
+      await gh(
+        token,
+        `${repo}/contents/${path}`,
+        { message: `Add blog post: ${title}`, content: toBase64(content), branch },
+        'PUT',
+      );
+      const pr = await gh<{ html_url: string; number: number }>(token, `${repo}/pulls`, {
         title: `Blog: ${title}`,
         head: branch,
         base: BASE_BRANCH,
@@ -279,9 +296,7 @@ function init(app: HTMLElement) {
 
     let login: string;
     try {
-      const octokit = new Octokit({ auth: token });
-      const { data: user } = await octokit.rest.users.getAuthenticated();
-      login = user.login;
+      login = (await gh<{ login: string }>(token, '/user')).login;
     } catch {
       localStorage.removeItem(TOKEN_KEY);
       say(authError, 'Your session expired. Sign in again.', 'error');

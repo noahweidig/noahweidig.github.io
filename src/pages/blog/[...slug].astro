@@ -1,9 +1,8 @@
 ---
-import { u } from '../../lib/url';
 import { getCollection, render } from 'astro:content';
 import { getImage } from 'astro:assets';
 import Detail from '../../layouts/Detail.astro';
-import { firstSentence, fullDate, readingTime } from '../../lib/format';
+import { byDate, firstSentence, fullDate, readingTime, siblingLink } from '../../lib/format';
 import { IMAGE_WIDTHS } from '../../lib/images';
 import Comments from '../../components/Comments.astro';
 import ThemeImage from '../../components/ThemeImage.astro';
@@ -12,11 +11,8 @@ import { site } from '../../lib/site';
 export async function getStaticPaths() {
   // Sorted the way the listing is, so "previous" and "next" mean what a reader
   // saw there rather than an arbitrary collection order.
-  const items = (await getCollection('blog', ({ data }) => !data.draft)).sort(
-    (a, b) => b.data.date.getTime() - a.data.date.getTime(),
-  );
-  const sibling = (entry: (typeof items)[number] | undefined) =>
-    entry ? { href: `/blog/${entry.id}/`, title: entry.data.title } : null;
+  const items = (await getCollection('blog', ({ data }) => !data.draft)).sort(byDate);
+  const sibling = siblingLink('blog');
 
   return items.map((entry, i) => ({
     params: { slug: entry.id },
@@ -72,7 +68,7 @@ const articleLd = {
   section="Blog"
   prev={prev}
   next={next}
-  backHref={u('/blog/')}
+  backHref="/blog/"
   backLabel="All posts"
   chips={d.categories}
   image={ogImage}

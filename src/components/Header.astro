@@ -1,19 +1,14 @@
 ---
-import { u } from '../lib/url';
 import { navGroups } from '../lib/site';
 import Icon from './Icon.astro';
 import Wordmark from './Wordmark.astro';
 import Search from './Search.astro';
 
-/* Compared against `u(href)`, not the bare href, so the check stays correct if
-   the site is ever served under a base path again: `/publications/` would not
-   match `/<base>/publications/` and no nav item would read as current. */
 const slash = (p: string) => (p.endsWith('/') ? p : `${p}/`);
 const path = slash(Astro.url.pathname);
-const home = slash(u('/'));
 const isActive = (href: string) => {
-  const target = slash(u(href));
-  return target === home ? path === home : path === target || path.startsWith(target);
+  const target = slash(href);
+  return target === '/' ? path === '/' : path === target || path.startsWith(target);
 };
 type MobileItem = { text: string; href: string; external?: true };
 const mobileItems: MobileItem[] = [
@@ -30,7 +25,7 @@ const mobileItems: MobileItem[] = [
 >
   <div class="shell nav-bar relative z-10 flex h-16 items-center md:h-[4.5rem] gap-4 lg:grid lg:grid-cols-[1fr_auto_1fr]">
     <a
-      href={u('/')}
+      href="/"
       class="bar-fade group flex min-w-0 items-center gap-2.5"
       aria-label="Noah Weidig — home"
     >
@@ -56,26 +51,28 @@ const mobileItems: MobileItem[] = [
                 <Icon name="nav-chevronRight" size={14} stroke-width={2.6} class="nav-chevron" />
               </button>
               <ul class="nav-menu card absolute left-1/2 top-full z-10 hidden min-w-52 -translate-x-1/2 p-1.5">
-                {group.items.map((item) => (
-                  <li>
-                    <a
-                      href={'external' in item ? item.href : u(item.href)}
-                      target={'external' in item ? '_blank' : undefined}
-                      rel={'external' in item ? 'noopener' : undefined}
-                      data-tip={item.tip}
-                      aria-current={
-                        !('external' in item) && isActive(item.href) ? 'page' : undefined
-                      }
-                      class:list={[
-                        'nav-link block rounded-lg px-3 py-2 text-sm font-medium',
-                        !('external' in item) && isActive(item.href) ? 'nav-link-active' : '',
-                      ]}
-                    >
-                      {item.text}
-                      {'external' in item && <span class="sr-only-nw"> (opens in a new tab)</span>}
-                    </a>
-                  </li>
-                ))}
+                {group.items.map((item) => {
+                  const external = 'external' in item;
+                  const current = !external && isActive(item.href);
+                  return (
+                    <li>
+                      <a
+                        href={item.href}
+                        target={external ? '_blank' : undefined}
+                        rel={external ? 'noopener' : undefined}
+                        data-tip={item.tip}
+                        aria-current={current ? 'page' : undefined}
+                        class:list={[
+                          'nav-link block rounded-lg px-3 py-2 text-sm font-medium',
+                          current ? 'nav-link-active' : '',
+                        ]}
+                      >
+                        {item.text}
+                        {external && <span class="sr-only-nw"> (opens in a new tab)</span>}
+                      </a>
+                    </li>
+                  );
+                })}
               </ul>
             </li>
           );
@@ -114,7 +111,7 @@ const mobileItems: MobileItem[] = [
 
       <a
         class="btn btn-primary ml-1 hidden px-4 py-2.5 text-sm lg:inline-flex"
-        href={u('/contact/')}
+        href="/contact/"
         data-tip="Email, booking and the contact form"
       >
         Get in touch
@@ -144,21 +141,29 @@ const mobileItems: MobileItem[] = [
   >
     <nav aria-label="Mobile" class="shell flex h-full flex-col pb-5 pt-2">
       <ul class="min-h-0 flex-1 overflow-y-auto">
-        {mobileItems.map((item, i) => (
-          <li class="mobile-item" style={`--i:${i}`}>
-            <a
-              href={'external' in item ? item.href : u(item.href)}
-              target={'external' in item ? '_blank' : undefined}
-              rel={'external' in item ? 'noopener' : undefined}
-              class="mobile-link flex w-full items-center justify-between py-2.5 font-display text-2xl font-semibold tracking-tight text-ink"
-              aria-current={!('external' in item) && isActive(item.href) ? 'page' : undefined}
-            >
-              {item.text}
-              {'external' in item && <span class="sr-only-nw"> (opens in a new tab)</span>}
-              <Icon name="nav-chevronRight" size={22} stroke-width={1.72} class="mobile-chevron" />
-            </a>
-          </li>
-        ))}
+        {mobileItems.map((item, i) => {
+          const external = 'external' in item;
+          return (
+            <li class="mobile-item" style={`--i:${i}`}>
+              <a
+                href={item.href}
+                target={external ? '_blank' : undefined}
+                rel={external ? 'noopener' : undefined}
+                class="mobile-link flex w-full items-center justify-between py-2.5 font-display text-2xl font-semibold tracking-tight text-ink"
+                aria-current={!external && isActive(item.href) ? 'page' : undefined}
+              >
+                {item.text}
+                {external && <span class="sr-only-nw"> (opens in a new tab)</span>}
+                <Icon
+                  name="nav-chevronRight"
+                  size={22}
+                  stroke-width={1.72}
+                  class="mobile-chevron"
+                />
+              </a>
+            </li>
+          );
+        })}
       </ul>
     </nav>
   </div>

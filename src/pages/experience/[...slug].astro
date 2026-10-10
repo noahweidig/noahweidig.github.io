@@ -1,18 +1,14 @@
 ---
-import { u } from '../../lib/url';
 import { getCollection, render } from 'astro:content';
 import Detail from '../../layouts/Detail.astro';
 import { site } from '../../lib/site';
-import { truncateTitle } from '../../lib/format';
+import { byDate, truncateTitle, siblingLink } from '../../lib/format';
 
 export async function getStaticPaths() {
   // Sorted the way the listing is, so "previous" and "next" mean what a reader
   // saw there rather than an arbitrary collection order.
-  const items = (await getCollection('experience')).sort(
-    (a, b) => b.data.date.getTime() - a.data.date.getTime(),
-  );
-  const sibling = (entry: (typeof items)[number] | undefined) =>
-    entry ? { href: `/experience/${entry.id}/`, title: entry.data.title } : null;
+  const items = (await getCollection('experience')).sort(byDate);
+  const sibling = siblingLink('experience');
 
   // Two roles can share a generic title (e.g. "Research Assistant" at
   // different institutions) — only those need the org appended to <title>,
@@ -63,14 +59,14 @@ const experienceLd = {
   section="Experience"
   prev={prev}
   next={next}
-  backHref={u('/experience/')}
+  backHref="/experience/"
   backLabel="All experience"
   links={
     d['org-url']
       ? [{ label: d.org ?? 'Organisation', href: d['org-url'], variant: 'ghost', external: true }]
       : []
   }
-  image={u(`/media/og/experience/${entry.id}.webp`)}
+  image={`/media/og/experience/${entry.id}.webp`}
   imageAlt={d.org ? `${d.title}, ${d.org}` : d.title}
   publishedTime={d.date}
 >

@@ -1,19 +1,15 @@
 ---
-import { u } from '../../lib/url';
 import { getCollection, render } from 'astro:content';
 import { Image, getImage } from 'astro:assets';
 import Detail from '../../layouts/Detail.astro';
-import { fullDate, truncateTitle } from '../../lib/format';
+import { byDate, fullDate, truncateTitle, siblingLink } from '../../lib/format';
 import { site } from '../../lib/site';
 
 export async function getStaticPaths() {
   // Sorted the way the listing is, so "previous" and "next" mean what a reader
   // saw there rather than an arbitrary collection order.
-  const items = (await getCollection('awards')).sort(
-    (a, b) => b.data.date.getTime() - a.data.date.getTime(),
-  );
-  const sibling = (entry: (typeof items)[number] | undefined) =>
-    entry ? { href: `/awards/${entry.id}/`, title: entry.data.title } : null;
+  const items = (await getCollection('awards')).sort(byDate);
+  const sibling = siblingLink('awards');
 
   return items.map((entry, i) => ({
     params: { slug: entry.id },
@@ -57,7 +53,7 @@ const awardLd = {
   section="Awards"
   prev={prev}
   next={next}
-  backHref={u('/awards/')}
+  backHref="/awards/"
   backLabel="All awards"
   links={d.links}
   image={ogImage}

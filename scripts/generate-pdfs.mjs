@@ -20,7 +20,6 @@ import { PDFDocument } from 'pdf-lib';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const dist = path.join(root, 'dist');
 const outDir = path.join(root, 'public', 'uploads');
-const BASE = '';
 
 /** The origin the PDFs' links point at, read from the site config so it stays
     in step with the rest of the build. */
@@ -49,8 +48,7 @@ const SAFE_PATH = /^[a-zA-Z0-9._/-]*$/;
 
 /** Resolves a request path to a file inside dist/, or null if it is not one. */
 function resolveFile(rawUrl) {
-  let url = (rawUrl ?? '/').split('?')[0];
-  if (url.startsWith(BASE)) url = url.slice(BASE.length) || '/';
+  const url = (rawUrl ?? '/').split('?')[0];
   if (!SAFE_PATH.test(url) || url.includes('..')) return null;
   const rel = url.endsWith('/') ? `${url}index.html` : url;
   const file = path.resolve(dist, `.${rel}`);
@@ -62,7 +60,7 @@ function resolveFile(rawUrl) {
   return file;
 }
 
-/** Serves dist/ under the site's base path, the way Pages does. */
+/** Serves dist/ the way Pages does. */
 function serve() {
   const server = createServer(async (req, res) => {
     const file = resolveFile(req.url);
@@ -132,7 +130,7 @@ async function render(page, url, opts = {}) {
 }
 
 const { server, port } = await serve();
-const origin = `http://127.0.0.1:${port}${BASE}`;
+const origin = `http://127.0.0.1:${port}`;
 const browser = await puppeteer.launch({
   args: ['--no-sandbox', '--disable-dev-shm-usage'],
   ...(process.env.PUPPETEER_EXECUTABLE_PATH

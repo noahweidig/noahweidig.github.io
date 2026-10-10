@@ -1,5 +1,4 @@
 ---
-import { u } from '../lib/url';
 import { allTools, featuredTools } from '../lib/tech';
 import Icon from './Icon.astro';
 import TechTile from './TechTile.astro';
@@ -23,7 +22,7 @@ const moreNarrow = allTools.length - Math.min(NARROW_TOOLS, featuredTools.length
     />
   ))}
   <li class="tech-tile tech-tile-more">
-    <a href={u('/tech/')} class="absolute inset-0 z-10 rounded-[inherit]">
+    <a href="/tech/" class="absolute inset-0 z-10 rounded-[inherit]">
       <span class="sr-only-nw">View all {allTools.length} tools</span>
     </a>
     <span class="font-mono text-xl tracking-tight text-ink max-[25.99rem]:hidden">+{more}</span>

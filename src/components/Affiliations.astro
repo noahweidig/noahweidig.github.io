@@ -1,5 +1,4 @@
 ---
-import { u } from '../lib/url';
 const orgs = [
   ['University of Florida', 'https://www.ufl.edu/', '/media/icons/custom/uf.svg'],
   [
@@ -33,11 +32,7 @@ const orgs = [
             aria-label={`${name} (opens in a new tab)`}
             class="card affil-card"
           >
-            <span
-              class="affil-logo"
-              style={`--affil-logo:url(${u(src!)})`}
-              aria-hidden="true"
-            ></span>
+            <span class="affil-logo" style={`--affil-logo:url(${src!})`} aria-hidden="true"></span>
           </a>
         </li>
       ))}

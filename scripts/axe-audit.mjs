@@ -117,12 +117,12 @@ const BYPASS_HEADER = process.env.AUDIT_BYPASS_HEADER || '';
 const BYPASS_TOKEN = process.env.AUDIT_BYPASS_TOKEN || '';
 const EXTRA_HEADERS = BYPASS_HEADER && BYPASS_TOKEN ? { [BYPASS_HEADER]: BYPASS_TOKEN } : null;
 
-// Every page this site builds carries `data-base` on <html> (Base.astro). A
+// Every page this site builds carries `data-theme` on <html> (Base.astro). A
 // response without it is not one of our pages: an interstitial, an error page,
 // or a redirect elsewhere. Checking for it keeps "we were not served the site"
 // from being reported as an accessibility regression, which is how the first
 // two scheduled runs failed (#95).
-const SITE_MARKER = 'html[data-base]';
+const SITE_MARKER = 'html[data-theme]';
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
