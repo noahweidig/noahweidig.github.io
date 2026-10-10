@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-09T16:11:37.196Z",
+  "generatedAt": "2026-10-10T21:44:30.269Z",
   "totalPages": 104,
   "score": 86,
   "totals": {
@@ -311,7 +311,7 @@
         },
         {
           "page": "/index.html",
-          "message": "Image missing alt attribute: <img src=\"/_astro/maps.BcmIPyX__2aT9DS.webp\">",
+          "message": "Image missing alt attribute: <img src=\"/_astro/maps.BPdEPWrI_ZDyvb0.webp\">",
           "severity": "error"
         },
         {
@@ -396,7 +396,7 @@
         },
         {
           "page": "/projects/index.html",
-          "message": "Image missing alt attribute: <img src=\"/_astro/maps.BcmIPyX__2aT9DS.webp\">",
+          "message": "Image missing alt attribute: <img src=\"/_astro/maps.BPdEPWrI_ZDyvb0.webp\">",
           "severity": "error"
         },
         {
@@ -406,7 +406,7 @@
         },
         {
           "page": "/projects/index.html",
-          "message": "Image missing alt attribute: <img src=\"/_astro/quickplot.D74bZFak_P2Mqj.webp\">",
+          "message": "Image missing alt attribute: <img src=\"/_astro/quickplot.BifdnGS6_407IJ.webp\">",
           "severity": "error"
         },
         {
@@ -441,7 +441,7 @@
         },
         {
           "page": "/projects/index.html",
-          "message": "Image missing alt attribute: <img src=\"/_astro/dataviz.oHGX0B2v_Z19XyCT.webp\">",
+          "message": "Image missing alt attribute: <img src=\"/_astro/dataviz.KkoM1AW1_1bvjll.webp\">",
           "severity": "error"
         },
         {
@@ -451,7 +451,7 @@
         },
         {
           "page": "/projects/index.html",
-          "message": "Image missing alt attribute: <img src=\"/_astro/imagestudio.DW_NCWmO_Z1Y6L3X.webp\">",
+          "message": "Image missing alt attribute: <img src=\"/_astro/imagestudio.BIFBjprr_5R66f.webp\">",
           "severity": "error"
         },
         {
@@ -476,7 +476,7 @@
         },
         {
           "page": "/projects/index.html",
-          "message": "Image missing alt attribute: <img src=\"/_astro/wordcloud.zd-seh-x_nnD4v.webp\">",
+          "message": "Image missing alt attribute: <img src=\"/_astro/wordcloud.zf75jrVf_Z1uL6NT.webp\">",
           "severity": "error"
         },
         {
@@ -647,17 +647,17 @@
       "issues": [
         {
           "page": "/blog/favorite-r-packages/index.html",
-          "message": "Total HTML size exceeds 100KB (124.8KB)",
+          "message": "Total HTML size exceeds 100KB (124.6KB)",
           "severity": "warning"
         },
         {
           "page": "/index.html",
-          "message": "Total HTML size exceeds 100KB (165.6KB)",
+          "message": "Total HTML size exceeds 100KB (164.9KB)",
           "severity": "warning"
         },
         {
           "page": "/publications/index.html",
-          "message": "Total HTML size exceeds 100KB (108.5KB)",
+          "message": "Total HTML size exceeds 100KB (108.3KB)",
           "severity": "warning"
         }
       ]
