@@ -71,11 +71,14 @@ const credit =
 // so the <title> and meta description carry the year and kind to stay unique.
 const year = d.date.getUTCFullYear();
 const kind = d.categories[0] ?? 'Publication';
-const metaTitle = `${d['short-title'] ?? truncateTitle(d.title, 45)} (${kind}, ${year})`;
+// Base appends " | <site name>"; the whole <title> stays within 60 characters.
+const kindYear = ` (${kind}, ${year})`;
+const titleRoom = 60 - ` | ${site.name}`.length - kindYear.length;
+const metaTitle = truncateTitle(d['short-title'] ?? d.title, titleRoom - 1) + kindYear;
 const metaDescription = truncateTitle(
   `${kind}, ${year}${d['pub-venue'] ? `, ${d['pub-venue']}` : ''}. ${firstSentence(d.description, 155)}`,
-  158,
-).replace(/…$/, '');
+  150,
+);
 
 const pubLd = {
   '@context': 'https://schema.org',
