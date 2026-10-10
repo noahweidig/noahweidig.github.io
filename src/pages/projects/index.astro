@@ -1,6 +1,5 @@
 ---
 import { getCollection } from 'astro:content';
-import { u } from '../../lib/url';
 import Page from '../../layouts/Page.astro';
 import HeroPanel from '../../components/HeroPanel.astro';
 import Icon from '../../components/Icon.astro';
@@ -26,12 +25,12 @@ const stats = [
   kicker="Selected work"
   description="I build tools and turn ideas into reality. Here's a selection of projects I've created over the years."
   intro="I build tools and turn ideas into reality. Here's a selection of projects I've created over the years."
-  image={u('/media/og/projects.webp')}
+  image="/media/og/projects.webp"
   imageAlt="Noah Weidig's project portfolio"
 >
   <HeroPanel slot="hero-aside" title="At a glance" stats={stats} />
   <Fragment slot="hero-actions">
-    <a class="btn btn-primary" href={'#project-grid'}>
+    <a class="btn btn-primary" href="#project-grid">
       Browse all projects
       <Icon name="arrow" size={14} />
     </a>

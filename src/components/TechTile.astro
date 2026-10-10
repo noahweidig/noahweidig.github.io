@@ -1,6 +1,4 @@
 ---
-import { u } from '../lib/url';
-
 interface Props {
   name: string;
   icon: string;
@@ -14,7 +12,7 @@ const { name, icon, category, class: klass } = Astro.props;
 <li class:list={['card card-hover tech-tile', klass]} data-cats={category}>
   <span
     class="tech-ic"
-    style={`--tech-ic:url(${u(`/media/icons/tech/${icon}.svg`)})`}
+    style={`--tech-ic:url(/media/icons/tech/${icon}.svg)`}
     aria-hidden="true"
   ></span>
   <span class="text-sm leading-tight text-ink">{name}</span>

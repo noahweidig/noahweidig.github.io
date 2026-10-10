@@ -1,5 +1,4 @@
 ---
-import { u } from '../lib/url';
 import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import HeroPanel from '../components/HeroPanel.astro';
@@ -66,11 +65,11 @@ const beyondWork = [
     hasAside
   >
     <Fragment slot="actions">
-      <a class="btn btn-primary" href={u('/contact/')}>
+      <a class="btn btn-primary" href="/contact/">
         Get in touch
         <Icon name="arrow" size={14} />
       </a>
-      <a class="btn btn-ghost" href={u(site.cv)}>
+      <a class="btn btn-ghost" href={site.cv}>
         Download CV
         <Icon name="download" size={14} />
       </a>
@@ -189,13 +188,13 @@ const beyondWork = [
       </p>
       <p class="relative mt-6 text-dim">
         If you want the CV-and-papers version of me, that lives on the{' '}
-        <a class="text-accent-ink underline underline-offset-3" href={u('/cv/')}>
+        <a class="text-accent-ink underline underline-offset-3" href="/cv/">
           CV page
         </a>
         . This page is the rest of it.
       </p>
       <div class="relative mt-8 flex flex-wrap items-center gap-3 md:justify-center">
-        <a class="btn btn-primary" href={u('/contact/')}>
+        <a class="btn btn-primary" href="/contact/">
           <Icon name="mail" size={15} />
           Get in touch
         </a>

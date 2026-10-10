@@ -1,5 +1,4 @@
 ---
-import { u } from '../../lib/url';
 import { getCollection, render } from 'astro:content';
 import Detail from '../../layouts/Detail.astro';
 import { site } from '../../lib/site';
@@ -60,14 +59,14 @@ const experienceLd = {
   section="Experience"
   prev={prev}
   next={next}
-  backHref={u('/experience/')}
+  backHref="/experience/"
   backLabel="All experience"
   links={
     d['org-url']
       ? [{ label: d.org ?? 'Organisation', href: d['org-url'], variant: 'ghost', external: true }]
       : []
   }
-  image={u(`/media/og/experience/${entry.id}.webp`)}
+  image={`/media/og/experience/${entry.id}.webp`}
   imageAlt={d.org ? `${d.title}, ${d.org}` : d.title}
   publishedTime={d.date}
 >

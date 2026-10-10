@@ -1,7 +1,6 @@
 ---
 import Page from '../../layouts/Page.astro';
 import Icon from '../../components/Icon.astro';
-import { u } from '../../lib/url';
 import { tagGroups, tagIcon } from '../../lib/tags';
 
 const groups = await tagGroups();
@@ -26,7 +25,7 @@ const max = Math.max(...groups.map((g) => g.items.length), 1);
   section="Tags"
   description="Every topic used across projects, publications and writing, with the work filed under each."
   intro="Every topic used across projects, publications and writing, with the work filed under each."
-  image={u('/media/og/tags.webp')}
+  image="/media/og/tags.webp"
   imageAlt="Index of every topic tag used across the site"
 >
   <dl class="mb-10 grid grid-cols-2 gap-3 sm:grid-cols-5">
@@ -41,10 +40,7 @@ const max = Math.max(...groups.map((g) => g.items.length), 1);
   <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
     {groups.map((g) => (
       <li>
-        <a
-          href={u(`/tags/${g.slug}/`)}
-          class="card card-hover group flex h-full flex-col gap-4 p-5"
-        >
+        <a href={`/tags/${g.slug}/`} class="card card-hover group flex h-full flex-col gap-4 p-5">
           <div class="flex items-center gap-3">
             <span class="grid size-9 shrink-0 place-items-center rounded-full bg-matte text-accent-ink">
               <Icon name={tagIcon(g.name) ?? 'hash'} size={16} />
