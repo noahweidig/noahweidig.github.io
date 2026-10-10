@@ -80,7 +80,7 @@ export function truncateTitle(text: string, max = 60): string {
   if (t.length <= max) return t;
   const cut = t.slice(0, max);
   const sp = cut.lastIndexOf(' ');
-  return (sp > 20 ? cut.slice(0, sp) : cut).replace(/[\s.,;:]+$/, '') + '…';
+  return (sp > Math.min(20, max / 2) ? cut.slice(0, sp) : cut).replace(/[\s.,;:]+$/, '') + '…';
 }
 
 /** First sentence of a description, for the compact citation rows. */
