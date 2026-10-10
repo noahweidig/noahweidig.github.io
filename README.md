@@ -99,7 +99,7 @@ import { u } from '../lib/url';
 <a href={u('/projects/')}>Projects</a>
 ```
 
-Three places can't call it, and each has its own answer. URLs inside a content file are written **relative** to the page (`../../media/…`), so they resolve under any base. The topography texture is a CSS background, and a stylesheet can't read the base, so `src/layouts/Base.astro` stamps `--topo-url`. Client-side code reads the base off `document.documentElement.dataset.base`, which the same layout sets — that's how the Pagefind bundle and its result URLs get prefixed.
+Two places can't call it, and each has its own answer. URLs inside a content file are written **relative** to the page (`../../media/…`), so they resolve under any base. Client-side code reads the base off `document.documentElement.dataset.base`, which the same layout sets — that's how the Pagefind bundle and its result URLs get prefixed.
 
 Section routes keep their paths. Four pages Quarto rendered as `<name>.html` are directory routes now — `/contact/`, `/cv/`, `/privacy/`, `/styleguide/` — with a redirect stub committed at each old path under `public/`. The feed is served at both `/rss.xml` and its old address, `/blog/index.xml`; a meta-refresh stub is no use to a feed reader, so `src/pages/blog/index.xml.ts` re-exports the same route.
 
