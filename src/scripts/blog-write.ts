@@ -29,9 +29,14 @@ const STATE_KEY = 'nw-blog-write-oauth-state';
 marked.use({ renderer: { html: ({ text }) => escapeHtml(text) } });
 
 /** GitHub REST call as the signed-in user; throws GitHub's own error message. */
-async function gh<T = unknown>(token: string, path: string, body?: unknown): Promise<T> {
+async function gh<T = unknown>(
+  token: string,
+  path: string,
+  body?: unknown,
+  method = body === undefined ? 'GET' : 'POST',
+): Promise<T> {
   const res = await fetch(`https://api.github.com${path}`, {
-    method: body === undefined ? 'GET' : path.includes('/contents/') ? 'PUT' : 'POST',
+    method,
     headers: {
       Authorization: `Bearer ${token}`,
       Accept: 'application/vnd.github+json',
@@ -208,11 +213,12 @@ function init(app: HTMLElement) {
         `${repo}/git/ref/heads/${BASE_BRANCH}`,
       );
       await gh(token, `${repo}/git/refs`, { ref: `refs/heads/${branch}`, sha: ref.object.sha });
-      await gh(token, `${repo}/contents/${path}`, {
-        message: `Add blog post: ${title}`,
-        content: toBase64(content),
-        branch,
-      });
+      await gh(
+        token,
+        `${repo}/contents/${path}`,
+        { message: `Add blog post: ${title}`, content: toBase64(content), branch },
+        'PUT',
+      );
       const pr = await gh<{ html_url: string; number: number }>(token, `${repo}/pulls`, {
         title: `Blog: ${title}`,
         head: branch,
