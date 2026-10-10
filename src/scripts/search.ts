@@ -1,5 +1,5 @@
 /* ---------------------------------------------------------------- fuzzy -- */
-import { basePath, on } from './dom';
+import { basePath, escapeHtml, on } from './dom';
 
 /* Pagefind matches whole words, so "wildfre" or "gldilocks" find nothing. The
    title index in /search-index.json is scored character-by-character and fills
@@ -468,6 +468,3 @@ export function initSearch() {
 
 const isTyping = (t: EventTarget | null) =>
   t instanceof HTMLElement && /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName);
-
-const escapeHtml = (s: string) =>
-  s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]!);

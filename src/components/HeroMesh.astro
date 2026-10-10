@@ -51,6 +51,15 @@
     transform: translate(-50%, -50%);
     /* Screen over the near-black ground is what makes these read as light rather than paint — overlapping fields add up instead of occluding. */
     mix-blend-mode: var(--hero-blend);
+    background: radial-gradient(
+      circle closest-side at center,
+      var(--b) 0%,
+      color-mix(in oklab, var(--b) 78%, transparent) 18%,
+      color-mix(in oklab, var(--b) 52%, transparent) 36%,
+      color-mix(in oklab, var(--b) 28%, transparent) 54%,
+      color-mix(in oklab, var(--b) 11%, transparent) 72%,
+      transparent 92%
+    );
   }
 
   /* A plateau before the falloff: a bare closest-side gradient peaks at a
@@ -60,15 +69,7 @@
     left: 14%;
     width: 92vw;
     height: 92vw;
-    background: radial-gradient(
-      circle closest-side at center,
-      var(--hero-1) 0%,
-      color-mix(in oklab, var(--hero-1) 78%, transparent) 18%,
-      color-mix(in oklab, var(--hero-1) 52%, transparent) 36%,
-      color-mix(in oklab, var(--hero-1) 28%, transparent) 54%,
-      color-mix(in oklab, var(--hero-1) 11%, transparent) 72%,
-      transparent 92%
-    );
+    --b: var(--hero-1);
   }
 
   .hero-blob-2 {
@@ -76,15 +77,7 @@
     left: 88%;
     width: 86vw;
     height: 86vw;
-    background: radial-gradient(
-      circle closest-side at center,
-      var(--hero-2) 0%,
-      color-mix(in oklab, var(--hero-2) 78%, transparent) 18%,
-      color-mix(in oklab, var(--hero-2) 52%, transparent) 36%,
-      color-mix(in oklab, var(--hero-2) 28%, transparent) 54%,
-      color-mix(in oklab, var(--hero-2) 11%, transparent) 72%,
-      transparent 92%
-    );
+    --b: var(--hero-2);
   }
 
   /* The seam between the two: without it they read as two separate lights
@@ -94,19 +87,7 @@
     left: 52%;
     width: 88vw;
     height: 70vw;
-    background: radial-gradient(
-      circle closest-side at center,
-      color-mix(in oklab, var(--hero-1) 55%, var(--hero-2)) 0%,
-      color-mix(in oklab, color-mix(in oklab, var(--hero-1) 55%, var(--hero-2)) 78%, transparent)
-        18%,
-      color-mix(in oklab, color-mix(in oklab, var(--hero-1) 55%, var(--hero-2)) 52%, transparent)
-        36%,
-      color-mix(in oklab, color-mix(in oklab, var(--hero-1) 55%, var(--hero-2)) 28%, transparent)
-        54%,
-      color-mix(in oklab, color-mix(in oklab, var(--hero-1) 55%, var(--hero-2)) 11%, transparent)
-        72%,
-      transparent 92%
-    );
+    --b: color-mix(in oklab, var(--hero-1) 55%, var(--hero-2));
   }
 
   .hero-blob-4 {
@@ -114,15 +95,7 @@
     left: 84%;
     width: 70vw;
     height: 70vw;
-    background: radial-gradient(
-      circle closest-side at center,
-      var(--hero-3) 0%,
-      color-mix(in oklab, var(--hero-3) 78%, transparent) 18%,
-      color-mix(in oklab, var(--hero-3) 52%, transparent) 36%,
-      color-mix(in oklab, var(--hero-3) 28%, transparent) 54%,
-      color-mix(in oklab, var(--hero-3) 11%, transparent) 72%,
-      transparent 92%
-    );
+    --b: var(--hero-3);
   }
 
   .hero-blob-5 {
@@ -131,15 +104,7 @@
     width: 60vw;
     height: 60vw;
     opacity: 0.55;
-    background: radial-gradient(
-      circle closest-side at center,
-      var(--hero-4) 0%,
-      color-mix(in oklab, var(--hero-4) 78%, transparent) 18%,
-      color-mix(in oklab, var(--hero-4) 52%, transparent) 36%,
-      color-mix(in oklab, var(--hero-4) 28%, transparent) 54%,
-      color-mix(in oklab, var(--hero-4) 11%, transparent) 72%,
-      transparent 92%
-    );
+    --b: var(--hero-4);
   }
 
   .hero-blob-6 {
@@ -148,15 +113,7 @@
     width: 60vw;
     height: 50vw;
     opacity: 0.8;
-    background: radial-gradient(
-      circle closest-side at center,
-      var(--hero-5) 0%,
-      color-mix(in oklab, var(--hero-5) 78%, transparent) 18%,
-      color-mix(in oklab, var(--hero-5) 52%, transparent) 36%,
-      color-mix(in oklab, var(--hero-5) 28%, transparent) 54%,
-      color-mix(in oklab, var(--hero-5) 11%, transparent) 72%,
-      transparent 92%
-    );
+    --b: var(--hero-5);
   }
 
   /* No blur filter: it re-rasterised the whole hero every animation frame.
