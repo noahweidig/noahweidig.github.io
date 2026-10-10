@@ -5,11 +5,9 @@ import Page from '../../layouts/Page.astro';
 import HeroPanel from '../../components/HeroPanel.astro';
 import Icon from '../../components/Icon.astro';
 import AwardCard from '../../components/AwardCard.astro';
-import { year } from '../../lib/format';
+import { byDate, year } from '../../lib/format';
 
-const awards = (await getCollection('awards')).sort(
-  (a, b) => b.data.date.getTime() - a.data.date.getTime(),
-);
+const awards = (await getCollection('awards')).sort(byDate);
 
 /* Funding is read off the "· $2,000" tail each award's description carries. */
 const funding = awards.reduce((sum, a) => {

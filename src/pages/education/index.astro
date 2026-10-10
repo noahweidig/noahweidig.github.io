@@ -1,13 +1,12 @@
 ---
 import { getCollection } from 'astro:content';
+import { byDate } from '../../lib/format';
 import { u } from '../../lib/url';
 import Page from '../../layouts/Page.astro';
 import HeroPanel from '../../components/HeroPanel.astro';
 import Icon from '../../components/Icon.astro';
 
-const items = (await getCollection('education')).sort(
-  (a, b) => b.data.date.getTime() - a.data.date.getTime(),
-);
+const items = (await getCollection('education')).sort(byDate);
 
 const LEVEL: Record<string, string> = { Master: 'M.S.', Bachelor: 'B.S.' };
 

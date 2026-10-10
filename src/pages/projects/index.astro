@@ -7,11 +7,9 @@ import Icon from '../../components/Icon.astro';
 import { socials } from '../../lib/site';
 import ProjectCard from '../../components/ProjectCard.astro';
 import FilterBar from '../../components/FilterBar.astro';
-import { year } from '../../lib/format';
+import { byDate, year } from '../../lib/format';
 
-const projects = (await getCollection('projects')).sort(
-  (a, b) => b.data.date.getTime() - a.data.date.getTime(),
-);
+const projects = (await getCollection('projects')).sort(byDate);
 const categories = [...new Set(projects.flatMap((p) => p.data.categories))].sort();
 const stats = [
   { value: projects.length, label: 'Projects' },

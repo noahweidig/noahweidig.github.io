@@ -1,13 +1,12 @@
 ---
 import { getCollection } from 'astro:content';
+import { byDate } from '../../lib/format';
 import { u } from '../../lib/url';
 import Page from '../../layouts/Page.astro';
 import HeroPanel from '../../components/HeroPanel.astro';
 import Icon from '../../components/Icon.astro';
 
-const items = (await getCollection('experience')).sort(
-  (a, b) => b.data.date.getTime() - a.data.date.getTime(),
-);
+const items = (await getCollection('experience')).sort(byDate);
 
 const orgs = new Set(items.map((e) => e.data.org).filter(Boolean));
 const states = new Set(items.map((e) => e.data.location?.split(', ').pop()).filter(Boolean));

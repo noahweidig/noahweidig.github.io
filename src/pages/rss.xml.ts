@@ -1,6 +1,7 @@
 import rss from '@astrojs/rss';
 import { experimental_AstroContainer as AstroContainer } from 'astro/container';
 import { getCollection, render } from 'astro:content';
+import { byDate } from '../lib/format';
 import { getImage } from 'astro:assets';
 import sanitizeHtml from 'sanitize-html';
 import type { APIContext } from 'astro';
@@ -36,9 +37,7 @@ async function renderPostHtml(
 }
 
 export async function GET(context: APIContext) {
-  const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
-    (a, b) => b.data.date.getTime() - a.data.date.getTime(),
-  );
+  const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(byDate);
   const container = await AstroContainer.create();
   const feedSite = context.site ?? new URL(site.url);
 
