@@ -6,12 +6,10 @@ import PostCard from '../../components/PostCard.astro';
 import FilterBar from '../../components/FilterBar.astro';
 import HeroPanel from '../../components/HeroPanel.astro';
 import Icon from '../../components/Icon.astro';
-import { readingTime } from '../../lib/format';
+import { byDate, readingTime } from '../../lib/format';
 import { site } from '../../lib/site';
 
-const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
-  (a, b) => b.data.date.getTime() - a.data.date.getTime(),
-);
+const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(byDate);
 const categories = [...new Set(posts.flatMap((p) => p.data.categories))].sort();
 
 const blogLd = {

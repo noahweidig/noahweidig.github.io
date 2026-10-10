@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import { byDate } from '../../lib/format';
 import { u } from '../../lib/url';
 import Page from '../../layouts/Page.astro';
 import HeroPanel from '../../components/HeroPanel.astro';
@@ -8,9 +9,7 @@ import { socials, site } from '../../lib/site';
 import CitationRow from '../../components/CitationRow.astro';
 import FilterBar from '../../components/FilterBar.astro';
 
-const all = (await getCollection('publications')).sort(
-  (a, b) => b.data.date.getTime() - a.data.date.getTime(),
-);
+const all = (await getCollection('publications')).sort(byDate);
 /* Zotero exports one record per appearance; only the flagged record is listed
    so a talk given four times reads as one work, not four near-identical rows. */
 const listed = all.filter((p) => p.data['pub-listed'] === 'yes');

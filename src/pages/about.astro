@@ -10,10 +10,9 @@ import portrait from '../assets/me.webp';
 import { PORTRAIT_SIZES, PORTRAIT_WIDTHS } from '../lib/portrait';
 import { site } from '../lib/site';
 import { getCollection } from 'astro:content';
+import { byDate } from '../lib/format';
 
-const [latest] = (await getCollection('experience')).sort(
-  (a, b) => b.data.date.getTime() - a.data.date.getTime(),
-);
+const [latest] = (await getCollection('experience')).sort(byDate);
 const glance = [
   { icon: 'pin', label: 'Based in', value: site.location },
   {
