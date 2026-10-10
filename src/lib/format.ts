@@ -8,6 +8,10 @@ export const fullDate = (d: Date) =>
 
 export const year = (d: Date) => d.getUTCFullYear();
 
+/** Newest-first comparator for content entries. */
+export const byDate = <T extends { data: { date: Date } }>(a: T, b: T) =>
+  b.data.date.getTime() - a.data.date.getTime();
+
 export const slugify = (s: string) =>
   String(s)
     .toLowerCase()

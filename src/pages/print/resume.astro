@@ -2,16 +2,13 @@
 import { getCollection } from 'astro:content';
 import Print from '../../layouts/Print.astro';
 import { site, socials, skills } from '../../lib/site';
-import { firstSentence, year } from '../../lib/format';
+import { byDate, firstSentence, year } from '../../lib/format';
 
 /**
  * The one-page résumé, printed to public/uploads/resume.pdf by
  * scripts/generate-pdfs.mjs. Summary, education, experience and skills only —
  * publications live on the CV.
  */
-const byDate = <T extends { data: { date: Date } }>(a: T, b: T) =>
-  b.data.date.getTime() - a.data.date.getTime();
-
 const education = (await getCollection('education')).sort(byDate);
 const experience = (await getCollection('experience')).sort(byDate);
 
