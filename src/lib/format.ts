@@ -8,6 +8,12 @@ export const fullDate = (d: Date) =>
 
 export const year = (d: Date) => d.getUTCFullYear();
 
+/** Builds the `{ href, title }` link a detail page's prev/next nav takes. */
+export const siblingLink =
+  (section: string) =>
+  (entry: { id: string; data: { title: string } } | undefined) =>
+    entry ? { href: `/${section}/${entry.id}/`, title: entry.data.title } : null;
+
 /** Newest-first comparator for content entries. */
 export const byDate = <T extends { data: { date: Date } }>(a: T, b: T) =>
   b.data.date.getTime() - a.data.date.getTime();

@@ -11,6 +11,7 @@ import {
   firstSentence,
   fullDate,
   inlineMarkup,
+  siblingLink,
   splitAuthors,
   truncateTitle,
 } from '../../lib/format';
@@ -22,8 +23,7 @@ export async function getStaticPaths() {
   // Sorted the way the listing is, so "previous" and "next" mean what a reader
   // saw there rather than an arbitrary collection order.
   const items = (await getCollection('publications')).sort(byDate);
-  const sibling = (entry: (typeof items)[number] | undefined) =>
-    entry ? { href: `/publications/${entry.id}/`, title: entry.data.title } : null;
+  const sibling = siblingLink('publications');
 
   return items.map((entry, i) => ({
     params: { slug: entry.id },
