@@ -1,5 +1,6 @@
 ---
 title: "Changing Large Wildfire Patterns in the Eastern United States Wildland-Urban Interface"
+short-title: "WUI Wildfire Patterns"
 date: "2024-11-01"
 description: "The recent increase in large wildfires in the eastern United States makes it crucial to examine the subsequent risk to human life and property."
 categories: ["Presentation"]
