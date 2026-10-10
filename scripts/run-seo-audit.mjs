@@ -48,20 +48,28 @@ const pages = htmlFiles
   .filter((page) => !NOINDEX_RE.test(page.html));
 
 // The vendored hreflang auditor treats any two-letter first path segment as
-// a locale prefix (so it can support real i18n sites), and /cv/ coincidentally
-// matches that pattern even though this site has no i18n — producing a false
+// a locale prefix (so it can support real i18n sites), and /cv/ and /ai/
+// coincidentally match that pattern even though this site has no i18n — producing a false
 // "i18n page missing hreflang tags" error. Route it around that one auditor.
-const HREFLANG_FALSE_POSITIVE_RE = /^\/cv\//;
+const HREFLANG_FALSE_POSITIVE_RE = /^\/(cv|ai)\//;
 const hreflangPages = pages.filter(
   (page) => !HREFLANG_FALSE_POSITIVE_RE.test(getRelativePath(page.filePath, distDir)),
 );
+
+// Astro writes an empty alt (the right value for a decorative image) as a bare
+// `alt`, which the vendored auditor's alt="..." regex does not recognise and
+// reports as a missing attribute. Spell it out for that one auditor.
+const withExplicitAlt = (html) => html.replace(/(<img\b[^>]*?\s)alt(?=[\s/>])/gi, '$1alt=""');
 
 const audits = [
   auditMetaTags(pages, distDir),
   auditSchema(pages, distDir),
   auditHreflang(hreflangPages, distDir),
   auditSitemap(pages, distDir),
-  auditImages(pages, distDir),
+  auditImages(
+    pages.map((page) => ({ ...page, html: withExplicitAlt(page.html) })),
+    distDir,
+  ),
   auditHeadings(pages, distDir),
   auditPerformance(pages, distDir),
 ];
