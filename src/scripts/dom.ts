@@ -1,12 +1,8 @@
 /**
- * Shared plumbing for the feature modules in this directory: the base-path
- * helper, the `on()` event-binding helper that queues its own teardown, and
+ * Shared plumbing for the feature modules in this directory: the
+ * `on()` event-binding helper that queues its own teardown, and
  * the shared cleanup queue that `boot()` drains on every `astro:page-load`.
  */
-
-/** The site's base path, read off the document rather than import.meta.env so
-    this module stays a plain script. */
-export const basePath = () => (document.documentElement.dataset.base ?? '').replace(/\/+$/, '');
 
 export const escapeHtml = (s: string) =>
   s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]!);

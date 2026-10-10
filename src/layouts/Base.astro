@@ -1,5 +1,4 @@
 ---
-import { u, base } from '../lib/url';
 import '../styles/global.css';
 import { ClientRouter } from 'astro:transitions';
 import Header from '../components/Header.astro';
@@ -98,7 +97,7 @@ const jsonLd = {
 ---
 
 <!doctype html>
-<html lang="en" data-theme="dark" data-theme-pref="system" data-base={base}>
+<html lang="en" data-theme="dark" data-theme-pref="system">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -128,10 +127,7 @@ const jsonLd = {
     <meta property="og:image:height" content={String(imageHeight)} />
     <meta property="og:image:type" content="image/webp" />
     <meta property="og:image:alt" content={imageAlt} />
-    <meta
-      property="og:logo"
-      content={new URL(u('/web-app-manifest-512x512.png'), Astro.site).href}
-    />
+    <meta property="og:logo" content={new URL('/web-app-manifest-512x512.png', Astro.site).href} />
     {publishedTime && (
       <meta property="article:published_time" content={publishedTime.toISOString()} />
     )}
@@ -141,18 +137,13 @@ const jsonLd = {
     <meta name="twitter:image" content={ogUrl} />
     <meta name="twitter:image:alt" content={imageAlt} />
 
-    <link rel="icon" href={u('/favicon.ico')} sizes="32x32" />
-    <link rel="icon" type="image/svg+xml" href={u('/favicon.svg')} />
-    <link rel="icon" type="image/png" href={u('/favicon-96x96.png')} sizes="96x96" />
-    <link rel="apple-touch-icon" sizes="180x180" href={u('/apple-touch-icon.png')} />
-    <link rel="mask-icon" href={u('/safari-pinned-tab.svg')} color="#3d86ff" />
-    <link rel="manifest" href={u('/site.webmanifest')} />
-    <link
-      rel="alternate"
-      type="application/rss+xml"
-      title="Noah Weidig — Blog"
-      href={u('/rss.xml')}
-    />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#3d86ff" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="alternate" type="application/rss+xml" title="Noah Weidig — Blog" href="/rss.xml" />
 
     {/* Ahead of the fonts: on a throttled connection the two latin subsets are
         88KB of higher-priority bytes, and the LCP image queues behind them. */}
@@ -167,13 +158,7 @@ const jsonLd = {
       />
     )}
 
-    <link
-      rel="preload"
-      href={u('/fonts/dmsans-latin.woff2')}
-      as="font"
-      type="font/woff2"
-      crossorigin
-    />
+    <link rel="preload" href="/fonts/dmsans-latin.woff2" as="font" type="font/woff2" crossorigin />
 
     <script is:inline>
       (function () {

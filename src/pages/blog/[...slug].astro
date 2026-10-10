@@ -1,5 +1,4 @@
 ---
-import { u } from '../../lib/url';
 import { getCollection, render } from 'astro:content';
 import { getImage } from 'astro:assets';
 import Detail from '../../layouts/Detail.astro';
@@ -69,7 +68,7 @@ const articleLd = {
   section="Blog"
   prev={prev}
   next={next}
-  backHref={u('/blog/')}
+  backHref="/blog/"
   backLabel="All posts"
   chips={d.categories}
   image={ogImage}

@@ -1,7 +1,6 @@
 ---
 import { existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import { u } from '../../lib/url';
 import { getCollection, render } from 'astro:content';
 import { Image } from 'astro:assets';
 import Detail from '../../layouts/Detail.astro';
@@ -36,7 +35,7 @@ const { Content } = await render(entry);
 const d = entry.data;
 
 const authors = d['pub-authors'] ? splitAuthors(d['pub-authors']) : [];
-const pdfUrl = d['pub-pdf'] ? new URL(u(d['pub-pdf']), Astro.site).href : undefined;
+const pdfUrl = d['pub-pdf'] ? new URL(d['pub-pdf'], Astro.site).href : undefined;
 
 const stats = citationStatsFor(d['pub-doi']);
 const dimensions = stats?.dimensions && stats.dimensions.timesCited > 0 ? stats.dimensions : null;
@@ -113,11 +112,11 @@ const pubLd = {
   section="Publications"
   prev={prev}
   next={next}
-  backHref={u('/publications/')}
+  backHref="/publications/"
   backLabel="All publications"
   chips={d.categories}
   links={d.links}
-  image={ogImageExists ? u(ogImagePath) : undefined}
+  image={ogImageExists ? ogImagePath : undefined}
   imageAlt={`Citation card for “${d.title}”`}
   publishedTime={d.date}
   noindex={Boolean(d['pub-appearance-of'])}
@@ -173,7 +172,7 @@ const pubLd = {
             aria-label={`${dimensions.timesCited} citation${dimensions.timesCited === 1 ? '' : 's'} on Dimensions (opens in a new tab)`}
           >
             <img
-              src={u('/media/icons/custom/dimensions.svg')}
+              src="/media/icons/custom/dimensions.svg"
               alt=""
               width="16"
               height="16"

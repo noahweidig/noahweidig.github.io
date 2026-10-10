@@ -1,5 +1,4 @@
 ---
-import { u } from '../../lib/url';
 import { getCollection, render } from 'astro:content';
 import Detail from '../../layouts/Detail.astro';
 import { site } from '../../lib/site';
@@ -50,7 +49,7 @@ const educationLd = {
   section="Education"
   prev={prev}
   next={next}
-  backHref={u('/education/')}
+  backHref="/education/"
   backLabel="All education"
   links={[
     ...d.links,
@@ -65,7 +64,7 @@ const educationLd = {
         ]
       : []),
   ]}
-  image={u(`/media/og/education/${entry.id}.webp`)}
+  image={`/media/og/education/${entry.id}.webp`}
   imageAlt={d.org ? `${d.title}, ${d.org}` : d.title}
   publishedTime={d.date}
 >

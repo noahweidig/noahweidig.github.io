@@ -1,19 +1,14 @@
 ---
-import { u } from '../lib/url';
 import { navGroups } from '../lib/site';
 import Icon from './Icon.astro';
 import Wordmark from './Wordmark.astro';
 import Search from './Search.astro';
 
-/* Compared against `u(href)`, not the bare href, so the check stays correct if
-   the site is ever served under a base path again: `/publications/` would not
-   match `/<base>/publications/` and no nav item would read as current. */
 const slash = (p: string) => (p.endsWith('/') ? p : `${p}/`);
 const path = slash(Astro.url.pathname);
-const home = slash(u('/'));
 const isActive = (href: string) => {
-  const target = slash(u(href));
-  return target === home ? path === home : path === target || path.startsWith(target);
+  const target = slash(href);
+  return target === '/' ? path === '/' : path === target || path.startsWith(target);
 };
 type MobileItem = { text: string; href: string; external?: true };
 const mobileItems: MobileItem[] = [
@@ -30,7 +25,7 @@ const mobileItems: MobileItem[] = [
 >
   <div class="shell nav-bar relative z-10 flex h-16 items-center md:h-[4.5rem] gap-4 lg:grid lg:grid-cols-[1fr_auto_1fr]">
     <a
-      href={u('/')}
+      href="/"
       class="bar-fade group flex min-w-0 items-center gap-2.5"
       aria-label="Noah Weidig — home"
     >
@@ -62,7 +57,7 @@ const mobileItems: MobileItem[] = [
                   return (
                     <li>
                       <a
-                        href={external ? item.href : u(item.href)}
+                        href={item.href}
                         target={external ? '_blank' : undefined}
                         rel={external ? 'noopener' : undefined}
                         data-tip={item.tip}
@@ -116,7 +111,7 @@ const mobileItems: MobileItem[] = [
 
       <a
         class="btn btn-primary ml-1 hidden px-4 py-2.5 text-sm lg:inline-flex"
-        href={u('/contact/')}
+        href="/contact/"
         data-tip="Email, booking and the contact form"
       >
         Get in touch
@@ -151,7 +146,7 @@ const mobileItems: MobileItem[] = [
           return (
             <li class="mobile-item" style={`--i:${i}`}>
               <a
-                href={external ? item.href : u(item.href)}
+                href={item.href}
                 target={external ? '_blank' : undefined}
                 rel={external ? 'noopener' : undefined}
                 class="mobile-link flex w-full items-center justify-between py-2.5 font-display text-2xl font-semibold tracking-tight text-ink"

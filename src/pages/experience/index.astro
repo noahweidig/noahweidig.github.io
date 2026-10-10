@@ -1,7 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
 import { byDate } from '../../lib/format';
-import { u } from '../../lib/url';
 import Page from '../../layouts/Page.astro';
 import HeroPanel from '../../components/HeroPanel.astro';
 import Icon from '../../components/Icon.astro';
@@ -32,16 +31,16 @@ const span = (dates = '') => {
   kicker="Background"
   description="Roles and internships across GIS, remote sensing, and ecological research."
   intro="Roles and internships across GIS, remote sensing, and ecological research."
-  image={u('/media/og/experience.webp')}
+  image="/media/og/experience.webp"
   imageAlt="Noah Weidig's work experience timeline"
 >
   <HeroPanel slot="hero-aside" title="By the numbers" stats={stats} />
   <Fragment slot="hero-actions">
-    <a class="btn btn-primary" href={u('/cv/')}>
+    <a class="btn btn-primary" href="/cv/">
       View CV
       <Icon name="file" size={14} />
     </a>
-    <a class="btn btn-ghost" href={u('/education/')}>
+    <a class="btn btn-ghost" href="/education/">
       Education
       <Icon name="graduationCap" size={14} />
     </a>
@@ -81,7 +80,7 @@ const span = (dates = '') => {
             />
           )}
           <a
-            href={u(`/experience/${entry.id}/`)}
+            href={`/experience/${entry.id}/`}
             class="card card-hover group block p-6 md:p-7"
             data-tip-title={d.title}
             data-tip={`${d.org ?? ''}${d.dates ? ` · ${d.dates}` : ''} — open the full entry`}

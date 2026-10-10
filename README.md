@@ -87,19 +87,9 @@ Content lives in a directory per entry (`src/content/blog/focus/index.md`), so a
 
 [`/styleguide`](https://noahweidig.com/styleguide) renders every token, the type scale, and each component live, in whichever theme you are reading in.
 
-### URLs and the base path
+### URLs
 
-The site is published at the apex: **https://noahweidig.com**. The base path lives in one place, `base` in `astro.config.mjs`, and is `/` today. Astro prefixes the routes and assets it generates itself; a URL written by hand goes through `u()` from `src/lib/url.ts`, which reads the same value back out of `import.meta.env.BASE_URL`, so the site survives a base path being set again:
-
-```astro
----
-import { u } from '../lib/url';
----
-
-<a href={u('/projects/')}>Projects</a>
-```
-
-Two places can't call it, and each has its own answer. URLs inside a content file are written **relative** to the page (`../../media/…`), so they resolve under any base. Client-side code reads the base off `document.documentElement.dataset.base`, which the same layout sets — that's how the Pagefind bundle and its result URLs get prefixed.
+The site is published at the apex: **https://noahweidig.com**, so root-relative URLs (`/projects/`) are written by hand and used as they are. URLs inside a content file are written **relative** to the page (`../../media/…`).
 
 Section routes keep their paths. Four pages Quarto rendered as `<name>.html` are directory routes now — `/contact/`, `/cv/`, `/privacy/`, `/styleguide/` — with a redirect stub committed at each old path under `public/`. The feed is served at both `/rss.xml` and its old address, `/blog/index.xml`; a meta-refresh stub is no use to a feed reader, so `src/pages/blog/index.xml.ts` re-exports the same route.
 

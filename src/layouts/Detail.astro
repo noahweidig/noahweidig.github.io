@@ -1,5 +1,4 @@
 ---
-import { u } from '../lib/url';
 import { tagHref, tagIcon } from '../lib/tags';
 import Base from './Base.astro';
 import Icon from '../components/Icon.astro';
@@ -127,7 +126,7 @@ const hasHeroImage = Astro.slots.has('hero-image')
       {author && (
         <p class="mt-3 flex items-center gap-2 text-sm text-dim" data-pagefind-ignore>
           <img
-            src={u(authorImage ?? '/media/authors/me.webp')}
+            src={authorImage ?? '/media/authors/me.webp'}
             alt=""
             width="28"
             height="28"
@@ -143,7 +142,7 @@ const hasHeroImage = Astro.slots.has('hero-image')
         <div class="mt-5 flex flex-wrap gap-1.5" data-pagefind-ignore>
           {chips.map((c) => (
             <a
-              href={u(tagHref(c))}
+              href={tagHref(c)}
               data-tip={`Browse everything tagged ${c}`}
               class="chip transition-colors hover:bg-matte-hover hover:text-ink"
             >
@@ -162,7 +161,7 @@ const hasHeroImage = Astro.slots.has('hero-image')
               'max-w-full whitespace-normal text-center',
               l.variant === 'primary' ? 'btn-primary' : 'btn-ghost',
             ]}
-            href={u(l.href)}
+            href={l.href}
             target={l.external ? '_blank' : undefined}
             rel={l.external ? 'noopener' : undefined}
           >

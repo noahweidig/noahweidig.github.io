@@ -1,6 +1,5 @@
 ---
 import HeroMesh from './HeroMesh.astro';
-import { u } from '../lib/url';
 import Icon from './Icon.astro';
 import { socials } from '../lib/site';
 
@@ -91,7 +90,7 @@ const cols = [
           View my work
           <Icon name="arrow" size={15} />
         </a>
-        <a class="btn btn-ghost hero-btn" href={u('/contact/')}>
+        <a class="btn btn-ghost hero-btn" href="/contact/">
           Get in touch
           <Icon name="mail" size={15} />
         </a>
