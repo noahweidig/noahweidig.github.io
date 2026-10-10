@@ -1,5 +1,5 @@
 /* --------------------------------------------------------------- tooltip -- */
-import { cleanups, on } from './dom';
+import { cleanups, escapeHtml, on } from './dom';
 import { scrollTarget } from './scroll-root';
 
 /* One floating element for the whole page: an ancestor with overflow hidden
@@ -82,6 +82,3 @@ export function initTooltips() {
   });
   cleanups.push(hideTip);
 }
-
-const escapeHtml = (s: string) =>
-  s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]!);

@@ -8,6 +8,9 @@
     this module stays a plain script. */
 export const basePath = () => (document.documentElement.dataset.base ?? '').replace(/\/+$/, '');
 
+export const escapeHtml = (s: string) =>
+  s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]!);
+
 export type Cleanup = () => void;
 
 /** Mutable and shared: every feature module pushes its own teardown onto this
