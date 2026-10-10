@@ -12,9 +12,9 @@ import { swapFunctions } from 'astro:transitions/client';
  * goes through these helpers.
  */
 
-export const BODY_SCROLL_QUERY = '(pointer: coarse)';
+const BODY_SCROLL_QUERY = '(pointer: coarse)';
 
-export const bodyScrolls = () => matchMedia(BODY_SCROLL_QUERY).matches;
+const bodyScrolls = () => matchMedia(BODY_SCROLL_QUERY).matches;
 
 /** What to bind `scroll` listeners to. Bind per page (inside a `boot()` init):
     on desktop the router swaps <body> on every navigation. */

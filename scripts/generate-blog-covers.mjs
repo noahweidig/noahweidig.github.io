@@ -24,7 +24,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import puppeteer from 'puppeteer';
-import { coverHtml } from './lib/blog-cover.mjs';
+import { coverHtml, hash } from './lib/blog-cover.mjs';
 import { readFrontmatter } from './lib/frontmatter.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -109,12 +109,6 @@ const PRESETS = [
   { a: 'ember', aPos: '105% 115%', b: 'accent', bPos: '-10% -10%', ring: 'right' },
   { a: 'moss', aPos: '95% -15%', b: 'violet', bPos: '105% 115%', ring: 'left' },
 ];
-
-function hash(str) {
-  let h = 5381;
-  for (let i = 0; i < str.length; i += 1) h = (h * 33) ^ str.codePointAt(i);
-  return h >>> 0;
-}
 
 function presetFor(slug) {
   return PRESETS[hash(slug) % PRESETS.length];
