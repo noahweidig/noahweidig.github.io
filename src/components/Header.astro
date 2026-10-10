@@ -56,26 +56,28 @@ const mobileItems: MobileItem[] = [
                 <Icon name="nav-chevronRight" size={14} stroke-width={2.6} class="nav-chevron" />
               </button>
               <ul class="nav-menu card absolute left-1/2 top-full z-10 hidden min-w-52 -translate-x-1/2 p-1.5">
-                {group.items.map((item) => (
-                  <li>
-                    <a
-                      href={'external' in item ? item.href : u(item.href)}
-                      target={'external' in item ? '_blank' : undefined}
-                      rel={'external' in item ? 'noopener' : undefined}
-                      data-tip={item.tip}
-                      aria-current={
-                        !('external' in item) && isActive(item.href) ? 'page' : undefined
-                      }
-                      class:list={[
-                        'nav-link block rounded-lg px-3 py-2 text-sm font-medium',
-                        !('external' in item) && isActive(item.href) ? 'nav-link-active' : '',
-                      ]}
-                    >
-                      {item.text}
-                      {'external' in item && <span class="sr-only-nw"> (opens in a new tab)</span>}
-                    </a>
-                  </li>
-                ))}
+                {group.items.map((item) => {
+                  const external = 'external' in item;
+                  const current = !external && isActive(item.href);
+                  return (
+                    <li>
+                      <a
+                        href={external ? item.href : u(item.href)}
+                        target={external ? '_blank' : undefined}
+                        rel={external ? 'noopener' : undefined}
+                        data-tip={item.tip}
+                        aria-current={current ? 'page' : undefined}
+                        class:list={[
+                          'nav-link block rounded-lg px-3 py-2 text-sm font-medium',
+                          current ? 'nav-link-active' : '',
+                        ]}
+                      >
+                        {item.text}
+                        {external && <span class="sr-only-nw"> (opens in a new tab)</span>}
+                      </a>
+                    </li>
+                  );
+                })}
               </ul>
             </li>
           );
@@ -144,21 +146,29 @@ const mobileItems: MobileItem[] = [
   >
     <nav aria-label="Mobile" class="shell flex h-full flex-col pb-5 pt-2">
       <ul class="min-h-0 flex-1 overflow-y-auto">
-        {mobileItems.map((item, i) => (
-          <li class="mobile-item" style={`--i:${i}`}>
-            <a
-              href={'external' in item ? item.href : u(item.href)}
-              target={'external' in item ? '_blank' : undefined}
-              rel={'external' in item ? 'noopener' : undefined}
-              class="mobile-link flex w-full items-center justify-between py-2.5 font-display text-2xl font-semibold tracking-tight text-ink"
-              aria-current={!('external' in item) && isActive(item.href) ? 'page' : undefined}
-            >
-              {item.text}
-              {'external' in item && <span class="sr-only-nw"> (opens in a new tab)</span>}
-              <Icon name="nav-chevronRight" size={22} stroke-width={1.72} class="mobile-chevron" />
-            </a>
-          </li>
-        ))}
+        {mobileItems.map((item, i) => {
+          const external = 'external' in item;
+          return (
+            <li class="mobile-item" style={`--i:${i}`}>
+              <a
+                href={external ? item.href : u(item.href)}
+                target={external ? '_blank' : undefined}
+                rel={external ? 'noopener' : undefined}
+                class="mobile-link flex w-full items-center justify-between py-2.5 font-display text-2xl font-semibold tracking-tight text-ink"
+                aria-current={!external && isActive(item.href) ? 'page' : undefined}
+              >
+                {item.text}
+                {external && <span class="sr-only-nw"> (opens in a new tab)</span>}
+                <Icon
+                  name="nav-chevronRight"
+                  size={22}
+                  stroke-width={1.72}
+                  class="mobile-chevron"
+                />
+              </a>
+            </li>
+          );
+        })}
       </ul>
     </nav>
   </div>
