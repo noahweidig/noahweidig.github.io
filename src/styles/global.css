@@ -55,13 +55,6 @@
   --inf-b3: #ff8f45;
   --inf-b4: #ffe9b8;
   --grid-line: rgb(255 255 255 / 0.045);
-  --hero-1: #7c5cff;
-  --hero-2: #1f7bff;
-  --hero-3: #e0457b;
-  --hero-4: #ff8a4c;
-  --hero-5: #38b6ff;
-  --hero-opacity: 0.46;
-  --hero-blend: screen;
   color-scheme: dark;
 }
 
@@ -93,15 +86,6 @@
   --inf-b3: #c4501a;
   --inf-b4: #a86a00;
   --grid-line: rgb(20 25 40 / 0.045);
-  /* Screen on a near-white ground just bleaches; the light theme paints the
-     same fields normally, sat well back so the copy stays the loudest thing. */
-  --hero-1: #7c5cff;
-  --hero-2: #1f7bff;
-  --hero-3: #e0457b;
-  --hero-4: #ff8a4c;
-  --hero-5: #0ea5e9;
-  --hero-opacity: 0.2;
-  --hero-blend: normal;
   color-scheme: light;
 }
 

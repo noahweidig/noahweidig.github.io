@@ -1,5 +1,4 @@
 ---
-import HeroMesh from './HeroMesh.astro';
 import Icon from './Icon.astro';
 import { socials } from '../lib/site';
 
@@ -46,8 +45,8 @@ const cols = [
 ---
 
 <section class="under-nav relative overflow-x-clip border-b border-line" id="hero" data-hero>
-  <HeroMesh />
-  <div class="grid-bg absolute inset-0" aria-hidden="true"></div>
+  <div class="page-hero-mesh" aria-hidden="true"></div>
+  <div class="page-hero-grid" aria-hidden="true"></div>
 
   <div class="shell relative grid items-center gap-12 py-16 md:py-24 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16 lg:py-28">
     <div class="text-center lg:text-left">
