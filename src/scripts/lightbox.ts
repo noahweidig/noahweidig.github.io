@@ -66,7 +66,7 @@ export function initLightbox() {
     box.setAttribute('aria-label', 'Image viewer');
     box.innerHTML = `
       <div class="lightbox-bar">
-        <span data-lightbox-count class="font-mono text-[0.7rem] tracking-[0.14em] uppercase"></span>
+        <span data-lightbox-count class="font-mono text-2xs tracking-[0.14em] uppercase"></span>
         <span class="ml-auto flex items-center gap-2">
           ${
             shots.length > 1

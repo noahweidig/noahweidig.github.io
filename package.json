@@ -20,7 +20,7 @@
     "icons": "node scripts/generate-icons.mjs",
     "logos:pkg": "node scripts/generate-pkg-logo-srcset.mjs",
     "optimize:icons": "svgo --config scripts/svgo.config.cjs -f public/media/icons/tech -o public/media/icons/tech",
-    "lint": "prettier --check . && astro check",
+    "lint": "prettier --check . && astro check && node scripts/check-tokens.mjs",
     "pdfs": "node scripts/generate-pdfs.mjs",
     "seo:audit": "node scripts/run-seo-audit.mjs",
     "shots": "node scripts/generate-project-shots.mjs",
