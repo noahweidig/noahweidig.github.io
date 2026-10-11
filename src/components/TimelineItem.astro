@@ -15,6 +15,14 @@ interface Props {
 }
 const { entry, base, current = false, headingLevel = 3, card = false } = Astro.props;
 const d = entry.data;
+// Home-page cards lead with a mark: the university seal for degrees, the UF
+// wordmark for the two UF roles.
+const mark =
+  card && base === 'education'
+    ? { src: `/media/seals/${entry.id}.webp`, class: 'h-12 w-12' }
+    : card && d.org === 'University of Florida'
+      ? { src: '/media/icons/custom/uf.svg', class: 'h-12 w-16 object-contain object-left' }
+      : undefined;
 const Heading = `h${headingLevel}` as 'h3' | 'h4';
 ---
 
@@ -44,15 +52,15 @@ const Heading = `h${headingLevel}` as 'h3' | 'h4';
     <span class="absolute top-[22px] -left-[9px] h-[18px] w-[18px] animate-ping rounded-full bg-accent/25" />
   )}
 
-  {card && base === 'education' && (
+  {mark && (
     <img
-      src={`/media/seals/${entry.id}.webp`}
+      src={mark.src}
       alt=""
       width="48"
       height="48"
       loading="lazy"
       decoding="async"
-      class="mb-3 h-12 w-12 dark:invert"
+      class:list={['mb-3 dark:invert', mark.class]}
     />
   )}
   <Heading class="text-lg leading-snug transition-colors group-hover:text-accent-ink">
