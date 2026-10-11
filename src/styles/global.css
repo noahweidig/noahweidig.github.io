@@ -27,7 +27,8 @@
   --c-matte-hover: color-mix(in oklab, var(--c-ink) 20%, var(--c-surface));
 }
 :root,
-:root[data-theme='dark'] {
+:root[data-theme='dark'],
+.footer-dark {
   --c-bg: #000000;
   --c-bg-deep: #000000;
   --c-surface: #101216;
@@ -44,6 +45,9 @@
   --c-accent-ink: #6ba4ff;
   --c-accent-contrast: #ffffff;
   --c-btn2: #2997ff;
+  --c-btn2-hover: #0076df;
+  --c-btn2-active: #006edb;
+  --c-on-light: #14161a;
   --c-ember: #ff8f45;
   --c-moss: #4bd0a0;
   --c-violet: #a988ff;
@@ -75,6 +79,9 @@
   --c-accent-ink: #0a54ba;
   --c-accent-contrast: #ffffff;
   --c-btn2: #0066cc;
+  --c-btn2-hover: #0076df;
+  --c-btn2-active: #006edb;
+  --c-on-light: #14161a;
   --c-ember: #a44a16;
   --c-moss: #0f7a56;
   --c-violet: #6541c9;
@@ -101,6 +108,7 @@
   --color-ink: var(--c-ink);
   --color-dim: var(--c-dim);
   --color-faint: var(--c-faint);
+  --color-on-light: var(--c-on-light);
   --color-accent: var(--c-accent);
   --color-accent-ink: var(--c-accent-ink);
   --color-accent-contrast: var(--c-accent-contrast);
@@ -122,7 +130,7 @@
   --radius-pill: 9999px;
 
   /* Named steps for the micro-type cluster that used to ship as one-off
-     arbitrary values (text-[0.68rem] etc.) — see #138. */
+     arbitrary values (text-micro etc.) — see #138. */
   --text-micro: 0.68rem;
   --text-2xs: 0.7rem;
   --text-caption: 0.72rem;
@@ -419,26 +427,6 @@
     line-height: 1.55;
     color: var(--c-dim);
   }
-  /* Secondary hero button: blue outline, text and icon; fills blue on hover.
-     Apple's button blues: #0066cc on light, #2997ff on dark (--c-btn2), hover
-     #0076df, pressed #006edb. The primary button next to it stays solid blue. */
-  .page-hero-actions .btn-ghost,
-  .hero-btn.btn-ghost {
-    border-color: var(--c-btn2);
-    background: transparent;
-    color: var(--c-btn2);
-  }
-  .page-hero-actions .btn-ghost:hover,
-  .hero-btn.btn-ghost:hover {
-    border-color: #0076df;
-    background: #0076df;
-    color: var(--c-accent-contrast);
-  }
-  .page-hero-actions .btn-ghost:active,
-  .hero-btn.btn-ghost:active {
-    border-color: #006edb;
-    background: #006edb;
-  }
   .page-hero-actions {
     display: flex;
     flex-wrap: wrap;
@@ -616,6 +604,31 @@
   }
   .btn-ghost:hover {
     background: var(--c-matte-hover);
+  }
+
+  /* Blue outline button: the hero's secondary button, also used for "see all"
+     links. Fills blue on hover. Apple's button blues (--c-btn2 and its
+     hover/active steps); the primary button beside it stays solid blue.
+     Lives after .btn so its border-color wins over .btn's transparent one. */
+  .btn-outline,
+  .page-hero-actions .btn-ghost,
+  .hero-btn.btn-ghost {
+    border-color: var(--c-btn2);
+    background: transparent;
+    color: var(--c-btn2);
+  }
+  .btn-outline:hover,
+  .page-hero-actions .btn-ghost:hover,
+  .hero-btn.btn-ghost:hover {
+    border-color: var(--c-btn2-hover);
+    background: var(--c-btn2-hover);
+    color: var(--c-accent-contrast);
+  }
+  .btn-outline:active,
+  .page-hero-actions .btn-ghost:active,
+  .hero-btn.btn-ghost:active {
+    border-color: var(--c-btn2-active);
+    background: var(--c-btn2-active);
   }
 
   .btn-sm {
