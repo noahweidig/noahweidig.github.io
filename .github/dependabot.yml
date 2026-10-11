@@ -15,11 +15,26 @@ updates:
       - dependencies
       - github-actions
 
-  # The build tooling (puppeteer, axe-core, html-validate) is pinned in
+  # The build tooling (puppeteer, axe-core, ...) is pinned in
   # package.json / package-lock.json, so an ecosystem manager can watch it
   # (#249).
   - package-ecosystem: npm
     directory: "/"
+    schedule:
+      interval: weekly
+
+    open-pull-requests-limit: 5
+
+    commit-message:
+      prefix: "chore"
+
+    labels:
+      - dependencies
+
+  # The blog-write OAuth Worker has its own lockfile (wrangler, which handles
+  # the GitHub client secret), which the root entry above does not see.
+  - package-ecosystem: npm
+    directory: "/worker"
     schedule:
       interval: weekly
 
