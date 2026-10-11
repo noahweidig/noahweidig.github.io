@@ -44,6 +44,17 @@ const Heading = `h${headingLevel}` as 'h3' | 'h4';
     <span class="absolute top-[22px] -left-[9px] h-[18px] w-[18px] animate-ping rounded-full bg-accent/25" />
   )}
 
+  {card && base === 'education' && (
+    <img
+      src={`/media/seals/${entry.id}.webp`}
+      alt=""
+      width="48"
+      height="48"
+      loading="lazy"
+      decoding="async"
+      class="mb-3 h-12 w-12 dark:invert"
+    />
+  )}
   <Heading class="text-lg leading-snug transition-colors group-hover:text-accent-ink">
     {d.title}
   </Heading>
