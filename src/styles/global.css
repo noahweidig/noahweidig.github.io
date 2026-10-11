@@ -419,23 +419,26 @@
     line-height: 1.55;
     color: var(--c-dim);
   }
-  /* Secondary hero button: blue outline, text and icon; fills blue on hover.
+  /* Secondary hero button (also .btn-outline): blue outline, text and icon; fills blue on hover.
      Apple's button blues: #0066cc on light, #2997ff on dark (--c-btn2), hover
      #0076df, pressed #006edb. The primary button next to it stays solid blue. */
   .page-hero-actions .btn-ghost,
-  .hero-btn.btn-ghost {
+  .hero-btn.btn-ghost,
+  .btn-outline {
     border-color: var(--c-btn2);
     background: transparent;
     color: var(--c-btn2);
   }
   .page-hero-actions .btn-ghost:hover,
-  .hero-btn.btn-ghost:hover {
+  .hero-btn.btn-ghost:hover,
+  .btn-outline:hover {
     border-color: #0076df;
     background: #0076df;
     color: var(--c-accent-contrast);
   }
   .page-hero-actions .btn-ghost:active,
-  .hero-btn.btn-ghost:active {
+  .hero-btn.btn-ghost:active,
+  .btn-outline:active {
     border-color: #006edb;
     background: #006edb;
   }
