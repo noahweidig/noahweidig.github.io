@@ -16,9 +16,7 @@
  * the whole set of sizes the site needs — the og:image cards are drawn by
  * generate-blog-covers.mjs and never use a screenshot.
  *
- * Two copies are written, because the site reads them two ways:
- *   src/assets/albums/projects/<slug>.webp   → Astro <Image>, real srcset
- *   public/media/albums/projects/<slug>.webp → plain <img> in index.md
+ * Written to src/assets/albums/projects/<slug>.webp for Astro <Image>.
  *
  * The same run also refreshes public/media/noahweidigcom.webp, the README's
  * own demo image — a plain 2732×2048 (1366×1024 at deviceScaleFactor 2) shot
@@ -33,7 +31,6 @@ import { readFrontmatter } from './lib/frontmatter.mjs';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const projectsDir = path.join(root, 'src/content/projects');
 const assetsDir = path.join(root, 'src/assets/albums/projects');
-const publicDir = path.join(root, 'public/media/albums/projects');
 const readmeShotPath = path.join(root, 'public/media/noahweidigcom.webp');
 const README_URL = 'https://noahweidig.com';
 
@@ -86,7 +83,6 @@ async function shoot(browser, slug, url) {
       captureBeyondViewport: false,
     });
     fs.writeFileSync(path.join(assetsDir, `${slug}.webp`), buf);
-    fs.writeFileSync(path.join(publicDir, `${slug}.webp`), buf);
   } finally {
     await page.close();
   }
@@ -130,7 +126,6 @@ async function main() {
   );
 
   fs.mkdirSync(assetsDir, { recursive: true });
-  fs.mkdirSync(publicDir, { recursive: true });
 
   const browser = await puppeteer.launch({
     args: ['--no-sandbox', '--disable-setuid-sandbox', '--hide-scrollbars'],
