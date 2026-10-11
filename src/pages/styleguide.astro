@@ -1,20 +1,32 @@
 ---
 import Page from '../layouts/Page.astro';
 import Icon from '../components/Icon.astro';
+import css from '../styles/global.css?raw';
 
-const palette = [
-  ['--c-bg', 'Page ground'],
-  ['--c-bg-deep', 'Recessed band'],
-  ['--c-surface', 'Card surface'],
-  ['--c-raised', 'Inset / input'],
-  ['--c-line', 'Hairline'],
-  ['--c-line-strong', 'Hairline, emphasis'],
-  ['--c-ink', 'Body text'],
-  ['--c-dim', 'Secondary text'],
-  ['--c-faint', 'Tertiary / meta'],
-  ['--c-accent', 'Accent fill'],
-  ['--c-accent-ink', 'Accent text'],
+// Tokens are read from global.css so this page cannot drift from it.
+const names = (re: RegExp) => [
+  ...new Map([...css.matchAll(re)].map((m): [string, string] => [m[1], m[2].trim()])),
 ];
+const darkBlock = css.match(/:root\[data-theme='dark'\][^{]*\{([^}]*)\}/)?.[1] ?? '';
+const uses: Record<string, string> = {
+  '--c-bg': 'Page ground',
+  '--c-bg-deep': 'Recessed band',
+  '--c-surface': 'Card surface',
+  '--c-raised': 'Inset / input',
+  '--c-line': 'Hairline',
+  '--c-line-strong': 'Hairline, emphasis',
+  '--c-ink': 'Body text',
+  '--c-dim': 'Secondary text',
+  '--c-faint': 'Tertiary / meta',
+  '--c-accent': 'Accent fill',
+  '--c-accent-ink': 'Accent text',
+  '--c-btn2': 'Outline button',
+};
+const palette = names(/^\s*(--c-[\w-]+):\s*([^;]+);/gm)
+  .filter(([token, value]) => darkBlock.includes(`${token}:`) && !value.includes('color-mix'))
+  .map(([token]) => [token, uses[token] ?? '']);
+const radii = names(/^\s*(--radius-[\w-]+):\s*([^;]+);/gm);
+const smallType = names(/^\s*(--text-[\w-]+):\s*([^;]+);/gm);
 
 const typeScale = [
   ['Display 1', 'clamp(2.4rem, 1.3rem + 4.4vw, 4.4rem)', 'Hero headline'],
@@ -23,11 +35,8 @@ const typeScale = [
   ['Section', 'clamp(1.85rem, 1.2rem + 2.2vw, 3rem)', 'Section heading'],
   ['H3', '1.25rem', 'Card and sub-heading'],
   ['Body', '1rem / 1.65', 'Running text'],
-  ['Body lg', '0.95rem', 'Lead paragraphs, callouts'],
   ['Meta', '0.7rem, mono, 0.18em', 'Kickers and labels'],
-  ['Caption', '0.72rem', 'Captions, small labels'],
-  ['2xs', '0.7rem', 'Compact meta text'],
-  ['Micro', '0.68rem', 'Smallest inline labels'],
+  ...smallType.map(([token, size]) => [token.replace('--text-', ''), size, 'Named size step']),
 ];
 
 const icons = [
@@ -109,6 +118,23 @@ const icons = [
   </section>
 
   <section class="mt-16">
+    <h2 class="font-display text-2xl">Radius</h2>
+    <div class="mt-6 flex flex-wrap gap-4">
+      {radii.map(([token, value]) => (
+        <div class="grid justify-items-center gap-2">
+          <span
+            class="h-14 w-14 border border-line-strong bg-surface"
+            style={`border-radius: var(${token})`}
+          />
+          <code class="font-mono text-2xs text-faint">
+            {token.replace('--radius-', '')} {value}
+          </code>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="mt-16">
     <h2 class="font-display text-2xl">Buttons &amp; chips</h2>
     <div class="mt-6 flex flex-wrap items-center gap-3">
       <a class="btn btn-primary" href="#">
@@ -117,6 +143,9 @@ const icons = [
       </a>
       <a class="btn btn-ghost" href="#">
         Ghost
+      </a>
+      <a class="btn btn-outline" href="#">
+        Outline
       </a>
       <a class="btn btn-primary btn-sm" href="#">
         Primary small
