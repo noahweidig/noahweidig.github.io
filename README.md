@@ -140,7 +140,7 @@ npm run covers:all             # generate covers for site, collections, and page
 npm run covers:ensure          # backfill missing blog covers only
 npm run icons                  # regenerate favicons/app icons
 npm run logos:pkg              # generate package-logo srcsets
-npm run lint                   # prettier --check + astro check
+npm run lint                   # prettier --check + astro check + token check
 npm run format                 # prettier --write
 npm run pdfs                   # render the printable CV/résumé PDFs
 npm run seo:audit              # run the SEO audit against a real dist/ build
@@ -149,7 +149,7 @@ npm run shots                  # recapture project screenshots (add slugs to nar
 node scripts/update-pubs.js    # refresh publications from Zotero
 ```
 
-`npm run lint` is the gate on the input: Prettier for formatting (`.prettierrc.json`, `.editorconfig`) and `astro check` for types, which covers every component, page, and content-collection schema. It runs as the `lint` job in `publish.yml`.
+`npm run lint` is the gate on the input: Prettier for formatting (`.prettierrc.json`, `.editorconfig`), `astro check` for types (every component, page, and content-collection schema), and `scripts/check-tokens.mjs`, which fails on hardcoded hex colors outside `src/styles/global.css` (plus a short allowlist). It runs as the `lint` job in `publish.yml`.
 
 ### Continuous integration
 
