@@ -290,7 +290,7 @@ export function initSearch() {
                     on ? 'border-accent bg-accent text-accent-contrast' : 'border-line-strong'
                   }">${on ? '<svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5l10 -10"/></svg>' : ''}</span>
                   <span class="min-w-0 flex-1 truncate">${escapeHtml(value)}</span>
-                  <span class="shrink-0 font-mono text-[0.68rem] text-faint">${n}</span>
+                  <span class="shrink-0 font-mono text-micro text-faint">${n}</span>
                 </button></li>`;
               })
               .join('')}
