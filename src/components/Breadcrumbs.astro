@@ -11,10 +11,8 @@ interface Props {
   trail: Crumb[];
   current: string;
   class?: string;
-  /** A matte pill, for use on the dark hero band. */
-  pill?: boolean;
 }
-const { trail, current, class: klass, pill = false } = Astro.props;
+const { trail, current, class: klass } = Astro.props;
 
 const items = [{ label: 'Home', href: '/' }, ...trail];
 
@@ -40,22 +38,24 @@ const jsonLd = {
 ---
 
 <nav aria-label="Breadcrumb" class={klass} data-pagefind-ignore>
-  <ol
-    class:list={[
-      'flex max-w-full flex-nowrap items-center gap-x-1.5 overflow-hidden',
-      pill
-        ? 'crumb-pill rounded-full bg-matte px-3.5 py-1.5 text-xs text-dim'
-        : 'font-mono text-caption tracking-[0.1em] text-faint uppercase',
-    ]}
-  >
+  <ol class="flex max-w-full flex-nowrap items-center gap-x-1.5 overflow-hidden text-xs text-dim">
     {items.map((c) => (
       <li class="flex shrink-0 items-center gap-1.5 whitespace-nowrap">
         <a href={c.href ?? '/'} class="transition-colors hover:text-accent-ink">
           {c.label}
         </a>
-        <span aria-hidden="true" class="text-line-strong">
-          /
-        </span>
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 16 16"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="size-3.5 text-faint"
+        >
+          <path d="M6 3.5 10.5 8 6 12.5" />
+        </svg>
       </li>
     ))}
     <li class="min-w-0">
@@ -64,7 +64,7 @@ const jsonLd = {
       <span
         aria-current="page"
         data-truncate-words
-        class:list={['block max-w-full truncate sm:max-w-[34rem]', pill ? 'text-ink' : 'text-dim']}
+        class="block max-w-full truncate text-ink sm:max-w-[34rem]"
       >
         {current}
       </span>
