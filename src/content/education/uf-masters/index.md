@@ -7,6 +7,9 @@ date: '2023-08-01'
 dates: 'Aug 2023 – Aug 2025'
 location: 'Gainesville, FL'
 categories: [Education]
+image: './featured.webp'
+image-alt: 'Century Tower on the University of Florida campus'
+image-credit: 'Photo: Kate Haskell, CC BY 2.0, via Wikimedia Commons'
 links:
   - label: 'Commencement Program'
     href: 'https://commencement.ufl.edu/media/commencementufledu/past-commencement-pdf/SU25_MSB_2C_4C_Program_Web_Version.pdf'
