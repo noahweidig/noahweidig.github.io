@@ -111,7 +111,7 @@ Dimensions and Altmetric attention stats are fetched weekly by `.github/workflow
 
 ### Project screenshots
 
-The card art for each project (`src/assets/albums/projects/<slug>.webp`, mirrored to `public/media/albums/projects/` for the `<img>` inside `index.md`) is captured from the project's own live site by `scripts/generate-project-shots.mjs`, weekly through `.github/workflows/project-shots.yml`, so a tool that changes does not keep showing the picture it had the day it shipped.
+The card art for each project (`src/assets/albums/projects/<slug>.webp`) is captured from the project's own live site by `scripts/generate-project-shots.mjs`, weekly through `.github/workflows/project-shots.yml`, so a tool that changes does not keep showing the picture it had the day it shipped.
 
 The URL comes from the first `http(s)` link in the entry's frontmatter, so a new project needs no edit to the script. Shots are 1600×1000 in dark mode, framed from the top — the only geometry the site asks for, since `ProjectCard` and `ResearchAreas` both crop `aspect-16/10 object-cover object-top` and the og:image cards are drawn by `generate-blog-covers.mjs` rather than screenshotted. A site that fails to load leaves its committed image alone and warns; only a run where every capture fails fails the job. `roads` and `wuirisk` are skipped in the script (a third-party catalog page and an Earth Engine app) and keep hand-made images.
 
