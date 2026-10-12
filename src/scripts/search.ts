@@ -244,7 +244,7 @@ export function initSearch() {
       .map((r, i) => {
         const chip = r.section ? `<span class="chip shrink-0">${escapeHtml(r.section)}</span>` : '';
         return `<a id="search-opt-${i}" role="option" aria-selected="false" href="${r.href}"
-          class="block rounded-none border-b border-line/60 px-3 py-3.5 transition-colors last:border-b-0 hover:bg-raised sm:rounded-xl sm:border-b-0 sm:px-4 sm:py-3.5 sm:[&[aria-selected=true]]:ring-1 sm:[&[aria-selected=true]]:ring-accent/40 sm:[&[aria-selected=true]]:ring-inset">
+          class="block rounded-none border-b border-line/60 px-3 py-3.5 transition-colors last:border-b-0 hover:bg-raised sm:rounded-[var(--radius-md)] sm:border-b-0 sm:px-4 sm:py-3.5 sm:[&[aria-selected=true]]:ring-1 sm:[&[aria-selected=true]]:ring-accent/40 sm:[&[aria-selected=true]]:ring-inset">
           <span class="flex flex-col-reverse items-start gap-1.5 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
             <span class="text-base font-medium text-ink sm:text-lead">${r.title}</span>
             ${chip}
