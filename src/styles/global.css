@@ -51,9 +51,10 @@
   --c-ember: #ff8f45;
   --c-moss: #4bd0a0;
   --c-violet: #a988ff;
-  --c-cta-a: #4f2fb0;
-  --c-cta-b: #a53d14;
-  --grad-cta: linear-gradient(120deg, var(--c-cta-a), var(--c-cta-b));
+  --c-cta-a: #5b2fe0;
+  --c-cta-m: #c2246f;
+  --c-cta-b: #c2410c;
+  --grad-cta: linear-gradient(120deg, var(--c-cta-a), var(--c-cta-m) 55%, var(--c-cta-b));
 
   --c-glow: color-mix(in oklab, var(--c-accent) 26%, transparent);
   --c-sheen: rgb(255 255 255 / 0.04);
@@ -88,9 +89,10 @@
   --c-ember: #a44a16;
   --c-moss: #0f7a56;
   --c-violet: #6541c9;
-  --c-cta-a: #5a38c0;
-  --c-cta-b: #b4461a;
-  --grad-cta: linear-gradient(120deg, var(--c-cta-a), var(--c-cta-b));
+  --c-cta-a: #5b2fe0;
+  --c-cta-m: #c2246f;
+  --c-cta-b: #c2410c;
+  --grad-cta: linear-gradient(120deg, var(--c-cta-a), var(--c-cta-m) 55%, var(--c-cta-b));
 
   --c-glow: color-mix(in oklab, var(--c-accent) 16%, transparent);
   --c-sheen: rgb(15 20 30 / 0.02);
@@ -517,9 +519,10 @@
     --c-ember: #ff8f45;
     --c-moss: #4bd0a0;
     --c-violet: #a988ff;
-    --c-cta-a: #4f2fb0;
-    --c-cta-b: #a53d14;
-    --grad-cta: linear-gradient(120deg, var(--c-cta-a), var(--c-cta-b));
+    --c-cta-a: #5b2fe0;
+    --c-cta-m: #c2246f;
+    --c-cta-b: #c2410c;
+    --grad-cta: linear-gradient(120deg, var(--c-cta-a), var(--c-cta-m) 55%, var(--c-cta-b));
     --c-glow: color-mix(in oklab, var(--c-accent) 26%, transparent);
     --c-matte: color-mix(in oklab, var(--c-ink) 12%, var(--c-surface));
     --c-matte-hover: color-mix(in oklab, var(--c-ink) 20%, var(--c-surface));
