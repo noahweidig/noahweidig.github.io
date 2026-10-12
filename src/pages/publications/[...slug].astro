@@ -169,7 +169,7 @@ const pubLd = {
             href={dimensions.url}
             target="_blank"
             rel="noopener"
-            class="chip transition-colors hover:border-accent hover:text-accent-ink"
+            class="chip chip-accent"
             data-tip-title="Dimensions"
             data-tip={dimensionsTip}
             aria-label={`${dimensions.timesCited} citation${dimensions.timesCited === 1 ? '' : 's'} on Dimensions (opens in a new tab)`}
@@ -190,7 +190,7 @@ const pubLd = {
             href={altmetric.detailsUrl}
             target="_blank"
             rel="noopener"
-            class="chip chip-accent transition-colors hover:border-accent"
+            class="chip chip-accent"
             data-tip-title="Altmetric Attention Score"
             data-tip={altmetricTip}
             aria-label={`Altmetric attention score ${Math.round(altmetric.score)} (opens in a new tab)`}
