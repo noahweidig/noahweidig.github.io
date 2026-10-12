@@ -29,7 +29,7 @@ const { class: klass = '' } = Astro.props;
     filter: invert(1);
   }
   .maplibregl-popup-content {
-    color: #111;
+    color: var(--c-on-light);
   }
   [data-theme='dark'] .maplibregl-popup-content {
     background: var(--c-surface);

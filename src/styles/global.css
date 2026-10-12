@@ -51,6 +51,9 @@
   --c-ember: #ff8f45;
   --c-moss: #4bd0a0;
   --c-violet: #a988ff;
+  --c-cta-a: #4f2fb0;
+  --c-cta-b: #a53d14;
+  --grad-cta: linear-gradient(120deg, var(--c-cta-a), var(--c-cta-b));
 
   --c-glow: color-mix(in oklab, var(--c-accent) 26%, transparent);
   --c-sheen: rgb(255 255 255 / 0.04);
@@ -85,6 +88,9 @@
   --c-ember: #a44a16;
   --c-moss: #0f7a56;
   --c-violet: #6541c9;
+  --c-cta-a: #5a38c0;
+  --c-cta-b: #b4461a;
+  --grad-cta: linear-gradient(120deg, var(--c-cta-a), var(--c-cta-b));
 
   --c-glow: color-mix(in oklab, var(--c-accent) 16%, transparent);
   --c-sheen: rgb(15 20 30 / 0.02);
@@ -135,6 +141,8 @@
   --text-2xs: 0.7rem;
   --text-caption: 0.72rem;
   --text-body-lg: 0.95rem;
+  --text-small: 0.82rem;
+  --text-lead: 1.05rem;
 
   --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-in-out-soft: cubic-bezier(0.65, 0, 0.35, 1);
@@ -509,6 +517,9 @@
     --c-ember: #ff8f45;
     --c-moss: #4bd0a0;
     --c-violet: #a988ff;
+    --c-cta-a: #4f2fb0;
+    --c-cta-b: #a53d14;
+    --grad-cta: linear-gradient(120deg, var(--c-cta-a), var(--c-cta-b));
     --c-glow: color-mix(in oklab, var(--c-accent) 26%, transparent);
     --c-matte: color-mix(in oklab, var(--c-ink) 12%, var(--c-surface));
     --c-matte-hover: color-mix(in oklab, var(--c-ink) 20%, var(--c-surface));
@@ -670,6 +681,37 @@
     font-size: 0.68rem;
     letter-spacing: 0.04em;
     white-space: nowrap;
+  }
+  .chip-link {
+    border: 1px solid var(--c-line);
+    background: transparent;
+    padding: 0.25rem 0.625rem;
+    transition:
+      border-color 0.2s,
+      color 0.2s;
+  }
+  .chip-link:hover {
+    border-color: var(--c-accent-ink);
+    color: var(--c-accent-ink);
+  }
+  .card-badge {
+    position: absolute;
+    bottom: 0.75rem;
+    left: 0.75rem;
+    max-width: calc(100% - 1.5rem);
+    border-radius: var(--radius-pill);
+    background: #fff;
+    padding: 0.625rem 1.25rem;
+    color: var(--c-on-light);
+    font-size: var(--text-body-lg);
+    font-weight: 500;
+    line-height: 1.25;
+  }
+  @media (min-width: 640px) {
+    .card-badge {
+      bottom: 1rem;
+      left: 1rem;
+    }
   }
   .chip-accent {
     background: var(--c-matte-hover);
