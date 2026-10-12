@@ -54,6 +54,8 @@
   --c-ember: var(--c-red);
   --c-yellow: #ffb110;
   --c-yellow-ink: #ffc95e;
+  --c-teal: #5fc7c2;
+  --c-pink: #ff83dd;
   --c-moss: #68ce7e;
   --c-violet: #ad6ded;
   --c-cta-a: #5b2fe0;
@@ -95,6 +97,8 @@
   --c-ember: var(--c-red);
   --c-yellow: #ffb110;
   --c-yellow-ink: #8c5d00;
+  --c-teal: #126764;
+  --c-pink: #9d2472;
   --c-moss: #0f6220;
   --c-violet: #7237ae;
   --c-cta-a: #5b2fe0;
@@ -131,6 +135,8 @@
   --color-red: var(--c-red);
   --color-ember: var(--c-ember);
   --color-yellow: var(--c-yellow);
+  --color-teal: var(--c-teal);
+  --color-pink: var(--c-pink);
   --color-moss: var(--c-moss);
   --color-violet: var(--c-violet);
 
@@ -768,19 +774,31 @@
     .chip-yellow,
     .chip-green,
     .chip-purple,
+    .chip-teal,
+    .chip-pink,
     .tile-blue,
     .tile-red,
     .tile-yellow,
     .tile-green,
-    .tile-purple
+    .tile-purple,
+    .tile-teal,
+    .tile-pink
   ) {
     background: color-mix(in oklab, var(--tint) 16%, var(--c-surface));
     color: var(--tint);
   }
-  a:is(.chip-blue, .chip-red, .chip-yellow, .chip-green, .chip-purple) {
+  a:is(.chip-blue, .chip-red, .chip-yellow, .chip-green, .chip-purple, .chip-teal, .chip-pink) {
     transition: background-color 0.2s;
   }
-  a:is(.chip-blue, .chip-red, .chip-yellow, .chip-green, .chip-purple):hover {
+  a:is(
+      .chip-blue,
+      .chip-red,
+      .chip-yellow,
+      .chip-green,
+      .chip-purple,
+      .chip-teal,
+      .chip-pink
+    ):hover {
     background: color-mix(in oklab, var(--tint) 28%, var(--c-surface));
     color: var(--tint);
   }
@@ -799,12 +817,6 @@
   .pill-yellow {
     --tint: var(--c-yellow);
   }
-  /* Yellow text has no legible step on a light surface; chip text takes the
-     theme's darker yellow ink while tile icons stay Notion yellow. */
-  .chip-yellow,
-  a.chip-yellow:hover {
-    color: var(--c-yellow-ink);
-  }
   .chip-green,
   .tile-green,
   .pill-green {
@@ -814,6 +826,22 @@
   .tile-purple,
   .pill-purple {
     --tint: var(--c-violet);
+  }
+  .chip-teal,
+  .tile-teal,
+  .pill-teal {
+    --tint: var(--c-teal);
+  }
+  .chip-pink,
+  .tile-pink,
+  .pill-pink {
+    --tint: var(--c-pink);
+  }
+  /* Yellow text has no legible step on a light surface; chip text takes the
+     theme's darker yellow ink while tile icons stay Notion yellow. */
+  .chip-yellow,
+  a.chip-yellow:hover {
+    color: var(--c-yellow-ink);
   }
 
   /* Round icon tile with the same blue wash as .chip-accent. */
@@ -877,15 +905,31 @@
   }
 
   /* Category filter pills take the same color as that category's chips. */
-  .pill:is(.pill-blue, .pill-red, .pill-yellow, .pill-green, .pill-purple) {
+  .pill:is(.pill-blue, .pill-red, .pill-yellow, .pill-green, .pill-purple, .pill-teal, .pill-pink) {
     background: color-mix(in oklab, var(--tint) 16%, var(--c-surface));
     color: var(--tint);
   }
-  .pill:is(.pill-blue, .pill-red, .pill-yellow, .pill-green, .pill-purple):hover {
+  .pill:is(
+      .pill-blue,
+      .pill-red,
+      .pill-yellow,
+      .pill-green,
+      .pill-purple,
+      .pill-teal,
+      .pill-pink
+    ):hover {
     background: color-mix(in oklab, var(--tint) 28%, var(--c-surface));
     color: var(--tint);
   }
-  .pill:is(.pill-blue, .pill-red, .pill-yellow, .pill-green, .pill-purple)[aria-pressed='true'] {
+  .pill:is(
+      .pill-blue,
+      .pill-red,
+      .pill-yellow,
+      .pill-green,
+      .pill-purple,
+      .pill-teal,
+      .pill-pink
+    )[aria-pressed='true'] {
     background: color-mix(in oklab, var(--tint) 28%, var(--c-surface));
     color: var(--tint);
     box-shadow: inset 0 0 0 1.5px var(--tint);
