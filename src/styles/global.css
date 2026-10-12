@@ -131,8 +131,8 @@
   --color-moss: var(--c-moss);
   --color-violet: var(--c-violet);
 
-  --font-sans: 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --font-display: 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
 
   --radius-xs: 4px;
@@ -189,9 +189,7 @@
     font-family: var(--font-sans);
     font-size: 1rem;
     line-height: 1.65;
-    font-feature-settings:
-      'cv05' 1,
-      'ss03' 1;
+    font-feature-settings: 'ss03' 1;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     /* clip, not hidden: overflow-x: hidden turns body into a scroll
