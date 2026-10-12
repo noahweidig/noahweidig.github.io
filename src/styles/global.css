@@ -630,16 +630,16 @@
     white-space: nowrap;
   }
   .chip-link {
-    border: 1px solid var(--c-line);
-    background: transparent;
+    border-radius: 6px;
+    background: var(--c-matte);
     padding: 0.25rem 0.625rem;
     transition:
-      border-color 0.2s,
+      background-color 0.2s,
       color 0.2s;
   }
   .chip-link:hover {
-    border-color: var(--c-accent-ink);
-    color: var(--c-accent-ink);
+    background: var(--c-matte-hover);
+    color: var(--c-ink);
   }
   .card-badge {
     position: absolute;
