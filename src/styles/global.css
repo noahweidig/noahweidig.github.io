@@ -578,6 +578,16 @@
       transform: none;
     }
   }
+  /* A card washed with its own color, set through --tint-base. */
+  .card-tint {
+    background: color-mix(in oklab, var(--tint-base) 7%, var(--c-card));
+    transition:
+      transform 1.4s var(--ease-out-soft),
+      background-color 0.2s var(--ease-out-soft);
+  }
+  .card-tint:hover {
+    background: color-mix(in oklab, var(--tint-base) 14%, var(--c-card));
+  }
 
   /* --- buttons --- */
   .btn {
