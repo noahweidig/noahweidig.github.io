@@ -7,13 +7,14 @@ interface Props {
   subtitle?: string;
   href?: string;
   linkText?: string;
+  tint?: 'blue' | 'green' | 'yellow' | 'pink' | 'purple' | 'teal' | 'red';
 }
-const { kicker, title, subtitle, href, linkText } = Astro.props;
+const { kicker, title, subtitle, href, linkText, tint } = Astro.props;
 ---
 
 <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between" data-reveal>
   <div>
-    {kicker && <p class="kicker">{kicker}</p>}
+    {kicker && <p class:list={['kicker', tint && `tint-${tint}`]}>{kicker}</p>}
     <h2 class="section-title">{title}</h2>
     {subtitle && <p class="lede mt-3">{subtitle}</p>}
   </div>

@@ -85,7 +85,7 @@ const areas = [
 ];
 ---
 
-<div class="dark-tints mt-10" data-tabs data-reveal>
+<div class="mt-10" data-tabs data-reveal>
   {/* Hidden until the tab script wires it up: with no JS every panel stays
       visible and the section reads as a stack rather than dead buttons. */}
   <div
@@ -118,7 +118,7 @@ const areas = [
     >
       <div>
         <p
-          class={`inline-flex items-center gap-2 rounded-full px-3 py-1.5 font-mono text-2xs tracking-[0.14em] uppercase chip-${tintAt(i)}`}
+          class={`inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-medium chip-${tintAt(i)}`}
         >
           <Icon name={a.icon} size={16} class="shrink-0" />
           {a.eyebrow}
@@ -141,7 +141,7 @@ const areas = [
           decoding="async"
           class="aspect-16/10 w-full object-cover"
         />
-        <figcaption class="border-t border-line px-4 py-3 font-mono text-2xs tracking-wide text-faint">
+        <figcaption class="border-t border-line px-4 py-3 text-xs text-faint">
           {a.caption}
         </figcaption>
       </figure>

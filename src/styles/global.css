@@ -1,7 +1,7 @@
 @import 'tailwindcss';
 @import './fonts.css';
 
-@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *, .band-dark, .band-dark *));
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
 
 /* Theme-toggle icon: light/dark/system, driven by [data-theme-pref] on <html>
    rather than the resolved [data-theme] so the sun-moon icon shows even
@@ -21,24 +21,13 @@
    Dark is the default; :root[data-theme='light'] overrides the same names.
    ========================================================================= */
 :root {
-  /* Dark-theme color values for the research-areas section, which keeps dark
-     colored chips and pills in both themes. */
-  --k-surface: #16191f;
-  --k-blue: #6ba4ff;
-  --k-green: #68ce7e;
-  --k-purple: #ad6ded;
-  --k-yellow: #ffc95e;
-  --k-red: #ff6b78;
-  --k-teal: #5fc7c2;
-  --k-pink: #ff83dd;
   /* Matte fills for buttons, tags and controls: a flat grey step off the
      surface, in whichever theme is active. */
   --c-matte: color-mix(in oklab, var(--c-ink) 12%, var(--c-surface));
   --c-matte-hover: color-mix(in oklab, var(--c-ink) 20%, var(--c-surface));
 }
 :root,
-:root[data-theme='dark'],
-.footer-dark {
+:root[data-theme='dark'] {
   --c-bg: #000000;
   --c-bg-deep: #000000;
   --c-surface: #101216;
@@ -316,13 +305,13 @@
   .kicker {
     display: inline-flex;
     align-items: center;
-    gap: 0.55rem;
-    font-family: var(--font-mono);
-    font-size: 0.7rem;
-    font-weight: 500;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--c-dim);
+    gap: 0.4rem;
+    padding: 0.2rem 0.65rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--tint, var(--c-accent-ink));
+    background: color-mix(in oklab, var(--tint, var(--c-accent-ink)) 16%, var(--c-surface));
   }
   /* --- display headings --- */
   .display-1 {
@@ -406,11 +395,8 @@
     align-items: center;
     gap: 0.65rem;
     margin-top: 1.5rem;
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
+    font-size: 0.85rem;
+    font-weight: 600;
     color: var(--c-accent-ink);
   }
   .page-hero-kicker-icon {
@@ -524,38 +510,6 @@
     }
   }
 
-  /* --- dark bands ---
-     Full-width sections that stay dark in both themes. Redeclares the dark
-     palette for everything inside, so every text-ink / border-line / .card
-     utility reads correctly without per-component overrides. The matte
-     tokens are rebuilt here too: they were resolved on :root, so they would
-     otherwise carry the page theme's greys in. */
-  .band-dark {
-    --c-bg: #0b0d11;
-    --c-bg-deep: #0b0d11;
-    --c-surface: #14171d;
-    --c-card: #1b1f27;
-    --c-raised: #1b1f27;
-    --c-line: #262b35;
-    --c-line-strong: #363c4a;
-    --c-control-border: #6b7385;
-    --c-ink: #e9ecf2;
-    --c-dim: #99a1b1;
-    --c-faint: #7c8494;
-    --c-accent: #0072e3;
-    --c-accent-ink: #6ba4ff;
-    --c-accent-contrast: #ffffff;
-    --c-btn2: #2997ff;
-    --c-ember: var(--c-red);
-    --c-moss: #4bd0a0;
-    --c-violet: #a988ff;
-    --c-glow: color-mix(in oklab, var(--c-accent) 26%, transparent);
-    --c-matte: color-mix(in oklab, var(--c-ink) 12%, var(--c-surface));
-    --c-matte-hover: color-mix(in oklab, var(--c-ink) 20%, var(--c-surface));
-    color: var(--c-ink);
-    color-scheme: dark;
-  }
-
   /* --- surfaces --- */
   .card {
     position: relative;
@@ -564,7 +518,7 @@
        `color: canvastext`; naming the token here keeps a card readable
        wherever it renders. */
     color: var(--c-ink);
-    border: 0;
+    border: 1px solid var(--c-line);
     border-radius: var(--radius-md);
     transition: transform 1.4s var(--ease-out-soft);
   }
@@ -726,9 +680,8 @@
     border: 0;
     background: var(--c-matte);
     color: var(--c-dim);
-    font-family: var(--font-mono);
-    font-size: 0.68rem;
-    letter-spacing: 0.04em;
+    font-size: 0.78rem;
+    font-weight: 500;
     white-space: nowrap;
   }
   .chip-link {
@@ -890,19 +843,25 @@
     justify-content: flex-start;
     padding: 1.5rem;
   }
-  .bento-blue {
+  .tint-blue {
     --tint: var(--c-accent-ink);
   }
-  .bento-green {
+  .tint-green {
     --tint: var(--c-moss);
   }
-  .bento-yellow {
+  .tint-yellow {
     --tint: var(--c-yellow-ink);
   }
-  .bento-pink {
+  .tint-pink {
     --tint: var(--c-pink);
   }
-  .bento-purple {
+  .tint-teal {
+    --tint: var(--c-teal);
+  }
+  .tint-red {
+    --tint: var(--c-red);
+  }
+  .tint-purple {
     --tint: var(--c-violet);
   }
   /* Icon chip: a wash of the tile's color with the icon in the color itself,
@@ -932,11 +891,8 @@
   }
   .bento-label {
     color: var(--tint);
-    font-family: var(--font-mono);
-    font-size: var(--text-2xs);
-    font-weight: 700;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
+    font-size: 0.8rem;
+    font-weight: 600;
   }
   .bento-mail {
     font-size: 0.72rem;
@@ -1092,66 +1048,6 @@
       .pill-pink
     )[aria-pressed='true'] {
     color: var(--c-accent-contrast);
-  }
-
-  /* Research areas: dark colored chips and pills in both themes, with a full
-     color fill on the selected tab. */
-  .dark-tints {
-    --tint-surface: var(--k-surface);
-  }
-  .dark-tints :is(.chip-blue, .pill-blue) {
-    --tint: var(--k-blue);
-  }
-  .dark-tints :is(.chip-red, .pill-red) {
-    --tint: var(--k-red);
-  }
-  .dark-tints :is(.chip-yellow, .pill-yellow) {
-    --tint: var(--k-yellow);
-  }
-  .dark-tints :is(.chip-green, .pill-green) {
-    --tint: var(--k-green);
-  }
-  .dark-tints :is(.chip-purple, .pill-purple) {
-    --tint: var(--k-purple);
-  }
-  .dark-tints :is(.chip-teal, .pill-teal) {
-    --tint: var(--k-teal);
-  }
-  .dark-tints :is(.chip-pink, .pill-pink) {
-    --tint: var(--k-pink);
-  }
-  .dark-tints .chip-yellow,
-  .dark-tints a.chip-yellow:hover,
-  .dark-tints .pill.pill-yellow,
-  .dark-tints .pill.pill-yellow:hover {
-    color: var(--tint);
-  }
-  :root
-    .dark-tints
-    .pill:is(
-      .pill-blue,
-      .pill-red,
-      .pill-yellow,
-      .pill-green,
-      .pill-purple,
-      .pill-teal,
-      .pill-pink
-    )[aria-pressed='true'],
-  :root
-    .dark-tints
-    .pill:is(
-      .pill-blue,
-      .pill-red,
-      .pill-yellow,
-      .pill-green,
-      .pill-purple,
-      .pill-teal,
-      .pill-pink
-    )[aria-selected='true'] {
-    background: var(--tint);
-    color: var(--c-on-light);
-    box-shadow: none;
-    font-weight: 600;
   }
 
   /* --- decorative surfaces --- */
@@ -1347,7 +1243,7 @@
 
   /* --- tech tiles ---
      The icons are single-color SVGs drawn as a mask, so they take the text
-     color in either theme (and inside .band-dark) with no filter. */
+     color in either theme with no filter. */
   .tech-tile {
     display: flex;
     flex-direction: column;

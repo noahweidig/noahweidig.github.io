@@ -33,7 +33,7 @@ const max = Math.max(...groups.map((g) => g.items.length), 1);
     {stats.map((s) => (
       <div class="card px-4 py-3 max-sm:last:col-span-2">
         <dd class="text-2xl font-semibold tabular-nums">{s.value}</dd>
-        <dt class="font-mono text-2xs tracking-[0.16em] text-faint uppercase">{s.label}</dt>
+        <dt class="text-xs font-medium text-faint">{s.label}</dt>
       </div>
     ))}
   </dl>
