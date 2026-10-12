@@ -18,7 +18,7 @@
     "dimensions": {
       "timesCited": 9,
       "recentCitations": 9,
-      "fieldCitationRatio": 2.6,
+      "fieldCitationRatio": 2.58,
       "relativeCitationRatio": null,
       "url": "https://badge.dimensions.ai/details/doi/10.1029/2024gl110586"
     },
@@ -33,7 +33,7 @@
     "dimensions": {
       "timesCited": 3,
       "recentCitations": 3,
-      "fieldCitationRatio": 0.77,
+      "fieldCitationRatio": 0.76,
       "relativeCitationRatio": null,
       "url": "https://badge.dimensions.ai/details/doi/10.1071/wf24110"
     }
@@ -47,17 +47,17 @@
       "url": "https://badge.dimensions.ai/details/doi/10.1186/s42408-026-00574-5"
     },
     "altmetric": {
-      "score": 16,
-      "postsCount": 6,
+      "score": 21,
+      "postsCount": 7,
       "detailsUrl": "https://www.altmetric.com/details.php?citation_id=204398202",
-      "imageUrl": "https://badges.altmetric.com/?size=64&score=16&types=mbbttuuu"
+      "imageUrl": "https://badges.altmetric.com/?size=64&score=21&types=mbttuuuo"
     }
   },
   "10.1371/journal.pone.0277237": {
     "dimensions": {
-      "timesCited": 1,
-      "recentCitations": 1,
-      "fieldCitationRatio": 0.23,
+      "timesCited": 2,
+      "recentCitations": 2,
+      "fieldCitationRatio": 0.46,
       "relativeCitationRatio": null,
       "url": "https://badge.dimensions.ai/details/doi/10.1371/journal.pone.0277237"
     },
