@@ -1005,7 +1005,8 @@
   .dark-tints .pill.pill-yellow:hover {
     color: var(--tint);
   }
-  .dark-tints
+  :root
+    .dark-tints
     .pill:is(
       .pill-blue,
       .pill-red,
@@ -1015,7 +1016,8 @@
       .pill-teal,
       .pill-pink
     )[aria-pressed='true'],
-  .dark-tints
+  :root
+    .dark-tints
     .pill:is(
       .pill-blue,
       .pill-red,
