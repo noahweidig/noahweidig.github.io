@@ -7,6 +7,9 @@ date: '2018-08-01'
 dates: 'Aug 2018 – May 2022'
 location: 'Highland Heights, KY'
 categories: [Education]
+image: './featured.webp'
+image-alt: 'Griffin Hall on the Northern Kentucky University campus'
+image-credit: 'Photo: Debaser42, CC BY-SA 3.0, via Wikimedia Commons'
 links:
   - label: 'Commencement Program'
     href: 'http://hdl.handle.net/11216/4405'
