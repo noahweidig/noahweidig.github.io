@@ -17,7 +17,7 @@ const targets = buildShareTargets(title, url);
 >
   <button
     type="button"
-    class="btn btn-ghost btn-sm"
+    class="btn btn-wash btn-sm"
     data-share-open
     aria-haspopup="dialog"
     data-tip="Share this page"
@@ -27,7 +27,7 @@ const targets = buildShareTargets(title, url);
   </button>
   <button
     type="button"
-    class="btn btn-ghost btn-sm ml-auto"
+    class="btn btn-wash btn-sm ml-auto"
     data-copy={url}
     data-tip="Copy this page's link"
   >
@@ -54,7 +54,7 @@ const targets = buildShareTargets(title, url);
         </a>
       ))}
     </div>
-    <button type="button" class="btn btn-ghost btn-sm w-full" data-copy={url}>
+    <button type="button" class="btn btn-wash btn-sm w-full" data-copy={url}>
       <Icon name="copy" size={15} />
       <span data-copy-label>Copy link</span>
     </button>
