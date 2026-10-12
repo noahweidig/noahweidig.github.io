@@ -1,11 +1,12 @@
 ---
 import Breadcrumbs from './Breadcrumbs.astro';
 import Icon from './Icon.astro';
+import { tintFor } from '../lib/tint';
 
 interface Props {
   title: string;
   kicker?: string;
-  /** Name of an icon in `icons.generated.ts`, drawn in a round chip beside the kicker. */
+  /** Name of an icon in `icons.generated.ts`, drawn as the page icon above the title. */
   icon?: string;
   intro?: string;
   trail?: { label: string; href?: string }[];
@@ -29,6 +30,7 @@ const {
   hasActions = Astro.slots.has('actions'),
   hasAside = Astro.slots.has('aside'),
 } = Astro.props;
+const tint = tintFor(kicker ?? title);
 ---
 
 <section
@@ -37,20 +39,18 @@ const {
     compact && 'page-hero-compact',
   ]}
 >
-  <div class="page-hero-mesh" aria-hidden="true"></div>
-  <div class="page-hero-grid" aria-hidden="true"></div>
   <div class:list={['shell page-hero-inner', hasAside && 'has-aside']}>
     <div class="page-hero-copy">
       <Breadcrumbs trail={trail} current={title} />
-      {kicker && (
-        <p class="page-hero-kicker" data-pagefind-ignore>
+      {(icon || kicker) && (
+        <div class="page-hero-meta" data-pagefind-ignore>
           {icon && (
-            <span class="page-hero-kicker-icon">
-              <Icon name={icon} size={14} />
+            <span class={`page-hero-icon tint-${tint}`}>
+              <Icon name={icon} size={26} />
             </span>
           )}
-          {kicker}
-        </p>
+          {kicker && <p class={`kicker tint-${tint}`}>{kicker}</p>}
+        </div>
       )}
       <h1 class:list={['page-hero-title', size === 'md' && 'page-hero-title-md']}>{title}</h1>
       {intro && <p class="page-hero-lede">{intro}</p>}

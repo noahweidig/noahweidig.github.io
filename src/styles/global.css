@@ -341,39 +341,6 @@
     background: var(--c-bg);
     color: var(--c-ink);
   }
-  .page-hero-mesh {
-    position: absolute;
-    inset: 0 0 -10rem;
-    pointer-events: none;
-    mask-image: linear-gradient(#000 calc(100% - 10rem), transparent);
-    background:
-      radial-gradient(
-        40rem 22rem at 85% 0%,
-        color-mix(in oklab, #7c5cff 38%, transparent),
-        transparent 70%
-      ),
-      radial-gradient(
-        34rem 20rem at 5% calc(100% - 10rem),
-        color-mix(in oklab, #1f7bff 34%, transparent),
-        transparent 70%
-      ),
-      radial-gradient(
-        22rem 14rem at 60% calc(100% - 7rem),
-        color-mix(in oklab, #e0457b 22%, transparent),
-        transparent 70%
-      );
-  }
-  .page-hero-grid {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    opacity: 0.28;
-    background-image:
-      linear-gradient(var(--c-line) 1px, transparent 1px),
-      linear-gradient(90deg, var(--c-line) 1px, transparent 1px);
-    background-size: 64px 64px;
-    mask-image: linear-gradient(#000, transparent 85%);
-  }
   .page-hero-inner {
     position: relative;
     display: grid;
@@ -390,22 +357,24 @@
   .page-hero-copy > nav {
     display: flex;
   }
-  .page-hero-kicker {
+  .page-hero-meta {
     display: flex;
-    align-items: center;
-    gap: 0.65rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
     margin-top: 1.5rem;
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--c-accent-ink);
   }
-  .page-hero-kicker-icon {
+  /* Notion-style page icon: a tinted rounded square above the title. */
+  .page-hero-icon {
+    --tint: var(--c-accent-ink);
     display: grid;
     place-items: center;
-    width: 1.75rem;
-    height: 1.75rem;
-    border-radius: 50%;
-    background: var(--c-matte);
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: var(--radius-md);
+    color: var(--tint);
+    background: color-mix(in oklab, var(--tint) 18%, var(--c-card));
+    border: 1px solid color-mix(in oklab, var(--tint) 30%, var(--c-card));
   }
   .page-hero-title {
     margin-top: 1rem;
@@ -443,9 +412,9 @@
   }
   .hero-panel {
     padding: 1.25rem;
-    border-radius: 1.5rem;
-    background: color-mix(in oklab, var(--c-card) 85%, transparent);
-    backdrop-filter: blur(16px);
+    border-radius: var(--radius-lg);
+    background: var(--c-card);
+    border: 1px solid var(--c-line);
   }
   /* Cover or screenshot in the hero's right column. */
   .hero-media {
@@ -454,7 +423,6 @@
     border-radius: 1.25rem;
     border: 1px solid var(--c-line);
     background: var(--c-card);
-    box-shadow: 0 30px 70px -40px rgb(0 0 0 / 0.6);
   }
   .hero-media img {
     display: block;
@@ -463,12 +431,9 @@
   }
   .hero-panel-title {
     margin-bottom: 1rem;
-    font-family: var(--font-mono);
-    font-size: 0.69rem;
-    font-weight: 500;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--c-faint);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--c-dim);
   }
   .hero-panel-stats {
     display: grid;
@@ -476,9 +441,9 @@
     gap: 1.25rem;
   }
   .hero-panel-stats dd {
-    font-family: var(--font-mono);
+    font-family: var(--font-display);
     font-size: 1.75rem;
-    font-weight: 500;
+    font-weight: 700;
     line-height: 1;
     letter-spacing: -0.02em;
   }
@@ -490,6 +455,10 @@
   .hero-panel-stats > div {
     display: flex;
     flex-direction: column-reverse;
+    padding: 0.9rem 1rem;
+    border-radius: var(--radius-md);
+    background: color-mix(in oklab, var(--tint, var(--c-accent-ink)) 20%, var(--c-card));
+    border: 1px solid color-mix(in oklab, var(--tint, var(--c-accent-ink)) 32%, var(--c-card));
   }
   @media (min-width: 52rem) {
     .page-hero-inner {
@@ -1048,19 +1017,6 @@
       .pill-pink
     )[aria-pressed='true'] {
     color: var(--c-accent-contrast);
-  }
-
-  /* --- decorative surfaces --- */
-  .grid-bg::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background-image:
-      linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
-      linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
-    background-size: 72px 72px;
-    mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 20%, transparent 78%);
   }
 
   /* --- prose --- */
@@ -2009,7 +1965,6 @@
 [data-reading] [data-toc-fab],
 [data-reading] [data-share-row],
 [data-reading] [data-post-aside],
-[data-reading] .grid-bg,
 [data-reading] [data-comments],
 [data-reading] footer[data-site-footer] {
   display: none;

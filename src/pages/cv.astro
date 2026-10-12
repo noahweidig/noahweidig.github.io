@@ -105,7 +105,7 @@ const byCat = (c: string) => pubs.filter((p) => p.data.categories.includes(c));
                     {entry.data.title}
                   </a>
                 </h3>
-                <span class="font-mono text-caption tracking-wide text-faint">
+                <span class="text-xs font-medium text-faint">
                   {entry.data.dates ?? year(entry.data.date)}
                 </span>
               </div>
@@ -206,7 +206,7 @@ const byCat = (c: string) => pubs.filter((p) => p.data.categories.includes(c));
                 <span class="block text-sm font-normal text-dim">{a.data.description}</span>
               )}
             </h3>
-            <span class="font-mono text-caption text-faint">{year(a.data.date)}</span>
+            <span class="text-xs font-medium text-faint">{year(a.data.date)}</span>
           </div>
         ))}
       </div>
