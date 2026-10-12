@@ -542,6 +542,14 @@
     border-radius: var(--radius-md);
     transition: transform 1.4s var(--ease-out-soft);
   }
+  :root[data-theme='light'] .band-light {
+    background: #f5f5f7;
+    box-shadow: 0 0 0 100vmax #f5f5f7;
+    clip-path: inset(0 -100vmax);
+  }
+  :root[data-theme='light'] .band-light .card {
+    background: #fff;
+  }
   .card-hover:hover {
     transform: scale(1.008);
   }
