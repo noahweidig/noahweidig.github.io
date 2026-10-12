@@ -169,6 +169,29 @@ const altmetricTip = altmetric
           </span>
         )
       )}
+      {altmetric && (
+        <a
+          href={altmetric.detailsUrl}
+          target="_blank"
+          rel="noopener"
+          class="chip chip-accent"
+          data-tip-title="Altmetric Attention Score"
+          data-tip={altmetricTip}
+          aria-label={`Altmetric attention score ${Math.round(altmetric.score)} (opens in a new tab)`}
+        >
+          {altmetric.imageUrl && (
+            <img
+              src={altmetric.imageUrl}
+              alt=""
+              width="16"
+              height="16"
+              loading="lazy"
+              decoding="async"
+            />
+          )}
+          {Math.round(altmetric.score)}
+        </a>
+      )}
       {d['pub-oa'] && <span class="chip">Open Access</span>}
       {d['pub-doi'] && (
         <a
@@ -201,29 +224,6 @@ const altmetricTip = altmetric
           class="chip chip-accent"
         >
           View full PDF
-        </a>
-      )}
-      {altmetric && (
-        <a
-          href={altmetric.detailsUrl}
-          target="_blank"
-          rel="noopener"
-          class="chip chip-accent"
-          data-tip-title="Altmetric Attention Score"
-          data-tip={altmetricTip}
-          aria-label={`Altmetric attention score ${Math.round(altmetric.score)} (opens in a new tab)`}
-        >
-          {altmetric.imageUrl && (
-            <img
-              src={altmetric.imageUrl}
-              alt=""
-              width="16"
-              height="16"
-              loading="lazy"
-              decoding="async"
-            />
-          )}
-          {Math.round(altmetric.score)}
         </a>
       )}
     </div>
