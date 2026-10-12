@@ -6,7 +6,7 @@ import tailwindcss from '@tailwindcss/vite';
 import { remarkAlert } from 'remark-github-blockquote-alert';
 import { unified } from '@astrojs/markdown-remark';
 import { readFileSync, readdirSync } from 'node:fs';
-import yaml from 'js-yaml';
+import { load } from 'js-yaml';
 
 const COLLECTIONS = ['blog', 'projects', 'publications', 'awards', 'experience', 'education'];
 
@@ -27,7 +27,7 @@ for (const name of COLLECTIONS) {
     const raw = readFileSync(new URL(`${slug}/index.md`, dir), 'utf-8');
     const match = raw.match(/^---\n([\s\S]*?)\n---/);
     if (!match) continue;
-    const data = yaml.load(match[1]);
+    const data = load(match[1]);
     const date = new Date(data.date);
     const path = `/${name}/${slug}/`;
     if (name === 'publications' && data['pub-appearance-of']) {
