@@ -30,49 +30,13 @@ export const giscus = {
 } as const;
 
 export const nav = [
-  { text: 'About', href: '/about/', icon: 'users', tint: 'red', tip: 'A bit more about who I am' },
-  {
-    text: 'Projects',
-    href: '/projects/',
-    icon: 'terminal',
-    tint: 'green',
-    tip: 'Open tools, maps and applications',
-  },
-  {
-    text: 'Publications',
-    href: '/publications/',
-    icon: 'book',
-    tint: 'purple',
-    tip: 'Papers, talks and peer review',
-  },
-  {
-    text: 'Experience',
-    href: '/experience/',
-    icon: 'briefcase',
-    tint: 'blue',
-    tip: 'Roles, research posts and internships',
-  },
-  {
-    text: 'Awards',
-    href: '/awards/',
-    icon: 'trophy',
-    tint: 'yellow',
-    tip: 'Fellowships, scholarships and honors',
-  },
-  {
-    text: 'Blog',
-    href: '/blog/',
-    icon: 'pencil',
-    tint: 'purple',
-    tip: 'Notes and tutorials on R and spatial work',
-  },
-  {
-    text: 'CV',
-    href: '/cv/',
-    icon: 'file',
-    tint: 'green',
-    tip: 'Full record, plus CV and résumé PDFs',
-  },
+  { text: 'About', href: '/about/', tip: 'A bit more about who I am' },
+  { text: 'Projects', href: '/projects/', tip: 'Open tools, maps and applications' },
+  { text: 'Publications', href: '/publications/', tip: 'Papers, talks and peer review' },
+  { text: 'Experience', href: '/experience/', tip: 'Roles, research posts and internships' },
+  { text: 'Awards', href: '/awards/', tip: 'Fellowships, scholarships and honors' },
+  { text: 'Blog', href: '/blog/', tip: 'Notes and tutorials on R and spatial work' },
+  { text: 'CV', href: '/cv/', tip: 'Full record, plus CV and résumé PDFs' },
   { text: 'Contact', href: '/contact/', tip: 'Email, booking and the contact form' },
 ] as const;
 
@@ -80,35 +44,77 @@ export const navGroups = [
   {
     text: 'Work',
     items: [
-      { text: 'Projects', href: '/projects/', tip: 'Open tools, maps and applications' },
-      { text: 'Publications', href: '/publications/', tip: 'Papers, talks and peer review' },
-      { text: 'Experience', href: '/experience/', tip: 'Roles, research posts and internships' },
+      {
+        text: 'Projects',
+        icon: 'terminal',
+        tint: 'green',
+        href: '/projects/',
+        tip: 'Open tools, maps and applications',
+      },
+      {
+        text: 'Publications',
+        icon: 'book',
+        tint: 'purple',
+        href: '/publications/',
+        tip: 'Papers, talks and peer review',
+      },
+      {
+        text: 'Experience',
+        icon: 'briefcase',
+        tint: 'blue',
+        href: '/experience/',
+        tip: 'Roles, research posts and internships',
+      },
     ],
   },
   {
     text: 'Background',
     items: [
-      { text: 'About', href: '/about/', tip: 'A bit more about who I am' },
+      {
+        text: 'About',
+        icon: 'users',
+        tint: 'red',
+        href: '/about/',
+        tip: 'A bit more about who I am',
+      },
       {
         text: 'Education',
-        href: '/education/',
         icon: 'graduationCap',
         tint: 'blue',
+        href: '/education/',
         tip: 'Degrees and training',
       },
-      { text: 'Awards', href: '/awards/', tip: 'Fellowships, scholarships and honors' },
-      { text: 'CV', href: '/cv/', tip: 'Full record, plus CV and résumé PDFs' },
+      {
+        text: 'Awards',
+        icon: 'trophy',
+        tint: 'yellow',
+        href: '/awards/',
+        tip: 'Fellowships, scholarships and honors',
+      },
+      {
+        text: 'CV',
+        icon: 'file',
+        tint: 'green',
+        href: '/cv/',
+        tip: 'Full record, plus CV and résumé PDFs',
+      },
     ],
   },
   {
     text: 'Writing',
     items: [
-      { text: 'Blog', href: '/blog/', tip: 'Notes and tutorials on R and spatial work' },
+      {
+        text: 'Blog',
+        icon: 'pencil',
+        tint: 'purple',
+        href: '/blog/',
+        tip: 'Notes and tutorials on R and spatial work',
+      },
       {
         text: 'Newsletter',
-        href: site.newsletter,
         icon: 'mail',
         tint: 'yellow',
+        href: site.newsletter,
         tip: 'Subscribe on Substack',
         external: true,
       },
