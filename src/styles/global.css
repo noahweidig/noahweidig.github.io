@@ -52,7 +52,8 @@
      this theme. Blue stays the primary (--c-accent). */
   --c-red: #ff6b78;
   --c-ember: var(--c-red);
-  --c-yellow: #ffc95e;
+  --c-yellow: #ffb110;
+  --c-yellow-ink: #ffc95e;
   --c-moss: #68ce7e;
   --c-violet: #ad6ded;
   --c-cta-a: #5b2fe0;
@@ -92,7 +93,8 @@
   --c-on-light: #14161a;
   --c-red: #b8142d;
   --c-ember: var(--c-red);
-  --c-yellow: #855a00;
+  --c-yellow: #ffb110;
+  --c-yellow-ink: var(--c-ink);
   --c-moss: #0f6220;
   --c-violet: #7237ae;
   --c-cta-a: #5b2fe0;
@@ -793,6 +795,12 @@
   .chip-yellow,
   .tile-yellow {
     --tint: var(--c-yellow);
+  }
+  /* Yellow text has no legible step on a light surface; the chip text takes
+     the theme's yellow ink while tile icons stay Notion yellow. */
+  .chip-yellow,
+  a.chip-yellow:hover {
+    color: var(--c-yellow-ink);
   }
   .chip-green,
   .tile-green {
