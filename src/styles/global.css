@@ -67,10 +67,10 @@
 }
 
 :root[data-theme='light'] {
-  --c-bg: #ffffff;
+  --c-bg: #f5f5f7;
   --c-bg-deep: #f4f4f4;
   --c-surface: #fafafa;
-  --c-card: #eef0f3;
+  --c-card: #ffffff;
   --c-raised: #f4f4f4;
   --c-line: #e2e2e2;
   --c-line-strong: #cbcbcb;
@@ -541,14 +541,6 @@
     border: 0;
     border-radius: var(--radius-md);
     transition: transform 1.4s var(--ease-out-soft);
-  }
-  :root[data-theme='light'] .band-light {
-    background: #f5f5f7;
-    box-shadow: 0 0 0 100vmax #f5f5f7;
-    clip-path: inset(0 -100vmax);
-  }
-  :root[data-theme='light'] .band-light .card {
-    background: #fff;
   }
   .card-hover:hover {
     transform: scale(1.008);
