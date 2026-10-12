@@ -1,4 +1,4 @@
-import type { Tint } from './tint';
+import { SECTION_TINT, type Tint } from './tint';
 
 export const site = {
   name: 'Noah Weidig',
@@ -71,15 +71,15 @@ export const navGroups = [
 
 /** Icon and color for each desktop nav dropdown card, keyed by item text. */
 export const navMeta: Record<string, { icon: string; tint: Tint }> = {
-  Projects: { icon: 'terminal', tint: 'green' },
-  Publications: { icon: 'book', tint: 'purple' },
-  Experience: { icon: 'briefcase', tint: 'blue' },
-  About: { icon: 'users', tint: 'red' },
-  Education: { icon: 'graduationCap', tint: 'blue' },
-  Awards: { icon: 'trophy', tint: 'yellow' },
-  CV: { icon: 'file', tint: 'green' },
-  Blog: { icon: 'pencil', tint: 'purple' },
-  Newsletter: { icon: 'mail', tint: 'yellow' },
+  Projects: { icon: 'terminal', tint: SECTION_TINT.Projects! },
+  Publications: { icon: 'book', tint: SECTION_TINT.Publications! },
+  Experience: { icon: 'briefcase', tint: SECTION_TINT.Experience! },
+  About: { icon: 'users', tint: SECTION_TINT.About! },
+  Education: { icon: 'graduationCap', tint: SECTION_TINT.Education! },
+  Awards: { icon: 'trophy', tint: SECTION_TINT.Awards! },
+  CV: { icon: 'file', tint: SECTION_TINT.CV! },
+  Blog: { icon: 'pencil', tint: SECTION_TINT.Blog! },
+  Newsletter: { icon: 'mail', tint: SECTION_TINT.Newsletter! },
 };
 
 export const socials = [
