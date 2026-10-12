@@ -110,7 +110,7 @@ const pubLd = {
   title={d.title}
   metaTitle={metaTitle}
   description={metaDescription}
-  kicker={d.categories[0] ?? 'Publication'}
+  kicker="Publication"
   meta={fullDate(d.date)}
   section="Publications"
   prev={prev}
@@ -155,9 +155,18 @@ const pubLd = {
     {pdfUrl && <meta name="citation_pdf_url" content={pdfUrl} />}
   </Fragment>
   {d.citation && (
-    <p class="mb-8 rounded-md border-l-2 border-accent bg-raised px-4 py-3 text-sm leading-relaxed text-dim">
-      <Fragment set:html={inlineMarkup(d.citation)} />
-    </p>
+    <div class="mb-8 flex items-start gap-3 rounded-sm bg-matte px-4 py-3 text-sm leading-relaxed text-ink">
+      <p class="min-w-0 flex-1">
+        <Fragment set:html={inlineMarkup(d.citation)} />
+      </p>
+      <button
+        type="button"
+        class="chip shrink-0 rounded-[6px] bg-[var(--c-matte-hover)] text-ink transition-colors hover:bg-[color-mix(in_oklab,var(--c-ink)_28%,var(--c-surface))]"
+        data-copy={d.citation.replace(/\*{1,2}([^*]+)\*{1,2}/g, '$1')}
+      >
+        <span data-copy-label>Copy</span>
+      </button>
+    </div>
   )}
   <Content />
 

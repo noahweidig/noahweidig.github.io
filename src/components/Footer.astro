@@ -1,9 +1,31 @@
 ---
-import { nav, socials } from '../lib/site';
+import { navGroups, socials } from '../lib/site';
 import Icon from './Icon.astro';
 import Wordmark from './Wordmark.astro';
 import NewsletterForm from './NewsletterForm.astro';
 const year = new Date().getFullYear();
+type Link = { text: string; href: string; tip?: string; external?: boolean };
+const extra: Record<string, Link[]> = {
+  Work: [{ text: 'Tech stack', href: '/tech/' }],
+  Writing: [
+    { text: 'Tags', href: '/tags/' },
+    { text: 'AI', href: '/ai/' },
+  ],
+};
+const columns: { text: string; items: Link[] }[] = [
+  ...navGroups.map((g) => ({ text: g.text, items: [...g.items, ...(extra[g.text] ?? [])] })),
+  {
+    text: 'More',
+    items: [
+      { text: 'Contact', href: '/contact/' },
+      { text: 'Privacy Policy', href: '/privacy/' },
+      { text: 'Terms & Conditions', href: '/terms/' },
+      { text: 'Styleguide', href: '/styleguide/' },
+    ],
+  },
+];
+const iconBtn =
+  'grid h-8 w-8 place-items-center rounded-md footer-dim transition-colors hover:bg-[var(--c-matte)] hover:text-ink';
 ---
 
 <footer
@@ -13,98 +35,54 @@ const year = new Date().getFullYear();
 >
   <div class="w-full px-5 sm:px-6 lg:px-8">
     <div class="py-10">
-      <div class="flex flex-col items-center gap-6 lg:flex-row lg:items-center lg:justify-between">
-        <a
-          href="/"
-          class="group inline-flex shrink-0 items-center gap-2.5"
-          aria-label="Noah Weidig — home"
-        >
-          <Wordmark class="text-2xl" />
-        </a>
-
-        <div class="flex w-full min-w-0 flex-wrap items-center justify-center gap-4 sm:w-auto sm:gap-5">
-          <span class="footer-ink font-display text-xl whitespace-nowrap">
-            Subscribe to my newsletter
-          </span>
-          <NewsletterForm />
+      <div class="flex flex-col gap-10 lg:flex-row lg:justify-between">
+        <div class="flex flex-col items-start gap-6">
+          <a
+            href="/"
+            class="group inline-flex shrink-0 items-center gap-2.5"
+            aria-label="Noah Weidig — home"
+          >
+            <Wordmark class="text-2xl" />
+          </a>
+          <div class="flex w-full min-w-0 flex-col items-start gap-2">
+            <span class="footer-ink text-sm font-medium">Subscribe to my newsletter</span>
+            <NewsletterForm />
+          </div>
         </div>
-      </div>
 
-      <div class="mt-8 sm:mt-12 flex flex-col items-center gap-y-6 border-t border-line pt-8 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-x-8 sm:gap-y-4">
         <nav
           aria-label="Footer"
-          class="mx-auto grid grid-cols-2 gap-x-6 gap-y-3 text-center sm:mx-0 sm:flex sm:flex-wrap sm:items-center sm:gap-x-2 sm:text-left"
+          class="grid grid-cols-2 gap-x-10 gap-y-8 sm:grid-cols-4 lg:gap-x-14"
         >
-          {nav.map((item, i) => (
-            <>
-              {i > 0 && (
-                <span class="mx-1.5 hidden text-faint sm:inline" aria-hidden="true">
-                  ·
-                </span>
-              )}
-              <a
-                href={item.href}
-                data-tip={item.tip}
-                class="footer-ink text-body-lg font-semibold transition-colors hover:text-accent-ink"
-              >
-                {item.text}
-              </a>
-            </>
+          {columns.map((col) => (
+            <div>
+              <p class="text-xs font-medium text-faint">{col.text}</p>
+              <ul class="mt-3 flex flex-col gap-2">
+                {col.items.map((item) => (
+                  <li>
+                    <a
+                      href={item.href}
+                      data-tip={item.tip}
+                      target={item.external ? '_blank' : undefined}
+                      rel={item.external ? 'noopener' : undefined}
+                      class="footer-dim text-small transition-colors hover:text-ink"
+                    >
+                      {item.text}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
           ))}
         </nav>
-        <div class="mx-auto grid grid-cols-3 gap-2 sm:mx-0 sm:flex sm:items-center">
-          {socials.map((s) => (
-            <a
-              href={s.href}
-              aria-label={`${s.label} (opens in a new tab)`}
-              data-tip={`${s.label} profile`}
-              target="_blank"
-              rel="noopener"
-              class="icon-tile icon-bare mx-auto h-11 w-11 hover:transform-none! sm:mx-0"
-            >
-              <Icon name={s.icon} size={22} />
-            </a>
-          ))}
-          <a
-            href="/rss.xml"
-            aria-label="RSS Feed"
-            data-tip="Subscribe to the blog feed"
-            class="icon-tile icon-bare mx-auto h-11 w-11 hover:transform-none! sm:mx-0"
-          >
-            <Icon name="rss" size={22} stroke-width={1.6} />
-          </a>
-        </div>
       </div>
 
-      <div class="mt-6 flex flex-col items-center gap-3 border-t border-line pt-6 text-center text-small text-dim sm:flex-row sm:items-center sm:justify-between sm:text-left">
-        <p>
-          © {year} Noah Weidig
-          <span class="mx-1.5 text-faint" aria-hidden="true">
+      <div class="mt-16 flex flex-col items-start gap-4 border-t border-line pt-6 sm:flex-row sm:items-center sm:justify-between">
+        <div class="flex flex-wrap items-center gap-2 text-small text-dim">
+          <span>© {year} Noah Weidig</span>
+          <span class="mx-1 text-faint" aria-hidden="true">
             ·
           </span>
-          <a class="footer-dim hover:text-accent-ink" href="/privacy/">
-            Privacy Policy
-          </a>
-          <span class="mx-1.5 text-faint" aria-hidden="true">
-            ·
-          </span>
-          <a class="footer-dim hover:text-accent-ink" href="/terms/">
-            Terms &amp; Conditions
-          </a>
-          <span class="mx-1.5 text-faint" aria-hidden="true">
-            ·
-          </span>
-          <a class="footer-dim hover:text-accent-ink" href="/styleguide/">
-            Styleguide
-          </a>
-          <span class="mx-1.5 text-faint" aria-hidden="true">
-            ·
-          </span>
-          <a class="footer-dim hover:text-accent-ink" href="/ai/">
-            AI
-          </a>
-        </p>
-        <div class="flex items-center gap-2">
           <span class="text-xs font-medium text-faint">Sitemap</span>
           <a
             href="/sitemap-0.xml"
@@ -126,6 +104,28 @@ const year = new Date().getFullYear();
             class="chip chip-link footer-dim"
           >
             llms.txt
+          </a>
+        </div>
+        <div class="flex items-center gap-1">
+          {socials.map((s) => (
+            <a
+              href={s.href}
+              aria-label={`${s.label} (opens in a new tab)`}
+              data-tip={`${s.label} profile`}
+              target="_blank"
+              rel="noopener"
+              class={iconBtn}
+            >
+              <Icon name={s.icon} size={18} />
+            </a>
+          ))}
+          <a
+            href="/rss.xml"
+            aria-label="RSS Feed"
+            data-tip="Subscribe to the blog feed"
+            class={iconBtn}
+          >
+            <Icon name="rss" size={18} stroke-width={1.6} />
           </a>
         </div>
       </div>
