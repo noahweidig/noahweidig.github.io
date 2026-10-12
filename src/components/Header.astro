@@ -3,6 +3,7 @@ import { navGroups } from '../lib/site';
 import Icon from './Icon.astro';
 import Wordmark from './Wordmark.astro';
 import Search from './Search.astro';
+import { tintBase } from '../lib/tint';
 
 const slash = (p: string) => (p.endsWith('/') ? p : `${p}/`);
 const path = slash(Astro.url.pathname);
@@ -50,7 +51,10 @@ const mobileItems: MobileItem[] = [
                 {group.text}
                 <Icon name="nav-chevronRight" size={14} stroke-width={2.6} class="nav-chevron" />
               </button>
-              <ul class="nav-menu card absolute left-1/2 top-full z-10 hidden min-w-52 -translate-x-1/2 p-1.5">
+              <ul
+                class="nav-menu card absolute top-full left-1/2 z-10 hidden -translate-x-1/2 p-2.5"
+                style={`--cols:${group.items.length === 4 ? 2 : Math.min(group.items.length, 3)}`}
+              >
                 {group.items.map((item) => {
                   const external = 'external' in item;
                   const current = !external && isActive(item.href);
@@ -60,14 +64,20 @@ const mobileItems: MobileItem[] = [
                         href={item.href}
                         target={external ? '_blank' : undefined}
                         rel={external ? 'noopener' : undefined}
-                        data-tip={item.tip}
                         aria-current={current ? 'page' : undefined}
-                        class:list={[
-                          'nav-link block rounded-lg px-3 py-2 text-sm font-medium',
-                          current ? 'nav-link-active' : '',
-                        ]}
+                        class="nav-card group/card flex h-full flex-col"
+                        style={`--tint-base:${tintBase(item.tint)}`}
                       >
-                        {item.text}
+                        <span
+                          class={`grid h-11 w-11 place-items-center rounded-xl tile-${item.tint}`}
+                        >
+                          <Icon name={item.icon} size={21} />
+                        </span>
+                        <span class="mt-4 flex items-center gap-1.5 font-display text-lead font-semibold tracking-tight text-ink">
+                          {item.text}
+                          <Icon name="arrow" size={14} class="nav-card-arrow" />
+                        </span>
+                        <span class="mt-1 text-small leading-snug text-dim">{item.tip}</span>
                         {external && <span class="sr-only-nw"> (opens in a new tab)</span>}
                       </a>
                     </li>
@@ -175,11 +185,39 @@ const mobileItems: MobileItem[] = [
 <Search />
 
 <style>
+  .nav-card {
+    padding: 1.1rem;
+    border-radius: var(--radius-md);
+    background: color-mix(in oklab, var(--tint-base) 7%, var(--c-card));
+    transition: background-color 0.2s var(--ease-out-soft);
+  }
+  .nav-card:hover,
+  .nav-card:focus-visible {
+    background: color-mix(in oklab, var(--tint-base) 15%, var(--c-card));
+  }
+  .nav-card[aria-current='page'] {
+    box-shadow: inset 0 0 0 1.5px color-mix(in oklab, var(--tint-base) 50%, transparent);
+  }
+  :global(.nav-card-arrow) {
+    opacity: 0;
+    translate: -4px 0;
+    transition:
+      opacity 0.2s ease,
+      translate 0.2s var(--ease-out-soft);
+  }
+  .nav-card:hover :global(.nav-card-arrow),
+  .nav-card:focus-visible :global(.nav-card-arrow) {
+    opacity: 1;
+    translate: 0 0;
+  }
   .nav-menu {
     box-shadow: var(--shadow-lg, 0 12px 32px -8px rgb(0 0 0 / 0.18));
   }
   .nav-group[data-open] > .nav-menu {
-    display: block;
+    display: grid;
+    grid-template-columns: repeat(var(--cols, 2), 14.5rem);
+    gap: 0.5rem;
+    max-width: calc(100vw - 2rem);
     animation: menu-drop 0.18s var(--ease-out-soft, ease-out) both;
   }
   /* The right-pointing chevron is turned to point down, and up when open. */

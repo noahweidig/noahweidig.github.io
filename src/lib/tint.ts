@@ -16,3 +16,7 @@ export function tintAt(i: number): Tint {
 /** CSS color variable for a tint, for plain `color:` uses (icons, eyebrows). */
 export const tintVar = (t: Tint) =>
   `var(--c-${{ blue: 'accent-ink', green: 'moss', purple: 'violet', yellow: 'yellow-ink', red: 'red' }[t]})`;
+
+/** Base (wash) color variable for a tint; yellow stays Notion yellow in both themes. */
+export const tintBase = (t: Tint) =>
+  `var(--c-${{ blue: 'accent', green: 'moss', purple: 'violet', yellow: 'yellow', red: 'red' }[t]})`;
