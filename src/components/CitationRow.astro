@@ -80,7 +80,7 @@ const altmetricTip = altmetric
   </div>
 
   <div class="min-w-0">
-    <h3 class="text-[1.15rem] leading-snug">
+    <h3 class="text-lead leading-snug">
       <a
         href={`/publications/${entry.id}/`}
         data-tip-title={category || 'Publication'}
@@ -105,7 +105,7 @@ const altmetricTip = altmetric
     )}
 
     {appearances.length > 1 && (
-      <p class="mt-1.5 text-[0.82rem] text-faint">
+      <p class="mt-1.5 text-small text-faint">
         Presented at{' '}
         {appearances.map((a, i) => (
           <>
@@ -131,7 +131,7 @@ const altmetricTip = altmetric
 
     {!compact && summary && <p class="mt-2.5 text-sm leading-relaxed text-dim">{summary}</p>}
 
-    <div class="mt-3 flex flex-wrap items-center gap-2 text-[0.75rem]">
+    <div class="mt-3 flex flex-wrap items-center gap-2 text-caption">
       {compact &&
         cats.slice(1, 2).map((c) => (
           <a

@@ -129,12 +129,17 @@
      pills, back-to-top). */
   --radius-pill: 9999px;
 
+  /* CTA band backdrop (homepage #cta). */
+  --grad-cta: linear-gradient(120deg, var(--c-accent) 0%, var(--c-violet) 100%);
+
   /* Named steps for the micro-type cluster that used to ship as one-off
      arbitrary values (text-micro etc.) — see #138. */
   --text-micro: 0.68rem;
   --text-2xs: 0.7rem;
   --text-caption: 0.72rem;
   --text-body-lg: 0.95rem;
+  --text-small: 0.82rem;
+  --text-lead: 1.05rem;
 
   --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-in-out-soft: cubic-bezier(0.65, 0, 0.35, 1);
@@ -670,6 +675,37 @@
     font-size: 0.68rem;
     letter-spacing: 0.04em;
     white-space: nowrap;
+  }
+  .chip-link {
+    border: 1px solid var(--c-line);
+    background: transparent;
+    padding: 0.25rem 0.625rem;
+    transition:
+      border-color 0.2s,
+      color 0.2s;
+  }
+  .chip-link:hover {
+    border-color: var(--c-accent-ink);
+    color: var(--c-accent-ink);
+  }
+  .card-badge {
+    position: absolute;
+    bottom: 0.75rem;
+    left: 0.75rem;
+    max-width: calc(100% - 1.5rem);
+    border-radius: var(--radius-pill);
+    background: #fff;
+    padding: 0.625rem 1.25rem;
+    color: var(--c-on-light);
+    font-size: var(--text-body-lg);
+    font-weight: 500;
+    line-height: 1.25;
+  }
+  @media (min-width: 640px) {
+    .card-badge {
+      bottom: 1rem;
+      left: 1rem;
+    }
   }
   .chip-accent {
     background: var(--c-matte-hover);
