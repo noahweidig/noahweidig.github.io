@@ -2,8 +2,8 @@
  * Renders each blog post's cover art (dark and light) straight from the
  * site's own tokens — accent/ember/moss/violet glows, the grid, the self-hosted
  * DM Sans/JetBrains Mono faces — instead of a hand-maintained image.
- * Blog covers are a seeded halftone dot field (scripts/lib/blog-cover.mjs):
- * the slug picks the palette and seeds the dot layout, so each post is unique.
+ * Blog covers are the title, a tag pill and three stacked to-do cards
+ * (scripts/lib/blog-cover.mjs): the slug picks which three accent hues rotate in.
  * The other cards below keep the glow-and-contour-ring design, where the slug
  * seeds which two hues glow and which corner the rings sit in.
  *
