@@ -95,7 +95,7 @@ const byCat = (c: string) => pubs.filter((p) => p.data.categories.includes(c));
           {group.items.map((entry) => (
             <div class="border-l border-line pl-5">
               <div class="flex flex-wrap items-baseline justify-between gap-x-4">
-                <h3 class="text-[1.05rem] font-bold">
+                <h3 class="text-lead font-bold">
                   <a
                     href={`/${group.base}/${entry.id}/`}
                     data-tip-title={entry.data.org}
@@ -195,7 +195,7 @@ const byCat = (c: string) => pubs.filter((p) => p.data.categories.includes(c));
       <div class="mt-5 grid gap-4">
         {awards.map((a) => (
           <div class="flex flex-wrap items-baseline justify-between gap-x-4 border-l border-line pl-5">
-            <h3 class="text-[0.98rem] font-bold">
+            <h3 class="text-body-lg font-bold">
               <a
                 href={`/awards/${a.id}/`}
                 data-tip-title={a.data.title}

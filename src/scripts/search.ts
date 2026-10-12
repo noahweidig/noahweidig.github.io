@@ -246,10 +246,10 @@ export function initSearch() {
         return `<a id="search-opt-${i}" role="option" aria-selected="false" href="${r.href}"
           class="block rounded-none border-b border-line/60 px-3 py-3.5 transition-colors last:border-b-0 hover:bg-raised sm:rounded-xl sm:border-b-0 sm:px-4 sm:py-3.5 sm:[&[aria-selected=true]]:ring-1 sm:[&[aria-selected=true]]:ring-accent/40 sm:[&[aria-selected=true]]:ring-inset">
           <span class="flex flex-col-reverse items-start gap-1.5 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
-            <span class="text-[1rem] font-medium text-ink sm:text-[1.02rem]">${r.title}</span>
+            <span class="text-base font-medium text-ink sm:text-lead">${r.title}</span>
             ${chip}
           </span>
-          ${r.sub ? `<span class="mt-1 line-clamp-2 text-[0.82rem] leading-relaxed text-dim sm:mt-1.5 sm:text-[0.86rem]">${r.sub}</span>` : ''}
+          ${r.sub ? `<span class="mt-1 line-clamp-2 text-small leading-relaxed text-dim sm:mt-1.5 sm:text-small">${r.sub}</span>` : ''}
         </a>`;
       })
       .join('');
@@ -260,7 +260,7 @@ export function initSearch() {
   const renderFilters = (counts: FilterCounts) => {
     const keys = FILTER_ORDER.filter((k) => counts[k] && Object.keys(counts[k]!).length);
     if (!keys.length) {
-      groups.innerHTML = '<p class="text-[0.8rem] text-faint">No filters available.</p>';
+      groups.innerHTML = '<p class="text-small text-faint">No filters available.</p>';
       return;
     }
     groups.innerHTML = keys
@@ -272,14 +272,14 @@ export function initSearch() {
           .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
         if (!values.length) return '';
         return `<div>
-          <h3 class="font-mono text-[0.62rem] tracking-[0.14em] text-faint uppercase">${FILTER_LABEL[key] ?? key}</h3>
+          <h3 class="font-mono text-micro tracking-[0.14em] text-faint uppercase">${FILTER_LABEL[key] ?? key}</h3>
           <ul class="mt-2 grid gap-0.5">
             ${values
               .map(([value, n]) => {
                 const on = selected[key]?.has(value) ?? false;
                 return `<li><button type="button" data-filter-key="${escapeHtml(key)}" data-filter-value="${escapeHtml(value)}"
                   aria-pressed="${on}"
-                  class="flex w-full items-center gap-2 rounded px-1.5 py-1 text-left text-[0.8rem] transition-colors hover:bg-line/60 ${
+                  class="flex w-full items-center gap-2 rounded px-1.5 py-1 text-left text-small transition-colors hover:bg-line/60 ${
                     on ? 'text-accent-ink' : 'text-dim'
                   }">
                   <span class="grid h-3.5 w-3.5 shrink-0 place-items-center rounded-[3px] border ${

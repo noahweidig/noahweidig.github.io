@@ -21,7 +21,7 @@ const items = filtered.map((h) => {
 {items.length > 1 && (
   <aside class="toc-aside no-print h-full" data-pagefind-ignore data-toc-aside>
     <nav aria-labelledby="toc-heading" class="toc-panel sticky top-28" data-toc>
-      <h2 id="toc-heading" class="font-mono text-[0.66rem] tracking-[0.16em] text-faint uppercase">
+      <h2 id="toc-heading" class="font-mono text-micro tracking-[0.16em] text-faint uppercase">
         On this page
       </h2>
       <ul class="mt-4 border-l border-line">
@@ -34,7 +34,7 @@ const items = filtered.map((h) => {
               data-toc-parent={h.parent || undefined}
               data-tip={`Jump to “${h.text}”`}
               class:list={[
-                'block border-l-2 border-transparent py-1.5 text-[0.82rem] leading-snug text-faint transition-colors hover:text-ink',
+                'block border-l-2 border-transparent py-1.5 text-small leading-snug text-faint transition-colors hover:text-ink',
                 h.depth === 3 ? 'pr-2 pl-7' : 'pr-2 pl-4',
               ]}
             >
