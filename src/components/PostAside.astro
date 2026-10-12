@@ -16,11 +16,7 @@ const targets = buildShareTargets(title, url).filter((s) =>
 
 <aside class="post-aside-panel no-print h-full" data-pagefind-ignore>
   <div class="sticky top-28 flex flex-col items-end gap-4">
-    {readingTime && (
-      <p class="font-mono text-micro tracking-[0.16em] whitespace-nowrap text-faint uppercase">
-        {readingTime}
-      </p>
-    )}
+    {readingTime && <p class="text-xs font-medium whitespace-nowrap text-faint">{readingTime}</p>}
     <div class="flex flex-col items-end gap-1">
       {targets.map((s) => (
         <a

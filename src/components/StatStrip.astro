@@ -3,20 +3,20 @@ interface Props {
   stats: { value: string | number; label: string; id?: string }[];
 }
 const { stats } = Astro.props;
+const tints = ['blue', 'green', 'yellow', 'pink'];
 ---
 
-<dl class="grid grid-cols-2 gap-px overflow-hidden rounded-lg bg-line md:grid-cols-4" data-reveal>
-  {stats.map((s) => (
-    <div class="group relative bg-[var(--c-card)] px-5 py-6 text-center">
+<dl class="grid grid-cols-2 gap-3 md:grid-cols-4" data-reveal>
+  {stats.map((s, i) => (
+    <div
+      class={`bento-tile tint-${tints[i % tints.length]} group relative items-center py-6 text-center`}
+    >
       <dt class="sr-only-nw">{s.label}</dt>
       <dd>
-        <b class="block font-mono text-3xl font-medium tracking-tight text-ink md:text-4xl">
+        <b class="block font-display text-3xl font-bold tracking-tight text-ink md:text-4xl">
           {s.value}
         </b>
-        <span
-          aria-hidden="true"
-          class="mt-1.5 block font-mono text-micro tracking-[0.12em] text-faint uppercase"
-        >
+        <span aria-hidden="true" class="mt-1.5 block text-xs font-medium text-faint">
           {s.label}
         </span>
         {s.id && (

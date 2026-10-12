@@ -61,10 +61,8 @@ const span = (dates = '') => {
           data-reveal
         >
           <div class="md:pt-5 md:pr-10 md:text-right">
-            <p class="font-mono text-xs font-medium tracking-[0.08em] text-ink uppercase">{from}</p>
-            <p class="font-mono text-2xs tracking-[0.08em] text-faint uppercase">
-              {to ? `→ ${to}` : ''}
-            </p>
+            <p class="text-xs font-medium text-ink">{from}</p>
+            <p class="text-xs font-medium text-faint">{to ? `→ ${to}` : ''}</p>
           </div>
           <span
             aria-hidden="true"
@@ -93,7 +91,7 @@ const span = (dates = '') => {
             </div>
             {d.org && <p class="mt-1.5 text-body-lg font-medium text-accent-ink">{d.org}</p>}
             {d.location && (
-              <p class="mt-1 flex items-center gap-1.5 font-mono text-2xs tracking-[0.08em] text-faint uppercase">
+              <p class="mt-1 flex items-center gap-1.5 text-xs font-medium text-faint">
                 <Icon name="pin" size={12} />
                 {d.location}
               </p>
