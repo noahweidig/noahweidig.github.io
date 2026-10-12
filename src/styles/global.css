@@ -597,6 +597,16 @@
     background: var(--c-matte-hover);
   }
 
+  /* Share / copy buttons: same wash and hover as .chip-accent (the DOI chip). */
+  .btn-wash {
+    background: color-mix(in oklab, var(--c-accent) 16%, var(--c-surface));
+    color: var(--c-accent-ink);
+    transition: background-color 0.2s;
+  }
+  .btn-wash:hover {
+    background: color-mix(in oklab, var(--c-accent) 28%, var(--c-surface));
+  }
+
   /* Blue outline button: the hero's secondary button, also used for "see all"
      links. Fills blue on hover. Apple's button blues (--c-btn2 and its
      hover/active steps); the primary button beside it stays solid blue.
