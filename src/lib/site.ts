@@ -1,3 +1,5 @@
+import type { Tint } from './tint';
+
 export const site = {
   name: 'Noah Weidig',
   role: 'GIS Analyst & Data Scientist',
@@ -44,83 +46,41 @@ export const navGroups = [
   {
     text: 'Work',
     items: [
-      {
-        text: 'Projects',
-        icon: 'terminal',
-        tint: 'green',
-        href: '/projects/',
-        tip: 'Open tools, maps and applications',
-      },
-      {
-        text: 'Publications',
-        icon: 'book',
-        tint: 'purple',
-        href: '/publications/',
-        tip: 'Papers, talks and peer review',
-      },
-      {
-        text: 'Experience',
-        icon: 'briefcase',
-        tint: 'blue',
-        href: '/experience/',
-        tip: 'Roles, research posts and internships',
-      },
+      { text: 'Projects', href: '/projects/', tip: 'Open tools, maps and applications' },
+      { text: 'Publications', href: '/publications/', tip: 'Papers, talks and peer review' },
+      { text: 'Experience', href: '/experience/', tip: 'Roles, research posts and internships' },
     ],
   },
   {
     text: 'Background',
     items: [
-      {
-        text: 'About',
-        icon: 'users',
-        tint: 'red',
-        href: '/about/',
-        tip: 'A bit more about who I am',
-      },
-      {
-        text: 'Education',
-        icon: 'graduationCap',
-        tint: 'blue',
-        href: '/education/',
-        tip: 'Degrees and training',
-      },
-      {
-        text: 'Awards',
-        icon: 'trophy',
-        tint: 'yellow',
-        href: '/awards/',
-        tip: 'Fellowships, scholarships and honors',
-      },
-      {
-        text: 'CV',
-        icon: 'file',
-        tint: 'green',
-        href: '/cv/',
-        tip: 'Full record, plus CV and résumé PDFs',
-      },
+      { text: 'About', href: '/about/', tip: 'A bit more about who I am' },
+      { text: 'Education', href: '/education/', tip: 'Degrees and training' },
+      { text: 'Awards', href: '/awards/', tip: 'Fellowships, scholarships and honors' },
+      { text: 'CV', href: '/cv/', tip: 'Full record, plus CV and résumé PDFs' },
     ],
   },
   {
     text: 'Writing',
     items: [
-      {
-        text: 'Blog',
-        icon: 'pencil',
-        tint: 'purple',
-        href: '/blog/',
-        tip: 'Notes and tutorials on R and spatial work',
-      },
-      {
-        text: 'Newsletter',
-        icon: 'mail',
-        tint: 'yellow',
-        href: site.newsletter,
-        tip: 'Subscribe on Substack',
-        external: true,
-      },
+      { text: 'Blog', href: '/blog/', tip: 'Notes and tutorials on R and spatial work' },
+      { text: 'Newsletter', href: site.newsletter, tip: 'Subscribe on Substack', external: true },
     ],
   },
 ] as const;
+
+/** Icon and color for each desktop nav dropdown card, keyed by item text. */
+export const navMeta: Record<string, { icon: string; tint: Tint }> = {
+  Projects: { icon: 'terminal', tint: 'green' },
+  Publications: { icon: 'book', tint: 'purple' },
+  Experience: { icon: 'briefcase', tint: 'blue' },
+  About: { icon: 'users', tint: 'red' },
+  Education: { icon: 'graduationCap', tint: 'blue' },
+  Awards: { icon: 'trophy', tint: 'yellow' },
+  CV: { icon: 'file', tint: 'green' },
+  Blog: { icon: 'pencil', tint: 'purple' },
+  Newsletter: { icon: 'mail', tint: 'yellow' },
+};
 
 export const socials = [
   { label: 'LinkedIn', href: 'https://www.linkedin.com/in/noahweidig/', icon: 'linkedin' },
