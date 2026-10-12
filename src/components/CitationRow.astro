@@ -1,4 +1,5 @@
 ---
+import { tintFor } from '../lib/tint';
 import type { CollectionEntry } from 'astro:content';
 import { Image } from 'astro:assets';
 import Icon from './Icon.astro';
@@ -73,7 +74,7 @@ const altmetricTip = altmetric
     </a>
   )}
   <div class="flex flex-col items-center gap-2 pt-0.5">
-    <span class="grid h-9 w-9 place-items-center rounded-full tile-accent">
+    <span class={`grid h-9 w-9 place-items-center rounded-full tile-${tintFor(category)}`}>
       <Icon name={icon} size={17} />
     </span>
     <span class="font-mono text-2xs tracking-wide text-faint">{year(d.date)}</span>
@@ -132,7 +133,7 @@ const altmetricTip = altmetric
     {!compact && summary && <p class="mt-2.5 text-sm leading-relaxed text-dim">{summary}</p>}
 
     <div class="mt-3 flex flex-wrap items-center gap-2 text-caption">
-      {d['pub-oa'] && <span class="chip">Open Access</span>}
+      {d['pub-oa'] && <span class="chip chip-green">Open Access</span>}
       {compact &&
         cats.slice(1, 2).map((c) => (
           <a
@@ -148,7 +149,7 @@ const altmetricTip = altmetric
           href={dimensions.url}
           target="_blank"
           rel="noopener"
-          class="chip chip-accent"
+          class="chip chip-purple"
           data-tip-title="Dimensions"
           data-tip={dimensionsTip}
           aria-label={`${dimensions.timesCited} citation${dimensions.timesCited === 1 ? '' : 's'} on Dimensions (opens in a new tab)`}
@@ -175,7 +176,7 @@ const altmetricTip = altmetric
           href={altmetric.detailsUrl}
           target="_blank"
           rel="noopener"
-          class="chip chip-accent"
+          class="chip chip-orange"
           data-tip-title="Altmetric Attention Score"
           data-tip={altmetricTip}
           aria-label={`Altmetric attention score ${Math.round(altmetric.score)} (opens in a new tab)`}
@@ -221,7 +222,7 @@ const altmetricTip = altmetric
           target="_blank"
           rel="noopener"
           aria-label="View full PDF (opens in a new tab)"
-          class="chip chip-accent"
+          class="chip chip-red"
         >
           View full PDF
         </a>
