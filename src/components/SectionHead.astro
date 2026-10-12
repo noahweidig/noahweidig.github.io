@@ -1,5 +1,6 @@
 ---
 import Icon from './Icon.astro';
+import { tintFor } from '../lib/tint';
 
 interface Props {
   kicker?: string;
@@ -9,7 +10,8 @@ interface Props {
   linkText?: string;
   tint?: 'blue' | 'green' | 'yellow' | 'pink' | 'purple' | 'teal' | 'red';
 }
-const { kicker, title, subtitle, href, linkText, tint } = Astro.props;
+const { kicker, title, subtitle, href, linkText } = Astro.props;
+const tint = Astro.props.tint ?? (kicker ? tintFor(kicker) : undefined);
 ---
 
 <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between" data-reveal>
