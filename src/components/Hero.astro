@@ -1,465 +1,211 @@
 ---
 import Icon from './Icon.astro';
 import { socials } from '../lib/site';
+import { tintAt } from '../lib/tint';
 
-const typed = [
-  'geospatial analyses',
-  'remote sensing workflows',
-  'data-driven insights',
-  'GIS applications',
+/* The word in "Real {x}." rolls through these, each in its own color. The first is
+   repeated at the end so the loop can snap back without a visible rewind. */
+const words = [
+  { text: 'insights', color: '--c-accent-ink' },
+  { text: 'answers', color: '--c-moss' },
+  { text: 'impact', color: '--c-violet' },
+  { text: 'clarity', color: '--c-yellow-ink' },
+  { text: 'action', color: '--c-red' },
 ];
-
-/* Raster values are computed at build time so the client ships static rects, no JS. */
-const cells = Array.from({ length: 176 }, (_, i) => {
-  const x = i % 16;
-  const y = Math.floor(i / 16);
-  const v =
-    0.18 +
-    Math.sin(x * 0.72) * Math.cos(y * 0.58) * 0.28 +
-    Math.exp(-((x - 10) ** 2 + (y - 4) ** 2) / 14) * 0.5;
-  return [x, y, Math.max(0.05, Math.min(0.82, v)).toFixed(2)] as const;
-});
-const nodes = [
-  [116, 215],
-  [254, 174],
-  [386, 128],
-  [208, 93],
-  [404, 309],
-  [492, 237],
-];
-/* Attribute rows: deterministic so the build is stable. */
-const rows = Array.from({ length: 7 }, (_, i) => [
-  `F${String(101 + i * 7).padStart(4, '0')}`,
-  (0.21 + ((i * 37) % 61) / 100).toFixed(2),
-  String(142 + ((i * 53) % 97)),
-  (1.4 + ((i * 29) % 43) / 10).toFixed(1),
-]);
-const cols = [
-  [12, 38, 0.1],
-  [25, 65, 0.4],
-  [39, 48, 0.7],
-  [54, 82, 0.2],
-  [70, 55, 0.9],
-  [85, 72, 0.5],
-];
+const rows = [...words, words[0]!];
 ---
 
 <section class="under-nav relative overflow-x-clip border-b border-line" id="hero" data-hero>
-  <div class="page-hero-mesh" aria-hidden="true"></div>
-  <div class="page-hero-grid" aria-hidden="true"></div>
-
-  <div class="shell relative grid items-center gap-12 py-16 md:py-24 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16 lg:py-28">
-    <div class="text-center lg:text-left">
-      <p class="kicker" data-reveal>
-        {'GIS Analyst & Data Scientist'}
-      </p>
-
-      <h1
-        class="display-1 mt-5 font-display leading-[1.1] font-bold"
+  <div class="shell relative pt-16 pb-16 text-center md:pt-18 md:pb-24 lg:pt-20 lg:pb-32">
+    <h1 class="hero-title font-display font-bold">
+      <span class="sr-only-nw">Spatial analysis. Real {words.map((w) => w.text).join(', ')}.</span>
+      <span class="hero-line" aria-hidden="true" data-reveal>
+        Spatial analysis.
+      </span>
+      <span
+        class="hero-line hero-line-flex"
+        aria-hidden="true"
         data-reveal
         style="--reveal-delay:70ms"
       >
-        <span class="mx-auto block w-fit lg:mx-0">Spatial analysis.</span>
-        <span class="mx-auto block w-fit text-inferno-b lg:mx-0">Real insights.</span>
-      </h1>
+        <span class="real">Real</span>
+        <span class="roll" data-roll data-words={JSON.stringify(words.map((w) => w.color))}>
+          <span class="roll-track" data-roll-track>
+            {rows.map((w) => (
+              <span>{w.text}</span>
+            ))}
+          </span>
+        </span>
+        <span>.</span>
+      </span>
+    </h1>
 
-      <p
-        class="mt-6 flex min-h-[2.9em] max-[360px]:min-h-[4.4em] flex-wrap items-baseline justify-center gap-x-2 font-mono lg:min-h-0 lg:justify-start text-body-lg text-dim"
-        data-reveal
-        style="--reveal-delay:140ms"
-      >
-        <span>I build</span>
-        <span class="text-accent-ink" data-typed={JSON.stringify(typed)} aria-hidden="true"></span>
-        <span class="caret inline-block h-[1.05em] w-[2px] translate-y-[0.16em] bg-accent"></span>
-        <span class="sr-only-nw">{typed.join(', ')}</span>
-      </p>
-
-      <p class="lede mx-auto mt-6 max-w-xl lg:mx-0" data-reveal style="--reveal-delay:200ms">
-        I turn satellite imagery, fire perimeters, and messy field data into models people can
-        actually decide something with — mostly around wildfire risk in the wildland-urban
-        interface.
-      </p>
-
-      <div
-        class="mt-8 flex flex-wrap items-center justify-center gap-3 lg:justify-start"
-        data-reveal
-        style="--reveal-delay:260ms"
-      >
-        <a class="btn btn-primary hero-btn" href="#projects">
-          View my work
-          <Icon name="arrow" size={15} />
-        </a>
-        <a class="btn btn-ghost hero-btn" href="/contact/">
-          Get in touch
-          <Icon name="mail" size={15} />
-        </a>
-      </div>
-
-      <div
-        class="mt-8 flex flex-wrap items-center justify-center gap-2 lg:justify-start"
-        data-reveal
-        style="--reveal-delay:320ms"
-      >
-        {socials.map((s) => (
-          <a
-            href={s.href}
-            aria-label={`${s.label} (opens in a new tab)`}
-            data-tip={`${s.label} profile`}
-            target="_blank"
-            rel="noopener"
-            class="icon-tile icon-bare h-12 w-12 hover:transform-none! sm:h-14 sm:w-14"
-          >
-            <Icon name={s.icon} size={28} class="size-7 sm:size-8" />
-          </a>
-        ))}
-      </div>
-    </div>
+    <p class="lede mx-auto mt-8 max-w-xl text-center" data-reveal style="--reveal-delay:140ms">
+      I turn satellite imagery, fire perimeters, and messy field data into models people can
+      actually decide something with — mostly around wildfire risk in the wildland-urban interface.
+    </p>
 
     <div
-      class="geo relative order-first mx-auto mt-6 aspect-square w-full max-w-[17rem] sm:max-w-[22rem] lg:order-last lg:max-w-[30rem]"
+      class="mt-10 flex flex-wrap items-center justify-center gap-3"
       data-reveal
-      style="--reveal-delay:160ms"
-      aria-hidden="true"
+      style="--reveal-delay:200ms"
     >
-      <div class="geo-stage">
-        <span class="geo-orbit geo-orbit-1"></span>
-        <span class="geo-orbit geo-orbit-2"></span>
-        <div class="geo-layer geo-l5">
-          <table class="geo-table">
-            <thead>
-              <tr>
-                <th>FID</th>
-                <th>NDVI</th>
-                <th>ELEV</th>
-                <th>HA</th>
-              </tr>
-            </thead>
-            <tbody>
-              {rows.map((r) => (
-                <tr>
-                  {r.map((c) => (
-                    <td>{c}</td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <span class="geo-tag">05 / Attribute table</span>
-        </div>
-        <div class="geo-layer geo-l4">
-          <div class="geo-tiles"></div>
-          <span class="geo-tag">04 / Infrastructure</span>
-        </div>
-        <div class="geo-layer geo-l3">
-          <svg class="geo-svg" viewBox="0 0 600 420" preserveAspectRatio="none">
-            <g class="geo-vec">
-              <path d="M30 281L116 215L183 239L254 174L332 203L386 128L476 151L569 77"></path>
-              <path d="M54 105L138 141L208 93L284 127L351 69L431 106L532 48"></path>
-              <path d="M89 380L165 307L251 344L325 271L404 309L492 237L579 260"></path>
-              <path d="M98 35L128 109L105 183L151 255L128 337"></path>
-              <path d="M235 12L262 83L240 161L285 234L253 405"></path>
-              <path d="M401 9L380 96L421 180L390 259L438 400"></path>
-            </g>
-            <g class="geo-nodes">
-              {nodes.map(([x, y]) => (
-                <circle cx={x} cy={y} r="5"></circle>
-              ))}
-            </g>
-          </svg>
-          <span class="geo-tag">03 / Vector network</span>
-        </div>
-        <div class="geo-layer geo-l2">
-          <svg class="geo-svg geo-contours" viewBox="0 0 600 420" preserveAspectRatio="none">
-            <path d="M-20 275C59 217 99 310 172 263C237 222 240 126 330 140C415 154 407 245 495 225C551 212 576 167 630 180"></path>
-            <path d="M-30 304C47 249 106 341 183 290C253 244 257 153 338 166C426 180 433 273 511 252C567 237 594 195 640 207"></path>
-            <path d="M-20 334C74 280 120 371 199 318C272 270 283 188 354 196C440 206 452 304 530 278C581 261 605 226 640 231"></path>
-            <path d="M42 206C100 163 137 214 191 180C245 145 247 75 319 76C385 77 412 143 472 126C519 113 539 73 595 91"></path>
-            <path d="M82 139C130 106 160 143 208 112C255 81 275 35 329 37C383 38 404 82 455 69"></path>
-            <path d="M71 380C121 351 151 402 213 370C277 337 300 276 366 286C421 295 457 355 526 323"></path>
-          </svg>
-          <span class="geo-tag">02 / Elevation contours</span>
-        </div>
-        <div class="geo-layer geo-l1">
-          <svg class="geo-svg geo-raster" viewBox="0 0 16 11" preserveAspectRatio="none">
-            {cells.map(([x, y, o]) => (
-              <rect x={x + 0.06} y={y + 0.06} width=".88" height=".88" fill-opacity={o}></rect>
-            ))}
-          </svg>
-          <span class="geo-target"></span>
-          <span class="geo-tag">01 / Multispectral raster</span>
-        </div>
-        <div class="geo-cols">
-          {cols.map(([x, h, d]) => (
-            <i style={`--x:${x}%;--h:${h}%;--d:${d}s`}></i>
-          ))}
-        </div>
-      </div>
-      <div class="geo-readout">
-        <span class="geo-dot"></span>
-        <span>
-          <small>ACTIVE DATASET</small>
-          <strong>MULTISPECTRAL / B08</strong>
-        </span>
-      </div>
+      <a class="btn btn-primary hero-btn" href="#projects">
+        View my work
+        <Icon name="arrow" size={15} />
+      </a>
+      <a class="btn btn-ghost hero-btn" href="/contact/">
+        Get in touch
+        <Icon name="mail" size={15} />
+      </a>
+    </div>
+    <div
+      class="mt-8 flex flex-wrap items-center justify-center gap-3"
+      data-reveal
+      style="--reveal-delay:260ms"
+    >
+      {socials.map((s, i) => (
+        <a
+          href={s.href}
+          aria-label={`${s.label} (opens in a new tab)`}
+          data-tip={`${s.label} profile`}
+          target="_blank"
+          rel="noopener"
+          class={`social tile-${tintAt(i)} grid size-12 place-items-center rounded-full sm:size-14`}
+        >
+          <Icon name={s.icon} size={26} />
+        </a>
+      ))}
     </div>
   </div>
 </section>
 
 <script>
-  const hero = document.querySelector<HTMLElement>('[data-hero]');
-  if (hero) {
-    new IntersectionObserver(([e]) => hero.classList.toggle('hero-off', !e.isIntersecting)).observe(
-      hero,
-    );
+  const roll = document.querySelector<HTMLElement>('[data-roll]');
+  const track = document.querySelector<HTMLElement>('[data-roll-track]');
+  if (roll && track) {
+    const colors: string[] = JSON.parse(roll.dataset.words ?? '[]');
+    const count = colors.length;
+    let index = 0;
+    let widths: number[] = [];
+
+    const measure = () => {
+      const style = getComputedStyle(roll);
+      const pad = parseFloat(style.paddingLeft) + parseFloat(style.paddingRight);
+      widths = [...track.children].map((row) => {
+        const probe = row.cloneNode(true) as HTMLElement;
+        probe.style.cssText =
+          'position:absolute;visibility:hidden;display:inline-block;height:auto;white-space:nowrap';
+        track.appendChild(probe);
+        const width = probe.getBoundingClientRect().width;
+        track.removeChild(probe);
+        return width + pad;
+      });
+    };
+    const show = (n: number) => {
+      const rowHeight = track.children[0]!.getBoundingClientRect().height;
+      track.style.transform = `translateY(${-n * rowHeight}px)`;
+      roll.style.width = `${widths[n]}px`;
+      roll.style.setProperty('--tint', `var(${colors[n % count]})`);
+    };
+    /* After rolling onto the repeated first word, jump back to the real first row
+       with no transition so the loop reads as continuous. */
+    const snap = () => {
+      track.style.transition = 'none';
+      index = 0;
+      show(0);
+      void track.offsetHeight;
+      track.style.transition = '';
+    };
+    const start = () => {
+      measure();
+      show(0);
+    };
+    (document.fonts?.ready ?? Promise.resolve()).then(start);
+    addEventListener('resize', () => {
+      measure();
+      show(index);
+    });
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setInterval(() => {
+        index += 1;
+        show(index);
+        if (index === count) setTimeout(snap, 680);
+      }, 2200);
+    }
   }
 </script>
 
 <style>
-  /* Geospatial layer stack. Fully static, in the expanded layer spacing. */
-  .geo {
-    --g: var(--c-accent);
-    container-type: inline-size;
-    perspective: 1500px;
+  /* Sized from the viewport so the longest line never wraps. */
+  .hero-title {
+    font-size: clamp(2rem, calc((100vw - 4rem) / 9.4), 6rem);
+    line-height: 1.3;
+    letter-spacing: -0.04em;
   }
-  /* Raised layers project up out of the box, so the stage sits low and small
-     enough that the top layer clears the hero's overflow clip. */
-  .geo-stage {
-    position: absolute;
-    top: 56%;
-    left: 50%;
-    width: 70%;
-    aspect-ratio: 1;
-    transform: translate(-50%, -50%) rotateX(58deg) rotateZ(-32deg);
-    transform-style: preserve-3d;
-  }
-  :global(:root:not([data-theme='light'])) .geo {
-    --g: var(--c-accent-ink);
-  }
-  :global(:root:not([data-theme='light'])) .geo-layer {
-    border-color: color-mix(in oklab, var(--g) 70%, transparent);
-    box-shadow: 0 0 24px color-mix(in oklab, var(--g) 18%, transparent);
-  }
-  :global(:root:not([data-theme='light'])) .geo-l4,
-  :global(:root:not([data-theme='light'])) .geo-l5 {
-    opacity: 1;
-  }
-  .geo-layer {
-    position: absolute;
-    inset: 0;
-    border: 1px solid color-mix(in oklab, var(--g) 40%, transparent);
-    background: color-mix(in oklab, var(--c-bg) 55%, transparent);
-  }
-  .geo-layer::before,
-  .geo-layer::after {
-    position: absolute;
-    width: 12px;
-    height: 12px;
-    content: '';
-    border: 0 solid var(--g);
-  }
-  .geo-layer::before {
-    top: -1px;
-    left: -1px;
-    border-width: 2px 0 0 2px;
-  }
-  .geo-layer::after {
-    right: -1px;
-    bottom: -1px;
-    border-width: 0 2px 2px 0;
-  }
-  .geo-l1 {
-    overflow: hidden;
-    background: color-mix(in oklab, var(--g) 5%, var(--c-bg) 50%);
-    transform: translateZ(40cqw);
-  }
-  .geo-l2 {
-    overflow: hidden;
-    transform: translateZ(24cqw);
-  }
-  .geo-l3 {
-    transform: translateZ(7cqw);
-  }
-  .geo-l4 {
-    opacity: 0.85;
-    transform: translateZ(-9cqw);
-  }
-  .geo-l5 {
-    opacity: 0.9;
-    transform: translateZ(-24cqw);
-  }
-  .geo-table {
-    position: absolute;
-    top: 16%;
-    left: 6%;
-    width: 88%;
-    height: 78%;
-    table-layout: fixed;
-    border-collapse: collapse;
-    color: var(--c-dim);
-    font: 0.5rem/1 var(--font-mono, monospace);
-    font-variant-numeric: tabular-nums;
-    text-align: right;
-  }
-  .geo-table th {
-    color: var(--g);
-    font-weight: 500;
-    letter-spacing: 0.1em;
-  }
-  .geo-table th,
-  .geo-table td {
-    padding: 0.35em 0.4em;
-    border-bottom: 1px solid color-mix(in oklab, var(--g) 22%, transparent);
-  }
-  .geo-table :is(th, td):first-child {
-    text-align: left;
-  }
-  .geo-tag {
-    position: absolute;
-    top: 8px;
-    left: 9px;
-    padding: 4px 6px;
-    border-left: 2px solid var(--g);
-    background: color-mix(in oklab, var(--c-bg) 85%, transparent);
-    color: var(--c-dim);
-    font: 0.5rem/1 var(--font-mono, monospace);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-  }
-  .geo-tiles {
-    position: absolute;
-    inset: 0;
-    background:
-      linear-gradient(color-mix(in oklab, var(--g) 32%, transparent) 1px, transparent 1px) 0 0 / 10%
-        14%,
-      linear-gradient(90deg, color-mix(in oklab, var(--g) 32%, transparent) 1px, transparent 1px) 0
-        0 / 10% 14%;
-  }
-  .geo-svg {
+  .hero-line {
     display: block;
-    width: 100%;
-    height: 100%;
-    overflow: visible;
-    fill: none;
+    white-space: nowrap;
   }
-  .geo-vec path {
-    stroke: var(--g);
-    stroke-width: 1.6;
-    stroke-dasharray: 8 8;
-  }
-  .geo-nodes circle {
-    fill: var(--c-ink);
-    stroke: var(--g);
-    stroke-width: 3;
-  }
-  .geo-contours path {
-    stroke: var(--g);
-    stroke-width: 1.3;
-  }
-  .geo-contours path:nth-child(even) {
-    stroke-opacity: 0.75;
-  }
-  .geo-raster {
-    fill: var(--g);
-    opacity: 0.45;
-  }
-  .geo-target {
-    position: absolute;
-    top: 34%;
-    left: 61%;
-    width: 46px;
-    height: 46px;
-    border: 1px solid var(--g);
-    border-radius: 50%;
-    background:
-      linear-gradient(var(--g), var(--g)) center / 1px 100% no-repeat,
-      linear-gradient(var(--g), var(--g)) center / 100% 1px no-repeat;
-  }
-  .geo-cols {
-    position: absolute;
-    inset: 0;
-    transform-style: preserve-3d;
-  }
-  .geo-cols i {
-    position: absolute;
-    bottom: 10%;
-    left: var(--x);
-    width: 2px;
-    height: var(--h);
-    background: linear-gradient(to top, transparent, var(--g));
-    transform: translateZ(37cqw) scaleY(0.78);
-    transform-origin: bottom;
-  }
-  .geo-orbit {
-    position: absolute;
-    inset: -15%;
-    border: 1px dashed color-mix(in oklab, var(--g) 25%, transparent);
-    border-radius: 50%;
-  }
-  .geo-orbit-2 {
-    inset: -31%;
-    border-style: solid;
-    opacity: 0.4;
-  }
-  .geo-readout {
-    contain: layout paint style;
-    position: absolute;
-    right: 0;
-    bottom: 4%;
+  /* Flex items, so no stray whitespace can open a gap before the period. */
+  .hero-line-flex {
     display: flex;
-    gap: 10px;
     align-items: center;
-    min-width: 12rem;
-    padding: 10px 13px;
-    border: 1px solid var(--c-line);
-    background: color-mix(in oklab, var(--c-bg) 85%, transparent);
-    font-family: var(--font-mono, monospace);
+    justify-content: center;
+    margin-top: 0.1em;
   }
-  .geo-readout span:last-child {
-    display: grid;
-    gap: 3px;
+  .hero-line-flex > span {
+    display: block;
+    height: 1.2em;
+    line-height: 1.2;
   }
-  .geo-readout small {
-    color: var(--c-dim);
-    font-size: 0.5rem;
-    letter-spacing: 0.12em;
+  .hero-line-flex > .real {
+    margin-right: 0.26em;
   }
-  .geo-readout strong {
-    font-size: var(--text-micro);
-    font-weight: 400;
-    letter-spacing: 0.08em;
+  /* The rolling pill: a clipped window onto a column of words. Fill and text
+     follow the theme: a light wash with dark ink in light mode, a dark wash
+     with bright ink in dark mode. */
+  .roll {
+    --tint: var(--c-accent-ink);
+    display: inline-block;
+    height: 1.2em;
+    padding-inline: 0.38em;
+    overflow: hidden;
+    vertical-align: bottom;
+    color: var(--tint);
+    background: color-mix(in oklab, var(--tint) 18%, var(--c-surface));
+    border-radius: var(--radius-pill);
+    transition:
+      width 0.6s var(--ease-out-soft),
+      background-color 0.5s,
+      color 0.5s;
   }
-  .geo-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--g);
+  .roll-track {
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.6s var(--ease-out-soft);
   }
-  @media (max-width: 639px) {
-    .geo-readout,
-    .geo-tag {
-      display: none;
-    }
+  /* Each row clips its own glyphs so neighbors' ascenders and descenders never show. */
+  .roll-track > span {
+    display: block;
+    height: 1.2em;
+    overflow: hidden;
+    line-height: 1.2;
+    white-space: nowrap;
   }
-
-  @media (prefers-reduced-motion: no-preference) {
-    .hero-off .hero-blob,
-    :global(html[data-menu-open]) .hero-blob {
-      animation-play-state: paused !important;
-    }
+  .social {
+    transition:
+      transform 0.25s var(--ease-out-soft),
+      background-color 0.2s;
   }
-
-  .hero-btn {
-    width: 11.25rem;
+  .social:hover {
+    transform: translateY(-2px);
   }
-
-  @media (prefers-reduced-motion: no-preference) {
-    .caret {
-      animation: blink 1.05s steps(1) infinite;
-    }
-  }
-  @keyframes blink {
-    50% {
-      opacity: 0;
+  @media (prefers-reduced-motion: reduce) {
+    .social,
+    .roll,
+    .roll-track {
+      transition: none;
     }
   }
 </style>

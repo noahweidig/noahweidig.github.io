@@ -18,7 +18,6 @@ import { initAffiliations } from './affiliations';
 import { initFilters } from './filters';
 import { initTabs } from './tabs';
 import { initSearch } from './search';
-import { initTypewriter } from './typewriter';
 import { initCodeCopy } from './code-copy';
 import { initHeadingAnchors } from './heading-anchors';
 import { initReadingMode } from './reading-mode';
@@ -45,7 +44,6 @@ function boot() {
   initFilters();
   initTabs();
   initSearch();
-  initTypewriter();
   initCopy();
   initCarousels();
   initCodeCopy();
