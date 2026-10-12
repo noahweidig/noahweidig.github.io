@@ -1,12 +1,12 @@
 ---
 interface Props {
   class?: string;
-  collapse?: boolean;
+  iconOnlyNarrow?: boolean;
 }
-const { class: cls = '', collapse = false } = Astro.props;
+const { class: cls = '', iconOnlyNarrow = false } = Astro.props;
 ---
 
-<span class:list={['wm-lockup', cls]}>
+<span class:list={['wm-lockup', { 'wm-icon-narrow': iconOnlyNarrow }, cls]}>
   <svg class="wm-mark" viewBox="0 0 24 24" aria-hidden="true">
     <path
       d="M8.3 10a.7.7 0 0 1-.626-1.079L11.4 3a.7.7 0 0 1 1.198-.043L16.3 8.9a.7.7 0 0 1-.572 1.1Z"
@@ -24,12 +24,11 @@ const { class: cls = '', collapse = false } = Astro.props;
     ></rect>
     <circle cx="17.5" cy="17.5" r="3.5" fill="var(--logo-red)" stroke="var(--logo-red)"></circle>
   </svg>
-  <span class:list={['wm font-display font-bold tracking-tight', { 'wm-collapse': collapse }]}>
+  <span class="wm font-display font-bold tracking-tight">
     <span>n</span>
-    <span class="wm-fade wm-oah">oah</span>
-    <span>w</span>
-    <span class="wm-fade wm-eidig">eidig</span>
-    <span class="wm-dot">.</span>
+    <span>oah</span>
+    <span class="wm-ink">w</span>
+    <span class="wm-ink">eidig</span>
   </span>
 </span>
 
@@ -56,47 +55,16 @@ const { class: cls = '', collapse = false } = Astro.props;
     color: var(--c-accent-ink);
     background: color-mix(in oklab, var(--c-accent-ink) 18%, var(--c-surface));
     white-space: nowrap;
-    transition: padding 0.7s var(--ease-out-soft);
   }
   .wm > span {
     display: inline-block;
   }
-  .wm-dot {
-    display: none !important;
+  .wm > .wm-ink {
+    color: var(--c-ink);
   }
-  .wm-collapse .wm-dot {
-    display: inline-block !important;
-    max-width: 0;
-    opacity: 0;
-  }
-  .wm-collapse .wm-fade,
-  .wm-collapse .wm-dot {
-    transition:
-      max-width 0.7s var(--ease-out-soft),
-      opacity 0.5s var(--ease-out-soft);
-  }
-  .wm-collapse .wm-fade {
-    overflow: clip;
-    overflow-clip-margin: 0.15em;
-  }
-  .wm-collapse .wm-oah {
-    max-width: 2.2em;
-  }
-  .wm-collapse .wm-eidig {
-    max-width: 2.8em;
-  }
-  :global(html[data-scrolled]) .wm-collapse .wm-fade {
-    max-width: 0;
-    opacity: 0;
-  }
-  :global(html[data-scrolled]) .wm-collapse .wm-dot {
-    max-width: 0.5em;
-    opacity: 1;
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .wm-collapse .wm-fade,
-    .wm-collapse .wm-dot {
-      transition-duration: 1ms;
+  @media (max-width: 380px) {
+    .wm-icon-narrow .wm {
+      display: none;
     }
   }
 </style>

@@ -998,6 +998,10 @@
     ) {
     color: var(--c-accent-contrast);
   }
+  :root[data-theme='light'] .pill.pill-yellow:is([aria-pressed='true'], [aria-selected='true']) {
+    background: var(--c-yellow-ink);
+    color: var(--c-accent-contrast);
+  }
 
   /* --- prose --- */
   .prose-nw {
