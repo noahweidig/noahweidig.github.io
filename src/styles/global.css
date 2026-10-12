@@ -54,10 +54,7 @@
   --c-ember: #ffad71;
   --c-yellow: #ffc95e;
   --c-moss: #68ce7e;
-  --c-teal: #83cbc9;
   --c-violet: #ad6ded;
-  --c-pink: #ff83dd;
-  --c-brown: #d9b79f;
   --c-cta-a: #5b2fe0;
   --c-cta-m: #c2246f;
   --c-cta-b: #c2410c;
@@ -97,10 +94,7 @@
   --c-ember: #ab4a00;
   --c-yellow: #704b00;
   --c-moss: #0f6220;
-  --c-teal: #126764;
   --c-violet: #7237ae;
-  --c-pink: #9d2472;
-  --c-brown: #744d2d;
   --c-cta-a: #5b2fe0;
   --c-cta-m: #c2246f;
   --c-cta-b: #c2410c;
@@ -136,10 +130,7 @@
   --color-ember: var(--c-ember);
   --color-yellow: var(--c-yellow);
   --color-moss: var(--c-moss);
-  --color-teal: var(--c-teal);
   --color-violet: var(--c-violet);
-  --color-pink: var(--c-pink);
-  --color-brown: var(--c-brown);
 
   --font-sans: 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-display: 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
@@ -770,50 +761,32 @@
   /* Notion-style tinted tags and icon tiles: a wash of the color on the
      surface, text/icon in the theme's legible step. Pair with .chip. */
   :is(
+    .chip-blue,
     .chip-red,
     .chip-orange,
     .chip-yellow,
     .chip-green,
-    .chip-teal,
     .chip-purple,
-    .chip-pink,
-    .chip-brown,
+    .tile-blue,
     .tile-red,
     .tile-orange,
     .tile-yellow,
     .tile-green,
-    .tile-teal,
-    .tile-purple,
-    .tile-pink,
-    .tile-brown
+    .tile-purple
   ) {
     background: color-mix(in oklab, var(--tint) 16%, var(--c-surface));
     color: var(--tint);
   }
-  a:is(
-    .chip-red,
-    .chip-orange,
-    .chip-yellow,
-    .chip-green,
-    .chip-teal,
-    .chip-purple,
-    .chip-pink,
-    .chip-brown
-  ) {
+  a:is(.chip-blue, .chip-red, .chip-orange, .chip-yellow, .chip-green, .chip-purple) {
     transition: background-color 0.2s;
   }
-  a:is(
-      .chip-red,
-      .chip-orange,
-      .chip-yellow,
-      .chip-green,
-      .chip-teal,
-      .chip-purple,
-      .chip-pink,
-      .chip-brown
-    ):hover {
+  a:is(.chip-blue, .chip-red, .chip-orange, .chip-yellow, .chip-green, .chip-purple):hover {
     background: color-mix(in oklab, var(--tint) 28%, var(--c-surface));
     color: var(--tint);
+  }
+  .chip-blue,
+  .tile-blue {
+    --tint: var(--c-accent-ink);
   }
   .chip-red,
   .tile-red {
@@ -831,21 +804,9 @@
   .tile-green {
     --tint: var(--c-moss);
   }
-  .chip-teal,
-  .tile-teal {
-    --tint: var(--c-teal);
-  }
   .chip-purple,
   .tile-purple {
     --tint: var(--c-violet);
-  }
-  .chip-pink,
-  .tile-pink {
-    --tint: var(--c-pink);
-  }
-  .chip-brown,
-  .tile-brown {
-    --tint: var(--c-brown);
   }
 
   /* Round icon tile with the same blue wash as .chip-accent. */
