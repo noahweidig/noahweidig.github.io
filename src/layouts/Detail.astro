@@ -5,7 +5,6 @@ import Base from './Base.astro';
 import Icon from '../components/Icon.astro';
 import ShareRow from '../components/ShareRow.astro';
 import PageHero from '../components/PageHero.astro';
-import HeroPanel from '../components/HeroPanel.astro';
 import PrevNext from '../components/PrevNext.astro';
 import Toc from '../components/Toc.astro';
 import PostAside from '../components/PostAside.astro';
@@ -77,18 +76,15 @@ const reading = section === 'Blog';
    widens from the reading shell to the full one. */
 const hasToc = headings.filter((h) => h.depth === 2 || h.depth === 3).length > 1;
 
-/* Metric badges (Altmetric, Dimensions) belong in the header, under the
-   buttons — not in the body, where `.prose-nw img` would round, border and
+/* Metric badges (Altmetric, Dimensions) sit in the header on the chip row — not in the body, where `.prose-nw img` would round, border and
    stretch the Altmetric image while leaving the Dimensions SVG alone.
    Rendered here rather than checked with `Astro.slots.has`, so a page that
    passes the slot but has nothing to put in it (a publication with no DOI)
-   leaves no empty row under the buttons. */
+   leaves no empty chip row. */
 const badges = Astro.slots.has('badges') ? (await Astro.slots.render('badges')).trim() : '';
 
 /* A cover or screenshot sits in the hero's right column on wide screens (it
-   stacks under the copy on narrow ones). It shares that column with the
-   metrics panel, so when a page has both the badges drop into the copy column
-   under the chips instead. */
+   stacks under the copy on narrow ones). */
 const hasHeroImage = Astro.slots.has('hero-image')
   ? Boolean((await Astro.slots.render('hero-image')).trim())
   : false;
@@ -117,7 +113,7 @@ const hasHeroImage = Astro.slots.has('hero-image')
       trail={[{ label: section, href: backHref }]}
       size="md"
       hasActions={links.length > 0}
-      hasAside={Boolean(badges) || hasHeroImage}
+      hasAside={hasHeroImage}
     >
       {meta && (
         <p class="mt-4 text-sm text-dim" data-pagefind-ignore>
@@ -140,8 +136,8 @@ const hasHeroImage = Astro.slots.has('hero-image')
         </p>
       )}
 
-      {chips.length > 0 && (
-        <div class="mt-5 flex flex-wrap gap-1.5" data-pagefind-ignore>
+      {(chips.length > 0 || badges) && (
+        <div class="mt-5 flex flex-wrap gap-1.5 [&_.badge-pair]:contents" data-pagefind-ignore>
           {chips.map((c) => (
             <a
               href={tagHref(c)}
@@ -152,10 +148,9 @@ const hasHeroImage = Astro.slots.has('hero-image')
               {c}
             </a>
           ))}
+          {badges && <Fragment set:html={badges} />}
         </div>
       )}
-
-      {hasHeroImage && badges && <div class="mt-5" data-pagefind-ignore set:html={badges} />}
 
       <Fragment slot="actions">
         {links.map((l) => (
@@ -179,15 +174,9 @@ const hasHeroImage = Astro.slots.has('hero-image')
       </Fragment>
 
       <Fragment slot="aside">
-        {hasHeroImage ? (
-          <figure class="hero-media" data-zoomable>
-            <slot name="hero-image" />
-          </figure>
-        ) : (
-          <HeroPanel title="Metrics">
-            <div set:html={badges} />
-          </HeroPanel>
-        )}
+        <figure class="hero-media" data-zoomable>
+          <slot name="hero-image" />
+        </figure>
       </Fragment>
     </PageHero>
 
