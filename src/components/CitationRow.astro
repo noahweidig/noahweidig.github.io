@@ -132,6 +132,7 @@ const altmetricTip = altmetric
     {!compact && summary && <p class="mt-2.5 text-sm leading-relaxed text-dim">{summary}</p>}
 
     <div class="mt-3 flex flex-wrap items-center gap-2 text-caption">
+      {d['pub-oa'] && <span class="chip">Open Access</span>}
       {compact &&
         cats.slice(1, 2).map((c) => (
           <a
@@ -192,7 +193,6 @@ const altmetricTip = altmetric
           {Math.round(altmetric.score)}
         </a>
       )}
-      {d['pub-oa'] && <span class="chip">Open Access</span>}
       {d['pub-doi'] && (
         <a
           href={`https://doi.org/${d['pub-doi']}`}
