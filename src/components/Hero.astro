@@ -80,62 +80,6 @@ const rows = [...words, words[0]!];
   </div>
 </section>
 
-<script>
-  const roll = document.querySelector<HTMLElement>('[data-roll]');
-  const track = document.querySelector<HTMLElement>('[data-roll-track]');
-  if (roll && track) {
-    const colors: string[] = JSON.parse(roll.dataset.words ?? '[]');
-    const count = colors.length;
-    let index = 0;
-    let widths: number[] = [];
-
-    const measure = () => {
-      const style = getComputedStyle(roll);
-      const pad = parseFloat(style.paddingLeft) + parseFloat(style.paddingRight);
-      widths = [...track.children].map((row) => {
-        const probe = row.cloneNode(true) as HTMLElement;
-        probe.style.cssText =
-          'position:absolute;visibility:hidden;display:inline-block;height:auto;white-space:nowrap';
-        track.appendChild(probe);
-        const width = probe.getBoundingClientRect().width;
-        track.removeChild(probe);
-        return width + pad;
-      });
-    };
-    const show = (n: number) => {
-      const rowHeight = track.children[0]!.getBoundingClientRect().height;
-      track.style.transform = `translateY(${-n * rowHeight}px)`;
-      roll.style.width = `${widths[n]}px`;
-      roll.style.setProperty('--tint', `var(${colors[n % count]})`);
-    };
-    /* After rolling onto the repeated first word, jump back to the real first row
-       with no transition so the loop reads as continuous. */
-    const snap = () => {
-      track.style.transition = 'none';
-      index = 0;
-      show(0);
-      void track.offsetHeight;
-      track.style.transition = '';
-    };
-    const start = () => {
-      measure();
-      show(0);
-    };
-    (document.fonts?.ready ?? Promise.resolve()).then(start);
-    addEventListener('resize', () => {
-      measure();
-      show(index);
-    });
-    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      setInterval(() => {
-        index += 1;
-        show(index);
-        if (index === count) setTimeout(snap, 680);
-      }, 2200);
-    }
-  }
-</script>
-
 <style>
   /* Sized from the viewport so the longest line never wraps. */
   .hero-title {
@@ -193,10 +137,20 @@ const rows = [...words, words[0]!];
     line-height: 1.2;
     white-space: nowrap;
   }
+  /* Grey at rest; each icon takes its tile color on hover or focus. The
+     .tile-* class on the link only supplies --tint. */
   .social {
+    background: var(--c-matte);
+    color: var(--c-dim);
     transition:
       transform 0.25s var(--ease-out-soft),
-      background-color 0.2s;
+      background-color 0.2s,
+      color 0.2s;
+  }
+  .social:hover,
+  .social:focus-visible {
+    background: color-mix(in oklab, var(--tint) 16%, var(--c-surface));
+    color: var(--tint);
   }
   .social:hover {
     transform: translateY(-2px);
