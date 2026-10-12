@@ -282,6 +282,18 @@
     padding-inline: 1.25rem;
   }
 
+  .shell-body {
+    width: 100%;
+    max-width: 58rem;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+  @media (min-width: 768px) {
+    .shell-body {
+      padding-inline: 2rem;
+    }
+  }
+
   /* --- eyebrow / kicker --- */
   .kicker {
     display: inline-flex;
