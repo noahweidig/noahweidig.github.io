@@ -56,6 +56,9 @@
   --c-teal: #5fc7c2;
   --c-pink: #ff83dd;
   --c-moss: #68ce7e;
+  --logo-red: #ff6b78;
+  --logo-blue: #5aa0ff;
+  --logo-yellow: #ffc21a;
   --c-violet: #ad6ded;
 
   --c-glow: color-mix(in oklab, var(--c-accent) 26%, transparent);
@@ -95,6 +98,9 @@
   --c-teal: #126764;
   --c-pink: #9d2472;
   --c-moss: #0f6220;
+  --logo-red: #e5484d;
+  --logo-blue: #2383e2;
+  --logo-yellow: #f5b100;
   --c-violet: #7237ae;
 
   --c-glow: color-mix(in oklab, var(--c-accent) 16%, transparent);
