@@ -48,9 +48,16 @@
   --c-btn2-hover: #0076df;
   --c-btn2-active: #006edb;
   --c-on-light: #14161a;
-  --c-ember: #ff8f45;
-  --c-moss: #4bd0a0;
-  --c-violet: #a988ff;
+  /* Notion's accent set (notion.com tatami tokens), text-legible steps for
+     this theme. Blue stays the primary (--c-accent). */
+  --c-red: #ff8b7c;
+  --c-ember: #ffad71;
+  --c-yellow: #ffc95e;
+  --c-moss: #68ce7e;
+  --c-teal: #83cbc9;
+  --c-violet: #ad6ded;
+  --c-pink: #ff83dd;
+  --c-brown: #d9b79f;
   --c-cta-a: #5b2fe0;
   --c-cta-m: #c2246f;
   --c-cta-b: #c2410c;
@@ -86,9 +93,14 @@
   --c-btn2-hover: #0076df;
   --c-btn2-active: #006edb;
   --c-on-light: #14161a;
-  --c-ember: #a44a16;
-  --c-moss: #0f7a56;
-  --c-violet: #6541c9;
+  --c-red: #b01601;
+  --c-ember: #ab4a00;
+  --c-yellow: #704b00;
+  --c-moss: #0f6220;
+  --c-teal: #126764;
+  --c-violet: #7237ae;
+  --c-pink: #9d2472;
+  --c-brown: #744d2d;
   --c-cta-a: #5b2fe0;
   --c-cta-m: #c2246f;
   --c-cta-b: #c2410c;
@@ -120,9 +132,14 @@
   --color-accent: var(--c-accent);
   --color-accent-ink: var(--c-accent-ink);
   --color-accent-contrast: var(--c-accent-contrast);
+  --color-red: var(--c-red);
   --color-ember: var(--c-ember);
+  --color-yellow: var(--c-yellow);
   --color-moss: var(--c-moss);
+  --color-teal: var(--c-teal);
   --color-violet: var(--c-violet);
+  --color-pink: var(--c-pink);
+  --color-brown: var(--c-brown);
 
   --font-sans: 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-display: 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
@@ -750,6 +767,46 @@
   a.chip-accent:hover {
     background: color-mix(in oklab, var(--c-accent) 28%, var(--c-surface));
   }
+  /* Notion-style tinted tags: a wash of the color on the surface, text in the
+     theme's legible step. Pair with .chip. */
+  :is(
+    .chip-red,
+    .chip-orange,
+    .chip-yellow,
+    .chip-green,
+    .chip-teal,
+    .chip-purple,
+    .chip-pink,
+    .chip-brown
+  ) {
+    background: color-mix(in oklab, var(--tint) 16%, var(--c-surface));
+    color: var(--tint);
+  }
+  .chip-red {
+    --tint: var(--c-red);
+  }
+  .chip-orange {
+    --tint: var(--c-ember);
+  }
+  .chip-yellow {
+    --tint: var(--c-yellow);
+  }
+  .chip-green {
+    --tint: var(--c-moss);
+  }
+  .chip-teal {
+    --tint: var(--c-teal);
+  }
+  .chip-purple {
+    --tint: var(--c-violet);
+  }
+  .chip-pink {
+    --tint: var(--c-pink);
+  }
+  .chip-brown {
+    --tint: var(--c-brown);
+  }
+
   /* Round icon tile with the same blue wash as .chip-accent. */
   .tile-accent {
     background: color-mix(in oklab, var(--c-accent) 16%, var(--c-surface));
