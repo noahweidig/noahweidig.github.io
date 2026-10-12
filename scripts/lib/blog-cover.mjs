@@ -92,7 +92,7 @@ export function coverHtml({ title, kicker, mode, slug, fontCss }) {
   return `<!doctype html><meta charset="utf-8"><style>${fontCss}
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:${W}px;height:${H}px;overflow:hidden}
-body{position:relative;background:${surface};color:${ink};font-family:'DM Sans',ui-sans-serif,system-ui,sans-serif}
+body{position:relative;background:${surface};color:${ink};font-family:'Inter',ui-sans-serif,system-ui,sans-serif}
 .k{position:absolute;left:90px;top:80px;display:inline-block;padding:.3em .85em;font-size:28px;font-weight:600;border-radius:999px;color:${tint};background:${mix(tint, 18)}}
 .t{position:absolute;left:84px;bottom:110px;max-width:580px;font-weight:800;font-size:${size}px;line-height:1.02;letter-spacing:-.04em}
 .f{position:absolute;left:90px;bottom:64px;font-size:24px;color:${DIM[mode]}}
