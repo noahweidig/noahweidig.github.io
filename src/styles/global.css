@@ -803,15 +803,15 @@
     transition: background-color 0.2s;
   }
   a:is(
-    .chip-red,
-    .chip-orange,
-    .chip-yellow,
-    .chip-green,
-    .chip-teal,
-    .chip-purple,
-    .chip-pink,
-    .chip-brown
-  ):hover {
+      .chip-red,
+      .chip-orange,
+      .chip-yellow,
+      .chip-green,
+      .chip-teal,
+      .chip-purple,
+      .chip-pink,
+      .chip-brown
+    ):hover {
     background: color-mix(in oklab, var(--tint) 28%, var(--c-surface));
     color: var(--tint);
   }
