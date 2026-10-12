@@ -21,6 +21,16 @@
    Dark is the default; :root[data-theme='light'] overrides the same names.
    ========================================================================= */
 :root {
+  /* Colored chips, pills and icon tiles always use these dark-theme values, in
+     both themes, so their text keeps high contrast on its tinted fill. */
+  --k-surface: #16191f;
+  --k-blue: #6ba4ff;
+  --k-green: #68ce7e;
+  --k-purple: #ad6ded;
+  --k-yellow: #ffc95e;
+  --k-red: #ff6b78;
+  --k-teal: #5fc7c2;
+  --k-pink: #ff83dd;
   /* Matte fills for buttons, tags and controls: a flat grey step off the
      surface, in whichever theme is active. */
   --c-matte: color-mix(in oklab, var(--c-ink) 12%, var(--c-surface));
@@ -776,8 +786,9 @@
   a.chip-accent:hover {
     background: color-mix(in oklab, var(--c-accent) 28%, var(--c-surface));
   }
-  /* Notion-style tinted tags and icon tiles: a wash of the color on the
-     surface, text/icon in the theme's legible step. Pair with .chip. */
+  /* Notion-style tinted tags and icon tiles: a dark wash of the color with the
+     color itself as text/icon, the same in light and dark themes. Pair with
+     .chip. */
   :is(
     .chip-blue,
     .chip-red,
@@ -794,7 +805,7 @@
     .tile-teal,
     .tile-pink
   ) {
-    background: color-mix(in oklab, var(--tint) 16%, var(--c-surface));
+    background: color-mix(in oklab, var(--tint) 16%, var(--k-surface));
     color: var(--tint);
   }
   a:is(.chip-blue, .chip-red, .chip-yellow, .chip-green, .chip-purple, .chip-teal, .chip-pink) {
@@ -809,49 +820,43 @@
       .chip-teal,
       .chip-pink
     ):hover {
-    background: color-mix(in oklab, var(--tint) 28%, var(--c-surface));
+    background: color-mix(in oklab, var(--tint) 28%, var(--k-surface));
     color: var(--tint);
   }
   .chip-blue,
   .tile-blue,
   .pill-blue {
-    --tint: var(--c-accent-ink);
+    --tint: var(--k-blue);
   }
   .chip-red,
   .tile-red,
   .pill-red {
-    --tint: var(--c-red);
+    --tint: var(--k-red);
   }
   .chip-yellow,
   .tile-yellow,
   .pill-yellow {
-    --tint: var(--c-yellow);
+    --tint: var(--k-yellow);
   }
   .chip-green,
   .tile-green,
   .pill-green {
-    --tint: var(--c-moss);
+    --tint: var(--k-green);
   }
   .chip-purple,
   .tile-purple,
   .pill-purple {
-    --tint: var(--c-violet);
+    --tint: var(--k-purple);
   }
   .chip-teal,
   .tile-teal,
   .pill-teal {
-    --tint: var(--c-teal);
+    --tint: var(--k-teal);
   }
   .chip-pink,
   .tile-pink,
   .pill-pink {
-    --tint: var(--c-pink);
-  }
-  /* Yellow text has no legible step on a light surface; chip text takes the
-     theme's darker yellow ink while tile icons stay Notion yellow. */
-  .chip-yellow,
-  a.chip-yellow:hover {
-    color: var(--c-yellow-ink);
+    --tint: var(--k-pink);
   }
 
   /* Round icon tile with the same blue wash as .chip-accent. */
@@ -916,7 +921,7 @@
 
   /* Category filter pills take the same color as that category's chips. */
   .pill:is(.pill-blue, .pill-red, .pill-yellow, .pill-green, .pill-purple, .pill-teal, .pill-pink) {
-    background: color-mix(in oklab, var(--tint) 16%, var(--c-surface));
+    background: color-mix(in oklab, var(--tint) 16%, var(--k-surface));
     color: var(--tint);
   }
   .pill:is(
@@ -928,7 +933,7 @@
       .pill-teal,
       .pill-pink
     ):hover {
-    background: color-mix(in oklab, var(--tint) 28%, var(--c-surface));
+    background: color-mix(in oklab, var(--tint) 28%, var(--k-surface));
     color: var(--tint);
   }
   .pill:is(
@@ -939,16 +944,20 @@
       .pill-purple,
       .pill-teal,
       .pill-pink
-    )[aria-pressed='true'] {
-    background: color-mix(in oklab, var(--tint) 28%, var(--c-surface));
+    )[aria-pressed='true'],
+  .pill:is(
+      .pill-blue,
+      .pill-red,
+      .pill-yellow,
+      .pill-green,
+      .pill-purple,
+      .pill-teal,
+      .pill-pink
+    )[aria-selected='true'] {
+    background: color-mix(in oklab, var(--tint) 28%, var(--k-surface));
     color: var(--tint);
     box-shadow: inset 0 0 0 1.5px var(--tint);
     font-weight: 600;
-  }
-  .pill.pill-yellow,
-  .pill.pill-yellow:hover,
-  .pill.pill-yellow[aria-pressed='true'] {
-    color: var(--c-yellow-ink);
   }
 
   /* --- decorative surfaces --- */

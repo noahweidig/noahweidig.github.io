@@ -2,7 +2,7 @@
 import { Image } from 'astro:assets';
 import Icon from './Icon.astro';
 import { IMAGE_WIDTHS, shotFor } from '../lib/images';
-import { tintAt, tintVar } from '../lib/tint';
+import { tintAt } from '../lib/tint';
 
 /* Same optimized screenshots ProjectCard uses. Pointing at the `public/` copy
    instead served the full 1600px file to every viewport: 124KB of the 148KB
@@ -118,8 +118,7 @@ const areas = [
     >
       <div>
         <p
-          class="flex items-center gap-2 font-mono text-2xs tracking-[0.14em] uppercase"
-          style={`color:${tintVar(tintAt(i))}`}
+          class={`inline-flex items-center gap-2 rounded-full px-3 py-1.5 font-mono text-2xs tracking-[0.14em] uppercase chip-${tintAt(i)}`}
         >
           <Icon name={a.icon} size={16} class="shrink-0" />
           {a.eyebrow}
