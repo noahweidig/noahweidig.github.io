@@ -1,7 +1,7 @@
 /**
  * Renders each blog post's cover art (dark and light) straight from the
  * site's own tokens — accent/ember/moss/violet glows, the grid, the self-hosted
- * DM Sans/JetBrains Mono faces — instead of a hand-maintained image.
+ * Inter/JetBrains Mono faces — instead of a hand-maintained image.
  * Blog covers are the title, a tag pill and three stacked to-do cards
  * (scripts/lib/blog-cover.mjs): the slug picks which three accent hues rotate in.
  * The other cards below keep the glow-and-contour-ring design, where the slug
@@ -155,7 +155,7 @@ html, body { width: ${WIDTH}px; height: ${HEIGHT}px; overflow: hidden; }
 body {
   position: relative;
   background: linear-gradient(160deg, ${t.bg} 0%, ${t.bgDeep} 100%);
-  font-family: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
 }
 .glow {
   position: absolute;
@@ -233,7 +233,7 @@ body {
   color: ${t.dim};
 }
 .title {
-  font-family: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
   font-weight: 700;
   font-size: ${titleFontSize(title)};
   line-height: 1.08;

@@ -6,15 +6,48 @@ interface Props {
 const { class: cls = '', collapse = false } = Astro.props;
 ---
 
-<span class:list={['wm font-display font-bold tracking-tight', { 'wm-collapse': collapse }, cls]}>
-  <span>n</span>
-  <span class="wm-fade wm-oah">oah</span>
-  <span>w</span>
-  <span class="wm-fade wm-eidig">eidig</span>
-  <span class="wm-dot">.</span>
+<span class:list={['wm-lockup', cls]}>
+  <svg class="wm-mark" viewBox="0 0 24 24" aria-hidden="true">
+    <path
+      d="M8.3 10a.7.7 0 0 1-.626-1.079L11.4 3a.7.7 0 0 1 1.198-.043L16.3 8.9a.7.7 0 0 1-.572 1.1Z"
+      fill="var(--logo-yellow)"
+      stroke="var(--logo-yellow)"
+    ></path>
+    <rect
+      x="3"
+      y="14"
+      width="7"
+      height="7"
+      rx="1"
+      fill="var(--logo-blue)"
+      stroke="var(--logo-blue)"
+    ></rect>
+    <circle cx="17.5" cy="17.5" r="3.5" fill="var(--logo-red)" stroke="var(--logo-red)"></circle>
+  </svg>
+  <span class:list={['wm font-display font-bold tracking-tight', { 'wm-collapse': collapse }]}>
+    <span>n</span>
+    <span class="wm-fade wm-oah">oah</span>
+    <span>w</span>
+    <span class="wm-fade wm-eidig">eidig</span>
+    <span class="wm-dot">.</span>
+  </span>
 </span>
 
 <style>
+  /* Logo mark: Lucide's triangle, square and circle (the `shapes` icon), solid. */
+  .wm-lockup {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+  }
+  .wm-mark {
+    width: 1.55em;
+    height: 1.55em;
+    flex: none;
+    stroke-width: 1.2;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+  }
   /* A tinted pill tag, same wash as the hero's rolling pill and the cover tags. */
   .wm {
     display: inline-flex;
