@@ -30,21 +30,25 @@ const glance = [
 const beyondWork = [
   {
     icon: 'earth',
+    tint: 'green',
     title: 'Outside',
     body: 'Most weekends I am hiking, camping, or just finding an excuse to be outdoors — it is a lot of why I ended up studying landscapes for a living.',
   },
   {
     icon: 'flame',
+    tint: 'orange',
     title: 'Coffee & cooking',
     body: 'I take coffee too seriously and cook most nights. Both scratch the same itch as data work: a process you can tune until it is right.',
   },
   {
     icon: 'video',
+    tint: 'pink',
     title: 'Photography',
     body: 'A camera goes wherever I do. Landscapes mostly — the same eye for composition carries over into how I build a map or a figure.',
   },
   {
     icon: 'book',
+    tint: 'teal',
     title: 'Always reading',
     body: 'Usually two books at once — one on ecology or statistics, one that has nothing to do with either.',
   },
@@ -154,7 +158,7 @@ const beyondWork = [
       <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
         {beyondWork.map((b, i) => (
           <div class="card flex flex-col p-6" data-reveal style={`--reveal-delay:${i * 60}ms`}>
-            <span class="grid h-12 w-12 place-items-center rounded-xl tile-accent">
+            <span class={`grid h-12 w-12 place-items-center rounded-xl tile-${b.tint}`}>
               <Icon name={b.icon} size={22} />
             </span>
             <b role="heading" aria-level="3" class="mt-5 block text-lg font-medium">

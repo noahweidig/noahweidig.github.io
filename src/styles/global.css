@@ -767,9 +767,30 @@
   a.chip-accent:hover {
     background: color-mix(in oklab, var(--c-accent) 28%, var(--c-surface));
   }
-  /* Notion-style tinted tags: a wash of the color on the surface, text in the
-     theme's legible step. Pair with .chip. */
+  /* Notion-style tinted tags and icon tiles: a wash of the color on the
+     surface, text/icon in the theme's legible step. Pair with .chip. */
   :is(
+    .chip-red,
+    .chip-orange,
+    .chip-yellow,
+    .chip-green,
+    .chip-teal,
+    .chip-purple,
+    .chip-pink,
+    .chip-brown,
+    .tile-red,
+    .tile-orange,
+    .tile-yellow,
+    .tile-green,
+    .tile-teal,
+    .tile-purple,
+    .tile-pink,
+    .tile-brown
+  ) {
+    background: color-mix(in oklab, var(--tint) 16%, var(--c-surface));
+    color: var(--tint);
+  }
+  a:is(
     .chip-red,
     .chip-orange,
     .chip-yellow,
@@ -779,31 +800,51 @@
     .chip-pink,
     .chip-brown
   ) {
-    background: color-mix(in oklab, var(--tint) 16%, var(--c-surface));
+    transition: background-color 0.2s;
+  }
+  a:is(
+    .chip-red,
+    .chip-orange,
+    .chip-yellow,
+    .chip-green,
+    .chip-teal,
+    .chip-purple,
+    .chip-pink,
+    .chip-brown
+  ):hover {
+    background: color-mix(in oklab, var(--tint) 28%, var(--c-surface));
     color: var(--tint);
   }
-  .chip-red {
+  .chip-red,
+  .tile-red {
     --tint: var(--c-red);
   }
-  .chip-orange {
+  .chip-orange,
+  .tile-orange {
     --tint: var(--c-ember);
   }
-  .chip-yellow {
+  .chip-yellow,
+  .tile-yellow {
     --tint: var(--c-yellow);
   }
-  .chip-green {
+  .chip-green,
+  .tile-green {
     --tint: var(--c-moss);
   }
-  .chip-teal {
+  .chip-teal,
+  .tile-teal {
     --tint: var(--c-teal);
   }
-  .chip-purple {
+  .chip-purple,
+  .tile-purple {
     --tint: var(--c-violet);
   }
-  .chip-pink {
+  .chip-pink,
+  .tile-pink {
     --tint: var(--c-pink);
   }
-  .chip-brown {
+  .chip-brown,
+  .tile-brown {
     --tint: var(--c-brown);
   }
 
