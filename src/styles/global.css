@@ -130,7 +130,11 @@
   --radius-pill: 9999px;
 
   /* CTA band backdrop (homepage #cta). */
-  --grad-cta: linear-gradient(120deg, var(--c-accent) 0%, var(--c-violet) 100%);
+  --grad-cta: linear-gradient(
+    120deg,
+    color-mix(in oklab, var(--c-accent) 55%, #000) 0%,
+    color-mix(in oklab, var(--c-violet) 45%, #000) 100%
+  );
 
   /* Named steps for the micro-type cluster that used to ship as one-off
      arbitrary values (text-micro etc.) — see #138. */
