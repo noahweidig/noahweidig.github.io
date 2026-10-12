@@ -22,14 +22,14 @@ export function initHeroRoll() {
 
   const measure = () => {
     const style = getComputedStyle(roll);
-    const pad = parseFloat(style.paddingLeft) + parseFloat(style.paddingRight);
+    const pad = Number.parseFloat(style.paddingLeft) + Number.parseFloat(style.paddingRight);
     widths = [...track.children].map((row) => {
       const probe = row.cloneNode(true) as HTMLElement;
       probe.style.cssText =
         'position:absolute;visibility:hidden;display:inline-block;height:auto;white-space:nowrap';
       track.appendChild(probe);
       const width = probe.getBoundingClientRect().width;
-      track.removeChild(probe);
+      probe.remove();
       return width + pad;
     });
   };
@@ -46,15 +46,17 @@ export function initHeroRoll() {
     track.style.transition = 'none';
     index = 0;
     show(0);
-    void track.offsetHeight;
+    track.getBoundingClientRect(); // flush layout before restoring the transition
     track.style.transition = '';
   };
 
-  (document.fonts?.ready ?? Promise.resolve()).then(() => {
-    if (!active) return;
-    measure();
-    show(0);
-  });
+  (document.fonts?.ready ?? Promise.resolve())
+    .then(() => {
+      if (!active) return;
+      measure();
+      show(0);
+    })
+    .catch(() => {});
   on(window, 'resize', () => {
     measure();
     show(index);
