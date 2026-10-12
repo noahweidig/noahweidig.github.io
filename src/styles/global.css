@@ -924,7 +924,8 @@
     color: var(--c-accent-contrast);
   }
 
-  /* Category filter pills take the same color as that category's chips. */
+  /* Category filter pills take the same color as that category's chips; the
+     selected pill is filled with the color. */
   .pill:is(.pill-blue, .pill-red, .pill-yellow, .pill-green, .pill-purple, .pill-teal, .pill-pink) {
     background: color-mix(in oklab, var(--tint) 16%, var(--tint-surface, var(--c-surface)));
     color: var(--tint);
@@ -941,6 +942,10 @@
     background: color-mix(in oklab, var(--tint) 28%, var(--tint-surface, var(--c-surface)));
     color: var(--tint);
   }
+  .pill.pill-yellow,
+  .pill.pill-yellow:hover {
+    color: var(--c-yellow-ink);
+  }
   .pill:is(
       .pill-blue,
       .pill-red,
@@ -950,15 +955,22 @@
       .pill-teal,
       .pill-pink
     )[aria-pressed='true'] {
-    background: color-mix(in oklab, var(--tint) 28%, var(--tint-surface, var(--c-surface)));
-    color: var(--tint);
-    box-shadow: inset 0 0 0 1.5px var(--tint);
+    background: var(--tint);
+    color: var(--c-on-light);
     font-weight: 600;
   }
-  .pill.pill-yellow,
-  .pill.pill-yellow:hover,
-  .pill.pill-yellow[aria-pressed='true'] {
-    color: var(--c-yellow-ink);
+  /* The light theme's tints are dark inks, so a filled pill takes white text;
+     yellow stays bright and keeps dark text. */
+  :root[data-theme='light']
+    .pill:is(
+      .pill-blue,
+      .pill-red,
+      .pill-green,
+      .pill-purple,
+      .pill-teal,
+      .pill-pink
+    )[aria-pressed='true'] {
+    color: var(--c-accent-contrast);
   }
 
   /* Research areas: dark colored chips and pills in both themes, with a full
