@@ -1,5 +1,5 @@
 ---
-import { navGroups } from '../lib/site';
+import { navGroups, navMeta } from '../lib/site';
 import Icon from './Icon.astro';
 import Wordmark from './Wordmark.astro';
 import Search from './Search.astro';
@@ -66,12 +66,12 @@ const mobileItems: MobileItem[] = [
                         rel={external ? 'noopener' : undefined}
                         aria-current={current ? 'page' : undefined}
                         class="nav-card group/card flex h-full flex-col"
-                        style={`--tint-base:${tintBase(item.tint)}`}
+                        style={`--tint-base:${tintBase(navMeta[item.text]!.tint)}`}
                       >
                         <span
-                          class={`grid h-11 w-11 place-items-center rounded-xl tile-${item.tint}`}
+                          class={`grid h-11 w-11 place-items-center rounded-xl tile-${navMeta[item.text]!.tint}`}
                         >
-                          <Icon name={item.icon} size={21} />
+                          <Icon name={navMeta[item.text]!.icon} size={21} />
                         </span>
                         <span class="mt-4 flex items-center gap-1.5 font-display text-lead font-semibold tracking-tight text-ink">
                           {item.text}
