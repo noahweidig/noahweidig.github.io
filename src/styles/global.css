@@ -50,9 +50,9 @@
   --c-on-light: #14161a;
   /* Notion's accent set (notion.com tatami tokens), text-legible steps for
      this theme. Blue stays the primary (--c-accent). */
-  --c-red: #ff8b7c;
-  --c-ember: #ffad71;
-  --c-yellow: #ffc95e;
+  --c-red: #ff6b78;
+  --c-ember: var(--c-red);
+  --c-yellow-fill: #ffb110;
   --c-moss: #68ce7e;
   --c-violet: #ad6ded;
   --c-cta-a: #5b2fe0;
@@ -90,9 +90,9 @@
   --c-btn2-hover: #0076df;
   --c-btn2-active: #006edb;
   --c-on-light: #14161a;
-  --c-red: #b01601;
-  --c-ember: #a24300;
-  --c-yellow: #704b00;
+  --c-red: #b8142d;
+  --c-ember: var(--c-red);
+  --c-yellow-fill: #ffb110;
   --c-moss: #0f6220;
   --c-violet: #7237ae;
   --c-cta-a: #5b2fe0;
@@ -128,7 +128,7 @@
   --color-accent-contrast: var(--c-accent-contrast);
   --color-red: var(--c-red);
   --color-ember: var(--c-ember);
-  --color-yellow: var(--c-yellow);
+  --color-yellow: var(--c-yellow-fill);
   --color-moss: var(--c-moss);
   --color-violet: var(--c-violet);
 
@@ -536,7 +536,7 @@
     --c-accent-ink: #6ba4ff;
     --c-accent-contrast: #ffffff;
     --c-btn2: #2997ff;
-    --c-ember: #ff8f45;
+    --c-ember: var(--c-red);
     --c-moss: #4bd0a0;
     --c-violet: #a988ff;
     --c-cta-a: #5b2fe0;
@@ -759,30 +759,35 @@
     background: color-mix(in oklab, var(--c-accent) 28%, var(--c-surface));
   }
   /* Notion-style tinted tags and icon tiles: a wash of the color on the
-     surface, text/icon in the theme's legible step. Pair with .chip. */
+     surface, text/icon in the theme's legible step. Pair with .chip.
+     Yellow is a solid Notion-yellow fill with dark text instead, since
+     yellow text on a light surface has no legible step. */
   :is(
     .chip-blue,
     .chip-red,
-    .chip-orange,
-    .chip-yellow,
     .chip-green,
     .chip-purple,
     .tile-blue,
     .tile-red,
-    .tile-orange,
-    .tile-yellow,
     .tile-green,
     .tile-purple
   ) {
     background: color-mix(in oklab, var(--tint) 16%, var(--c-surface));
     color: var(--tint);
   }
-  a:is(.chip-blue, .chip-red, .chip-orange, .chip-yellow, .chip-green, .chip-purple) {
+  :is(.chip-yellow, .tile-yellow) {
+    background: var(--c-yellow-fill);
+    color: var(--c-on-light);
+  }
+  a:is(.chip-blue, .chip-red, .chip-green, .chip-purple, .chip-yellow) {
     transition: background-color 0.2s;
   }
-  a:is(.chip-blue, .chip-red, .chip-orange, .chip-yellow, .chip-green, .chip-purple):hover {
+  a:is(.chip-blue, .chip-red, .chip-green, .chip-purple):hover {
     background: color-mix(in oklab, var(--tint) 28%, var(--c-surface));
     color: var(--tint);
+  }
+  a.chip-yellow:hover {
+    background: color-mix(in oklab, var(--c-yellow-fill) 85%, black);
   }
   .chip-blue,
   .tile-blue {
@@ -791,14 +796,6 @@
   .chip-red,
   .tile-red {
     --tint: var(--c-red);
-  }
-  .chip-orange,
-  .tile-orange {
-    --tint: var(--c-ember);
-  }
-  .chip-yellow,
-  .tile-yellow {
-    --tint: var(--c-yellow);
   }
   .chip-green,
   .tile-green {
