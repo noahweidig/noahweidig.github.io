@@ -475,21 +475,16 @@
     color: var(--c-ink);
     border: 1px solid var(--c-line);
     border-radius: var(--radius-md);
-    transition: transform 1.4s var(--ease-out-soft);
+    transition: box-shadow 0.18s ease-out;
   }
   .card-hover:hover {
-    transform: scale(1.008);
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .card-hover:hover {
-      transform: none;
-    }
+    box-shadow: 0 0 14px 0 color-mix(in oklab, var(--c-ink) 9%, transparent);
   }
   /* A card washed with its own color, set through --tint-base. */
   .card-tint {
     background: color-mix(in oklab, var(--tint-base) 7%, var(--c-card));
     transition:
-      transform 1.4s var(--ease-out-soft),
+      box-shadow 0.18s ease-out,
       background-color 0.2s var(--ease-out-soft);
   }
   .card-tint:hover {
