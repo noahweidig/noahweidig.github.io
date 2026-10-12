@@ -15,4 +15,4 @@ export function tintAt(i: number): Tint {
 
 /** CSS color variable for a tint, for plain `color:` uses (icons, eyebrows). */
 export const tintVar = (t: Tint) =>
-  `var(--c-${{ blue: 'accent-ink', green: 'moss', purple: 'violet', yellow: 'yellow', red: 'red' }[t]})`;
+  `var(--c-${{ blue: 'accent-ink', green: 'moss', purple: 'violet', yellow: 'yellow-ink', red: 'red' }[t]})`;
