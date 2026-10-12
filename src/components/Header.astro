@@ -30,7 +30,7 @@ const mobileItems: MobileItem[] = [
       class="bar-fade group flex min-w-0 items-center gap-2.5"
       aria-label="Noah Weidig — home"
     >
-      <Wordmark collapse class="text-[clamp(1.25rem,calc((100vw-12rem)/5.45),2.25rem)]" />
+      <Wordmark collapse class="text-[1.15rem] md:text-[1.25rem]" />
     </a>
 
     <nav aria-label="Primary" class="mx-auto hidden lg:block">
@@ -354,43 +354,20 @@ const mobileItems: MobileItem[] = [
     overflow: hidden;
     overscroll-behavior: none;
   }
-  /* Transparent at the top of the page; flat glass once scrolled: white in
-     light theme, near-black in dark. */
+  /* Transparent at the top of the page; a flat bar with a hairline once scrolled. */
   .nav-glass {
     background-color: transparent;
+    border-bottom: 1px solid transparent;
     transition:
       background-color 0.3s var(--ease-out-soft),
-      backdrop-filter 0.3s var(--ease-out-soft);
-  }
-  .nav-glass::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    pointer-events: none;
-    background: linear-gradient(rgb(255 255 255 / 0.6), transparent 70%);
-    opacity: 0;
-    transition: opacity 0.3s var(--ease-out-soft);
+      border-color 0.3s var(--ease-out-soft);
   }
   :global(html[data-scrolled]) .nav-glass {
-    background-color: rgb(255 255 255 / 0.78);
-    backdrop-filter: saturate(1.8) blur(20px);
-  }
-  :global(html[data-scrolled]) .nav-glass::before {
-    opacity: 1;
-  }
-  :global(html[data-scrolled]:root[data-theme='dark']) .nav-glass {
-    background-color: rgb(10 10 12 / 0.8);
-  }
-  :global(html[data-scrolled]:root[data-theme='dark']) .nav-glass::before {
-    background: linear-gradient(rgb(255 255 255 / 0.05), transparent 70%);
+    background-color: var(--c-bg);
+    border-bottom-color: var(--c-line);
   }
   :global(:root) #site-header.nav-glass[data-menu-open] {
     background: var(--c-bg);
-    backdrop-filter: none;
-  }
-  :global(:root) #site-header.nav-glass[data-menu-open]::before {
-    opacity: 0;
   }
   /* No hover tile on the bar's icon buttons. Resting is a step off full ink, so
      hover reads lighter in dark theme and darker in light theme. */
