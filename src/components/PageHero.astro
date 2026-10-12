@@ -42,15 +42,11 @@ const tint = tintFor(kicker ?? title);
   <div class:list={['shell page-hero-inner', hasAside && 'has-aside']}>
     <div class="page-hero-copy">
       <Breadcrumbs trail={trail} current={title} />
-      {(icon || kicker) && (
-        <div class="page-hero-meta" data-pagefind-ignore>
-          {icon && (
-            <span class={`page-hero-icon tint-${tint}`}>
-              <Icon name={icon} size={26} />
-            </span>
-          )}
-          {kicker && <p class={`kicker tint-${tint}`}>{kicker}</p>}
-        </div>
+      {kicker && (
+        <p class={`kicker page-hero-kicker tint-${tint}`} data-pagefind-ignore>
+          {icon && <Icon name={icon} size={14} />}
+          {kicker}
+        </p>
       )}
       <h1 class:list={['page-hero-title', size === 'md' && 'page-hero-title-md']}>{title}</h1>
       {intro && <p class="page-hero-lede">{intro}</p>}

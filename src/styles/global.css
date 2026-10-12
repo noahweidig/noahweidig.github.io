@@ -357,24 +357,9 @@
   .page-hero-copy > nav {
     display: flex;
   }
-  .page-hero-meta {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.75rem;
+  .page-hero-kicker {
+    width: fit-content;
     margin-top: 1.5rem;
-  }
-  /* Notion-style page icon: a tinted rounded square above the title. */
-  .page-hero-icon {
-    --tint: var(--c-accent-ink);
-    display: grid;
-    place-items: center;
-    width: 3.5rem;
-    height: 3.5rem;
-    border-radius: var(--radius-md);
-    color: var(--tint);
-    background: color-mix(in oklab, var(--tint) 18%, var(--c-card));
-    border: 1px solid color-mix(in oklab, var(--tint) 30%, var(--c-card));
   }
   .page-hero-title {
     margin-top: 1rem;
@@ -446,6 +431,7 @@
     font-weight: 700;
     line-height: 1;
     letter-spacing: -0.02em;
+    color: var(--tint, var(--c-ink));
   }
   .hero-panel-stats dt {
     margin-top: 0.4rem;
@@ -455,10 +441,6 @@
   .hero-panel-stats > div {
     display: flex;
     flex-direction: column-reverse;
-    padding: 0.9rem 1rem;
-    border-radius: var(--radius-md);
-    background: color-mix(in oklab, var(--tint, var(--c-accent-ink)) 14%, var(--c-card));
-    border: 1px solid color-mix(in oklab, var(--tint, var(--c-accent-ink)) 32%, var(--c-card));
   }
   @media (min-width: 52rem) {
     .page-hero-inner {
@@ -566,29 +548,24 @@
     background: color-mix(in oklab, var(--c-accent) 28%, var(--c-surface));
   }
 
-  /* Blue outline button: the hero's secondary button, also used for "see all"
-     links. Fills blue on hover. Apple's button blues (--c-btn2 and its
-     hover/active steps); the primary button beside it stays solid blue.
-     Lives after .btn so its border-color wins over .btn's transparent one. */
+  /* Secondary blue button: the hero's second button, also used for "see all"
+     links. A muted blue wash with blue text, deepening on hover; the primary
+     button beside it stays solid blue. */
   .btn-outline,
   .page-hero-actions .btn-ghost,
   .hero-btn.btn-ghost {
-    border-color: var(--c-btn2);
-    background: transparent;
-    color: var(--c-btn2);
+    background: color-mix(in oklab, var(--c-accent) 16%, var(--c-surface));
+    color: var(--c-accent-ink);
   }
   .btn-outline:hover,
   .page-hero-actions .btn-ghost:hover,
   .hero-btn.btn-ghost:hover {
-    border-color: var(--c-btn2-hover);
-    background: var(--c-btn2-hover);
-    color: var(--c-accent-contrast);
+    background: color-mix(in oklab, var(--c-accent) 28%, var(--c-surface));
   }
   .btn-outline:active,
   .page-hero-actions .btn-ghost:active,
   .hero-btn.btn-ghost:active {
-    border-color: var(--c-btn2-active);
-    background: var(--c-btn2-active);
+    background: color-mix(in oklab, var(--c-accent) 34%, var(--c-surface));
   }
 
   .btn-sm {
@@ -1000,7 +977,7 @@
       .pill-purple,
       .pill-teal,
       .pill-pink
-    )[aria-pressed='true'] {
+    ):is([aria-pressed='true'], [aria-selected='true']) {
     background: var(--tint);
     color: var(--c-on-light);
     font-weight: 600;
@@ -1008,14 +985,10 @@
   /* The light theme's tints are dark inks, so a filled pill takes white text;
      yellow stays bright and keeps dark text. */
   :root[data-theme='light']
-    .pill:is(
-      .pill-blue,
-      .pill-red,
-      .pill-green,
-      .pill-purple,
-      .pill-teal,
-      .pill-pink
-    )[aria-pressed='true'] {
+    .pill:is(.pill-blue, .pill-red, .pill-green, .pill-purple, .pill-teal, .pill-pink):is(
+      [aria-pressed='true'],
+      [aria-selected='true']
+    ) {
     color: var(--c-accent-contrast);
   }
 
