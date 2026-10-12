@@ -1,4 +1,5 @@
 ---
+import { tintAt } from '../lib/tint';
 import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import HeroPanel from '../components/HeroPanel.astro';
@@ -30,21 +31,25 @@ const glance = [
 const beyondWork = [
   {
     icon: 'earth',
+    tint: 'green',
     title: 'Outside',
     body: 'Most weekends I am hiking, camping, or just finding an excuse to be outdoors — it is a lot of why I ended up studying landscapes for a living.',
   },
   {
     icon: 'flame',
+    tint: 'yellow',
     title: 'Coffee & cooking',
     body: 'I take coffee too seriously and cook most nights. Both scratch the same itch as data work: a process you can tune until it is right.',
   },
   {
     icon: 'video',
+    tint: 'purple',
     title: 'Photography',
     body: 'A camera goes wherever I do. Landscapes mostly — the same eye for composition carries over into how I build a map or a figure.',
   },
   {
     icon: 'book',
+    tint: 'red',
     title: 'Always reading',
     body: 'Usually two books at once — one on ecology or statistics, one that has nothing to do with either.',
   },
@@ -112,9 +117,11 @@ const beyondWork = [
     <div class="grid gap-10 lg:grid-cols-[19rem_1fr] lg:gap-16">
       <aside class="lg:sticky lg:top-28 lg:self-start" data-reveal>
         <dl class="card divide-y divide-line">
-          {glance.map((g) => (
+          {glance.map((g, i) => (
             <div class="flex gap-4 p-5">
-              <span class="grid h-9 w-9 shrink-0 place-items-center rounded-full tile-accent">
+              <span
+                class={`grid h-9 w-9 shrink-0 place-items-center rounded-full tile-${tintAt(i)}`}
+              >
                 <Icon name={g.icon} size={16} />
               </span>
               <div class="min-w-0">
@@ -154,7 +161,7 @@ const beyondWork = [
       <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
         {beyondWork.map((b, i) => (
           <div class="card flex flex-col p-6" data-reveal style={`--reveal-delay:${i * 60}ms`}>
-            <span class="grid h-12 w-12 place-items-center rounded-xl tile-accent">
+            <span class={`grid h-12 w-12 place-items-center rounded-xl tile-${b.tint}`}>
               <Icon name={b.icon} size={22} />
             </span>
             <b role="heading" aria-level="3" class="mt-5 block text-lg font-medium">
