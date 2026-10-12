@@ -458,19 +458,55 @@ const faqs = [
       href="/blog/"
       linkText="Read more posts"
     />
-    <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-      {posts.map((entry, i) => (
-        <PostCard entry={entry} index={i} cta readingTime={readingTime(entry.body)} />
-      ))}
+    <div class="mt-10" data-carousel>
+      <div
+        class="carousel-track -mx-4 -my-6 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 py-6 [scroll-padding-inline:16px] sm:m-0 sm:grid sm:grid-cols-2 sm:gap-5 sm:overflow-visible sm:p-0 lg:grid-cols-3"
+        data-carousel-track
+      >
+        {posts.map((entry, i) => (
+          <PostCard
+            entry={entry}
+            index={i}
+            cta
+            readingTime={readingTime(entry.body)}
+            class="w-[min(38rem,calc(100vw-3rem))] shrink-0 snap-start sm:w-auto"
+          />
+        ))}
+      </div>
+
+      <div class="mt-8 flex items-center justify-between gap-3 md:justify-end">
+        <a class="btn btn-outline group h-12 md:hidden" href="/blog/">
+          Read more posts
+          <Icon
+            name="arrow"
+            size={15}
+            class="transition-transform duration-300 group-hover:translate-x-1"
+          />
+        </a>
+        <div class="flex items-center gap-3 sm:hidden">
+          <button
+            type="button"
+            class="popup-plus carousel-btn"
+            data-carousel-prev
+            aria-label="Previous post"
+          >
+            <span class="carousel-chev carousel-chev-prev">
+              <Icon name="chevron" size={18} />
+            </span>
+          </button>
+          <button
+            type="button"
+            class="popup-plus carousel-btn"
+            data-carousel-next
+            aria-label="Next post"
+          >
+            <span class="carousel-chev carousel-chev-next">
+              <Icon name="chevron" size={18} />
+            </span>
+          </button>
+        </div>
+      </div>
     </div>
-    <a class="btn btn-outline group mt-6 h-12 md:hidden" href="/blog/">
-      Read more posts
-      <Icon
-        name="arrow"
-        size={15}
-        class="transition-transform duration-300 group-hover:translate-x-1"
-      />
-    </a>
   </section>
 
   <!-- cta -->
