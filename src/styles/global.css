@@ -52,7 +52,7 @@
      this theme. Blue stays the primary (--c-accent). */
   --c-red: #ff6b78;
   --c-ember: var(--c-red);
-  --c-yellow-fill: #ffb110;
+  --c-yellow: #ffc95e;
   --c-moss: #68ce7e;
   --c-violet: #ad6ded;
   --c-cta-a: #5b2fe0;
@@ -92,7 +92,7 @@
   --c-on-light: #14161a;
   --c-red: #b8142d;
   --c-ember: var(--c-red);
-  --c-yellow-fill: #ffb110;
+  --c-yellow: #855a00;
   --c-moss: #0f6220;
   --c-violet: #7237ae;
   --c-cta-a: #5b2fe0;
@@ -128,7 +128,7 @@
   --color-accent-contrast: var(--c-accent-contrast);
   --color-red: var(--c-red);
   --color-ember: var(--c-ember);
-  --color-yellow: var(--c-yellow-fill);
+  --color-yellow: var(--c-yellow);
   --color-moss: var(--c-moss);
   --color-violet: var(--c-violet);
 
@@ -759,35 +759,28 @@
     background: color-mix(in oklab, var(--c-accent) 28%, var(--c-surface));
   }
   /* Notion-style tinted tags and icon tiles: a wash of the color on the
-     surface, text/icon in the theme's legible step. Pair with .chip.
-     Yellow is a solid Notion-yellow fill with dark text instead, since
-     yellow text on a light surface has no legible step. */
+     surface, text/icon in the theme's legible step. Pair with .chip. */
   :is(
     .chip-blue,
     .chip-red,
+    .chip-yellow,
     .chip-green,
     .chip-purple,
     .tile-blue,
     .tile-red,
+    .tile-yellow,
     .tile-green,
     .tile-purple
   ) {
     background: color-mix(in oklab, var(--tint) 16%, var(--c-surface));
     color: var(--tint);
   }
-  :is(.chip-yellow, .tile-yellow) {
-    background: var(--c-yellow-fill);
-    color: var(--c-on-light);
-  }
-  a:is(.chip-blue, .chip-red, .chip-green, .chip-purple, .chip-yellow) {
+  a:is(.chip-blue, .chip-red, .chip-yellow, .chip-green, .chip-purple) {
     transition: background-color 0.2s;
   }
-  a:is(.chip-blue, .chip-red, .chip-green, .chip-purple):hover {
+  a:is(.chip-blue, .chip-red, .chip-yellow, .chip-green, .chip-purple):hover {
     background: color-mix(in oklab, var(--tint) 28%, var(--c-surface));
     color: var(--tint);
-  }
-  a.chip-yellow:hover {
-    background: color-mix(in oklab, var(--c-yellow-fill) 85%, black);
   }
   .chip-blue,
   .tile-blue {
@@ -796,6 +789,10 @@
   .chip-red,
   .tile-red {
     --tint: var(--c-red);
+  }
+  .chip-yellow,
+  .tile-yellow {
+    --tint: var(--c-yellow);
   }
   .chip-green,
   .tile-green {
