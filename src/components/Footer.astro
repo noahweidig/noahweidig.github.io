@@ -4,16 +4,25 @@ import Icon from './Icon.astro';
 import Wordmark from './Wordmark.astro';
 import NewsletterForm from './NewsletterForm.astro';
 const year = new Date().getFullYear();
-const more = [
-  { text: 'Contact', href: '/contact/' },
-  { text: 'Privacy Policy', href: '/privacy/' },
-  { text: 'Terms & Conditions', href: '/terms/' },
-  { text: 'Styleguide', href: '/styleguide/' },
-  { text: 'AI', href: '/ai/' },
-];
-const columns = [
-  ...navGroups.map((g) => ({ text: g.text, items: g.items })),
-  { text: 'More', items: more },
+type Link = { text: string; href: string; tip?: string; external?: boolean };
+const extra: Record<string, Link[]> = {
+  Work: [{ text: 'Tech stack', href: '/tech/' }],
+  Writing: [
+    { text: 'Tags', href: '/tags/' },
+    { text: 'AI', href: '/ai/' },
+  ],
+};
+const columns: { text: string; items: Link[] }[] = [
+  ...navGroups.map((g) => ({ text: g.text, items: [...g.items, ...(extra[g.text] ?? [])] })),
+  {
+    text: 'More',
+    items: [
+      { text: 'Contact', href: '/contact/' },
+      { text: 'Privacy Policy', href: '/privacy/' },
+      { text: 'Terms & Conditions', href: '/terms/' },
+      { text: 'Styleguide', href: '/styleguide/' },
+    ],
+  },
 ];
 const iconBtn =
   'grid h-8 w-8 place-items-center rounded-md footer-dim transition-colors hover:bg-[var(--c-matte)] hover:text-ink';
@@ -53,9 +62,9 @@ const iconBtn =
                   <li>
                     <a
                       href={item.href}
-                      data-tip={'tip' in item ? item.tip : undefined}
-                      target={'external' in item ? '_blank' : undefined}
-                      rel={'external' in item ? 'noopener' : undefined}
+                      data-tip={item.tip}
+                      target={item.external ? '_blank' : undefined}
+                      rel={item.external ? 'noopener' : undefined}
                       class="footer-dim text-small transition-colors hover:text-ink"
                     >
                       {item.text}
