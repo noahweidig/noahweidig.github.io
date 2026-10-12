@@ -6,30 +6,27 @@ interface Props {
 const { class: cls = '', collapse = false } = Astro.props;
 ---
 
-<span
-  class:list={['wm font-display font-bold italic tracking-tight', { 'wm-collapse': collapse }, cls]}
->
-  <span class="wm-ink">n</span>
-  <span class="wm-fade wm-oah wm-ink">oah</span>
-  <span class="wm-blue">w</span>
-  <span class="wm-fade wm-eidig wm-blue">eidig</span>
-  <span class="wm-dot wm-ink">.</span>
+<span class:list={['wm font-display font-bold tracking-tight', { 'wm-collapse': collapse }, cls]}>
+  <span>n</span>
+  <span class="wm-fade wm-oah">oah</span>
+  <span>w</span>
+  <span class="wm-fade wm-eidig">eidig</span>
+  <span class="wm-dot">.</span>
 </span>
 
 <style>
+  /* A tinted pill tag, same wash as the hero's rolling pill and the cover tags. */
   .wm {
-    font-family: 'DM Sans Wordmark', var(--font-display);
     display: inline-flex;
+    padding: 0.3em 0.85em 0.35em;
+    border-radius: var(--radius-pill);
+    color: var(--c-accent-ink);
+    background: color-mix(in oklab, var(--c-accent-ink) 18%, var(--c-surface));
     white-space: nowrap;
+    transition: padding 0.7s var(--ease-out-soft);
   }
   .wm > span {
     display: inline-block;
-  }
-  .wm-ink {
-    color: var(--c-ink);
-  }
-  .wm-blue {
-    color: var(--c-accent);
   }
   .wm-dot {
     display: none !important;
