@@ -90,8 +90,8 @@ const icons = [
             style={`background: var(${token})`}
           />
           <span class="min-w-0">
-            <code class="block font-mono text-[0.78rem] text-accent-ink">{token}</code>
-            <span class="block truncate text-[0.8rem] text-faint">{use}</span>
+            <code class="block font-mono text-small text-accent-ink">{token}</code>
+            <span class="block truncate text-small text-faint">{use}</span>
           </span>
         </div>
       ))}
@@ -109,7 +109,7 @@ const icons = [
         <div class="grid gap-2 py-5 sm:grid-cols-[10rem_1fr] sm:gap-6">
           <div>
             <p class="font-mono text-2xs tracking-[0.14em] text-faint uppercase">{name}</p>
-            <p class="mt-1 text-[0.78rem] text-faint">{size}</p>
+            <p class="mt-1 text-small text-faint">{size}</p>
           </div>
           <p class="font-display text-2xl">{use}</p>
         </div>
@@ -200,7 +200,7 @@ const icons = [
       {icons.map((name) => (
         <div class="card grid aspect-square place-items-center gap-1.5 p-2 text-dim">
           <Icon name={name} size={22} />
-          <code class="text-[0.6rem] text-faint">{name}</code>
+          <code class="text-micro text-faint">{name}</code>
         </div>
       ))}
     </div>
