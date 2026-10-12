@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-10-10T21:54:16.088Z",
+  "generatedAt": "2026-10-12T17:08:31.930Z",
   "totalPages": 104,
   "score": 99,
   "totals": {
-    "passes": 1530,
+    "passes": 1536,
     "warnings": 23,
     "errors": 0
   },
@@ -38,7 +38,7 @@
     },
     {
       "name": "Images",
-      "passes": 104,
+      "passes": 110,
       "warnings": 1,
       "errors": 0,
       "issues": [
@@ -160,17 +160,17 @@
       "issues": [
         {
           "page": "/blog/favorite-r-packages/index.html",
-          "message": "Total HTML size exceeds 100KB (124.6KB)",
+          "message": "Total HTML size exceeds 100KB (124.7KB)",
           "severity": "warning"
         },
         {
           "page": "/index.html",
-          "message": "Total HTML size exceeds 100KB (164.9KB)",
+          "message": "Total HTML size exceeds 100KB (163.7KB)",
           "severity": "warning"
         },
         {
           "page": "/publications/index.html",
-          "message": "Total HTML size exceeds 100KB (108.3KB)",
+          "message": "Total HTML size exceeds 100KB (106.4KB)",
           "severity": "warning"
         }
       ]
