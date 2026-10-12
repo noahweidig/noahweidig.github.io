@@ -100,7 +100,7 @@ const byCat = (c: string) => pubs.filter((p) => p.data.categories.includes(c));
                     href={`/${group.base}/${entry.id}/`}
                     data-tip-title={entry.data.org}
                     data-tip={entry.data.description ?? 'Open the full entry'}
-                    class="transition-colors hover:text-accent-ink"
+                    class="inline-block py-0.5 transition-colors hover:text-accent-ink"
                   >
                     {entry.data.title}
                   </a>
