@@ -311,7 +311,7 @@
     font-size: 0.8rem;
     font-weight: 600;
     color: var(--tint, var(--c-accent-ink));
-    background: color-mix(in oklab, var(--tint, var(--c-accent-ink)) 16%, var(--c-surface));
+    background: color-mix(in oklab, var(--tint, var(--c-accent-ink)) 12%, var(--c-surface));
   }
   /* --- display headings --- */
   .display-1 {
@@ -457,7 +457,7 @@
     flex-direction: column-reverse;
     padding: 0.9rem 1rem;
     border-radius: var(--radius-md);
-    background: color-mix(in oklab, var(--tint, var(--c-accent-ink)) 20%, var(--c-card));
+    background: color-mix(in oklab, var(--tint, var(--c-accent-ink)) 14%, var(--c-card));
     border: 1px solid color-mix(in oklab, var(--tint, var(--c-accent-ink)) 32%, var(--c-card));
   }
   @media (min-width: 52rem) {
@@ -799,12 +799,12 @@
     border-radius: var(--radius-lg);
     color: var(--c-ink);
     text-decoration: none;
-    background: color-mix(in oklab, var(--tint) 20%, var(--c-card));
-    border: 1px solid color-mix(in oklab, var(--tint) 32%, var(--c-card));
+    background: color-mix(in oklab, var(--tint) 14%, var(--c-card));
+    border: 1px solid color-mix(in oklab, var(--tint) 30%, var(--c-card));
     transition: background-color 0.2s var(--ease-out-soft);
   }
   a.bento-tile:hover {
-    background: color-mix(in oklab, var(--tint) 30%, var(--c-card));
+    background: color-mix(in oklab, var(--tint) 24%, var(--c-card));
     text-decoration: none;
   }
   .bento-main {
