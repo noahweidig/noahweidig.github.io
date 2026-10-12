@@ -7,6 +7,7 @@ import HeroPanel from '../../components/HeroPanel.astro';
 import Icon from '../../components/Icon.astro';
 import { byDate, readingTime } from '../../lib/format';
 import { site } from '../../lib/site';
+import { tintFor } from '../../lib/tint';
 
 const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(byDate);
 const categories = [...new Set(posts.flatMap((p) => p.data.categories))].sort();
@@ -51,7 +52,7 @@ const blogLd = {
       <p class="mt-2 line-clamp-3 text-sm leading-relaxed text-dim">{posts[0]!.data.description}</p>
       <p class="mt-4 flex flex-wrap gap-2">
         {posts[0]!.data.categories.map((c) => (
-          <span class="chip">{c}</span>
+          <span class={`chip chip-${tintFor(c)}`}>{c}</span>
         ))}
         <span class="chip">{readingTime(posts[0]!.body ?? '')}</span>
       </p>

@@ -1,3 +1,5 @@
+import type { Tint } from './tint';
+
 export const site = {
   name: 'Noah Weidig',
   role: 'GIS Analyst & Data Scientist',
@@ -66,6 +68,19 @@ export const navGroups = [
     ],
   },
 ] as const;
+
+/** Icon and color for each desktop nav dropdown card, keyed by item text. */
+export const navMeta: Record<string, { icon: string; tint: Tint }> = {
+  Projects: { icon: 'terminal', tint: 'green' },
+  Publications: { icon: 'book', tint: 'purple' },
+  Experience: { icon: 'briefcase', tint: 'blue' },
+  About: { icon: 'users', tint: 'red' },
+  Education: { icon: 'graduationCap', tint: 'blue' },
+  Awards: { icon: 'trophy', tint: 'yellow' },
+  CV: { icon: 'file', tint: 'green' },
+  Blog: { icon: 'pencil', tint: 'purple' },
+  Newsletter: { icon: 'mail', tint: 'yellow' },
+};
 
 export const socials = [
   { label: 'LinkedIn', href: 'https://www.linkedin.com/in/noahweidig/', icon: 'linkedin' },

@@ -102,6 +102,7 @@ const starts = [
     items: researchAreas.map((t) => ({ t, href: '#interests' })),
     href: '#interests',
     icon: 'layers',
+    tint: 'purple',
     title: 'Research',
     body: 'Six focus areas, from WUI wildfire risk to species distribution modeling — with the papers behind each.',
     cta: 'Read the research',
@@ -111,6 +112,7 @@ const starts = [
     items: projects.map((p) => ({ t: p.data.title, href: `/projects/${p.id}/` })),
     href: '#projects',
     icon: 'terminal',
+    tint: 'green',
     title: 'Tools & maps',
     body: 'Open tools: an R package for U.S. fire data, Earth Engine apps, interactive map galleries.',
     cta: 'Browse the work',
@@ -120,6 +122,7 @@ const starts = [
     items: posts.map((p) => ({ t: p.data.title, href: `/blog/${p.id}/` })),
     href: '#blog',
     icon: 'pencil',
+    tint: 'yellow',
     title: 'Writing',
     body: 'Tutorials and notes on R, spatial workflows, and doing reproducible research in the open.',
     cta: 'Read the blog',
@@ -170,7 +173,9 @@ const faqs = [
           data-reveal
           style={`--reveal-delay:${i * 70}ms`}
         >
-          <span class="grid aspect-square h-11 w-11 shrink-0 place-items-center rounded-full tile-accent">
+          <span
+            class={`grid aspect-square h-11 w-11 shrink-0 place-items-center rounded-full tile-${s.tint}`}
+          >
             <Icon name={s.icon} size={20} />
           </span>
           <h2 class="mt-5 text-xl">{s.title}</h2>

@@ -1,4 +1,5 @@
 ---
+import { tintAt } from '../lib/tint';
 import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import HeroPanel from '../components/HeroPanel.astro';
@@ -66,9 +67,11 @@ const facts = [
         </p>
 
         <ul class="mt-8 grid gap-3">
-          {facts.map((f) => (
+          {facts.map((f, i) => (
             <li class="card flex min-w-0 items-center gap-4 p-4">
-              <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full tile-accent">
+              <span
+                class={`grid h-10 w-10 shrink-0 place-items-center rounded-full tile-${tintAt(i)}`}
+              >
                 <Icon name={f.icon} size={18} />
               </span>
               <span class="min-w-0">
