@@ -646,7 +646,22 @@
     border-color: var(--c-accent-ink);
     color: var(--c-accent-ink);
   }
+  .project-shot::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--tint);
+    mix-blend-mode: multiply;
+    opacity: 0.55;
+    pointer-events: none;
+    transition: opacity 0.3s;
+  }
+  .project-shot:hover::after,
+  .project-shot:focus-visible::after {
+    opacity: 0;
+  }
   .card-badge {
+    z-index: 1;
     position: absolute;
     bottom: 0.75rem;
     left: 0.75rem;

@@ -15,6 +15,8 @@ const { entry, index = 0, reveal = true, class: cls } = Astro.props;
 const { title, categories } = entry.data;
 const slug = entry.id;
 const shot = shotFor(slug);
+const tints = ['red', 'accent', 'yellow', 'violet', 'moss'];
+const tint = tints[index % tints.length];
 ---
 
 <article
@@ -25,7 +27,8 @@ const shot = shotFor(slug);
 >
   <a
     href={`/projects/${slug}/`}
-    class="relative block aspect-16/10 overflow-hidden rounded-[var(--radius-md)] bg-raised"
+    class="project-shot relative block aspect-16/10 overflow-hidden rounded-[var(--radius-md)] bg-raised"
+    style={`--tint:var(--c-${tint})`}
   >
     {shot ? (
       <Image
