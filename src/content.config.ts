@@ -113,17 +113,27 @@ const blog = defineCollection({
 const timeline = (base: string) =>
   defineCollection({
     loader: dirLoader(base),
-    schema: z.object({
-      title: z.string(),
-      date: z.coerce.date(),
-      dates: z.string().optional(),
-      description: z.string().optional(),
-      org: z.string().optional(),
-      'org-url': z.url().optional(),
-      location: z.string().optional(),
-      categories: z.array(z.string()).default([]),
-      links: z.array(link).default([]),
-    }),
+    schema: ({ image }) =>
+      z
+        .object({
+          title: z.string(),
+          date: z.coerce.date(),
+          dates: z.string().optional(),
+          description: z.string().optional(),
+          org: z.string().optional(),
+          'org-url': z.url().optional(),
+          location: z.string().optional(),
+          categories: z.array(z.string()).default([]),
+          links: z.array(link).default([]),
+          image: image().optional(),
+          'image-alt': z.string().optional(),
+          // Attribution line for a third-party photo (CC licences require it).
+          'image-credit': z.string().optional(),
+        })
+        .refine((data) => !data.image || !!data['image-alt'], {
+          message: '`image-alt` is required whenever `image` is set',
+          path: ['image-alt'],
+        }),
   });
 
 export const collections = {
