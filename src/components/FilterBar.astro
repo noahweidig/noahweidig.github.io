@@ -27,11 +27,7 @@ const { categories, target, noun, total } = Astro.props;
       {c}
     </button>
   ))}
-  <span
-    class="ml-auto font-mono text-2xs tracking-[0.1em] text-faint uppercase"
-    data-filter-count
-    aria-live="polite"
-  >
+  <span class="ml-auto text-xs font-medium text-faint" data-filter-count aria-live="polite">
     {total} {noun}
   </span>
 </div>

@@ -17,7 +17,7 @@ const stats = [
   { value: states.size, label: 'States worked in' },
 ];
 
-/* "Aug 2025 – Present" → the start / end halves for the date rail. */
+/* "Aug 2025 – Present" → the start / end halves for the date chip. */
 const span = (dates = '') => {
   const [from, to] = dates.split(/\s[–-]\s/);
   return { from: from ?? '', to: to ?? '' };
@@ -46,54 +46,29 @@ const span = (dates = '') => {
     </a>
   </Fragment>
   <h2 class="sr-only-nw">All experience</h2>
-  <ol class="relative mt-12 md:mt-16">
-    <span
-      aria-hidden="true"
-      class="absolute top-2 bottom-2 left-[5px] w-px bg-gradient-to-b from-accent/60 via-line-strong to-transparent md:left-[calc(11rem+5px)]"
-    ></span>
+  <ol class="mt-12 grid gap-4 md:mt-16">
     {items.map((entry, i) => {
       const d = entry.data;
       const { from, to } = span(d.dates);
       const current = i === 0 && /present/i.test(to);
       return (
-        <li
-          class="relative grid gap-3 pb-8 pl-8 last:pb-0 md:grid-cols-[11rem_1fr] md:gap-x-10 md:pb-10 md:pl-0"
-          data-reveal
-        >
-          <div class="md:pt-5 md:pr-10 md:text-right">
-            <p class="font-mono text-xs font-medium tracking-[0.08em] text-ink uppercase">{from}</p>
-            <p class="font-mono text-2xs tracking-[0.08em] text-faint uppercase">
-              {to ? `→ ${to}` : ''}
-            </p>
-          </div>
-          <span
-            aria-hidden="true"
-            class:list={[
-              'absolute top-[0.35rem] left-0 h-[11px] w-[11px] rounded-full border-2 md:top-[1.6rem] md:left-[11rem]',
-              current ? 'border-accent bg-accent' : 'border-line-strong bg-bg',
-            ]}
-          />
-          {current && (
-            <span
-              aria-hidden="true"
-              class="absolute top-[-0.05rem] -left-[5px] h-[22px] w-[22px] animate-ping rounded-full bg-accent/25 md:top-[1.2rem] md:left-[calc(11rem-5px)]"
-            />
-          )}
+        <li data-reveal>
           <a
             href={`/experience/${entry.id}/`}
             class="card card-hover group block p-6 md:p-7"
             data-tip-title={d.title}
             data-tip={`${d.org ?? ''}${d.dates ? ` · ${d.dates}` : ''} — open the full entry`}
           >
-            <div class="flex flex-wrap items-start justify-between gap-x-4 gap-y-2">
-              <h3 class="text-xl leading-snug transition-colors group-hover:text-accent-ink">
-                {d.title}
-              </h3>
-              {current && <span class="chip chip-green shrink-0">Current</span>}
+            <div class="mb-3 flex flex-wrap items-center gap-2">
+              <span class="chip chip-blue">{to ? `${from} → ${to}` : from}</span>
+              {current && <span class="chip chip-green">Current</span>}
             </div>
+            <h3 class="text-xl leading-snug transition-colors group-hover:text-accent-ink">
+              {d.title}
+            </h3>
             {d.org && <p class="mt-1.5 text-body-lg font-medium text-accent-ink">{d.org}</p>}
             {d.location && (
-              <p class="mt-1 flex items-center gap-1.5 font-mono text-2xs tracking-[0.08em] text-faint uppercase">
+              <p class="mt-1 flex items-center gap-1.5 text-xs font-medium text-faint">
                 <Icon name="pin" size={12} />
                 {d.location}
               </p>

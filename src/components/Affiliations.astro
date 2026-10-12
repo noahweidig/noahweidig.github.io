@@ -20,7 +20,7 @@ const orgs = [
 ---
 
 <div class="mt-12" id="affiliations" data-reveal>
-  <p class="text-center font-mono text-micro tracking-[0.18em] text-faint uppercase">Worked with</p>
+  <p class="text-center text-xs font-medium text-faint">Worked with</p>
   <div class="relative mt-5" data-affil>
     <ul class="affil-track" tabindex="0" aria-label="Institutions I have worked with">
       {orgs.map(([name, href, src]) => (
@@ -42,10 +42,7 @@ const orgs = [
       aria-hidden="true"
     ></span>
   </div>
-  <p
-    class="affil-hint mt-3 text-center font-mono text-micro tracking-[0.12em] text-faint uppercase"
-    aria-hidden="true"
-  >
+  <p class="affil-hint mt-3 text-center text-xs font-medium text-faint" aria-hidden="true">
     Swipe →
   </p>
 </div>

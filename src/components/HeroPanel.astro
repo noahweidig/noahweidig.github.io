@@ -1,4 +1,6 @@
 ---
+import { tintAt } from '../lib/tint';
+
 interface Props {
   title?: string;
   stats?: { value: string | number; label: string }[];
@@ -10,8 +12,8 @@ const { title, stats } = Astro.props;
   {title && <p class="hero-panel-title">{title}</p>}
   {stats && (
     <dl class="hero-panel-stats">
-      {stats.map((s) => (
-        <div>
+      {stats.map((s, i) => (
+        <div class={`tint-${tintAt(i)}`}>
           <dt>{s.label}</dt>
           <dd>{s.value}</dd>
         </div>
