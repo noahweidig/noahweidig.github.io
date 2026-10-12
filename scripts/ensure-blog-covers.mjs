@@ -47,7 +47,7 @@ for (const slug of needFrontmatter) {
   const file = path.join(blogDir, slug, 'index.md');
   const raw = fs.readFileSync(file, 'utf8');
   const title = String(readFrontmatter(raw).title ?? '');
-  const altText = `Cover card reading “${title}” over a halftone dot pattern in ${paletteFor(slug).alt}`;
+  const altText = `Cover card reading “${title}” beside three stacked to-do cards in ${paletteFor(slug).alt}`;
   // Same quote choice Prettier makes for YAML strings, so the lint job
   // doesn't flag a freshly wired post.
   const alt = altText.includes("'") ? `"${altText}"` : `'${altText}'`;
