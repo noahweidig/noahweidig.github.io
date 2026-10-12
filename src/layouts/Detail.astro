@@ -1,5 +1,6 @@
 ---
 import { tagHref, tagIcon } from '../lib/tags';
+import { tintFor } from '../lib/tint';
 import Base from './Base.astro';
 import Icon from '../components/Icon.astro';
 import ShareRow from '../components/ShareRow.astro';
@@ -145,7 +146,7 @@ const hasHeroImage = Astro.slots.has('hero-image')
             <a
               href={tagHref(c)}
               data-tip={`Browse everything tagged ${c}`}
-              class="chip transition-colors hover:bg-matte-hover hover:text-ink"
+              class={`chip chip-${tintFor(c)}`}
             >
               {tagIcon(c) && <Icon name={tagIcon(c)!} size={12} />}
               {c}

@@ -2,6 +2,7 @@
 import { Image } from 'astro:assets';
 import Icon from './Icon.astro';
 import { IMAGE_WIDTHS, shotFor } from '../lib/images';
+import { tintFor } from '../lib/tint';
 
 /* Same optimized screenshots ProjectCard uses. Pointing at the `public/` copy
    instead served the full 1600px file to every viewport: 124KB of the 148KB
@@ -124,7 +125,7 @@ const areas = [
         <p class="mt-4 text-lead leading-relaxed text-dim">{a.body}</p>
         <div class="mt-5 flex flex-wrap gap-1.5">
           {a.chips.map((c) => (
-            <span class="chip">{c}</span>
+            <span class={`chip chip-${tintFor(c)}`}>{c}</span>
           ))}
         </div>
       </div>
