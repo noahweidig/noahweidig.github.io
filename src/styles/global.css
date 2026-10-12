@@ -656,6 +656,14 @@
     pointer-events: none;
     transition: opacity 0.3s;
   }
+  .project-shot img {
+    filter: grayscale(1);
+    transition: filter 0.3s;
+  }
+  .project-shot:hover img,
+  .project-shot:focus-visible img {
+    filter: none;
+  }
   .project-shot:hover::after,
   .project-shot:focus-visible::after {
     opacity: 0;
