@@ -515,55 +515,44 @@ const faqs = [
   </section>
 
   <!-- cta -->
-  <section
-    class="band-dark relative isolate scroll-mt-24 overflow-hidden bg-bg-deep py-28 text-center md:py-40 cv-auto"
-    id="cta"
-  >
-    <div
-      class="pointer-events-none absolute inset-0 -z-10"
-      style="background: linear-gradient(to bottom, rgb(255 255 255 / 0.12), transparent 40%), var(--grad-cta);"
-      aria-hidden="true"
-    ></div>
-    <div class="shell-narrow" data-reveal>
-      <p class="font-mono text-2xs tracking-[0.18em] text-white/80 uppercase">
-        Open to data science &amp; GIS roles
-      </p>
-      <h2 class="mt-5 font-display text-[clamp(2rem,1.3rem+2.8vw,3.5rem)] leading-[1.1] font-semibold tracking-tight text-balance">
-        Let's talk about spatial problems worth solving.
-      </h2>
-      <p class="lede mx-auto mt-6 max-w-[40ch] text-white/90">
-        Looking for <strong class="text-white">data scientist</strong> and{' '}
-        <strong class="text-white">GIS analyst</strong> roles where rigorous spatial analysis drives
-        real decisions. Replies within 24 hours.
-      </p>
-      <div class="mt-10 flex flex-wrap justify-center gap-3">
-        <a
-          class="btn btn-primary border-white bg-white text-[var(--c-cta-a)] hover:bg-white/90"
-          href="/contact/"
-        >
-          <Icon name="mail" size={15} />
-          Get in touch
-        </a>
-        <a
-          class="btn btn-ghost border-white bg-transparent text-white hover:bg-white/10"
-          href={site.resume}
-          target="_blank"
-          rel="noopener"
-        >
-          <Icon name="download" size={15} />
-          Download resume
-          <span class="sr-only-nw"> (opens in a new tab)</span>
-        </a>
+  <section class="shell scroll-mt-24 py-24 md:py-32 cv-auto" id="cta">
+    <div class="bento" data-reveal>
+      <div class="bento-tile bento-main bento-purple">
+        <p class="font-mono text-2xs tracking-[0.18em] uppercase" style="color: var(--tint);">
+          Open to data science &amp; GIS roles
+        </p>
+        <h2 class="mt-5 font-display text-[clamp(2rem,1.3rem+2.8vw,3.5rem)] leading-[1.08] font-semibold tracking-tight text-balance">
+          Let's talk about spatial problems worth solving.
+        </h2>
+        <p class="lede mt-6 max-w-[40ch] text-dim">
+          Looking for <strong class="text-ink">data scientist</strong> and{' '}
+          <strong class="text-ink">GIS analyst</strong> roles where rigorous spatial analysis drives
+          real decisions.
+        </p>
       </div>
-      <p class="mt-6 text-sm text-white/80">
-        Prefer email?{' '}
-        <a
-          class="font-medium text-white underline underline-offset-2"
-          href={`mailto:${site.email}`}
-        >
-          {site.email}
-        </a>
-      </p>
+      <a class="bento-tile bento-contact bento-blue" href="/contact/">
+        <span class="bento-icon"><Icon name="mail" size={24} /></span>
+        <span class="bento-title">Get in touch</span>
+        <span class="bento-sub">Send a note about a role or project</span>
+      </a>
+      <a
+        class="bento-tile bento-resume bento-green"
+        href={site.resume}
+        target="_blank"
+        rel="noopener"
+      >
+        <span class="bento-icon"><Icon name="download" size={24} /></span>
+        <span class="bento-title">Resume</span>
+        <span class="bento-sub">PDF<span class="sr-only-nw"> (opens in a new tab)</span></span>
+      </a>
+      <div class="bento-tile bento-reply bento-yellow">
+        <span class="bento-label">Replies</span>
+        <span class="bento-title">Within 24 hours</span>
+      </div>
+      <a class="bento-tile bento-email bento-pink" href={`mailto:${site.email}`}>
+        <span class="bento-label">Email</span>
+        <span class="bento-mail">{site.email}</span>
+      </a>
     </div>
   </section>
 
