@@ -4,7 +4,6 @@ date: '2026-10-06'
 description: Website for a wildfire research network
 categories:
   - Fire
-  - Web
 featured: false
 links:
   - label: 'Visit Site'

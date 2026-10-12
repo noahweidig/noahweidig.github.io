@@ -3,7 +3,6 @@ title: Lorem Chartsum
 date: '2025-03-10'
 description: A Placeholder Chart API
 categories:
-  - APIs
   - Data Science
 featured: false
 links:
