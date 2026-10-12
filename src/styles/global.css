@@ -135,7 +135,6 @@
      pills, back-to-top). */
   --radius-pill: 9999px;
 
-
   /* Named steps for the micro-type cluster that used to ship as one-off
      arbitrary values (text-micro etc.) — see #138. */
   --text-micro: 0.68rem;
