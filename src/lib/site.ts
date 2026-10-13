@@ -1,4 +1,4 @@
-import { SECTION_TINT, type Tint } from './tint';
+import { SECTION_TINT, type Tint } from './tint.ts';
 
 export const site = {
   name: 'Noah Weidig',
