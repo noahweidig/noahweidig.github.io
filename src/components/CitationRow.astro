@@ -133,7 +133,12 @@ const altmetricTip = altmetric
     {!compact && summary && <p class="mt-2.5 text-sm leading-relaxed text-dim">{summary}</p>}
 
     <div class="mt-3 flex flex-wrap items-center gap-2 text-caption">
-      {d['pub-oa'] && <span class="chip">Open Access</span>}
+      {d['pub-oa'] && (
+        <span class="chip">
+          <Icon name="lockOpen" size={12} />
+          Open Access
+        </span>
+      )}
       {compact &&
         cats.slice(1, 2).map((c) => (
           <a href={tagHref(c)} class="chip transition-colors hover:bg-matte-hover hover:text-ink">
@@ -199,6 +204,7 @@ const altmetricTip = altmetric
           aria-label="View DOI (opens in a new tab)"
           class="chip transition-colors hover:bg-matte-hover hover:text-ink"
         >
+          <Icon name="link" size={12} />
           DOI
         </a>
       )}
@@ -210,6 +216,7 @@ const altmetricTip = altmetric
           aria-label="View source (opens in a new tab)"
           class="chip transition-colors hover:bg-matte-hover hover:text-ink"
         >
+          <Icon name="external" size={12} />
           Source
         </a>
       )}
@@ -221,6 +228,7 @@ const altmetricTip = altmetric
           aria-label="View full PDF (opens in a new tab)"
           class="chip transition-colors hover:bg-matte-hover hover:text-ink"
         >
+          <Icon name="filePdf" size={12} />
           View full PDF
         </a>
       )}
