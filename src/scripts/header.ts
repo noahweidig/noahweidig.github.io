@@ -79,7 +79,16 @@ export function initHeader() {
     }, 250);
   };
   on(toggle, 'click', () => setOpen(!isOpen));
-  panel.querySelectorAll('a').forEach((a) => on(a, 'click', () => setOpen(false)));
+  panel
+    .querySelectorAll('a, [data-menu-close], [data-menu-scrim], [data-search-open]')
+    .forEach((el) => on(el, 'click', () => setOpen(false)));
+  panel.querySelectorAll<HTMLButtonElement>('[data-group-toggle]').forEach((btn) =>
+    on(btn, 'click', () => {
+      const open = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!open));
+      btn.nextElementSibling?.toggleAttribute('data-closed', open);
+    }),
+  );
   on(window, 'resize', () => {
     if (window.innerWidth >= 1024) setOpen(false);
   });
