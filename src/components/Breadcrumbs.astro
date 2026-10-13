@@ -1,4 +1,5 @@
 ---
+import Icon from './Icon.astro';
 import { site } from '../lib/site';
 
 export interface Crumb {
@@ -44,18 +45,7 @@ const jsonLd = {
         <a href={c.href ?? '/'} class="transition-colors hover:text-accent-ink">
           {c.label}
         </a>
-        <svg
-          aria-hidden="true"
-          viewBox="0 0 16 16"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="1.75"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          class="size-3 text-faint"
-        >
-          <path d="M6 3.5 10.5 8 6 12.5" />
-        </svg>
+        <Icon name="right" size={12} stroke-width={1.75} class="text-faint" />
       </li>
     ))}
     <li class="min-w-0">

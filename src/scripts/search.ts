@@ -1,5 +1,6 @@
 /* ---------------------------------------------------------------- fuzzy -- */
 import { escapeHtml, on } from './dom';
+import { iconSvg } from './icon';
 
 /* Pagefind matches whole words, so "wildfre" or "gldilocks" find nothing. The
    title index in /search-index.json is scored character-by-character and fills
@@ -284,7 +285,7 @@ export function initSearch() {
                   }">
                   <span class="grid h-3.5 w-3.5 shrink-0 place-items-center rounded-[3px] border ${
                     on ? 'border-accent bg-accent text-accent-contrast' : 'border-line-strong'
-                  }">${on ? '<svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5l10 -10"/></svg>' : ''}</span>
+                  }">${on ? iconSvg('check', 10, 3.5) : ''}</span>
                   <span class="min-w-0 flex-1 truncate">${escapeHtml(value)}</span>
                   <span class="shrink-0 font-mono text-micro text-faint">${n}</span>
                 </button></li>`;
