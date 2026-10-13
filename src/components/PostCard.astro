@@ -43,9 +43,7 @@ const alt = entry.data['image-alt'] ?? '';
         class="h-full w-full object-cover"
       />
       {readingTime && (
-        <span class="absolute right-3 bottom-3 chip bg-black/55 text-white backdrop-blur-md">
-          {readingTime}
-        </span>
+        <span class="absolute right-3 bottom-3 chip bg-black/55 text-white">{readingTime}</span>
       )}
     </a>
   )}

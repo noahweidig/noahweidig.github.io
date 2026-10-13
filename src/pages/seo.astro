@@ -65,29 +65,29 @@ const generated = new Date(report.generatedAt).toLocaleDateString('en-US', {
   <div class="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
     <div class="card p-5">
       <p class="text-xs tracking-wide text-dim uppercase">Score</p>
-      <p class="mt-1 font-display text-3xl font-bold" style={`color:${scoreColor}`}>
+      <p class="mt-1 font-display text-3xl font-semibold" style={`color:${scoreColor}`}>
         {report.score}
         <span class="text-lg text-dim">/100</span>
       </p>
     </div>
     <div class="card p-5">
       <p class="text-xs tracking-wide text-dim uppercase">Pages</p>
-      <p class="mt-1 font-display text-3xl font-bold">{report.totalPages}</p>
+      <p class="mt-1 font-display text-3xl font-semibold">{report.totalPages}</p>
     </div>
     <div class="card p-5">
       <p class="text-xs tracking-wide text-dim uppercase">Errors</p>
-      <p class="mt-1 font-display text-3xl font-bold text-ember">{report.totals.errors}</p>
+      <p class="mt-1 font-display text-3xl font-semibold text-ember">{report.totals.errors}</p>
     </div>
     <div class="card p-5">
       <p class="text-xs tracking-wide text-dim uppercase">Warnings</p>
-      <p class="mt-1 font-display text-3xl font-bold text-accent">{report.totals.warnings}</p>
+      <p class="mt-1 font-display text-3xl font-semibold text-accent">{report.totals.warnings}</p>
     </div>
   </div>
 
   <div class="mt-10 space-y-3">
     {report.audits.map((audit) => (
       <details class="card overflow-hidden" open={audit.issues.length > 0}>
-        <summary class="flex cursor-pointer items-center justify-between gap-4 px-5 py-4 font-display font-bold">
+        <summary class="flex cursor-pointer items-center justify-between gap-4 px-5 py-4 font-display font-semibold">
           <span>{audit.name}</span>
           <span class="flex items-center gap-2 text-sm font-normal" data-pagefind-ignore>
             {audit.errors > 0 && (
