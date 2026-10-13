@@ -118,6 +118,8 @@
   --color-bg-deep: var(--c-bg-deep);
   --color-surface: var(--c-surface);
   --color-raised: var(--c-raised);
+  --color-card: var(--c-card);
+  --color-matte-hover: var(--c-matte-hover);
   --color-matte: var(--c-matte);
   --color-line: var(--c-line);
   --color-line-strong: var(--c-line-strong);
