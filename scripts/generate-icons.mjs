@@ -70,6 +70,7 @@ const MAP = {
   tag: 'tag',
   copy: 'copy',
   link: 'link',
+  lockOpen: 'lock-open',
   hash: 'hash',
   reader: 'book-open-text',
   expand: 'expand',
