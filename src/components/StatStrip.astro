@@ -4,14 +4,11 @@ interface Props {
   stats: { value: string | number; label: string; id?: string }[];
 }
 const { stats } = Astro.props;
-const tints = ['blue', 'green', 'yellow', 'pink'];
 ---
 
 <dl class="grid grid-cols-2 gap-3 md:grid-cols-4" data-reveal>
-  {stats.map((s, i) => (
-    <div
-      class={`bento-tile tint-${tints[i % tints.length]} group relative items-center py-6 text-center`}
-    >
+  {stats.map((s) => (
+    <div class="stat-tile group relative items-center py-6 text-center">
       <dt class="sr-only-nw">{s.label}</dt>
       <dd>
         <b class="block font-display text-3xl font-semibold tracking-tight text-ink md:text-4xl">
