@@ -506,6 +506,22 @@ const isActive = (href: string) => {
     background-color: var(--c-bg);
     border-bottom-color: var(--c-line);
   }
+  @media (max-width: 1023px) {
+    .nav-glass {
+      transition:
+        background-color 0.3s var(--ease-out-soft),
+        border-color 0.3s var(--ease-out-soft),
+        translate 0.3s var(--ease-out-soft);
+    }
+    .nav-glass[data-hidden] {
+      translate: 0 -100%;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .nav-glass {
+      transition: none;
+    }
+  }
   :global(:root) #site-header.nav-glass[data-menu-open] {
     background: var(--c-bg);
   }
@@ -531,4 +547,22 @@ const isActive = (href: string) => {
   };
   set();
   addEventListener('scroll', set, { passive: true });
+
+  const header = document.getElementById('site-header');
+  const mobile = matchMedia('(max-width: 1023px)');
+  let lastY = scrollY;
+  const slide = () => {
+    const y = Math.max(scrollY, 0);
+    const html = document.documentElement;
+    if (!header || !mobile.matches || html.hasAttribute('data-menu-open')) {
+      header?.removeAttribute('data-hidden');
+    } else if (Math.abs(y - lastY) > 6) {
+      const hide = y > lastY && y > header.offsetHeight;
+      header.toggleAttribute('data-hidden', hide && !header.contains(document.activeElement));
+    }
+    if (header && y < header.offsetHeight) header.removeAttribute('data-hidden');
+    if (Math.abs(y - lastY) > 6) lastY = y;
+  };
+  addEventListener('scroll', slide, { passive: true });
+  mobile.addEventListener('change', slide);
 </script>
