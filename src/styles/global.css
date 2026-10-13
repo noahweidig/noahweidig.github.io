@@ -768,30 +768,7 @@
     color: var(--c-accent-ink);
   }
 
-  /* Color-washed tile surface, shared by the homepage stat strip. --tint comes
-     from the .tint-<color> class, same hues as the chips and tiles above. */
-  .bento-tile {
-    --tint: var(--c-accent-ink);
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    gap: 0.25rem;
-    min-width: 0;
-    padding: 1rem;
-    border-radius: var(--radius-lg);
-    color: var(--c-ink);
-    text-decoration: none;
-    background: color-mix(in oklab, var(--tint) 14%, var(--c-card));
-    border: 1px solid color-mix(in oklab, var(--tint) 30%, var(--c-card));
-    transition: background-color 0.2s var(--ease-out-soft);
-  }
-  a.bento-tile:hover {
-    background: color-mix(in oklab, var(--tint) 24%, var(--c-card));
-    text-decoration: none;
-  }
-  .bento-tile .kicker {
-    align-self: flex-start;
-  }
+  /* Section color for kickers, "see all" buttons and hero panels: sets --tint. */
   .tint-blue {
     --tint: var(--c-accent-ink);
   }
@@ -813,8 +790,21 @@
   .tint-purple {
     --tint: var(--c-violet);
   }
+  /* Homepage stat strip tile: a plain card surface. */
+  .stat-tile {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 0.25rem;
+    min-width: 0;
+    padding: 1rem;
+    border-radius: var(--radius-lg);
+    color: var(--c-ink);
+    background: var(--c-card);
+    border: 1px solid var(--c-line);
+  }
   @media (min-width: 768px) {
-    .bento-tile {
+    .stat-tile {
       padding: 1.5rem;
     }
   }
