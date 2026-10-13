@@ -52,6 +52,25 @@ const CATEGORY_TINT: Record<string, Tint> = {
 };
 
 /** Stable color for a tag/category: the same label always gets the same tint. */
+/* Icon drawn beside a section's eyebrow, matching the nav's icons. */
+const SECTION_ICON: Record<string, string> = {
+  Projects: 'terminal',
+  Publications: 'book',
+  Experience: 'briefcase',
+  About: 'users',
+  Education: 'graduationCap',
+  Awards: 'trophy',
+  CV: 'file',
+  Blog: 'pencil',
+  Newsletter: 'mail',
+  'Tech stack': 'cpu',
+  FAQ: 'help',
+};
+
+/** Icon for an eyebrow label, or undefined when it names no known section. */
+export const iconFor = (label: string): string | undefined =>
+  SECTION_ICON[SECTION_ALIAS[label] ?? label];
+
 export function tintFor(label: string): Tint {
   const fixed = SECTION_TINT[SECTION_ALIAS[label] ?? label] ?? CATEGORY_TINT[label];
   if (fixed) return fixed;
