@@ -118,6 +118,8 @@
   --color-bg-deep: var(--c-bg-deep);
   --color-surface: var(--c-surface);
   --color-raised: var(--c-raised);
+  --color-card: var(--c-card);
+  --color-matte-hover: var(--c-matte-hover);
   --color-matte: var(--c-matte);
   --color-line: var(--c-line);
   --color-line-strong: var(--c-line-strong);
@@ -565,6 +567,19 @@
   .page-hero-actions .btn-ghost:active,
   .hero-btn.btn-ghost:active {
     background: color-mix(in oklab, var(--c-accent) 34%, var(--c-surface));
+  }
+
+  /* "See all" link in its section's color: set --tint with a .tint-<color>
+     class (src/lib/tint.ts maps sections to colors). */
+  .btn-outline.btn-tint {
+    background: color-mix(in oklab, var(--tint) 16%, var(--c-surface));
+    color: var(--tint);
+  }
+  .btn-outline.btn-tint:hover {
+    background: color-mix(in oklab, var(--tint) 28%, var(--c-surface));
+  }
+  .btn-outline.btn-tint:active {
+    background: color-mix(in oklab, var(--tint) 34%, var(--c-surface));
   }
 
   .btn-sm {
@@ -1715,6 +1730,7 @@
     transition:
       opacity 0.2s var(--ease-out-soft),
       color 0.2s var(--ease-out-soft),
+      background-color 0.2s var(--ease-out-soft),
       border-color 0.2s var(--ease-out-soft);
   }
   .code-copy:hover {
@@ -1724,6 +1740,12 @@
   [data-code-block]:hover .code-copy,
   .code-copy:focus-visible {
     opacity: 1;
+  }
+  .code-copy[data-state='copied'] {
+    opacity: 1;
+    border-color: color-mix(in oklab, var(--c-moss) 35%, var(--c-line));
+    background: color-mix(in oklab, var(--c-moss) 20%, var(--c-surface));
+    color: var(--c-moss);
   }
 
   /* --- lightbox --- */

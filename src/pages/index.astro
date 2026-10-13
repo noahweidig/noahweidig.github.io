@@ -16,6 +16,7 @@ import Icon from '../components/Icon.astro';
 import Popup from '../components/Popup.astro';
 import { byDate, readingTime, year } from '../lib/format';
 import { site } from '../lib/site';
+import { tintFor } from '../lib/tint';
 
 const allProjects = (await getCollection('projects')).sort(byDate);
 const featuredProjects = allProjects.filter((p) => p.data.featured).slice(0, 6);
@@ -264,7 +265,10 @@ const faqs = [
       </div>
 
       <div class="mt-8 flex items-center justify-between gap-3 md:justify-end">
-        <a class="btn btn-outline group h-12 md:hidden" href="/projects/">
+        <a
+          class={`btn btn-outline group h-12 md:hidden btn-tint tint-${tintFor('Projects')}`}
+          href="/projects/"
+        >
           Browse all projects
           <Icon
             name="arrow"
@@ -311,7 +315,10 @@ const faqs = [
         <CitationRow entry={entry} compact />
       ))}
     </div>
-    <a class="btn btn-outline group mt-6 h-12 md:hidden" href="/publications/">
+    <a
+      class={`btn btn-outline group mt-6 h-12 md:hidden btn-tint tint-${tintFor('Publications')}`}
+      href="/publications/"
+    >
       All publications
       <Icon
         name="arrow"
@@ -338,8 +345,8 @@ const faqs = [
   <section class="shell scroll-mt-24 py-28 md:py-36 cv-auto" id="experience">
     <SectionHead kicker="Background" title="Where I've worked and studied." />
     <div class="mt-10 grid gap-x-16 gap-y-12 lg:grid-cols-2 lg:gap-y-0">
-      <div class="grid content-start gap-y-5 lg:row-span-4 lg:grid-rows-subgrid">
-        <h3 class="text-xs font-medium text-faint">Experience</h3>
+      <div class="grid content-start gap-y-5 lg:row-span-3 lg:grid-rows-subgrid">
+        <h3 class="sr-only-nw">Experience</h3>
         <ul class="grid gap-4 lg:row-span-2 lg:grid-rows-subgrid">
           {experience.slice(0, 2).map((entry, i) => (
             <li>
@@ -353,7 +360,10 @@ const faqs = [
             </li>
           ))}
         </ul>
-        <a class="btn btn-outline group mt-1 justify-self-start max-md:h-12" href="/experience/">
+        <a
+          class={`btn btn-outline group mt-1 justify-self-start max-md:h-12 btn-tint tint-${tintFor('Experience')}`}
+          href="/experience/"
+        >
           See all experience
           <Icon
             name="arrow"
@@ -364,9 +374,9 @@ const faqs = [
       </div>
       <div
         id="education"
-        class="grid scroll-mt-24 content-start gap-y-5 lg:row-span-4 lg:grid-rows-subgrid"
+        class="grid scroll-mt-24 content-start gap-y-5 lg:row-span-3 lg:grid-rows-subgrid"
       >
-        <h3 class="text-xs font-medium text-faint">Education</h3>
+        <h3 class="sr-only-nw">Education</h3>
         <ul class="grid gap-4 lg:row-span-2 lg:grid-rows-subgrid">
           {education.slice(0, 2).map((entry) => (
             <li>
@@ -374,7 +384,10 @@ const faqs = [
             </li>
           ))}
         </ul>
-        <a class="btn btn-outline group mt-1 justify-self-start max-md:h-12" href="/education/">
+        <a
+          class={`btn btn-outline group mt-1 justify-self-start max-md:h-12 btn-tint tint-${tintFor('Education')}`}
+          href="/education/"
+        >
           See all education
           <Icon
             name="arrow"
@@ -412,7 +425,10 @@ const faqs = [
       </div>
 
       <div class="mt-8 flex items-center justify-between gap-3 md:justify-end">
-        <a class="btn btn-outline group h-12 md:hidden" href="/awards/">
+        <a
+          class={`btn btn-outline group h-12 md:hidden btn-tint tint-${tintFor('Awards')}`}
+          href="/awards/"
+        >
           All awards
           <Icon
             name="arrow"
