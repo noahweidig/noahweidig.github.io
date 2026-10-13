@@ -1,7 +1,7 @@
 ---
 import Breadcrumbs from './Breadcrumbs.astro';
 import Icon from './Icon.astro';
-import { tintFor } from '../lib/tint';
+import { iconFor, tintFor } from '../lib/tint';
 
 interface Props {
   title: string;
@@ -31,6 +31,7 @@ const {
   hasAside = Astro.slots.has('aside'),
 } = Astro.props;
 const tint = tintFor(kicker ?? title);
+const glyph = icon ?? iconFor(kicker ?? title);
 ---
 
 <section
@@ -44,7 +45,7 @@ const tint = tintFor(kicker ?? title);
       <Breadcrumbs trail={trail} current={title} />
       {kicker && (
         <p class={`kicker page-hero-kicker tint-${tint}`} data-pagefind-ignore>
-          {icon && <Icon name={icon} size={14} />}
+          {glyph && <Icon name={glyph} size={14} />}
           {kicker}
         </p>
       )}
