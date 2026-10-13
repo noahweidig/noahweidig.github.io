@@ -140,9 +140,6 @@
   --radius-md: 14px;
   --radius-lg: 20px;
   --radius-xl: 28px;
-  /* Fully rounded radius for pill-shaped chrome (buttons, chips, filter
-     pills, back-to-top). */
-  --radius-pill: 9999px;
 
   /* Named steps for the micro-type cluster that used to ship as one-off
      arbitrary values (text-micro etc.) — see #138. */
@@ -500,7 +497,7 @@
     justify-content: center;
     gap: 0.5rem;
     padding: 0.68rem 1.15rem;
-    border-radius: var(--radius-pill);
+    border-radius: var(--radius-sm);
     font-size: 0.875rem;
     font-weight: 600;
     letter-spacing: -0.005em;
@@ -636,7 +633,7 @@
     align-items: center;
     gap: 0.35rem;
     padding: 0.2rem 0.6rem;
-    border-radius: var(--radius-pill);
+    border-radius: var(--radius-sm);
     border: 0;
     background: var(--c-matte);
     color: var(--c-dim);
@@ -661,7 +658,7 @@
     bottom: 0.75rem;
     left: 0.75rem;
     max-width: calc(100% - 1.5rem);
-    border-radius: var(--radius-pill);
+    border-radius: var(--radius-sm);
     background: #fff;
     padding: 0.625rem 1.25rem;
     color: var(--c-on-light);
@@ -874,7 +871,7 @@
   /* --- filter pills --- */
   .pill {
     padding: 0.4rem 0.9rem;
-    border-radius: var(--radius-pill);
+    border-radius: var(--radius-sm);
     border: 0;
     background: var(--c-matte);
     color: var(--c-dim);
@@ -1320,7 +1317,7 @@
     place-items: center;
     width: 2.5rem;
     height: 2.5rem;
-    border-radius: var(--radius-pill);
+    border-radius: var(--radius-sm);
     color: var(--c-ink);
     transition:
       background-color 0.2s var(--ease-out-soft),
@@ -1358,7 +1355,7 @@
     width: 2.25rem;
     height: 2.25rem;
     flex-shrink: 0;
-    border-radius: var(--radius-pill);
+    border-radius: var(--radius-sm);
     border: 0;
     background: var(--c-matte);
     color: var(--c-dim);
@@ -1513,7 +1510,7 @@
     align-items: center;
     gap: 0.6rem;
     padding: 0.55rem 0.6rem;
-    border-radius: var(--radius-pill);
+    border-radius: var(--radius-sm);
     border: 1px solid transparent;
     color: var(--c-dim);
     font-size: 0.85rem;
