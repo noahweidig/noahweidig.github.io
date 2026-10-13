@@ -139,17 +139,11 @@ const rows = [...words, words[0]!];
   }
   /* Always in its tile color; hover deepens the wash. */
   .social {
-    transition:
-      transform 0.25s var(--ease-out-soft),
-      background-color 0.2s,
-      color 0.2s;
+    transition: background-color 0.2s;
   }
   .social:hover,
   .social:focus-visible {
     background: color-mix(in oklab, var(--tint) 28%, var(--c-surface));
-  }
-  .social:hover {
-    transform: translateY(-2px);
   }
   @media (prefers-reduced-motion: reduce) {
     .social,
