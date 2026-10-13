@@ -23,8 +23,8 @@
 :root {
   /* Matte fills for buttons, tags and controls: a flat grey step off the
      surface, in whichever theme is active. */
-  --c-matte: color-mix(in oklab, var(--c-ink) 12%, var(--c-surface));
-  --c-matte-hover: color-mix(in oklab, var(--c-ink) 20%, var(--c-surface));
+  --c-matte: color-mix(in oklab, var(--c-ink) 12%, var(--c-card));
+  --c-matte-hover: color-mix(in oklab, var(--c-ink) 20%, var(--c-card));
 }
 :root,
 :root[data-theme='dark'] {
@@ -69,10 +69,10 @@
 
 :root[data-theme='light'] {
   --c-bg: #ffffff;
-  --c-bg-deep: #fbfbfa;
-  --c-surface: #f7f6f3;
+  --c-bg-deep: #fafafa;
+  --c-surface: #f7f7f7;
   --c-card: #ffffff;
-  --c-raised: #f1f0ed;
+  --c-raised: #f1f1f1;
   --c-line: #e9e9e7;
   --c-line-strong: #d3d2ce;
   --c-control-border: #7a7974;
@@ -1461,7 +1461,7 @@
     padding: 1.25rem;
     border-radius: var(--radius-md);
     border: 1px solid var(--c-line-strong);
-    background: color-mix(in oklab, var(--c-surface) 96%, var(--c-bg));
+    background: var(--c-card);
     color: var(--c-ink);
   }
   .share-dialog::backdrop {
