@@ -5,7 +5,8 @@ import postAudit from '@casoon/astro-post-audit';
 import tailwindcss from '@tailwindcss/vite';
 import { remarkAlert } from 'remark-github-blockquote-alert';
 import { unified } from '@astrojs/markdown-remark';
-import { readFileSync, readdirSync } from 'node:fs';
+import { readFileSync, readdirSync, writeFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
 import { load } from 'js-yaml';
 
 const COLLECTIONS = ['blog', 'projects', 'publications', 'awards', 'experience', 'education'];
@@ -58,6 +59,27 @@ export default defineConfig({
         return item;
       },
     }),
+    // @astrojs/sitemap has no stylesheet option; add the shared one after it writes.
+    {
+      name: 'sitemap-stylesheet',
+      hooks: {
+        'astro:build:done': ({ dir }) => {
+          for (const f of readdirSync(dir)) {
+            if (!/^sitemap-.*\.xml$/.test(f)) continue;
+            const p = fileURLToPath(new URL(f, dir));
+            const xml = readFileSync(p, 'utf-8');
+            if (xml.includes('xml-stylesheet')) continue;
+            writeFileSync(
+              p,
+              xml.replace(
+                /^(<\?xml[^>]*\?>)/,
+                '$1<?xml-stylesheet type="text/css" href="/xml.css"?>',
+              ),
+            );
+          }
+        },
+      },
+    },
     // Post-build audit of the rendered HTML in dist/ — canonicals, headings,
     // link and asset health, structured data. Last in the array so it runs
     // after @astrojs/sitemap has written the sitemap it checks.

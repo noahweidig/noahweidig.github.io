@@ -45,7 +45,7 @@ export async function GET(context: APIContext) {
     title: 'Noah Weidig — Blog',
     description: 'Notes on science, data, maps, and the landscapes we live in.',
     site: feedSite,
-    stylesheet: '/rss/styles.css',
+    stylesheet: '/xml.css',
     xmlns: { dc: 'http://purl.org/dc/elements/1.1/' },
     items: await Promise.all(
       posts.slice(0, 20).map(async (post) => {
@@ -74,8 +74,8 @@ export async function GET(context: APIContext) {
   });
   // @astrojs/rss omits `type` on non-XSL stylesheets; some browsers then skip the CSS.
   const xml = (await res.text()).replace(
-    '<?xml-stylesheet href="/rss/styles.css"?>',
-    '<?xml-stylesheet type="text/css" href="/rss/styles.css"?>',
+    '<?xml-stylesheet href="/xml.css"?>',
+    '<?xml-stylesheet type="text/css" href="/xml.css"?>',
   );
   return new Response(xml, { headers: res.headers });
 }
