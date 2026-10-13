@@ -350,7 +350,7 @@ const isActive = (href: string) => {
   /* The menu always fills the screen, at every width it is shown. */
   .mobile-drawer {
     width: 100%;
-    background: var(--c-surface);
+    background: var(--c-bg);
     padding-bottom: env(safe-area-inset-bottom, 0px);
   }
   .mobile-nav:not([hidden]) .mobile-scrim {
@@ -395,7 +395,7 @@ const isActive = (href: string) => {
     margin: 0.4rem 0.75rem 0.6rem;
     padding: 0.6rem 0.75rem;
     border-radius: var(--radius-sm);
-    background: color-mix(in oklab, var(--c-ink) 6%, var(--c-surface));
+    background: color-mix(in oklab, var(--c-ink) 6%, var(--c-bg));
     color: var(--c-dim);
     font-size: 0.9375rem;
     text-align: left;
