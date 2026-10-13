@@ -127,9 +127,11 @@ const isActive = (href: string) => {
         class="icon-btn lg:hidden"
         aria-label="Open menu"
       >
-        <span class="burger" aria-hidden="true">
-          <i></i>
-          <i></i>
+        <span class="burger-open">
+          <Icon name="menu" size={22} stroke-width={1.8} />
+        </span>
+        <span class="burger-close">
+          <Icon name="close" size={22} stroke-width={1.8} />
         </span>
       </button>
     </div>
@@ -292,51 +294,14 @@ const isActive = (href: string) => {
       opacity: 0;
     }
   }
-  .burger {
-    position: relative;
-    display: block;
-    width: 22px;
-    height: 22px;
-  }
   /* Top-level items: no hover pill, the label just brightens. */
   .nav-trigger:not(.nav-link-active):hover {
     background: transparent;
     color: var(--c-ink);
   }
-  .burger i {
-    position: absolute;
-    left: 1px;
-    right: 1px;
-    top: 50%;
-    height: 1.6px;
-    margin-top: -0.8px;
-    border-radius: 2px;
-    background: currentColor;
-    translate: 0 -4.5px;
-    transition:
-      translate 0.18s ease 0.18s,
-      rotate 0.18s ease;
-  }
-  .burger i:last-child {
-    translate: 0 4.5px;
-  }
-  [aria-expanded='true'] .burger i {
-    translate: 0 0;
-    transition:
-      translate 0.18s ease,
-      rotate 0.18s ease 0.18s;
-  }
-  [aria-expanded='true'] .burger i:first-child {
-    rotate: 45deg;
-  }
-  [aria-expanded='true'] .burger i:last-child {
-    rotate: -45deg;
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .burger i,
-    [aria-expanded='true'] .burger i {
-      transition: none;
-    }
+  [data-menu-toggle][aria-expanded='false'] .burger-close,
+  [data-menu-toggle][aria-expanded='true'] .burger-open {
+    display: none;
   }
   .mobile-nav {
     z-index: 20;
