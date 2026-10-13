@@ -31,7 +31,8 @@ const targets = buildShareTargets(title, url);
     data-copy={url}
     data-tip="Copy this page's link"
   >
-    <Icon name="copy" size={15} />
+    <Icon name="copy" size={15} class="copy-ic" />
+    <Icon name="check" size={15} class="copied-ic" />
     <span data-copy-label>Copy link</span>
   </button>
 
@@ -55,7 +56,8 @@ const targets = buildShareTargets(title, url);
       ))}
     </div>
     <button type="button" class="btn btn-wash btn-sm w-full" data-copy={url}>
-      <Icon name="copy" size={15} />
+      <Icon name="copy" size={15} class="copy-ic" />
+      <Icon name="check" size={15} class="copied-ic" />
       <span data-copy-label>Copy link</span>
     </button>
   </dialog>

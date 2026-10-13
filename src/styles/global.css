@@ -1687,6 +1687,21 @@
     color: var(--c-moss);
   }
 
+  /* Copy buttons (share row, share dialog, post aside): a green wash with a
+     check while src/scripts/copy.ts holds data-state="copied". */
+  [data-copy] .copied-ic,
+  [data-copy][data-state='copied'] .copy-ic {
+    display: none;
+  }
+  [data-copy][data-state='copied'] .copied-ic {
+    display: inline-block;
+  }
+  :is(.btn-wash, .icon-tile)[data-copy][data-state='copied'] {
+    background: color-mix(in oklab, var(--c-moss) 20%, var(--c-surface));
+    color: var(--c-moss);
+    transform: none;
+  }
+
   /* --- lightbox --- */
   .lightbox {
     position: fixed;
