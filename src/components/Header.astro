@@ -356,6 +356,13 @@ const isActive = (href: string) => {
     border-right: 1px solid var(--c-line);
     padding-bottom: env(safe-area-inset-bottom, 0px);
   }
+  /* Phones: the drawer fills the screen. From 640px up it stays a side panel. */
+  @media (max-width: 639px) {
+    .mobile-drawer {
+      width: 100%;
+      border-right: 0;
+    }
+  }
   .mobile-nav:not([hidden]) .mobile-scrim {
     animation: menu-fade 0.28s ease-out both;
   }
