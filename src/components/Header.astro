@@ -60,7 +60,7 @@ const isActive = (href: string) => {
                         style={`--tint-base:${tintBase(navMeta[item.text]!.tint)}`}
                       >
                         <span
-                          class={`grid h-11 w-11 place-items-center rounded-xl tile-${navMeta[item.text]!.tint}`}
+                          class={`grid h-11 w-11 place-items-center rounded-sm tile-${navMeta[item.text]!.tint}`}
                         >
                           <Icon name={navMeta[item.text]!.icon} size={21} />
                         </span>
@@ -174,7 +174,7 @@ const isActive = (href: string) => {
                         style={`--tint-base:${tintBase(meta.tint)}`}
                       >
                         <span
-                          class={`grid h-[34px] w-[34px] place-items-center rounded-[9px] tile-${meta.tint}`}
+                          class={`grid h-[34px] w-[34px] place-items-center rounded-sm tile-${meta.tint}`}
                         >
                           <Icon name={meta.icon} size={18} />
                         </span>
