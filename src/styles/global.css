@@ -1398,7 +1398,7 @@
     padding: clamp(1.5rem, 5vw, 3rem);
     border-radius: var(--radius-md);
     border: 1px solid var(--c-line-strong);
-    background: var(--c-surface);
+    background: var(--c-card);
   }
   .popup::backdrop {
     background: rgb(0 0 0 / 0.55);
