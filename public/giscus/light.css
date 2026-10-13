@@ -98,7 +98,7 @@ main {
 }
 
 main {
-  background-color: #ffffff;
+  background-color: transparent;
   color: #14161a;
   font-family:
     Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
@@ -107,12 +107,12 @@ main {
 .gsc-comment-box-tabs,
 .gsc-comment-box-bottom,
 .gsc-comment-box-preview {
-  background-color: #fafafa;
+  background-color: #ffffff;
 }
 
 .gsc-comment > div,
 .gsc-reply > div {
-  background-color: #fafafa;
+  background-color: #ffffff;
   border-color: #e2e2e2;
 }
 
