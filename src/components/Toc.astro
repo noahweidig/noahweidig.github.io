@@ -83,21 +83,23 @@ const items = filtered.map((h) => {
     justify-content: center;
     width: 2.75rem;
     height: 2.75rem;
-    border-radius: 999px;
-    border: 1px solid var(--c-line-strong);
-    background: color-mix(in oklab, var(--c-surface) 85%, transparent);
+    border-radius: var(--radius-sm);
+    border: 0;
+    background: var(--c-matte);
     color: var(--c-dim);
-    backdrop-filter: blur(10px);
-    box-shadow: 0 18px 40px -22px rgb(0 0 0 / 0.75);
     transition:
       color 0.2s var(--ease-out-soft),
-      border-color 0.2s var(--ease-out-soft);
+      background-color 0.2s var(--ease-out-soft);
+  }
+  .toc-fab:hover {
+    background: var(--c-matte-hover);
+    color: var(--c-ink);
   }
   :global(html[data-menu-open]) :is(.toc-fab, .toc-aside) {
     display: none;
   }
   .toc-fab[aria-expanded='true'] {
-    border-color: var(--c-accent);
+    background: var(--c-matte-hover);
     color: var(--c-accent-ink);
   }
 
