@@ -2,47 +2,47 @@
    Served from /giscus/dark.css and passed to giscus as data-theme; the iframe
    cannot read the page's custom properties, so the values are literal here. */
 main {
-  --color-prettylights-syntax-comment: #7c8494;
+  --color-prettylights-syntax-comment: #96958f;
   --color-prettylights-syntax-constant: #6ba4ff;
-  --color-prettylights-syntax-entity: #ad6ded;
-  --color-prettylights-syntax-storage-modifier-import: #e9ecf2;
+  --color-prettylights-syntax-entity: #c28df6;
+  --color-prettylights-syntax-storage-modifier-import: #ebebea;
   --color-prettylights-syntax-entity-tag: #68ce7e;
   --color-prettylights-syntax-keyword: #ff6b78;
   --color-prettylights-syntax-string: #68ce7e;
   --color-prettylights-syntax-variable: #ff6b78;
   --color-prettylights-syntax-brackethighlighter-unmatched: #ff6b78;
-  --color-prettylights-syntax-invalid-illegal-text: #e9ecf2;
+  --color-prettylights-syntax-invalid-illegal-text: #ebebea;
   --color-prettylights-syntax-invalid-illegal-bg: #ff6b78;
-  --color-prettylights-syntax-carriage-return-text: #e9ecf2;
+  --color-prettylights-syntax-carriage-return-text: #ebebea;
   --color-prettylights-syntax-carriage-return-bg: #ff6b78;
   --color-prettylights-syntax-string-regexp: #68ce7e;
-  --color-prettylights-syntax-markup-list: #e9ecf2;
+  --color-prettylights-syntax-markup-list: #ebebea;
   --color-prettylights-syntax-markup-heading: #6ba4ff;
-  --color-prettylights-syntax-markup-italic: #e9ecf2;
-  --color-prettylights-syntax-markup-bold: #e9ecf2;
+  --color-prettylights-syntax-markup-italic: #ebebea;
+  --color-prettylights-syntax-markup-bold: #ebebea;
   --color-prettylights-syntax-markup-deleted-text: #ff6b78;
-  --color-prettylights-syntax-markup-deleted-bg: #16191f;
+  --color-prettylights-syntax-markup-deleted-bg: #252525;
   --color-prettylights-syntax-markup-inserted-text: #68ce7e;
-  --color-prettylights-syntax-markup-inserted-bg: #16191f;
+  --color-prettylights-syntax-markup-inserted-bg: #252525;
   --color-prettylights-syntax-markup-changed-text: #ff6b78;
-  --color-prettylights-syntax-markup-changed-bg: #16191f;
-  --color-prettylights-syntax-markup-ignored-text: #99a1b1;
-  --color-prettylights-syntax-markup-ignored-bg: #16191f;
-  --color-prettylights-syntax-meta-diff-range: #ad6ded;
-  --color-prettylights-syntax-brackethighlighter-angle: #99a1b1;
+  --color-prettylights-syntax-markup-changed-bg: #252525;
+  --color-prettylights-syntax-markup-ignored-text: #a8a7a3;
+  --color-prettylights-syntax-markup-ignored-bg: #252525;
+  --color-prettylights-syntax-meta-diff-range: #c28df6;
+  --color-prettylights-syntax-brackethighlighter-angle: #a8a7a3;
   --color-prettylights-syntax-constant-other-reference-link: #6ba4ff;
-  --color-prettylights-syntax-sublimelinter-gutter-mark: #7c8494;
+  --color-prettylights-syntax-sublimelinter-gutter-mark: #96958f;
 
-  --color-btn-text: #e9ecf2;
-  --color-btn-bg: #16191f;
-  --color-btn-border: #333845;
+  --color-btn-text: #ebebea;
+  --color-btn-bg: #252525;
+  --color-btn-border: #454545;
   --color-btn-shadow: 0 0 transparent;
   --color-btn-inset-shadow: 0 0 transparent;
-  --color-btn-hover-bg: #23272f;
+  --color-btn-hover-bg: #333333;
   --color-btn-hover-border: #0072e3;
-  --color-btn-active-bg: #101216;
+  --color-btn-active-bg: #202020;
   --color-btn-active-border: #0072e3;
-  --color-btn-selected-bg: #101216;
+  --color-btn-selected-bg: #202020;
   --color-btn-primary-text: #ffffff;
   --color-btn-primary-bg: #0072e3;
   --color-btn-primary-border: #0072e3;
@@ -56,22 +56,22 @@ main {
   --color-btn-primary-disabled-bg: rgb(0 114 227 / 0.4);
   --color-btn-primary-disabled-border: transparent;
 
-  --color-action-list-item-default-hover-bg: #16191f;
-  --color-segmented-control-bg: #101216;
-  --color-segmented-control-button-bg: #16191f;
-  --color-segmented-control-button-selected-border: #333845;
+  --color-action-list-item-default-hover-bg: #252525;
+  --color-segmented-control-bg: #202020;
+  --color-segmented-control-button-bg: #252525;
+  --color-segmented-control-button-selected-border: #454545;
 
-  --color-fg-default: #e9ecf2;
-  --color-fg-muted: #99a1b1;
-  --color-fg-subtle: #7c8494;
-  --color-canvas-default: #000000;
-  --color-canvas-overlay: #101216;
-  --color-canvas-inset: #000000;
-  --color-canvas-subtle: #101216;
-  --color-border-default: #23272f;
-  --color-border-muted: #23272f;
-  --color-neutral-muted: rgb(153 161 177 / 0.16);
-  --color-neutral-subtle: rgb(153 161 177 / 0.08);
+  --color-fg-default: #ebebea;
+  --color-fg-muted: #a8a7a3;
+  --color-fg-subtle: #96958f;
+  --color-canvas-default: #191919;
+  --color-canvas-overlay: #202020;
+  --color-canvas-inset: #191919;
+  --color-canvas-subtle: #202020;
+  --color-border-default: #333333;
+  --color-border-muted: #333333;
+  --color-neutral-muted: rgb(168 167 163 / 0.16);
+  --color-neutral-subtle: rgb(168 167 163 / 0.08);
   --color-accent-fg: #6ba4ff;
   --color-accent-emphasis: #0072e3;
   --color-accent-muted: rgb(0 114 227 / 0.4);
@@ -83,15 +83,15 @@ main {
   --color-danger-fg: #ff6b78;
   --color-danger-muted: rgb(255 107 120 / 0.4);
   --color-danger-subtle: rgb(255 107 120 / 0.12);
-  --color-done-fg: #ad6ded;
-  --color-done-muted: rgb(173 109 237 / 0.4);
-  --color-done-subtle: rgb(173 109 237 / 0.12);
+  --color-done-fg: #c28df6;
+  --color-done-muted: rgb(194 141 246 / 0.4);
+  --color-done-subtle: rgb(194 141 246 / 0.12);
 
   --color-primer-shadow-inset: 0 0 transparent;
-  --color-scale-gray-7: #16191f;
-  --color-scale-blue-8: #101216;
+  --color-scale-gray-7: #252525;
+  --color-scale-blue-8: #202020;
 
-  --color-social-reaction-bg-hover: #16191f;
+  --color-social-reaction-bg-hover: #252525;
   --color-social-reaction-bg-reacted-hover: rgb(0 114 227 / 0.2);
 
   color-scheme: dark;
@@ -99,7 +99,7 @@ main {
 
 main {
   background-color: transparent;
-  color: #e9ecf2;
+  color: #ebebea;
   font-family:
     Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
 }
@@ -107,20 +107,20 @@ main {
 .gsc-comment-box-tabs,
 .gsc-comment-box-bottom,
 .gsc-comment-box-preview {
-  background-color: #101216;
+  background-color: #202020;
 }
 
 .gsc-comment > div,
 .gsc-reply > div {
-  background-color: #101216;
-  border-color: #23272f;
+  background-color: #202020;
+  border-color: #333333;
 }
 
 .gsc-header,
 .gsc-comment-box,
 .gsc-reactions,
 .gsc-timeline {
-  border-color: #23272f;
+  border-color: #333333;
 }
 
 .gsc-loading-image {
