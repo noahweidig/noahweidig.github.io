@@ -10,44 +10,52 @@ const CHECK_ICON =
 export function initCodeCopy() {
   const blocks = document.querySelectorAll<HTMLPreElement>('.prose-nw pre');
   blocks.forEach((pre) => {
-    if (pre.parentElement?.dataset.codeBlock === 'true') return;
+    // boot() runs again on astro:page-load and tears down every `on()` binding
+    // first, so a block wrapped on an earlier pass keeps its button and only
+    // needs the click handler re-bound.
+    const wrapped = pre.parentElement?.dataset.codeBlock === 'true';
+    let btn = wrapped ? pre.parentElement!.querySelector<HTMLButtonElement>('.code-copy') : null;
 
-    // Wrapped rather than positioned on the <pre> itself: the <pre> scrolls
-    // horizontally, and a button inside it would scroll away with the code.
-    const wrap = document.createElement('div');
-    wrap.dataset.codeBlock = 'true';
-    wrap.className = 'relative';
-    pre.replaceWith(wrap);
-    wrap.appendChild(pre);
+    if (!btn) {
+      // Wrapped rather than positioned on the <pre> itself: the <pre> scrolls
+      // horizontally, and a button inside it would scroll away with the code.
+      const wrap = document.createElement('div');
+      wrap.dataset.codeBlock = 'true';
+      wrap.className = 'relative';
+      pre.replaceWith(wrap);
+      wrap.appendChild(pre);
 
-    // Icon only — the word "Copy" sat over the first line of code. The label
-    // it replaces comes back as a tooltip on hover.
-    const btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = 'code-copy';
-    btn.innerHTML = COPY_ICON;
-    btn.dataset.tip = 'Copy';
-    btn.setAttribute('aria-label', 'Copy code to clipboard');
+      // Icon only — the word "Copy" sat over the first line of code. The label
+      // it replaces comes back as a tooltip on hover.
+      btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'code-copy';
+      btn.innerHTML = COPY_ICON;
+      btn.dataset.tip = 'Copy';
+      btn.setAttribute('aria-label', 'Copy code to clipboard');
+      wrap.appendChild(btn);
+    }
+    const copyBtn = btn;
 
-    on(btn, 'click', async () => {
+    on(copyBtn, 'click', async () => {
       let tip = 'Copied';
       try {
         await navigator.clipboard.writeText(pre.innerText.replace(/\n$/, ''));
-        btn.innerHTML = CHECK_ICON;
+        copyBtn.innerHTML = CHECK_ICON;
+        copyBtn.dataset.state = 'copied';
       } catch {
         // Clipboard blocked (insecure context, or a permissions policy): the
         // code is still selectable, so say what happened rather than lie.
         tip = 'Select it and copy';
       }
-      btn.dataset.tip = tip;
-      showTip(btn);
+      copyBtn.dataset.tip = tip;
+      showTip(copyBtn);
       window.setTimeout(() => {
-        btn.innerHTML = COPY_ICON;
-        btn.dataset.tip = 'Copy';
+        copyBtn.innerHTML = COPY_ICON;
+        delete copyBtn.dataset.state;
+        copyBtn.dataset.tip = 'Copy';
         hideTip();
       }, 1600);
     });
-
-    wrap.appendChild(btn);
   });
 }
