@@ -119,9 +119,7 @@ const beyondWork = [
         <dl class="card divide-y divide-line">
           {glance.map((g, i) => (
             <div class="flex gap-4 p-5">
-              <span
-                class={`grid h-9 w-9 shrink-0 place-items-center rounded-full tile-${tintAt(i)}`}
-              >
+              <span class={`grid h-9 w-9 shrink-0 place-items-center rounded-sm tile-${tintAt(i)}`}>
                 <Icon name={g.icon} size={16} />
               </span>
               <div class="min-w-0">
