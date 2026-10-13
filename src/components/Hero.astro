@@ -60,7 +60,7 @@ const rows = [...words, words[0]!];
       </a>
     </div>
     <div
-      class="mt-8 flex flex-wrap items-center justify-center gap-3"
+      class="mt-8 flex flex-wrap items-center justify-center gap-2"
       data-reveal
       style="--reveal-delay:260ms"
     >
@@ -71,7 +71,7 @@ const rows = [...words, words[0]!];
           data-tip={`${s.label} profile`}
           target="_blank"
           rel="noopener"
-          class={`social tile-${tintAt(i)} grid size-12 place-items-center rounded-full sm:size-14`}
+          class={`social tile-${tintAt(i)} grid size-12 place-items-center rounded-md sm:size-14`}
         >
           <Icon name={s.icon} size={26} />
         </a>
@@ -137,23 +137,13 @@ const rows = [...words, words[0]!];
     line-height: 1.2;
     white-space: nowrap;
   }
-  /* Grey at rest; each icon takes its tile color on hover or focus. The
-     .tile-* class on the link only supplies --tint. */
+  /* Always in its tile color; hover deepens the wash. */
   .social {
-    background: var(--c-matte);
-    color: var(--c-dim);
-    transition:
-      transform 0.25s var(--ease-out-soft),
-      background-color 0.2s,
-      color 0.2s;
+    transition: background-color 0.2s;
   }
   .social:hover,
   .social:focus-visible {
-    background: color-mix(in oklab, var(--tint) 16%, var(--c-surface));
-    color: var(--tint);
-  }
-  .social:hover {
-    transform: translateY(-2px);
+    background: color-mix(in oklab, var(--tint) 28%, var(--c-surface));
   }
   @media (prefers-reduced-motion: reduce) {
     .social,

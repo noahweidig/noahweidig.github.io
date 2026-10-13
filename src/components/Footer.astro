@@ -1,5 +1,6 @@
 ---
 import { navGroups, socials } from '../lib/site';
+import { tintAt } from '../lib/tint';
 import Icon from './Icon.astro';
 import Wordmark from './Wordmark.astro';
 import NewsletterForm from './NewsletterForm.astro';
@@ -25,7 +26,7 @@ const columns: { text: string; items: Link[] }[] = [
   },
 ];
 const iconBtn =
-  'grid h-8 w-8 place-items-center rounded-md footer-dim transition-colors hover:bg-matte hover:text-ink';
+  'grid h-8 w-8 place-items-center rounded-sm transition-[filter] hover:brightness-95 dark:hover:brightness-125';
 ---
 
 <footer
@@ -106,15 +107,15 @@ const iconBtn =
             llms.txt
           </a>
         </div>
-        <div class="flex items-center gap-1">
-          {socials.map((s) => (
+        <div class="flex items-center gap-0.5">
+          {socials.map((s, i) => (
             <a
               href={s.href}
               aria-label={`${s.label} (opens in a new tab)`}
               data-tip={`${s.label} profile`}
               target="_blank"
               rel="noopener"
-              class={iconBtn}
+              class={`${iconBtn} tile-${tintAt(i)}`}
             >
               <Icon name={s.icon} size={18} />
             </a>
@@ -123,7 +124,7 @@ const iconBtn =
             href="/rss.xml"
             aria-label="RSS Feed"
             data-tip="Subscribe to the blog feed"
-            class={iconBtn}
+            class={`${iconBtn} tile-${tintAt(socials.length)}`}
           >
             <Icon name="rss" size={18} stroke-width={1.6} />
           </a>
