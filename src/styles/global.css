@@ -28,17 +28,17 @@
 }
 :root,
 :root[data-theme='dark'] {
-  --c-bg: #000000;
-  --c-bg-deep: #000000;
-  --c-surface: #101216;
-  --c-card: #16191f;
-  --c-raised: #171a20;
-  --c-line: #23272f;
-  --c-line-strong: #333845;
-  --c-control-border: #6b7385;
-  --c-ink: #e9ecf2;
-  --c-dim: #99a1b1;
-  --c-faint: #7c8494;
+  --c-bg: #191919;
+  --c-bg-deep: #151515;
+  --c-surface: #202020;
+  --c-card: #252525;
+  --c-raised: #2b2b2b;
+  --c-line: #333333;
+  --c-line-strong: #454545;
+  --c-control-border: #7a7a7a;
+  --c-ink: #ebebea;
+  --c-dim: #a8a7a3;
+  --c-faint: #96958f;
 
   --c-accent: #0072e3;
   --c-accent-ink: #6ba4ff;
@@ -46,7 +46,7 @@
   --c-btn2: #2997ff;
   --c-btn2-hover: #0076df;
   --c-btn2-active: #006edb;
-  --c-on-light: #14161a;
+  --c-on-light: #191919;
   /* Notion's accent set (notion.com tatami tokens), text-legible steps for
      this theme. Blue stays the primary (--c-accent). */
   --c-red: #ff6b78;
@@ -59,7 +59,7 @@
   --logo-red: #ff6b78;
   --logo-blue: #5aa0ff;
   --logo-yellow: #ffc21a;
-  --c-violet: #ad6ded;
+  --c-violet: #c28df6;
 
   --c-glow: color-mix(in oklab, var(--c-accent) 26%, transparent);
   --c-sheen: rgb(255 255 255 / 0.04);
@@ -68,17 +68,17 @@
 }
 
 :root[data-theme='light'] {
-  --c-bg: #f5f5f7;
-  --c-bg-deep: #f4f4f4;
-  --c-surface: #fafafa;
+  --c-bg: #ffffff;
+  --c-bg-deep: #fbfbfa;
+  --c-surface: #f7f6f3;
   --c-card: #ffffff;
-  --c-raised: #f4f4f4;
-  --c-line: #e2e2e2;
-  --c-line-strong: #cbcbcb;
-  --c-control-border: #7a808c;
-  --c-ink: #14161a;
-  --c-dim: #565d6b;
-  --c-faint: #636a78;
+  --c-raised: #f1f0ed;
+  --c-line: #e9e9e7;
+  --c-line-strong: #d3d2ce;
+  --c-control-border: #7a7974;
+  --c-ink: #37352f;
+  --c-dim: #5f5e5a;
+  --c-faint: #6b6a65;
 
   --c-accent: #0072e3;
   --c-accent-ink: #0a54ba;
@@ -86,7 +86,7 @@
   --c-btn2: #0066cc;
   --c-btn2-hover: #0076df;
   --c-btn2-active: #006edb;
-  --c-on-light: #14161a;
+  --c-on-light: #191919;
   --c-red: #b8142d;
   --c-ember: var(--c-red);
   --c-yellow: #ffb110;
@@ -1411,7 +1411,7 @@
     background: var(--c-surface);
   }
   .popup::backdrop {
-    background: rgb(6 8 12 / 0.5);
+    background: rgb(0 0 0 / 0.55);
   }
   .popup-close {
     position: absolute;
@@ -1475,7 +1475,7 @@
     color: var(--c-ink);
   }
   .share-dialog::backdrop {
-    background: rgb(6 8 12 / 0.5);
+    background: rgb(0 0 0 / 0.55);
   }
   .share-dialog-head {
     display: flex;
@@ -1710,8 +1710,8 @@
     max-height: 100dvh;
     /* Always a dark scrim, in either theme: a picture reads best against one,
        and the page behind it should drop away rather than tint through. */
-    background: rgb(6 8 12 / 0.93);
-    color: #e9ecf2;
+    background: rgb(10 10 10 / 0.93);
+    color: #ebebea;
     opacity: 0;
     transition: opacity 0.24s var(--ease-out-soft);
   }
