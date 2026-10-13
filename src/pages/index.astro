@@ -16,6 +16,7 @@ import Icon from '../components/Icon.astro';
 import Popup from '../components/Popup.astro';
 import { byDate, readingTime, year } from '../lib/format';
 import { site } from '../lib/site';
+import { tintFor } from '../lib/tint';
 
 const allProjects = (await getCollection('projects')).sort(byDate);
 const featuredProjects = allProjects.filter((p) => p.data.featured).slice(0, 6);
@@ -264,7 +265,10 @@ const faqs = [
       </div>
 
       <div class="mt-8 flex items-center justify-between gap-3 md:justify-end">
-        <a class="btn btn-outline group h-12 md:hidden" href="/projects/">
+        <a
+          class={`btn btn-outline group h-12 md:hidden btn-tint tint-${tintFor('Projects')}`}
+          href="/projects/"
+        >
           Browse all projects
           <Icon
             name="arrow"
@@ -311,7 +315,10 @@ const faqs = [
         <CitationRow entry={entry} compact />
       ))}
     </div>
-    <a class="btn btn-outline group mt-6 h-12 md:hidden" href="/publications/">
+    <a
+      class={`btn btn-outline group mt-6 h-12 md:hidden btn-tint tint-${tintFor('Publications')}`}
+      href="/publications/"
+    >
       All publications
       <Icon
         name="arrow"
@@ -353,7 +360,10 @@ const faqs = [
             </li>
           ))}
         </ul>
-        <a class="btn btn-outline group mt-1 justify-self-start max-md:h-12" href="/experience/">
+        <a
+          class={`btn btn-outline group mt-1 justify-self-start max-md:h-12 btn-tint tint-${tintFor('Experience')}`}
+          href="/experience/"
+        >
           See all experience
           <Icon
             name="arrow"
@@ -374,7 +384,10 @@ const faqs = [
             </li>
           ))}
         </ul>
-        <a class="btn btn-outline group mt-1 justify-self-start max-md:h-12" href="/education/">
+        <a
+          class={`btn btn-outline group mt-1 justify-self-start max-md:h-12 btn-tint tint-${tintFor('Education')}`}
+          href="/education/"
+        >
           See all education
           <Icon
             name="arrow"
@@ -412,7 +425,10 @@ const faqs = [
       </div>
 
       <div class="mt-8 flex items-center justify-between gap-3 md:justify-end">
-        <a class="btn btn-outline group h-12 md:hidden" href="/awards/">
+        <a
+          class={`btn btn-outline group h-12 md:hidden btn-tint tint-${tintFor('Awards')}`}
+          href="/awards/"
+        >
           All awards
           <Icon
             name="arrow"
