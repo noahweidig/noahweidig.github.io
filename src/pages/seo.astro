@@ -76,15 +76,11 @@ const generated = new Date(report.generatedAt).toLocaleDateString('en-US', {
     </div>
     <div class="card p-5">
       <p class="text-xs tracking-wide text-dim uppercase">Errors</p>
-      <p class="mt-1 font-display text-3xl font-bold" style="color:var(--c-ember)">
-        {report.totals.errors}
-      </p>
+      <p class="mt-1 font-display text-3xl font-bold text-ember">{report.totals.errors}</p>
     </div>
     <div class="card p-5">
       <p class="text-xs tracking-wide text-dim uppercase">Warnings</p>
-      <p class="mt-1 font-display text-3xl font-bold" style="color:var(--c-accent)">
-        {report.totals.warnings}
-      </p>
+      <p class="mt-1 font-display text-3xl font-bold text-accent">{report.totals.warnings}</p>
     </div>
   </div>
 
@@ -95,19 +91,17 @@ const generated = new Date(report.generatedAt).toLocaleDateString('en-US', {
           <span>{audit.name}</span>
           <span class="flex items-center gap-2 text-sm font-normal" data-pagefind-ignore>
             {audit.errors > 0 && (
-              <span class="chip" style="border-color:var(--c-ember); color:var(--c-ember)">
+              <span class="chip chip-red">
                 {audit.errors} error{audit.errors === 1 ? '' : 's'}
               </span>
             )}
             {audit.warnings > 0 && (
-              <span class="chip" style="color:var(--c-accent-ink)">
+              <span class="chip chip-blue">
                 {audit.warnings} warning{audit.warnings === 1 ? '' : 's'}
               </span>
             )}
             {audit.errors === 0 && audit.warnings === 0 && (
-              <span class="chip" style="color:var(--c-moss)">
-                All pass ({audit.passes})
-              </span>
+              <span class="chip chip-green">All pass ({audit.passes})</span>
             )}
           </span>
         </summary>
