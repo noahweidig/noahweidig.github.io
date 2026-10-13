@@ -221,6 +221,14 @@ export const icons: Record<string, { viewBox: string; body: string; stroke?: boo
     body: '<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>',
     stroke: true,
   },
+  lockOpen: {
+    viewBox: '0 0 24 24',
+    body: '<rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/>',
+    stroke: true,
+  },
+  plus: { viewBox: '0 0 24 24', body: '<path d="M5 12h14m-7-7v14"/>', stroke: true },
+  arrowUp: { viewBox: '0 0 24 24', body: '<path d="m5 12 7-7 7 7m-7 7V5"/>', stroke: true },
+  tocLines: { viewBox: '0 0 24 24', body: '<path d="M21 5H3m12 7H3m14 7H3"/>', stroke: true },
   hash: {
     viewBox: '0 0 24 24',
     body: '<path d="M4 9h16M4 15h16M10 3 8 21m8-18-2 18"/>',

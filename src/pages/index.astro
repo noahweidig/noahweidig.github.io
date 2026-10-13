@@ -175,7 +175,7 @@ const faqs = [
           style={`--reveal-delay:${i * 70}ms`}
         >
           <span
-            class={`grid aspect-square h-11 w-11 shrink-0 place-items-center rounded-full tile-${s.tint}`}
+            class={`grid aspect-square h-11 w-11 shrink-0 place-items-center rounded-sm tile-${s.tint}`}
           >
             <Icon name={s.icon} size={20} />
           </span>
@@ -188,15 +188,7 @@ const faqs = [
             aria-haspopup="dialog"
             aria-label={`More about ${s.title}`}
           >
-            <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">
-              <path
-                d="M8 2.5v11M2.5 8h11"
-                stroke="currentColor"
-                stroke-width="1.6"
-                stroke-linecap="round"
-                fill="none"
-              />
-            </svg>
+            <Icon name="plus" size={14} stroke-width={1.8} />
           </button>
         </div>
       ))}
@@ -523,50 +515,39 @@ const faqs = [
 
   <!-- cta -->
   <section class="shell scroll-mt-24 py-24 md:py-32 cv-auto" id="cta">
-    <div class="bento" data-reveal>
-      <div class="bento-tile bento-main tint-purple">
-        <p class="kicker">
-          <Icon name="briefcase" size={14} />
-          Open to data science &amp; GIS roles
-        </p>
-        <h2 class="mt-5 font-display text-[clamp(2rem,1.3rem+2.8vw,3.5rem)] leading-[1.08] font-semibold tracking-tight text-balance">
-          Let's talk about spatial problems worth solving.
-        </h2>
-        <p class="lede mt-6 max-w-[40ch] text-dim">
-          Looking for <strong class="text-ink">data scientist</strong> and{' '}
-          <strong class="text-ink">GIS analyst</strong> roles where rigorous spatial analysis drives
-          real decisions.
-        </p>
+    <div class="card cta-card mx-auto text-center" data-reveal>
+      <p class="cta-kicker">
+        <span class="cta-dot" aria-hidden="true"></span>
+        Open to data science &amp; GIS roles
+      </p>
+      <h2 class="mx-auto mt-4 max-w-[20ch] font-display text-[clamp(2rem,1.3rem+2.8vw,3.5rem)] leading-[1.08] font-semibold tracking-tight text-balance">
+        Let's talk about spatial problems worth solving.
+      </h2>
+      <p class="lede mx-auto mt-5 max-w-[40ch] text-dim">
+        Looking for <strong class="text-ink">data scientist</strong> and{' '}
+        <strong class="text-ink">GIS analyst</strong> roles where rigorous spatial analysis drives
+        real decisions.
+      </p>
+      <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+        <a class="btn btn-primary" href="/contact/">
+          <Icon name="mail" size={16} />
+          Get in touch
+        </a>
+        <a class="btn btn-ghost" href={site.resume} target="_blank" rel="noopener">
+          <Icon name="download" size={16} />
+          Resume
+          <span class="sr-only-nw">(PDF, opens in a new tab)</span>
+        </a>
       </div>
-      <a class="bento-tile bento-contact tint-blue" href="/contact/">
-        <span class="bento-icon">
-          <Icon name="mail" size={24} />
-        </span>
-        <span class="bento-title">Get in touch</span>
-        <span class="bento-sub">Send a note about a role or project</span>
-      </a>
-      <a
-        class="bento-tile bento-resume tint-green"
-        href={site.resume}
-        target="_blank"
-        rel="noopener"
-      >
-        <span class="bento-icon">
-          <Icon name="download" size={24} />
-        </span>
-        <span class="bento-title">Resume</span>
-        <span class="bento-sub">
-          PDF<span class="sr-only-nw"> (opens in a new tab)</span>
-        </span>
-      </a>
-      <div class="bento-tile bento-reply tint-yellow">
-        <span class="bento-label">Replies</span>
-        <span class="bento-title">Within 24 hours</span>
-      </div>
-      <a class="bento-tile bento-email tint-pink" href={`mailto:${site.email}`}>
-        <span class="bento-label">Email</span>
-        <span class="bento-mail">{site.email}</span>
-      </a>
+      <p class="mt-6">
+        <span class="chip chip-yellow">Replies within 24 hours</span>
+      </p>
+      <p class="mt-4 text-small text-dim">
+        or email{' '}
+        <a class="text-ink underline underline-offset-4" href={`mailto:${site.email}`}>
+          {site.email}
+        </a>
+      </p>
     </div>
   </section>
 
@@ -583,16 +564,7 @@ const faqs = [
           <summary class="flex cursor-pointer list-none items-center justify-between gap-6 py-5 text-lead font-semibold transition-colors hover:text-accent-ink">
             <span class="min-w-0">{f.q}</span>
             <span class="faq-chevron shrink-0" aria-hidden="true">
-              <svg viewBox="0 0 16 16" width="18" height="18">
-                <path
-                  d="M2.5 5.5 8 11l5.5-5.5"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.6"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
+              <Icon name="chevron" size={18} />
             </span>
           </summary>
           <p class="max-w-3xl pb-5 text-body-lg leading-relaxed text-dim">

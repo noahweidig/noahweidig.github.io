@@ -24,7 +24,7 @@ const { class: cls = '', iconOnlyNarrow = false } = Astro.props;
     ></rect>
     <circle cx="17.5" cy="17.5" r="3.5" fill="var(--logo-red)" stroke="var(--logo-red)"></circle>
   </svg>
-  <span class="wm font-display font-bold tracking-tight">
+  <span class="wm font-display font-semibold tracking-tight">
     <span>n</span>
     <span>oah</span>
     <span class="wm-ink">w</span>
@@ -47,11 +47,11 @@ const { class: cls = '', iconOnlyNarrow = false } = Astro.props;
     stroke-linejoin: round;
     stroke-linecap: round;
   }
-  /* A tinted pill tag, same wash as the hero's rolling pill and the cover tags. */
+  /* A tinted tag, same wash as the hero's rolling pill and the cover tags. */
   .wm {
     display: inline-flex;
     padding: 0.3em 0.85em 0.35em;
-    border-radius: var(--radius-pill);
+    border-radius: var(--radius-sm);
     color: var(--c-accent-ink);
     background: color-mix(in oklab, var(--c-accent-ink) 18%, var(--c-surface));
     white-space: nowrap;

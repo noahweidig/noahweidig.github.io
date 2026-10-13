@@ -74,7 +74,7 @@ const altmetricTip = altmetric
     </a>
   )}
   <div class="flex flex-col items-center gap-2 pt-0.5">
-    <span class={`grid h-9 w-9 place-items-center rounded-full tile-${tintFor(category)}`}>
+    <span class={`grid h-9 w-9 place-items-center rounded-sm tile-${tintFor(category)}`}>
       <Icon name={icon} size={17} />
     </span>
     <span class="text-xs text-faint">{year(d.date)}</span>
@@ -133,13 +133,15 @@ const altmetricTip = altmetric
     {!compact && summary && <p class="mt-2.5 text-sm leading-relaxed text-dim">{summary}</p>}
 
     <div class="mt-3 flex flex-wrap items-center gap-2 text-caption">
-      {d['pub-oa'] && <span class="chip chip-green">Open Access</span>}
+      {d['pub-oa'] && (
+        <span class="chip">
+          <Icon name="lockOpen" size={12} />
+          Open Access
+        </span>
+      )}
       {compact &&
         cats.slice(1, 2).map((c) => (
-          <a
-            href={tagHref(c)}
-            class="chip transition-colors hover:border-accent hover:text-accent-ink"
-          >
+          <a href={tagHref(c)} class="chip transition-colors hover:bg-matte-hover hover:text-ink">
             {tagIcon(c) && <Icon name={tagIcon(c)!} size={12} />}
             {c}
           </a>
@@ -149,7 +151,7 @@ const altmetricTip = altmetric
           href={dimensions.url}
           target="_blank"
           rel="noopener"
-          class="chip chip-purple"
+          class="chip transition-colors hover:bg-matte-hover hover:text-ink"
           data-tip-title="Dimensions"
           data-tip={dimensionsTip}
           aria-label={`${dimensions.timesCited} citation${dimensions.timesCited === 1 ? '' : 's'} on Dimensions (opens in a new tab)`}
@@ -176,7 +178,7 @@ const altmetricTip = altmetric
           href={altmetric.detailsUrl}
           target="_blank"
           rel="noopener"
-          class="chip chip-yellow"
+          class="chip transition-colors hover:bg-matte-hover hover:text-ink"
           data-tip-title="Altmetric Attention Score"
           data-tip={altmetricTip}
           aria-label={`Altmetric attention score ${Math.round(altmetric.score)} (opens in a new tab)`}
@@ -200,8 +202,9 @@ const altmetricTip = altmetric
           target="_blank"
           rel="noopener"
           aria-label="View DOI (opens in a new tab)"
-          class="chip chip-accent"
+          class="chip transition-colors hover:bg-matte-hover hover:text-ink"
         >
+          <Icon name="link" size={12} />
           DOI
         </a>
       )}
@@ -211,8 +214,9 @@ const altmetricTip = altmetric
           target="_blank"
           rel="noopener"
           aria-label="View source (opens in a new tab)"
-          class="chip chip-accent"
+          class="chip transition-colors hover:bg-matte-hover hover:text-ink"
         >
+          <Icon name="external" size={12} />
           Source
         </a>
       )}
@@ -222,8 +226,9 @@ const altmetricTip = altmetric
           target="_blank"
           rel="noopener"
           aria-label="View full PDF (opens in a new tab)"
-          class="chip chip-red"
+          class="chip transition-colors hover:bg-matte-hover hover:text-ink"
         >
+          <Icon name="filePdf" size={12} />
           View full PDF
         </a>
       )}

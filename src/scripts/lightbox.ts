@@ -1,5 +1,6 @@
 /* -------------------------------------------------------------- lightbox -- */
 import { cleanups, on } from './dom';
+import { iconSvg } from './icon';
 
 /* A custom viewer rather than a library: it inherits the site's surfaces and
    the whole thing is one dialog-less overlay with keyboard paging. */
@@ -70,11 +71,11 @@ export function initLightbox() {
         <span class="ml-auto flex items-center gap-2">
           ${
             shots.length > 1
-              ? `<button type="button" class="icon-tile" data-lightbox-prev aria-label="Previous image" data-tip="Previous (←)"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
-                 <button type="button" class="icon-tile" data-lightbox-next aria-label="Next image" data-tip="Next (→)"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>`
+              ? `<button type="button" class="icon-tile" data-lightbox-prev aria-label="Previous image" data-tip="Previous (←)">${iconSvg('left', 17, 1.8)}</button>
+                 <button type="button" class="icon-tile" data-lightbox-next aria-label="Next image" data-tip="Next (→)">${iconSvg('right', 17, 1.8)}</button>`
               : ''
           }
-          <button type="button" class="icon-tile" data-lightbox-close aria-label="Close viewer" data-tip="Close (Esc)"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
+          <button type="button" class="icon-tile" data-lightbox-close aria-label="Close viewer" data-tip="Close (Esc)">${iconSvg('close', 17, 1.8)}</button>
         </span>
       </div>
       <div class="lightbox-stage" data-lightbox-stage><img data-lightbox-img alt="" /></div>

@@ -35,7 +35,7 @@ const isActive = (href: string) => {
                 data-nav-trigger
                 aria-expanded="false"
                 class:list={[
-                  'nav-link nav-trigger inline-flex items-center gap-1.5 rounded-full px-4 py-2 font-display text-body-lg font-semibold tracking-tight xl:px-5 xl:text-base',
+                  'nav-link nav-trigger inline-flex items-center gap-1.5 rounded-sm px-4 py-2 font-display text-body-lg font-semibold tracking-tight xl:px-5 xl:text-base',
                   active ? 'nav-link-active' : '',
                 ]}
               >
@@ -60,7 +60,7 @@ const isActive = (href: string) => {
                         style={`--tint-base:${tintBase(navMeta[item.text]!.tint)}`}
                       >
                         <span
-                          class={`grid h-11 w-11 place-items-center rounded-xl tile-${navMeta[item.text]!.tint}`}
+                          class={`grid h-11 w-11 place-items-center rounded-sm tile-${navMeta[item.text]!.tint}`}
                         >
                           <Icon name={navMeta[item.text]!.icon} size={21} />
                         </span>
@@ -96,7 +96,7 @@ const isActive = (href: string) => {
         type="button"
         data-theme-toggle
         data-tip="Switch color theme"
-        class="icon-btn"
+        class="icon-btn max-lg:hidden"
         aria-label="Switch color theme"
       >
         <span data-theme-icon="light">
@@ -127,9 +127,11 @@ const isActive = (href: string) => {
         class="icon-btn lg:hidden"
         aria-label="Open menu"
       >
-        <span class="burger" aria-hidden="true">
-          <i></i>
-          <i></i>
+        <span class="burger-open">
+          <Icon name="menu" size={22} stroke-width={1.8} />
+        </span>
+        <span class="burger-close">
+          <Icon name="close" size={22} stroke-width={1.8} />
         </span>
       </button>
     </div>
@@ -174,7 +176,7 @@ const isActive = (href: string) => {
                         style={`--tint-base:${tintBase(meta.tint)}`}
                       >
                         <span
-                          class={`grid h-[34px] w-[34px] place-items-center rounded-[9px] tile-${meta.tint}`}
+                          class={`grid h-[34px] w-[34px] place-items-center rounded-sm tile-${meta.tint}`}
                         >
                           <Icon name={meta.icon} size={18} />
                         </span>
@@ -266,9 +268,6 @@ const isActive = (href: string) => {
     opacity: 1;
     translate: 0 0;
   }
-  .nav-menu {
-    box-shadow: var(--shadow-lg, 0 12px 32px -8px rgb(0 0 0 / 0.18));
-  }
   .nav-group[data-open] > .nav-menu {
     display: grid;
     grid-template-columns: repeat(var(--cols, 2), 14.5rem);
@@ -295,51 +294,14 @@ const isActive = (href: string) => {
       opacity: 0;
     }
   }
-  .burger {
-    position: relative;
-    display: block;
-    width: 22px;
-    height: 22px;
-  }
   /* Top-level items: no hover pill, the label just brightens. */
   .nav-trigger:not(.nav-link-active):hover {
     background: transparent;
     color: var(--c-ink);
   }
-  .burger i {
-    position: absolute;
-    left: 1px;
-    right: 1px;
-    top: 50%;
-    height: 1.6px;
-    margin-top: -0.8px;
-    border-radius: 2px;
-    background: currentColor;
-    translate: 0 -4.5px;
-    transition:
-      translate 0.18s ease 0.18s,
-      rotate 0.18s ease;
-  }
-  .burger i:last-child {
-    translate: 0 4.5px;
-  }
-  [aria-expanded='true'] .burger i {
-    translate: 0 0;
-    transition:
-      translate 0.18s ease,
-      rotate 0.18s ease 0.18s;
-  }
-  [aria-expanded='true'] .burger i:first-child {
-    rotate: 45deg;
-  }
-  [aria-expanded='true'] .burger i:last-child {
-    rotate: -45deg;
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .burger i,
-    [aria-expanded='true'] .burger i {
-      transition: none;
-    }
+  [data-menu-toggle][aria-expanded='false'] .burger-close,
+  [data-menu-toggle][aria-expanded='true'] .burger-open {
+    display: none;
   }
   .mobile-nav {
     z-index: 20;
@@ -350,18 +312,11 @@ const isActive = (href: string) => {
   .mobile-scrim {
     background: color-mix(in oklab, var(--c-bg) 45%, rgb(0 0 0 / 0.55));
   }
+  /* The menu always fills the screen, at every width it is shown. */
   .mobile-drawer {
-    width: min(22rem, 86vw);
-    background: var(--c-surface);
-    border-right: 1px solid var(--c-line);
+    width: 100%;
+    background: var(--c-bg);
     padding-bottom: env(safe-area-inset-bottom, 0px);
-  }
-  /* Phones: the drawer fills the screen. From 640px up it stays a side panel. */
-  @media (max-width: 639px) {
-    .mobile-drawer {
-      width: 100%;
-      border-right: 0;
-    }
   }
   .mobile-nav:not([hidden]) .mobile-scrim {
     animation: menu-fade 0.28s ease-out both;
@@ -404,8 +359,8 @@ const isActive = (href: string) => {
     gap: 0.6rem;
     margin: 0.4rem 0.75rem 0.6rem;
     padding: 0.6rem 0.75rem;
-    border-radius: 10px;
-    background: color-mix(in oklab, var(--c-ink) 6%, var(--c-surface));
+    border-radius: var(--radius-sm);
+    background: color-mix(in oklab, var(--c-ink) 6%, var(--c-bg));
     color: var(--c-dim);
     font-size: 0.9375rem;
     text-align: left;
@@ -415,7 +370,7 @@ const isActive = (href: string) => {
     font: 500 0.75rem var(--font-sans);
     color: var(--c-faint);
     border: 1px solid var(--c-line-strong);
-    border-radius: 6px;
+    border-radius: var(--radius-xs);
     padding: 1px 6px;
   }
   .mobile-group-head {
@@ -424,7 +379,7 @@ const isActive = (href: string) => {
     gap: 0.25rem;
     width: 100%;
     padding: 0.5rem 0.65rem;
-    border-radius: 8px;
+    border-radius: var(--radius-sm);
     font-size: 0.75rem;
     font-weight: 600;
     letter-spacing: 0.06em;
@@ -459,7 +414,7 @@ const isActive = (href: string) => {
     align-items: center;
     gap: 0.75rem;
     padding: 0.5rem 0.65rem;
-    border-radius: 10px;
+    border-radius: var(--radius-sm);
   }
   .mobile-row:hover,
   .mobile-row:focus-visible {

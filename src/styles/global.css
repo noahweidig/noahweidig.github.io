@@ -28,17 +28,17 @@
 }
 :root,
 :root[data-theme='dark'] {
-  --c-bg: #000000;
-  --c-bg-deep: #000000;
-  --c-surface: #101216;
-  --c-card: #16191f;
-  --c-raised: #171a20;
-  --c-line: #23272f;
-  --c-line-strong: #333845;
-  --c-control-border: #6b7385;
-  --c-ink: #e9ecf2;
-  --c-dim: #99a1b1;
-  --c-faint: #7c8494;
+  --c-bg: #191919;
+  --c-bg-deep: #151515;
+  --c-surface: #202020;
+  --c-card: #252525;
+  --c-raised: #2b2b2b;
+  --c-line: #333333;
+  --c-line-strong: #454545;
+  --c-control-border: #7a7a7a;
+  --c-ink: #ebebea;
+  --c-dim: #a8a7a3;
+  --c-faint: #96958f;
 
   --c-accent: #0072e3;
   --c-accent-ink: #6ba4ff;
@@ -46,7 +46,7 @@
   --c-btn2: #2997ff;
   --c-btn2-hover: #0076df;
   --c-btn2-active: #006edb;
-  --c-on-light: #14161a;
+  --c-on-light: #191919;
   /* Notion's accent set (notion.com tatami tokens), text-legible steps for
      this theme. Blue stays the primary (--c-accent). */
   --c-red: #ff6b78;
@@ -59,7 +59,7 @@
   --logo-red: #ff6b78;
   --logo-blue: #5aa0ff;
   --logo-yellow: #ffc21a;
-  --c-violet: #ad6ded;
+  --c-violet: #c28df6;
 
   --c-glow: color-mix(in oklab, var(--c-accent) 26%, transparent);
   --c-sheen: rgb(255 255 255 / 0.04);
@@ -68,17 +68,17 @@
 }
 
 :root[data-theme='light'] {
-  --c-bg: #f5f5f7;
-  --c-bg-deep: #f4f4f4;
-  --c-surface: #fafafa;
+  --c-bg: #ffffff;
+  --c-bg-deep: #fbfbfa;
+  --c-surface: #f7f6f3;
   --c-card: #ffffff;
-  --c-raised: #f4f4f4;
-  --c-line: #e2e2e2;
-  --c-line-strong: #cbcbcb;
-  --c-control-border: #7a808c;
-  --c-ink: #14161a;
-  --c-dim: #565d6b;
-  --c-faint: #636a78;
+  --c-raised: #f1f0ed;
+  --c-line: #e9e9e7;
+  --c-line-strong: #d3d2ce;
+  --c-control-border: #7a7974;
+  --c-ink: #37352f;
+  --c-dim: #5f5e5a;
+  --c-faint: #6b6a65;
 
   --c-accent: #0072e3;
   --c-accent-ink: #0a54ba;
@@ -86,11 +86,11 @@
   --c-btn2: #0066cc;
   --c-btn2-hover: #0076df;
   --c-btn2-active: #006edb;
-  --c-on-light: #14161a;
+  --c-on-light: #191919;
   --c-red: #b8142d;
   --c-ember: var(--c-red);
   --c-yellow: #ffb110;
-  --c-yellow-ink: #8c5d00;
+  --c-yellow-ink: #7a5000;
   --c-teal: #126764;
   --c-pink: #9d2472;
   --c-moss: #0f6220;
@@ -137,12 +137,9 @@
 
   --radius-xs: 4px;
   --radius-sm: 8px;
-  --radius-md: 14px;
-  --radius-lg: 20px;
-  --radius-xl: 28px;
-  /* Fully rounded radius for pill-shaped chrome (buttons, chips, filter
-     pills, back-to-top). */
-  --radius-pill: 9999px;
+  --radius-md: 12px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
 
   /* Named steps for the micro-type cluster that used to ship as one-off
      arbitrary values (text-micro etc.) — see #138. */
@@ -203,7 +200,7 @@
   h3,
   h4 {
     font-family: var(--font-display);
-    font-weight: 700;
+    font-weight: 600;
     letter-spacing: -0.015em;
     line-height: 1.12;
   }
@@ -305,7 +302,7 @@
     align-items: center;
     gap: 0.4rem;
     padding: 0.2rem 0.65rem;
-    border-radius: 6px;
+    border-radius: var(--radius-sm);
     font-size: 0.8rem;
     font-weight: 600;
     color: var(--tint, var(--c-accent-ink));
@@ -363,9 +360,9 @@
     margin-top: 1rem;
     font-family: var(--font-display);
     font-size: clamp(2.5rem, 7vw, 4rem);
-    font-weight: 700;
+    font-weight: 600;
     line-height: 1.02;
-    letter-spacing: -0.035em;
+    letter-spacing: -0.02em;
     width: fit-content;
     max-width: 100%;
     padding-bottom: 0.1em;
@@ -373,7 +370,7 @@
   .page-hero-title-md {
     font-size: clamp(2rem, 5vw, 3rem);
     line-height: 1.08;
-    letter-spacing: -0.03em;
+    letter-spacing: -0.02em;
   }
   .page-hero-lede {
     max-width: 34rem;
@@ -411,7 +408,7 @@
   .hero-media {
     margin: 0;
     overflow: hidden;
-    border-radius: 1.25rem;
+    border-radius: var(--radius-md);
     border: 1px solid var(--c-line);
     background: var(--c-card);
   }
@@ -434,7 +431,7 @@
   .hero-panel-stats dd {
     font-family: var(--font-display);
     font-size: 1.75rem;
-    font-weight: 700;
+    font-weight: 600;
     line-height: 1;
     letter-spacing: -0.02em;
     color: var(--tint, var(--c-ink));
@@ -500,7 +497,7 @@
     justify-content: center;
     gap: 0.5rem;
     padding: 0.68rem 1.15rem;
-    border-radius: var(--radius-pill);
+    border-radius: var(--radius-sm);
     font-size: 0.875rem;
     font-weight: 600;
     letter-spacing: -0.005em;
@@ -636,7 +633,7 @@
     align-items: center;
     gap: 0.35rem;
     padding: 0.2rem 0.6rem;
-    border-radius: var(--radius-pill);
+    border-radius: var(--radius-sm);
     border: 0;
     background: var(--c-matte);
     color: var(--c-dim);
@@ -645,7 +642,7 @@
     white-space: nowrap;
   }
   .chip-link {
-    border-radius: 6px;
+    border-radius: var(--radius-sm);
     background: var(--c-matte);
     padding: 0.25rem 0.625rem;
     transition:
@@ -661,7 +658,7 @@
     bottom: 0.75rem;
     left: 0.75rem;
     max-width: calc(100% - 1.5rem);
-    border-radius: var(--radius-pill);
+    border-radius: var(--radius-sm);
     background: #fff;
     padding: 0.625rem 1.25rem;
     color: var(--c-on-light);
@@ -771,41 +768,7 @@
     color: var(--c-accent-ink);
   }
 
-  /* Homepage contact bento: a grid of color-washed tiles that keeps its shape
-     on phones. --tint comes from the .bento-<color> class, same hues as the
-     chips and tiles above. */
-  .bento {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.75rem;
-  }
-  .bento-tile {
-    --tint: var(--c-accent-ink);
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    gap: 0.25rem;
-    min-width: 0;
-    padding: 1rem;
-    border-radius: var(--radius-lg);
-    color: var(--c-ink);
-    text-decoration: none;
-    background: color-mix(in oklab, var(--tint) 14%, var(--c-card));
-    border: 1px solid color-mix(in oklab, var(--tint) 30%, var(--c-card));
-    transition: background-color 0.2s var(--ease-out-soft);
-  }
-  a.bento-tile:hover {
-    background: color-mix(in oklab, var(--tint) 24%, var(--c-card));
-    text-decoration: none;
-  }
-  .bento-tile .kicker {
-    align-self: flex-start;
-  }
-  .bento-main {
-    grid-column: 1 / 3;
-    justify-content: flex-start;
-    padding: 1.5rem;
-  }
+  /* Section color for kickers, "see all" buttons and hero panels: sets --tint. */
   .tint-blue {
     --tint: var(--c-accent-ink);
   }
@@ -827,89 +790,59 @@
   .tint-purple {
     --tint: var(--c-violet);
   }
-  /* Icon chip: a wash of the tile's color with the icon in the color itself,
-     like .tile-* above, not a solid fill. */
-  .bento-icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 2.75rem;
-    height: 2.75rem;
-    margin-bottom: 0.75rem;
-    border-radius: var(--radius-md);
-    background: color-mix(in oklab, var(--tint) 34%, var(--c-card));
-    color: var(--tint);
-  }
-  .bento-title {
-    font-family: var(--font-display);
-    font-size: 1.15rem;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    line-height: 1.2;
-  }
-  .bento-sub {
-    color: var(--c-dim);
-    font-size: 0.8rem;
-    line-height: 1.35;
-  }
-  .bento-label {
-    color: var(--tint);
-    font-size: 0.8rem;
-    font-weight: 600;
-  }
-  .bento-mail {
-    font-size: 0.72rem;
-    font-weight: 600;
-    white-space: nowrap;
+  /* Homepage stat strip tile: a plain card surface. */
+  .stat-tile {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 0.25rem;
+    min-width: 0;
+    padding: 1rem;
+    border-radius: var(--radius-lg);
+    color: var(--c-ink);
+    background: var(--c-card);
+    border: 1px solid var(--c-line);
   }
   @media (min-width: 768px) {
-    .bento {
-      grid-template-columns: 2fr 1fr 1fr;
-      grid-template-rows: repeat(4, minmax(5.5rem, 1fr));
-      gap: 1.25rem;
-    }
-    .bento-tile {
+    .stat-tile {
       padding: 1.5rem;
     }
-    .bento-main {
-      grid-column: auto;
-      grid-row: 1 / 5;
-      padding: 2rem;
+  }
+  /* Homepage contact card. */
+  .cta-card {
+    padding: clamp(2rem, 6vw, 4.5rem) 1.5rem;
+  }
+  .cta-kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--c-moss);
+  }
+  .cta-dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background: var(--c-moss);
+    animation: cta-pulse 2s ease-out infinite;
+  }
+  @keyframes cta-pulse {
+    0% {
+      box-shadow: 0 0 0 0 color-mix(in oklab, var(--c-moss) 55%, transparent);
     }
-    .bento-contact {
-      grid-column: 2 / 4;
-      grid-row: 1 / 3;
-    }
-    .bento-resume {
-      grid-column: 2;
-      grid-row: 3 / 5;
-    }
-    .bento-reply {
-      grid-column: 3;
-      grid-row: 3;
-    }
-    .bento-email {
-      grid-column: 3;
-      grid-row: 4;
-    }
-    .bento-reply,
-    .bento-email {
-      justify-content: center;
-    }
-    .bento-icon {
-      width: 3rem;
-      height: 3rem;
-      margin-bottom: 1rem;
-    }
-    .bento-title {
-      font-size: 1.5rem;
-    }
-    .bento-sub,
-    .bento-mail {
-      font-size: 0.95rem;
+    70%,
+    100% {
+      box-shadow: 0 0 0 0.5rem transparent;
     }
   }
-
+  @media (prefers-reduced-motion: reduce) {
+    .cta-dot {
+      animation: none;
+    }
+  }
   /* The Altmetric donut in a citation chip is a small vendor-served image
      sized to sit on the chip's text baseline. */
   .badge-pair {
@@ -928,7 +861,7 @@
   /* --- filter pills --- */
   .pill {
     padding: 0.4rem 0.9rem;
-    border-radius: var(--radius-pill);
+    border-radius: var(--radius-sm);
     border: 0;
     background: var(--c-matte);
     color: var(--c-dim);
@@ -1374,7 +1307,7 @@
     place-items: center;
     width: 2.5rem;
     height: 2.5rem;
-    border-radius: var(--radius-pill);
+    border-radius: var(--radius-sm);
     color: var(--c-ink);
     transition:
       background-color 0.2s var(--ease-out-soft),
@@ -1412,17 +1345,15 @@
     width: 2.25rem;
     height: 2.25rem;
     flex-shrink: 0;
-    border-radius: var(--radius-pill);
+    border-radius: var(--radius-sm);
     border: 0;
     background: var(--c-matte);
     color: var(--c-dim);
     transition:
-      transform 0.2s var(--ease-out-soft),
       background-color 0.2s var(--ease-out-soft),
       color 0.2s var(--ease-out-soft);
   }
   .icon-tile:hover {
-    transform: translateY(-2px);
     background: var(--c-matte-hover);
     color: var(--c-ink);
   }
@@ -1465,14 +1396,12 @@
     margin: auto;
     width: min(40rem, 100%);
     padding: clamp(1.5rem, 5vw, 3rem);
-    border-radius: 1.75rem;
+    border-radius: var(--radius-md);
     border: 1px solid var(--c-line-strong);
     background: var(--c-surface);
-    box-shadow: 0 30px 70px -30px rgb(0 0 0 / 0.8);
   }
   .popup::backdrop {
-    background: rgb(6 8 12 / 0.5);
-    backdrop-filter: blur(10px) saturate(1.1);
+    background: rgb(0 0 0 / 0.55);
   }
   .popup-close {
     position: absolute;
@@ -1486,7 +1415,7 @@
     width: 2.25rem;
     height: 2.25rem;
     border: 0;
-    border-radius: 50%;
+    border-radius: var(--radius-sm);
     background: var(--c-matte);
     color: var(--c-dim);
     cursor: pointer;
@@ -1534,11 +1463,9 @@
     border: 1px solid var(--c-line-strong);
     background: color-mix(in oklab, var(--c-surface) 96%, var(--c-bg));
     color: var(--c-ink);
-    box-shadow: 0 30px 70px -30px rgb(0 0 0 / 0.8);
   }
   .share-dialog::backdrop {
-    background: rgb(6 8 12 / 0.5);
-    backdrop-filter: blur(10px) saturate(1.1);
+    background: rgb(0 0 0 / 0.55);
   }
   .share-dialog-head {
     display: flex;
@@ -1567,7 +1494,7 @@
     align-items: center;
     gap: 0.6rem;
     padding: 0.55rem 0.6rem;
-    border-radius: var(--radius-pill);
+    border-radius: var(--radius-sm);
     border: 1px solid transparent;
     color: var(--c-dim);
     font-size: 0.85rem;
@@ -1595,12 +1522,10 @@
     width: 2.75rem;
     height: 2.75rem;
     padding: 0;
-    border-radius: 50%;
-    border: 1px solid var(--c-line-strong);
-    background: color-mix(in oklab, var(--c-surface) 70%, transparent);
+    border-radius: var(--radius-sm);
+    border: 0;
+    background: var(--c-matte);
     color: var(--c-dim);
-    backdrop-filter: blur(10px);
-    box-shadow: 0 18px 40px -22px rgb(0 0 0 / 0.75);
     opacity: 0;
     visibility: hidden;
     translate: 0 0.5rem;
@@ -1608,7 +1533,6 @@
       opacity 0.22s var(--ease-out-soft),
       translate 0.22s var(--ease-out-soft),
       visibility 0s linear 0.22s,
-      border-color 0.2s var(--ease-out-soft),
       background-color 0.2s var(--ease-out-soft),
       color 0.2s var(--ease-out-soft);
   }
@@ -1619,9 +1543,8 @@
     transition-delay: 0s;
   }
   .back-to-top:hover {
-    border-color: var(--c-accent);
-    background: color-mix(in oklab, var(--c-accent) 14%, var(--c-surface));
-    color: var(--c-accent-ink);
+    background: var(--c-matte-hover);
+    color: var(--c-ink);
   }
   /* Blog posts: the ToC button takes this exact corner on mobile. */
   @media (max-width: 1023.98px) {
@@ -1642,7 +1565,6 @@
     border: 1px solid var(--c-line-strong);
     background: color-mix(in oklab, var(--c-surface) 92%, var(--c-bg));
     color: var(--c-ink);
-    box-shadow: 0 18px 40px -22px rgb(0 0 0 / 0.75);
     font-size: 0.8rem;
     line-height: 1.45;
     pointer-events: none;
@@ -1680,7 +1602,7 @@
     width: 1.6rem;
     height: 1.6rem;
     margin-right: 0.2rem;
-    border-radius: 0.5rem;
+    border-radius: var(--radius-sm);
     color: var(--c-faint);
     opacity: 0;
     transition:
@@ -1722,7 +1644,7 @@
     place-items: center;
     width: 2rem;
     height: 2rem;
-    border-radius: 0.55rem;
+    border-radius: var(--radius-sm);
     border: 1px solid var(--c-line);
     background: var(--c-raised);
     color: var(--c-dim);
@@ -1748,6 +1670,20 @@
     color: var(--c-moss);
   }
 
+  /* Copy buttons (share row, share dialog, post aside): a green wash with a
+     check while src/scripts/copy.ts holds data-state="copied". */
+  [data-copy] .copied-ic,
+  [data-copy][data-state='copied'] .copy-ic {
+    display: none;
+  }
+  [data-copy][data-state='copied'] .copied-ic {
+    display: inline-block;
+  }
+  :is(.btn-wash, .icon-tile)[data-copy][data-state='copied'] {
+    background: color-mix(in oklab, var(--c-moss) 20%, var(--c-surface));
+    color: var(--c-moss);
+  }
+
   /* --- lightbox --- */
   .lightbox {
     position: fixed;
@@ -1764,9 +1700,8 @@
     max-height: 100dvh;
     /* Always a dark scrim, in either theme: a picture reads best against one,
        and the page behind it should drop away rather than tint through. */
-    background: rgb(6 8 12 / 0.93);
-    backdrop-filter: blur(18px) saturate(1.2);
-    color: #e9ecf2;
+    background: rgb(10 10 10 / 0.93);
+    color: #ebebea;
     opacity: 0;
     transition: opacity 0.24s var(--ease-out-soft);
   }
@@ -1796,7 +1731,6 @@
     object-fit: contain;
     border-radius: var(--radius-md);
     border: 1px solid var(--c-line);
-    box-shadow: 0 40px 90px -40px rgb(0 0 0 / 0.9);
     transform: scale(0.97);
     transition: transform 0.24s var(--ease-out-soft);
   }
@@ -1992,14 +1926,6 @@
   a {
     color: #14161a !important;
     text-decoration: none !important;
-  }
-}
-
-/* Touch devices: per-chip backdrop blurs each allocate a compositor layer;
-   the chips already sit on bg-black/55. */
-@media (max-width: 1023px) {
-  .backdrop-blur-md {
-    backdrop-filter: none;
   }
 }
 
