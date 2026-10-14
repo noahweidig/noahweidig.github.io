@@ -63,15 +63,11 @@ const splitTitle = (title: string) => {
             data-tip={`${d.org ?? ''}${d.dates ? ` · ${d.dates}` : ''} — open the full entry`}
           >
             <div class="flex items-start justify-between gap-4">
-              <img
-                src={`/media/seals/${entry.id}.webp`}
-                alt=""
-                width="56"
-                height="56"
-                loading="lazy"
-                decoding="async"
-                class="h-14 w-14 dark:invert"
-              />
+              <span
+                class="seal h-14 w-14"
+                style={`--seal:url(/media/seals/${entry.id}.webp)`}
+                aria-hidden="true"
+              ></span>
               <p class="pt-1 text-right text-xs font-medium text-faint">{d.dates}</p>
             </div>
 
