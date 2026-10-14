@@ -1233,6 +1233,15 @@
     mask: var(--affil-logo) center / contain no-repeat;
     -webkit-mask: var(--affil-logo) center / contain no-repeat;
   }
+  /* Black-on-alpha seals: masked so dark mode needs no filter (iOS Safari
+     renders filter:invert on these as black). */
+  .seal {
+    display: block;
+    flex: none;
+    background: var(--c-ink);
+    mask: var(--seal) center / contain no-repeat;
+    -webkit-mask: var(--seal) center / contain no-repeat;
+  }
   .affil-card:hover .affil-logo,
   .affil-card:focus-visible .affil-logo {
     opacity: 1;
