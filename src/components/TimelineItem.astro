@@ -21,7 +21,10 @@ const mark =
   card && base === 'education'
     ? { src: `/media/seals/${entry.id}.webp`, class: 'h-12 w-12' }
     : card && d.org === 'University of Florida'
-      ? { src: '/media/icons/custom/uf.svg', class: 'h-12 w-16 object-contain object-left' }
+      ? {
+          src: '/media/icons/custom/uf.svg',
+          class: 'h-12 w-16 [mask-position:left] [-webkit-mask-position:left]',
+        }
       : undefined;
 const Heading = `h${headingLevel}` as 'h3' | 'h4';
 ---
@@ -49,14 +52,10 @@ const Heading = `h${headingLevel}` as 'h3' | 'h4';
     ></span>
   )}
   {mark && (
-    <img
-      src={mark.src}
-      alt=""
-      width="48"
-      height="48"
-      loading="lazy"
-      decoding="async"
-      class:list={['mb-3 dark:invert', mark.class]}
+    <span
+      class:list={['seal mb-3', mark.class]}
+      style={`--seal:url(${mark.src})`}
+      aria-hidden="true"
     />
   )}
   <Heading class="text-lg leading-snug transition-colors group-hover:text-accent-ink">
