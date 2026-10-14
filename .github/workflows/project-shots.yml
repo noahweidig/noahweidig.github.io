@@ -53,6 +53,7 @@ jobs:
         run: |
           set -euo pipefail
           clean=$(printf '%s' "${SLUGS:-}" | tr -cd 'a-z0-9 -')
+          # shellcheck disable=SC2086
           node scripts/generate-project-shots.mjs $clean
 
       - name: Commit screenshots
