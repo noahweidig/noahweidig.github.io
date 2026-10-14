@@ -1518,6 +1518,38 @@
     color: var(--brand, var(--c-accent-ink));
   }
 
+  .share-target[data-brand='x'],
+  .share-target[data-brand='threads'] {
+    --brand: var(--c-ink);
+  }
+  .share-target[data-brand='linkedin'] {
+    --brand: #0a66c2;
+  }
+  .share-target[data-brand='bluesky'] {
+    --brand: #1185fe;
+  }
+  .share-target[data-brand='facebook'] {
+    --brand: #1877f2;
+  }
+  .share-target[data-brand='reddit'] {
+    --brand: #ff4500;
+  }
+  .share-target[data-brand='pinterest'] {
+    --brand: #e60023;
+  }
+  .share-target[data-brand='mastodon'] {
+    --brand: #6364ff;
+  }
+  .share-target[data-brand='whatsapp'] {
+    --brand: #25d366;
+  }
+  .share-target[data-brand='telegram'] {
+    --brand: #26a5e4;
+  }
+  .share-target[data-brand='tumblr'] {
+    --brand: #529ecc;
+  }
+
   /* --- back to top ---
      Shown only while the reader is scrolling up past the fold; scrolling
      down hides it again, tracked in src/scripts/ui.ts. */
