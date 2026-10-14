@@ -8,6 +8,19 @@ const { title } = Astro.props;
 const url = new URL(Astro.url.pathname, Astro.site).href;
 
 const targets = buildShareTargets(title, url);
+const brand: Record<string, string> = {
+  x: 'var(--c-ink)',
+  linkedin: '#0a66c2',
+  bluesky: '#1185fe',
+  facebook: '#1877f2',
+  reddit: '#ff4500',
+  pinterest: '#e60023',
+  mastodon: '#6364ff',
+  whatsapp: '#25d366',
+  threads: 'var(--c-ink)',
+  telegram: '#26a5e4',
+  tumblr: '#529ecc',
+};
 ---
 
 <div
@@ -48,7 +61,13 @@ const targets = buildShareTargets(title, url);
     </div>
     <div class="share-dialog-grid">
       {targets.map((s) => (
-        <a class="share-target" href={s.href} target="_blank" rel="noopener">
+        <a
+          class="share-target"
+          href={s.href}
+          target="_blank"
+          rel="noopener"
+          style={brand[s.icon] ? `--brand:${brand[s.icon]}` : undefined}
+        >
           <Icon name={s.icon} size={17} />
           <span>{s.label}</span>
           <span class="sr-only-nw"> (opens in a new tab)</span>

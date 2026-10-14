@@ -1513,9 +1513,9 @@
       color 0.2s var(--ease-out-soft);
   }
   .share-target:hover {
-    border-color: var(--c-accent);
-    background: color-mix(in oklab, var(--c-accent) 10%, transparent);
-    color: var(--c-accent-ink);
+    border-color: var(--brand, var(--c-accent));
+    background: color-mix(in oklab, var(--brand, var(--c-accent)) 12%, transparent);
+    color: var(--brand, var(--c-accent-ink));
   }
 
   /* --- back to top ---
