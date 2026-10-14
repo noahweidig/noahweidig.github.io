@@ -1,0 +1,6 @@
+[files]
+extend-exclude = ["package-lock.json", "src/data/", "src/styles/fonts.css", "public/"]
+
+[default.extend-words]
+nd = "nd"
+SER = "SER"
