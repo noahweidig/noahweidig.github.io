@@ -8,12 +8,10 @@ const { facts } = Astro.props;
 ---
 
 <ul class="hero-panel grid gap-3.5 text-[0.95rem] text-ink" data-pagefind-ignore>
-  {
-    facts.map((f) => (
-      <li class="flex items-start gap-3">
-        <Icon name={f.icon} size={18} class="mt-0.5 shrink-0 text-accent" />
-        <span>{f.text}</span>
-      </li>
-    ))
-  }
+  {facts.map((f) => (
+    <li class="flex items-start gap-3">
+      <Icon name={f.icon} size={18} class="mt-0.5 shrink-0 text-accent" />
+      <span>{f.text}</span>
+    </li>
+  ))}
 </ul>
