@@ -1,7 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import Detail from '../../layouts/Detail.astro';
-import HeroPanel from '../../components/HeroPanel.astro';
+import HeroFacts from '../../components/HeroFacts.astro';
 import { site } from '../../lib/site';
 import { byDate, truncateTitle, siblingLink } from '../../lib/format';
 
@@ -33,11 +33,11 @@ const { entry, prev, next, titleIsDuplicate } = Astro.props;
 const { Content } = await render(entry);
 const d = entry.data;
 const meta = [d.org, d.dates, d.location].filter(Boolean).join(' · ');
-const stats = [
-  { label: 'Organization', value: d.org },
-  { label: 'Dates', value: d.dates },
-  { label: 'Location', value: d.location },
-].filter((s): s is { label: string; value: string } => Boolean(s.value));
+const facts = [
+  { icon: 'briefcase', text: d.org },
+  { icon: 'calendar', text: d.dates },
+  { icon: 'pin', text: d.location },
+].filter((f): f is { icon: string; text: string } => Boolean(f.text));
 
 // Same generic CreativeWork shape the Projects detail page uses — schema.org
 // has no dedicated "past role" entity, so this keeps the page's structured
@@ -76,7 +76,7 @@ const experienceLd = {
   imageAlt={d.org ? `${d.title}, ${d.org}` : d.title}
   publishedTime={d.date}
 >
-  <HeroPanel slot="hero-panel" title="Role details" stats={stats} />
+  <HeroFacts slot="hero-panel" facts={facts} />
   <Content />
 </Detail>
 
