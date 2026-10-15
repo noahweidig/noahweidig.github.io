@@ -5,6 +5,7 @@ import { getCollection, render } from 'astro:content';
 import { Image } from 'astro:assets';
 import Detail from '../../layouts/Detail.astro';
 import Icon from '../../components/Icon.astro';
+import HeroPanel from '../../components/HeroPanel.astro';
 import { IMAGE_WIDTHS, pubShotFor } from '../../lib/images';
 import {
   byDate,
@@ -81,6 +82,14 @@ const metaDescription = truncateTitle(
   150,
 );
 
+const panelStats = [
+  { label: 'Year', value: year },
+  { label: 'Type', value: kind },
+  d['pub-venue'] ? { label: 'Venue', value: d['pub-venue'] } : null,
+  dimensions ? { label: 'Citations', value: dimensions.timesCited } : null,
+  d['pub-oa'] ? { label: 'Access', value: 'Open' } : null,
+].filter((s): s is { label: string; value: string | number } => s !== null);
+
 const pubLd = {
   '@context': 'https://schema.org',
   '@type': 'ScholarlyArticle',
@@ -135,6 +144,7 @@ const pubLd = {
       loading="eager"
     />
   )}
+  {!shot && <HeroPanel slot="hero-panel" title="At a glance" stats={panelStats} />}
   {credit && (
     <figcaption slot="hero-image" class="px-3 py-1.5 text-xs text-dim">
       Image from{' '}

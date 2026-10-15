@@ -88,6 +88,12 @@ const badges = Astro.slots.has('badges') ? (await Astro.slots.render('badges')).
 const hasHeroImage = Astro.slots.has('hero-image')
   ? Boolean((await Astro.slots.render('hero-image')).trim())
   : false;
+
+/* Text-only fallback for items with no image: a HeroPanel in the same column. */
+const hasHeroPanel =
+  !hasHeroImage && Astro.slots.has('hero-panel')
+    ? Boolean((await Astro.slots.render('hero-panel')).trim())
+    : false;
 ---
 
 <Base
@@ -113,9 +119,9 @@ const hasHeroImage = Astro.slots.has('hero-image')
       trail={[{ label: section, href: backHref }]}
       size="md"
       hasActions={links.length > 0}
-      hasAside={hasHeroImage}
+      hasAside={hasHeroImage || hasHeroPanel}
     >
-      {meta && (
+      {meta && !hasHeroPanel && (
         <p class="mt-4 text-sm text-dim" data-pagefind-ignore>
           {meta}
         </p>
@@ -174,9 +180,13 @@ const hasHeroImage = Astro.slots.has('hero-image')
       </Fragment>
 
       <Fragment slot="aside">
-        <figure class="hero-media" data-zoomable>
-          <slot name="hero-image" />
-        </figure>
+        {hasHeroPanel ? (
+          <slot name="hero-panel" />
+        ) : (
+          <figure class="hero-media" data-zoomable>
+            <slot name="hero-image" />
+          </figure>
+        )}
       </Fragment>
     </PageHero>
 
