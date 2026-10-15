@@ -90,10 +90,13 @@ const hasHeroImage = Astro.slots.has('hero-image')
   : false;
 
 /* Text-only fallback for items with no image: a HeroPanel in the same column. */
-const hasHeroPanel =
+/* Rendered once and reused: Icon defines each symbol on its first render only,
+   so a second render of this slot would emit <use> references with no symbol. */
+const heroPanel =
   !hasHeroImage && Astro.slots.has('hero-panel')
-    ? Boolean((await Astro.slots.render('hero-panel')).trim())
-    : false;
+    ? (await Astro.slots.render('hero-panel')).trim()
+    : '';
+const hasHeroPanel = heroPanel !== '';
 ---
 
 <Base
@@ -181,7 +184,7 @@ const hasHeroPanel =
 
       <Fragment slot="aside">
         {hasHeroPanel ? (
-          <slot name="hero-panel" />
+          <Fragment set:html={heroPanel} />
         ) : (
           <figure class="hero-media" data-zoomable>
             <slot name="hero-image" />
