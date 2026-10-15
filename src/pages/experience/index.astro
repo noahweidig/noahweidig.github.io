@@ -46,7 +46,7 @@ const span = (dates = '') => {
     </a>
   </Fragment>
   <h2 class="sr-only-nw">All experience</h2>
-  <ol class="mt-12 grid gap-4 md:mt-16">
+  <ol class="mt-12 grid gap-4 md:mt-16 lg:grid-cols-2">
     {items.map((entry, i) => {
       const d = entry.data;
       const { from, to } = span(d.dates);
@@ -55,7 +55,7 @@ const span = (dates = '') => {
         <li data-reveal>
           <a
             href={`/experience/${entry.id}/`}
-            class="card card-hover group block p-6 md:p-7"
+            class="card card-hover group flex h-full flex-col p-6 md:p-7"
             data-tip-title={d.title}
             data-tip={`${d.org ?? ''}${d.dates ? ` · ${d.dates}` : ''} — open the full entry`}
           >
@@ -76,7 +76,7 @@ const span = (dates = '') => {
             {d.description && (
               <p class="mt-4 max-w-[62ch] leading-relaxed text-dim">{d.description}</p>
             )}
-            <span class="mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-accent-ink">
+            <span class="mt-auto inline-flex items-center gap-1.5 pt-5 text-sm font-medium text-accent-ink">
               Read more
               <Icon
                 name="arrow"
