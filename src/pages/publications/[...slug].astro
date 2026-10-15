@@ -82,13 +82,14 @@ const metaDescription = truncateTitle(
   150,
 );
 
-const panelStats = [
+type PanelStat = { label: string; value: string | number };
+const panelStats: PanelStat[] = [
   { label: 'Year', value: year },
   { label: 'Type', value: kind },
-  d['pub-venue'] ? { label: 'Venue', value: d['pub-venue'] } : null,
-  dimensions ? { label: 'Citations', value: dimensions.timesCited } : null,
-  d['pub-oa'] ? { label: 'Access', value: 'Open' } : null,
-].filter((s): s is { label: string; value: string | number } => s !== null);
+  ...(d['pub-venue'] ? [{ label: 'Venue', value: d['pub-venue'] }] : []),
+  ...(dimensions ? [{ label: 'Citations', value: dimensions.timesCited }] : []),
+  ...(d['pub-oa'] ? [{ label: 'Access', value: 'Open' }] : []),
+];
 
 const pubLd = {
   '@context': 'https://schema.org',
