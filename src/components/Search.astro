@@ -15,7 +15,7 @@ import Icon from './Icon.astro';
     data-search-backdrop
   >
     <div
-      class="card flex w-full max-w-none flex-col overflow-hidden rounded-none border-0 sm:max-w-4xl sm:rounded-[var(--radius-lg)] sm:border sm:border-line-strong"
+      class="card flex w-full max-w-none flex-col overflow-hidden rounded-none border-0 sm:max-w-4xl sm:rounded-lg sm:border sm:border-line-strong"
       data-search-panel
     >
       <!-- query row -->
@@ -23,7 +23,7 @@ import Icon from './Icon.astro';
           close circle beside it. `sm:contents` dissolves the pill wrapper so the
           desktop row is exactly what it was. */}
       <div class="flex h-16 items-center gap-2 border-b border-line px-5 sm:h-auto sm:gap-3.5 sm:bg-raised/40 sm:px-6 sm:py-1">
-        <div class="flex min-w-0 flex-1 items-center gap-2 rounded-[var(--radius-md)] bg-raised px-3 sm:contents">
+        <div class="flex min-w-0 flex-1 items-center gap-2 rounded-md bg-raised px-3 sm:contents">
           <Icon
             name="nav-search"
             size={21}
