@@ -32,7 +32,13 @@ function auditHeadings(pages, distDir) {
       const tag = match[1].toLowerCase();
       const level = parseInt(tag[1], 10);
       // Strip HTML tags from content
-      const text = match[2].replace(/<[^>]*>/g, '').trim();
+      let text = match[2];
+      let prev;
+      do {
+        prev = text;
+        text = text.replace(/<[^>]*>/g, '');
+      } while (text !== prev);
+      text = text.replace(/[<>]/g, '').trim();
       headings.push({ tag, level, text });
     }
 
