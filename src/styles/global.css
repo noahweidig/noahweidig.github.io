@@ -324,7 +324,7 @@
 
   .lede {
     color: var(--c-dim);
-    font-size: 1.05rem;
+    font-size: var(--text-lead);
     max-width: 46rem;
   }
 
@@ -438,7 +438,7 @@
   }
   .hero-panel-stats dt {
     margin-top: 0.4rem;
-    font-size: 0.82rem;
+    font-size: var(--text-small);
     color: var(--c-dim);
   }
   .hero-panel-stats > div {
@@ -969,7 +969,7 @@
     scroll-margin-top: 6rem;
   }
   .prose-nw h4 {
-    font-size: 1.05rem;
+    font-size: var(--text-lead);
     margin-top: 1.6em;
   }
   .prose-nw a:not(.btn) {
@@ -1153,7 +1153,7 @@
   .tech-tile-cat {
     margin-top: -0.3rem;
     font-family: var(--font-mono);
-    font-size: 0.62rem;
+    font-size: var(--text-micro);
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--c-faint);
