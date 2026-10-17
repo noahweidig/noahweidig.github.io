@@ -52,31 +52,15 @@ export function initHeader() {
   /* Cheap lock: overflow on <html> + touch-action:none on the panel. The old
      body position:fixed lock relaid out the whole page on every toggle. */
   let isOpen = false;
-  let closeTimer: number | undefined;
   const setOpen = (open: boolean) => {
     if (open === isOpen) return;
     isOpen = open;
-    clearTimeout(closeTimer);
     header.toggleAttribute('data-menu-open', open);
     document.documentElement.toggleAttribute('data-menu-open', open);
     toggle.setAttribute('aria-expanded', String(open));
     toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
     document.querySelectorAll('main, footer').forEach((el) => el.toggleAttribute('inert', open));
-    if (open) {
-      panel.removeAttribute('data-closing');
-      panel.hidden = false;
-      return;
-    }
-    /* Fade out (CSS), then hide once it finishes. */
-    if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      panel.hidden = true;
-      return;
-    }
-    panel.setAttribute('data-closing', '');
-    closeTimer = window.setTimeout(() => {
-      panel.hidden = true;
-      panel.removeAttribute('data-closing');
-    }, 250);
+    panel.hidden = !open;
   };
   on(toggle, 'click', () => setOpen(!isOpen));
   panel
