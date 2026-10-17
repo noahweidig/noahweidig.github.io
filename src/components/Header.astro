@@ -297,41 +297,6 @@ const isActive = (href: string) => {
     background: var(--c-bg);
     padding-bottom: env(safe-area-inset-bottom, 0px);
   }
-  .mobile-nav:not([hidden]) .mobile-scrim {
-    animation: menu-fade 0.28s ease-out both;
-  }
-  .mobile-nav:not([hidden]) .mobile-drawer {
-    animation: drawer-in 0.34s cubic-bezier(0.22, 1, 0.36, 1) both;
-  }
-  .mobile-nav[data-closing] {
-    pointer-events: none;
-  }
-  .mobile-nav[data-closing] .mobile-scrim {
-    animation: menu-fade-out 0.25s ease-in both;
-  }
-  .mobile-nav[data-closing] .mobile-drawer {
-    animation: drawer-out 0.25s ease-in both;
-  }
-  @keyframes menu-fade {
-    from {
-      opacity: 0;
-    }
-  }
-  @keyframes menu-fade-out {
-    to {
-      opacity: 0;
-    }
-  }
-  @keyframes drawer-in {
-    from {
-      translate: -102% 0;
-    }
-  }
-  @keyframes drawer-out {
-    to {
-      translate: -102% 0;
-    }
-  }
   .mobile-group-head {
     display: flex;
     align-items: center;
@@ -395,8 +360,6 @@ const isActive = (href: string) => {
     border-top: 1px solid var(--c-line);
   }
   @media (prefers-reduced-motion: reduce) {
-    .mobile-nav .mobile-scrim,
-    .mobile-nav .mobile-drawer,
     .mobile-group-body,
     .mobile-group-head :global(svg) {
       animation: none !important;
