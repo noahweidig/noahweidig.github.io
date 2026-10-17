@@ -1,5 +1,5 @@
 ---
-import { navGroups, navMeta, socials } from '../lib/site';
+import { navGroups, navMeta } from '../lib/site';
 import Icon from './Icon.astro';
 import Wordmark from './Wordmark.astro';
 import Search from './Search.astro';
@@ -144,15 +144,23 @@ const isActive = (href: string) => {
         <a href="/">
           <Wordmark class="text-[1.15rem]" />
         </a>
-        <button type="button" class="icon-btn" data-menu-close aria-label="Close menu">
-          <Icon name="nav-x" size={21} stroke-width={1.8} />
-        </button>
+        <div class="flex items-center gap-1">
+          <button type="button" data-theme-toggle class="icon-btn" aria-label="Switch color theme">
+            <span data-theme-icon="light">
+              <Icon name="nav-sun" size={20} stroke-width={1.8} />
+            </span>
+            <span data-theme-icon="dark">
+              <Icon name="nav-moon" size={20} stroke-width={1.8} />
+            </span>
+            <span data-theme-icon="system">
+              <Icon name="nav-sunMoon" size={20} stroke-width={1.8} />
+            </span>
+          </button>
+          <button type="button" class="icon-btn" data-menu-close aria-label="Close menu">
+            <Icon name="nav-x" size={21} stroke-width={1.8} />
+          </button>
+        </div>
       </div>
-      <button type="button" data-search-open class="mobile-search" aria-label="Search the site">
-        <Icon name="nav-search" size={18} stroke-width={1.8} />
-        Search
-        <kbd>/</kbd>
-      </button>
       <div class="min-h-0 flex-1 overflow-y-auto px-2 pb-3 pt-1">
         {navGroups.map((group, gi) => (
           <div class="mobile-group">
@@ -199,35 +207,6 @@ const isActive = (href: string) => {
         ))}
       </div>
       <div class="mobile-foot">
-        <div class="flex items-center gap-1">
-          {socials.slice(0, 3).map((s) => (
-            <a
-              href={s.href}
-              target="_blank"
-              rel="noopener"
-              class="icon-btn"
-              aria-label={`${s.label} (opens in a new tab)`}
-            >
-              <Icon name={s.icon} size={18} />
-            </a>
-          ))}
-          <button
-            type="button"
-            data-theme-toggle
-            class="icon-btn ml-auto"
-            aria-label="Switch color theme"
-          >
-            <span data-theme-icon="light">
-              <Icon name="nav-sun" size={20} stroke-width={1.8} />
-            </span>
-            <span data-theme-icon="dark">
-              <Icon name="nav-moon" size={20} stroke-width={1.8} />
-            </span>
-            <span data-theme-icon="system">
-              <Icon name="nav-sunMoon" size={20} stroke-width={1.8} />
-            </span>
-          </button>
-        </div>
         <a class="btn btn-primary w-full" href="/contact/">
           Get in touch
           <Icon name="arrow" size={15} />
@@ -352,26 +331,6 @@ const isActive = (href: string) => {
     to {
       translate: -102% 0;
     }
-  }
-  .mobile-search {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    margin: 0.4rem 0.75rem 0.6rem;
-    padding: 0.6rem 0.75rem;
-    border-radius: var(--radius-sm);
-    background: color-mix(in oklab, var(--c-ink) 6%, var(--c-bg));
-    color: var(--c-dim);
-    font-size: 0.9375rem;
-    text-align: left;
-  }
-  .mobile-search kbd {
-    margin-left: auto;
-    font: 500 0.75rem var(--font-sans);
-    color: var(--c-faint);
-    border: 1px solid var(--c-line-strong);
-    border-radius: var(--radius-xs);
-    padding: 1px 6px;
   }
   .mobile-group-head {
     display: flex;
