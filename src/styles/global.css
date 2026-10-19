@@ -24,6 +24,11 @@
   /* Matte fills for buttons, tags and controls: a flat grey step off the
      surface, in whichever theme is active. */
   --c-matte: color-mix(in oklab, var(--c-ink) 12%, var(--c-card));
+  --z-sticky: 40;
+  --z-header: 50;
+  --z-skip: 100;
+  --z-tip: 120;
+  --z-modal: 200;
   --c-scrim: rgb(0 0 0 / 0.55);
   --c-matte-hover: color-mix(in oklab, var(--c-ink) 20%, var(--c-card));
 }
@@ -148,6 +153,7 @@
   --text-caption: 0.72rem;
   --text-body-lg: 0.95rem;
   --text-small: 0.82rem;
+  --text-compact: 0.86rem;
   --text-lead: 1.05rem;
 
   --dur-fast: 0.2s;
@@ -180,7 +186,7 @@
      Safari reserves this gutter even though its own scrollbar overlays
      content, which pushed the whole page left and left a bigger margin on
      the right than the left. */
-  @media (min-width: 1024px) {
+  @media (min-width: 64rem) {
     html {
       scrollbar-gutter: stable;
     }
@@ -277,7 +283,7 @@
     margin-inline: auto;
     padding-inline: 1.25rem;
   }
-  @media (min-width: 768px) {
+  @media (min-width: 48rem) {
     .shell {
       padding-inline: 2rem;
     }
@@ -296,7 +302,7 @@
     margin-inline: auto;
     padding-inline: 1.25rem;
   }
-  @media (min-width: 768px) {
+  @media (min-width: 48rem) {
     .shell-body {
       padding-inline: 2rem;
     }
@@ -309,7 +315,7 @@
     gap: 0.4rem;
     padding: 0.2rem 0.65rem;
     border-radius: var(--radius-sm);
-    font-size: 0.8rem;
+    font-size: var(--text-small);
     font-weight: 600;
     color: var(--tint, var(--c-accent-ink));
     background: color-mix(in oklab, var(--tint, var(--c-accent-ink)) 12%, var(--c-surface));
@@ -425,7 +431,7 @@
   }
   .hero-panel-title {
     margin-bottom: 1rem;
-    font-size: 0.85rem;
+    font-size: var(--text-compact);
     font-weight: 600;
     color: var(--c-dim);
   }
@@ -504,7 +510,7 @@
     gap: 0.5rem;
     padding: 0.68rem 1.15rem;
     border-radius: var(--radius-sm);
-    font-size: 0.875rem;
+    font-size: var(--text-compact);
     font-weight: 600;
     letter-spacing: -0.005em;
     border: 1px solid transparent;
@@ -587,7 +593,7 @@
 
   .btn-sm {
     padding: 0.42rem 0.85rem;
-    font-size: 0.8rem;
+    font-size: var(--text-small);
   }
 
   /* --- carousel --- */
@@ -643,7 +649,7 @@
     border: 0;
     background: var(--c-matte);
     color: var(--c-dim);
-    font-size: 0.78rem;
+    font-size: var(--text-small);
     font-weight: 500;
     white-space: nowrap;
   }
@@ -672,7 +678,7 @@
     font-weight: 500;
     line-height: 1.25;
   }
-  @media (min-width: 640px) {
+  @media (min-width: 40rem) {
     .card-badge {
       bottom: 1rem;
       left: 1rem;
@@ -809,7 +815,7 @@
     background: var(--c-card);
     border: 1px solid var(--c-line);
   }
-  @media (min-width: 768px) {
+  @media (min-width: 48rem) {
     .stat-tile {
       padding: 1.5rem;
     }
@@ -871,14 +877,14 @@
     border: 0;
     background: var(--c-matte);
     color: var(--c-dim);
-    font-size: 0.8rem;
+    font-size: var(--text-small);
     font-weight: 500;
     cursor: pointer;
     transition:
       background-color var(--dur-fast) var(--ease-out-soft),
       color var(--dur-fast) var(--ease-out-soft);
   }
-  @media (max-width: 767px) {
+  @media (max-width: 47.99rem) {
     .pill-row {
       flex-wrap: nowrap !important;
       overflow-x: auto;
@@ -1032,7 +1038,7 @@
   .prose-nw figure > figcaption,
   .prose-nw img + em {
     color: var(--c-faint);
-    font-size: 0.85rem;
+    font-size: var(--text-compact);
   }
   .prose-nw code:not(pre code) {
     font-family: var(--font-mono);
@@ -1048,7 +1054,7 @@
     border-radius: var(--radius-md);
     border: 1px solid var(--c-line);
     overflow-x: auto;
-    font-size: 0.85rem;
+    font-size: var(--text-compact);
     line-height: 1.65;
     background: var(--c-surface) !important;
   }
@@ -1111,7 +1117,7 @@
   .prose-nw th {
     color: var(--c-dim);
     font-weight: 600;
-    font-size: 0.78rem;
+    font-size: var(--text-small);
     text-transform: uppercase;
     letter-spacing: 0.06em;
   }
@@ -1175,7 +1181,7 @@
   .tech-tile-more:hover {
     background: var(--c-matte);
   }
-  @media (max-width: 767px) {
+  @media (max-width: 47.99rem) {
     .tech-tile {
       min-height: 5.6rem;
       gap: 0.55rem;
@@ -1191,7 +1197,7 @@
       display: none;
     }
   }
-  @media (min-width: 768px) {
+  @media (min-width: 48rem) {
     .tech-tile {
       min-height: 7.5rem;
       padding-top: 1.35rem;
@@ -1501,7 +1507,7 @@
      the 7.5rem auto-fill floor can collapse to a single column; force two
      so a narrow phone (e.g. iPhone 13 mini at 375px) still gets a grid
      instead of one tall list. */
-  @media (max-width: 480px) {
+  @media (max-width: 30rem) {
     .share-dialog-grid {
       grid-template-columns: repeat(2, 1fr);
     }
@@ -1514,7 +1520,7 @@
     border-radius: var(--radius-sm);
     border: 1px solid transparent;
     color: var(--c-dim);
-    font-size: 0.85rem;
+    font-size: var(--text-compact);
     transition:
       border-color var(--dur-fast) var(--ease-out-soft),
       background-color var(--dur-fast) var(--ease-out-soft),
@@ -1565,7 +1571,7 @@
     position: fixed;
     right: max(1.25rem, env(safe-area-inset-right));
     bottom: max(1.5rem, env(safe-area-inset-bottom));
-    z-index: 40; /* below the header (z-50), so the open mobile menu covers it */
+    z-index: var(--z-sticky); /* below the header, so the open mobile menu covers it */
     display: grid;
     place-items: center;
     width: 2.75rem;
@@ -1596,7 +1602,7 @@
     color: var(--c-ink);
   }
   /* Blog posts: the ToC button takes this exact corner on mobile. */
-  @media (max-width: 1023.98px) {
+  @media (max-width: 63.99rem) {
     body:has([data-toc-fab]) .back-to-top {
       display: none;
     }
@@ -1607,14 +1613,14 @@
      never clipped by an ancestor's overflow. */
   .nw-tip {
     position: fixed;
-    z-index: 120;
+    z-index: var(--z-tip);
     max-width: 20rem;
     padding: 0.45rem 0.65rem;
     border-radius: var(--radius-sm);
     border: 1px solid var(--c-line-strong);
     background: color-mix(in oklab, var(--c-surface) 92%, var(--c-bg));
     color: var(--c-ink);
-    font-size: 0.8rem;
+    font-size: var(--text-small);
     line-height: 1.45;
     pointer-events: none;
     opacity: 0;
@@ -1737,7 +1743,7 @@
   .lightbox {
     position: fixed;
     inset: 0;
-    z-index: 200;
+    z-index: var(--z-modal);
     display: grid;
     /* minmax(0, 1fr), not 1fr: an `auto` minimum floors the stage row at the
        image's intrinsic height, which pushes a tall picture past the bottom
@@ -1792,7 +1798,7 @@
     gap: 0.75rem;
     padding: 1rem 1.25rem;
     color: rgb(233 236 242 / 0.7);
-    font-size: 0.85rem;
+    font-size: var(--text-compact);
   }
   .lightbox .icon-tile {
     /* Explicit ground: the default tile fill follows the page theme, so in
@@ -1817,7 +1823,7 @@
     padding-bottom: max(1.75rem, env(safe-area-inset-bottom));
     text-align: center;
     color: rgb(233 236 242 / 0.72);
-    font-size: 0.88rem;
+    font-size: var(--text-compact);
   }
   /* The affordance on a zoomable image: a corner badge rather than a full
      overlay, so the picture itself is never dimmed. */
@@ -1897,7 +1903,7 @@
     position: fixed;
     top: 0.75rem;
     left: 0.75rem;
-    z-index: 100;
+    z-index: var(--z-skip);
     transform: translateY(-200%);
   }
   .skip-link:focus {
