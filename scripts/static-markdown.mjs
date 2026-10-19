@@ -18,7 +18,11 @@ export function htmlToMarkdown(html, origin) {
   const raw = html.match(/<main\b[^>]*>([\s\S]*?)<\/main>/i)?.[1];
   if (!raw) return undefined;
   const main = raw.replace(/<\/span>(?=<span\b)/g, '</span> ');
-  const title = html.match(/<title>([\s\S]*?)<\/title>/i)?.[1]?.trim();
+  const title = html
+    .match(/<title>([\s\S]*?)<\/title>/i)?.[1]
+    ?.trim()
+    .replace(/&amp;/g, '&')
+    .replace(/&#39;|&#x27;/g, "'");
   const td = new TurndownService({ headingStyle: 'atx', bulletListMarker: '-', hr: '---' });
   td.remove(DROP);
   td.remove((n) => n.getAttribute?.('aria-hidden') === 'true' || n.hasAttribute?.('hidden'));
@@ -42,6 +46,9 @@ export function htmlToMarkdown(html, origin) {
   const body = td
     .turndown(main)
     .replace(/[ \t]+\n/g, '\n')
+    .replace(/^-\s*$\n?/gm, '')
+    .replace(/^ +(?=\[)/gm, '')
+    .replace(/^-   /gm, '- ')
     .replace(/\n{3,}/g, '\n\n')
     .trim();
   return `${title ? `<!-- ${title} -->\n\n` : ''}${body}\n`;
