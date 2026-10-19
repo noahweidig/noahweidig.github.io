@@ -11,6 +11,9 @@ const STATIC_MD_ROUTES = JSON.parse(
 );
 const mdFileFor = (route) => (route === '/' ? 'index.md' : route.slice(1, -1) + '.md');
 
+// Decoded in one pass so `&amp;quot;` stays literal text rather than becoming a quote.
+const ENTITIES = { amp: '&', quot: '"', '#39': "'", '#x27': "'" };
+
 const DROP = ['script', 'style', 'svg', 'form', 'button', 'nav', 'iframe', 'noscript', 'template'];
 
 /** Render the `<main>` of a built page to markdown, with absolute URLs. */
@@ -21,8 +24,7 @@ export function htmlToMarkdown(html, origin) {
   const title = html
     .match(/<title>([\s\S]*?)<\/title>/i)?.[1]
     ?.trim()
-    .replace(/&amp;/g, '&')
-    .replace(/&#39;|&#x27;/g, "'");
+    .replace(/&(amp|quot|#39|#x27);/g, (_, e) => ENTITIES[e]);
   const td = new TurndownService({ headingStyle: 'atx', bulletListMarker: '-', hr: '---' });
   td.remove(DROP);
   td.remove((n) => n.getAttribute?.('aria-hidden') === 'true' || n.hasAttribute?.('hidden'));
