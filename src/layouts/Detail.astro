@@ -2,6 +2,7 @@
 import { tagHref, tagIcon } from '../lib/tags';
 import { tintFor } from '../lib/tint';
 import Base from './Base.astro';
+import { DISCOVERY_COLLECTIONS } from '../lib/discovery';
 import Icon from '../components/Icon.astro';
 import ShareRow from '../components/ShareRow.astro';
 import PageHero from '../components/PageHero.astro';
@@ -97,6 +98,11 @@ const heroPanel =
     ? (await Astro.slots.render('hero-panel')).trim()
     : '';
 const hasHeroPanel = heroPanel !== '';
+const mdMatch = Astro.url.pathname.match(/^\/([^/]+)\/([^/]+)\/?$/);
+const mdHref =
+  mdMatch && DISCOVERY_COLLECTIONS.some((c) => c.path === mdMatch[1])
+    ? `/${mdMatch[1]}/${mdMatch[2]}.md`
+    : undefined;
 ---
 
 <Base
@@ -113,6 +119,7 @@ const hasHeroPanel = heroPanel !== '';
   preloadImage={preloadImage}
 >
   <Fragment slot="head">
+    {mdHref && <link rel="alternate" type="text/markdown" href={mdHref} />}
     <slot name="head" />
   </Fragment>
   <article>

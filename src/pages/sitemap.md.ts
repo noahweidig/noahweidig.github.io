@@ -28,7 +28,7 @@ export const GET: APIRoute = async ({ site: astroSite }) => {
     lines.push(`- [All ${section.toLowerCase()}](${base}/${path}/)`, '');
     for (const entry of published) {
       const title = typeof entry.data.title === 'string' ? entry.data.title : entry.id;
-      lines.push(`- [${title}](${base}/${path}/${entry.id}/)`);
+      lines.push(`- [${title}](${base}/${path}/${entry.id}.md)`);
     }
     lines.push('');
   }
