@@ -16,7 +16,7 @@ export const getStaticPaths = (async () => {
   return paths;
 }) satisfies GetStaticPaths;
 
-const SKIP = new Set(['title', 'draft', 'links', 'image', 'cover', 'images']);
+const SKIP = new Set(['title', 'draft', 'links', 'image', 'cover', 'images', 'author-image', 'image-alt']);
 
 const fmt = (v: unknown): string | undefined => {
   if (v == null || v === '') return undefined;
