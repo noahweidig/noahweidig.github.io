@@ -154,6 +154,9 @@ for (const page of PAGES) {
         await sleep(RETRY_DELAYS_MS[attempt - 1]);
       }
       tab = await browser.newPage();
+      // Reveal-on-scroll cards sit at opacity 0 until scrolled into view, which
+      // axe reads as faded text; reduced motion renders them finished.
+      await tab.emulateMediaFeatures([{ name: 'prefers-reduced-motion', value: 'reduce' }]);
       if (args.base) {
         await tab.setUserAgent(UA);
         if (EXTRA_HEADERS) await tab.setExtraHTTPHeaders(EXTRA_HEADERS);
