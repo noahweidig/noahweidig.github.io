@@ -2,13 +2,18 @@ import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 import { site } from '../lib/site';
 import { DISCOVERY_COLLECTIONS, DISCOVERY_PAGES } from '../lib/discovery';
+import staticRoutes from '../data/static-md-routes.json';
+
+const mdPathFor = (route: string) =>
+  route === '/' ? '/index.md' : route.replace(/\/$/, '') + '.md';
 
 export const GET: APIRoute = async ({ site: astroSite }) => {
   const base = (astroSite ?? new URL(site.url)).origin;
   const lines: string[] = [`# ${site.name} — Sitemap`, '', `Generated for ${base}`, ''];
 
   for (const page of DISCOVERY_PAGES) {
-    lines.push(`- [${page[0]}](${base}${page[1]})`);
+    const md = staticRoutes.includes(page[1]) ? mdPathFor(page[1]) : page[1];
+    lines.push(`- [${page[0]}](${base}${md})`);
   }
   lines.push('');
 
