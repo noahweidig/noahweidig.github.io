@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-10-12T17:08:31.930Z",
+  "generatedAt": "2026-10-19T15:08:12.952Z",
   "totalPages": 104,
-  "score": 99,
+  "score": 98,
   "totals": {
-    "passes": 1536,
-    "warnings": 23,
+    "passes": 1539,
+    "warnings": 25,
     "errors": 0
   },
   "audits": [
@@ -17,7 +17,7 @@
     },
     {
       "name": "Schema Markup",
-      "passes": 283,
+      "passes": 285,
       "warnings": 0,
       "errors": 0,
       "issues": []
@@ -38,7 +38,7 @@
     },
     {
       "name": "Images",
-      "passes": 110,
+      "passes": 112,
       "warnings": 1,
       "errors": 0,
       "issues": [
@@ -52,9 +52,14 @@
     {
       "name": "Headings",
       "passes": 208,
-      "warnings": 19,
+      "warnings": 20,
       "errors": 0,
       "issues": [
+        {
+          "page": "/index.html",
+          "message": "<h1> too long (130 chars): \"Spatial analysis. Real insights, answers, impact, clarity, action.Spat...\"",
+          "severity": "warning"
+        },
         {
           "page": "/publications/alexander-shifting-forest-25/index.html",
           "message": "<h1> too long (157 chars): \"Shifting forest structure and composition following decades of fire ex...\"",
@@ -154,23 +159,28 @@
     },
     {
       "name": "Performance",
-      "passes": 309,
-      "warnings": 3,
+      "passes": 308,
+      "warnings": 4,
       "errors": 0,
       "issues": [
         {
           "page": "/blog/favorite-r-packages/index.html",
-          "message": "Total HTML size exceeds 100KB (124.7KB)",
+          "message": "Total HTML size exceeds 100KB (143.8KB)",
+          "severity": "warning"
+        },
+        {
+          "page": "/cv/index.html",
+          "message": "Total HTML size exceeds 100KB (108.7KB)",
           "severity": "warning"
         },
         {
           "page": "/index.html",
-          "message": "Total HTML size exceeds 100KB (163.7KB)",
+          "message": "Total HTML size exceeds 100KB (163.0KB)",
           "severity": "warning"
         },
         {
           "page": "/publications/index.html",
-          "message": "Total HTML size exceeds 100KB (106.4KB)",
+          "message": "Total HTML size exceeds 100KB (132.0KB)",
           "severity": "warning"
         }
       ]
