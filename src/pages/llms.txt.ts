@@ -34,6 +34,8 @@ export const GET: APIRoute = async ({ site: astroSite }) => {
     '',
     'Formats:',
     '- HTML by default',
+    `- Markdown twin of every content page: ${base}/<section>/<slug>.md (section index: ${base}/<section>.md)`,
+    `- Static pages: ${base}/index.md, ${base}/about.md, ${base}/cv.md, ${base}/tech.md, ${base}/contact.md`,
     `- Markdown discovery index at ${base}/sitemap.md`,
     '- No public API; content is a static site',
   );
