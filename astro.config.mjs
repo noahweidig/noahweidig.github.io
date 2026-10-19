@@ -8,6 +8,7 @@ import { unified } from '@astrojs/markdown-remark';
 import { readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { load } from 'js-yaml';
+import staticMarkdown from './scripts/static-markdown.mjs';
 
 const COLLECTIONS = ['blog', 'projects', 'publications', 'awards', 'experience', 'education'];
 
@@ -87,6 +88,9 @@ export default defineConfig({
         },
       },
     },
+    // Markdown twins (/about.md, /cv.md, ...) of the static pages, converted from
+    // their built HTML. Before the audit so its sitemap/link checks see the final dist/.
+    staticMarkdown(),
     // Post-build audit of the rendered HTML in dist/ — canonicals, headings,
     // link and asset health, structured data. Last in the array so it runs
     // after @astrojs/sitemap has written the sitemap it checks.
