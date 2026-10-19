@@ -226,7 +226,7 @@ const isActive = (href: string) => {
     padding: 1.1rem;
     border-radius: var(--radius-md);
     background: color-mix(in oklab, var(--tint-base) 7%, var(--c-card));
-    transition: background-color 0.2s var(--ease-out-soft);
+    transition: background-color var(--dur-fast) var(--ease-out-soft);
   }
   .nav-card:hover,
   .nav-card:focus-visible {
@@ -239,8 +239,8 @@ const isActive = (href: string) => {
     opacity: 0;
     translate: -4px 0;
     transition:
-      opacity 0.2s ease,
-      translate 0.2s var(--ease-out-soft);
+      opacity var(--dur-fast) ease,
+      translate var(--dur-fast) var(--ease-out-soft);
   }
   .nav-card:hover :global(.nav-card-arrow),
   .nav-card:focus-visible :global(.nav-card-arrow) {
@@ -257,7 +257,7 @@ const isActive = (href: string) => {
   /* The right-pointing chevron is turned to point down, and up when open. */
   :global(.nav-chevron) {
     rotate: 90deg;
-    transition: rotate 0.4s var(--ease-out-soft, ease);
+    transition: rotate var(--dur-slow) var(--ease-out-soft, ease);
   }
   .nav-group[data-open] :global(.nav-chevron),
   .nav-trigger:hover :global(.nav-chevron) {
@@ -289,7 +289,7 @@ const isActive = (href: string) => {
     overscroll-behavior: contain;
   }
   .mobile-scrim {
-    background: color-mix(in oklab, var(--c-bg) 45%, rgb(0 0 0 / 0.55));
+    background: color-mix(in oklab, var(--c-bg) 45%, var(--c-scrim));
   }
   /* The menu always fills the screen, at every width it is shown. */
   .mobile-drawer {
@@ -316,7 +316,7 @@ const isActive = (href: string) => {
     color: var(--c-dim);
   }
   .mobile-group-head :global(svg) {
-    transition: rotate 0.25s var(--ease-out-soft);
+    transition: rotate var(--dur-fast) var(--ease-out-soft);
   }
   .mobile-group-head[aria-expanded='true'] :global(svg) {
     rotate: 90deg;
@@ -324,7 +324,7 @@ const isActive = (href: string) => {
   .mobile-group-body {
     display: grid;
     grid-template-rows: 1fr;
-    transition: grid-template-rows 0.28s var(--ease-out-soft);
+    transition: grid-template-rows var(--dur-fast) var(--ease-out-soft);
   }
   .mobile-group-body[data-closed] {
     grid-template-rows: 0fr;
@@ -376,8 +376,8 @@ const isActive = (href: string) => {
     background-color: transparent;
     border-bottom: 1px solid transparent;
     transition:
-      background-color 0.3s var(--ease-out-soft),
-      border-color 0.3s var(--ease-out-soft);
+      background-color var(--dur-base) var(--ease-out-soft),
+      border-color var(--dur-base) var(--ease-out-soft);
   }
   :global(html[data-scrolled]) .nav-glass {
     background-color: var(--c-bg);
@@ -386,9 +386,9 @@ const isActive = (href: string) => {
   @media (max-width: 1023px) {
     .nav-glass {
       transition:
-        background-color 0.3s var(--ease-out-soft),
-        border-color 0.3s var(--ease-out-soft),
-        translate 0.3s var(--ease-out-soft);
+        background-color var(--dur-base) var(--ease-out-soft),
+        border-color var(--dur-base) var(--ease-out-soft),
+        translate var(--dur-base) var(--ease-out-soft);
     }
     .nav-glass[data-hidden] {
       translate: 0 -100%;
@@ -407,8 +407,8 @@ const isActive = (href: string) => {
   .icon-btn {
     color: color-mix(in oklab, var(--c-ink) 72%, transparent);
     transition:
-      color 0.2s var(--ease-out-soft),
-      opacity 0.2s ease,
+      color var(--dur-fast) var(--ease-out-soft),
+      opacity var(--dur-fast) ease,
       visibility 0s 0s;
   }
   .icon-btn:hover {
