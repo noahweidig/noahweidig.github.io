@@ -24,6 +24,7 @@
   /* Matte fills for buttons, tags and controls: a flat grey step off the
      surface, in whichever theme is active. */
   --c-matte: color-mix(in oklab, var(--c-ink) 12%, var(--c-card));
+  --c-scrim: rgb(0 0 0 / 0.55);
   --c-matte-hover: color-mix(in oklab, var(--c-ink) 20%, var(--c-card));
 }
 :root,
@@ -138,7 +139,6 @@
   --radius-xs: 4px;
   --radius-sm: 8px;
   --radius-md: 12px;
-  --radius-lg: 12px;
   --radius-xl: 16px;
 
   /* Named steps for the micro-type cluster that used to ship as one-off
@@ -149,6 +149,12 @@
   --text-body-lg: 0.95rem;
   --text-small: 0.82rem;
   --text-lead: 1.05rem;
+
+  --dur-fast: 0.2s;
+  --dur-base: 0.3s;
+  --dur-slow: 0.4s;
+
+  --shadow-soft: 0 0 14px 0 color-mix(in oklab, var(--c-ink) 9%, transparent);
 
   --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-in-out-soft: cubic-bezier(0.65, 0, 0.35, 1);
@@ -232,7 +238,7 @@
   :focus-visible {
     outline: 2px solid var(--c-accent);
     outline-offset: 3px;
-    border-radius: 3px;
+    border-radius: var(--radius-xs);
   }
 
   img,
@@ -392,18 +398,18 @@
   }
   .hero-panel {
     padding: 1.25rem;
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-md);
     background: var(--c-card);
     border: 1px solid var(--c-line);
   }
   /* Cover or screenshot in the hero's right column. */
   .hero-panel,
   .hero-media {
-    transition: box-shadow 0.18s ease-out;
+    transition: box-shadow var(--dur-fast) ease-out;
   }
   .hero-panel:hover,
   .hero-media:hover {
-    box-shadow: 0 0 14px 0 color-mix(in oklab, var(--c-ink) 9%, transparent);
+    box-shadow: var(--shadow-soft);
   }
   .hero-media {
     margin: 0;
@@ -474,17 +480,17 @@
     color: var(--c-ink);
     border: 1px solid var(--c-line);
     border-radius: var(--radius-md);
-    transition: box-shadow 0.18s ease-out;
+    transition: box-shadow var(--dur-fast) ease-out;
   }
   .card-hover:hover {
-    box-shadow: 0 0 14px 0 color-mix(in oklab, var(--c-ink) 9%, transparent);
+    box-shadow: var(--shadow-soft);
   }
   /* A card washed with its own color, set through --tint-base. */
   .card-tint {
     background: color-mix(in oklab, var(--tint-base) 7%, var(--c-card));
     transition:
-      box-shadow 0.18s ease-out,
-      background-color 0.2s var(--ease-out-soft);
+      box-shadow var(--dur-fast) ease-out,
+      background-color var(--dur-fast) var(--ease-out-soft);
   }
   .card-tint:hover {
     background: color-mix(in oklab, var(--tint-base) 14%, var(--c-card));
@@ -505,11 +511,11 @@
     cursor: pointer;
     white-space: nowrap;
     transition:
-      background-color 0.25s var(--ease-out-soft),
-      border-color 0.25s var(--ease-out-soft),
-      color 0.25s var(--ease-out-soft),
-      transform 0.25s var(--ease-out-soft),
-      box-shadow 0.25s var(--ease-out-soft);
+      background-color var(--dur-fast) var(--ease-out-soft),
+      border-color var(--dur-fast) var(--ease-out-soft),
+      color var(--dur-fast) var(--ease-out-soft),
+      transform var(--dur-fast) var(--ease-out-soft),
+      box-shadow var(--dur-fast) var(--ease-out-soft);
   }
   .btn:active {
     transform: translateY(1px);
@@ -540,7 +546,7 @@
   .btn-wash {
     background: color-mix(in oklab, var(--c-accent) 16%, var(--c-surface));
     color: var(--c-accent-ink);
-    transition: background-color 0.2s;
+    transition: background-color var(--dur-fast);
   }
   .btn-wash:hover {
     background: color-mix(in oklab, var(--c-accent) 28%, var(--c-surface));
@@ -646,8 +652,8 @@
     background: var(--c-matte);
     padding: 0.25rem 0.625rem;
     transition:
-      background-color 0.2s,
-      color 0.2s;
+      background-color var(--dur-fast),
+      color var(--dur-fast);
   }
   .chip-link:hover {
     background: var(--c-matte-hover);
@@ -679,7 +685,7 @@
     color: var(--c-accent-ink);
   }
   a.chip-accent {
-    transition: background-color 0.2s;
+    transition: background-color var(--dur-fast);
   }
   a.chip-accent:hover {
     background: color-mix(in oklab, var(--c-accent) 28%, var(--c-surface));
@@ -706,7 +712,7 @@
     color: var(--tint);
   }
   a:is(.chip-blue, .chip-red, .chip-yellow, .chip-green, .chip-purple, .chip-teal, .chip-pink) {
-    transition: background-color 0.2s;
+    transition: background-color var(--dur-fast);
   }
   a:is(
       .chip-blue,
@@ -798,7 +804,7 @@
     gap: 0.25rem;
     min-width: 0;
     padding: 1rem;
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-md);
     color: var(--c-ink);
     background: var(--c-card);
     border: 1px solid var(--c-line);
@@ -868,7 +874,9 @@
     font-size: 0.8rem;
     font-weight: 500;
     cursor: pointer;
-    transition: all 0.22s var(--ease-out-soft);
+    transition:
+      background-color var(--dur-fast) var(--ease-out-soft),
+      color var(--dur-fast) var(--ease-out-soft);
   }
   @media (max-width: 767px) {
     .pill-row {
@@ -978,7 +986,7 @@
     text-decoration-thickness: 1px;
     text-underline-offset: 0.22em;
     text-decoration-color: color-mix(in oklab, var(--c-accent) 45%, transparent);
-    transition: text-decoration-color 0.2s;
+    transition: text-decoration-color var(--dur-fast);
   }
   .prose-nw a:not(.btn):hover {
     text-decoration-color: var(--c-accent);
@@ -1069,7 +1077,7 @@
     gap: 0.4rem;
     margin-bottom: 0.4rem;
     font-family: var(--font-mono);
-    font-size: 0.72rem;
+    font-size: var(--text-caption);
     font-weight: 600;
     letter-spacing: 0.1em;
     color: var(--alert-color, var(--c-accent-ink));
@@ -1143,7 +1151,7 @@
     height: 1.65rem;
     background: var(--c-ink);
     opacity: 0.85;
-    transition: opacity 0.3s var(--ease-out-soft);
+    transition: opacity var(--dur-base) var(--ease-out-soft);
     mask: var(--tech-ic) center / contain no-repeat;
     -webkit-mask: var(--tech-ic) center / contain no-repeat;
   }
@@ -1162,7 +1170,7 @@
     position: relative;
     border-radius: var(--radius-md);
     box-shadow: inset 0 0 0 1px var(--c-line);
-    transition: background-color 0.3s var(--ease-out-soft);
+    transition: background-color var(--dur-base) var(--ease-out-soft);
   }
   .tech-tile-more:hover {
     background: var(--c-matte);
@@ -1177,7 +1185,7 @@
       height: 1.5rem;
     }
     .tech-tile .text-sm {
-      font-size: 0.72rem;
+      font-size: var(--text-caption);
     }
     .tech-tile-cat {
       display: none;
@@ -1217,7 +1225,7 @@
     width: 9rem;
     padding: 1.15rem 0.75rem;
     scroll-snap-align: start;
-    transition: background-color 0.3s var(--ease-out-soft);
+    transition: background-color var(--dur-base) var(--ease-out-soft);
   }
   .affil-card:hover,
   .affil-card:focus-visible {
@@ -1229,7 +1237,7 @@
     height: 2rem;
     background: var(--c-ink);
     opacity: 0.6;
-    transition: opacity 0.3s var(--ease-out-soft);
+    transition: opacity var(--dur-base) var(--ease-out-soft);
     mask: var(--affil-logo) center / contain no-repeat;
     -webkit-mask: var(--affil-logo) center / contain no-repeat;
   }
@@ -1280,7 +1288,7 @@
     color: var(--c-dim);
   }
   .faq-chevron svg {
-    transition: transform 0.4s var(--ease-out-soft);
+    transition: transform var(--dur-slow) var(--ease-out-soft);
   }
   .faq[open] .faq-chevron svg {
     transform: rotateX(180deg);
@@ -1319,8 +1327,8 @@
     border-radius: var(--radius-sm);
     color: var(--c-ink);
     transition:
-      background-color 0.2s var(--ease-out-soft),
-      color 0.2s var(--ease-out-soft);
+      background-color var(--dur-fast) var(--ease-out-soft),
+      color var(--dur-fast) var(--ease-out-soft);
   }
   .icon-btn:hover {
     background: var(--c-raised);
@@ -1332,8 +1340,8 @@
   .nav-link {
     color: var(--c-dim);
     transition:
-      background-color 0.2s var(--ease-out-soft),
-      color 0.2s var(--ease-out-soft);
+      background-color var(--dur-fast) var(--ease-out-soft),
+      color var(--dur-fast) var(--ease-out-soft);
   }
   .nav-link:hover {
     background: color-mix(in oklab, var(--c-raised) 70%, transparent);
@@ -1359,8 +1367,8 @@
     background: var(--c-matte);
     color: var(--c-dim);
     transition:
-      background-color 0.2s var(--ease-out-soft),
-      color 0.2s var(--ease-out-soft);
+      background-color var(--dur-fast) var(--ease-out-soft),
+      color var(--dur-fast) var(--ease-out-soft);
   }
   .icon-tile:hover {
     background: var(--c-matte-hover);
@@ -1429,8 +1437,8 @@
     color: var(--c-dim);
     cursor: pointer;
     transition:
-      background-color 0.2s var(--ease-out-soft),
-      color 0.2s var(--ease-out-soft);
+      background-color var(--dur-fast) var(--ease-out-soft),
+      color var(--dur-fast) var(--ease-out-soft);
   }
   .popup-close:hover,
   .group:hover .popup-plus {
@@ -1508,9 +1516,9 @@
     color: var(--c-dim);
     font-size: 0.85rem;
     transition:
-      border-color 0.2s var(--ease-out-soft),
-      background-color 0.2s var(--ease-out-soft),
-      color 0.2s var(--ease-out-soft);
+      border-color var(--dur-fast) var(--ease-out-soft),
+      background-color var(--dur-fast) var(--ease-out-soft),
+      color var(--dur-fast) var(--ease-out-soft);
   }
   .share-target:hover {
     border-color: var(--brand, var(--c-accent));
@@ -1571,11 +1579,11 @@
     visibility: hidden;
     translate: 0 0.5rem;
     transition:
-      opacity 0.22s var(--ease-out-soft),
-      translate 0.22s var(--ease-out-soft),
-      visibility 0s linear 0.22s,
-      background-color 0.2s var(--ease-out-soft),
-      color 0.2s var(--ease-out-soft);
+      opacity var(--dur-fast) var(--ease-out-soft),
+      translate var(--dur-fast) var(--ease-out-soft),
+      visibility 0s linear var(--dur-fast),
+      background-color var(--dur-fast) var(--ease-out-soft),
+      color var(--dur-fast) var(--ease-out-soft);
   }
   .back-to-top[data-show] {
     opacity: 1;
@@ -1647,9 +1655,9 @@
     color: var(--c-faint);
     opacity: 0;
     transition:
-      opacity 0.18s var(--ease-out-soft),
-      color 0.18s var(--ease-out-soft),
-      background-color 0.18s var(--ease-out-soft);
+      opacity var(--dur-fast) var(--ease-out-soft),
+      color var(--dur-fast) var(--ease-out-soft),
+      background-color var(--dur-fast) var(--ease-out-soft);
   }
   .prose-nw :is(h2, h3, h4):hover .heading-anchor,
   .heading-anchor:focus-visible {
@@ -1691,10 +1699,10 @@
     color: var(--c-dim);
     opacity: 0;
     transition:
-      opacity 0.2s var(--ease-out-soft),
-      color 0.2s var(--ease-out-soft),
-      background-color 0.2s var(--ease-out-soft),
-      border-color 0.2s var(--ease-out-soft);
+      opacity var(--dur-fast) var(--ease-out-soft),
+      color var(--dur-fast) var(--ease-out-soft),
+      background-color var(--dur-fast) var(--ease-out-soft),
+      border-color var(--dur-fast) var(--ease-out-soft);
   }
   .code-copy:hover {
     border-color: var(--c-accent);
@@ -1744,7 +1752,7 @@
     background: rgb(10 10 10 / 0.93);
     color: #ebebea;
     opacity: 0;
-    transition: opacity 0.24s var(--ease-out-soft);
+    transition: opacity var(--dur-fast) var(--ease-out-soft);
   }
   .lightbox[data-show] {
     opacity: 1;
@@ -1773,7 +1781,7 @@
     border-radius: var(--radius-md);
     border: 1px solid var(--c-line);
     transform: scale(0.97);
-    transition: transform 0.24s var(--ease-out-soft);
+    transition: transform var(--dur-fast) var(--ease-out-soft);
   }
   .lightbox[data-show] img {
     transform: none;

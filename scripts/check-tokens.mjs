@@ -30,7 +30,7 @@ for (const file of walk('src').filter((f) => /\.(astro|ts|css)$/.test(f))) {
     .split('\n')
     .forEach((line, i) => {
       const code = line.replace(/var\(--[\w-]+,\s*#[0-9a-fA-F]{3,8}\)/g, '');
-      if (/#[0-9a-fA-F]{6}\b|#[0-9a-fA-F]{3}\b(?![\w-])/.test(code)) {
+      if (/#[0-9a-fA-F]{6}\b|#[0-9a-fA-F]{3}\b(?![\w-])|\b(?:rgba?|hsla?)\(/.test(code)) {
         console.error(`${file}:${i + 1}: hardcoded color; use a --c-* token`);
         bad++;
       }
