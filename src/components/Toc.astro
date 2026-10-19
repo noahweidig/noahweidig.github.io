@@ -78,8 +78,8 @@ const items = filtered.map((h) => {
     background: var(--c-matte);
     color: var(--c-dim);
     transition:
-      color 0.2s var(--ease-out-soft),
-      background-color 0.2s var(--ease-out-soft);
+      color var(--dur-fast) var(--ease-out-soft),
+      background-color var(--dur-fast) var(--ease-out-soft);
   }
   .toc-fab:hover {
     background: var(--c-matte-hover);
@@ -109,9 +109,9 @@ const items = filtered.map((h) => {
     visibility: hidden;
     translate: 0 0.5rem;
     transition:
-      opacity 0.2s var(--ease-out-soft),
-      translate 0.2s var(--ease-out-soft),
-      visibility 0s linear 0.2s;
+      opacity var(--dur-fast) var(--ease-out-soft),
+      translate var(--dur-fast) var(--ease-out-soft),
+      visibility 0s linear var(--dur-fast);
   }
   .toc-aside[data-open] {
     opacity: 1;
