@@ -8,9 +8,9 @@ export const scriptIcons: Record<string, { viewBox: string; body: string; stroke
     body: '<rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>',
     stroke: true,
   },
-  hash: {
+  pilcrow: {
     viewBox: '0 0 24 24',
-    body: '<path d="M4 9h16M4 15h16M10 3 8 21m8-18-2 18"/>',
+    body: '<path d="M13 4v16M17 4v16M19 4H9.5a4.5 4.5 0 0 0 0 9H13"/>',
     stroke: true,
   },
   left: { viewBox: '0 0 24 24', body: '<path d="m15 18-6-6 6-6"/>', stroke: true },

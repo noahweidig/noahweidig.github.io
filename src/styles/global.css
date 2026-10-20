@@ -1656,39 +1656,27 @@
     position: relative;
   }
   .heading-anchor {
-    position: absolute;
-    top: 50%;
-    right: 100%;
-    translate: 0 -50%;
-    display: grid;
+    display: inline-grid;
     place-items: center;
-    width: 1.6rem;
-    height: 1.6rem;
-    margin-right: 0.2rem;
-    border-radius: var(--radius-sm);
+    vertical-align: middle;
+    margin-left: 0.4rem;
     color: var(--c-faint);
     opacity: 0;
     transition:
       opacity var(--dur-fast) var(--ease-out-soft),
-      color var(--dur-fast) var(--ease-out-soft),
-      background-color var(--dur-fast) var(--ease-out-soft);
+      color var(--dur-fast) var(--ease-out-soft);
   }
   .prose-nw :is(h2, h3, h4):hover .heading-anchor,
   .heading-anchor:focus-visible {
     opacity: 1;
   }
-  .heading-anchor:hover {
-    background: var(--c-raised);
+  .heading-anchor:hover,
+  .heading-anchor:focus-visible {
     color: var(--c-accent-ink);
   }
-  /* Under the measure there is no gutter to hang it in. */
-  @media (max-width: 60rem) {
+  /* No hover on touch screens, so keep it visible there. */
+  @media (hover: none) {
     .heading-anchor {
-      position: static;
-      translate: none;
-      display: inline-grid;
-      vertical-align: middle;
-      margin-left: 0.35rem;
       opacity: 1;
     }
   }
