@@ -1040,7 +1040,8 @@
   .prose-nw .pkg-logo {
     float: right;
     width: 76px;
-    height: auto;
+    height: 88px;
+    object-fit: contain;
     margin: 0 0 0.75rem 1.25rem;
     border: 0;
   }
@@ -1432,7 +1433,8 @@
     background: var(--c-card);
   }
   .popup::backdrop {
-    background: rgb(0 0 0 / 0.55);
+    background: rgb(0 0 0 / 0.4);
+    backdrop-filter: blur(8px);
   }
   .popup-close {
     position: absolute;
@@ -1496,7 +1498,8 @@
     color: var(--c-ink);
   }
   .share-dialog::backdrop {
-    background: rgb(0 0 0 / 0.55);
+    background: rgb(0 0 0 / 0.4);
+    backdrop-filter: blur(8px);
   }
   .share-dialog-head {
     display: flex;
@@ -1656,39 +1659,27 @@
     position: relative;
   }
   .heading-anchor {
-    position: absolute;
-    top: 50%;
-    right: 100%;
-    translate: 0 -50%;
-    display: grid;
+    display: inline-grid;
     place-items: center;
-    width: 1.6rem;
-    height: 1.6rem;
-    margin-right: 0.2rem;
-    border-radius: var(--radius-sm);
+    vertical-align: middle;
+    margin-left: 0.4rem;
     color: var(--c-faint);
     opacity: 0;
     transition:
       opacity var(--dur-fast) var(--ease-out-soft),
-      color var(--dur-fast) var(--ease-out-soft),
-      background-color var(--dur-fast) var(--ease-out-soft);
+      color var(--dur-fast) var(--ease-out-soft);
   }
   .prose-nw :is(h2, h3, h4):hover .heading-anchor,
   .heading-anchor:focus-visible {
     opacity: 1;
   }
-  .heading-anchor:hover {
-    background: var(--c-raised);
+  .heading-anchor:hover,
+  .heading-anchor:focus-visible {
     color: var(--c-accent-ink);
   }
-  /* Under the measure there is no gutter to hang it in. */
-  @media (max-width: 60rem) {
+  /* No hover on touch screens, so keep it visible there. */
+  @media (hover: none) {
     .heading-anchor {
-      position: static;
-      translate: none;
-      display: inline-grid;
-      vertical-align: middle;
-      margin-left: 0.35rem;
       opacity: 1;
     }
   }
@@ -1761,9 +1752,10 @@
        than under a mobile browser's toolbar. */
     height: 100dvh;
     max-height: 100dvh;
-    /* Always a dark scrim, in either theme: a picture reads best against one,
-       and the page behind it should drop away rather than tint through. */
-    background: rgb(10 10 10 / 0.93);
+    /* Always a dark scrim, in either theme: a picture reads best against one.
+       The blur lets the page behind it drop away without tinting through. */
+    background: rgb(10 10 10 / 0.6);
+    backdrop-filter: blur(16px);
     color: #ebebea;
     opacity: 0;
     transition: opacity var(--dur-fast) var(--ease-out-soft);
@@ -1796,6 +1788,12 @@
     border: 1px solid var(--c-line);
     transform: scale(0.97);
     transition: transform var(--dur-fast) var(--ease-out-soft);
+  }
+  .lightbox img.lightbox-logo {
+    width: min(26rem, 60vh);
+    height: auto;
+    border: 0;
+    border-radius: 0;
   }
   .lightbox[data-show] img {
     transform: none;
