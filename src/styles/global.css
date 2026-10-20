@@ -144,7 +144,6 @@
   --radius-xs: 4px;
   --radius-sm: 8px;
   --radius-md: 12px;
-  --radius-xl: 16px;
 
   /* Named steps for the micro-type cluster that used to ship as one-off
      arbitrary values (text-micro etc.) — see #138. */
@@ -163,7 +162,6 @@
   --shadow-soft: 0 0 14px 0 color-mix(in oklab, var(--c-ink) 9%, transparent);
 
   --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
-  --ease-in-out-soft: cubic-bezier(0.65, 0, 0.35, 1);
 }
 
 /* ============================================================================
