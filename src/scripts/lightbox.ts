@@ -33,7 +33,8 @@ export function initLightbox() {
     if (!box) return;
     const img = shots[index]!;
     const full = box.querySelector<HTMLImageElement>('[data-lightbox-img]')!;
-    full.src = img.currentSrc || img.src;
+    full.src = img.dataset.zoomSrc || img.currentSrc || img.src;
+    full.classList.toggle('lightbox-logo', img.classList.contains('pkg-logo'));
     full.alt = img.alt;
     box.querySelector('[data-lightbox-caption]')!.textContent = captionFor(img);
     box.querySelector('[data-lightbox-count]')!.textContent =

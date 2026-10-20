@@ -1040,7 +1040,8 @@
   .prose-nw .pkg-logo {
     float: right;
     width: 76px;
-    height: auto;
+    height: 88px;
+    object-fit: contain;
     margin: 0 0 0.75rem 1.25rem;
     border: 0;
   }
@@ -1784,6 +1785,12 @@
     border: 1px solid var(--c-line);
     transform: scale(0.97);
     transition: transform var(--dur-fast) var(--ease-out-soft);
+  }
+  .lightbox img.lightbox-logo {
+    width: min(26rem, 60vh);
+    height: auto;
+    border: 0;
+    border-radius: 0;
   }
   .lightbox[data-show] img {
     transform: none;
