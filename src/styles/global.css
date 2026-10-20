@@ -34,6 +34,15 @@
 }
 :root,
 :root[data-theme='dark'] {
+  /* Affiliation logo hover colors */
+  --c-brand-uf: #4f7bff;
+  --c-brand-ars: #3fae76;
+  --c-brand-fs: #3fae76;
+  --c-brand-uc: #ff4d63;
+  --c-brand-nku: #ffc72c;
+  --c-brand-sca: #8cc152;
+  --c-brand-boone: #6f93d6;
+  --c-brand-ecos: #66bb6a;
   --c-bg: #191919;
   --c-bg-deep: #151515;
   --c-surface: #202020;
@@ -74,6 +83,15 @@
 }
 
 :root[data-theme='light'] {
+  /* Affiliation logo hover colors */
+  --c-brand-uf: #0021a5;
+  --c-brand-ars: #00693e;
+  --c-brand-fs: #006b3d;
+  --c-brand-uc: #e00122;
+  --c-brand-nku: #c99700;
+  --c-brand-sca: #4a8a1c;
+  --c-brand-boone: #1f3a6e;
+  --c-brand-ecos: #2e7d32;
   --c-bg: #ffffff;
   --c-bg-deep: #fafafa;
   --c-surface: #f7f7f7;
@@ -486,16 +504,16 @@
     color: var(--c-ink);
     border: 1px solid var(--c-line);
     border-radius: var(--radius-md);
-    transition: box-shadow var(--dur-fast) ease-out;
+    transition: border-color var(--dur-fast) ease-out;
   }
   .card-hover:hover {
-    box-shadow: var(--shadow-soft);
+    border-color: var(--c-accent);
   }
   /* A card washed with its own color, set through --tint-base. */
   .card-tint {
     background: color-mix(in oklab, var(--tint-base) 7%, var(--c-card));
     transition:
-      box-shadow var(--dur-fast) ease-out,
+      border-color var(--dur-fast) ease-out,
       background-color var(--dur-fast) var(--ease-out-soft);
   }
   .card-tint:hover {
@@ -1231,11 +1249,6 @@
     width: 9rem;
     padding: 1.15rem 0.75rem;
     scroll-snap-align: start;
-    transition: background-color var(--dur-base) var(--ease-out-soft);
-  }
-  .affil-card:hover,
-  .affil-card:focus-visible {
-    background: var(--c-matte);
   }
   .affil-logo {
     display: block;
@@ -1243,7 +1256,9 @@
     height: 2rem;
     background: var(--c-ink);
     opacity: 0.6;
-    transition: opacity var(--dur-base) var(--ease-out-soft);
+    transition:
+      opacity var(--dur-base) var(--ease-out-soft),
+      background-color var(--dur-base) var(--ease-out-soft);
     mask: var(--affil-logo) center / contain no-repeat;
     -webkit-mask: var(--affil-logo) center / contain no-repeat;
   }
@@ -1258,6 +1273,7 @@
   }
   .affil-card:hover .affil-logo,
   .affil-card:focus-visible .affil-logo {
+    background: var(--affil-brand);
     opacity: 1;
   }
   .affil-fade {
