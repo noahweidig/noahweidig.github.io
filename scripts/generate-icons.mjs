@@ -75,6 +75,7 @@ const MAP = {
   arrowUp: 'arrow-up',
   tocLines: 'text-align-start',
   hash: 'hash',
+  pilcrow: 'pilcrow',
   reader: 'book-open-text',
   expand: 'expand',
   zoom: 'zoom-in',
@@ -133,7 +134,7 @@ const slim = (body) =>
 
 /** Icons the client scripts build as strings (src/scripts/icon.ts). Kept to
     their own small file so the scripts do not bundle the whole set. */
-const SCRIPT = ['copy', 'check', 'hash', 'left', 'right', 'close'];
+const SCRIPT = ['copy', 'check', 'pilcrow', 'left', 'right', 'close'];
 
 /** Exact bodies for icons whose drawing must not move when Lucide is updated. */
 const PINNED = {

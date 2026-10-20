@@ -3,7 +3,7 @@ import { on } from './dom';
 import { hideTip, showTip } from './tooltips';
 import { iconSvg } from './icon';
 
-/* A copy-the-anchor control per heading: hovering a heading reveals a #, and
+/* A copy-the-anchor control per heading: hovering a heading reveals a pilcrow (¶) after the text, and
    clicking it copies the full URL rather than only moving the hash. */
 export function initHeadingAnchors() {
   document
@@ -13,10 +13,10 @@ export function initHeadingAnchors() {
       const a = document.createElement('a');
       a.className = 'heading-anchor';
       a.href = `#${h.id}`;
-      a.dataset.tip = 'Copy link to this section';
+      a.dataset.tip = 'Permanent link';
       a.setAttribute('role', 'button');
-      a.setAttribute('aria-label', 'Copy link to this section');
-      a.innerHTML = iconSvg('hash', 15, 1.8);
+      a.setAttribute('aria-label', 'Permanent link');
+      a.innerHTML = iconSvg('pilcrow', 16, 1.8);
 
       on(a, 'click', async (ev) => {
         ev.preventDefault();
@@ -34,7 +34,7 @@ export function initHeadingAnchors() {
         }
         showTip(a);
         window.setTimeout(() => {
-          a.dataset.tip = 'Copy link to this section';
+          a.dataset.tip = 'Permanent link';
           hideTip();
         }, 1600);
       });
