@@ -234,6 +234,11 @@ export const icons: Record<string, { viewBox: string; body: string; stroke?: boo
     body: '<path d="M4 9h16M4 15h16M10 3 8 21m8-18-2 18"/>',
     stroke: true,
   },
+  pilcrow: {
+    viewBox: '0 0 24 24',
+    body: '<path d="M13 4v16M17 4v16M19 4H9.5a4.5 4.5 0 0 0 0 9H13"/>',
+    stroke: true,
+  },
   reader: {
     viewBox: '0 0 24 24',
     body: '<path d="M12 5v16m4-8h2m-2-4h2m2.001 10A2 2 0 0 0 22 17V5a2 2 0 0 0-1.999-2L16 3.002A5 5 0 0 0 12 5a5 5 0 0 0-4-2H4a2 2 0 0 0-2 2v12a2 2 0 0 0 1.999 2H8a5 5 0 0 1 4 2 5 5 0 0 1 4-2zM6 13h2M6 9h2"/>',

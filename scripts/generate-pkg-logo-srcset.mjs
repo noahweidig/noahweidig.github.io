@@ -30,6 +30,9 @@ const outDir = path.join(root, 'public/media/blog/favorite-r-packages/logos');
 // standard and retina displays without shipping the full source resolution.
 const WIDTH_1X = 90;
 const WIDTH_2X = 180;
+// Lightbox copy: the stage shows it ~400px wide, so 1x/2x would look soft.
+const WIDTH_ZOOM = 416;
+const ASPECT = 240 / 208;
 
 const RASTER_LOGOS = [
   'ggplot2',
@@ -54,13 +57,18 @@ async function main() {
     const before = fs.statSync(srcFile).size;
 
     await sharp(srcFile)
-      .resize({ width: WIDTH_1X })
+      .resize({ width: WIDTH_1X, height: Math.round(WIDTH_1X * ASPECT), fit: 'fill' })
       .webp({ quality: 90 })
       .toFile(path.join(outDir, `${name}.webp`));
     await sharp(srcFile)
-      .resize({ width: WIDTH_2X })
+      .resize({ width: WIDTH_2X, height: Math.round(WIDTH_2X * ASPECT), fit: 'fill' })
       .webp({ quality: 90 })
       .toFile(path.join(outDir, `${name}@2x.webp`));
+
+    await sharp(srcFile)
+      .resize({ width: WIDTH_ZOOM, height: Math.round(WIDTH_ZOOM * ASPECT), fit: 'fill' })
+      .webp({ quality: 90 })
+      .toFile(path.join(outDir, `${name}@zoom.webp`));
 
     const after1x = fs.statSync(path.join(outDir, `${name}.webp`)).size;
     const after2x = fs.statSync(path.join(outDir, `${name}@2x.webp`)).size;
@@ -68,11 +76,6 @@ async function main() {
       `✓ ${name} (before: ${(before / 1024).toFixed(1)}kB, 1x: ${(after1x / 1024).toFixed(1)}kB, 2x: ${(after2x / 1024).toFixed(1)}kB)`,
     );
   }
-
-  // renv's logo is an SVG — already resolution-independent, so it's just
-  // copied through untouched (no density variants needed).
-  fs.copyFileSync(path.join(srcDir, 'renv.svg'), path.join(outDir, 'renv.svg'));
-  console.log('✓ renv (svg, copied as-is)');
 }
 
 await main();
