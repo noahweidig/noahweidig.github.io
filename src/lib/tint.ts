@@ -94,8 +94,5 @@ const VAR: Record<Tint, string> = {
   pink: 'pink',
 };
 
-/** CSS color variable for a tint, for plain `color:` uses (icons, eyebrows). */
-export const tintVar = (t: Tint) => `var(--c-${t === 'yellow' ? 'yellow-ink' : VAR[t]})`;
-
 /** Base (wash) color variable for a tint; yellow stays Notion yellow in both themes. */
 export const tintBase = (t: Tint) => `var(--c-${t === 'blue' ? 'accent' : VAR[t]})`;
