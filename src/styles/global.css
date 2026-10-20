@@ -1750,9 +1750,11 @@
        than under a mobile browser's toolbar. */
     height: 100dvh;
     max-height: 100dvh;
-    /* Always a dark scrim, in either theme: a picture reads best against one,
-       and the page behind it should drop away rather than tint through. */
-    background: rgb(10 10 10 / 0.93);
+    /* Always a dark scrim, in either theme: a picture reads best against one.
+       The blur lets the page behind it drop away without tinting through. */
+    background: rgb(10 10 10 / 0.6);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     color: #ebebea;
     opacity: 0;
     transition: opacity var(--dur-fast) var(--ease-out-soft);
