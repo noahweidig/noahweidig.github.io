@@ -1433,7 +1433,9 @@
     background: var(--c-card);
   }
   .popup::backdrop {
-    background: rgb(0 0 0 / 0.55);
+    background: rgb(0 0 0 / 0.4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
   }
   .popup-close {
     position: absolute;
@@ -1497,7 +1499,9 @@
     color: var(--c-ink);
   }
   .share-dialog::backdrop {
-    background: rgb(0 0 0 / 0.55);
+    background: rgb(0 0 0 / 0.4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
   }
   .share-dialog-head {
     display: flex;
