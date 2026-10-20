@@ -486,16 +486,16 @@
     color: var(--c-ink);
     border: 1px solid var(--c-line);
     border-radius: var(--radius-md);
-    transition: box-shadow var(--dur-fast) ease-out;
+    transition: border-color var(--dur-fast) ease-out;
   }
   .card-hover:hover {
-    box-shadow: var(--shadow-soft);
+    border-color: var(--c-accent);
   }
   /* A card washed with its own color, set through --tint-base. */
   .card-tint {
     background: color-mix(in oklab, var(--tint-base) 7%, var(--c-card));
     transition:
-      box-shadow var(--dur-fast) ease-out,
+      border-color var(--dur-fast) ease-out,
       background-color var(--dur-fast) var(--ease-out-soft);
   }
   .card-tint:hover {
