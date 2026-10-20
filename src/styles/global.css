@@ -1231,11 +1231,6 @@
     width: 9rem;
     padding: 1.15rem 0.75rem;
     scroll-snap-align: start;
-    transition: background-color var(--dur-base) var(--ease-out-soft);
-  }
-  .affil-card:hover,
-  .affil-card:focus-visible {
-    background: var(--c-matte);
   }
   .affil-logo {
     display: block;
@@ -1243,7 +1238,9 @@
     height: 2rem;
     background: var(--c-ink);
     opacity: 0.6;
-    transition: opacity var(--dur-base) var(--ease-out-soft);
+    transition:
+      opacity var(--dur-base) var(--ease-out-soft),
+      background-color var(--dur-base) var(--ease-out-soft);
     mask: var(--affil-logo) center / contain no-repeat;
     -webkit-mask: var(--affil-logo) center / contain no-repeat;
   }
@@ -1258,7 +1255,12 @@
   }
   .affil-card:hover .affil-logo,
   .affil-card:focus-visible .affil-logo {
+    background: var(--affil-brand);
     opacity: 1;
+  }
+  :root[data-theme='dark'] .affil-card:hover .affil-logo,
+  :root[data-theme='dark'] .affil-card:focus-visible .affil-logo {
+    background: var(--affil-brand-dark);
   }
   .affil-fade {
     background: linear-gradient(90deg, transparent, var(--c-bg));

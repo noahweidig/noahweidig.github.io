@@ -1,36 +1,77 @@
 ---
 const orgs = [
-  ['University of Florida', 'https://www.ufl.edu/', '/media/icons/custom/uf.svg'],
+  [
+    'University of Florida',
+    'https://www.ufl.edu/',
+    '/media/icons/custom/uf.svg',
+    '#0021A5',
+    '#4f7bff',
+  ],
   [
     'USDA Agricultural Research Service',
     'https://www.ars.usda.gov/',
     '/media/icons/custom/ars.svg',
+    '#00693e',
+    '#3fae76',
   ],
-  ['USDA Forest Service', 'https://www.fs.usda.gov/', '/media/icons/custom/fs.svg'],
-  ['University of Cincinnati', 'https://www.uc.edu/', '/media/icons/custom/uc.svg'],
-  ['Northern Kentucky University', 'https://www.nku.edu/', '/media/icons/custom/nku.svg'],
-  ['Student Conservation Association', 'https://thesca.org/', '/media/icons/custom/sca.svg'],
+  [
+    'USDA Forest Service',
+    'https://www.fs.usda.gov/',
+    '/media/icons/custom/fs.svg',
+    '#006b3d',
+    '#3fae76',
+  ],
+  [
+    'University of Cincinnati',
+    'https://www.uc.edu/',
+    '/media/icons/custom/uc.svg',
+    '#e00122',
+    '#ff4d63',
+  ],
+  [
+    'Northern Kentucky University',
+    'https://www.nku.edu/',
+    '/media/icons/custom/nku.svg',
+    '#c99700',
+    '#ffc72c',
+  ],
+  [
+    'Student Conservation Association',
+    'https://thesca.org/',
+    '/media/icons/custom/sca.svg',
+    '#4a8a1c',
+    '#8cc152',
+  ],
   [
     "Boone County Clerk's Office",
     'https://boonecountyclerk.ky.gov/',
     '/media/icons/custom/boone.svg',
+    '#1f3a6e',
+    '#6f93d6',
   ],
-  ['ECOS', 'https://www.instagram.com/nku_ecos/', '/media/icons/custom/ecos.svg'],
-];
+  [
+    'ECOS',
+    'https://www.instagram.com/nku_ecos/',
+    '/media/icons/custom/ecos.svg',
+    '#2e7d32',
+    '#66bb6a',
+  ],
+];;
 ---
 
 <div class="mt-12" id="affiliations" data-reveal>
   <p class="text-center text-xs font-medium text-faint">Worked with</p>
   <div class="relative mt-5" data-affil>
     <ul class="affil-track" tabindex="0" aria-label="Institutions I have worked with">
-      {orgs.map(([name, href, src]) => (
+      {orgs.map(([name, href, src, brand, brandDark]) => (
         <li class="contents">
           <a
             href={href}
             target="_blank"
             rel="noopener"
             aria-label={`${name} (opens in a new tab)`}
-            class="card affil-card"
+            class="card card-hover affil-card"
+            style={`--affil-brand:${brand};--affil-brand-dark:${brandDark}`}
           >
             <span class="affil-logo" style={`--affil-logo:url(${src!})`} aria-hidden="true"></span>
           </a>
