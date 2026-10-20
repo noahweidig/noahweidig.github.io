@@ -1,7 +1,7 @@
 ---
 title: My Favorite R Packages
 date: '2026-07-20'
-description: The R packages I reach for every day: tidyverse, reproducibility utilities, easystats, and ggplot2 extensions.
+description: 'The R packages I reach for every day: tidyverse, reproducibility utilities, easystats, and ggplot2 extensions.'
 categories:
   - R
   - Data Science
