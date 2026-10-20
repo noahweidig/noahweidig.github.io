@@ -427,14 +427,6 @@
     border: 1px solid var(--c-line);
   }
   /* Cover or screenshot in the hero's right column. */
-  .hero-panel,
-  .hero-media {
-    transition: box-shadow var(--dur-fast) ease-out;
-  }
-  .hero-panel:hover,
-  .hero-media:hover {
-    box-shadow: var(--shadow-soft);
-  }
   .hero-media {
     margin: 0;
     overflow: hidden;
