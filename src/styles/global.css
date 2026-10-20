@@ -1435,7 +1435,6 @@
   .popup::backdrop {
     background: rgb(0 0 0 / 0.4);
     backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
   }
   .popup-close {
     position: absolute;
@@ -1501,7 +1500,6 @@
   .share-dialog::backdrop {
     background: rgb(0 0 0 / 0.4);
     backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
   }
   .share-dialog-head {
     display: flex;
@@ -1758,7 +1756,6 @@
        The blur lets the page behind it drop away without tinting through. */
     background: rgb(10 10 10 / 0.6);
     backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
     color: #ebebea;
     opacity: 0;
     transition: opacity var(--dur-fast) var(--ease-out-soft);
