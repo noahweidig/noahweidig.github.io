@@ -76,7 +76,7 @@ const max = Math.max(...groups.map((g) => g.items.length), 1);
                 const n = g.items.filter((i) => i.section === s).length;
                 return n ? (
                   <span class={`chip chip-${tint}`}>
-                    {s} <span class="text-faint">{n}</span>
+                    {s} <span class="text-dim">{n}</span>
                   </span>
                 ) : null;
               })}

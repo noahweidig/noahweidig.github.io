@@ -34,17 +34,26 @@
 }
 :root,
 :root[data-theme='dark'] {
-  --c-bg: #191919;
-  --c-bg-deep: #151515;
-  --c-surface: #202020;
-  --c-card: #252525;
-  --c-raised: #2b2b2b;
-  --c-line: #333333;
-  --c-line-strong: #454545;
+  /* Affiliation logo hover colors */
+  --c-brand-uf: #4f7bff;
+  --c-brand-ars: #3fae76;
+  --c-brand-fs: #3fae76;
+  --c-brand-uc: #ff4d63;
+  --c-brand-nku: #ffc72c;
+  --c-brand-sca: #8cc152;
+  --c-brand-boone: #6f93d6;
+  --c-brand-ecos: #66bb6a;
+  --c-bg: #0d0d0d;
+  --c-bg-deep: #080808;
+  --c-surface: #131313;
+  --c-card: #181818;
+  --c-raised: #1e1e1e;
+  --c-line: #2a2a2a;
+  --c-line-strong: #3a3a3a;
   --c-control-border: #7a7a7a;
-  --c-ink: #ebebea;
-  --c-dim: #a8a7a3;
-  --c-faint: #96958f;
+  --c-ink: #ececec;
+  --c-dim: #a3a3a3;
+  --c-faint: #8f8f8f;
 
   --c-accent: #0072e3;
   --c-accent-ink: #6ba4ff;
@@ -74,6 +83,15 @@
 }
 
 :root[data-theme='light'] {
+  /* Affiliation logo hover colors */
+  --c-brand-uf: #0021a5;
+  --c-brand-ars: #00693e;
+  --c-brand-fs: #006b3d;
+  --c-brand-uc: #e00122;
+  --c-brand-nku: #c99700;
+  --c-brand-sca: #4a8a1c;
+  --c-brand-boone: #1f3a6e;
+  --c-brand-ecos: #2e7d32;
   --c-bg: #ffffff;
   --c-bg-deep: #fafafa;
   --c-surface: #f7f7f7;
@@ -407,14 +425,6 @@
     border: 1px solid var(--c-line);
   }
   /* Cover or screenshot in the hero's right column. */
-  .hero-panel,
-  .hero-media {
-    transition: box-shadow var(--dur-fast) ease-out;
-  }
-  .hero-panel:hover,
-  .hero-media:hover {
-    box-shadow: var(--shadow-soft);
-  }
   .hero-media {
     margin: 0;
     overflow: hidden;
@@ -484,16 +494,16 @@
     color: var(--c-ink);
     border: 1px solid var(--c-line);
     border-radius: var(--radius-md);
-    transition: box-shadow var(--dur-fast) ease-out;
+    transition: border-color var(--dur-fast) ease-out;
   }
   .card-hover:hover {
-    box-shadow: var(--shadow-soft);
+    border-color: var(--c-accent);
   }
   /* A card washed with its own color, set through --tint-base. */
   .card-tint {
     background: color-mix(in oklab, var(--tint-base) 7%, var(--c-card));
     transition:
-      box-shadow var(--dur-fast) ease-out,
+      border-color var(--dur-fast) ease-out,
       background-color var(--dur-fast) var(--ease-out-soft);
   }
   .card-tint:hover {
@@ -1028,7 +1038,8 @@
   .prose-nw .pkg-logo {
     float: right;
     width: 76px;
-    height: auto;
+    height: 88px;
+    object-fit: contain;
     margin: 0 0 0.75rem 1.25rem;
     border: 0;
   }
@@ -1229,11 +1240,6 @@
     width: 9rem;
     padding: 1.15rem 0.75rem;
     scroll-snap-align: start;
-    transition: background-color var(--dur-base) var(--ease-out-soft);
-  }
-  .affil-card:hover,
-  .affil-card:focus-visible {
-    background: var(--c-matte);
   }
   .affil-logo {
     display: block;
@@ -1241,7 +1247,9 @@
     height: 2rem;
     background: var(--c-ink);
     opacity: 0.6;
-    transition: opacity var(--dur-base) var(--ease-out-soft);
+    transition:
+      opacity var(--dur-base) var(--ease-out-soft),
+      background-color var(--dur-base) var(--ease-out-soft);
     mask: var(--affil-logo) center / contain no-repeat;
     -webkit-mask: var(--affil-logo) center / contain no-repeat;
   }
@@ -1256,6 +1264,7 @@
   }
   .affil-card:hover .affil-logo,
   .affil-card:focus-visible .affil-logo {
+    background: var(--affil-brand);
     opacity: 1;
   }
   .affil-fade {
@@ -1422,7 +1431,8 @@
     background: var(--c-card);
   }
   .popup::backdrop {
-    background: rgb(0 0 0 / 0.55);
+    background: rgb(0 0 0 / 0.4);
+    backdrop-filter: blur(8px);
   }
   .popup-close {
     position: absolute;
@@ -1486,7 +1496,8 @@
     color: var(--c-ink);
   }
   .share-dialog::backdrop {
-    background: rgb(0 0 0 / 0.55);
+    background: rgb(0 0 0 / 0.4);
+    backdrop-filter: blur(8px);
   }
   .share-dialog-head {
     display: flex;
@@ -1646,39 +1657,27 @@
     position: relative;
   }
   .heading-anchor {
-    position: absolute;
-    top: 50%;
-    right: 100%;
-    translate: 0 -50%;
-    display: grid;
+    display: inline-grid;
     place-items: center;
-    width: 1.6rem;
-    height: 1.6rem;
-    margin-right: 0.2rem;
-    border-radius: var(--radius-sm);
+    vertical-align: middle;
+    margin-left: 0.4rem;
     color: var(--c-faint);
     opacity: 0;
     transition:
       opacity var(--dur-fast) var(--ease-out-soft),
-      color var(--dur-fast) var(--ease-out-soft),
-      background-color var(--dur-fast) var(--ease-out-soft);
+      color var(--dur-fast) var(--ease-out-soft);
   }
   .prose-nw :is(h2, h3, h4):hover .heading-anchor,
   .heading-anchor:focus-visible {
     opacity: 1;
   }
-  .heading-anchor:hover {
-    background: var(--c-raised);
+  .heading-anchor:hover,
+  .heading-anchor:focus-visible {
     color: var(--c-accent-ink);
   }
-  /* Under the measure there is no gutter to hang it in. */
-  @media (max-width: 60rem) {
+  /* No hover on touch screens, so keep it visible there. */
+  @media (hover: none) {
     .heading-anchor {
-      position: static;
-      translate: none;
-      display: inline-grid;
-      vertical-align: middle;
-      margin-left: 0.35rem;
       opacity: 1;
     }
   }
@@ -1751,9 +1750,10 @@
        than under a mobile browser's toolbar. */
     height: 100dvh;
     max-height: 100dvh;
-    /* Always a dark scrim, in either theme: a picture reads best against one,
-       and the page behind it should drop away rather than tint through. */
-    background: rgb(10 10 10 / 0.93);
+    /* Always a dark scrim, in either theme: a picture reads best against one.
+       The blur lets the page behind it drop away without tinting through. */
+    background: rgb(10 10 10 / 0.6);
+    backdrop-filter: blur(16px);
     color: #ebebea;
     opacity: 0;
     transition: opacity var(--dur-fast) var(--ease-out-soft);
@@ -1786,6 +1786,12 @@
     border: 1px solid var(--c-line);
     transform: scale(0.97);
     transition: transform var(--dur-fast) var(--ease-out-soft);
+  }
+  .lightbox img.lightbox-logo {
+    width: min(26rem, 60vh);
+    height: auto;
+    border: 0;
+    border-radius: 0;
   }
   .lightbox[data-show] img {
     transform: none;
