@@ -330,8 +330,8 @@
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
-    padding: 0.2rem 0.65rem;
-    border-radius: var(--radius-sm);
+    padding: 0.2rem 0.8rem;
+    border-radius: var(--radius-pill);
     font-size: var(--text-small);
     font-weight: 600;
     color: var(--tint, var(--c-accent-ink));
