@@ -9,20 +9,12 @@ import { cleanups, on } from './dom';
 const PITCH = 24;
 const RADIUS = 140;
 
-type RGB = [number, number, number];
-
-const toRgb = (hex: string): RGB => {
-  const n = Number.parseInt(hex.replace('#', ''), 16);
-  return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
-};
-
 /** Position `t` (0..1) along the stops, blended between neighbors. */
-const ramp = (stops: RGB[], t: number) => {
+const ramp = (stops: string[], t: number) => {
   const pos = t * (stops.length - 1);
   const i = Math.min(stops.length - 2, Math.floor(pos));
-  const f = pos - i;
-  const [a, b] = [stops[i]!, stops[i + 1]!];
-  return `rgb(${a.map((v, k) => Math.round(v + (b[k]! - v) * f)).join(',')})`;
+  const pct = Math.round((pos - i) * 100);
+  return `color-mix(in srgb, ${stops[i]} ${100 - pct}%, ${stops[i + 1]})`;
 };
 
 export function initHeroDots() {
@@ -40,14 +32,14 @@ export function initHeroDots() {
     let my = -9999;
     let raf = 0;
     let base = '';
-    let stops: RGB[] = [];
+    let stops: string[] = [];
 
     const colors = () => {
       const s = getComputedStyle(document.documentElement);
       base = s.getPropertyValue('--c-ink').trim();
       const [y, b, r] = ['--logo-yellow', '--logo-blue', '--logo-red'].map((n) =>
-        toRgb(s.getPropertyValue(n).trim()),
-      ) as [RGB, RGB, RGB];
+        s.getPropertyValue(n).trim(),
+      ) as [string, string, string];
       stops = [y, b, r, y];
     };
     const draw = () => {
