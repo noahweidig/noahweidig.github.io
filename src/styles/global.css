@@ -162,6 +162,7 @@
   --radius-xs: 4px;
   --radius-sm: 8px;
   --radius-md: 12px;
+  --radius-pill: 9999px;
 
   /* Named steps for the micro-type cluster that used to ship as one-off
      arbitrary values (text-micro etc.) — see #138. */
@@ -329,8 +330,8 @@
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
-    padding: 0.2rem 0.65rem;
-    border-radius: var(--radius-sm);
+    padding: 0.2rem 0.8rem;
+    border-radius: var(--radius-pill);
     font-size: var(--text-small);
     font-weight: 600;
     color: var(--tint, var(--c-accent-ink));
@@ -354,6 +355,17 @@
     color: var(--c-dim);
     font-size: var(--text-lead);
     max-width: 46rem;
+  }
+
+  /* Canvas dot grid inside a hero (hero-dots.ts); fades out toward the bottom edge. */
+  .dot-grid {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent);
+    mask-image: linear-gradient(to bottom, #000 55%, transparent);
   }
 
   /* --- page hero ---
@@ -496,8 +508,39 @@
     border-radius: var(--radius-md);
     transition: border-color var(--dur-fast) ease-out;
   }
+  /* Hover: a 3px lift, soft shadow and a faint spotlight that follows the pointer
+     (--mx/--my are set by glow.ts). Lift is off for touch and reduced motion. */
+  .card-hover::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    background: radial-gradient(
+      260px circle at var(--mx, 50%) var(--my, 0%),
+      color-mix(in oklab, var(--c-accent) 16%, transparent),
+      transparent 70%
+    );
+    transition: opacity var(--dur-base) var(--ease-out-soft);
+  }
   .card-hover:hover {
-    border-color: var(--c-accent);
+    border-color: color-mix(in oklab, var(--c-accent) 55%, var(--c-line));
+  }
+  .card-hover:hover::after {
+    opacity: 1;
+  }
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .card-hover {
+      transition:
+        border-color var(--dur-base) var(--ease-out-soft),
+        transform var(--dur-base) var(--ease-out-soft),
+        box-shadow var(--dur-base) var(--ease-out-soft);
+    }
+    .card-hover:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 28px -10px color-mix(in oklab, var(--c-bg-deep) 70%, transparent);
+    }
   }
   /* A card washed with its own color, set through --tint-base. */
   .card-tint {
@@ -516,8 +559,8 @@
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    padding: 0.68rem 1.15rem;
-    border-radius: var(--radius-sm);
+    padding: 0.68rem 1.35rem;
+    border-radius: var(--radius-pill);
     font-size: var(--text-compact);
     font-weight: 600;
     letter-spacing: -0.005em;
@@ -622,10 +665,20 @@
   .popup-plus.carousel-btn {
     width: 3rem;
     height: 3rem;
+    border: 1px solid color-mix(in oklab, var(--c-ink) 14%, transparent);
+    border-radius: var(--radius-pill);
+    background: color-mix(in oklab, var(--c-bg) 70%, transparent);
+    -webkit-backdrop-filter: blur(14px) saturate(1.6);
+    backdrop-filter: blur(14px) saturate(1.6);
     color: var(--c-ink);
+    transition:
+      background-color var(--dur-fast) var(--ease-out-soft),
+      border-color var(--dur-fast) var(--ease-out-soft),
+      color var(--dur-fast) var(--ease-out-soft);
   }
   .popup-plus.carousel-btn:hover:not(:disabled) {
-    background: var(--c-matte-hover);
+    background: color-mix(in oklab, var(--c-bg) 85%, transparent);
+    border-color: color-mix(in oklab, var(--c-accent) 55%, var(--c-line));
   }
   .popup-plus.carousel-btn:disabled {
     color: var(--c-faint);
@@ -652,8 +705,8 @@
     display: inline-flex;
     align-items: center;
     gap: 0.35rem;
-    padding: 0.2rem 0.6rem;
-    border-radius: var(--radius-sm);
+    padding: 0.2rem 0.7rem;
+    border-radius: var(--radius-pill);
     border: 0;
     background: var(--c-matte);
     color: var(--c-dim);
@@ -662,9 +715,9 @@
     white-space: nowrap;
   }
   .chip-link {
-    border-radius: var(--radius-sm);
+    border-radius: var(--radius-pill);
     background: var(--c-matte);
-    padding: 0.25rem 0.625rem;
+    padding: 0.25rem 0.75rem;
     transition:
       background-color var(--dur-fast),
       color var(--dur-fast);
@@ -880,8 +933,8 @@
 
   /* --- filter pills --- */
   .pill {
-    padding: 0.4rem 0.9rem;
-    border-radius: var(--radius-sm);
+    padding: 0.4rem 1rem;
+    border-radius: var(--radius-pill);
     border: 0;
     background: var(--c-matte);
     color: var(--c-dim);
@@ -1454,6 +1507,10 @@
       background-color var(--dur-fast) var(--ease-out-soft),
       color var(--dur-fast) var(--ease-out-soft);
   }
+  .popup-close,
+  [data-share-close] {
+    border-radius: var(--radius-pill);
+  }
   .popup-close:hover,
   .group:hover .popup-plus {
     background: var(--c-matte-hover);
@@ -1586,9 +1643,12 @@
     width: 2.75rem;
     height: 2.75rem;
     padding: 0;
-    border-radius: var(--radius-sm);
-    border: 0;
-    background: var(--c-matte);
+    border-radius: var(--radius-pill);
+    border: 1px solid color-mix(in oklab, var(--c-ink) 14%, transparent);
+    background: color-mix(in oklab, var(--c-bg) 70%, transparent);
+    -webkit-backdrop-filter: blur(14px) saturate(1.6);
+    backdrop-filter: blur(14px) saturate(1.6);
+    box-shadow: 0 6px 20px -8px color-mix(in oklab, var(--c-bg-deep) 80%, transparent);
     color: var(--c-dim);
     opacity: 0;
     visibility: hidden;
@@ -1598,6 +1658,7 @@
       translate var(--dur-fast) var(--ease-out-soft),
       visibility 0s linear var(--dur-fast),
       background-color var(--dur-fast) var(--ease-out-soft),
+      border-color var(--dur-fast) var(--ease-out-soft),
       color var(--dur-fast) var(--ease-out-soft);
   }
   .back-to-top[data-show] {
@@ -1607,7 +1668,8 @@
     transition-delay: 0s;
   }
   .back-to-top:hover {
-    background: var(--c-matte-hover);
+    background: color-mix(in oklab, var(--c-bg) 85%, transparent);
+    border-color: color-mix(in oklab, var(--c-accent) 55%, var(--c-line));
     color: var(--c-ink);
   }
   /* Blog posts: the ToC button takes this exact corner on mobile. */
@@ -1806,17 +1868,18 @@
   }
   .lightbox .icon-tile {
     /* Explicit ground: the default tile fill follows the page theme, so in
-       light mode it is a pale grey under this always-light glyph. */
-    background: #14171d;
-    border-color: rgb(255 255 255 / 0.18);
-    color: rgb(233 236 242 / 0.85);
+       light mode it is a pale grey under this always-light glyph. A slate, not
+       near-black, so the buttons read as raised off the scrim in both themes. */
+    background: #3b4150;
+    border-color: rgb(255 255 255 / 0.22);
+    color: #f1f3f7;
   }
   .lightbox .icon-tile:hover {
     border-color: rgb(255 255 255 / 0.45);
     /* An opaque ground rather than a white wash: white-on-white is what the
        contrast checkers see in a translucent fill, and it is the same colour
        against the scrim either way. */
-    background: #1b1f27;
+    background: #4b5263;
     color: #fff;
   }
   .lightbox-caption {
