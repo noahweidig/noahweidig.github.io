@@ -665,10 +665,20 @@
   .popup-plus.carousel-btn {
     width: 3rem;
     height: 3rem;
+    border: 1px solid color-mix(in oklab, var(--c-ink) 14%, transparent);
+    border-radius: var(--radius-pill);
+    background: color-mix(in oklab, var(--c-bg) 70%, transparent);
+    -webkit-backdrop-filter: blur(14px) saturate(1.6);
+    backdrop-filter: blur(14px) saturate(1.6);
     color: var(--c-ink);
+    transition:
+      background-color var(--dur-fast) var(--ease-out-soft),
+      border-color var(--dur-fast) var(--ease-out-soft),
+      color var(--dur-fast) var(--ease-out-soft);
   }
   .popup-plus.carousel-btn:hover:not(:disabled) {
-    background: var(--c-matte-hover);
+    background: color-mix(in oklab, var(--c-bg) 85%, transparent);
+    border-color: color-mix(in oklab, var(--c-accent) 55%, var(--c-line));
   }
   .popup-plus.carousel-btn:disabled {
     color: var(--c-faint);
@@ -1629,9 +1639,12 @@
     width: 2.75rem;
     height: 2.75rem;
     padding: 0;
-    border-radius: var(--radius-sm);
-    border: 0;
-    background: var(--c-matte);
+    border-radius: var(--radius-pill);
+    border: 1px solid color-mix(in oklab, var(--c-ink) 14%, transparent);
+    background: color-mix(in oklab, var(--c-bg) 70%, transparent);
+    -webkit-backdrop-filter: blur(14px) saturate(1.6);
+    backdrop-filter: blur(14px) saturate(1.6);
+    box-shadow: 0 6px 20px -8px color-mix(in oklab, var(--c-bg-deep) 80%, transparent);
     color: var(--c-dim);
     opacity: 0;
     visibility: hidden;
@@ -1641,6 +1654,7 @@
       translate var(--dur-fast) var(--ease-out-soft),
       visibility 0s linear var(--dur-fast),
       background-color var(--dur-fast) var(--ease-out-soft),
+      border-color var(--dur-fast) var(--ease-out-soft),
       color var(--dur-fast) var(--ease-out-soft);
   }
   .back-to-top[data-show] {
@@ -1650,7 +1664,8 @@
     transition-delay: 0s;
   }
   .back-to-top:hover {
-    background: var(--c-matte-hover);
+    background: color-mix(in oklab, var(--c-bg) 85%, transparent);
+    border-color: color-mix(in oklab, var(--c-accent) 55%, var(--c-line));
     color: var(--c-ink);
   }
   /* Blog posts: the ToC button takes this exact corner on mobile. */
