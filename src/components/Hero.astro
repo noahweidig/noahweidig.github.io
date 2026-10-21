@@ -1,4 +1,5 @@
 ---
+import DotGrid from './DotGrid.astro';
 import Icon from './Icon.astro';
 import { socials } from '../lib/site';
 import { tintAt } from '../lib/tint';
@@ -16,6 +17,7 @@ const rows = [...words, words[0]!];
 ---
 
 <section class="under-nav relative overflow-x-clip border-b border-line" id="hero" data-hero>
+  <DotGrid />
   <div class="shell relative pt-16 pb-16 text-center md:pt-18 md:pb-24 lg:pt-20 lg:pb-32">
     <h1 class="hero-title font-display font-semibold">
       <span class="sr-only-nw">Spatial analysis. Real {words.map((w) => w.text).join(', ')}.</span>
@@ -71,7 +73,7 @@ const rows = [...words, words[0]!];
           data-tip={`${s.label} profile`}
           target="_blank"
           rel="noopener"
-          class={`social tile-${tintAt(i)} grid size-12 place-items-center rounded-md sm:size-14`}
+          class={`social tile-${tintAt(i)} grid size-12 place-items-center rounded-full sm:size-14`}
         >
           <Icon name={s.icon} size={26} />
         </a>
@@ -136,6 +138,19 @@ const rows = [...words, words[0]!];
     overflow: hidden;
     line-height: 1.2;
     white-space: nowrap;
+  }
+  /* Each word runs from its own color toward teal. fit-content keeps the sweep
+     across the word itself, not the widest row. */
+  .roll-track > span {
+    width: fit-content;
+    background-image: linear-gradient(
+      100deg,
+      var(--tint) 0%,
+      color-mix(in oklab, var(--tint) 35%, var(--c-teal)) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
   /* Always in its tile color; hover deepens the wash. */
   .social {
