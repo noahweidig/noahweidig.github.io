@@ -25,11 +25,9 @@ const { class: cls = '', iconOnlyNarrow = false } = Astro.props;
     <circle cx="17.5" cy="17.5" r="3.5" fill="var(--logo-red)" stroke="var(--logo-red)"></circle>
   </svg>
   <span class="sr-only">Noah Weidig — home</span>
-  <span class="wm font-display font-semibold tracking-tight" aria-hidden="true">
-    <span>n</span>
-    <span>oah</span>
-    <span class="wm-ink">w</span>
-    <span class="wm-ink">eidig</span>
+  <span class="wm font-display" aria-hidden="true">
+    <span>Noah</span>
+    <span class="wm-last">Weidig</span>
   </span>
 </span>
 
@@ -48,20 +46,18 @@ const { class: cls = '', iconOnlyNarrow = false } = Astro.props;
     stroke-linejoin: round;
     stroke-linecap: round;
   }
-  /* A tinted tag, same wash as the hero's rolling pill and the cover tags. */
+  /* Two-tone name, no tag: the surname sits one step lighter. */
   .wm {
     display: inline-flex;
-    padding: 0.3em 0.85em 0.35em;
-    border-radius: var(--radius-sm);
-    color: var(--c-accent-ink);
-    background: color-mix(in oklab, var(--c-accent-ink) 18%, var(--c-surface));
+    gap: 0.28em;
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    color: var(--c-ink);
     white-space: nowrap;
   }
-  .wm > span {
-    display: inline-block;
-  }
-  .wm > .wm-ink {
-    color: var(--c-ink);
+  .wm > .wm-last {
+    font-weight: 500;
+    color: var(--c-faint);
   }
   @media (max-width: 23.75rem) {
     .wm-icon-narrow .wm {
