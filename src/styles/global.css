@@ -1493,6 +1493,10 @@
     right: 1rem;
   }
   .popup-close,
+  [data-share-close] {
+    border-radius: var(--radius-pill);
+  }
+  .popup-close,
   .popup-plus {
     display: grid;
     place-items: center;
