@@ -1718,7 +1718,7 @@
   .prose-nw :is(h2, h3, h4) {
     position: relative;
   }
-  .heading-anchor {
+  .prose-nw a.heading-anchor {
     display: inline-grid;
     place-items: center;
     vertical-align: middle;
@@ -1737,9 +1737,10 @@
   .heading-anchor:focus-visible {
     opacity: 1;
   }
-  .heading-anchor:hover,
-  .heading-anchor:focus-visible {
+  .prose-nw a.heading-anchor:hover,
+  .prose-nw a.heading-anchor:focus-visible {
     color: var(--c-accent-ink);
+    text-decoration: none;
   }
   /* No hover on touch screens, so keep it visible there. */
   @media (hover: none) {
