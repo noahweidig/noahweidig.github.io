@@ -507,8 +507,39 @@
     border-radius: var(--radius-md);
     transition: border-color var(--dur-fast) ease-out;
   }
+  /* Hover: a 3px lift, soft shadow and a faint spotlight that follows the pointer
+     (--mx/--my are set by glow.ts). Lift is off for touch and reduced motion. */
+  .card-hover::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    background: radial-gradient(
+      260px circle at var(--mx, 50%) var(--my, 0%),
+      color-mix(in oklab, var(--c-accent) 16%, transparent),
+      transparent 70%
+    );
+    transition: opacity var(--dur-base) var(--ease-out-soft);
+  }
   .card-hover:hover {
-    border-color: var(--c-accent);
+    border-color: color-mix(in oklab, var(--c-accent) 55%, var(--c-line));
+  }
+  .card-hover:hover::after {
+    opacity: 1;
+  }
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .card-hover {
+      transition:
+        border-color var(--dur-base) var(--ease-out-soft),
+        transform var(--dur-base) var(--ease-out-soft),
+        box-shadow var(--dur-base) var(--ease-out-soft);
+    }
+    .card-hover:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 28px -10px color-mix(in oklab, var(--c-bg-deep) 70%, transparent);
+    }
   }
   /* A card washed with its own color, set through --tint-base. */
   .card-tint {
