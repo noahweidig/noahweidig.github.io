@@ -162,6 +162,7 @@
   --radius-xs: 4px;
   --radius-sm: 8px;
   --radius-md: 12px;
+  --radius-pill: 9999px;
 
   /* Named steps for the micro-type cluster that used to ship as one-off
      arbitrary values (text-micro etc.) — see #138. */
@@ -558,8 +559,8 @@
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    padding: 0.68rem 1.15rem;
-    border-radius: var(--radius-sm);
+    padding: 0.68rem 1.35rem;
+    border-radius: var(--radius-pill);
     font-size: var(--text-compact);
     font-weight: 600;
     letter-spacing: -0.005em;
@@ -694,8 +695,8 @@
     display: inline-flex;
     align-items: center;
     gap: 0.35rem;
-    padding: 0.2rem 0.6rem;
-    border-radius: var(--radius-sm);
+    padding: 0.2rem 0.7rem;
+    border-radius: var(--radius-pill);
     border: 0;
     background: var(--c-matte);
     color: var(--c-dim);
