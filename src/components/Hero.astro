@@ -139,6 +139,19 @@ const rows = [...words, words[0]!];
     line-height: 1.2;
     white-space: nowrap;
   }
+  /* Each word runs from its own color toward teal. fit-content keeps the sweep
+     across the word itself, not the widest row. */
+  .roll-track > span {
+    width: fit-content;
+    background-image: linear-gradient(
+      100deg,
+      var(--tint) 0%,
+      color-mix(in oklab, var(--tint) 35%, var(--c-teal)) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
   /* Always in its tile color; hover deepens the wash. */
   .social {
     transition: background-color var(--dur-fast);
