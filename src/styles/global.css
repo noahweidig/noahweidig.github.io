@@ -1864,17 +1864,18 @@
   }
   .lightbox .icon-tile {
     /* Explicit ground: the default tile fill follows the page theme, so in
-       light mode it is a pale grey under this always-light glyph. */
-    background: #14171d;
-    border-color: rgb(255 255 255 / 0.18);
-    color: rgb(233 236 242 / 0.85);
+       light mode it is a pale grey under this always-light glyph. A slate, not
+       near-black, so the buttons read as raised off the scrim in both themes. */
+    background: #3b4150;
+    border-color: rgb(255 255 255 / 0.22);
+    color: #f1f3f7;
   }
   .lightbox .icon-tile:hover {
     border-color: rgb(255 255 255 / 0.45);
     /* An opaque ground rather than a white wash: white-on-white is what the
        contrast checkers see in a translucent fill, and it is the same colour
        against the scrim either way. */
-    background: #1b1f27;
+    background: #4b5263;
     color: #fff;
   }
   .lightbox-caption {
