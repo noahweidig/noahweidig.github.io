@@ -1,7 +1,6 @@
 /* ------------------------------------------------------- heading anchors -- */
 import { on } from './dom';
 import { hideTip, showTip } from './tooltips';
-import { iconSvg } from './icon';
 
 /* A copy-the-anchor control per heading: hovering a heading reveals a pilcrow (¶) after the text, and
    clicking it copies the full URL rather than only moving the hash. */
@@ -16,7 +15,7 @@ export function initHeadingAnchors() {
       a.dataset.tip = 'Permanent link';
       a.setAttribute('role', 'button');
       a.setAttribute('aria-label', 'Permanent link');
-      a.innerHTML = iconSvg('pilcrow', 16, 1.8);
+      a.textContent = '¶';
 
       on(a, 'click', async (ev) => {
         ev.preventDefault();

@@ -1718,12 +1718,16 @@
   .prose-nw :is(h2, h3, h4) {
     position: relative;
   }
-  .heading-anchor {
+  .prose-nw a.heading-anchor {
     display: inline-grid;
     place-items: center;
     vertical-align: middle;
     margin-left: 0.4rem;
     color: var(--c-faint);
+    font-size: 0.8em;
+    font-weight: 700;
+    line-height: 1;
+    text-decoration: none;
     opacity: 0;
     transition:
       opacity var(--dur-fast) var(--ease-out-soft),
@@ -1733,9 +1737,10 @@
   .heading-anchor:focus-visible {
     opacity: 1;
   }
-  .heading-anchor:hover,
-  .heading-anchor:focus-visible {
+  .prose-nw a.heading-anchor:hover,
+  .prose-nw a.heading-anchor:focus-visible {
     color: var(--c-accent-ink);
+    text-decoration: none;
   }
   /* No hover on touch screens, so keep it visible there. */
   @media (hover: none) {
