@@ -933,8 +933,8 @@
 
   /* --- filter pills --- */
   .pill {
-    padding: 0.4rem 0.9rem;
-    border-radius: var(--radius-sm);
+    padding: 0.4rem 1rem;
+    border-radius: var(--radius-pill);
     border: 0;
     background: var(--c-matte);
     color: var(--c-dim);
