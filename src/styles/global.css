@@ -1493,10 +1493,6 @@
     right: 1rem;
   }
   .popup-close,
-  [data-share-close] {
-    border-radius: var(--radius-pill);
-  }
-  .popup-close,
   .popup-plus {
     display: grid;
     place-items: center;
@@ -1510,6 +1506,10 @@
     transition:
       background-color var(--dur-fast) var(--ease-out-soft),
       color var(--dur-fast) var(--ease-out-soft);
+  }
+  .popup-close,
+  [data-share-close] {
+    border-radius: var(--radius-pill);
   }
   .popup-close:hover,
   .group:hover .popup-plus {
