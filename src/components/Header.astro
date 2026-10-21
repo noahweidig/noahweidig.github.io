@@ -371,7 +371,7 @@ const isActive = (href: string) => {
     overflow: hidden;
     overscroll-behavior: none;
   }
-  /* Transparent at the top of the page; a flat bar with a hairline once scrolled. */
+  /* Transparent at the top of the page; frosted glass with a hairline once scrolled. */
   .nav-glass {
     background-color: transparent;
     border-bottom: 1px solid transparent;
@@ -380,8 +380,10 @@ const isActive = (href: string) => {
       border-color var(--dur-base) var(--ease-out-soft);
   }
   :global(html[data-scrolled]) .nav-glass {
-    background-color: var(--c-bg);
-    border-bottom-color: var(--c-line);
+    background-color: color-mix(in oklab, var(--c-bg) 72%, transparent);
+    border-bottom-color: color-mix(in oklab, var(--c-line) 80%, transparent);
+    -webkit-backdrop-filter: blur(18px) saturate(1.6);
+    backdrop-filter: blur(18px) saturate(1.6);
   }
   @media (max-width: 63.99rem) {
     .nav-glass {
@@ -399,8 +401,12 @@ const isActive = (href: string) => {
       transition: none;
     }
   }
+  /* A backdrop-filter would make the bar the containing block for the fixed
+     mobile menu, so it's off while the menu is open. */
   :global(:root) #site-header.nav-glass[data-menu-open] {
     background: var(--c-bg);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
   }
   /* No hover tile on the bar's icon buttons. Resting is a step off full ink, so
      hover reads lighter in dark theme and darker in light theme. */
