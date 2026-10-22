@@ -129,6 +129,11 @@ const starts = [
   },
 ];
 
+/* Decorative raster for the Tools card: 48 cells, one opacity per layer. */
+const pixels = Array.from({ length: 48 }, (_, i) =>
+  [0, 1, 2].map((l) => Math.round(8 + (((i * (3 + 2 * l) + (i % 16) * l * 3) % 10) / 9) * 80)),
+);
+
 const faqs = [
   {
     q: 'What do you do?',
@@ -169,17 +174,74 @@ const faqs = [
     <div class="bento">
       {starts.map((s, i) => (
         <div
-          class={`card card-hover bento-cell bento-${i} tint-${s.tint} group relative flex flex-col p-6 md:p-8`}
+          class={`card card-hover bento-cell bento-${i} group relative flex flex-col p-6 md:p-8`}
           data-reveal
           style={`--reveal-delay:${i * 70}ms`}
         >
-          <span
-            class={`grid aspect-square h-11 w-11 shrink-0 place-items-center rounded-sm tile-${s.tint}`}
-          >
-            <Icon name={s.icon} size={20} />
-          </span>
-          <h2 class="bento-title mt-5 text-xl">{s.title}</h2>
-          <p class="mt-2 flex-1 text-sm leading-relaxed text-dim">{s.body}</p>
+          <div class="bento-illo relative z-10 mb-6 flex-1" data-bento-illo>
+            {s.id === 'pop-research' && (
+              <>
+                <div class="flex flex-wrap gap-2" data-bento-group>
+                  {researchAreas.map((a, k) => (
+                    <button
+                      type="button"
+                      class="chip bento-pick"
+                      data-bento-pick={String(k)}
+                      data-caption={a}
+                      aria-pressed={k === 0 ? 'true' : 'false'}
+                    >
+                      {a}
+                    </button>
+                  ))}
+                </div>
+                <p class="mt-5 font-mono text-xs text-dim" aria-live="polite">
+                  Focus:{' '}
+                  <span class="text-ink" data-bento-caption>
+                    {researchAreas[0]}
+                  </span>
+                  <span aria-hidden="true"> · </span>
+                  <a class="text-accent-ink hover:underline" href="#interests">
+                    See the work
+                  </a>
+                </p>
+              </>
+            )}
+            {s.id === 'pop-tools' && (
+              <>
+                <div class="px-grid" aria-hidden="true">
+                  {pixels.map((px) => (
+                    <span class="px" style={`--a0:${px[0]}%;--a1:${px[1]}%;--a2:${px[2]}%`} />
+                  ))}
+                </div>
+                <div class="mt-3 flex flex-wrap gap-2" data-bento-group>
+                  {['Fuel', 'Slope', 'Risk'].map((n, k) => (
+                    <button
+                      type="button"
+                      class="chip bento-pick"
+                      data-bento-pick={String(k)}
+                      aria-pressed={k === 0 ? 'true' : 'false'}
+                    >
+                      {n}
+                    </button>
+                  ))}
+                </div>
+              </>
+            )}
+            {s.id === 'pop-writing' && (
+              <ul class="flex flex-col gap-2">
+                {posts.map((p) => (
+                  <li>
+                    <a class="bento-row" href={`/blog/${p.id}/`}>
+                      <span class="truncate">{p.data.title}</span>
+                      <Icon name="arrow" size={14} class="bento-go shrink-0" />
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+          <h2 class="bento-title text-xl">{s.title}</h2>
+          <p class="mt-2 text-sm leading-relaxed text-dim">{s.body}</p>
           <button
             type="button"
             class="popup-plus mt-5 ml-auto after:absolute after:inset-0 after:rounded-[inherit] after:content-['']"
@@ -583,3 +645,24 @@ const faqs = [
     ></script>
   </section>
 </Base>
+
+<script>
+  /* Bento chips: one pressed chip per group. Delegated on document so it
+     survives ClientRouter swaps, and registered once. */
+  const w = window as Window & { __bentoPick?: boolean };
+  if (!w.__bentoPick) {
+    w.__bentoPick = true;
+    document.addEventListener('click', (e) => {
+      const btn = (e.target as Element).closest<HTMLButtonElement>('[data-bento-pick]');
+      const group = btn?.closest<HTMLElement>('[data-bento-group]');
+      const illo = btn?.closest<HTMLElement>('[data-bento-illo]');
+      if (!btn || !group || !illo) return;
+      group.querySelectorAll('[data-bento-pick]').forEach((b) => {
+        b.setAttribute('aria-pressed', String(b === btn));
+      });
+      illo.dataset.picked = btn.dataset.bentoPick;
+      const caption = illo.querySelector('[data-bento-caption]');
+      if (caption && btn.dataset.caption) caption.textContent = btn.dataset.caption;
+    });
+  }
+</script>
