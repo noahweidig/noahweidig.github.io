@@ -10,8 +10,10 @@ interface Props {
   prev?: Sibling | null;
   next?: Sibling | null;
   label: string;
+  /** Match the article text column: 'article' (46rem text beside a ToC) or 'body' (58rem). */
+  width?: 'article' | 'body';
 }
-const { prev, next, label } = Astro.props;
+const { prev, next, label, width = 'body' } = Astro.props;
 ---
 
 {(prev || next) && (
@@ -20,7 +22,12 @@ const { prev, next, label } = Astro.props;
     class:list={['no-print border-t border-line', !next && 'hidden sm:block']}
     data-pagefind-ignore
   >
-    <div class="shell grid grid-cols-1 gap-4 py-6 sm:grid-cols-2">
+    <div
+      class:list={[
+        width === 'article' ? 'mx-auto w-full max-w-[50rem] px-5 md:px-8' : 'shell-body',
+        'grid grid-cols-1 gap-4 py-6 sm:grid-cols-2',
+      ]}
+    >
       {prev ? (
         <a
           href={prev.href}
