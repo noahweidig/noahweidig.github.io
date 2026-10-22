@@ -1,6 +1,6 @@
 ---
 import type { CollectionEntry } from 'astro:content';
-import { fullDate } from '../lib/format';
+import { fullDate, vtName } from '../lib/format';
 import { IMAGE_WIDTHS } from '../lib/images';
 import Icon from './Icon.astro';
 import ThemeImage from './ThemeImage.astro';
@@ -61,6 +61,7 @@ const alt = entry.data['image-alt'] ?? '';
       <a
         href={`/blog/${entry.id}/`}
         class="relative z-20 transition-colors group-hover:text-accent-ink"
+        style={`view-transition-name:${vtName(`/blog/${entry.id}`)}`}
       >
         {title}
       </a>

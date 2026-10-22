@@ -259,6 +259,11 @@ const mdHref =
 
     <slot name="after" />
 
-    <PrevNext prev={prev} next={next} label={backLabel.replace(/^All /i, '')} />
+    <PrevNext
+      prev={prev}
+      next={next}
+      label={backLabel.replace(/^All /i, '')}
+      width={hasToc ? 'article' : 'body'}
+    />
   </article>
 </Base>
