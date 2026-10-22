@@ -34,15 +34,6 @@
 }
 :root,
 :root[data-theme='dark'] {
-  /* Affiliation logo hover colors */
-  --c-brand-uf: #4f7bff;
-  --c-brand-ars: #3fae76;
-  --c-brand-fs: #3fae76;
-  --c-brand-uc: #ff4d63;
-  --c-brand-nku: #ffc72c;
-  --c-brand-sca: #8cc152;
-  --c-brand-boone: #6f93d6;
-  --c-brand-ecos: #66bb6a;
   --c-bg: #0d0d0d;
   --c-bg-deep: #080808;
   --c-surface: #131313;
@@ -85,15 +76,6 @@
 }
 
 :root[data-theme='light'] {
-  /* Affiliation logo hover colors */
-  --c-brand-uf: #0021a5;
-  --c-brand-ars: #00693e;
-  --c-brand-fs: #006b3d;
-  --c-brand-uc: #e00122;
-  --c-brand-nku: #c99700;
-  --c-brand-sca: #4a8a1c;
-  --c-brand-boone: #1f3a6e;
-  --c-brand-ecos: #2e7d32;
   --c-bg: #ffffff;
   --c-bg-deep: #fafafa;
   --c-surface: #f7f7f7;
@@ -1263,7 +1245,7 @@
   }
   .affil-card:hover .affil-logo,
   .affil-card:focus-visible .affil-logo {
-    background: var(--affil-brand);
+    background: var(--c-accent-ink);
     opacity: 1;
   }
   .affil-fade {

@@ -1,23 +1,21 @@
 ---
 const orgs = [
-  ['University of Florida', 'https://www.ufl.edu/', '/media/icons/custom/uf.svg', 'uf'],
+  ['University of Florida', 'https://www.ufl.edu/', '/media/icons/custom/uf.svg'],
   [
     'USDA Agricultural Research Service',
     'https://www.ars.usda.gov/',
     '/media/icons/custom/ars.svg',
-    'ars',
   ],
-  ['USDA Forest Service', 'https://www.fs.usda.gov/', '/media/icons/custom/fs.svg', 'fs'],
-  ['University of Cincinnati', 'https://www.uc.edu/', '/media/icons/custom/uc.svg', 'uc'],
-  ['Northern Kentucky University', 'https://www.nku.edu/', '/media/icons/custom/nku.svg', 'nku'],
-  ['Student Conservation Association', 'https://thesca.org/', '/media/icons/custom/sca.svg', 'sca'],
+  ['USDA Forest Service', 'https://www.fs.usda.gov/', '/media/icons/custom/fs.svg'],
+  ['University of Cincinnati', 'https://www.uc.edu/', '/media/icons/custom/uc.svg'],
+  ['Northern Kentucky University', 'https://www.nku.edu/', '/media/icons/custom/nku.svg'],
+  ['Student Conservation Association', 'https://thesca.org/', '/media/icons/custom/sca.svg'],
   [
     "Boone County Clerk's Office",
     'https://boonecountyclerk.ky.gov/',
     '/media/icons/custom/boone.svg',
-    'boone',
   ],
-  ['ECOS', 'https://www.instagram.com/nku_ecos/', '/media/icons/custom/ecos.svg', 'ecos'],
+  ['ECOS', 'https://www.instagram.com/nku_ecos/', '/media/icons/custom/ecos.svg'],
 ];
 ---
 
@@ -25,7 +23,7 @@ const orgs = [
   <p class="text-center text-xs font-medium text-faint">Worked with</p>
   <div class="relative mt-5" data-affil>
     <ul class="affil-track" tabindex="0" aria-label="Institutions I have worked with">
-      {orgs.map(([name, href, src, key]) => (
+      {orgs.map(([name, href, src]) => (
         <li class="contents">
           <a
             href={href}
@@ -33,7 +31,6 @@ const orgs = [
             rel="noopener"
             aria-label={`${name} (opens in a new tab)`}
             class="card card-hover affil-card"
-            style={`--affil-brand:var(--c-brand-${key})`}
           >
             <span class="affil-logo" style={`--affil-logo:url(${src!})`} aria-hidden="true"></span>
           </a>
