@@ -11,7 +11,17 @@ const isActive = (href: string) => {
   const target = slash(href);
   return target === '/' ? path === '/' : path === target || path.startsWith(target);
 };
+const lensMap = `data:image/svg+xml,${encodeURIComponent(
+  `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'><defs><linearGradient id='r'><stop offset='0' stop-color='#f00'/><stop offset='.1' stop-color='#800'/><stop offset='.9' stop-color='#800'/><stop offset='1' stop-color='#000'/></linearGradient><linearGradient id='g' x2='0' y2='1'><stop offset='0' stop-color='#0f0'/><stop offset='.25' stop-color='#080'/><stop offset='.75' stop-color='#080'/><stop offset='1' stop-color='#000'/></linearGradient></defs><rect width='100' height='100' fill='#000'/><rect width='100' height='100' fill='url(#r)'/><rect width='100' height='100' fill='url(#g)' style='mix-blend-mode:screen'/></svg>`
+)}`;
 ---
+
+<svg width="0" height="0" aria-hidden="true" class="absolute">
+  <filter id="nav-lens" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+    <feImage href={lensMap} preserveAspectRatio="none" result="map" />
+    <feDisplacementMap in="SourceGraphic" in2="map" scale="40" xChannelSelector="R" yChannelSelector="G" />
+  </filter>
+</svg>
 
 <header
   data-pagefind-ignore
@@ -385,6 +395,10 @@ const isActive = (href: string) => {
     -webkit-backdrop-filter: blur(18px) saturate(1.6);
     backdrop-filter: blur(18px) saturate(1.6);
   }
+  :global(html[data-lens][data-scrolled]) .nav-glass {
+    -webkit-backdrop-filter: url(#nav-lens) blur(10px) saturate(1.6);
+    backdrop-filter: url(#nav-lens) blur(10px) saturate(1.6);
+  }
   @media (max-width: 63.99rem) {
     .nav-glass {
       transition:
@@ -424,6 +438,9 @@ const isActive = (href: string) => {
 </style>
 
 <script>
+  if ((navigator as Navigator & { userAgentData?: unknown }).userAgentData) {
+    document.documentElement.dataset.lens = '';
+  }
   const set = () => {
     if (document.documentElement.hasAttribute('data-menu-open')) return;
     document.documentElement.toggleAttribute('data-scrolled', scrollY > 8);
