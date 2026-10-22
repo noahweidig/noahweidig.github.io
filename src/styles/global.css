@@ -1003,55 +1003,6 @@
     color: var(--c-accent-contrast);
   }
 
-  /* Category filter pills take the same color as that category's chips; the
-     selected pill is filled with the color. */
-  .pill:is(.pill-blue, .pill-red, .pill-yellow, .pill-green, .pill-purple, .pill-teal, .pill-pink) {
-    background: color-mix(in oklab, var(--tint) 16%, var(--tint-surface, var(--c-surface)));
-    color: var(--tint);
-  }
-  .pill:is(
-      .pill-blue,
-      .pill-red,
-      .pill-yellow,
-      .pill-green,
-      .pill-purple,
-      .pill-teal,
-      .pill-pink
-    ):hover {
-    background: color-mix(in oklab, var(--tint) 28%, var(--tint-surface, var(--c-surface)));
-    color: var(--tint);
-  }
-  .pill.pill-yellow,
-  .pill.pill-yellow:hover {
-    color: var(--c-yellow-ink);
-  }
-  .pill:is(
-      .pill-blue,
-      .pill-red,
-      .pill-yellow,
-      .pill-green,
-      .pill-purple,
-      .pill-teal,
-      .pill-pink
-    ):is([aria-pressed='true'], [aria-selected='true']) {
-    background: var(--tint);
-    color: var(--c-on-light);
-    font-weight: 600;
-  }
-  /* The light theme's tints are dark inks, so a filled pill takes white text;
-     yellow stays bright and keeps dark text. */
-  :root[data-theme='light']
-    .pill:is(.pill-blue, .pill-red, .pill-green, .pill-purple, .pill-teal, .pill-pink):is(
-      [aria-pressed='true'],
-      [aria-selected='true']
-    ) {
-    color: var(--c-accent-contrast);
-  }
-  :root[data-theme='light'] .pill.pill-yellow:is([aria-pressed='true'], [aria-selected='true']) {
-    background: var(--c-yellow-ink);
-    color: var(--c-accent-contrast);
-  }
-
   /* --- prose --- */
   .prose-nw {
     color: var(--c-ink);
