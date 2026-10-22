@@ -641,19 +641,10 @@
     background: var(--c-matte-hover);
   }
 
-  /* Share / copy buttons: same wash and hover as .chip-accent (the DOI chip). */
-  .btn-wash {
-    background: color-mix(in oklab, var(--c-accent) 16%, var(--c-surface));
-    color: var(--c-accent-ink);
-    transition: background-color var(--dur-fast);
-  }
-  .btn-wash:hover {
-    background: color-mix(in oklab, var(--c-accent) 28%, var(--c-surface));
-  }
-
-  /* Secondary button (the hero's second button, "View all" links): outlined
-     neutral, fills solid blue on hover like .btn-primary. */
+  /* Secondary button (the hero's second button, "View all" links, share and
+     copy buttons): outlined neutral, fills solid blue on hover like .btn-primary. */
   .btn-outline,
+  .btn-wash,
   .page-hero-actions .btn-ghost,
   .hero-btn.btn-ghost {
     background: transparent;
@@ -661,6 +652,7 @@
     color: var(--c-ink);
   }
   .btn-outline:hover,
+  .btn-wash:hover,
   .page-hero-actions .btn-ghost:hover,
   .hero-btn.btn-ghost:hover {
     background: var(--c-accent);
@@ -668,6 +660,7 @@
     color: var(--c-accent-contrast);
   }
   .btn-outline:active,
+  .btn-wash:active,
   .page-hero-actions .btn-ghost:active,
   .hero-btn.btn-ghost:active {
     background: color-mix(in oklab, var(--c-accent) 86%, black);
@@ -1403,6 +1396,18 @@
     color: var(--c-ink);
   }
 
+  /* Outlined circle: share and copy icons beside a post. */
+  .icon-tile.icon-outline {
+    border: 1px solid var(--c-line-strong);
+    border-radius: 9999px;
+    background: transparent;
+  }
+  .icon-tile.icon-outline:hover {
+    border-color: var(--c-accent-ink);
+    background: transparent;
+    color: var(--c-accent-ink);
+  }
+
   /* Same hit area and hover lift, with no circle around the glyph. */
   .icon-tile.icon-bare,
   .icon-tile.icon-bare:hover {
@@ -1761,7 +1766,8 @@
     display: inline-block;
   }
   :is(.btn-wash, .icon-tile)[data-copy][data-state='copied'] {
-    background: color-mix(in oklab, var(--c-moss) 20%, var(--c-surface));
+    background: transparent;
+    border-color: var(--c-moss);
     color: var(--c-moss);
   }
 
