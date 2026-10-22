@@ -238,7 +238,7 @@ const faqs = [
       kicker="Selected work"
       title="Tools, maps & applications."
       href="/projects/"
-      linkText="Browse all projects"
+      linkLabel="projects"
     />
     <div class="mt-10" data-carousel data-reveal>
       <div
@@ -261,7 +261,7 @@ const faqs = [
           class={`btn btn-outline group h-12 md:hidden btn-tint tint-${tintFor('Projects')}`}
           href="/projects/"
         >
-          Browse all projects
+          View all<span class="sr-only"> projects</span>
           <Icon
             name="arrow"
             size={15}
@@ -300,7 +300,7 @@ const faqs = [
       kicker="Publications"
       title="Peer-reviewed & in review."
       href="/publications/"
-      linkText="All publications"
+      linkLabel="publications"
     />
     <div class="mt-8">
       {featuredPubs.map((entry) => (
@@ -311,7 +311,7 @@ const faqs = [
       class={`btn btn-outline group mt-6 h-12 md:hidden btn-tint tint-${tintFor('Publications')}`}
       href="/publications/"
     >
-      All publications
+      View all<span class="sr-only"> publications</span>
       <Icon
         name="arrow"
         size={15}
@@ -327,7 +327,7 @@ const faqs = [
         kicker="Tech stack"
         title="Technologies I use to build things."
         href="/tech/"
-        linkText="View all tools"
+        linkLabel="tools"
       />
       <TechPreview />
     </div>
@@ -356,7 +356,7 @@ const faqs = [
           class={`btn btn-outline group mt-1 justify-self-start max-md:h-12 btn-tint tint-${tintFor('Experience')}`}
           href="/experience/"
         >
-          See all experience
+          View all<span class="sr-only"> experience</span>
           <Icon
             name="arrow"
             size={15}
@@ -380,7 +380,7 @@ const faqs = [
           class={`btn btn-outline group mt-1 justify-self-start max-md:h-12 btn-tint tint-${tintFor('Education')}`}
           href="/education/"
         >
-          See all education
+          View all<span class="sr-only"> education</span>
           <Icon
             name="arrow"
             size={15}
@@ -398,7 +398,7 @@ const faqs = [
         kicker="Recognition"
         title="Featured awards."
         href="/awards/"
-        linkText="All awards"
+        linkLabel="awards"
       />
     </div>
     <div class="shell mt-10" data-carousel data-reveal>
@@ -421,7 +421,7 @@ const faqs = [
           class={`btn btn-outline group h-12 md:hidden btn-tint tint-${tintFor('Awards')}`}
           href="/awards/"
         >
-          All awards
+          View all<span class="sr-only"> awards</span>
           <Icon
             name="arrow"
             size={15}
@@ -456,12 +456,7 @@ const faqs = [
 
   <!-- blog -->
   <section class="shell scroll-mt-24 py-24 md:py-32 cv-auto" id="blog">
-    <SectionHead
-      kicker="Writing"
-      title="Notes & tutorials."
-      href="/blog/"
-      linkText="Read more posts"
-    />
+    <SectionHead kicker="Writing" title="Notes & tutorials." href="/blog/" linkLabel="posts" />
     <div class="mt-10" data-carousel>
       <div
         class="carousel-track -mx-4 -my-6 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 py-6 [scroll-padding-inline:16px] sm:m-0 sm:grid sm:grid-cols-2 sm:gap-5 sm:overflow-visible sm:p-0 lg:grid-cols-3"
@@ -480,7 +475,7 @@ const faqs = [
 
       <div class="mt-8 flex items-center justify-between gap-3 md:justify-end">
         <a class="btn btn-outline group h-12 md:hidden" href="/blog/">
-          Read more posts
+          View all<span class="sr-only"> posts</span>
           <Icon
             name="arrow"
             size={15}
