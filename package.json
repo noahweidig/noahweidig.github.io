@@ -35,9 +35,9 @@
     "@tailwindcss/vite": "^4.3.3",
     "astro": "^7.3.8",
     "maplibre-gl": "^6.13.0",
-    "marked": "^18.1.0",
+    "marked": "^18.1.1",
     "remark-github-blockquote-alert": "^2.1.0",
-    "sanitize-html": "^2.18.0",
+    "sanitize-html": "^2.18.1",
     "tailwindcss": "^4.3.3"
   },
   "devDependencies": {
@@ -51,12 +51,12 @@
     "pagefind": "^1.5.2",
     "pdf-lib": "^1.17.1",
     "prettier": "^3.9.8",
-    "prettier-plugin-astro": "^1.0.1",
+    "prettier-plugin-astro": "^1.1.1",
     "puppeteer": "^25.13.0",
     "sharp": "^0.35.4",
     "svgo": "^4.1.0",
-    "turndown": "^7.2.0",
+    "turndown": "^7.2.4",
     "typescript": "^5.7.0",
-    "vitest": "^5.0.2"
+    "vitest": "^5.0.4"
   }
 }
