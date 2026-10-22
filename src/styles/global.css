@@ -926,16 +926,17 @@
 
   /* --- filter pills --- */
   .pill {
-    padding: 0.4rem 1rem;
+    padding: calc(0.4rem - 1px) calc(1rem - 1px);
     border-radius: var(--radius-pill);
-    border: 0;
-    background: var(--c-matte);
+    border: 1px solid var(--c-line-strong);
+    background: transparent;
     color: var(--c-dim);
     font-size: var(--text-small);
     font-weight: 500;
     cursor: pointer;
     transition:
       background-color var(--dur-fast) var(--ease-out-soft),
+      border-color var(--dur-fast) var(--ease-out-soft),
       color var(--dur-fast) var(--ease-out-soft);
   }
   @media (max-width: 47.99rem) {
@@ -957,11 +958,12 @@
   }
   .pill:hover {
     color: var(--c-ink);
-    background: var(--c-matte-hover);
+    border-color: var(--c-dim);
   }
   .pill[aria-pressed='true'],
   .pill[aria-selected='true'] {
     background: var(--c-accent);
+    border-color: var(--c-accent);
     color: var(--c-accent-contrast);
   }
 
@@ -1345,24 +1347,22 @@
     color: var(--c-accent-ink);
   }
 
-  /* Nav items carry the same fill as the icon buttons beside them: the page
-     you are on is the one wearing the tile, and hover previews it. */
+  /* Nav items: no fill. Hover brightens the label; the page you are on is
+     outlined in the accent (an inset ring, so nothing shifts). */
   .nav-link {
     color: var(--c-dim);
     transition:
-      background-color var(--dur-fast) var(--ease-out-soft),
+      box-shadow var(--dur-fast) var(--ease-out-soft),
       color var(--dur-fast) var(--ease-out-soft);
   }
   .nav-link:hover {
-    background: color-mix(in oklab, var(--c-raised) 70%, transparent);
+    background: transparent;
     color: var(--c-ink);
   }
-  /* A step past the hover fill, because `--c-raised` on its own is only a
-     couple of points off the page ground and the current page has to be
-     readable at a glance. */
   .nav-link-active,
   .nav-link-active:hover {
-    background: color-mix(in oklab, var(--c-accent) 12%, var(--c-raised));
+    background: transparent;
+    box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--c-accent-ink) 70%, transparent);
     color: var(--c-accent-ink);
   }
 
