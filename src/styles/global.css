@@ -2092,13 +2092,16 @@
   mask-image: linear-gradient(to bottom, #000 60%, transparent);
 }
 
-/* Three-color rule across the top of the closing CTA. */
+/* Three-color rule across the top of the closing CTA; overflow clips it to the
+   card's rounded corners so it sits inside the border. */
+.cta-card {
+  overflow: hidden;
+}
 .cta-card::before {
   content: '';
   position: absolute;
   inset: 0 0 auto;
   height: 3px;
-  border-radius: var(--radius-md) var(--radius-md) 0 0;
   background: linear-gradient(
     90deg,
     var(--logo-blue) 0 34%,
