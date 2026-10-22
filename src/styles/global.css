@@ -660,17 +660,21 @@
     background: color-mix(in oklab, var(--c-accent) 34%, var(--c-surface));
   }
 
-  /* "See all" link in its section's color: set --tint with a .tint-<color>
-     class (src/lib/tint.ts maps sections to colors). */
+  /* "See all" link: an outlined neutral button that picks up its section's color
+     on hover. Set --tint with a .tint-<color> class (src/lib/tint.ts maps
+     sections to colors). */
   .btn-outline.btn-tint {
-    background: color-mix(in oklab, var(--tint) 16%, var(--c-surface));
-    color: var(--tint);
+    background: transparent;
+    border-color: var(--c-line-strong);
+    color: var(--c-ink);
   }
   .btn-outline.btn-tint:hover {
-    background: color-mix(in oklab, var(--tint) 28%, var(--c-surface));
+    background: color-mix(in oklab, var(--tint) 12%, transparent);
+    border-color: var(--tint);
+    color: var(--tint);
   }
   .btn-outline.btn-tint:active {
-    background: color-mix(in oklab, var(--tint) 34%, var(--c-surface));
+    background: color-mix(in oklab, var(--tint) 20%, transparent);
   }
 
   .btn-sm {
