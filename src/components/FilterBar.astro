@@ -1,6 +1,4 @@
 ---
-import { tintFor } from '../lib/tint';
-
 interface Props {
   categories: string[];
   target: string;
@@ -23,7 +21,7 @@ const { categories, target, noun, total } = Astro.props;
     All
   </button>
   {categories.map((c) => (
-    <button type="button" class={`pill pill-${tintFor(c)}`} data-filter={c} aria-pressed="false">
+    <button type="button" class="pill" data-filter={c} aria-pressed="false">
       {c}
     </button>
   ))}
