@@ -584,17 +584,6 @@
       box-shadow: var(--shadow-3);
     }
   }
-  /* A card washed with its own color, set through --tint-base. */
-  .card-tint {
-    background: color-mix(in oklab, var(--tint-base) 7%, var(--c-card));
-    transition:
-      border-color var(--dur-fast) ease-out,
-      background-color var(--dur-fast) var(--ease-out-soft);
-  }
-  .card-tint:hover {
-    background: color-mix(in oklab, var(--tint-base) 14%, var(--c-card));
-  }
-
   /* --- buttons --- */
   .btn {
     display: inline-flex;
