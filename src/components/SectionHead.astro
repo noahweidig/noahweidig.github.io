@@ -8,7 +8,7 @@ interface Props {
   subtitle?: string;
   href?: string;
   linkText?: string;
-  tint?: 'blue' | 'green' | 'yellow' | 'pink' | 'purple' | 'teal' | 'red';
+  tint?: 'blue' | 'yellow' | 'red';
 }
 const { kicker, title, subtitle, href, linkText } = Astro.props;
 const glyph = kicker ? iconFor(kicker) : undefined;

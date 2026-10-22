@@ -103,7 +103,7 @@ const starts = [
     items: researchAreas.map((t) => ({ t, href: '#interests' })),
     href: '#interests',
     icon: 'layers',
-    tint: 'purple',
+    tint: 'blue',
     title: 'Research',
     body: 'Six focus areas, from WUI wildfire risk to species distribution modeling — with the papers behind each.',
     cta: 'Read the research',
@@ -113,7 +113,7 @@ const starts = [
     items: projects.map((p) => ({ t: p.data.title, href: `/projects/${p.id}/` })),
     href: '#projects',
     icon: 'terminal',
-    tint: 'green',
+    tint: 'red',
     title: 'Tools & maps',
     body: 'Open tools: an R package for U.S. fire data, Earth Engine apps, interactive map galleries.',
     cta: 'Browse the work',
@@ -165,12 +165,12 @@ const faqs = [
     <Affiliations />
   </section>
 
-  <!-- three ways in -->
+  <!-- three ways in: bento, one large lead cell and two stacked -->
   <section class="shell py-12 md:py-16">
-    <div class="grid gap-5 md:grid-cols-3">
+    <div class="bento">
       {starts.map((s, i) => (
         <div
-          class="card card-hover group relative flex flex-col p-6"
+          class={`card card-hover bento-cell bento-${i} tint-${s.tint} group relative flex flex-col p-6 md:p-8`}
           data-reveal
           style={`--reveal-delay:${i * 70}ms`}
         >
@@ -179,7 +179,7 @@ const faqs = [
           >
             <Icon name={s.icon} size={20} />
           </span>
-          <h2 class="mt-5 text-xl">{s.title}</h2>
+          <h2 class="bento-title mt-5 text-xl">{s.title}</h2>
           <p class="mt-2 flex-1 text-sm leading-relaxed text-dim">{s.body}</p>
           <button
             type="button"

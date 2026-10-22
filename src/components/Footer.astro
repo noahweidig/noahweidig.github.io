@@ -1,6 +1,5 @@
 ---
 import { navGroups, socials } from '../lib/site';
-import { tintAt } from '../lib/tint';
 import Icon from './Icon.astro';
 import Wordmark from './Wordmark.astro';
 import NewsletterForm from './NewsletterForm.astro';
@@ -25,15 +24,14 @@ const columns: { text: string; items: Link[] }[] = [
     ],
   },
 ];
+/* Column headers take the logo's three colors in order; the last stays neutral. */
+const headTint = ['var(--c-accent-ink)', 'var(--c-red)', 'var(--c-yellow-ink)', 'var(--c-faint)'];
 const iconBtn =
-  'grid h-8 w-8 place-items-center rounded-full transition-[filter] hover:brightness-95 dark:hover:brightness-125';
+  'grid size-9 place-items-center rounded-full border border-line-strong text-dim transition-colors hover:border-accent hover:text-accent-ink';
 ---
 
-<footer
-  data-pagefind-ignore
-  data-site-footer
-  class="relative mt-28 border-t border-line bg-bg-deep text-ink"
->
+<footer data-pagefind-ignore data-site-footer class="relative mt-28 bg-bg-deep text-ink">
+  <div class="footer-rule" aria-hidden="true"></div>
   <div class="w-full px-5 sm:px-6 lg:px-8">
     <div class="py-10">
       <div class="flex flex-col gap-10 lg:flex-row lg:justify-between">
@@ -41,6 +39,9 @@ const iconBtn =
           <a href="/" class="group inline-flex shrink-0 items-center gap-2.5">
             <Wordmark class="text-2xl" />
           </a>
+          <p class="footer-dim max-w-xs text-body-lg leading-relaxed">
+            Spatial analysis and applied AI for wildfire risk, land-use change and conservation.
+          </p>
           <div class="flex w-full min-w-0 flex-col items-start gap-2">
             <span class="footer-ink text-sm font-medium">Subscribe to my newsletter</span>
             <NewsletterForm />
@@ -51,9 +52,14 @@ const iconBtn =
           aria-label="Footer"
           class="grid grid-cols-2 gap-x-10 gap-y-8 sm:grid-cols-4 lg:gap-x-14"
         >
-          {columns.map((col) => (
+          {columns.map((col, i) => (
             <div>
-              <p class="text-xs font-medium text-faint">{col.text}</p>
+              <p
+                class="text-xs font-semibold tracking-wider uppercase"
+                style={`color:${headTint[i % headTint.length]}`}
+              >
+                {col.text}
+              </p>
               <ul class="mt-3 flex flex-col gap-2">
                 {col.items.map((item) => (
                   <li>
@@ -104,14 +110,14 @@ const iconBtn =
           </a>
         </div>
         <div class="flex items-center gap-2">
-          {socials.map((s, i) => (
+          {socials.map((s) => (
             <a
               href={s.href}
               aria-label={`${s.label} (opens in a new tab)`}
               data-tip={`${s.label} profile`}
               target="_blank"
               rel="noopener"
-              class={`${iconBtn} tile-${tintAt(i)}`}
+              class={iconBtn}
             >
               <Icon name={s.icon} size={18} />
             </a>
@@ -120,7 +126,7 @@ const iconBtn =
             href="/rss.xml"
             aria-label="RSS Feed"
             data-tip="Subscribe to the blog feed"
-            class={`${iconBtn} tile-${tintAt(socials.length)}`}
+            class={iconBtn}
           >
             <Icon name="rss" size={18} stroke-width={1.6} />
           </a>
@@ -131,6 +137,16 @@ const iconBtn =
 </footer>
 
 <style>
+  /* Three-color rule across the top edge, the logo's blue, red and yellow. */
+  .footer-rule {
+    height: 3px;
+    background: linear-gradient(
+      90deg,
+      var(--logo-blue) 0 34%,
+      var(--logo-red) 34% 67%,
+      var(--logo-yellow) 67%
+    );
+  }
   /* Tailwind v4 puts every utility class (including hover: variants) inside
      `@layer utilities`, and an unlayered rule always outranks a layered one
      regardless of specificity — so these live in the same layer, or they'd
