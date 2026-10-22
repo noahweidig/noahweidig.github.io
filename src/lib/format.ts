@@ -98,3 +98,6 @@ export function firstSentence(text: string | undefined, max = 200): string {
   }
   return t;
 }
+
+/** View-transition name shared by a card's title and the detail page H1 it links to. */
+export const vtName = (path: string) => `t${path.replace(/[^a-z0-9]+/gi, '-').replace(/-$/, '')}`;

@@ -4,6 +4,13 @@ interface Props {
   stats: { value: string | number; label: string; id?: string }[];
 }
 const { stats } = Astro.props;
+
+/* "36+" -> counts 0..36 in CSS (@property --n) with the "+" kept as a suffix.
+   The real value stays in the DOM for crawlers and screen readers. */
+const split = (v: string | number) => {
+  const m = /^(\d+)(.*)$/.exec(String(v));
+  return m ? { n: Number(m[1]), rest: m[2] ?? '' } : null;
+};
 ---
 
 <dl class="grid grid-cols-2 gap-3 md:grid-cols-4" data-reveal>
@@ -12,7 +19,15 @@ const { stats } = Astro.props;
       <dt class="sr-only-nw">{s.label}</dt>
       <dd>
         <b class="block font-display text-3xl font-semibold tracking-tight text-ink md:text-4xl">
-          {s.value}
+          {split(s.value) ? (
+            <>
+              <span class="sr-only-nw">{s.value}</span>
+              <span class="count" aria-hidden="true" style={`--to:${split(s.value)!.n}`} />
+              <span aria-hidden="true">{split(s.value)!.rest}</span>
+            </>
+          ) : (
+            s.value
+          )}
         </b>
         <span aria-hidden="true" class="mt-1.5 block text-xs font-medium text-dim">
           {s.label}

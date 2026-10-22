@@ -1,20 +1,22 @@
-export const TINTS = ['blue', 'green', 'purple', 'yellow', 'red', 'teal', 'pink'] as const;
+/* The three logo colors. Everything that tints (sections, categories, tiles)
+   draws from this set so the site reads as one palette. */
+export const TINTS = ['blue', 'red', 'yellow'] as const;
 export type Tint = (typeof TINTS)[number];
 
 /* One color per site section, shared by the navbar, page and section kickers,
    and any tag or category that carries a section's name. Edit here only. */
 export const SECTION_TINT: Record<string, Tint> = {
-  Projects: 'green',
-  Publications: 'purple',
-  Experience: 'blue',
+  Projects: 'blue',
+  Publications: 'red',
+  Experience: 'yellow',
   About: 'red',
   Education: 'blue',
   Awards: 'yellow',
-  CV: 'green',
-  Blog: 'purple',
+  CV: 'blue',
+  Blog: 'red',
   Newsletter: 'yellow',
-  'Tech stack': 'teal',
-  FAQ: 'blue',
+  'Tech stack': 'blue',
+  FAQ: 'yellow',
 };
 
 /* Kicker and label words that stand for a section above. */
@@ -37,17 +39,17 @@ const SECTION_ALIAS: Record<string, string> = {
    a color. Anything else falls back to a stable hash of its label. */
 const CATEGORY_TINT: Record<string, Tint> = {
   'Journal Article': 'blue',
-  Presentation: 'purple',
+  Presentation: 'red',
   'Peer Review': 'yellow',
-  'Media Coverage': 'pink',
-  Webinar: 'teal',
-  Thesis: 'green',
+  'Media Coverage': 'red',
+  Webinar: 'yellow',
+  Thesis: 'blue',
   'Data Science': 'blue',
-  Geospatial: 'green',
-  R: 'purple',
+  Geospatial: 'yellow',
+  R: 'red',
   Fire: 'red',
-  Creative: 'pink',
-  APIs: 'teal',
+  Creative: 'yellow',
+  APIs: 'blue',
   Thoughts: 'yellow',
 };
 
@@ -86,12 +88,8 @@ export function tintAt(i: number): Tint {
 
 const VAR: Record<Tint, string> = {
   blue: 'accent-ink',
-  green: 'moss',
-  purple: 'violet',
   yellow: 'yellow',
   red: 'red',
-  teal: 'teal',
-  pink: 'pink',
 };
 
 /** Base (wash) color variable for a tint; yellow stays Notion yellow in both themes. */

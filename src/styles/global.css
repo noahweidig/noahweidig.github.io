@@ -68,15 +68,17 @@
   --c-ember: var(--c-red);
   --c-yellow: #ffb110;
   --c-yellow-ink: #ffc95e;
-  --c-teal: #5fc7c2;
-  --c-pink: #ff83dd;
+  --c-teal: var(--c-accent-ink);
+  --c-pink: var(--c-red);
   --c-moss: #68ce7e;
   --logo-red: #ff6b78;
   --logo-blue: #5aa0ff;
   --logo-yellow: #ffc21a;
-  --c-violet: #c28df6;
+  --c-violet: var(--c-accent-ink);
 
   --c-glow: color-mix(in oklab, var(--c-accent) 26%, transparent);
+  --c-edge: rgb(255 255 255 / 0.06);
+  --glow-a: 0.16;
   --c-sheen: rgb(255 255 255 / 0.04);
   --grid-line: rgb(255 255 255 / 0.045);
   color-scheme: dark;
@@ -115,15 +117,17 @@
   --c-ember: var(--c-red);
   --c-yellow: #ffb110;
   --c-yellow-ink: #7a5000;
-  --c-teal: #126764;
-  --c-pink: #9d2472;
+  --c-teal: var(--c-accent-ink);
+  --c-pink: var(--c-red);
   --c-moss: #0f6220;
   --logo-red: #e5484d;
   --logo-blue: #2383e2;
   --logo-yellow: #f5b100;
-  --c-violet: #7237ae;
+  --c-violet: var(--c-accent-ink);
 
   --c-glow: color-mix(in oklab, var(--c-accent) 16%, transparent);
+  --c-edge: rgb(255 255 255 / 0.9);
+  --glow-a: 0.1;
   --c-sheen: rgb(15 20 30 / 0.02);
   --grid-line: rgb(20 25 40 / 0.045);
   color-scheme: light;
@@ -155,8 +159,10 @@
   --color-moss: var(--c-moss);
   --color-violet: var(--c-violet);
 
-  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --font-display: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-sans:
+    'Inter', 'Inter Fallback', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display:
+    'Inter', 'Inter Fallback', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
 
   --radius-xs: 4px;
@@ -166,13 +172,28 @@
 
   /* Named steps for the micro-type cluster that used to ship as one-off
      arbitrary values (text-micro etc.) — see #138. */
-  --text-micro: 0.68rem;
+  --text-micro: 0.7rem;
   --text-2xs: 0.7rem;
-  --text-caption: 0.72rem;
+  --text-caption: 0.75rem;
+  --text-small: 0.85rem;
+  --text-compact: 0.85rem;
   --text-body-lg: 0.95rem;
-  --text-small: 0.82rem;
-  --text-compact: 0.86rem;
   --text-lead: 1.05rem;
+  --text-h4: clamp(1.05rem, 1rem + 0.25vw, 1.2rem);
+  --text-h3: clamp(1.2rem, 1.1rem + 0.5vw, 1.5rem);
+  --text-h2: clamp(1.6rem, 1.2rem + 1.6vw, 2.4rem);
+
+  /* 4px spacing scale and one elevation scale; use these instead of one-offs. */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+  --shadow-1: 0 1px 2px color-mix(in oklab, var(--c-bg-deep) 40%, transparent);
+  --shadow-2: 0 6px 20px -8px color-mix(in oklab, var(--c-bg-deep) 80%, transparent);
+  --shadow-3: 0 14px 34px -12px color-mix(in oklab, var(--c-bg-deep) 75%, transparent);
 
   --dur-fast: 0.2s;
   --dur-base: 0.3s;
@@ -229,9 +250,18 @@
   h3,
   h4 {
     font-family: var(--font-display);
-    font-weight: 600;
-    letter-spacing: -0.015em;
+    font-weight: 650;
+    letter-spacing: -0.022em;
     line-height: 1.12;
+    text-wrap: balance;
+  }
+  h1 {
+    letter-spacing: -0.03em;
+  }
+  p,
+  li,
+  blockquote {
+    text-wrap: pretty;
   }
 
   a {
@@ -506,6 +536,7 @@
     color: var(--c-ink);
     border: 1px solid var(--c-line);
     border-radius: var(--radius-md);
+    box-shadow: inset 0 1px 0 var(--c-edge);
     transition: border-color var(--dur-fast) ease-out;
   }
   /* Hover: a 3px lift, soft shadow and a faint spotlight that follows the pointer
@@ -539,7 +570,7 @@
     }
     .card-hover:hover {
       transform: translateY(-3px);
-      box-shadow: 0 10px 28px -10px color-mix(in oklab, var(--c-bg-deep) 70%, transparent);
+      box-shadow: var(--shadow-3);
     }
   }
   /* A card washed with its own color, set through --tint-base. */
@@ -893,18 +924,18 @@
     font-weight: 600;
     letter-spacing: 0.04em;
     text-transform: uppercase;
-    color: var(--c-moss);
+    color: var(--c-accent-ink);
   }
   .cta-dot {
     width: 0.5rem;
     height: 0.5rem;
     border-radius: 50%;
-    background: var(--c-moss);
+    background: var(--c-accent-ink);
     animation: cta-pulse 2s ease-out infinite;
   }
   @keyframes cta-pulse {
     0% {
-      box-shadow: 0 0 0 0 color-mix(in oklab, var(--c-moss) 55%, transparent);
+      box-shadow: 0 0 0 0 color-mix(in oklab, var(--c-accent-ink) 55%, transparent);
     }
     70%,
     100% {
@@ -1648,7 +1679,7 @@
     background: color-mix(in oklab, var(--c-bg) 70%, transparent);
     -webkit-backdrop-filter: blur(14px) saturate(1.6);
     backdrop-filter: blur(14px) saturate(1.6);
-    box-shadow: 0 6px 20px -8px color-mix(in oklab, var(--c-bg-deep) 80%, transparent);
+    box-shadow: var(--shadow-2);
     color: var(--c-dim);
     opacity: 0;
     visibility: hidden;
@@ -1956,6 +1987,26 @@
       transform: none;
     }
   }
+  /* Below the hero, reveals run on the compositor from scroll position, with no
+     observer callbacks. The hero keeps the timed, staggered entrance above. */
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      [data-reveal='js'] [data-reveal]:not(#hero *) {
+        opacity: 1;
+        transform: none;
+        transition: none;
+        animation: reveal-in linear both;
+        animation-timeline: view();
+        animation-range: entry 0% entry 45%;
+      }
+    }
+  }
+  @keyframes reveal-in {
+    from {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+  }
 }
 
 @layer utilities {
@@ -2060,4 +2111,127 @@
 .cv-auto {
   content-visibility: auto;
   contain-intrinsic-size: auto 900px;
+}
+
+/* ============================================================================
+   Logo triad: blue, red and yellow carry the whole palette. Ambient glow,
+   bento grid, count-up numbers and view-transition tuning live here.
+   ========================================================================= */
+.hero-glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      42rem 26rem at 18% 0%,
+      color-mix(in oklab, var(--logo-blue) calc(var(--glow-a) * 100%), transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      34rem 22rem at 86% 12%,
+      color-mix(in oklab, var(--logo-red) calc(var(--glow-a) * 70%), transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      30rem 20rem at 55% 100%,
+      color-mix(in oklab, var(--logo-yellow) calc(var(--glow-a) * 60%), transparent),
+      transparent 70%
+    );
+  -webkit-mask-image: linear-gradient(to bottom, #000 60%, transparent);
+  mask-image: linear-gradient(to bottom, #000 60%, transparent);
+}
+
+/* Three-color rule across the top of the closing CTA. */
+.cta-card::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 3px;
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+  background: linear-gradient(
+    90deg,
+    var(--logo-blue) 0 34%,
+    var(--logo-red) 34% 67%,
+    var(--logo-yellow) 67%
+  );
+  opacity: 0.9;
+}
+
+/* Bento: lead cell spans both rows on the left, two cells stack on the right. */
+.bento {
+  display: grid;
+  gap: 1.25rem;
+}
+@media (min-width: 48rem) {
+  .bento {
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: auto auto;
+  }
+  .bento-0 {
+    grid-column: 1 / 3;
+    grid-row: 1 / 3;
+  }
+  .bento-1 {
+    grid-column: 3 / 6;
+  }
+  .bento-2 {
+    grid-column: 3 / 6;
+  }
+  .bento-0 .bento-title {
+    font-size: var(--text-h3);
+  }
+  .bento-0 p {
+    font-size: var(--text-body-lg);
+  }
+}
+.bento-cell {
+  background:
+    radial-gradient(
+      22rem 14rem at 100% 0%,
+      color-mix(in oklab, var(--tint) 12%, transparent),
+      transparent 70%
+    ),
+    var(--c-card);
+}
+
+/* Stat numbers count up from 0 as they scroll into view (no JS). The final
+   value is also the static fallback where scroll timelines are unsupported. */
+@property --n {
+  syntax: '<integer>';
+  initial-value: 0;
+  inherits: false;
+}
+.count {
+  --n: var(--to);
+  counter-reset: n var(--n);
+}
+.count::after {
+  content: counter(n);
+}
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .count {
+      animation: count-up linear both;
+      animation-timeline: view();
+      animation-range: entry 20% cover 35%;
+    }
+  }
+}
+@keyframes count-up {
+  from {
+    --n: 0;
+  }
+}
+
+/* Cross-page transitions: the header holds still while the page fades, and a
+   card title morphs into the detail H1 it links to. */
+.nav-glass {
+  view-transition-name: site-header;
+}
+::view-transition-group(site-header) {
+  animation-duration: 0s;
+}
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.22s;
 }

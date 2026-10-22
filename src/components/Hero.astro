@@ -8,15 +8,16 @@ import { tintAt } from '../lib/tint';
    repeated at the end so the loop can snap back without a visible rewind. */
 const words = [
   { text: 'insights', color: '--c-accent-ink' },
-  { text: 'answers', color: '--c-moss' },
-  { text: 'impact', color: '--c-violet' },
-  { text: 'clarity', color: '--c-yellow-ink' },
+  { text: 'answers', color: '--c-red' },
+  { text: 'impact', color: '--c-yellow-ink' },
+  { text: 'clarity', color: '--c-accent-ink' },
   { text: 'action', color: '--c-red' },
 ];
 const rows = [...words, words[0]!];
 ---
 
 <section class="under-nav relative overflow-x-clip border-b border-line" id="hero" data-hero>
+  <div class="hero-glow" aria-hidden="true"></div>
   <DotGrid />
   <div class="shell relative pt-16 pb-16 text-center md:pt-18 md:pb-24 lg:pt-20 lg:pb-32">
     <h1 class="hero-title font-display font-semibold">
@@ -139,14 +140,14 @@ const rows = [...words, words[0]!];
     line-height: 1.2;
     white-space: nowrap;
   }
-  /* Each word runs from its own color toward teal. fit-content keeps the sweep
+  /* Each word runs from its own color toward the ink. fit-content keeps the sweep
      across the word itself, not the widest row. */
   .roll-track > span {
     width: fit-content;
     background-image: linear-gradient(
       100deg,
       var(--tint) 0%,
-      color-mix(in oklab, var(--tint) 35%, var(--c-teal)) 100%
+      color-mix(in oklab, var(--tint) 70%, var(--c-ink)) 100%
     );
     -webkit-background-clip: text;
     background-clip: text;
