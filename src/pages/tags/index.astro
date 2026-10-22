@@ -49,7 +49,7 @@ const max = Math.max(...groups.map((g) => g.items.length), 1);
             style={`--tint-base:${tintBase(tint)}`}
           >
             <div class="flex items-center gap-3">
-              <span class={`grid size-9 shrink-0 place-items-center rounded-sm tile-${tint}`}>
+              <span class={`grid size-9 shrink-0 place-items-center rounded-full tile-${tint}`}>
                 <Icon name={tagIcon(g.name) ?? 'hash'} size={16} />
               </span>
               <h2 class="min-w-0 flex-1 truncate text-lead font-medium transition-colors group-hover:text-accent-ink">

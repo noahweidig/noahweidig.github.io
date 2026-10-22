@@ -72,13 +72,16 @@ import { tintAt } from '../lib/tint';
   .hero-line + .hero-line {
     margin-top: 0.1em;
   }
-  /* Always in its tile color; hover deepens the wash. */
+  /* Outlined in its tile color; hover brightens the outline and adds a light fill. */
   .social {
-    transition: background-color var(--dur-fast);
+    transition:
+      background-color var(--dur-fast),
+      border-color var(--dur-fast);
   }
   .social:hover,
   .social:focus-visible {
-    background: color-mix(in oklab, var(--tint) 28%, var(--c-surface));
+    background: color-mix(in oklab, var(--tint) 12%, transparent);
+    border-color: var(--tint);
   }
   @media (prefers-reduced-motion: reduce) {
     .social {
