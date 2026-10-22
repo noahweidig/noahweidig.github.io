@@ -2067,8 +2067,8 @@
   mask-image: linear-gradient(to bottom, #000 60%, transparent);
 }
 
-/* Three-color rule across the top of the closing CTA; overflow clips it to the
-   card's rounded corners so it sits inside the border. */
+/* Blue rule across the top of the closing CTA, fading out at both ends;
+   overflow clips it to the card's rounded corners so it sits inside the border. */
 .cta-card {
   overflow: hidden;
 }
@@ -2079,11 +2079,12 @@
   height: 3px;
   background: linear-gradient(
     90deg,
-    var(--logo-blue) 0 34%,
-    var(--logo-red) 34% 67%,
-    var(--logo-yellow) 67%
+    transparent,
+    var(--c-accent) 20%,
+    var(--c-accent-ink) 50%,
+    var(--c-accent) 80%,
+    transparent
   );
-  opacity: 0.9;
 }
 
 /* Bento: lead cell spans both rows on the left, two cells stack on the right. */

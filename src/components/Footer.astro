@@ -137,14 +137,16 @@ const iconBtn =
 </footer>
 
 <style>
-  /* Three-color rule across the top edge, the logo's blue, red and yellow. */
+  /* Blue rule across the top edge, fading out at both ends. */
   .footer-rule {
     height: 3px;
     background: linear-gradient(
       90deg,
-      var(--logo-blue) 0 34%,
-      var(--logo-red) 34% 67%,
-      var(--logo-yellow) 67%
+      transparent,
+      var(--c-accent) 20%,
+      var(--c-accent-ink) 50%,
+      var(--c-accent) 80%,
+      transparent
     );
   }
   /* Tailwind v4 puts every utility class (including hover: variants) inside
