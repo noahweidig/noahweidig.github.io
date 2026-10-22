@@ -15,7 +15,6 @@ import { initReveal } from './reveal';
 import { initGlow } from './glow';
 import { initGlobe } from './globe';
 import { initHeroDots } from './hero-dots';
-import { initHeroRoll } from './hero-roll';
 import { initAffiliations } from './affiliations';
 import { initFilters } from './filters';
 import { initTabs } from './tabs';
@@ -42,7 +41,6 @@ function boot() {
   initReveal();
   initGlow();
   initGlobe();
-  initHeroRoll();
   initHeroDots();
   initAffiliations();
   initFilters();

@@ -1,6 +1,6 @@
 /**
  * Dot grid behind each hero. Dots near the pointer swell and take a color
- * from the logo's yellow, blue and red, chosen by their angle around the
+ * from a ramp of the site's blues, chosen by their angle around the
  * pointer. Redraws only while the pointer moves; static for reduced motion and
  * touch. Bound from `boot()` on every `astro:page-load`.
  */
@@ -37,10 +37,10 @@ export function initHeroDots() {
     const colors = () => {
       const s = getComputedStyle(document.documentElement);
       base = s.getPropertyValue('--c-ink').trim();
-      const [y, b, r] = ['--logo-yellow', '--logo-blue', '--logo-red'].map((n) =>
+      const [light, mid, deep] = ['--logo-blue', '--c-accent-ink', '--c-accent'].map((n) =>
         s.getPropertyValue(n).trim(),
       ) as [string, string, string];
-      stops = [y, b, r, y];
+      stops = [light, deep, mid, light];
     };
     const draw = () => {
       raf = 0;

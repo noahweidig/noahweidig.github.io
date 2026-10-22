@@ -2,7 +2,6 @@
 import { Image } from 'astro:assets';
 import Icon from './Icon.astro';
 import { IMAGE_WIDTHS, shotFor } from '../lib/images';
-import { tintAt } from '../lib/tint';
 
 /* Same optimized screenshots ProjectCard uses. Pointing at the `public/` copy
    instead served the full 1600px file to every viewport: 124KB of the 148KB
@@ -109,7 +108,7 @@ const areas = [
     ))}
   </div>
 
-  {areas.map((a, i) => (
+  {areas.map((a) => (
     <div
       role="tabpanel"
       id={`area-panel-${a.id}`}
@@ -117,9 +116,7 @@ const areas = [
       class="grid gap-8 pt-10 lg:grid-cols-2 lg:items-center lg:gap-14"
     >
       <div>
-        <p
-          class={`inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-xs font-medium chip-${tintAt(i)}`}
-        >
+        <p class="chip gap-2 px-3 py-1.5">
           <Icon name={a.icon} size={16} class="shrink-0" />
           {a.eyebrow}
         </p>
@@ -127,7 +124,7 @@ const areas = [
         <p class="mt-4 text-lead leading-relaxed text-dim">{a.body}</p>
         <div class="mt-5 flex flex-wrap gap-1.5">
           {a.chips.map((c) => (
-            <span class={`chip chip-${tintAt(i)}`}>{c}</span>
+            <span class="chip">{c}</span>
           ))}
         </div>
       </div>

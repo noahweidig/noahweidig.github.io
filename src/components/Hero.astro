@@ -3,17 +3,6 @@ import DotGrid from './DotGrid.astro';
 import Icon from './Icon.astro';
 import { socials } from '../lib/site';
 import { tintAt } from '../lib/tint';
-
-/* The word in "Real {x}." rolls through these, each in its own color. The first is
-   repeated at the end so the loop can snap back without a visible rewind. */
-const words = [
-  { text: 'insights', color: '--c-accent-ink' },
-  { text: 'answers', color: '--c-red' },
-  { text: 'impact', color: '--c-yellow-ink' },
-  { text: 'clarity', color: '--c-accent-ink' },
-  { text: 'action', color: '--c-red' },
-];
-const rows = [...words, words[0]!];
 ---
 
 <section class="under-nav relative overflow-x-clip border-b border-line" id="hero" data-hero>
@@ -21,25 +10,11 @@ const rows = [...words, words[0]!];
   <DotGrid />
   <div class="shell relative pt-16 pb-16 text-center md:pt-18 md:pb-24 lg:pt-20 lg:pb-32">
     <h1 class="hero-title font-display font-semibold">
-      <span class="sr-only-nw">Spatial analysis. Real {words.map((w) => w.text).join(', ')}.</span>
-      <span class="hero-line" aria-hidden="true" data-reveal>
+      <span class="hero-line" data-reveal>
         Spatial analysis.
       </span>
-      <span
-        class="hero-line hero-line-flex"
-        aria-hidden="true"
-        data-reveal
-        style="--reveal-delay:70ms"
-      >
-        <span class="real">Real</span>
-        <span class="roll" data-roll data-words={JSON.stringify(words.map((w) => w.color))}>
-          <span class="roll-track" data-roll-track>
-            {rows.map((w) => (
-              <span>{w.text}</span>
-            ))}
-          </span>
-        </span>
-        <span>.</span>
+      <span class="hero-line" data-reveal style="--reveal-delay:70ms">
+        Real <span class="blue-grad">insights</span>.
       </span>
     </h1>
 
@@ -94,77 +69,22 @@ const rows = [...words, words[0]!];
     display: block;
     white-space: nowrap;
   }
-  /* Flex items, so no stray whitespace can open a gap before the period. */
-  .hero-line-flex {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  .hero-line + .hero-line {
     margin-top: 0.1em;
   }
-  .hero-line-flex > span {
-    display: block;
-    height: 1.2em;
-    line-height: 1.2;
-  }
-  .hero-line-flex > .real {
-    margin-right: 0.26em;
-  }
-  /* The rolling pill: a clipped window onto a column of words. Fill and text
-     follow the theme: a light wash with dark ink in light mode, a dark wash
-     with bright ink in dark mode. */
-  .roll {
-    --tint: var(--c-accent-ink);
-    display: inline-block;
-    height: 1.2em;
-    padding-inline: 0.38em;
-    overflow: hidden;
-    vertical-align: bottom;
-    color: var(--tint);
-    background: color-mix(in oklab, var(--tint) 18%, var(--c-surface));
-    border-radius: 9999px;
-    transition:
-      width 0.6s var(--ease-out-soft),
-      background-color 0.5s,
-      color 0.5s;
-  }
-  .roll-track {
-    display: flex;
-    flex-direction: column;
-    transition: transform 0.6s var(--ease-out-soft);
-  }
-  /* Each row clips its own glyphs so neighbors' ascenders and descenders never show. */
-  .roll-track > span {
-    display: block;
-    height: 1.2em;
-    overflow: hidden;
-    line-height: 1.2;
-    white-space: nowrap;
-  }
-  /* Each word runs from its own color toward the ink. fit-content keeps the sweep
-     across the word itself, not the widest row. */
-  .roll-track > span {
-    width: fit-content;
-    background-image: linear-gradient(
-      100deg,
-      var(--tint) 0%,
-      color-mix(in oklab, var(--tint) 70%, var(--c-ink)) 100%
-    );
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-  /* Always in its tile color; hover deepens the wash. */
+  /* Outlined in its tile color; hover brightens the outline and adds a light fill. */
   .social {
-    transition: background-color var(--dur-fast);
+    transition:
+      background-color var(--dur-fast),
+      border-color var(--dur-fast);
   }
   .social:hover,
   .social:focus-visible {
-    background: color-mix(in oklab, var(--tint) 28%, var(--c-surface));
+    background: color-mix(in oklab, var(--tint) 12%, transparent);
+    border-color: var(--tint);
   }
   @media (prefers-reduced-motion: reduce) {
-    .social,
-    .roll,
-    .roll-track {
+    .social {
       transition: none;
     }
   }

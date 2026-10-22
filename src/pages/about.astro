@@ -37,13 +37,13 @@ const beyondWork = [
   },
   {
     icon: 'flame',
-    tint: 'yellow',
+    tint: 'blue',
     title: 'Coffee & cooking',
     body: 'I take coffee too seriously and cook most nights. Both scratch the same itch as data work: a process you can tune until it is right.',
   },
   {
     icon: 'video',
-    tint: 'red',
+    tint: 'blue',
     title: 'Photography',
     body: 'A camera goes wherever I do. Landscapes mostly — the same eye for composition carries over into how I build a map or a figure.',
   },
@@ -119,7 +119,9 @@ const beyondWork = [
         <dl class="card divide-y divide-line">
           {glance.map((g, i) => (
             <div class="flex gap-4 p-5">
-              <span class={`grid h-9 w-9 shrink-0 place-items-center rounded-sm tile-${tintAt(i)}`}>
+              <span
+                class={`grid h-9 w-9 shrink-0 place-items-center rounded-full tile-${tintAt(i)}`}
+              >
                 <Icon name={g.icon} size={16} />
               </span>
               <div class="min-w-0">
@@ -159,7 +161,7 @@ const beyondWork = [
       <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
         {beyondWork.map((b, i) => (
           <div class="card flex flex-col p-6" data-reveal style={`--reveal-delay:${i * 60}ms`}>
-            <span class={`grid h-12 w-12 place-items-center rounded-sm tile-${b.tint}`}>
+            <span class={`grid h-12 w-12 place-items-center rounded-full tile-${b.tint}`}>
               <Icon name={b.icon} size={22} />
             </span>
             <b role="heading" aria-level="3" class="mt-5 block text-lg font-medium">
@@ -180,10 +182,7 @@ const beyondWork = [
       </div>
     </div>
 
-    <div
-      class="card relative mt-20 overflow-hidden p-8 md:mt-24 md:p-14 md:text-center"
-      data-reveal
-    >
+    <div class="card relative mt-20 overflow-hidden p-8 text-center md:mt-24 md:p-14" data-reveal>
       <p class="relative mx-auto max-w-[28ch] font-display text-2xl leading-snug text-balance md:text-4xl">
         "The best spatial analysis still starts with actually knowing the place."
       </p>
@@ -194,12 +193,12 @@ const beyondWork = [
         </a>
         . This page is the rest of it.
       </p>
-      <div class="relative mt-8 flex flex-wrap items-center gap-3 md:justify-center">
+      <div class="relative mt-8 flex flex-wrap items-center justify-center gap-3">
         <a class="btn btn-primary" href="/contact/">
           <Icon name="mail" size={15} />
           Get in touch
         </a>
-        <a class="btn btn-ghost" href={`mailto:${site.email}`}>
+        <a class="btn btn-outline" href={`mailto:${site.email}`}>
           {site.email}
         </a>
       </div>
