@@ -2115,7 +2115,7 @@
   .bento-0 .bento-title {
     font-size: var(--text-h3);
   }
-  .bento-0 > p {
+  .bento-0 p {
     font-size: var(--text-body-lg);
   }
 }
@@ -2123,70 +2123,10 @@
   background:
     radial-gradient(
       22rem 14rem at 100% 0%,
-      color-mix(in oklab, var(--c-accent) 12%, transparent),
+      color-mix(in oklab, var(--tint) 12%, transparent),
       transparent 70%
     ),
     var(--c-card);
-}
-
-/* Interactive illustration at the top of each bento cell. */
-.bento-illo {
-  padding: 1rem;
-  border: 1px solid var(--c-line);
-  border-radius: var(--radius-md);
-  background: color-mix(in oklab, var(--c-accent) 6%, var(--c-surface));
-}
-.bento-pick {
-  cursor: pointer;
-  transition:
-    background-color var(--dur-fast),
-    border-color var(--dur-fast),
-    color var(--dur-fast);
-}
-.bento-pick:hover {
-  border-color: var(--c-dim);
-  color: var(--c-ink);
-}
-.bento-pick[aria-pressed='true'] {
-  background: var(--c-accent);
-  border-color: var(--c-accent);
-  color: var(--c-accent-contrast);
-}
-.bento-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
-  padding: 0.6rem 0.85rem;
-  border: 1px solid var(--c-line);
-  border-radius: var(--radius-sm);
-  background: var(--c-card);
-  font-size: var(--text-small);
-  transition:
-    transform var(--dur-fast) var(--ease-out-soft),
-    border-color var(--dur-fast),
-    background-color var(--dur-fast);
-}
-.bento-row:hover,
-.bento-row:focus-visible {
-  transform: translateX(6px);
-  border-color: var(--c-accent-ink);
-  background: color-mix(in oklab, var(--c-accent) 12%, var(--c-card));
-}
-.bento-go {
-  opacity: 0;
-  color: var(--c-accent-ink);
-  transition: opacity var(--dur-fast);
-}
-.bento-row:hover .bento-go,
-.bento-row:focus-visible .bento-go {
-  opacity: 1;
-}
-@media (prefers-reduced-motion: reduce) {
-  .bento-row:hover,
-  .bento-row:focus-visible {
-    transform: none;
-  }
 }
 
 /* Stat numbers count up from 0 as they scroll into view (no JS). The final
