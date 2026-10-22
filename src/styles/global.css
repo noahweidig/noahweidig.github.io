@@ -660,21 +660,21 @@
     background: color-mix(in oklab, var(--c-accent) 34%, var(--c-surface));
   }
 
-  /* "See all" link: an outlined neutral button that picks up its section's color
-     on hover. Set --tint with a .tint-<color> class (src/lib/tint.ts maps
-     sections to colors). */
-  .btn-outline.btn-tint {
+  /* "See all" link: outlined neutral button that fills solid blue on hover,
+     matching .btn-primary. */
+  .btn-outline.btn-see-all {
     background: transparent;
     border-color: var(--c-line-strong);
     color: var(--c-ink);
   }
-  .btn-outline.btn-tint:hover {
-    background: color-mix(in oklab, var(--tint) 12%, transparent);
-    border-color: var(--tint);
-    color: var(--tint);
+  .btn-outline.btn-see-all:hover {
+    background: var(--c-accent);
+    border-color: var(--c-accent);
+    color: var(--c-accent-contrast);
   }
-  .btn-outline.btn-tint:active {
-    background: color-mix(in oklab, var(--tint) 20%, transparent);
+  .btn-outline.btn-see-all:active {
+    background: color-mix(in oklab, var(--c-accent) 86%, black);
+    border-color: color-mix(in oklab, var(--c-accent) 86%, black);
   }
 
   .btn-sm {

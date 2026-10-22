@@ -16,7 +16,6 @@ import Icon from '../components/Icon.astro';
 import Popup from '../components/Popup.astro';
 import { byDate, readingTime, year } from '../lib/format';
 import { site } from '../lib/site';
-import { tintFor } from '../lib/tint';
 
 const allProjects = (await getCollection('projects')).sort(byDate);
 const featuredProjects = allProjects.filter((p) => p.data.featured).slice(0, 6);
@@ -257,10 +256,7 @@ const faqs = [
       </div>
 
       <div class="mt-8 flex items-center justify-between gap-3 md:justify-end">
-        <a
-          class={`btn btn-outline group h-12 md:hidden btn-tint tint-${tintFor('Projects')}`}
-          href="/projects/"
-        >
+        <a class="btn btn-outline btn-see-all group h-12 md:hidden" href="/projects/">
           View all<span class="sr-only"> projects</span>
           <Icon
             name="arrow"
@@ -307,10 +303,7 @@ const faqs = [
         <CitationRow entry={entry} compact />
       ))}
     </div>
-    <a
-      class={`btn btn-outline group mt-6 h-12 md:hidden btn-tint tint-${tintFor('Publications')}`}
-      href="/publications/"
-    >
+    <a class="btn btn-outline btn-see-all group mt-6 h-12 md:hidden" href="/publications/">
       View all<span class="sr-only"> publications</span>
       <Icon
         name="arrow"
@@ -353,7 +346,7 @@ const faqs = [
           ))}
         </ul>
         <a
-          class={`btn btn-outline group mt-1 justify-self-start max-md:h-12 btn-tint tint-${tintFor('Experience')}`}
+          class="btn btn-outline btn-see-all group mt-1 justify-self-start max-md:h-12"
           href="/experience/"
         >
           View all<span class="sr-only"> experience</span>
@@ -377,7 +370,7 @@ const faqs = [
           ))}
         </ul>
         <a
-          class={`btn btn-outline group mt-1 justify-self-start max-md:h-12 btn-tint tint-${tintFor('Education')}`}
+          class="btn btn-outline btn-see-all group mt-1 justify-self-start max-md:h-12"
           href="/education/"
         >
           View all<span class="sr-only"> education</span>
@@ -417,10 +410,7 @@ const faqs = [
       </div>
 
       <div class="mt-8 flex items-center justify-between gap-3 md:justify-end">
-        <a
-          class={`btn btn-outline group h-12 md:hidden btn-tint tint-${tintFor('Awards')}`}
-          href="/awards/"
-        >
+        <a class="btn btn-outline btn-see-all group h-12 md:hidden" href="/awards/">
           View all<span class="sr-only"> awards</span>
           <Icon
             name="arrow"
@@ -474,7 +464,7 @@ const faqs = [
       </div>
 
       <div class="mt-8 flex items-center justify-between gap-3 md:justify-end">
-        <a class="btn btn-outline group h-12 md:hidden" href="/blog/">
+        <a class="btn btn-outline btn-see-all group h-12 md:hidden" href="/blog/">
           View all<span class="sr-only"> posts</span>
           <Icon
             name="arrow"
