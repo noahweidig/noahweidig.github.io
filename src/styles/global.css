@@ -1329,13 +1329,11 @@
     color: var(--c-accent-ink);
   }
 
-  /* Nav items: no fill. Hover brightens the label; the page you are on is
-     outlined in the accent (an inset ring, so nothing shifts). */
+  /* Nav items: no fill or outline. Hover brightens the label; the page you
+     are on stays in the accent color. */
   .nav-link {
     color: var(--c-dim);
-    transition:
-      box-shadow var(--dur-fast) var(--ease-out-soft),
-      color var(--dur-fast) var(--ease-out-soft);
+    transition: color var(--dur-fast) var(--ease-out-soft);
   }
   .nav-link:hover {
     background: transparent;
@@ -1344,7 +1342,6 @@
   .nav-link-active,
   .nav-link-active:hover {
     background: transparent;
-    box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--c-accent-ink) 70%, transparent);
     color: var(--c-accent-ink);
   }
 
