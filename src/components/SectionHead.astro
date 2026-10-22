@@ -27,7 +27,7 @@ const tint = Astro.props.tint ?? (kicker ? tintFor(kicker) : undefined);
     {subtitle && <p class="lede mt-3">{subtitle}</p>}
   </div>
   {href && (
-    <a href={href} class="btn btn-outline btn-see-all group hidden shrink-0 md:inline-flex">
+    <a href={href} class="btn btn-outline group hidden shrink-0 md:inline-flex">
       View all{linkLabel && <span class="sr-only"> {linkLabel}</span>}
       <Icon
         name="arrow"

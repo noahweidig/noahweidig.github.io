@@ -60,7 +60,7 @@ const isActive = (href: string) => {
                         style={`--tint-base:${tintBase(navMeta[item.text]!.tint)}`}
                       >
                         <span
-                          class={`grid h-11 w-11 place-items-center rounded-sm tile-${navMeta[item.text]!.tint}`}
+                          class={`grid h-11 w-11 place-items-center rounded-full tile-${navMeta[item.text]!.tint}`}
                         >
                           <Icon name={navMeta[item.text]!.icon} size={21} />
                         </span>
@@ -184,7 +184,7 @@ const isActive = (href: string) => {
                         style={`--tint-base:${tintBase(meta.tint)}`}
                       >
                         <span
-                          class={`grid h-[34px] w-[34px] place-items-center rounded-sm tile-${meta.tint}`}
+                          class={`grid h-[34px] w-[34px] place-items-center rounded-full tile-${meta.tint}`}
                         >
                           <Icon name={meta.icon} size={18} />
                         </span>
@@ -225,15 +225,16 @@ const isActive = (href: string) => {
   .nav-card {
     padding: 1.1rem;
     border-radius: var(--radius-md);
-    background: color-mix(in oklab, var(--tint-base) 7%, var(--c-card));
-    transition: background-color var(--dur-fast) var(--ease-out-soft);
+    border: 1px solid var(--c-line-strong);
+    background: transparent;
+    transition: border-color var(--dur-fast) var(--ease-out-soft);
   }
   .nav-card:hover,
   .nav-card:focus-visible {
-    background: color-mix(in oklab, var(--tint-base) 15%, var(--c-card));
+    border-color: color-mix(in oklab, var(--tint-base) 60%, var(--c-line-strong));
   }
   .nav-card[aria-current='page'] {
-    box-shadow: inset 0 0 0 1.5px color-mix(in oklab, var(--tint-base) 50%, transparent);
+    border-color: var(--tint-base);
   }
   :global(.nav-card-arrow) {
     opacity: 0;
@@ -345,7 +346,7 @@ const isActive = (href: string) => {
     background: color-mix(in oklab, var(--c-ink) 6%, transparent);
   }
   .mobile-row[aria-current='page'] {
-    background: color-mix(in oklab, var(--tint-base) 12%, var(--c-surface));
+    box-shadow: inset 0 0 0 1px var(--tint-base);
   }
   .mobile-sep {
     height: 1px;

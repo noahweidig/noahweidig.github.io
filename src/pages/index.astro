@@ -174,7 +174,7 @@ const faqs = [
           style={`--reveal-delay:${i * 70}ms`}
         >
           <span
-            class={`grid aspect-square h-11 w-11 shrink-0 place-items-center rounded-sm tile-${s.tint}`}
+            class={`grid aspect-square h-11 w-11 shrink-0 place-items-center rounded-full tile-${s.tint}`}
           >
             <Icon name={s.icon} size={20} />
           </span>
@@ -256,7 +256,7 @@ const faqs = [
       </div>
 
       <div class="mt-8 flex items-center justify-between gap-3 md:justify-end">
-        <a class="btn btn-outline btn-see-all group h-12 md:hidden" href="/projects/">
+        <a class="btn btn-outline group h-12 md:hidden" href="/projects/">
           View all<span class="sr-only"> projects</span>
           <Icon
             name="arrow"
@@ -303,7 +303,7 @@ const faqs = [
         <CitationRow entry={entry} compact />
       ))}
     </div>
-    <a class="btn btn-outline btn-see-all group mt-6 h-12 md:hidden" href="/publications/">
+    <a class="btn btn-outline group mt-6 h-12 md:hidden" href="/publications/">
       View all<span class="sr-only"> publications</span>
       <Icon
         name="arrow"
@@ -345,10 +345,7 @@ const faqs = [
             </li>
           ))}
         </ul>
-        <a
-          class="btn btn-outline btn-see-all group mt-1 justify-self-start max-md:h-12"
-          href="/experience/"
-        >
+        <a class="btn btn-outline group mt-1 justify-self-start max-md:h-12" href="/experience/">
           View all<span class="sr-only"> experience</span>
           <Icon
             name="arrow"
@@ -369,10 +366,7 @@ const faqs = [
             </li>
           ))}
         </ul>
-        <a
-          class="btn btn-outline btn-see-all group mt-1 justify-self-start max-md:h-12"
-          href="/education/"
-        >
+        <a class="btn btn-outline group mt-1 justify-self-start max-md:h-12" href="/education/">
           View all<span class="sr-only"> education</span>
           <Icon
             name="arrow"
@@ -410,7 +404,7 @@ const faqs = [
       </div>
 
       <div class="mt-8 flex items-center justify-between gap-3 md:justify-end">
-        <a class="btn btn-outline btn-see-all group h-12 md:hidden" href="/awards/">
+        <a class="btn btn-outline group h-12 md:hidden" href="/awards/">
           View all<span class="sr-only"> awards</span>
           <Icon
             name="arrow"
@@ -464,7 +458,7 @@ const faqs = [
       </div>
 
       <div class="mt-8 flex items-center justify-between gap-3 md:justify-end">
-        <a class="btn btn-outline btn-see-all group h-12 md:hidden" href="/blog/">
+        <a class="btn btn-outline group h-12 md:hidden" href="/blog/">
           View all<span class="sr-only"> posts</span>
           <Icon
             name="arrow"

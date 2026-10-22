@@ -360,12 +360,12 @@
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
-    padding: 0.2rem 0.8rem;
-    border-radius: var(--radius-pill);
-    font-size: var(--text-small);
-    font-weight: 600;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
     color: var(--tint, var(--c-accent-ink));
-    background: color-mix(in oklab, var(--tint, var(--c-accent-ink)) 12%, var(--c-surface));
   }
   /* Accent-blue gradient text, for a single highlighted word in a headline. */
   .blue-grad {
@@ -651,39 +651,25 @@
     background: color-mix(in oklab, var(--c-accent) 28%, var(--c-surface));
   }
 
-  /* Secondary blue button: the hero's second button, also used for "see all"
-     links. A muted blue wash with blue text, deepening on hover; the primary
-     button beside it stays solid blue. */
+  /* Secondary button (the hero's second button, "View all" links): outlined
+     neutral, fills solid blue on hover like .btn-primary. */
   .btn-outline,
   .page-hero-actions .btn-ghost,
   .hero-btn.btn-ghost {
-    background: color-mix(in oklab, var(--c-accent) 16%, var(--c-surface));
-    color: var(--c-accent-ink);
-  }
-  .btn-outline:hover,
-  .page-hero-actions .btn-ghost:hover,
-  .hero-btn.btn-ghost:hover {
-    background: color-mix(in oklab, var(--c-accent) 28%, var(--c-surface));
-  }
-  .btn-outline:active,
-  .page-hero-actions .btn-ghost:active,
-  .hero-btn.btn-ghost:active {
-    background: color-mix(in oklab, var(--c-accent) 34%, var(--c-surface));
-  }
-
-  /* "See all" link: outlined neutral button that fills solid blue on hover,
-     matching .btn-primary. */
-  .btn-outline.btn-see-all {
     background: transparent;
     border-color: var(--c-line-strong);
     color: var(--c-ink);
   }
-  .btn-outline.btn-see-all:hover {
+  .btn-outline:hover,
+  .page-hero-actions .btn-ghost:hover,
+  .hero-btn.btn-ghost:hover {
     background: var(--c-accent);
     border-color: var(--c-accent);
     color: var(--c-accent-contrast);
   }
-  .btn-outline.btn-see-all:active {
+  .btn-outline:active,
+  .page-hero-actions .btn-ghost:active,
+  .hero-btn.btn-ghost:active {
     background: color-mix(in oklab, var(--c-accent) 86%, black);
     border-color: color-mix(in oklab, var(--c-accent) 86%, black);
   }
@@ -804,10 +790,11 @@
   a.chip-accent:hover {
     background: color-mix(in oklab, var(--c-accent) 16%, transparent);
   }
-  /* Tinted icon tiles: a wash of the color on the surface, icon in the theme's
-     legible step. */
+  /* Icon tiles: a 1px circle outlined in the color, icon in the theme's legible
+     step. Pair with rounded-full. */
   :is(.tile-blue, .tile-red, .tile-yellow, .tile-green, .tile-purple, .tile-teal, .tile-pink) {
-    background: color-mix(in oklab, var(--tint) 16%, var(--tint-surface, var(--c-surface)));
+    border: 1px solid color-mix(in oklab, var(--tint) 50%, transparent);
+    background: transparent;
     color: var(--tint);
   }
   /* Status chips (pass/fail, current...): outlined in the status color. Blue is
@@ -912,9 +899,10 @@
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
+    font-family: var(--font-mono);
     font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.04em;
+    font-weight: 500;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
     color: var(--c-accent-ink);
   }
