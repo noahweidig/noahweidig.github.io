@@ -16,7 +16,7 @@ import Icon from '../components/Icon.astro';
 import Popup from '../components/Popup.astro';
 import { byDate, fullDate, readingTime, year } from '../lib/format';
 import { site } from '../lib/site';
-import { researchAreas } from '../lib/research-areas';
+import researchAreas from '../data/research-areas.json';
 
 const allProjects = (await getCollection('projects')).sort(byDate);
 const featuredProjects = allProjects.filter((p) => p.data.featured).slice(0, 6);
