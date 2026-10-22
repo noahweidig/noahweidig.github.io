@@ -741,25 +741,25 @@
     align-items: center;
     gap: 0.35rem;
     min-height: 1.5rem;
-    padding: 0.2rem 0.7rem;
-    border-radius: var(--radius-pill);
-    border: 0;
-    background: var(--c-matte);
+    padding: 0.15rem 0.6rem;
+    border-radius: var(--radius-xs);
+    border: 1px solid var(--c-line-strong);
+    background: transparent;
     color: var(--c-dim);
-    font-size: var(--text-small);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
     font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
     white-space: nowrap;
   }
   .chip-link {
-    border-radius: var(--radius-pill);
-    background: var(--c-matte);
-    padding: 0.25rem 0.75rem;
     transition:
-      background-color var(--dur-fast),
+      border-color var(--dur-fast),
       color var(--dur-fast);
   }
   .chip-link:hover {
-    background: var(--c-matte-hover);
+    border-color: var(--c-dim);
     color: var(--c-ink);
   }
   .card-badge {
@@ -781,52 +781,28 @@
       left: 1rem;
     }
   }
-  /* Link / action chips (DOI, PDF, Altmetric...): a blue wash on the surface.
+  /* Link / action chips (DOI, PDF, Altmetric...): outlined in blue.
      Informational chips stay on plain .chip. */
   .chip-accent {
-    background: color-mix(in oklab, var(--c-accent) 16%, var(--c-surface));
+    border-color: color-mix(in oklab, var(--c-accent) 50%, transparent);
     color: var(--c-accent-ink);
   }
   a.chip-accent {
     transition: background-color var(--dur-fast);
   }
   a.chip-accent:hover {
-    background: color-mix(in oklab, var(--c-accent) 28%, var(--c-surface));
+    background: color-mix(in oklab, var(--c-accent) 16%, transparent);
   }
-  /* Notion-style tinted tags and icon tiles: a wash of the color on the
-     surface, text/icon in the theme's legible step. Pair with .chip. */
-  :is(
-    .chip-blue,
-    .chip-red,
-    .chip-yellow,
-    .chip-green,
-    .chip-purple,
-    .chip-teal,
-    .chip-pink,
-    .tile-blue,
-    .tile-red,
-    .tile-yellow,
-    .tile-green,
-    .tile-purple,
-    .tile-teal,
-    .tile-pink
-  ) {
+  /* Tinted icon tiles: a wash of the color on the surface, icon in the theme's
+     legible step. */
+  :is(.tile-blue, .tile-red, .tile-yellow, .tile-green, .tile-purple, .tile-teal, .tile-pink) {
     background: color-mix(in oklab, var(--tint) 16%, var(--tint-surface, var(--c-surface)));
     color: var(--tint);
   }
-  a:is(.chip-blue, .chip-red, .chip-yellow, .chip-green, .chip-purple, .chip-teal, .chip-pink) {
-    transition: background-color var(--dur-fast);
-  }
-  a:is(
-      .chip-blue,
-      .chip-red,
-      .chip-yellow,
-      .chip-green,
-      .chip-purple,
-      .chip-teal,
-      .chip-pink
-    ):hover {
-    background: color-mix(in oklab, var(--tint) 28%, var(--tint-surface, var(--c-surface)));
+  /* Status chips (pass/fail, current...): outlined in the status color. Blue is
+     the site accent and carries no meaning, so .chip-blue stays neutral. */
+  :is(.chip-red, .chip-yellow, .chip-green, .chip-purple, .chip-teal, .chip-pink) {
+    border-color: color-mix(in oklab, var(--tint) 50%, transparent);
     color: var(--tint);
   }
   .chip-blue,
