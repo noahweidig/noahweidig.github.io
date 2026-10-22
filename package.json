@@ -51,7 +51,7 @@
     "pagefind": "^1.5.2",
     "pdf-lib": "^1.17.1",
     "prettier": "^3.9.8",
-    "prettier-plugin-astro": "^1.0.1",
+    "prettier-plugin-astro": "^1.1.1",
     "puppeteer": "^25.13.0",
     "sharp": "^0.35.4",
     "svgo": "^4.1.0",
