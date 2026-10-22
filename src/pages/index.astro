@@ -14,8 +14,9 @@ import CitationRow from '../components/CitationRow.astro';
 import TimelineItem from '../components/TimelineItem.astro';
 import Icon from '../components/Icon.astro';
 import Popup from '../components/Popup.astro';
-import { byDate, readingTime, year } from '../lib/format';
+import { byDate, fullDate, readingTime, year } from '../lib/format';
 import { site } from '../lib/site';
+import { researchAreas } from '../lib/research-areas';
 
 const allProjects = (await getCollection('projects')).sort(byDate);
 const featuredProjects = allProjects.filter((p) => p.data.featured).slice(0, 6);
@@ -87,19 +88,10 @@ const stats = [
   },
 ];
 
-const researchAreas = [
-  'Remote Sensing',
-  'Land-Use Change',
-  'Spatial Statistics',
-  'Applied AI',
-  'Biodiversity',
-  'Geospatial Engineering',
-];
-
 const starts = [
   {
     id: 'pop-research',
-    items: researchAreas.map((t) => ({ t, href: '#interests' })),
+    items: researchAreas.map((a) => ({ t: a.tab, href: '#interests' })),
     href: '#interests',
     icon: 'layers',
     tint: 'blue',
@@ -129,10 +121,15 @@ const starts = [
   },
 ];
 
-/* Decorative raster for the Tools card: 48 cells, one opacity per layer. */
-const pixels = Array.from({ length: 48 }, (_, i) =>
-  [0, 1, 2].map((l) => Math.round(8 + (((i * (3 + 2 * l) + (i % 16) * l * 3) % 10) / 9) * 80)),
-);
+/* Tools card: filter chips are the most common project categories. */
+const catCount = new Map<string, number>();
+for (const p of projects) {
+  for (const c of p.data.categories) catCount.set(c, (catCount.get(c) ?? 0) + 1);
+}
+const toolCats = [...catCount.entries()]
+  .sort((x, y) => y[1] - x[1])
+  .slice(0, 3)
+  .map(([c]) => c);
 
 const faqs = [
   {
@@ -186,45 +183,66 @@ const faqs = [
                     <button
                       type="button"
                       class="chip bento-pick"
-                      data-bento-pick={String(k)}
-                      data-caption={a}
+                      data-bento-pick={a.id}
                       aria-pressed={k === 0 ? 'true' : 'false'}
                     >
-                      {a}
+                      <Icon name={a.icon} size={12} />
+                      {a.tab}
                     </button>
                   ))}
                 </div>
-                <p class="mt-5 font-mono text-xs text-dim" aria-live="polite">
-                  Focus:{' '}
-                  <span class="text-ink" data-bento-caption>
-                    {researchAreas[0]}
-                  </span>
-                  <span aria-hidden="true"> · </span>
-                  <a class="text-accent-ink hover:underline" href="#interests">
-                    See the work
-                  </a>
-                </p>
+                <div class="mt-6" aria-live="polite">
+                  {researchAreas.map((a, k) => (
+                    <div data-bento-panel={a.id} hidden={k !== 0}>
+                      <p class="font-display text-lg font-semibold text-ink">{a.heading}</p>
+                      <p class="mt-2 text-sm leading-relaxed text-dim">{a.body}</p>
+                      <a
+                        class="mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-accent-ink"
+                        href="#interests"
+                      >
+                        See the work
+                        <Icon name="arrow" size={14} />
+                      </a>
+                    </div>
+                  ))}
+                </div>
               </>
             )}
             {s.id === 'pop-tools' && (
               <>
-                <div class="px-grid" aria-hidden="true">
-                  {pixels.map((px) => (
-                    <span class="px" style={`--a0:${px[0]}%;--a1:${px[1]}%;--a2:${px[2]}%`} />
-                  ))}
-                </div>
-                <div class="mt-3 flex flex-wrap gap-2" data-bento-group>
-                  {['Fuel', 'Slope', 'Risk'].map((n, k) => (
+                <div class="flex flex-wrap gap-2" data-bento-group>
+                  <button
+                    type="button"
+                    class="chip bento-pick"
+                    data-bento-pick="all"
+                    aria-pressed="true"
+                  >
+                    All
+                  </button>
+                  {toolCats.map((c) => (
                     <button
                       type="button"
                       class="chip bento-pick"
-                      data-bento-pick={String(k)}
-                      aria-pressed={k === 0 ? 'true' : 'false'}
+                      data-bento-pick={c}
+                      aria-pressed="false"
                     >
-                      {n}
+                      {c}
                     </button>
                   ))}
                 </div>
+                <ul class="mt-4 flex flex-col gap-2">
+                  {projects.map((p, k) => (
+                    <li data-cats={p.data.categories.join('|')} hidden={k >= 3}>
+                      <a class="bento-row" href={`/projects/${p.id}/`}>
+                        <span class="min-w-0">
+                          <span class="block truncate font-medium text-ink">{p.data.title}</span>
+                          <span class="block truncate text-xs text-dim">{p.data.description}</span>
+                        </span>
+                        <Icon name="arrow" size={14} class="bento-go shrink-0" />
+                      </a>
+                    </li>
+                  ))}
+                </ul>
               </>
             )}
             {s.id === 'pop-writing' && (
@@ -232,7 +250,15 @@ const faqs = [
                 {posts.map((p) => (
                   <li>
                     <a class="bento-row" href={`/blog/${p.id}/`}>
-                      <span class="truncate">{p.data.title}</span>
+                      <span class="min-w-0">
+                        <span class="block truncate font-medium text-ink">{p.data.title}</span>
+                        <time
+                          class="block font-mono text-xs text-dim"
+                          datetime={p.data.date.toISOString()}
+                        >
+                          {fullDate(p.data.date)}
+                        </time>
+                      </span>
                       <Icon name="arrow" size={14} class="bento-go shrink-0" />
                     </a>
                   </li>
@@ -647,8 +673,9 @@ const faqs = [
 </Base>
 
 <script>
-  /* Bento chips: one pressed chip per group. Delegated on document so it
-     survives ClientRouter swaps, and registered once. */
+  /* Bento chips: one pressed chip per group; each swaps a detail panel or
+     filters a list. Delegated on document so it survives ClientRouter swaps,
+     and registered once. */
   const w = window as Window & { __bentoPick?: boolean };
   if (!w.__bentoPick) {
     w.__bentoPick = true;
@@ -656,13 +683,20 @@ const faqs = [
       const btn = (e.target as Element).closest<HTMLButtonElement>('[data-bento-pick]');
       const group = btn?.closest<HTMLElement>('[data-bento-group]');
       const illo = btn?.closest<HTMLElement>('[data-bento-illo]');
-      if (!btn || !group || !illo) return;
+      const value = btn?.dataset.bentoPick;
+      if (!btn || !group || !illo || !value) return;
       group.querySelectorAll('[data-bento-pick]').forEach((b) => {
         b.setAttribute('aria-pressed', String(b === btn));
       });
-      illo.dataset.picked = btn.dataset.bentoPick;
-      const caption = illo.querySelector('[data-bento-caption]');
-      if (caption && btn.dataset.caption) caption.textContent = btn.dataset.caption;
+      illo.querySelectorAll<HTMLElement>('[data-bento-panel]').forEach((p) => {
+        p.hidden = p.dataset.bentoPanel !== value;
+      });
+      let shown = 0;
+      illo.querySelectorAll<HTMLElement>('[data-cats]').forEach((row) => {
+        const match = value === 'all' || (row.dataset.cats ?? '').split('|').includes(value);
+        row.hidden = !match || shown >= 3;
+        if (match && shown < 3) shown++;
+      });
     });
   }
 </script>

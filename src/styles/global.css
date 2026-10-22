@@ -2152,24 +2152,6 @@
   border-color: var(--c-accent);
   color: var(--c-accent-contrast);
 }
-.px-grid {
-  display: grid;
-  grid-template-columns: repeat(16, minmax(0, 1fr));
-  gap: 0.25rem;
-}
-.px {
-  --a: var(--a0);
-  height: 1.1rem;
-  border-radius: 3px;
-  background: color-mix(in oklab, var(--c-accent-ink) var(--a), transparent);
-  transition: background-color 0.25s;
-}
-[data-bento-illo][data-picked='1'] .px {
-  --a: var(--a1);
-}
-[data-bento-illo][data-picked='2'] .px {
-  --a: var(--a2);
-}
 .bento-row {
   display: flex;
   align-items: center;
