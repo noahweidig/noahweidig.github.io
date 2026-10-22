@@ -20,7 +20,7 @@ const targets = buildShareTargets(title, url).filter((s) =>
     <div class="flex flex-col items-end gap-1">
       {targets.map((s) => (
         <a
-          class="icon-tile"
+          class="icon-tile icon-outline"
           href={s.href}
           target="_blank"
           rel="noopener"
@@ -32,7 +32,7 @@ const targets = buildShareTargets(title, url).filter((s) =>
       ))}
       <button
         type="button"
-        class="icon-tile"
+        class="icon-tile icon-outline"
         data-copy={url}
         data-tip="Copy this page's link"
         aria-label="Copy link"

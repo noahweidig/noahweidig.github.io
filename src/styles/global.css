@@ -34,15 +34,6 @@
 }
 :root,
 :root[data-theme='dark'] {
-  /* Affiliation logo hover colors */
-  --c-brand-uf: #4f7bff;
-  --c-brand-ars: #3fae76;
-  --c-brand-fs: #3fae76;
-  --c-brand-uc: #ff4d63;
-  --c-brand-nku: #ffc72c;
-  --c-brand-sca: #8cc152;
-  --c-brand-boone: #6f93d6;
-  --c-brand-ecos: #66bb6a;
   --c-bg: #0d0d0d;
   --c-bg-deep: #080808;
   --c-surface: #131313;
@@ -85,15 +76,6 @@
 }
 
 :root[data-theme='light'] {
-  /* Affiliation logo hover colors */
-  --c-brand-uf: #0021a5;
-  --c-brand-ars: #00693e;
-  --c-brand-fs: #006b3d;
-  --c-brand-uc: #e00122;
-  --c-brand-nku: #c99700;
-  --c-brand-sca: #4a8a1c;
-  --c-brand-boone: #1f3a6e;
-  --c-brand-ecos: #2e7d32;
   --c-bg: #ffffff;
   --c-bg-deep: #fafafa;
   --c-surface: #f7f7f7;
@@ -360,12 +342,23 @@
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
-    padding: 0.2rem 0.8rem;
-    border-radius: var(--radius-pill);
-    font-size: var(--text-small);
-    font-weight: 600;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
     color: var(--tint, var(--c-accent-ink));
-    background: color-mix(in oklab, var(--tint, var(--c-accent-ink)) 12%, var(--c-surface));
+  }
+  /* Accent-blue gradient text, for a single highlighted word in a headline. */
+  .blue-grad {
+    background-image: linear-gradient(
+      100deg,
+      var(--c-accent-ink) 0%,
+      color-mix(in oklab, var(--c-accent-ink) 70%, var(--c-ink)) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
   /* --- display headings --- */
   .display-1 {
@@ -573,17 +566,6 @@
       box-shadow: var(--shadow-3);
     }
   }
-  /* A card washed with its own color, set through --tint-base. */
-  .card-tint {
-    background: color-mix(in oklab, var(--tint-base) 7%, var(--c-card));
-    transition:
-      border-color var(--dur-fast) ease-out,
-      background-color var(--dur-fast) var(--ease-out-soft);
-  }
-  .card-tint:hover {
-    background: color-mix(in oklab, var(--tint-base) 14%, var(--c-card));
-  }
-
   /* --- buttons --- */
   .btn {
     display: inline-flex;
@@ -630,47 +612,30 @@
     background: var(--c-matte-hover);
   }
 
-  /* Share / copy buttons: same wash and hover as .chip-accent (the DOI chip). */
-  .btn-wash {
-    background: color-mix(in oklab, var(--c-accent) 16%, var(--c-surface));
-    color: var(--c-accent-ink);
-    transition: background-color var(--dur-fast);
-  }
-  .btn-wash:hover {
-    background: color-mix(in oklab, var(--c-accent) 28%, var(--c-surface));
-  }
-
-  /* Secondary blue button: the hero's second button, also used for "see all"
-     links. A muted blue wash with blue text, deepening on hover; the primary
-     button beside it stays solid blue. */
+  /* Secondary button (the hero's second button, "View all" links, share and
+     copy buttons): outlined neutral, fills solid blue on hover like .btn-primary. */
   .btn-outline,
+  .btn-wash,
   .page-hero-actions .btn-ghost,
   .hero-btn.btn-ghost {
-    background: color-mix(in oklab, var(--c-accent) 16%, var(--c-surface));
-    color: var(--c-accent-ink);
+    background: transparent;
+    border-color: var(--c-line-strong);
+    color: var(--c-ink);
   }
   .btn-outline:hover,
+  .btn-wash:hover,
   .page-hero-actions .btn-ghost:hover,
   .hero-btn.btn-ghost:hover {
-    background: color-mix(in oklab, var(--c-accent) 28%, var(--c-surface));
+    background: var(--c-accent);
+    border-color: var(--c-accent);
+    color: var(--c-accent-contrast);
   }
   .btn-outline:active,
+  .btn-wash:active,
   .page-hero-actions .btn-ghost:active,
   .hero-btn.btn-ghost:active {
-    background: color-mix(in oklab, var(--c-accent) 34%, var(--c-surface));
-  }
-
-  /* "See all" link in its section's color: set --tint with a .tint-<color>
-     class (src/lib/tint.ts maps sections to colors). */
-  .btn-outline.btn-tint {
-    background: color-mix(in oklab, var(--tint) 16%, var(--c-surface));
-    color: var(--tint);
-  }
-  .btn-outline.btn-tint:hover {
-    background: color-mix(in oklab, var(--tint) 28%, var(--c-surface));
-  }
-  .btn-outline.btn-tint:active {
-    background: color-mix(in oklab, var(--tint) 34%, var(--c-surface));
+    background: color-mix(in oklab, var(--c-accent) 86%, black);
+    border-color: color-mix(in oklab, var(--c-accent) 86%, black);
   }
 
   .btn-sm {
@@ -737,25 +702,25 @@
     align-items: center;
     gap: 0.35rem;
     min-height: 1.5rem;
-    padding: 0.2rem 0.7rem;
-    border-radius: var(--radius-pill);
-    border: 0;
-    background: var(--c-matte);
+    padding: 0.15rem 0.6rem;
+    border-radius: var(--radius-xs);
+    border: 1px solid var(--c-line-strong);
+    background: transparent;
     color: var(--c-dim);
-    font-size: var(--text-small);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
     font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
     white-space: nowrap;
   }
   .chip-link {
-    border-radius: var(--radius-pill);
-    background: var(--c-matte);
-    padding: 0.25rem 0.75rem;
     transition:
-      background-color var(--dur-fast),
+      border-color var(--dur-fast),
       color var(--dur-fast);
   }
   .chip-link:hover {
-    background: var(--c-matte-hover);
+    border-color: var(--c-dim);
     color: var(--c-ink);
   }
   .card-badge {
@@ -777,52 +742,29 @@
       left: 1rem;
     }
   }
-  /* Link / action chips (DOI, PDF, Altmetric...): a blue wash on the surface.
+  /* Link / action chips (DOI, PDF, Altmetric...): outlined in blue.
      Informational chips stay on plain .chip. */
   .chip-accent {
-    background: color-mix(in oklab, var(--c-accent) 16%, var(--c-surface));
+    border-color: color-mix(in oklab, var(--c-accent) 50%, transparent);
     color: var(--c-accent-ink);
   }
   a.chip-accent {
     transition: background-color var(--dur-fast);
   }
   a.chip-accent:hover {
-    background: color-mix(in oklab, var(--c-accent) 28%, var(--c-surface));
+    background: color-mix(in oklab, var(--c-accent) 16%, transparent);
   }
-  /* Notion-style tinted tags and icon tiles: a wash of the color on the
-     surface, text/icon in the theme's legible step. Pair with .chip. */
-  :is(
-    .chip-blue,
-    .chip-red,
-    .chip-yellow,
-    .chip-green,
-    .chip-purple,
-    .chip-teal,
-    .chip-pink,
-    .tile-blue,
-    .tile-red,
-    .tile-yellow,
-    .tile-green,
-    .tile-purple,
-    .tile-teal,
-    .tile-pink
-  ) {
-    background: color-mix(in oklab, var(--tint) 16%, var(--tint-surface, var(--c-surface)));
+  /* Icon tiles: a 1px circle outlined in the color, icon in the theme's legible
+     step. Pair with rounded-full. */
+  :is(.tile-blue, .tile-red, .tile-yellow, .tile-green, .tile-purple, .tile-teal, .tile-pink) {
+    border: 1px solid color-mix(in oklab, var(--tint) 50%, transparent);
+    background: transparent;
     color: var(--tint);
   }
-  a:is(.chip-blue, .chip-red, .chip-yellow, .chip-green, .chip-purple, .chip-teal, .chip-pink) {
-    transition: background-color var(--dur-fast);
-  }
-  a:is(
-      .chip-blue,
-      .chip-red,
-      .chip-yellow,
-      .chip-green,
-      .chip-purple,
-      .chip-teal,
-      .chip-pink
-    ):hover {
-    background: color-mix(in oklab, var(--tint) 28%, var(--tint-surface, var(--c-surface)));
+  /* Status chips (pass/fail, current...): outlined in the status color. Blue is
+     the site accent and carries no meaning, so .chip-blue stays neutral. */
+  :is(.chip-red, .chip-yellow, .chip-green, .chip-purple, .chip-teal, .chip-pink) {
+    border-color: color-mix(in oklab, var(--tint) 50%, transparent);
     color: var(--tint);
   }
   .chip-blue,
@@ -921,9 +863,10 @@
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
+    font-family: var(--font-mono);
     font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.04em;
+    font-weight: 500;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
     color: var(--c-accent-ink);
   }
@@ -965,16 +908,17 @@
 
   /* --- filter pills --- */
   .pill {
-    padding: 0.4rem 1rem;
+    padding: calc(0.4rem - 1px) calc(1rem - 1px);
     border-radius: var(--radius-pill);
-    border: 0;
-    background: var(--c-matte);
+    border: 1px solid var(--c-line-strong);
+    background: transparent;
     color: var(--c-dim);
     font-size: var(--text-small);
     font-weight: 500;
     cursor: pointer;
     transition:
       background-color var(--dur-fast) var(--ease-out-soft),
+      border-color var(--dur-fast) var(--ease-out-soft),
       color var(--dur-fast) var(--ease-out-soft);
   }
   @media (max-width: 47.99rem) {
@@ -996,11 +940,12 @@
   }
   .pill:hover {
     color: var(--c-ink);
-    background: var(--c-matte-hover);
+    border-color: var(--c-dim);
   }
   .pill[aria-pressed='true'],
   .pill[aria-selected='true'] {
     background: var(--c-accent);
+    border-color: var(--c-accent);
     color: var(--c-accent-contrast);
   }
 
@@ -1300,7 +1245,7 @@
   }
   .affil-card:hover .affil-logo,
   .affil-card:focus-visible .affil-logo {
-    background: var(--affil-brand);
+    background: var(--c-accent-ink);
     opacity: 1;
   }
   .affil-fade {
@@ -1384,24 +1329,19 @@
     color: var(--c-accent-ink);
   }
 
-  /* Nav items carry the same fill as the icon buttons beside them: the page
-     you are on is the one wearing the tile, and hover previews it. */
+  /* Nav items: no fill or outline. Hover brightens the label; the page you
+     are on stays in the accent color. */
   .nav-link {
     color: var(--c-dim);
-    transition:
-      background-color var(--dur-fast) var(--ease-out-soft),
-      color var(--dur-fast) var(--ease-out-soft);
+    transition: color var(--dur-fast) var(--ease-out-soft);
   }
   .nav-link:hover {
-    background: color-mix(in oklab, var(--c-raised) 70%, transparent);
+    background: transparent;
     color: var(--c-ink);
   }
-  /* A step past the hover fill, because `--c-raised` on its own is only a
-     couple of points off the page ground and the current page has to be
-     readable at a glance. */
   .nav-link-active,
   .nav-link-active:hover {
-    background: color-mix(in oklab, var(--c-accent) 12%, var(--c-raised));
+    background: transparent;
     color: var(--c-accent-ink);
   }
 
@@ -1422,6 +1362,18 @@
   .icon-tile:hover {
     background: var(--c-matte-hover);
     color: var(--c-ink);
+  }
+
+  /* Outlined circle: share and copy icons beside a post. */
+  .icon-tile.icon-outline {
+    border: 1px solid var(--c-line-strong);
+    border-radius: 9999px;
+    background: transparent;
+  }
+  .icon-tile.icon-outline:hover {
+    border-color: var(--c-accent-ink);
+    background: transparent;
+    color: var(--c-accent-ink);
   }
 
   /* Same hit area and hover lift, with no circle around the glyph. */
@@ -1767,12 +1719,12 @@
   }
   .code-copy[data-state='copied'] {
     opacity: 1;
-    border-color: color-mix(in oklab, var(--c-moss) 35%, var(--c-line));
-    background: color-mix(in oklab, var(--c-moss) 20%, var(--c-surface));
-    color: var(--c-moss);
+    border-color: color-mix(in oklab, var(--c-accent) 50%, var(--c-line));
+    background: color-mix(in oklab, var(--c-accent) 16%, var(--c-surface));
+    color: var(--c-accent-ink);
   }
 
-  /* Copy buttons (share row, share dialog, post aside): a green wash with a
+  /* Copy buttons (share row, share dialog, post aside): a blue outline with a
      check while src/scripts/copy.ts holds data-state="copied". */
   [data-copy] .copied-ic,
   [data-copy][data-state='copied'] .copy-ic {
@@ -1782,8 +1734,9 @@
     display: inline-block;
   }
   :is(.btn-wash, .icon-tile)[data-copy][data-state='copied'] {
-    background: color-mix(in oklab, var(--c-moss) 20%, var(--c-surface));
-    color: var(--c-moss);
+    background: transparent;
+    border-color: var(--c-accent-ink);
+    color: var(--c-accent-ink);
   }
 
   /* --- lightbox --- */
@@ -2081,20 +2034,20 @@
     ),
     radial-gradient(
       34rem 22rem at 86% 12%,
-      color-mix(in oklab, var(--logo-red) calc(var(--glow-a) * 70%), transparent),
+      color-mix(in oklab, var(--logo-blue) calc(var(--glow-a) * 60%), transparent),
       transparent 70%
     ),
     radial-gradient(
       30rem 20rem at 55% 100%,
-      color-mix(in oklab, var(--logo-yellow) calc(var(--glow-a) * 60%), transparent),
+      color-mix(in oklab, var(--c-accent) calc(var(--glow-a) * 50%), transparent),
       transparent 70%
     );
   -webkit-mask-image: linear-gradient(to bottom, #000 60%, transparent);
   mask-image: linear-gradient(to bottom, #000 60%, transparent);
 }
 
-/* Three-color rule across the top of the closing CTA; overflow clips it to the
-   card's rounded corners so it sits inside the border. */
+/* Blue rule across the top of the closing CTA, fading out at both ends;
+   overflow clips it to the card's rounded corners so it sits inside the border. */
 .cta-card {
   overflow: hidden;
 }
@@ -2105,11 +2058,12 @@
   height: 3px;
   background: linear-gradient(
     90deg,
-    var(--logo-blue) 0 34%,
-    var(--logo-red) 34% 67%,
-    var(--logo-yellow) 67%
+    transparent,
+    var(--c-accent) 20%,
+    var(--c-accent-ink) 50%,
+    var(--c-accent) 80%,
+    transparent
   );
-  opacity: 0.9;
 }
 
 /* Bento: lead cell spans both rows on the left, two cells stack on the right. */

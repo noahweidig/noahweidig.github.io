@@ -7,10 +7,10 @@ interface Props {
   title: string;
   subtitle?: string;
   href?: string;
-  linkText?: string;
+  linkLabel?: string;
   tint?: 'blue' | 'yellow' | 'red';
 }
-const { kicker, title, subtitle, href, linkText } = Astro.props;
+const { kicker, title, subtitle, href, linkLabel } = Astro.props;
 const glyph = kicker ? iconFor(kicker) : undefined;
 const tint = Astro.props.tint ?? (kicker ? tintFor(kicker) : undefined);
 ---
@@ -27,14 +27,8 @@ const tint = Astro.props.tint ?? (kicker ? tintFor(kicker) : undefined);
     {subtitle && <p class="lede mt-3">{subtitle}</p>}
   </div>
   {href && (
-    <a
-      href={href}
-      class:list={[
-        'btn btn-outline group hidden shrink-0 md:inline-flex',
-        tint && `btn-tint tint-${tint}`,
-      ]}
-    >
-      {linkText ?? 'View all'}
+    <a href={href} class="btn btn-outline group hidden shrink-0 md:inline-flex">
+      View all{linkLabel && <span class="sr-only"> {linkLabel}</span>}
       <Icon
         name="arrow"
         size={15}

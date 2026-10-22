@@ -16,7 +16,6 @@ import Icon from '../components/Icon.astro';
 import Popup from '../components/Popup.astro';
 import { byDate, readingTime, year } from '../lib/format';
 import { site } from '../lib/site';
-import { tintFor } from '../lib/tint';
 
 const allProjects = (await getCollection('projects')).sort(byDate);
 const featuredProjects = allProjects.filter((p) => p.data.featured).slice(0, 6);
@@ -113,7 +112,7 @@ const starts = [
     items: projects.map((p) => ({ t: p.data.title, href: `/projects/${p.id}/` })),
     href: '#projects',
     icon: 'terminal',
-    tint: 'red',
+    tint: 'blue',
     title: 'Tools & maps',
     body: 'Open tools: an R package for U.S. fire data, Earth Engine apps, interactive map galleries.',
     cta: 'Browse the work',
@@ -123,7 +122,7 @@ const starts = [
     items: posts.map((p) => ({ t: p.data.title, href: `/blog/${p.id}/` })),
     href: '#blog',
     icon: 'pencil',
-    tint: 'yellow',
+    tint: 'blue',
     title: 'Writing',
     body: 'Tutorials and notes on R, spatial workflows, and doing reproducible research in the open.',
     cta: 'Read the blog',
@@ -175,7 +174,7 @@ const faqs = [
           style={`--reveal-delay:${i * 70}ms`}
         >
           <span
-            class={`grid aspect-square h-11 w-11 shrink-0 place-items-center rounded-sm tile-${s.tint}`}
+            class={`grid aspect-square h-11 w-11 shrink-0 place-items-center rounded-full tile-${s.tint}`}
           >
             <Icon name={s.icon} size={20} />
           </span>
@@ -238,7 +237,7 @@ const faqs = [
       kicker="Selected work"
       title="Tools, maps & applications."
       href="/projects/"
-      linkText="Browse all projects"
+      linkLabel="projects"
     />
     <div class="mt-10" data-carousel data-reveal>
       <div
@@ -257,11 +256,8 @@ const faqs = [
       </div>
 
       <div class="mt-8 flex items-center justify-between gap-3 md:justify-end">
-        <a
-          class={`btn btn-outline group h-12 md:hidden btn-tint tint-${tintFor('Projects')}`}
-          href="/projects/"
-        >
-          Browse all projects
+        <a class="btn btn-outline group h-12 md:hidden" href="/projects/">
+          View all<span class="sr-only"> projects</span>
           <Icon
             name="arrow"
             size={15}
@@ -300,18 +296,15 @@ const faqs = [
       kicker="Publications"
       title="Peer-reviewed & in review."
       href="/publications/"
-      linkText="All publications"
+      linkLabel="publications"
     />
     <div class="mt-8">
       {featuredPubs.map((entry) => (
         <CitationRow entry={entry} compact />
       ))}
     </div>
-    <a
-      class={`btn btn-outline group mt-6 h-12 md:hidden btn-tint tint-${tintFor('Publications')}`}
-      href="/publications/"
-    >
-      All publications
+    <a class="btn btn-outline group mt-6 h-12 md:hidden" href="/publications/">
+      View all<span class="sr-only"> publications</span>
       <Icon
         name="arrow"
         size={15}
@@ -327,7 +320,7 @@ const faqs = [
         kicker="Tech stack"
         title="Technologies I use to build things."
         href="/tech/"
-        linkText="View all tools"
+        linkLabel="tools"
       />
       <TechPreview />
     </div>
@@ -352,11 +345,8 @@ const faqs = [
             </li>
           ))}
         </ul>
-        <a
-          class={`btn btn-outline group mt-1 justify-self-start max-md:h-12 btn-tint tint-${tintFor('Experience')}`}
-          href="/experience/"
-        >
-          See all experience
+        <a class="btn btn-outline group mt-1 justify-self-start max-md:h-12" href="/experience/">
+          View all<span class="sr-only"> experience</span>
           <Icon
             name="arrow"
             size={15}
@@ -376,11 +366,8 @@ const faqs = [
             </li>
           ))}
         </ul>
-        <a
-          class={`btn btn-outline group mt-1 justify-self-start max-md:h-12 btn-tint tint-${tintFor('Education')}`}
-          href="/education/"
-        >
-          See all education
+        <a class="btn btn-outline group mt-1 justify-self-start max-md:h-12" href="/education/">
+          View all<span class="sr-only"> education</span>
           <Icon
             name="arrow"
             size={15}
@@ -398,7 +385,7 @@ const faqs = [
         kicker="Recognition"
         title="Featured awards."
         href="/awards/"
-        linkText="All awards"
+        linkLabel="awards"
       />
     </div>
     <div class="shell mt-10" data-carousel data-reveal>
@@ -417,11 +404,8 @@ const faqs = [
       </div>
 
       <div class="mt-8 flex items-center justify-between gap-3 md:justify-end">
-        <a
-          class={`btn btn-outline group h-12 md:hidden btn-tint tint-${tintFor('Awards')}`}
-          href="/awards/"
-        >
-          All awards
+        <a class="btn btn-outline group h-12 md:hidden" href="/awards/">
+          View all<span class="sr-only"> awards</span>
           <Icon
             name="arrow"
             size={15}
@@ -456,12 +440,7 @@ const faqs = [
 
   <!-- blog -->
   <section class="shell scroll-mt-24 py-24 md:py-32 cv-auto" id="blog">
-    <SectionHead
-      kicker="Writing"
-      title="Notes & tutorials."
-      href="/blog/"
-      linkText="Read more posts"
-    />
+    <SectionHead kicker="Writing" title="Notes & tutorials." href="/blog/" linkLabel="posts" />
     <div class="mt-10" data-carousel>
       <div
         class="carousel-track -mx-4 -my-6 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 py-6 [scroll-padding-inline:16px] sm:m-0 sm:grid sm:grid-cols-2 sm:gap-5 sm:overflow-visible sm:p-0 lg:grid-cols-3"
@@ -480,7 +459,7 @@ const faqs = [
 
       <div class="mt-8 flex items-center justify-between gap-3 md:justify-end">
         <a class="btn btn-outline group h-12 md:hidden" href="/blog/">
-          Read more posts
+          View all<span class="sr-only"> posts</span>
           <Icon
             name="arrow"
             size={15}
@@ -521,7 +500,7 @@ const faqs = [
         Open to data science &amp; GIS roles
       </p>
       <h2 class="mx-auto mt-4 max-w-[20ch] font-display text-[clamp(2rem,1.3rem+2.8vw,3.5rem)] leading-[1.08] font-semibold tracking-tight text-balance">
-        Let's talk about spatial problems worth solving.
+        Let's talk about spatial problems <span class="blue-grad">worth solving</span>.
       </h2>
       <p class="lede mx-auto mt-5 max-w-[40ch] text-dim">
         Looking for <strong class="text-ink">data scientist</strong> and{' '}
@@ -533,14 +512,14 @@ const faqs = [
           <Icon name="mail" size={16} />
           Get in touch
         </a>
-        <a class="btn btn-ghost" href={site.resume} target="_blank" rel="noopener">
+        <a class="btn btn-outline" href={site.resume} target="_blank" rel="noopener">
           <Icon name="download" size={16} />
           Resume
           <span class="sr-only-nw">(PDF, opens in a new tab)</span>
         </a>
       </div>
       <p class="mt-6">
-        <span class="chip chip-yellow">Replies within 24 hours</span>
+        <span class="chip">Replies within 24 hours</span>
       </p>
       <p class="mt-4 text-small text-dim">
         or email{' '}
