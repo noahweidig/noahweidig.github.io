@@ -1740,12 +1740,12 @@
   }
   .code-copy[data-state='copied'] {
     opacity: 1;
-    border-color: color-mix(in oklab, var(--c-moss) 35%, var(--c-line));
-    background: color-mix(in oklab, var(--c-moss) 20%, var(--c-surface));
-    color: var(--c-moss);
+    border-color: color-mix(in oklab, var(--c-accent) 50%, var(--c-line));
+    background: color-mix(in oklab, var(--c-accent) 16%, var(--c-surface));
+    color: var(--c-accent-ink);
   }
 
-  /* Copy buttons (share row, share dialog, post aside): a green wash with a
+  /* Copy buttons (share row, share dialog, post aside): a blue outline with a
      check while src/scripts/copy.ts holds data-state="copied". */
   [data-copy] .copied-ic,
   [data-copy][data-state='copied'] .copy-ic {
@@ -1756,8 +1756,8 @@
   }
   :is(.btn-wash, .icon-tile)[data-copy][data-state='copied'] {
     background: transparent;
-    border-color: var(--c-moss);
-    color: var(--c-moss);
+    border-color: var(--c-accent-ink);
+    color: var(--c-accent-ink);
   }
 
   /* --- lightbox --- */
@@ -2055,12 +2055,12 @@
     ),
     radial-gradient(
       34rem 22rem at 86% 12%,
-      color-mix(in oklab, var(--logo-red) calc(var(--glow-a) * 70%), transparent),
+      color-mix(in oklab, var(--logo-blue) calc(var(--glow-a) * 60%), transparent),
       transparent 70%
     ),
     radial-gradient(
       30rem 20rem at 55% 100%,
-      color-mix(in oklab, var(--logo-yellow) calc(var(--glow-a) * 60%), transparent),
+      color-mix(in oklab, var(--c-accent) calc(var(--glow-a) * 50%), transparent),
       transparent 70%
     );
   -webkit-mask-image: linear-gradient(to bottom, #000 60%, transparent);
