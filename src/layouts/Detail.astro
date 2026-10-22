@@ -1,6 +1,5 @@
 ---
 import { tagHref, tagIcon } from '../lib/tags';
-import { tintFor } from '../lib/tint';
 import Base from './Base.astro';
 import { DISCOVERY_COLLECTIONS } from '../lib/discovery';
 import Icon from '../components/Icon.astro';
@@ -155,11 +154,7 @@ const mdHref =
       {(chips.length > 0 || badges) && (
         <div class="mt-5 flex flex-wrap gap-1.5 [&_.badge-pair]:contents" data-pagefind-ignore>
           {chips.map((c) => (
-            <a
-              href={tagHref(c)}
-              data-tip={`Browse everything tagged ${c}`}
-              class={`chip chip-${tintFor(c)}`}
-            >
+            <a href={tagHref(c)} data-tip={`Browse everything tagged ${c}`} class="chip chip-link">
               {tagIcon(c) && <Icon name={tagIcon(c)!} size={12} />}
               {c}
             </a>
