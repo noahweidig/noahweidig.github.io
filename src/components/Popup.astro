@@ -3,9 +3,10 @@ import Icon from './Icon.astro';
 interface Props {
   id: string;
   eyebrow: string;
+  icon?: string;
   title: string;
 }
-const { id, eyebrow, title } = Astro.props;
+const { id, eyebrow, icon, title } = Astro.props;
 ---
 
 <dialog class="popup" id={id} aria-labelledby={`${id}-title`} data-popup>
@@ -13,7 +14,10 @@ const { id, eyebrow, title } = Astro.props;
     <button type="button" class="popup-close" data-popup-close aria-label="Close">
       <Icon name="close" size={16} />
     </button>
-    <p class="text-xs font-medium text-accent-ink">{eyebrow}</p>
+    <p class="kicker">
+      {icon && <Icon name={icon} size={14} />}
+      {eyebrow}
+    </p>
     <h2 class="mt-3 text-3xl md:text-4xl" id={`${id}-title`}>
       {title}
     </h2>
