@@ -1432,6 +1432,10 @@
     background: var(--c-card);
     color: var(--c-ink);
   }
+  .share-dialog .popup-close {
+    position: static;
+    flex-shrink: 0;
+  }
   .share-dialog::backdrop {
     background: rgb(0 0 0 / 0.4);
     backdrop-filter: blur(8px);
