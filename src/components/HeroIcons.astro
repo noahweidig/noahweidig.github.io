@@ -51,6 +51,11 @@ const names = [
     pointer-events: none;
     transition: opacity 0.6s var(--ease-out-soft);
   }
+  @media (max-width: 47.99rem) {
+    .hero-icons {
+      display: none;
+    }
+  }
   .hero-icons:not([data-ready]) {
     opacity: 0;
   }

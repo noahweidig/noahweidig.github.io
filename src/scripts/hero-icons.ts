@@ -3,7 +3,7 @@
  * throwing against the text's live boxes (title lines, intro, buttons, socials),
  * so an icon can never land behind text, at any width. The same seed gives the
  * same scatter for the same layout. Icons fade out toward the page edges and
- * the hero's top and bottom. Bound from `boot()` on every `astro:page-load`.
+ * the hero's top and bottom. Dropped below 48rem. Bound from `boot()` on every `astro:page-load`.
  */
 import { cleanups } from './dom';
 
@@ -51,12 +51,14 @@ export function initHeroIcons() {
   if (!names.length) return;
 
   const place = () => {
+    host.querySelectorAll('.hi').forEach((n) => n.remove());
+    if (!matchMedia('(min-width: 48rem)').matches) return;
     const h = hero.getBoundingClientRect();
     const W = h.width;
     const H = h.height;
     if (W < 1 || H < 1) return;
     const scale = Math.min(1.1, Math.max(0.6, W / 1200));
-    const band = matchMedia('(min-width: 48rem)').matches ? 72 : 64;
+    const band = 72;
     const gap = TEXT_GAP * scale;
 
     const obstacles: Box[] = [];
@@ -122,7 +124,6 @@ export function initHeroIcons() {
       nodes.push(el);
     }
 
-    host.querySelectorAll('.hi').forEach((n) => n.remove());
     host.append(...nodes);
     host.dataset.ready = '';
   };
