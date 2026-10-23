@@ -1516,11 +1516,13 @@
   .share-target {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 0.6rem;
-    padding: 0.55rem 0.6rem;
-    border-radius: var(--radius-sm);
-    border: 1px solid transparent;
-    color: var(--c-dim);
+    padding: 0.55rem 0.9rem;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--c-line-strong);
+    background: transparent;
+    color: var(--c-ink);
     font-size: var(--text-compact);
     transition:
       border-color var(--dur-fast) var(--ease-out-soft),
@@ -1528,41 +1530,13 @@
       color var(--dur-fast) var(--ease-out-soft);
   }
   .share-target:hover {
-    border-color: var(--brand, var(--c-accent));
-    background: color-mix(in oklab, var(--brand, var(--c-accent)) 12%, transparent);
-    color: var(--brand, var(--c-accent-ink));
+    background: var(--c-accent);
+    border-color: var(--c-accent);
+    color: var(--c-accent-contrast);
   }
-
-  .share-target[data-brand='x'],
-  .share-target[data-brand='threads'] {
-    --brand: var(--c-ink);
-  }
-  .share-target[data-brand='linkedin'] {
-    --brand: #0a66c2;
-  }
-  .share-target[data-brand='bluesky'] {
-    --brand: #1185fe;
-  }
-  .share-target[data-brand='facebook'] {
-    --brand: #1877f2;
-  }
-  .share-target[data-brand='reddit'] {
-    --brand: #ff4500;
-  }
-  .share-target[data-brand='pinterest'] {
-    --brand: #e60023;
-  }
-  .share-target[data-brand='mastodon'] {
-    --brand: #6364ff;
-  }
-  .share-target[data-brand='whatsapp'] {
-    --brand: #25d366;
-  }
-  .share-target[data-brand='telegram'] {
-    --brand: #26a5e4;
-  }
-  .share-target[data-brand='tumblr'] {
-    --brand: #529ecc;
+  .share-target:active {
+    background: color-mix(in oklab, var(--c-accent) 86%, black);
+    border-color: color-mix(in oklab, var(--c-accent) 86%, black);
   }
 
   /* --- back to top ---
