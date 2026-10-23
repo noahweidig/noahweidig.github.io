@@ -1,0 +1,90 @@
+---
+/* Decorative Lucide icons around the home hero's text; the parent must be
+   `relative`. hero-icons.ts scatters them around the live text boxes. The pool
+   below only supplies the icon names and their <symbol> definitions. */
+import Icon from './Icon.astro';
+
+const names = [
+  'map',
+  'route',
+  'orbit',
+  'mountain',
+  'treePine',
+  'trees',
+  'radar',
+  'pin',
+  'compass',
+  'earth',
+  'layers',
+  'satellite',
+  'telescope',
+  'flame',
+  'leaf',
+  'sprout',
+  'droplets',
+  'wind',
+  'sun',
+  'database',
+  'network',
+  'waypoints',
+  'grid',
+  'chart',
+  'landmark',
+  'book',
+  'mail',
+];
+---
+
+<div class="hero-icons" data-hero-icons aria-hidden="true">
+  <div class="hi-pool">
+    {names.map((n) => (
+      <Icon name={n} size={24} />
+    ))}
+  </div>
+</div>
+
+<style is:global>
+  .hero-icons {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    transition: opacity 0.6s var(--ease-out-soft);
+  }
+  @media (max-width: 47.99rem) {
+    .hero-icons {
+      display: none;
+    }
+  }
+  .hero-icons:not([data-ready]) {
+    opacity: 0;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-icons {
+      transition: none;
+    }
+  }
+  .hi-pool {
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    visibility: hidden;
+  }
+  .hero-icons .hi {
+    position: absolute;
+    display: block;
+  }
+  .hi-blue {
+    color: var(--c-accent-ink);
+  }
+  .hi-green {
+    color: var(--c-moss);
+  }
+  .hi-red {
+    color: var(--c-red);
+  }
+  .hi-yellow {
+    color: var(--c-yellow-ink);
+  }
+</style>
