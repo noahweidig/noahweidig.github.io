@@ -1727,10 +1727,11 @@
        than under a mobile browser's toolbar. */
     height: 100dvh;
     max-height: 100dvh;
-    /* Always a dark scrim, in either theme: a picture reads best against one.
-       The blur lets the page behind it drop away without tinting through. */
-    background: rgb(10 10 10 / 0.6);
-    backdrop-filter: blur(16px);
+    /* Same scrim and blur as the search dialog (backdrop:bg-black/40
+       backdrop:backdrop-blur-md), in either theme. */
+    background: rgb(0 0 0 / 0.4);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
     color: #ebebea;
     opacity: 0;
     transition: opacity var(--dur-fast) var(--ease-out-soft);
@@ -1782,19 +1783,15 @@
     font-size: var(--text-compact);
   }
   .lightbox .icon-tile {
-    /* Explicit ground: the default tile fill follows the page theme, so in
-       light mode it is a pale grey under this always-light glyph. A slate, not
-       near-black, so the buttons read as raised off the scrim in both themes. */
-    background: #3b4150;
-    border-color: rgb(255 255 255 / 0.22);
+    /* Outlined circle, no fill; the glyph is always light against the scrim. */
+    background: transparent;
+    border: 1px solid rgb(255 255 255 / 0.4);
+    border-radius: 9999px;
     color: #f1f3f7;
   }
   .lightbox .icon-tile:hover {
-    border-color: rgb(255 255 255 / 0.45);
-    /* An opaque ground rather than a white wash: white-on-white is what the
-       contrast checkers see in a translucent fill, and it is the same colour
-       against the scrim either way. */
-    background: #4b5263;
+    border-color: #fff;
+    background: transparent;
     color: #fff;
   }
   .lightbox-caption {
