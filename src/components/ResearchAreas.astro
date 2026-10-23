@@ -13,7 +13,7 @@ const areas = [
     id: 'remote-sensing',
     tab: 'Remote Sensing',
     icon: 'satellite',
-    eyebrow: 'Remote Sensing & Earth Observation',
+    eyebrow: 'Earth Observation',
     heading: 'Seeing change from orbit.',
     body: 'Multi-temporal satellite imagery turned into measurable change — classification, spectral indices, and time-series analysis at landscape scale in Google Earth Engine.',
     chips: ['Imagery Analysis', 'Google Earth Engine', 'Change Detection'],
@@ -25,7 +25,7 @@ const areas = [
     id: 'land-use',
     tab: 'Land-Use Change',
     icon: 'layers',
-    eyebrow: 'Land-Use Change & Social-Ecological Systems',
+    eyebrow: 'Social-Ecological Systems',
     heading: 'Where people and landscapes meet.',
     body: 'Modeling how development, disturbance, and policy reshape land cover, with a focus on wildfire risk in the wildland–urban interface.',
     chips: ['Land-Use Change', 'Wildfire & WUI', 'Risk Assessment'],
@@ -37,7 +37,7 @@ const areas = [
     id: 'spatial-stats',
     tab: 'Spatial Statistics',
     icon: 'chart',
-    eyebrow: 'Spatial Data Science & Statistical Modeling',
+    eyebrow: 'Statistical Modeling',
     heading: 'Uncertainty, stated honestly.',
     body: 'Bayesian and spatial-statistical models that quantify what the data actually support, in reproducible pipelines anyone can rerun.',
     chips: ['Bayesian Analysis', 'Forecasting', 'Reproducible Research'],
@@ -49,7 +49,7 @@ const areas = [
     id: 'applied-ai',
     tab: 'Applied AI',
     icon: 'ai',
-    eyebrow: 'Applied AI & Data Storytelling',
+    eyebrow: 'Data Storytelling',
     heading: 'Models that reach a decision-maker.',
     body: 'Machine learning applied to ecological and geospatial problems, paired with visualization that makes the result legible to non-specialists.',
     chips: ['Machine Learning', 'Data Visualization', 'Quantitative Ecology'],
@@ -61,7 +61,7 @@ const areas = [
     id: 'biodiversity',
     tab: 'Biodiversity',
     icon: 'leaf',
-    eyebrow: 'Biodiversity & Conservation Monitoring',
+    eyebrow: 'Conservation Monitoring',
     heading: 'Mapping what lives where.',
     body: 'Species distribution models and habitat mapping that turn scattered occurrence records into conservation-planning inputs.',
     chips: ['Species Distribution', 'Habitat Mapping', 'Conservation Planning'],
@@ -73,7 +73,7 @@ const areas = [
     id: 'geo-engineering',
     tab: 'Geospatial Engineering',
     icon: 'database',
-    eyebrow: 'Geospatial Engineering & Open Data',
+    eyebrow: 'Open Data & Tooling',
     heading: 'Infrastructure for spatial work.',
     body: 'Spatial databases, automated data pipelines, and open-source GIS tooling that keep analysis fast, current, and shareable.',
     chips: ['Spatial Databases', 'Data Pipelines', 'Open Source GIS'],
@@ -115,7 +115,7 @@ const areas = [
       aria-labelledby={`area-tab-${a.id}`}
       class="grid gap-8 pt-10 lg:grid-cols-2 lg:items-center lg:gap-14"
     >
-      <div>
+      <div class="min-w-0">
         <p class="chip gap-2 px-3 py-1.5">
           <Icon name={a.icon} size={16} class="shrink-0" />
           {a.eyebrow}

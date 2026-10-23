@@ -49,19 +49,31 @@ const altmetricTip = altmetric
 
 <article
   class:list={[
-    'group relative grid grid-cols-[auto_1fr] gap-x-4 gap-y-1 border-b border-line py-6 transition-colors last:border-b-0 hover:border-line-strong',
-    shot && 'md:grid-cols-[auto_1fr_200px] md:gap-x-6',
+    'group relative grid gap-y-1 transition-colors',
+    /* Compact (home page): a card in a swipe track on phones, the list row from md up. */
+    compact
+      ? [
+          'cite-compact grid-cols-1 gap-x-0 md:border-b md:border-line md:py-6 md:last:border-b-0 md:hover:border-line-strong',
+          shot ? 'md:grid-cols-[auto_1fr_200px] md:gap-x-6' : 'md:grid-cols-[auto_1fr] md:gap-x-4',
+        ]
+      : [
+          'grid-cols-[auto_1fr] gap-x-4 border-b border-line py-6 last:border-b-0 hover:border-line-strong',
+          shot && 'md:grid-cols-[auto_1fr_200px] md:gap-x-6',
+        ],
   ]}
   data-cats={cats.join('|')}
   data-cite-type={slugify(category)}
-  data-reveal
+  data-reveal={compact ? undefined : ''}
 >
   {shot && (
     <a
       href={`/publications/${entry.id}/`}
       tabindex="-1"
       aria-hidden="true"
-      class="col-span-2 order-first mb-3 block self-start overflow-hidden rounded-lg border border-line bg-surface md:col-span-1 md:col-start-3 md:row-start-1 md:mb-0"
+      class:list={[
+        'order-first mb-3 block self-start overflow-hidden rounded-lg border border-line bg-surface md:col-span-1 md:col-start-3 md:row-start-1 md:mb-0',
+        compact ? 'col-span-1' : 'col-span-2',
+      ]}
     >
       <Image
         src={shot}
@@ -73,7 +85,7 @@ const altmetricTip = altmetric
       />
     </a>
   )}
-  <div class="flex flex-col items-center gap-2 pt-0.5">
+  <div class:list={['flex flex-col items-center gap-2 pt-0.5', compact && 'max-md:hidden']}>
     <span class={`grid h-9 w-9 place-items-center rounded-full tile-${tintFor(category)}`}>
       <Icon name={icon} size={17} />
     </span>
@@ -235,3 +247,21 @@ const altmetricTip = altmetric
     </div>
   </div>
 </article>
+
+<style>
+  /* Phones: each home-page publication is a card sized like the other
+     carousels' cards (see the track in pages/index.astro). */
+  @media (max-width: 47.99rem) {
+    .cite-compact {
+      flex-shrink: 0;
+      width: min(38rem, calc(100vw - 3rem));
+      scroll-snap-align: start;
+      padding: 1.25rem;
+      background: var(--c-card);
+      color: var(--c-ink);
+      border: 1px solid var(--c-line);
+      border-radius: var(--radius-md);
+      box-shadow: inset 0 1px 0 var(--c-edge);
+    }
+  }
+</style>
