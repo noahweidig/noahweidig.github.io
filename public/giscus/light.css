@@ -126,3 +126,7 @@ main {
 .gsc-loading-image {
   background-image: none;
 }
+
+.gsc-header em.color-text-secondary {
+  display: none;
+}
