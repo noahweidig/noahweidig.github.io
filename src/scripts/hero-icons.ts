@@ -14,7 +14,7 @@ const SIZES = [28, 32, 36, 40, 44, 52, 60, 68, 76];
 const TONES = ['blue', 'blue', 'blue', 'green', 'green', 'red', 'yellow', 'yellow'];
 const ALPHAS = [0.3, 0.42, 0.55, 0.7, 0.85, 0.95];
 const TEXT_GAP = 14;
-const ICON_GAP = 12;
+const ICON_GAP = 16;
 const MARGIN = 8;
 
 const mulberry32 = (seed: number) => {
@@ -80,7 +80,7 @@ export function initHeroIcons() {
     });
 
     const free = W * (H - band) - obstacles.reduce((n, o) => n + (o.r - o.l) * (o.b - o.t), 0);
-    const target = Math.min(70, Math.max(8, Math.round(free / (19000 * scale * scale))));
+    const target = Math.min(names.length, Math.max(8, Math.round(free / (28000 * scale * scale))));
 
     const rand = mulberry32(SEED);
     const pick = <T>(xs: T[]) => xs[Math.floor(rand() * xs.length)]!;
@@ -108,7 +108,7 @@ export function initHeroIcons() {
       const edgeX = Math.min(cx, W - cx) / (W * 0.18);
       const edgeY = Math.min(cy - band, H - cy) / ((H - band) * 0.22);
       const fade = 0.12 + 0.88 * smooth(Math.min(edgeX, edgeY));
-      const name = order[nodes.length % order.length]!;
+      const name = order[nodes.length]!;
       const el = document.createElement('span');
       el.className = `hi hi-${pick(TONES)}`;
       el.style.cssText =
