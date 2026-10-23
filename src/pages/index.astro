@@ -302,19 +302,49 @@ const faqs = [
       href="/publications/"
       linkLabel="publications"
     />
-    <div class="mt-8">
-      {featuredPubs.map((entry) => (
-        <CitationRow entry={entry} compact />
-      ))}
+    <div class="mt-8" data-carousel data-reveal>
+      <div
+        class="carousel-track -mx-4 -my-6 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 py-6 [scroll-padding-inline:16px] md:m-0 md:block md:overflow-visible md:p-0"
+        data-carousel-track
+      >
+        {featuredPubs.map((entry) => (
+          <CitationRow entry={entry} compact />
+        ))}
+      </div>
+
+      <div class="mt-8 flex items-center justify-between gap-3 md:hidden">
+        <a class="btn btn-outline group h-12" href="/publications/">
+          View all<span class="sr-only"> publications</span>
+          <Icon
+            name="arrow"
+            size={15}
+            class="transition-transform duration-300 group-hover:translate-x-1"
+          />
+        </a>
+        <div class="flex items-center gap-3">
+          <button
+            type="button"
+            class="popup-plus carousel-btn"
+            data-carousel-prev
+            aria-label="Previous publication"
+          >
+            <span class="carousel-chev carousel-chev-prev">
+              <Icon name="chevron" size={18} />
+            </span>
+          </button>
+          <button
+            type="button"
+            class="popup-plus carousel-btn"
+            data-carousel-next
+            aria-label="Next publication"
+          >
+            <span class="carousel-chev carousel-chev-next">
+              <Icon name="chevron" size={18} />
+            </span>
+          </button>
+        </div>
+      </div>
     </div>
-    <a class="btn btn-outline group mt-6 h-12 md:hidden" href="/publications/">
-      View all<span class="sr-only"> publications</span>
-      <Icon
-        name="arrow"
-        size={15}
-        class="transition-transform duration-300 group-hover:translate-x-1"
-      />
-    </a>
   </section>
 
   <!-- skills -->
