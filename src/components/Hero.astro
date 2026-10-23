@@ -2,7 +2,6 @@
 import DotGrid from './DotGrid.astro';
 import Icon from './Icon.astro';
 import { socials } from '../lib/site';
-import { tintAt } from '../lib/tint';
 ---
 
 <section class="under-nav relative overflow-x-clip border-b border-line" id="hero" data-hero>
@@ -42,14 +41,14 @@ import { tintAt } from '../lib/tint';
       data-reveal
       style="--reveal-delay:260ms"
     >
-      {socials.map((s, i) => (
+      {socials.map((s) => (
         <a
           href={s.href}
           aria-label={`${s.label} (opens in a new tab)`}
           data-tip={`${s.label} profile`}
           target="_blank"
           rel="noopener"
-          class={`social tile-${tintAt(i)} grid size-12 place-items-center rounded-full sm:size-14`}
+          class="social grid size-12 place-items-center rounded-full sm:size-14"
         >
           <Icon name={s.icon} size={26} />
         </a>
@@ -72,16 +71,21 @@ import { tintAt } from '../lib/tint';
   .hero-line + .hero-line {
     margin-top: 0.1em;
   }
-  /* Outlined in its tile color; hover brightens the outline and adds a light fill. */
+  /* Same outline as the secondary button; fills blue on hover. */
   .social {
+    border: 1px solid var(--c-line-strong);
+    background: transparent;
+    color: var(--c-ink);
     transition:
       background-color var(--dur-fast),
-      border-color var(--dur-fast);
+      border-color var(--dur-fast),
+      color var(--dur-fast);
   }
   .social:hover,
   .social:focus-visible {
-    background: color-mix(in oklab, var(--tint) 12%, transparent);
-    border-color: var(--tint);
+    background: var(--c-accent);
+    border-color: var(--c-accent);
+    color: var(--c-accent-contrast);
   }
   @media (prefers-reduced-motion: reduce) {
     .social {
