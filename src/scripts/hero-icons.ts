@@ -124,7 +124,7 @@ export function initHeroIcons() {
 
     host.querySelectorAll('.hi').forEach((n) => n.remove());
     host.append(...nodes);
-    host.setAttribute('data-ready', '');
+    host.dataset.ready = '';
   };
 
   let raf = 0;
@@ -134,7 +134,7 @@ export function initHeroIcons() {
   };
   const ro = new ResizeObserver(queue);
   ro.observe(hero);
-  document.fonts?.ready.then(queue);
+  void document.fonts?.ready.then(queue);
   cleanups.push(() => {
     ro.disconnect();
     cancelAnimationFrame(raf);
