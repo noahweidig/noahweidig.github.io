@@ -756,86 +756,31 @@
   }
   /* Icon tiles: a 1px circle outlined in the color, icon in the theme's legible
      step. Pair with rounded-full. */
-  :is(.tile-blue, .tile-red, .tile-yellow, .tile-green, .tile-purple, .tile-teal, .tile-pink) {
+  .tile-blue {
     border: 1px solid color-mix(in oklab, var(--tint) 50%, transparent);
     background: transparent;
     color: var(--tint);
   }
-  /* Status chips (pass/fail, current...): outlined in the status color. Blue is
-     the site accent and carries no meaning, so .chip-blue stays neutral. */
-  :is(.chip-red, .chip-yellow, .chip-green, .chip-purple, .chip-teal, .chip-pink) {
+  /* Status chips (pass/fail): outlined in the status color. Blue is the site
+     accent and carries no meaning, so .chip-blue stays neutral. */
+  :is(.chip-red, .chip-green) {
     border-color: color-mix(in oklab, var(--tint) 50%, transparent);
     color: var(--tint);
   }
   .chip-blue,
-  .tile-blue,
-  .pill-blue {
+  .tile-blue {
     --tint: var(--c-accent-ink);
   }
-  .chip-red,
-  .tile-red,
-  .pill-red {
+  .chip-red {
     --tint: var(--c-red);
   }
-  .chip-yellow,
-  .tile-yellow,
-  .pill-yellow {
-    --tint: var(--c-yellow);
-  }
-  .chip-green,
-  .tile-green,
-  .pill-green {
+  .chip-green {
     --tint: var(--c-moss);
-  }
-  .chip-purple,
-  .tile-purple,
-  .pill-purple {
-    --tint: var(--c-violet);
-  }
-  .chip-teal,
-  .tile-teal,
-  .pill-teal {
-    --tint: var(--c-teal);
-  }
-  .chip-pink,
-  .tile-pink,
-  .pill-pink {
-    --tint: var(--c-pink);
-  }
-  /* Yellow text has no legible step on a light surface; chip text takes the
-     theme's darker yellow ink while tile icons stay Notion yellow. */
-  .chip-yellow,
-  a.chip-yellow:hover {
-    color: var(--c-yellow-ink);
-  }
-
-  /* Round icon tile with the same blue wash as .chip-accent. */
-  .tile-accent {
-    background: color-mix(in oklab, var(--c-accent) 16%, var(--c-surface));
-    color: var(--c-accent-ink);
   }
 
   /* Section color for kickers, "see all" buttons and hero panels: sets --tint. */
   .tint-blue {
     --tint: var(--c-accent-ink);
-  }
-  .tint-green {
-    --tint: var(--c-moss);
-  }
-  .tint-yellow {
-    --tint: var(--c-yellow-ink);
-  }
-  .tint-pink {
-    --tint: var(--c-pink);
-  }
-  .tint-teal {
-    --tint: var(--c-teal);
-  }
-  .tint-red {
-    --tint: var(--c-red);
-  }
-  .tint-purple {
-    --tint: var(--c-violet);
   }
   /* Homepage stat strip tile: a plain card surface. */
   .stat-tile {
