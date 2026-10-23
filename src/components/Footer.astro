@@ -48,14 +48,14 @@ const iconBtn =
 
         <nav
           aria-label="Footer"
-          class="grid grid-cols-2 gap-x-10 gap-y-8 text-center sm:grid-cols-4 sm:text-left lg:gap-x-14"
+          class="grid grid-cols-[repeat(2,auto)] justify-center gap-x-10 gap-y-8 sm:grid-cols-4 sm:justify-start lg:gap-x-14"
         >
           {columns.map((col) => (
             <div>
               <p class="font-mono text-xs font-medium tracking-[0.06em] text-accent-ink uppercase">
                 {col.text}
               </p>
-              <ul class="mt-3 flex flex-col items-center gap-2 sm:items-start">
+              <ul class="mt-3 flex flex-col gap-2">
                 {col.items.map((item) => (
                   <li>
                     <a
