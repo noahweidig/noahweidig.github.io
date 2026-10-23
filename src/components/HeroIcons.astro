@@ -1,103 +1,74 @@
 ---
-/* Decorative Lucide icons for the home hero; the parent must be `relative`.
-   They only ever sit in zones the hero's text cannot reach: a strip above the
-   title and one below the buttons (inside the section's own padding), plus,
-   from 80rem up, a rail on each side of the 60rem text column. */
+/* Decorative Lucide icons around the home hero's text; the parent must be
+   `relative`. hero-icons.ts scatters them around the live text boxes. The pool
+   below only supplies the icon names and their <symbol> definitions. */
 import Icon from './Icon.astro';
 
-type Tone = 'blue' | 'green' | 'red' | 'yellow';
-/* [icon, size px at a 240px rail, x, y (0-1 across the free space), tone, rotation deg] */
-type RailIcon = [string, number, number, number, Tone, number];
-/* [icon, size px, tone, rotation deg, vertical nudge px] */
-type StripIcon = [string, number, Tone, number, number];
-
-const left: RailIcon[] = [
-  ['map', 72, 0.36, 0.14, 'blue', -8],
-  ['orbit', 60, 0.94, 0.375, 'blue', -12],
-  ['trees', 44, 0.15, 0.44, 'green', 0],
-  ['flame', 64, 0.51, 0.59, 'red', -6],
-  ['treePine', 60, 0.83, 0.675, 'green', 6],
-  ['landmark', 52, 0.27, 0.79, 'yellow', 0],
-  ['book', 76, 0.91, 0.95, 'blue', -4],
-  ['chart', 40, 0.14, 0.97, 'yellow', 0],
+const names = [
+  'map',
+  'route',
+  'orbit',
+  'mountain',
+  'treePine',
+  'trees',
+  'radar',
+  'pin',
+  'compass',
+  'earth',
+  'layers',
+  'satellite',
+  'telescope',
+  'flame',
+  'leaf',
+  'sprout',
+  'droplets',
+  'wind',
+  'sun',
+  'database',
+  'network',
+  'waypoints',
+  'grid',
+  'chart',
+  'landmark',
+  'book',
+  'mail',
 ];
-const right: RailIcon[] = [
-  ['layers', 76, 0.49, 0.16, 'green', 0],
-  ['mountain', 56, 0.05, 0.37, 'red', 8],
-  ['telescope', 52, 0.69, 0.41, 'blue', 0],
-  ['radar', 76, 0.37, 0.6, 'blue', 0],
-  ['pin', 56, 0.05, 0.75, 'blue', 10],
-  ['network', 52, 0.59, 0.79, 'blue', 10],
-  ['mail', 76, 0.12, 0.9, 'red', -8],
-  ['grid', 40, 0.92, 0.87, 'yellow', 0],
-  ['compass', 44, 0.69, 0.97, 'blue', 0],
-];
-const top: StripIcon[] = [
-  ['droplets', 32, 'blue', -10, 4],
-  ['route', 36, 'yellow', 10, -6],
-  ['earth', 40, 'blue', 0, 2],
-  ['wind', 36, 'green', 0, -4],
-  ['sun', 40, 'yellow', 0, 6],
-];
-const bottom: StripIcon[] = [
-  ['satellite', 38, 'blue', -10, -4],
-  ['sprout', 32, 'green', 0, 6],
-  ['waypoints', 34, 'blue', 0, -2],
-  ['leaf', 36, 'green', 12, 4],
-  ['database', 34, 'blue', 0, -6],
-];
-/* One 1.75px line at any size; the Icon stroke is in 24-unit viewBox space. */
-const sw = (size: number) => +((1.75 * 24) / size).toFixed(2);
 ---
 
-<div class="hero-icons" aria-hidden="true">
-  {(
-    [
-      ['hi-l', left],
-      ['hi-r', right],
-    ] as const
-  ).map(([cls, set]) => (
-    <div class={`hi-rail ${cls}`}>
-      {set.map(([name, size, x, y, tone, rot]) => (
-        <span class={`hi hi-${tone}`} style={`--s:${size};--x:${x};--y:${y};--r:${rot}deg`}>
-          <Icon name={name} size="100%" stroke-width={sw(size)} />
-        </span>
-      ))}
-    </div>
-  ))}
-  {(
-    [
-      ['hi-t', top],
-      ['hi-b', bottom],
-    ] as const
-  ).map(([cls, set]) => (
-    <div class={`hi-strip ${cls}`}>
-      {set.map(([name, size, tone, rot, dy]) => (
-        <span class={`hi hi-${tone}`} style={`--s:${size};--r:${rot}deg;--dy:${dy}px`}>
-          <Icon name={name} size="100%" stroke-width={sw(size)} />
-        </span>
-      ))}
-    </div>
-  ))}
+<div class="hero-icons" data-hero-icons aria-hidden="true">
+  <div class="hi-pool">
+    {names.map((n) => (
+      <Icon name={n} size={24} />
+    ))}
+  </div>
 </div>
 
-<style>
+<style is:global>
   .hero-icons {
-    --band: 4rem;
     position: absolute;
     inset: 0;
     overflow: hidden;
     pointer-events: none;
+    transition: opacity 0.6s var(--ease-out-soft);
   }
-  @media (min-width: 48rem) {
+  .hero-icons:not([data-ready]) {
+    opacity: 0;
+  }
+  @media (prefers-reduced-motion: reduce) {
     .hero-icons {
-      --band: 4.5rem;
+      transition: none;
     }
   }
-  .hi {
+  .hi-pool {
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    visibility: hidden;
+  }
+  .hero-icons .hi {
+    position: absolute;
     display: block;
-    opacity: 0.9;
-    rotate: var(--r, 0deg);
   }
   .hi-blue {
     color: var(--c-accent-ink);
@@ -110,62 +81,5 @@ const sw = (size: number) => +((1.75 * 24) / size).toFixed(2);
   }
   .hi-yellow {
     color: var(--c-yellow-ink);
-  }
-  /* Below the header band and above the title's top padding, and above the
-     section's bottom edge, inside the bottom padding. Both are shorter than
-     that padding at every width, so no text can reach them. */
-  .hi-strip {
-    position: absolute;
-    inset-inline: 0;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    height: 3.25rem;
-    padding-inline: 1.5rem;
-  }
-  .hi-t {
-    top: var(--band);
-  }
-  .hi-b {
-    bottom: 0;
-  }
-  .hi-strip .hi {
-    width: calc(var(--s) * 1px);
-    height: calc(var(--s) * 1px);
-    translate: 0 calc(var(--dy) * 1px);
-  }
-  /* Side rails: only where the 60rem text column leaves room. The title tops
-     out at about 56rem wide, so the rails never meet it. Icons scale with
-     the rail and sit by fraction of the free space. */
-  .hi-rail {
-    display: none;
-    position: absolute;
-    top: var(--band);
-    bottom: 0;
-    width: calc((100% - 60rem) / 2);
-    container-type: size;
-  }
-  .hi-l {
-    left: 0;
-  }
-  .hi-r {
-    right: 0;
-  }
-  .hi-rail .hi {
-    --w: min(calc(var(--s) * 1px), calc(var(--s) / 240 * 100cqw));
-    position: absolute;
-    width: var(--w);
-    height: var(--w);
-    left: calc((100cqw - var(--w)) * var(--x));
-    top: calc((100cqh - var(--w)) * var(--y));
-  }
-  @media (min-width: 80rem) {
-    .hi-rail {
-      display: block;
-    }
-    .hi-strip {
-      inset-inline: calc((100% - 60rem) / 2);
-      padding-inline: 0;
-    }
   }
 </style>
