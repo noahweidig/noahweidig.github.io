@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-10-19T15:08:12.952Z",
+  "generatedAt": "2026-10-26T14:41:25.763Z",
   "totalPages": 104,
   "score": 98,
   "totals": {
-    "passes": 1539,
+    "passes": 1537,
     "warnings": 25,
     "errors": 0
   },
@@ -11,9 +11,15 @@
     {
       "name": "Meta Tags",
       "passes": 520,
-      "warnings": 0,
+      "warnings": 1,
       "errors": 0,
-      "issues": []
+      "issues": [
+        {
+          "page": "/publications/donovan-changing-large-24/index.html, /publications/weidig-changing-large-24-y29q/index.html",
+          "message": "Duplicate title: \"Changing Large Wildfire… (Presentation, 2024) | Noah Weidig\"",
+          "severity": "warning"
+        }
+      ]
     },
     {
       "name": "Schema Markup",
@@ -38,7 +44,7 @@
     },
     {
       "name": "Images",
-      "passes": 112,
+      "passes": 110,
       "warnings": 1,
       "errors": 0,
       "issues": [
@@ -52,14 +58,9 @@
     {
       "name": "Headings",
       "passes": 208,
-      "warnings": 20,
+      "warnings": 19,
       "errors": 0,
       "issues": [
-        {
-          "page": "/index.html",
-          "message": "<h1> too long (130 chars): \"Spatial analysis. Real insights, answers, impact, clarity, action.Spat...\"",
-          "severity": "warning"
-        },
         {
           "page": "/publications/alexander-shifting-forest-25/index.html",
           "message": "<h1> too long (157 chars): \"Shifting forest structure and composition following decades of fire ex...\"",
@@ -106,7 +107,7 @@
           "severity": "warning"
         },
         {
-          "page": "/publications/weidig-burning-boundaries-25/index.html",
+          "page": "/publications/weidig-burning-boundaries-26/index.html",
           "message": "<h1> too long (109 chars): \"Burning Boundaries: Large Wildfire Patterns and Drivers in the Eastern...\"",
           "severity": "warning"
         },
@@ -165,22 +166,22 @@
       "issues": [
         {
           "page": "/blog/favorite-r-packages/index.html",
-          "message": "Total HTML size exceeds 100KB (143.8KB)",
+          "message": "Total HTML size exceeds 100KB (106.0KB)",
           "severity": "warning"
         },
         {
           "page": "/cv/index.html",
-          "message": "Total HTML size exceeds 100KB (108.7KB)",
+          "message": "Total HTML size exceeds 100KB (106.7KB)",
           "severity": "warning"
         },
         {
           "page": "/index.html",
-          "message": "Total HTML size exceeds 100KB (163.0KB)",
+          "message": "Total HTML size exceeds 100KB (175.5KB)",
           "severity": "warning"
         },
         {
           "page": "/publications/index.html",
-          "message": "Total HTML size exceeds 100KB (132.0KB)",
+          "message": "Total HTML size exceeds 100KB (138.3KB)",
           "severity": "warning"
         }
       ]
