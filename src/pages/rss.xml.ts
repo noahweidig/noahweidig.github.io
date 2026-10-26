@@ -13,14 +13,24 @@ const escapeXml = (s: string) =>
 // Renders a post's Markdown to the same HTML Detail.astro shows, then strips
 // anything a feed reader shouldn't execute. `container.renderToString()` runs
 // the post's own remark/rehype pipeline (headings, footnotes, code blocks),
-// which reimplementing by hand would drift from.
+// which reimplementing by hand would drift from. Relative `src`/`href` values
+// (e.g. `../../media/...`) are resolved against the post's URL because readers
+// don't agree on a base for them.
 async function renderPostHtml(
   container: AstroContainer,
   post: Awaited<ReturnType<typeof getCollection>>[number],
+  base: URL,
 ) {
+  const absolutize =
+    (attr: 'src' | 'href'): sanitizeHtml.Transformer =>
+    (tagName, attribs) => {
+      if (attribs[attr]) attribs[attr] = new URL(attribs[attr], base).href;
+      return { tagName, attribs };
+    };
   const { Content } = await render(post);
   const html = await container.renderToString(Content);
   return sanitizeHtml(html, {
+    transformTags: { img: absolutize('src'), a: absolutize('href') },
     allowedTags: sanitizeHtml.defaults.allowedTags.concat([
       'img',
       'h1',
@@ -58,7 +68,7 @@ export async function GET(context: APIContext) {
           pubDate: post.data.date,
           link: `/blog/${post.id}/`,
           categories: [...post.data.categories],
-          content: await renderPostHtml(container, post),
+          content: await renderPostHtml(container, post, new URL(`/blog/${post.id}/`, feedSite)),
           customData: `<dc:creator>${escapeXml(post.data.author)}</dc:creator>`,
           ...(cover && {
             enclosure: {
