@@ -1,5 +1,5 @@
 /**
- * Lucide icons scattered around the home hero's text. They are placed by dart
+ * Icons scattered around the home hero's text. They are placed by dart
  * throwing against the text's live boxes (title lines, intro, buttons, socials),
  * so an icon can never land behind text, at any width. The same seed gives the
  * same scatter for the same layout. Icons fade out toward the page edges and
@@ -118,9 +118,8 @@ export function initHeroIcons() {
         `width:${size}px;height:${size}px;rotate:${rot.toFixed(1)}deg;` +
         `opacity:${(pick(ALPHAS) * fade).toFixed(2)}`;
       el.innerHTML =
-        `<svg viewBox="0 0 24 24" width="100%" height="100%" fill="none" stroke="currentColor" ` +
-        `stroke-width="${((1.75 * 24) / size).toFixed(2)}" stroke-linecap="round" ` +
-        `stroke-linejoin="round" focusable="false"><use href="#i-${name}"/></svg>`;
+        `<svg viewBox="0 0 880 880" width="100%" height="100%" fill="currentColor" ` +
+        `focusable="false"><use href="#i-${name}"/></svg>`;
       nodes.push(el);
     }
 
