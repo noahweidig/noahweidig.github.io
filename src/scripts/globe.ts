@@ -1,10 +1,37 @@
 /* ----------------------------------------------------------------- map -- */
+import type { SkySpecification } from 'maplibre-gl';
 import { cleanups } from './dom';
 
 const ORLANDO: [number, number] = [-81.3789, 28.5384];
 // OpenFreeMap Positron/Dark, self-hosted from public/map/ (tiles still from OpenFreeMap).
-const styleUrl = () =>
-  `/map/${document.documentElement.dataset.theme === 'light' ? 'positron' : 'dark'}.json`;
+const isLight = () => document.documentElement.dataset.theme === 'light';
+const styleUrl = () => `/map/${isLight() ? 'positron' : 'dark'}.json`;
+
+// MapLibre has no star layer, so the globe's transparent canvas sits over a
+// seeded field of dots, with setSky() adding the horizon glow.
+function starField(light: boolean) {
+  let seed = 7;
+  const rand = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  const rgb = light ? '65 81 181' : '255 255 255';
+  const dots = Array.from({ length: 110 }, () => {
+    const r = rand() < 0.12 ? 1.6 : 0.9;
+    const a = (light ? 0.22 : 0.35) + rand() * (light ? 0.3 : 0.55);
+    const x = (rand() * 100).toFixed(1);
+    const y = (rand() * 100).toFixed(1);
+    return `radial-gradient(circle at ${x}% ${y}%, rgb(${rgb} / ${a.toFixed(2)}) ${r}px, transparent ${r + 0.6}px)`;
+  });
+  return dots.join(',');
+}
+
+const sky = (light: boolean): SkySpecification => ({
+  'sky-color': light ? '#bcd0f5' : '#1b2a6b',
+  'horizon-color': light ? '#e8eefc' : '#4151b5',
+  'fog-color': light ? '#f4f6fc' : '#05060f',
+  'sky-horizon-blend': 0.5,
+  'horizon-fog-blend': 0.6,
+  'fog-ground-blend': 0.9,
+  'atmosphere-blend': ['interpolate', ['linear'], ['zoom'], 0, 1, 5, 1, 7, 0],
+});
 
 // Animated dot from MapLibre's "Add an animated icon" example, in the site accent.
 function pulsingDot(map: import('maplibre-gl').Map) {
@@ -97,6 +124,10 @@ export function initGlobe() {
     // setStyle drops images/layers, so re-add the dot on every style load.
     map.on('style.load', () => {
       map.setProjection({ type: 'globe' });
+      const light = isLight();
+      map.setSky(sky(light));
+      el.style.backgroundColor = light ? '#f4f6fc' : '#05060f';
+      el.style.backgroundImage = starField(light);
       map.addImage('pulsing-dot', pulsingDot(map), { pixelRatio: 2 });
       map.addSource('orlando', {
         type: 'geojson',
