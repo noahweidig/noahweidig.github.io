@@ -19,7 +19,9 @@ const { layout = 'grid', label } = Astro.props;
       data-carousel-prev
       aria-label={`Previous ${label}`}
     >
-      <span class="carousel-chev carousel-chev-prev"><Icon name="chevron" size={18} /></span>
+      <span class="carousel-chev carousel-chev-prev">
+        <Icon name="chevron" size={18} />
+      </span>
     </button>
     <button
       type="button"
@@ -27,7 +29,9 @@ const { layout = 'grid', label } = Astro.props;
       data-carousel-next
       aria-label={`Next ${label}`}
     >
-      <span class="carousel-chev carousel-chev-next"><Icon name="chevron" size={18} /></span>
+      <span class="carousel-chev carousel-chev-next">
+        <Icon name="chevron" size={18} />
+      </span>
     </button>
   </div>
 </div>
