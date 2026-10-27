@@ -15,7 +15,7 @@
 }
 .hm-num {
   display: block;
-  font-size: clamp(4.5rem, 13vw, 10rem);
+  font-size: clamp(3.25rem, 8vw, 6rem);
   color: var(--c-accent-ink);
   font-variant-numeric: tabular-nums;
 }
@@ -68,7 +68,7 @@
 /* RESEARCH is 5.5em wide at this weight and width, so 17cqw keeps it inside
    the block at every column width. */
 .hm-way-title {
-  font-size: min(6.4rem, 17cqw);
+  font-size: min(4.75rem, 17cqw);
 }
 .hm-way-body {
   max-width: 24rem;
@@ -116,7 +116,7 @@
   color: var(--c-accent-contrast);
 }
 .hm-area-name {
-  font-size: clamp(2.4rem, 7.5vw, 6rem);
+  font-size: clamp(2rem, 5vw, 4rem);
 }
 .hm-area-plus {
   position: relative;
@@ -225,7 +225,7 @@
 /* --- closing call to action --- */
 .hm-cta-title {
   margin-top: 1.2rem;
-  font-size: clamp(3rem, 10.5vw, 9.5rem);
+  font-size: clamp(2.25rem, 7vw, 6rem);
   text-wrap: balance;
 }
 .hm-cta-title span {
