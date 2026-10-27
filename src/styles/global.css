@@ -63,7 +63,8 @@
 /* Poster bands. The palette is four flat colors, cobalt, ice, sun and deep blue,
    with a navy ink. Each band re-points the theme tokens at its own colors, so
    every component inside (buttons, chips, cards, links) reads correctly on it.
-   The page header and every page hero are cobalt bands. */
+   The page header and every page hero are cobalt bands; the hero fact panels and
+   the nav dropdowns inside them are ice. */
 :is(.band-blue, .page-hero, .nav-glass) {
   --c-bg: var(--p-blue);
   --c-bg-deep: var(--p-deep);
@@ -83,7 +84,7 @@
   background-color: var(--p-blue);
   color: var(--p-ice);
 }
-:is(.band-ice) {
+:is(.band-ice, .hero-panel, .nav-menu) {
   --c-bg: var(--p-ice);
   --c-bg-deep: var(--p-ice);
   --c-surface: var(--p-ice);
