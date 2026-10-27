@@ -46,12 +46,12 @@
   --c-dim: #a3a3a3;
   --c-faint: #8f8f8f;
 
-  --c-accent: #0072e3;
-  --c-accent-ink: #6ba4ff;
+  --c-accent: #4151b5;
+  --c-accent-ink: #8f9be0;
   --c-accent-contrast: #ffffff;
-  --c-btn2: #2997ff;
-  --c-btn2-hover: #0076df;
-  --c-btn2-active: #006edb;
+  --c-btn2: #4151b5;
+  --c-btn2-hover: #4151b5;
+  --c-btn2-active: #4151b5;
   --c-on-light: #191919;
   /* Notion's accent set (notion.com tatami tokens), text-legible steps for
      this theme. Blue stays the primary (--c-accent). */
@@ -63,7 +63,7 @@
   --c-pink: var(--c-red);
   --c-moss: #68ce7e;
   --logo-red: #ff6b78;
-  --logo-blue: #5aa0ff;
+  --logo-blue: #8f9be0;
   --logo-yellow: #ffc21a;
   --c-violet: var(--c-accent-ink);
 
@@ -88,12 +88,12 @@
   --c-dim: #5f5e5a;
   --c-faint: #6b6a65;
 
-  --c-accent: #0072e3;
-  --c-accent-ink: #0a54ba;
+  --c-accent: #4151b5;
+  --c-accent-ink: #4151b5;
   --c-accent-contrast: #ffffff;
-  --c-btn2: #0066cc;
-  --c-btn2-hover: #0076df;
-  --c-btn2-active: #006edb;
+  --c-btn2: #4151b5;
+  --c-btn2-hover: #4151b5;
+  --c-btn2-active: #4151b5;
   --c-on-light: #191919;
   --c-red: #b8142d;
   --c-ember: var(--c-red);
@@ -103,7 +103,7 @@
   --c-pink: var(--c-red);
   --c-moss: #0f6220;
   --logo-red: #e5484d;
-  --logo-blue: #2383e2;
+  --logo-blue: #4151b5;
   --logo-yellow: #f5b100;
   --c-violet: var(--c-accent-ink);
 
@@ -1909,8 +1909,8 @@
     /* Light theme's values — AA against the white ground this block forces,
        unlike dark theme's light-on-dark accent/faint colors. */
     --c-faint: #636a78;
-    --c-accent: #0072e3;
-    --c-accent-ink: #0a54ba;
+    --c-accent: #4151b5;
+    --c-accent-ink: #4151b5;
   }
   body {
     background: #fff;
