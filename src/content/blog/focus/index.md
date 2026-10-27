@@ -7,7 +7,7 @@ categories:
 draft: false
 image: './cover.webp'
 image-light: './cover-light.webp'
-image-alt: 'Cover card reading “Focus” in white capitals on a cobalt field with a yellow band'
+image-alt: 'Cover card reading “Focus” beside three stacked to-do cards in red, blue and yellow'
 ---
 
 ## The problem

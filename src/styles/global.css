@@ -3,17 +3,26 @@
 
 @custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
 
+/* Theme-toggle icon: light/dark/system, driven by [data-theme-pref] on <html>
+   rather than the resolved [data-theme] so the sun-moon icon shows even
+   while the resolved theme is light or dark. */
+[data-theme-icon] {
+  display: none;
+}
+:root[data-theme-pref='light'] [data-theme-icon='light'],
+:root[data-theme-pref='dark'] [data-theme-icon='dark'],
+:root[data-theme-pref='system'] [data-theme-icon='system'] {
+  display: inline-flex;
+}
+
 /* ============================================================================
-   Palette. Every semantic color is a custom property, so the .band-* classes
-   below can re-point them for a band. The site is light-only.
+   Palette. Every semantic color is a runtime custom property so the theme
+   toggle can swap the whole system by flipping one attribute on <html>.
+   Dark is the default; :root[data-theme='light'] overrides the same names.
    ========================================================================= */
 :root {
-  --p-blue: #1f3bff;
-  --p-deep: #0a1480;
-  --p-ice: #f2f4ff;
-  --p-sun: #ffd21f;
-  --p-ink: #0b0f3d;
-  /* Matte fills for buttons, tags and controls: a flat step off the surface. */
+  /* Matte fills for buttons, tags and controls: a flat grey step off the
+     surface, in whichever theme is active. */
   --c-matte: color-mix(in oklab, var(--c-ink) 12%, var(--c-card));
   --z-sticky: 40;
   --z-header: 50;
@@ -22,121 +31,88 @@
   --z-modal: 200;
   --c-scrim: rgb(0 0 0 / 0.55);
   --c-matte-hover: color-mix(in oklab, var(--c-ink) 20%, var(--c-card));
-  --c-bg: #f2f4ff;
-  --c-bg-deep: #e3e7ff;
-  --c-surface: #e9ecff;
-  --c-card: #ffffff;
-  --c-raised: #e6e9ff;
-  --c-line: #b7beeb;
-  --c-line-strong: #0b0f3d;
-  --c-control-border: #0b0f3d;
-  --c-ink: #0b0f3d;
-  --c-dim: #3a4072;
-  --c-faint: #565d8f;
+}
+:root,
+:root[data-theme='dark'] {
+  --c-bg: #0d0d0d;
+  --c-bg-deep: #080808;
+  --c-surface: #131313;
+  --c-card: #181818;
+  --c-raised: #1e1e1e;
+  --c-line: #2a2a2a;
+  --c-line-strong: #3a3a3a;
+  --c-control-border: #7a7a7a;
+  --c-ink: #ececec;
+  --c-dim: #a3a3a3;
+  --c-faint: #8f8f8f;
 
-  --c-accent: #1f3bff;
-  --c-accent-ink: #1f3bff;
+  --c-accent: #0072e3;
+  --c-accent-ink: #6ba4ff;
   --c-accent-contrast: #ffffff;
-  --c-btn2: #1f3bff;
-  --c-btn2-hover: #0a1480;
-  --c-btn2-active: #0a1480;
-  --c-on-light: #0b0f3d;
+  --c-btn2: #2997ff;
+  --c-btn2-hover: #0076df;
+  --c-btn2-active: #006edb;
+  --c-on-light: #191919;
+  /* Notion's accent set (notion.com tatami tokens), text-legible steps for
+     this theme. Blue stays the primary (--c-accent). */
+  --c-red: #ff6b78;
+  --c-ember: var(--c-red);
+  --c-yellow: #ffb110;
+  --c-yellow-ink: #ffc95e;
+  --c-teal: var(--c-accent-ink);
+  --c-pink: var(--c-red);
+  --c-moss: #68ce7e;
+  --logo-red: #ff6b78;
+  --logo-blue: #5aa0ff;
+  --logo-yellow: #ffc21a;
+  --c-violet: var(--c-accent-ink);
+
+  --c-glow: color-mix(in oklab, var(--c-accent) 26%, transparent);
+  --c-edge: rgb(255 255 255 / 0.06);
+  --glow-a: 0.16;
+  --c-sheen: rgb(255 255 255 / 0.04);
+  --grid-line: rgb(255 255 255 / 0.045);
+  color-scheme: dark;
+}
+
+:root[data-theme='light'] {
+  --c-bg: #ffffff;
+  --c-bg-deep: #fafafa;
+  --c-surface: #f7f7f7;
+  --c-card: #ffffff;
+  --c-raised: #f1f1f1;
+  --c-line: #e9e9e7;
+  --c-line-strong: #d3d2ce;
+  --c-control-border: #7a7974;
+  --c-ink: #37352f;
+  --c-dim: #5f5e5a;
+  --c-faint: #6b6a65;
+
+  --c-accent: #0072e3;
+  --c-accent-ink: #0a54ba;
+  --c-accent-contrast: #ffffff;
+  --c-btn2: #0066cc;
+  --c-btn2-hover: #0076df;
+  --c-btn2-active: #006edb;
+  --c-on-light: #191919;
   --c-red: #b8142d;
   --c-ember: var(--c-red);
-  --c-yellow: #ffd21f;
-  --c-yellow-ink: #6b5200;
+  --c-yellow: #ffb110;
+  --c-yellow-ink: #7a5000;
   --c-teal: var(--c-accent-ink);
   --c-pink: var(--c-red);
   --c-moss: #0f6220;
   --logo-red: #e5484d;
-  --logo-blue: #1f3bff;
-  --logo-yellow: #ffd21f;
+  --logo-blue: #2383e2;
+  --logo-yellow: #f5b100;
   --c-violet: var(--c-accent-ink);
 
-  --c-glow: transparent;
-  --c-edge: transparent;
-  --glow-a: 0;
+  --c-glow: color-mix(in oklab, var(--c-accent) 16%, transparent);
+  --c-edge: rgb(255 255 255 / 0.9);
+  --glow-a: 0.1;
   --c-sheen: rgb(15 20 30 / 0.02);
-  --grid-line: rgb(11 15 61 / 0.06);
+  --grid-line: rgb(20 25 40 / 0.045);
   color-scheme: light;
-}
-/* Poster bands. The palette is four flat colors, cobalt, ice, sun and deep blue,
-   with a navy ink. Each band re-points the theme tokens at its own colors, so
-   every component inside (buttons, chips, cards, links) reads correctly on it.
-   The page header and every page hero are cobalt bands; the hero fact panels and
-   the nav dropdowns inside them are ice. */
-:is(.band-blue, .page-hero) {
-  --c-bg: var(--p-blue);
-  --c-bg-deep: var(--p-deep);
-  --c-surface: var(--p-deep);
-  --c-card: var(--p-deep);
-  --c-raised: var(--p-deep);
-  --c-ink: var(--p-ice);
-  --c-dim: color-mix(in oklab, var(--p-ice) 88%, var(--p-blue));
-  --c-faint: color-mix(in oklab, var(--p-ice) 78%, var(--p-blue));
-  --c-line: color-mix(in oklab, var(--p-ice) 40%, var(--p-blue));
-  --c-line-strong: var(--p-ice);
-  --c-control-border: var(--p-ice);
-  --c-accent: var(--p-sun);
-  --c-accent-ink: var(--p-sun);
-  --c-accent-contrast: var(--p-deep);
-  --c-scrim: rgb(10 20 128 / 0.7);
-  background-color: var(--p-blue);
-  color: var(--p-ice);
-}
-:is(.band-ice, .hero-panel, .nav-menu, .nav-glass) {
-  --c-bg: var(--p-ice);
-  --c-bg-deep: var(--p-ice);
-  --c-surface: var(--p-ice);
-  --c-card: #ffffff;
-  --c-raised: var(--p-ice);
-  --c-ink: var(--p-ink);
-  --c-dim: #3a4072;
-  --c-faint: #565d8f;
-  --c-line: #b7beeb;
-  --c-line-strong: var(--p-ink);
-  --c-control-border: var(--p-ink);
-  --c-accent: var(--p-blue);
-  --c-accent-ink: var(--p-blue);
-  --c-accent-contrast: #ffffff;
-  background-color: var(--p-ice);
-  color: var(--p-ink);
-}
-:is(.band-sun) {
-  --c-bg: var(--p-sun);
-  --c-bg-deep: var(--p-sun);
-  --c-surface: var(--p-sun);
-  --c-card: var(--p-ice);
-  --c-raised: var(--p-sun);
-  --c-ink: var(--p-deep);
-  --c-dim: var(--p-deep);
-  --c-faint: var(--p-deep);
-  --c-line: var(--p-deep);
-  --c-line-strong: var(--p-deep);
-  --c-control-border: var(--p-deep);
-  --c-accent: var(--p-deep);
-  --c-accent-ink: var(--p-blue);
-  --c-accent-contrast: var(--p-sun);
-  background-color: var(--p-sun);
-  color: var(--p-deep);
-}
-:is(.band-deep, [data-site-footer]) {
-  --c-bg: var(--p-deep);
-  --c-bg-deep: var(--p-deep);
-  --c-surface: var(--p-deep);
-  --c-card: var(--p-blue);
-  --c-raised: var(--p-blue);
-  --c-ink: var(--p-ice);
-  --c-dim: color-mix(in oklab, var(--p-ice) 85%, var(--p-deep));
-  --c-faint: color-mix(in oklab, var(--p-ice) 72%, var(--p-deep));
-  --c-line: color-mix(in oklab, var(--p-ice) 35%, var(--p-deep));
-  --c-line-strong: var(--p-ice);
-  --c-control-border: var(--p-ice);
-  --c-accent: var(--p-sun);
-  --c-accent-ink: var(--p-sun);
-  --c-accent-contrast: var(--p-deep);
-  background-color: var(--p-deep);
-  color: var(--p-ice);
 }
 
 @theme inline {
@@ -165,14 +141,16 @@
   --color-moss: var(--c-moss);
   --color-violet: var(--c-violet);
 
-  --font-sans: 'Archivo', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --font-display: 'Archivo', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-sans:
+    'Inter', 'Inter Fallback', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display:
+    'Inter', 'Inter Fallback', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
 
-  --radius-xs: 0;
-  --radius-sm: 0;
-  --radius-md: 0;
-  --radius-pill: 0;
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-pill: 9999px;
 
   /* Named steps for the micro-type cluster that used to ship as one-off
      arbitrary values (text-micro etc.) — see #138. */
@@ -195,15 +173,15 @@
   --space-6: 1.5rem;
   --space-8: 2rem;
   --space-12: 3rem;
-  --shadow-1: none;
-  --shadow-2: 4px 4px 0 var(--c-accent);
-  --shadow-3: 6px 6px 0 var(--c-accent);
+  --shadow-1: 0 1px 2px color-mix(in oklab, var(--c-bg-deep) 40%, transparent);
+  --shadow-2: 0 6px 20px -8px color-mix(in oklab, var(--c-bg-deep) 80%, transparent);
+  --shadow-3: 0 14px 34px -12px color-mix(in oklab, var(--c-bg-deep) 75%, transparent);
 
   --dur-fast: 0.2s;
   --dur-base: 0.3s;
   --dur-slow: 0.4s;
 
-  --shadow-soft: none;
+  --shadow-soft: 0 0 14px 0 color-mix(in oklab, var(--c-ink) 9%, transparent);
 
   --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -240,7 +218,7 @@
     font-family: var(--font-sans);
     font-size: 1rem;
     line-height: 1.65;
-    font-variation-settings: 'wdth' 100;
+    font-feature-settings: 'ss03' 1;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     /* clip, not hidden: overflow-x: hidden turns body into a scroll
@@ -249,31 +227,18 @@
     overflow-x: clip;
   }
 
-  /* Poster headings: h1 and h2 are condensed, black and capitalised; h3 and h4
-     stay readable at mixed case. font-variation-settings wins over any
-     font-weight utility, so the widths hold wherever a heading is sized. */
   h1,
-  h2 {
-    font-family: var(--font-display);
-    font-weight: 900;
-    font-variation-settings:
-      'wdth' 64,
-      'wght' 900;
-    text-transform: uppercase;
-    letter-spacing: -0.005em;
-    line-height: 0.92;
-    text-wrap: balance;
-  }
+  h2,
   h3,
   h4 {
     font-family: var(--font-display);
-    font-weight: 800;
-    font-variation-settings:
-      'wdth' 88,
-      'wght' 800;
-    letter-spacing: -0.01em;
-    line-height: 1.1;
+    font-weight: 650;
+    letter-spacing: -0.022em;
+    line-height: 1.12;
     text-wrap: balance;
+  }
+  h1 {
+    letter-spacing: -0.03em;
   }
   p,
   li,
@@ -306,8 +271,9 @@
   }
 
   :focus-visible {
-    outline: 3px solid var(--c-accent-ink);
+    outline: 2px solid var(--c-accent);
     outline-offset: 3px;
+    border-radius: var(--radius-xs);
   }
 
   img,
@@ -319,7 +285,7 @@
 
   hr {
     border: 0;
-    border-top: 2px solid var(--c-line-strong);
+    border-top: 1px solid var(--c-line);
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -342,24 +308,12 @@
 @layer components {
   .shell {
     width: 100%;
-    max-width: 82rem;
+    max-width: 76rem;
     margin-inline: auto;
     padding-inline: 1.25rem;
   }
   @media (min-width: 48rem) {
     .shell {
-      padding-inline: 2rem;
-    }
-  }
-
-  .shell-wide {
-    width: 100%;
-    max-width: 82rem;
-    margin-inline: auto;
-    padding-inline: 1.25rem;
-  }
-  @media (min-width: 48rem) {
-    .shell-wide {
       padding-inline: 2rem;
     }
   }
@@ -388,30 +342,35 @@
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
-    font-size: 0.74rem;
-    font-weight: 700;
-    font-variation-settings:
-      'wdth' 125,
-      'wght' 700;
-    letter-spacing: 0.08em;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
     color: var(--tint, var(--c-accent-ink));
   }
   /* Accent-blue gradient text, for a single highlighted word in a headline. */
   .blue-grad {
-    color: var(--c-accent-ink);
+    background-image: linear-gradient(
+      100deg,
+      var(--c-accent-ink) 0%,
+      color-mix(in oklab, var(--c-accent-ink) 70%, var(--c-ink)) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
   /* --- display headings --- */
   .display-1 {
-    font-size: clamp(3.2rem, 1.5rem + 7vw, 7.5rem);
+    font-size: clamp(2.4rem, 1.3rem + 4.4vw, 4.4rem);
   }
   .display-2 {
-    font-size: clamp(2.8rem, 1.5rem + 5.5vw, 6rem);
+    font-size: clamp(2.2rem, 1.3rem + 3.4vw, 4rem);
   }
 
   /* --- section titles --- */
   .section-title {
-    font-size: clamp(3rem, 1.5rem + 6vw, 7rem);
+    font-size: clamp(1.85rem, 1.2rem + 2.2vw, 3rem);
     margin-top: 0.6rem;
   }
 
@@ -421,10 +380,25 @@
     max-width: 46rem;
   }
 
+  /* Canvas dot grid inside a hero (hero-dots.ts); fades out toward the bottom edge. */
+  .dot-grid {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent);
+    mask-image: linear-gradient(to bottom, #000 55%, transparent);
+  }
+
   /* --- page hero ---
      The theme-following band that opens every inner page: breadcrumbs, kicker,
      large title, intro and actions on the left, an optional frosted panel on
      the right. Collapses to one column below 52rem. */
+  .page-hero {
+    background: var(--c-bg);
+    color: var(--c-ink);
+  }
   .page-hero-inner {
     position: relative;
     display: grid;
@@ -448,22 +422,25 @@
   .page-hero-title {
     margin-top: 1rem;
     font-family: var(--font-display);
-    font-size: clamp(3.4rem, 11vw, 8rem);
-    line-height: 0.88;
+    font-size: clamp(2.5rem, 7vw, 4rem);
+    font-weight: 600;
+    line-height: 1.02;
+    letter-spacing: -0.02em;
     width: fit-content;
     max-width: 100%;
     padding-bottom: 0.1em;
   }
   .page-hero-title-md {
-    font-size: clamp(2.4rem, 6vw, 4.6rem);
-    line-height: 0.92;
+    font-size: clamp(2rem, 5vw, 3rem);
+    line-height: 1.08;
+    letter-spacing: -0.02em;
   }
   .page-hero-lede {
     max-width: 34rem;
     margin-top: 1.25rem;
     font-size: clamp(1rem, 2.2vw, 1.19rem);
     line-height: 1.55;
-    color: var(--c-ink);
+    color: var(--c-dim);
   }
   .page-hero-actions {
     display: flex;
@@ -478,14 +455,16 @@
   }
   .hero-panel {
     padding: 1.25rem;
+    border-radius: var(--radius-md);
     background: var(--c-card);
-    border: 2px solid var(--c-line-strong);
+    border: 1px solid var(--c-line);
   }
   /* Cover or screenshot in the hero's right column. */
   .hero-media {
     margin: 0;
     overflow: hidden;
-    border: 2px solid var(--c-line-strong);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--c-line);
     background: var(--c-card);
   }
   .hero-media img {
@@ -506,13 +485,10 @@
   }
   .hero-panel-stats dd {
     font-family: var(--font-display);
-    font-size: 2.4rem;
-    font-weight: 900;
-    font-variation-settings:
-      'wdth' 64,
-      'wght' 900;
-    line-height: 0.9;
-    text-transform: uppercase;
+    font-size: 1.75rem;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.02em;
     color: var(--tint, var(--c-ink));
   }
   .hero-panel-stats dt {
@@ -551,13 +527,32 @@
        `color: canvastext`; naming the token here keeps a card readable
        wherever it renders. */
     color: var(--c-ink);
-    border: 2px solid var(--c-line-strong);
+    border: 1px solid var(--c-line);
+    border-radius: var(--radius-md);
+    box-shadow: inset 0 1px 0 var(--c-edge);
     transition: border-color var(--dur-fast) ease-out;
   }
   /* Hover: a 3px lift, soft shadow and a faint spotlight that follows the pointer
      (--mx/--my are set by glow.ts). Lift is off for touch and reduced motion. */
+  .card-hover::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    background: radial-gradient(
+      260px circle at var(--mx, 50%) var(--my, 0%),
+      color-mix(in oklab, var(--c-accent) 16%, transparent),
+      transparent 70%
+    );
+    transition: opacity var(--dur-base) var(--ease-out-soft);
+  }
   .card-hover:hover {
-    border-color: var(--c-line-strong);
+    border-color: color-mix(in oklab, var(--c-accent) 55%, var(--c-line));
+  }
+  .card-hover:hover::after {
+    opacity: 1;
   }
   @media (hover: hover) and (prefers-reduced-motion: no-preference) {
     .card-hover {
@@ -567,7 +562,7 @@
         box-shadow var(--dur-base) var(--ease-out-soft);
     }
     .card-hover:hover {
-      transform: translate(-3px, -3px);
+      transform: translateY(-3px);
       box-shadow: var(--shadow-3);
     }
   }
@@ -577,15 +572,12 @@
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    padding: 0.8rem 1.1rem;
-    font-size: 0.74rem;
-    font-weight: 700;
-    font-variation-settings:
-      'wdth' 125,
-      'wght' 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    border: 2px solid transparent;
+    padding: 0.68rem 1.35rem;
+    border-radius: var(--radius-pill);
+    font-size: var(--text-compact);
+    font-weight: 600;
+    letter-spacing: -0.005em;
+    border: 1px solid transparent;
     cursor: pointer;
     white-space: nowrap;
     transition:
@@ -609,26 +601,15 @@
     color: var(--c-accent-contrast);
   }
   .btn-primary:hover {
-    background: var(--c-ink);
-    border-color: var(--c-ink);
-    color: var(--c-bg);
-  }
-  /* On a sun band the resting button is already ink on sun, so hover goes to cobalt. */
-  .band-sun .btn-primary:hover {
-    background: var(--p-blue);
-    border-color: var(--p-blue);
-    color: var(--p-ice);
+    background: color-mix(in oklab, var(--c-accent) 86%, black);
   }
 
   .btn-ghost {
     color: var(--c-ink);
-    background: transparent;
-    border-color: var(--c-line-strong);
+    background: var(--c-matte);
   }
   .btn-ghost:hover {
-    background: var(--c-ink);
-    border-color: var(--c-ink);
-    color: var(--c-bg);
+    background: var(--c-matte-hover);
   }
 
   /* Secondary button (the hero's second button, "View all" links, share and
@@ -645,9 +626,16 @@
   .btn-wash:hover,
   .page-hero-actions .btn-ghost:hover,
   .hero-btn.btn-ghost:hover {
-    background: var(--c-ink);
-    border-color: var(--c-ink);
-    color: var(--c-bg);
+    background: var(--c-accent);
+    border-color: var(--c-accent);
+    color: var(--c-accent-contrast);
+  }
+  .btn-outline:active,
+  .btn-wash:active,
+  .page-hero-actions .btn-ghost:active,
+  .hero-btn.btn-ghost:active {
+    background: color-mix(in oklab, var(--c-accent) 86%, black);
+    border-color: color-mix(in oklab, var(--c-accent) 86%, black);
   }
 
   .btn-sm {
@@ -673,9 +661,11 @@
   .popup-plus.carousel-btn {
     width: 3rem;
     height: 3rem;
-    border: 2px solid var(--c-line-strong);
+    border: 1px solid color-mix(in oklab, var(--c-ink) 14%, transparent);
     border-radius: var(--radius-pill);
-    background: var(--c-bg);
+    background: color-mix(in oklab, var(--c-bg) 70%, transparent);
+    -webkit-backdrop-filter: blur(14px) saturate(1.6);
+    backdrop-filter: blur(14px) saturate(1.6);
     color: var(--c-ink);
     transition:
       background-color var(--dur-fast) var(--ease-out-soft),
@@ -683,9 +673,8 @@
       color var(--dur-fast) var(--ease-out-soft);
   }
   .popup-plus.carousel-btn:hover:not(:disabled) {
-    background: var(--c-accent);
-    border-color: var(--c-accent);
-    color: var(--c-accent-contrast);
+    background: color-mix(in oklab, var(--c-bg) 85%, transparent);
+    border-color: color-mix(in oklab, var(--c-accent) 55%, var(--c-line));
   }
   .popup-plus.carousel-btn:disabled {
     color: var(--c-faint);
@@ -715,28 +704,24 @@
     min-height: 1.5rem;
     padding: 0.15rem 0.6rem;
     border-radius: var(--radius-xs);
-    border: 1.5px solid var(--c-line-strong);
+    border: 1px solid var(--c-line-strong);
     background: transparent;
-    color: var(--c-ink);
-    font-size: 0.66rem;
-    font-weight: 700;
-    font-variation-settings:
-      'wdth' 125,
-      'wght' 700;
-    letter-spacing: 0.08em;
+    color: var(--c-dim);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
     white-space: nowrap;
   }
   .chip-link {
     transition:
-      background-color var(--dur-fast),
       border-color var(--dur-fast),
       color var(--dur-fast);
   }
   .chip-link:hover {
-    background: var(--c-accent);
-    border-color: var(--c-accent);
-    color: var(--c-accent-contrast);
+    border-color: var(--c-dim);
+    color: var(--c-ink);
   }
   .card-badge {
     position: absolute;
@@ -760,29 +745,26 @@
   /* Link / action chips (DOI, PDF, Altmetric...): outlined in blue.
      Informational chips stay on plain .chip. */
   .chip-accent {
-    border-color: var(--c-accent-ink);
+    border-color: color-mix(in oklab, var(--c-accent) 50%, transparent);
     color: var(--c-accent-ink);
   }
   a.chip-accent {
-    transition:
-      background-color var(--dur-fast),
-      color var(--dur-fast);
+    transition: background-color var(--dur-fast);
   }
   a.chip-accent:hover {
-    background: var(--c-accent-ink);
-    color: var(--c-bg);
+    background: color-mix(in oklab, var(--c-accent) 16%, transparent);
   }
   /* Icon tiles: a 1px circle outlined in the color, icon in the theme's legible
-     step. Square, like everything else. */
+     step. Pair with rounded-full. */
   .tile-blue {
-    border: 2px solid var(--tint);
+    border: 1px solid color-mix(in oklab, var(--tint) 50%, transparent);
     background: transparent;
     color: var(--tint);
   }
   /* Status chips (pass/fail): outlined in the status color. Blue is the site
      accent and carries no meaning, so .chip-blue stays neutral. */
   :is(.chip-red, .chip-green) {
-    border-color: var(--tint);
+    border-color: color-mix(in oklab, var(--tint) 50%, transparent);
     color: var(--tint);
   }
   .chip-blue,
@@ -800,8 +782,59 @@
   .tint-blue {
     --tint: var(--c-accent-ink);
   }
+  /* Homepage stat strip tile: a plain card surface. */
+  .stat-tile {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 0.25rem;
+    min-width: 0;
+    padding: 1rem;
+    border-radius: var(--radius-md);
+    color: var(--c-ink);
+    background: var(--c-card);
+    border: 1px solid var(--c-line);
+  }
+  @media (min-width: 48rem) {
+    .stat-tile {
+      padding: 1.5rem;
+    }
+  }
+  /* Homepage contact card. */
   .cta-card {
     padding: clamp(2rem, 6vw, 4.5rem) 1.5rem;
+  }
+  .cta-kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--c-accent-ink);
+  }
+  .cta-dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background: var(--c-accent-ink);
+    animation: cta-pulse 2s ease-out infinite;
+  }
+  @keyframes cta-pulse {
+    0% {
+      box-shadow: 0 0 0 0 color-mix(in oklab, var(--c-accent-ink) 55%, transparent);
+    }
+    70%,
+    100% {
+      box-shadow: 0 0 0 0.5rem transparent;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cta-dot {
+      animation: none;
+    }
   }
   /* The Altmetric donut in a citation chip is a small vendor-served image
      sized to sit on the chip's text baseline. */
@@ -822,16 +855,11 @@
   .pill {
     padding: calc(0.4rem - 1px) calc(1rem - 1px);
     border-radius: var(--radius-pill);
-    border: 2px solid var(--c-line-strong);
+    border: 1px solid var(--c-line-strong);
     background: transparent;
-    color: var(--c-ink);
-    font-size: 0.74rem;
-    font-weight: 700;
-    font-variation-settings:
-      'wdth' 125,
-      'wght' 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    color: var(--c-dim);
+    font-size: var(--text-small);
+    font-weight: 500;
     cursor: pointer;
     transition:
       background-color var(--dur-fast) var(--ease-out-soft),
@@ -856,9 +884,8 @@
     }
   }
   .pill:hover {
-    background: var(--c-ink);
-    border-color: var(--c-ink);
-    color: var(--c-bg);
+    color: var(--c-ink);
+    border-color: var(--c-dim);
   }
   .pill[aria-pressed='true'],
   .pill[aria-selected='true'] {
@@ -878,13 +905,13 @@
     margin-top: 1.15em;
   }
   .prose-nw h2 {
-    font-size: 2.6rem;
+    font-size: 1.65rem;
     margin-top: 2.4em;
     margin-bottom: 0.15em;
     scroll-margin-top: 6rem;
   }
   .prose-nw h3 {
-    font-size: 1.4rem;
+    font-size: 1.25rem;
     margin-top: 1.9em;
     margin-bottom: 0.1em;
     scroll-margin-top: 6rem;
@@ -921,14 +948,16 @@
     color: var(--c-faint);
   }
   .prose-nw strong {
-    font-weight: 700;
+    font-weight: 650;
     color: var(--c-ink);
   }
   .prose-nw em {
+    font-family: var(--font-display);
     font-style: italic;
   }
   .prose-nw img {
-    border: 2px solid var(--c-line-strong);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--c-line);
     width: 100%;
   }
   /* Hex logos set beside a package heading in the R-packages post. */
@@ -958,7 +987,7 @@
   .prose-nw pre {
     padding: 1.15rem 1.25rem;
     border-radius: var(--radius-md);
-    border: 2px solid var(--c-line-strong);
+    border: 1px solid var(--c-line);
     overflow-x: auto;
     font-size: var(--text-compact);
     line-height: 1.65;
@@ -968,18 +997,18 @@
     font-family: var(--font-mono);
   }
   .prose-nw blockquote {
-    border-left: 6px solid var(--c-accent-ink);
+    border-left: 2px solid var(--c-accent);
     padding: 0.1rem 0 0.1rem 1.15rem;
-    color: var(--c-ink);
+    color: var(--c-dim);
     font-family: var(--font-display);
-    font-size: 1.15rem;
+    font-size: 1.1rem;
   }
   .prose-nw blockquote p:first-child strong:only-child {
     color: var(--c-accent-ink);
   }
   /* GitHub-style [!NOTE]/[!TIP]/etc alerts, from remark-github-blockquote-alert. */
   .prose-nw .markdown-alert {
-    border-left: 6px solid var(--alert-color, var(--c-accent));
+    border-left: 2px solid var(--alert-color, var(--c-accent));
     padding: 0.6rem 0 0.6rem 1.15rem;
     margin: 1.5rem 0;
   }
@@ -1023,12 +1052,18 @@
   .prose-nw th {
     color: var(--c-dim);
     font-weight: 600;
-    font-size: 0.74rem;
-    font-variation-settings:
-      'wdth' 125,
-      'wght' 700;
+    font-size: var(--text-small);
     text-transform: uppercase;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.06em;
+  }
+
+  /* Shiki: swap themes with the site theme rather than the OS. */
+  :root[data-theme='dark'] .astro-code,
+  :root[data-theme='dark'] .astro-code span {
+    color: var(--shiki-dark) !important;
+    font-style: var(--shiki-dark-font-style) !important;
+    font-weight: var(--shiki-dark-font-weight) !important;
+    text-decoration: var(--shiki-dark-text-decoration) !important;
   }
 
   /* The copy button reveals on hover, which a touch device never does. */
@@ -1066,17 +1101,16 @@
   }
   .tech-tile-cat {
     margin-top: -0.3rem;
+    font-family: var(--font-mono);
     font-size: var(--text-micro);
-    font-variation-settings:
-      'wdth' 125,
-      'wght' 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--c-faint);
   }
   .tech-tile-more {
     position: relative;
-    box-shadow: inset 0 0 0 2px var(--c-line-strong);
+    border-radius: var(--radius-md);
+    box-shadow: inset 0 0 0 1px var(--c-line);
     transition: background-color var(--dur-base) var(--ease-out-soft);
   }
   .tech-tile-more:hover {
@@ -1275,16 +1309,16 @@
     color: var(--c-ink);
   }
 
-  /* Outlined square: share and copy icons beside a post. Fills on hover. */
+  /* Outlined circle: share and copy icons beside a post. */
   .icon-tile.icon-outline {
-    border: 2px solid var(--c-line-strong);
-    border-radius: 0;
+    border: 1px solid var(--c-line-strong);
+    border-radius: 9999px;
     background: transparent;
   }
   .icon-tile.icon-outline:hover {
-    border-color: var(--c-ink);
-    background: var(--c-ink);
-    color: var(--c-bg);
+    border-color: var(--c-accent-ink);
+    background: transparent;
+    color: var(--c-accent-ink);
   }
 
   /* Same hit area and hover lift, with no circle around the glyph. */
@@ -1326,7 +1360,7 @@
     width: min(40rem, 100%);
     padding: clamp(1.5rem, 5vw, 3rem);
     border-radius: var(--radius-md);
-    border: 2px solid var(--c-line-strong);
+    border: 1px solid var(--c-line-strong);
     background: var(--c-card);
   }
   .popup::backdrop {
@@ -1345,7 +1379,7 @@
     place-items: center;
     width: 2.25rem;
     height: 2.25rem;
-    border: 2px solid var(--c-line-strong);
+    border: 1px solid var(--c-line-strong);
     border-radius: var(--radius-pill);
     background: transparent;
     color: var(--c-ink);
@@ -1393,7 +1427,8 @@
     max-height: calc(100dvh - 2rem);
     overflow-y: auto;
     padding: 1.25rem;
-    border: 2px solid var(--c-line-strong);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--c-line-strong);
     background: var(--c-card);
     color: var(--c-ink);
   }
@@ -1467,10 +1502,12 @@
     height: 2.75rem;
     padding: 0;
     border-radius: var(--radius-pill);
-    border: 2px solid var(--p-ink);
-    background: var(--p-sun);
-    box-shadow: 3px 3px 0 var(--p-ink);
-    color: var(--p-ink);
+    border: 1px solid color-mix(in oklab, var(--c-ink) 14%, transparent);
+    background: color-mix(in oklab, var(--c-bg) 70%, transparent);
+    -webkit-backdrop-filter: blur(14px) saturate(1.6);
+    backdrop-filter: blur(14px) saturate(1.6);
+    box-shadow: var(--shadow-2);
+    color: var(--c-dim);
     opacity: 0;
     visibility: hidden;
     translate: 0 0.5rem;
@@ -1489,8 +1526,9 @@
     transition-delay: 0s;
   }
   .back-to-top:hover {
-    background: var(--p-ink);
-    color: var(--p-sun);
+    background: color-mix(in oklab, var(--c-bg) 85%, transparent);
+    border-color: color-mix(in oklab, var(--c-accent) 55%, var(--c-line));
+    color: var(--c-ink);
   }
   /* Blog posts: the ToC button takes this exact corner on mobile. */
   @media (max-width: 63.99rem) {
@@ -1697,7 +1735,7 @@
     /* Outlined circle, no fill; the glyph is always light against the scrim. */
     background: transparent;
     border: 1px solid rgb(255 255 255 / 0.4);
-    border-radius: 0;
+    border-radius: 9999px;
     color: #f1f3f7;
   }
   .lightbox .icon-tile:hover {
@@ -1797,28 +1835,6 @@
 }
 
 @layer utilities {
-  /* Poster type roles. .xc is the giant condensed capital; .xw is the small
-     wide label that sits against it. */
-  .xc {
-    font-family: var(--font-display);
-    font-weight: 900;
-    font-variation-settings:
-      'wdth' 62,
-      'wght' 900;
-    text-transform: uppercase;
-    line-height: 0.88;
-    letter-spacing: -0.005em;
-  }
-  .xw {
-    font-weight: 700;
-    font-variation-settings:
-      'wdth' 125,
-      'wght' 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    font-size: 0.74rem;
-    line-height: 1.3;
-  }
   /* Top band that runs up behind the transparent header (4rem, 4.5rem from
      48rem up; keep in step with the h- classes on .nav-bar in Header.astro). */
   .under-nav {
@@ -1883,13 +1899,6 @@
 
 /* Print: the CV page has to survive Cmd-P. */
 @media print {
-  .page-hero {
-    --c-ink: #14161a;
-    --c-dim: #333;
-    --c-accent-ink: #0a54ba;
-    background-color: #fff;
-    color: #14161a;
-  }
   :root {
     --c-bg: #fff;
     --c-surface: #fff;
@@ -1927,6 +1936,120 @@
 .cv-auto {
   content-visibility: auto;
   contain-intrinsic-size: auto 900px;
+}
+
+/* ============================================================================
+   Logo triad: blue, red and yellow carry the whole palette. Ambient glow,
+   bento grid, count-up numbers and view-transition tuning live here.
+   ========================================================================= */
+.hero-glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      42rem 26rem at 18% 0%,
+      color-mix(in oklab, var(--logo-blue) calc(var(--glow-a) * 100%), transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      34rem 22rem at 86% 12%,
+      color-mix(in oklab, var(--logo-blue) calc(var(--glow-a) * 60%), transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      30rem 20rem at 55% 100%,
+      color-mix(in oklab, var(--c-accent) calc(var(--glow-a) * 50%), transparent),
+      transparent 70%
+    );
+  -webkit-mask-image: linear-gradient(to bottom, #000 60%, transparent);
+  mask-image: linear-gradient(to bottom, #000 60%, transparent);
+}
+
+/* Blue rule across the top of the closing CTA, fading out at both ends;
+   overflow clips it to the card's rounded corners so it sits inside the border. */
+.cta-card {
+  overflow: hidden;
+}
+.cta-card::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--c-accent) 20%,
+    var(--c-accent-ink) 50%,
+    var(--c-accent) 80%,
+    transparent
+  );
+}
+
+/* Bento: lead cell spans both rows on the left, two cells stack on the right. */
+.bento {
+  display: grid;
+  gap: 1.25rem;
+}
+@media (min-width: 48rem) {
+  .bento {
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: auto auto;
+  }
+  .bento-0 {
+    grid-column: 1 / 3;
+    grid-row: 1 / 3;
+  }
+  .bento-1 {
+    grid-column: 3 / 6;
+  }
+  .bento-2 {
+    grid-column: 3 / 6;
+  }
+  .bento-0 .bento-title {
+    font-size: var(--text-h3);
+  }
+  .bento-0 p {
+    font-size: var(--text-body-lg);
+  }
+}
+.bento-cell {
+  background:
+    radial-gradient(
+      22rem 14rem at 100% 0%,
+      color-mix(in oklab, var(--tint) 12%, transparent),
+      transparent 70%
+    ),
+    var(--c-card);
+}
+
+/* Stat numbers count up from 0 as they scroll into view (no JS). The final
+   value is also the static fallback where scroll timelines are unsupported. */
+@property --n {
+  syntax: '<integer>';
+  initial-value: 0;
+  inherits: false;
+}
+.count {
+  --n: var(--to);
+  counter-reset: n var(--n);
+}
+.count::after {
+  content: counter(n);
+}
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .count {
+      animation: count-up linear both;
+      animation-timeline: view();
+      animation-range: entry 20% cover 35%;
+    }
+  }
+}
+@keyframes count-up {
+  from {
+    --n: 0;
+  }
 }
 
 /* Cross-page transitions: the header holds still while the page fades, and a

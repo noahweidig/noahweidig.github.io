@@ -25,17 +25,17 @@ const columns: { text: string; items: Link[] }[] = [
   },
 ];
 const iconBtn =
-  'grid size-9 place-items-center border-2 border-line-strong text-ink transition-colors hover:border-accent hover:bg-accent hover:text-accent-contrast';
+  'grid size-9 place-items-center rounded-full border border-line-strong text-dim transition-colors hover:border-accent hover:bg-accent hover:text-accent-contrast';
 ---
 
-<footer data-pagefind-ignore data-site-footer class="relative mt-0 bg-bg-deep text-ink">
+<footer data-pagefind-ignore data-site-footer class="relative mt-28 bg-bg-deep text-ink">
   <div class="footer-rule" aria-hidden="true"></div>
-  <div class="shell-wide">
+  <div class="w-full px-5 sm:px-6 lg:px-8">
     <div class="py-10">
       <div class="flex flex-col gap-10 lg:flex-row lg:justify-between">
         <div class="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
           <a href="/" class="group inline-flex shrink-0 items-center gap-2.5">
-            <Wordmark class="text-4xl" />
+            <Wordmark class="text-2xl" />
           </a>
           <p class="footer-dim max-w-xs text-body-lg leading-relaxed">
             Spatial analysis and applied AI for wildfire risk, land-use change and conservation.
@@ -52,7 +52,9 @@ const iconBtn =
         >
           {columns.map((col) => (
             <div>
-              <p class="xw text-accent-ink">{col.text}</p>
+              <p class="font-mono text-xs font-medium tracking-[0.06em] text-accent-ink uppercase">
+                {col.text}
+              </p>
               <ul class="mt-3 flex flex-col gap-2">
                 {col.items.map((item) => (
                   <li>
@@ -81,17 +83,25 @@ const iconBtn =
           </span>
           <div class="flex flex-wrap items-center justify-center gap-2">
             <span class="text-xs font-medium text-faint">Sitemap</span>
-            <a href="/sitemap-0.xml" data-tip="XML sitemap for crawlers" class="chip chip-link">
+            <a
+              href="/sitemap-0.xml"
+              data-tip="XML sitemap for crawlers"
+              class="chip chip-link footer-dim"
+            >
               .xml
             </a>
             <a
               href="/sitemap.md"
               data-tip="Markdown sitemap for humans and LLMs"
-              class="chip chip-link"
+              class="chip chip-link footer-dim"
             >
               .md
             </a>
-            <a href="/llms.txt" data-tip="Short site guide for AI agents" class="chip chip-link">
+            <a
+              href="/llms.txt"
+              data-tip="Short site guide for AI agents"
+              class="chip chip-link footer-dim"
+            >
               llms.txt
             </a>
           </div>
@@ -115,7 +125,7 @@ const iconBtn =
             data-tip="Subscribe to the blog feed"
             class={iconBtn}
           >
-            <Icon name="rss" size={18} />
+            <Icon name="rss" size={18} stroke-width={1.6} />
           </a>
         </div>
       </div>
@@ -124,10 +134,17 @@ const iconBtn =
 </footer>
 
 <style>
-  /* A sun-yellow bar across the top edge. */
+  /* Blue rule across the top edge, fading out at both ends. */
   .footer-rule {
-    height: 8px;
-    background: var(--p-sun);
+    height: 3px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--c-accent) 20%,
+      var(--c-accent-ink) 50%,
+      var(--c-accent) 80%,
+      transparent
+    );
   }
   /* Tailwind v4 puts every utility class (including hover: variants) inside
      `@layer utilities`, and an unlayered rule always outranks a layered one
