@@ -1,0 +1,225 @@
+/* Home page bands. Colors come from the .band-* token remaps in global.css, so
+   everything in here reads the theme tokens and works on any band. */
+.hm-band {
+  padding-block: clamp(3.5rem, 8vw, 7rem);
+}
+
+/* --- stats --- */
+.hm-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2rem 1.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.hm-num {
+  display: block;
+  font-size: clamp(4.5rem, 13vw, 10rem);
+  color: var(--c-accent-ink);
+  font-variant-numeric: tabular-nums;
+}
+@media (min-width: 50rem) {
+  .hm-stats {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/* --- three ways in --- */
+.hm-ways {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+}
+.hm-way {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 2rem;
+  min-height: 22rem;
+  padding: clamp(1.5rem, 3vw, 2.5rem) 1.25rem;
+}
+.hm-way-title {
+  font-size: clamp(3.6rem, 8vw, 6.4rem);
+}
+.hm-way-body {
+  max-width: 24rem;
+  margin-top: 1rem;
+}
+@media (min-width: 48rem) {
+  .hm-way {
+    padding-inline: 2rem;
+  }
+}
+@media (min-width: 50rem) {
+  .hm-ways {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* --- research areas --- */
+.hm-rows {
+  border-top: 2px solid var(--c-line-strong);
+}
+.hm-area {
+  border-bottom: 2px solid var(--c-line-strong);
+}
+.hm-area summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.7rem 0.4rem;
+  cursor: pointer;
+  list-style: none;
+  transition:
+    background-color var(--dur-fast),
+    color var(--dur-fast);
+}
+.hm-area summary::-webkit-details-marker {
+  display: none;
+}
+.hm-area summary:hover {
+  background: var(--c-accent);
+  color: var(--c-accent-contrast);
+}
+.hm-area-name {
+  font-size: clamp(2.4rem, 7.5vw, 6rem);
+}
+.hm-area-plus {
+  position: relative;
+  flex: none;
+  width: 1.6rem;
+  height: 1.6rem;
+}
+.hm-area-plus::before,
+.hm-area-plus::after {
+  content: '';
+  position: absolute;
+  inset: 50% 0 auto;
+  height: 3px;
+  margin-top: -1.5px;
+  background: currentColor;
+  transition: rotate var(--dur-base) var(--ease-out-soft);
+}
+.hm-area-plus::after {
+  rotate: 90deg;
+}
+.hm-area[open] .hm-area-plus::after {
+  rotate: 0deg;
+}
+.hm-area-body {
+  display: grid;
+  gap: 0.9rem;
+  max-width: 44rem;
+  padding: 0.6rem 0.4rem 2rem;
+}
+.hm-area-head {
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+}
+.hm-area-text {
+  line-height: 1.6;
+}
+.hm-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* --- card grids and stacks --- */
+.hm-grid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: minmax(0, 1fr);
+}
+.hm-grid > * {
+  min-width: 0;
+}
+@media (min-width: 40rem) {
+  .hm-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 64rem) {
+  .hm-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+.hm-stack {
+  display: grid;
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.hm-bg2 {
+  display: grid;
+  gap: 3rem;
+  grid-template-columns: minmax(0, 1fr);
+}
+.hm-bg-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  min-width: 0;
+}
+@media (min-width: 60rem) {
+  .hm-bg2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 4rem;
+  }
+}
+
+/* --- closing call to action --- */
+.hm-cta-title {
+  margin-top: 1.2rem;
+  font-size: clamp(3rem, 10.5vw, 9.5rem);
+  text-wrap: balance;
+}
+.hm-cta-title span {
+  color: var(--c-accent-ink);
+}
+.hm-cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.8rem 1rem;
+  margin-top: clamp(1.75rem, 4vw, 3rem);
+}
+.hm-cta-mail {
+  margin-top: 1.2rem;
+  font-size: 1.05rem;
+}
+
+/* --- faq --- */
+.hm-faq {
+  border-top: 2px solid var(--c-line-strong);
+}
+.hm-faq .faq {
+  border-bottom: 2px solid var(--c-line-strong);
+}
+.hm-faq summary {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1.2rem 0.3rem;
+  cursor: pointer;
+  list-style: none;
+  font-size: clamp(1.1rem, 2.2vw, 1.5rem);
+  font-weight: 800;
+  font-variation-settings:
+    'wdth' 90,
+    'wght' 800;
+  transition: color var(--dur-fast);
+}
+.hm-faq summary:hover {
+  color: var(--c-accent-ink);
+}
+.hm-faq .faq p {
+  max-width: 44rem;
+  padding: 0 0.3rem 1.4rem;
+  line-height: 1.6;
+}
