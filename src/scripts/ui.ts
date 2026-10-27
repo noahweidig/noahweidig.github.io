@@ -13,7 +13,6 @@ import { initHeader } from './header';
 import { initReveal } from './reveal';
 import { initGlow } from './glow';
 import { initGlobe } from './globe';
-import { initHeroDots } from './hero-dots';
 import { initHeroIcons } from './hero-icons';
 import { initAffiliations } from './affiliations';
 import { initFilters } from './filters';
@@ -40,7 +39,6 @@ function boot() {
   initReveal();
   initGlow();
   initGlobe();
-  initHeroDots();
   initHeroIcons();
   initAffiliations();
   initFilters();

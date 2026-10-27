@@ -111,16 +111,16 @@ const faqs = [
 
   <section class="hm-ways" aria-label="Start here">
     {ways.map((w) => (
-      <div class={`hm-way ${w.band}`}>
+      <a class={`hm-way ${w.band}`} href={w.href}>
         <div>
           <h2 class="hm-way-title xc">{w.title}</h2>
           <p class="hm-way-body">{w.body}</p>
         </div>
-        <a class="btn btn-primary self-start" href={w.href}>
+        <span class="btn btn-primary self-start">
           {w.cta}
           <Icon name="arrow" size={15} />
-        </a>
-      </div>
+        </span>
+      </a>
     ))}
   </section>
 

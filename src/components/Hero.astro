@@ -123,7 +123,8 @@ const ticker = [...names, ...names];
     min-width: 0;
   }
   .hero-tag {
-    font-size: clamp(1.7rem, 3vw, 2.3rem);
+    font-size: clamp(2rem, 4vw, 3.6rem);
+    text-wrap: balance;
     font-weight: 800;
     font-variation-settings:
       'wdth' 100,
@@ -131,11 +132,17 @@ const ticker = [...names, ...names];
     line-height: 1.05;
   }
   .hero-lede {
-    max-width: 30rem;
+    max-width: 36rem;
     color: var(--c-ink);
+    font-size: clamp(1.05rem, 1.5vw, 1.3rem);
     line-height: 1.55;
   }
+  .hero-side .btn {
+    padding: 1.05rem 1.5rem;
+    font-size: 0.85rem;
+  }
   .hero-links {
+    font-size: 0.82rem;
     display: flex;
     flex-wrap: wrap;
     gap: 0.4rem 1rem;
@@ -174,9 +181,9 @@ const ticker = [...names, ...names];
   }
   @media (min-width: 56.25rem) {
     .hero-grid {
-      grid-template-columns: minmax(0, 1fr) 23rem;
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
       align-items: end;
-      gap: 3rem;
+      gap: 4rem;
     }
   }
   @media (prefers-reduced-motion: reduce) {

@@ -1,6 +1,5 @@
 ---
 import Breadcrumbs from './Breadcrumbs.astro';
-import DotGrid from './DotGrid.astro';
 import Icon from './Icon.astro';
 import { iconFor, tintFor } from '../lib/tint';
 import { vtName } from '../lib/format';
@@ -43,7 +42,6 @@ const glyph = icon ?? iconFor(kicker ?? title);
 <section
   class:list={['page-hero under-nav relative overflow-x-clip', compact && 'page-hero-compact']}
 >
-  <DotGrid />
   <div class:list={['shell page-hero-inner', hasAside && 'has-aside']}>
     <div class="page-hero-copy">
       <Breadcrumbs trail={trail} current={title} />
