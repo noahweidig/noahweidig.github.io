@@ -42,11 +42,7 @@ const alt = entry.data['image-alt'] ?? '';
         loading={index === 0 ? 'eager' : 'lazy'}
         class="h-full w-full object-cover"
       />
-      {readingTime && (
-        <span class="absolute right-3 bottom-3 chip border-transparent bg-black/55 text-white">
-          {readingTime}
-        </span>
-      )}
+      {readingTime && <span class="card-badge card-badge-sm">{readingTime}</span>}
     </a>
   )}
   <div class="flex flex-1 flex-col p-5">
