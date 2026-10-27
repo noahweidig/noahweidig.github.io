@@ -65,7 +65,7 @@
    every component inside (buttons, chips, cards, links) reads correctly on it.
    The page header and every page hero are cobalt bands; the hero fact panels and
    the nav dropdowns inside them are ice. */
-:is(.band-blue, .page-hero, .nav-glass) {
+:is(.band-blue, .page-hero) {
   --c-bg: var(--p-blue);
   --c-bg-deep: var(--p-deep);
   --c-surface: var(--p-deep);
@@ -84,7 +84,7 @@
   background-color: var(--p-blue);
   color: var(--p-ice);
 }
-:is(.band-ice, .hero-panel, .nav-menu) {
+:is(.band-ice, .hero-panel, .nav-menu, .nav-glass) {
   --c-bg: var(--p-ice);
   --c-bg-deep: var(--p-ice);
   --c-surface: var(--p-ice);
@@ -729,6 +729,7 @@
   }
   .chip-link {
     transition:
+      background-color var(--dur-fast),
       border-color var(--dur-fast),
       color var(--dur-fast);
   }
