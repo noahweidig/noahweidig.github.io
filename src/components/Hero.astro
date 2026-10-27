@@ -26,7 +26,9 @@ const ticker = [...names, ...names];
         ))}
       </h1>
       <div class="hero-side">
-        <p class="hero-tag">Spatial analysis. Real insights.</p>
+        <p class="hero-tag">
+          Spatial analysis. Real <span class="hero-hl">insights.</span>
+        </p>
         <p class="hero-lede">
           I turn satellite imagery, fire perimeters, and messy field data into models people can
           actually decide something with. Mostly wildfire risk in the wildland-urban interface.
@@ -130,6 +132,9 @@ const ticker = [...names, ...names];
       'wdth' 100,
       'wght' 800;
     line-height: 1.05;
+  }
+  .hero-hl {
+    color: var(--c-accent-ink);
   }
   .hero-lede {
     max-width: 36rem;
