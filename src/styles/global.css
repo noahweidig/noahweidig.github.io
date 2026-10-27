@@ -15,6 +15,18 @@
   display: inline-flex;
 }
 
+/* One full turn of the theme-toggle icon each time it is clicked. */
+@keyframes theme-spin {
+  to {
+    rotate: 360deg;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  [data-theme-toggle].is-spinning [data-theme-icon] {
+    animation: theme-spin 0.5s var(--ease-out-soft);
+  }
+}
+
 /* ============================================================================
    Palette. Every semantic color is a runtime custom property so the theme
    toggle can swap the whole system by flipping one attribute on <html>.
@@ -46,12 +58,12 @@
   --c-dim: #a3a3a3;
   --c-faint: #8f8f8f;
 
-  --c-accent: #0072e3;
-  --c-accent-ink: #6ba4ff;
+  --c-accent: #4151b5;
+  --c-accent-ink: #8f9be0;
   --c-accent-contrast: #ffffff;
-  --c-btn2: #2997ff;
-  --c-btn2-hover: #0076df;
-  --c-btn2-active: #006edb;
+  --c-btn2: #4151b5;
+  --c-btn2-hover: #4151b5;
+  --c-btn2-active: #4151b5;
   --c-on-light: #191919;
   /* Notion's accent set (notion.com tatami tokens), text-legible steps for
      this theme. Blue stays the primary (--c-accent). */
@@ -63,7 +75,7 @@
   --c-pink: var(--c-red);
   --c-moss: #68ce7e;
   --logo-red: #ff6b78;
-  --logo-blue: #5aa0ff;
+  --logo-blue: #8f9be0;
   --logo-yellow: #ffc21a;
   --c-violet: var(--c-accent-ink);
 
@@ -88,12 +100,12 @@
   --c-dim: #5f5e5a;
   --c-faint: #6b6a65;
 
-  --c-accent: #0072e3;
-  --c-accent-ink: #0a54ba;
+  --c-accent: #4151b5;
+  --c-accent-ink: #4151b5;
   --c-accent-contrast: #ffffff;
-  --c-btn2: #0066cc;
-  --c-btn2-hover: #0076df;
-  --c-btn2-active: #006edb;
+  --c-btn2: #4151b5;
+  --c-btn2-hover: #4151b5;
+  --c-btn2-active: #4151b5;
   --c-on-light: #191919;
   --c-red: #b8142d;
   --c-ember: var(--c-red);
@@ -103,7 +115,7 @@
   --c-pink: var(--c-red);
   --c-moss: #0f6220;
   --logo-red: #e5484d;
-  --logo-blue: #2383e2;
+  --logo-blue: #4151b5;
   --logo-yellow: #f5b100;
   --c-violet: var(--c-accent-ink);
 
@@ -349,16 +361,9 @@
     text-transform: uppercase;
     color: var(--tint, var(--c-accent-ink));
   }
-  /* Accent-blue gradient text, for a single highlighted word in a headline. */
+  /* Solid accent blue, for a single highlighted word in a headline. */
   .blue-grad {
-    background-image: linear-gradient(
-      100deg,
-      var(--c-accent-ink) 0%,
-      color-mix(in oklab, var(--c-accent-ink) 70%, var(--c-ink)) 100%
-    );
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: var(--c-accent-ink);
   }
   /* --- display headings --- */
   .display-1 {
@@ -532,37 +537,17 @@
     box-shadow: inset 0 1px 0 var(--c-edge);
     transition: border-color var(--dur-fast) ease-out;
   }
-  /* Hover: a 3px lift, soft shadow and a faint spotlight that follows the pointer
-     (--mx/--my are set by glow.ts). Lift is off for touch and reduced motion. */
-  .card-hover::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    pointer-events: none;
-    opacity: 0;
-    background: radial-gradient(
-      260px circle at var(--mx, 50%) var(--my, 0%),
-      color-mix(in oklab, var(--c-accent) 16%, transparent),
-      transparent 70%
-    );
-    transition: opacity var(--dur-base) var(--ease-out-soft);
-  }
+  /* Hover: brighter border and a soft shadow, no lift. */
   .card-hover:hover {
     border-color: color-mix(in oklab, var(--c-accent) 55%, var(--c-line));
-  }
-  .card-hover:hover::after {
-    opacity: 1;
   }
   @media (hover: hover) and (prefers-reduced-motion: no-preference) {
     .card-hover {
       transition:
         border-color var(--dur-base) var(--ease-out-soft),
-        transform var(--dur-base) var(--ease-out-soft),
         box-shadow var(--dur-base) var(--ease-out-soft);
     }
     .card-hover:hover {
-      transform: translateY(-3px);
       box-shadow: var(--shadow-3);
     }
   }
@@ -1909,8 +1894,8 @@
     /* Light theme's values — AA against the white ground this block forces,
        unlike dark theme's light-on-dark accent/faint colors. */
     --c-faint: #636a78;
-    --c-accent: #0072e3;
-    --c-accent-ink: #0a54ba;
+    --c-accent: #4151b5;
+    --c-accent-ink: #4151b5;
   }
   body {
     background: #fff;
@@ -1942,30 +1927,6 @@
    Logo triad: blue, red and yellow carry the whole palette. Ambient glow,
    bento grid, count-up numbers and view-transition tuning live here.
    ========================================================================= */
-.hero-glow {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background:
-    radial-gradient(
-      42rem 26rem at 18% 0%,
-      color-mix(in oklab, var(--logo-blue) calc(var(--glow-a) * 100%), transparent),
-      transparent 70%
-    ),
-    radial-gradient(
-      34rem 22rem at 86% 12%,
-      color-mix(in oklab, var(--logo-blue) calc(var(--glow-a) * 60%), transparent),
-      transparent 70%
-    ),
-    radial-gradient(
-      30rem 20rem at 55% 100%,
-      color-mix(in oklab, var(--c-accent) calc(var(--glow-a) * 50%), transparent),
-      transparent 70%
-    );
-  -webkit-mask-image: linear-gradient(to bottom, #000 60%, transparent);
-  mask-image: linear-gradient(to bottom, #000 60%, transparent);
-}
-
 /* Blue rule across the top of the closing CTA, fading out at both ends;
    overflow clips it to the card's rounded corners so it sits inside the border. */
 .cta-card {
@@ -2013,16 +1974,6 @@
     font-size: var(--text-body-lg);
   }
 }
-.bento-cell {
-  background:
-    radial-gradient(
-      22rem 14rem at 100% 0%,
-      color-mix(in oklab, var(--tint) 12%, transparent),
-      transparent 70%
-    ),
-    var(--c-card);
-}
-
 /* Stat numbers count up from 0 as they scroll into view (no JS). The final
    value is also the static fallback where scroll timelines are unsupported. */
 @property --n {

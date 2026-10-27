@@ -1,12 +1,11 @@
 ---
 import { Image } from 'astro:assets';
-import Icon from './Icon.astro';
-import { IMAGE_WIDTHS, shotFor } from '../lib/images';
+import { IMAGE_WIDTHS } from '../lib/images';
 
-/* Same optimized screenshots ProjectCard uses. Pointing at the `public/` copy
-   instead served the full 1600px file to every viewport: 124KB of the 148KB
-   `roads.webp` was wasted on a 370px-wide slot in the 2026-09-07 production
-   audit. */
+const photos = import.meta.glob<{ default: ImageMetadata }>('../assets/research/*.webp', {
+  eager: true,
+});
+const photoFor = (id: string) => photos[`../assets/research/${id}.webp`]?.default;
 
 const areas = [
   {
@@ -17,9 +16,9 @@ const areas = [
     heading: 'Seeing change from orbit.',
     body: 'Multi-temporal satellite imagery turned into measurable change — classification, spectral indices, and time-series analysis at landscape scale in Google Earth Engine.',
     chips: ['Imagery Analysis', 'Google Earth Engine', 'Change Detection'],
-    image: shotFor('roads'),
-    alt: 'Census road network layer rendered in Google Earth Engine',
-    caption: 'TIGER roads · Google Earth Engine',
+    image: photoFor('remote-sensing'),
+    alt: 'Earth and cloud cover seen from the International Space Station',
+    caption: 'Earth from the ISS',
   },
   {
     id: 'land-use',
@@ -29,9 +28,9 @@ const areas = [
     heading: 'Where people and landscapes meet.',
     body: 'Modeling how development, disturbance, and policy reshape land cover, with a focus on wildfire risk in the wildland–urban interface.',
     chips: ['Land-Use Change', 'Wildfire & WUI', 'Risk Assessment'],
-    image: shotFor('wuirisk'),
-    alt: 'Wildland–urban interface wildfire risk surface',
-    caption: 'WUI wildfire risk · thesis chapter 2',
+    image: photoFor('land-use'),
+    alt: 'Wildfire burning on a hillside at night behind power-line towers',
+    caption: 'Wildfire at the edge of infrastructure',
   },
   {
     id: 'spatial-stats',
@@ -41,9 +40,9 @@ const areas = [
     heading: 'Uncertainty, stated honestly.',
     body: 'Bayesian and spatial-statistical models that quantify what the data actually support, in reproducible pipelines anyone can rerun.',
     chips: ['Bayesian Analysis', 'Forecasting', 'Reproducible Research'],
-    image: shotFor('dataviz'),
-    alt: 'Statistical charts from the DataViz gallery',
-    caption: 'Posterior summaries · R + Plotly',
+    image: photoFor('spatial-stats'),
+    alt: 'Aerial view of crop fields in a geometric patchwork',
+    caption: 'Fields from above',
   },
   {
     id: 'applied-ai',
@@ -53,9 +52,9 @@ const areas = [
     heading: 'Models that reach a decision-maker.',
     body: 'Machine learning applied to ecological and geospatial problems, paired with visualization that makes the result legible to non-specialists.',
     chips: ['Machine Learning', 'Data Visualization', 'Quantitative Ecology'],
-    image: shotFor('maplab'),
-    alt: 'MapLab, a simplified GIS interface',
-    caption: 'MapLab · GIS for non-GIS users',
+    image: photoFor('applied-ai'),
+    alt: 'Aerial view of a river winding through rocky terrain',
+    caption: 'A river, seen from above',
   },
   {
     id: 'biodiversity',
@@ -65,9 +64,9 @@ const areas = [
     heading: 'Mapping what lives where.',
     body: 'Species distribution models and habitat mapping that turn scattered occurrence records into conservation-planning inputs.',
     chips: ['Species Distribution', 'Habitat Mapping', 'Conservation Planning'],
-    image: shotFor('maps'),
-    alt: 'Interactive map gallery',
-    caption: 'Habitat suitability · map gallery',
+    image: photoFor('biodiversity'),
+    alt: 'A stag with large antlers standing among trees',
+    caption: 'A stag in its forest habitat',
   },
   {
     id: 'geo-engineering',
@@ -77,9 +76,9 @@ const areas = [
     heading: 'Infrastructure for spatial work.',
     body: 'Spatial databases, automated data pipelines, and open-source GIS tooling that keep analysis fast, current, and shareable.',
     chips: ['Spatial Databases', 'Data Pipelines', 'Open Source GIS'],
-    image: shotFor('firer'),
-    alt: 'fireR package documentation',
-    caption: 'fireR · R package for U.S. fire data',
+    image: photoFor('geo-engineering'),
+    alt: 'A laptop showing source code in a dark room',
+    caption: 'Code on screen',
   },
 ];
 ---
@@ -116,10 +115,7 @@ const areas = [
       class="grid gap-8 pt-10 lg:grid-cols-2 lg:items-center lg:gap-14"
     >
       <div class="min-w-0">
-        <p class="chip gap-2 px-3 py-1.5">
-          <Icon name={a.icon} size={16} class="shrink-0" />
-          {a.eyebrow}
-        </p>
+        <p class="chip gap-2 px-3 py-1.5">{a.eyebrow}</p>
         <h3 class="mt-4 font-display text-[clamp(1.6rem,1.1rem+1.8vw,2.4rem)]">{a.heading}</h3>
         <p class="mt-4 text-lead leading-relaxed text-dim">{a.body}</p>
         <div class="mt-5 flex flex-wrap gap-1.5">
