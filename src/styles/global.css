@@ -727,6 +727,21 @@
       left: 1rem;
     }
   }
+  /* Compact badge for secondary info (reading time), pinned bottom right. */
+  .card-badge-sm {
+    right: 0.75rem;
+    bottom: 0.75rem;
+    left: auto;
+    padding: 0.3rem 0.7rem;
+    font-size: var(--text-small);
+  }
+  @media (min-width: 40rem) {
+    .card-badge-sm {
+      right: 0.75rem;
+      bottom: 0.75rem;
+      left: auto;
+    }
+  }
   /* Link / action chips (DOI, PDF, Altmetric...): outlined in blue.
      Informational chips stay on plain .chip. */
   .chip-accent {
