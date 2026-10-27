@@ -11,6 +11,7 @@ import PostCard from '../components/PostCard.astro';
 import CitationRow from '../components/CitationRow.astro';
 import TimelineItem from '../components/TimelineItem.astro';
 import Icon from '../components/Icon.astro';
+import Carousel from '../components/Carousel.astro';
 import { byDate, readingTime } from '../lib/format';
 import { researchAreas } from '../lib/research-areas';
 import { site } from '../lib/site';
@@ -158,11 +159,11 @@ const faqs = [
         href="/projects/"
         linkLabel="projects"
       />
-      <div class="hm-grid">
+      <Carousel label="project">
         {projects.map((entry, i) => (
           <ProjectCard entry={entry} index={i} cta reveal={false} />
         ))}
-      </div>
+      </Carousel>
     </div>
   </section>
 
@@ -174,11 +175,11 @@ const faqs = [
         href="/publications/"
         linkLabel="publications"
       />
-      <div class="hm-stack">
+      <Carousel label="publication" layout="stack">
         {featuredPubs.map((entry) => (
           <CitationRow entry={entry} compact />
         ))}
-      </div>
+      </Carousel>
     </div>
   </section>
 
@@ -244,22 +245,22 @@ const faqs = [
         href="/awards/"
         linkLabel="awards"
       />
-      <div class="hm-grid">
+      <Carousel label="award">
         {featuredAwards.map((entry, i) => (
           <AwardCard entry={entry} index={i} reveal={false} />
         ))}
-      </div>
+      </Carousel>
     </div>
   </section>
 
   <section class="band-ice hm-band scroll-mt-24" id="blog">
     <div class="shell-wide">
       <SectionHead kicker="Writing" title="Notes & tutorials." href="/blog/" linkLabel="posts" />
-      <div class="hm-grid">
+      <Carousel label="post">
         {posts.map((entry, i) => (
           <PostCard entry={entry} index={i} cta readingTime={readingTime(entry.body)} />
         ))}
-      </div>
+      </Carousel>
     </div>
   </section>
 

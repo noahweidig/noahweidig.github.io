@@ -276,3 +276,31 @@
   padding: 0 0.3rem 1.4rem;
   line-height: 1.6;
 }
+
+/* --- phone carousels: swipe track + prev/next; grids/stacks from 40rem up --- */
+.hm-car-ctl {
+  display: none;
+}
+@media (max-width: 39.99rem) {
+  .hm-track {
+    display: flex;
+    gap: 14px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    padding-bottom: 2px;
+  }
+  .hm-track::-webkit-scrollbar {
+    display: none;
+  }
+  .hm-track > * {
+    flex: 0 0 86%;
+    scroll-snap-align: start;
+  }
+  .hm-car-ctl {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    margin-top: 1.25rem;
+  }
+}
