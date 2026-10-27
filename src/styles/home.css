@@ -104,7 +104,8 @@
 .hm-area-plus::after {
   rotate: 90deg;
 }
-.hm-area[open] .hm-area-plus::after {
+.hm-area[open] .hm-area-plus::after,
+.hm-faq .faq[open] .hm-area-plus::after {
   rotate: 0deg;
 }
 .hm-area-body {
@@ -166,9 +167,25 @@
   min-width: 0;
 }
 @media (min-width: 60rem) {
+  /* Both columns share four row tracks (label, two cards, button), so the
+     experience and education cards line up and match in height. */
   .hm-bg2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 4rem;
+    column-gap: 4rem;
+    row-gap: 0;
+  }
+  .hm-bg-col {
+    display: grid;
+    grid-row: span 4;
+    grid-template-rows: subgrid;
+    row-gap: 1.25rem;
+  }
+  .hm-bg-col > .hm-stack {
+    grid-row: span 2;
+    grid-template-rows: subgrid;
+  }
+  .hm-bg-col > .hm-stack > li > * {
+    height: 100%;
   }
 }
 
@@ -214,6 +231,9 @@
     'wdth' 90,
     'wght' 800;
   transition: color var(--dur-fast);
+}
+.hm-faq summary::-webkit-details-marker {
+  display: none;
 }
 .hm-faq summary:hover {
   color: var(--c-accent-ink);

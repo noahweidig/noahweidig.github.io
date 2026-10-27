@@ -37,8 +37,9 @@ const ogImageHeight = ogImageResult?.attributes.height;
 // two latin font subsets. Built with the same widths/sizes ThemeImage uses, so
 // the preload and the rendered <img> resolve to the same candidate.
 const HERO_SIZES = '(min-width: 832px) 40vw, 92vw';
-const hero = d.image
-  ? await getImage({ src: d.image, widths: IMAGE_WIDTHS.hero, sizes: HERO_SIZES })
+const heroSrc = d['image-light'] ?? d.image;
+const hero = heroSrc
+  ? await getImage({ src: heroSrc, widths: IMAGE_WIDTHS.hero, sizes: HERO_SIZES })
   : undefined;
 
 const articleLd = {
@@ -81,7 +82,6 @@ const articleLd = {
   {d.image && (
     <ThemeImage
       slot="hero-image"
-      dark={d.image}
       light={d['image-light'] ?? d.image}
       alt={d['image-alt'] ?? ''}
       widths={IMAGE_WIDTHS.hero}
