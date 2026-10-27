@@ -60,7 +60,7 @@ const span = (dates = '') => {
             data-tip={`${d.org ?? ''}${d.dates ? ` · ${d.dates}` : ''} — open the full entry`}
           >
             <div class="mb-3 flex flex-wrap items-center gap-2">
-              <span class="chip chip-blue">{to ? `${from} → ${to}` : from}</span>
+              <span class="chip chip-blue">{to ? `${from} – ${to}` : from}</span>
               {current && <span class="chip chip-accent">Current</span>}
             </div>
             <h3 class="text-xl leading-snug transition-colors group-hover:text-accent-ink">

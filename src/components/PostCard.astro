@@ -34,7 +34,6 @@ const alt = entry.data['image-alt'] ?? '';
       class="relative block aspect-16/9 overflow-hidden border-b border-line"
     >
       <ThemeImage
-        dark={image}
         light={imageLight}
         alt={alt}
         widths={IMAGE_WIDTHS.thumbnail}
@@ -75,9 +74,9 @@ const alt = entry.data['image-alt'] ?? '';
         aria-hidden="true"
       >
         <Icon
-          name="chevron"
+          name="arrow"
           size={16}
-          class="-rotate-90 transition-transform duration-300 group-hover:translate-x-0.5"
+          class="transition-transform duration-300 group-hover:translate-x-0.5"
         />
       </span>
     </div>

@@ -103,7 +103,7 @@ const jsonLd = {
 ---
 
 <!doctype html>
-<html lang="en" data-theme="dark" data-theme-pref="system">
+<html lang="en" data-theme="light">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -168,41 +168,6 @@ const jsonLd = {
 
     <link rel="preload" href="/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin />
 
-    <script is:inline>
-      (function () {
-        function pref() {
-          try {
-            var t = localStorage.getItem('nw-theme');
-            if (t === 'light' || t === 'dark' || t === 'system') return t;
-          } catch (e) {
-            /* private mode: fall through to the default */
-          }
-          return 'system';
-        }
-        function resolve(p) {
-          if (p === 'system') {
-            return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-          }
-          return p;
-        }
-        // Applied before first paint, so the page never flashes the wrong theme.
-        function apply() {
-          var p = pref();
-          var t = resolve(p);
-          document.documentElement.dataset.theme = t;
-          document.documentElement.dataset.themePref = p;
-        }
-        apply();
-        // A view-transition swap copies <html>'s attributes from the incoming
-        // document, which puts data-theme back to the server-rendered default —
-        // so a reader on light mode landed on a dark page after every click.
-        // astro:after-swap runs before the new page paints.
-        if (!window.__nwThemeBound) {
-          window.__nwThemeBound = true;
-          document.addEventListener('astro:after-swap', apply);
-        }
-      })();
-    </script>
     <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)}></script>
     <script
       is:inline
