@@ -1,15 +1,11 @@
 /* ---------------------------------------------------------------- theme -- */
 import { on } from './dom';
 
-type ThemePref = 'light' | 'dark' | 'system';
-const THEME_ORDER: ThemePref[] = ['light', 'dark', 'system'];
+type ThemePref = 'light' | 'dark';
 
-function resolveTheme(pref: ThemePref): 'light' | 'dark' {
-  if (pref === 'system') {
-    return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-  }
-  return pref;
-}
+const other = (pref: ThemePref): ThemePref => (pref === 'dark' ? 'light' : 'dark');
+const currentPref = (): ThemePref =>
+  document.documentElement.dataset.themePref === 'light' ? 'light' : 'dark';
 
 function applyThemeImages(theme: 'light' | 'dark') {
   document.querySelectorAll<HTMLImageElement>('img[data-theme-src-dark]').forEach((img) => {
@@ -21,42 +17,32 @@ function applyThemeImages(theme: 'light' | 'dark') {
 }
 
 function updateToggleLabels(pref: ThemePref) {
-  const next = THEME_ORDER[(THEME_ORDER.indexOf(pref) + 1) % THEME_ORDER.length];
   document.querySelectorAll<HTMLButtonElement>('[data-theme-toggle]').forEach((b) => {
-    b.setAttribute('aria-label', `Color theme: ${pref}. Switch to ${next}`);
+    b.setAttribute('aria-label', `Color theme: ${pref}. Switch to ${other(pref)}`);
   });
 }
 
 function applyTheme(pref: ThemePref) {
-  const theme = resolveTheme(pref);
-  document.documentElement.dataset.theme = theme;
+  document.documentElement.dataset.theme = pref;
   document.documentElement.dataset.themePref = pref;
   try {
     localStorage.setItem('nw-theme', pref);
   } catch {
     /* private mode — the in-page toggle still works for this session */
   }
-  applyThemeImages(theme);
+  applyThemeImages(pref);
   updateToggleLabels(pref);
 }
 
 export function initTheme() {
-  updateToggleLabels((document.documentElement.dataset.themePref as ThemePref) ?? 'system');
+  updateToggleLabels(currentPref());
   document.querySelectorAll<HTMLButtonElement>('[data-theme-toggle]').forEach((btn) => {
     on(btn, 'click', () => {
-      const current = (document.documentElement.dataset.themePref as ThemePref) ?? 'system';
-      const next = THEME_ORDER[(THEME_ORDER.indexOf(current) + 1) % THEME_ORDER.length];
-      applyTheme(next);
+      applyTheme(other(currentPref()));
       btn.classList.remove('is-spinning');
       btn.getBoundingClientRect();
       btn.classList.add('is-spinning');
     });
     on(btn, 'animationend', () => btn.classList.remove('is-spinning'));
-  });
-
-  // Live-update while following the OS, so an open tab doesn't need a reload
-  // or a click to pick up a change in system theme.
-  on(window.matchMedia('(prefers-color-scheme: light)'), 'change', () => {
-    if (document.documentElement.dataset.themePref === 'system') applyTheme('system');
   });
 }

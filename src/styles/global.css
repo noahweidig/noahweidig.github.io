@@ -3,15 +3,12 @@
 
 @custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
 
-/* Theme-toggle icon: light/dark/system, driven by [data-theme-pref] on <html>
-   rather than the resolved [data-theme] so the sun-moon icon shows even
-   while the resolved theme is light or dark. */
+/* Theme-toggle icon: light/dark, driven by [data-theme-pref] on <html>. */
 [data-theme-icon] {
   display: none;
 }
 :root[data-theme-pref='light'] [data-theme-icon='light'],
-:root[data-theme-pref='dark'] [data-theme-icon='dark'],
-:root[data-theme-pref='system'] [data-theme-icon='system'] {
+:root[data-theme-pref='dark'] [data-theme-icon='dark'] {
   display: inline-flex;
 }
 
