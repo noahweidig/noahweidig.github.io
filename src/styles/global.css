@@ -683,6 +683,12 @@
     border-color: var(--c-ink);
     color: var(--c-bg);
   }
+  /* On a sun band the resting button is already ink on sun, so hover goes to cobalt. */
+  .band-sun .btn-primary:hover {
+    background: var(--p-blue);
+    border-color: var(--p-blue);
+    color: var(--p-ice);
+  }
 
   .btn-ghost {
     color: var(--c-ink);
