@@ -6,53 +6,85 @@ import { site, socials } from '../lib/site';
 const rows = ['NOAH', 'WEIDIG'];
 const names = researchAreas.map((a) => a.tab);
 const ticker = [...names, ...names];
+const rain = [
+  'rasterio',
+  'postgis',
+  'python',
+  'terra',
+  'sf',
+  'gdal',
+  'earthengine',
+  'lidar',
+  'geopandas',
+  'sql',
+  'ndvi',
+  'qgis',
+  'tidyverse',
+  'wui',
+  'shiny',
+  'leaflet',
+  'sentinel2',
+  'xgboost',
+].map((word, i) => ({
+  word,
+  left: (i * 37 + 5) % 97,
+  dur: 5 + ((i * 5) % 5),
+  delay: -((i * 7) % 9),
+}));
 ---
 
 <section class="band-blue under-nav hero" id="hero" data-hero>
-  <div class="shell-wide">
-    <div class="hero-top xw">
-      <span>{site.role}</span>
-      <span>{site.location} · 28.54°N 81.38°W</span>
+  <div class="hero-main">
+    <div class="hero-rain" aria-hidden="true">
+      {rain.map((r) => (
+        <span style={`--x:${r.left}%;--d:${r.dur}s;--w:${r.delay}s`}>{r.word}</span>
+      ))}
     </div>
-    <div class="hero-grid">
-      <h1 class="hero-name">
-        <span class="sr-only-nw">Noah Weidig</span>
-        {rows.map((word, i) => (
-          <span class={`hero-row hero-row-${i}`} aria-hidden="true">
-            {word.split('').map((ch) => (
-              <span>{ch}</span>
-            ))}
-          </span>
-        ))}
-      </h1>
-      <div class="hero-side">
-        <p class="hero-tag">
-          Spatial analysis. Real <span class="hero-hl">insights.</span>
-        </p>
-        <p class="hero-lede">
-          I turn satellite imagery, fire perimeters, and messy field data into models people can
-          actually decide something with. Mostly wildfire risk in the wildland-urban interface.
-        </p>
-        <div class="flex flex-wrap gap-2.5">
-          <a class="btn btn-primary" href="#projects">
-            View my work
-            <Icon name="arrow" size={15} />
-          </a>
-          <a class="btn btn-ghost" href="/contact/">
-            Get in touch
-            <Icon name="mail" size={15} />
-          </a>
-        </div>
-        <ul class="hero-links xw">
-          {socials.map((s) => (
-            <li>
-              <a href={s.href} target="_blank" rel="noopener">
-                {s.label}
-                <span class="sr-only-nw"> (opens in a new tab)</span>
-              </a>
-            </li>
+    <div class="shell-wide">
+      <div class="hero-top xw">
+        <span>{site.role}</span>
+        <span>{site.location} · 28.54°N 81.38°W</span>
+      </div>
+      <div class="hero-grid">
+        <h1 class="hero-name">
+          <span class="sr-only-nw">Noah Weidig</span>
+          {rows.map((word, i) => (
+            <span class={`hero-row hero-row-${i}`} aria-hidden="true">
+              {word.split('').map((ch) => (
+                <span>{ch}</span>
+              ))}
+            </span>
           ))}
-        </ul>
+        </h1>
+        <div class="hero-side">
+          <p class="hero-tag">
+            Spatial analysis. Real <span class="hero-hl">insights.</span>
+          </p>
+          <p class="hero-lede">
+            I turn satellite imagery, fire perimeters, and messy field data into models people can
+            actually decide something with. Mostly wildfire risk in the wildland-urban interface.
+          </p>
+          <div class="flex flex-wrap gap-2.5">
+            <a class="btn btn-primary" href="#projects">
+              View my work
+              <Icon name="arrow" size={15} />
+            </a>
+            <a class="btn btn-ghost" href="/contact/">
+              Get in touch
+              <Icon name="mail" size={15} />
+            </a>
+          </div>
+          <ul class="hero-links xw">
+            {socials.map((s) => (
+              <li>
+                <a href={s.href} target="_blank" rel="noopener">
+                  {s.label}
+                  <span class="sr-only-nw"> (opens in a new tab)</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </div>
   </div>
@@ -73,6 +105,55 @@ const ticker = [...names, ...names];
   .hero {
     overflow: hidden;
   }
+  .hero-main {
+    position: relative;
+  }
+  .hero-main > .shell-wide {
+    position: relative;
+    z-index: 1;
+  }
+  /* Code rain: words stacked upright in faint columns that fall behind the name. */
+  .hero-rain {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    container-type: size;
+    pointer-events: none;
+  }
+  .hero-rain > span {
+    position: absolute;
+    top: 0;
+    left: var(--x);
+    writing-mode: vertical-lr;
+    text-orientation: upright;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+    color: var(--p-ice);
+    opacity: 0;
+    mask-image: linear-gradient(to bottom, transparent, black 75%);
+    animation: hero-rain var(--d) linear var(--w) infinite;
+  }
+  @keyframes hero-rain {
+    0% {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+    12% {
+      opacity: 0.4;
+    }
+    80% {
+      opacity: 0.4;
+    }
+    100% {
+      transform: translateY(100cqh);
+      opacity: 0;
+    }
+  }
+  @media (max-width: 39.99rem) {
+    .hero-rain > span:nth-child(2n) {
+      display: none;
+    }
+  }
   .hero-top {
     display: flex;
     flex-wrap: wrap;
@@ -88,8 +169,8 @@ const ticker = [...names, ...names];
     padding-block: 2rem 3.25rem;
   }
   /* Each row is sized so its letters fill the column: the widths below are the
-     row's advance width in em at wdth 100 / wght 900 (NOAH 3.197, WEIDIG 3.951),
-     so font-size = 0.97 x column / width. No script, and no reflow once the
+     row's advance width in em at wdth 100 / wght 900 (WEIDIG 3.951), so
+     font-size = 0.97 x column / width. NOAH shares WEIDIG's size and sits left. No script, and no reflow once the
      font arrives. */
   .hero-name {
     container-type: inline-size;
@@ -112,7 +193,8 @@ const ticker = [...names, ...names];
     display: block;
   }
   .hero-row-0 {
-    font-size: 30.3cqw;
+    font-size: 24.55cqw;
+    justify-content: flex-start;
   }
   .hero-row-1 {
     font-size: 24.55cqw;
@@ -194,6 +276,9 @@ const ticker = [...names, ...names];
   @media (prefers-reduced-motion: reduce) {
     .hero-track {
       animation: none;
+    }
+    .hero-rain {
+      display: none;
     }
   }
 </style>
