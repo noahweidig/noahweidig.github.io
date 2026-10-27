@@ -349,16 +349,9 @@
     text-transform: uppercase;
     color: var(--tint, var(--c-accent-ink));
   }
-  /* Accent-blue gradient text, for a single highlighted word in a headline. */
+  /* Solid accent blue, for a single highlighted word in a headline. */
   .blue-grad {
-    background-image: linear-gradient(
-      100deg,
-      var(--c-accent-ink) 0%,
-      color-mix(in oklab, var(--c-accent-ink) 70%, var(--c-ink)) 100%
-    );
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: var(--c-accent);
   }
   /* --- display headings --- */
   .display-1 {
