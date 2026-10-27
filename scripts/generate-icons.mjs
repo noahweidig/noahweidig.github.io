@@ -73,6 +73,8 @@ const MAP = {
   lockOpen: 'lock-open',
   plus: 'plus',
   arrowUp: 'arrow-up',
+  arrowDown: 'arrow-down',
+  cornerDownLeft: 'corner-down-left',
   tocLines: 'text-align-start',
   hash: 'hash',
   pilcrow: 'pilcrow',

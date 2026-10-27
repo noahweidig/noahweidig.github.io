@@ -228,6 +228,12 @@ export const icons: Record<string, { viewBox: string; body: string; stroke?: boo
   },
   plus: { viewBox: '0 0 24 24', body: '<path d="M5 12h14m-7-7v14"/>', stroke: true },
   arrowUp: { viewBox: '0 0 24 24', body: '<path d="m5 12 7-7 7 7m-7 7V5"/>', stroke: true },
+  arrowDown: { viewBox: '0 0 24 24', body: '<path d="M12 5v14m7-7-7 7-7-7"/>', stroke: true },
+  cornerDownLeft: {
+    viewBox: '0 0 24 24',
+    body: '<path d="M20 4v7a4 4 0 0 1-4 4H4"/><path d="m9 10-5 5 5 5"/>',
+    stroke: true,
+  },
   tocLines: { viewBox: '0 0 24 24', body: '<path d="M21 5H3m12 7H3m14 7H3"/>', stroke: true },
   hash: {
     viewBox: '0 0 24 24',
