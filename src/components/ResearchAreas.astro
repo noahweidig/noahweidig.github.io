@@ -1,6 +1,5 @@
 ---
 import { Image } from 'astro:assets';
-import Icon from './Icon.astro';
 import { IMAGE_WIDTHS, shotFor } from '../lib/images';
 
 /* Same optimized screenshots ProjectCard uses. Pointing at the `public/` copy
@@ -116,10 +115,7 @@ const areas = [
       class="grid gap-8 pt-10 lg:grid-cols-2 lg:items-center lg:gap-14"
     >
       <div class="min-w-0">
-        <p class="chip gap-2 px-3 py-1.5">
-          <Icon name={a.icon} size={16} class="shrink-0" />
-          {a.eyebrow}
-        </p>
+        <p class="chip gap-2 px-3 py-1.5">{a.eyebrow}</p>
         <h3 class="mt-4 font-display text-[clamp(1.6rem,1.1rem+1.8vw,2.4rem)]">{a.heading}</h3>
         <p class="mt-4 text-lead leading-relaxed text-dim">{a.body}</p>
         <div class="mt-5 flex flex-wrap gap-1.5">
