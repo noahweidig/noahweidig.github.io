@@ -14,7 +14,7 @@ const H = 675;
 // rows. Order is the rotation: a post takes three consecutive entries.
 const HUES = {
   dark: {
-    blue: '#6ba4ff',
+    blue: '#8f9be0',
     yellow: '#ffc95e',
     pink: '#ff83dd',
     green: '#68ce7e',
@@ -23,7 +23,7 @@ const HUES = {
     red: '#ff6b78',
   },
   light: {
-    blue: '#0a54ba',
+    blue: '#4151b5',
     yellow: '#8c5d00',
     pink: '#9d2472',
     green: '#0f6220',
