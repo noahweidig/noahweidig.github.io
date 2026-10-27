@@ -48,7 +48,7 @@ export function initTheme() {
       const next = THEME_ORDER[(THEME_ORDER.indexOf(current) + 1) % THEME_ORDER.length];
       applyTheme(next);
       btn.classList.remove('is-spinning');
-      void btn.offsetWidth;
+      btn.getBoundingClientRect();
       btn.classList.add('is-spinning');
     });
     on(btn, 'animationend', () => btn.classList.remove('is-spinning'));
