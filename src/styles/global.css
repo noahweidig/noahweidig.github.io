@@ -1029,15 +1029,6 @@
     letter-spacing: 0.08em;
   }
 
-  /* Shiki: swap themes with the site theme rather than the OS. */
-  :root[data-theme='dark'] .astro-code,
-  :root[data-theme='dark'] .astro-code span {
-    color: var(--shiki-dark) !important;
-    font-style: var(--shiki-dark-font-style) !important;
-    font-weight: var(--shiki-dark-font-weight) !important;
-    text-decoration: var(--shiki-dark-text-decoration) !important;
-  }
-
   /* The copy button reveals on hover, which a touch device never does. */
   @media (hover: none) {
     [data-code-block] > button {
@@ -1890,6 +1881,13 @@
 
 /* Print: the CV page has to survive Cmd-P. */
 @media print {
+  .page-hero {
+    --c-ink: #14161a;
+    --c-dim: #333;
+    --c-accent-ink: #0a54ba;
+    background-color: #fff;
+    color: #14161a;
+  }
   :root {
     --c-bg: #fff;
     --c-surface: #fff;

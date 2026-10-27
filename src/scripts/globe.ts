@@ -2,15 +2,15 @@
 import { cleanups } from './dom';
 
 const ORLANDO: [number, number] = [-81.3789, 28.5384];
-// OpenFreeMap Positron/Dark, self-hosted from public/map/ (tiles still from OpenFreeMap).
-const styleUrl = () =>
-  `/map/${document.documentElement.dataset.theme === 'light' ? 'positron' : 'dark'}.json`;
+// OpenFreeMap Positron recolored to the site palette (ice land, cobalt-tint water,
+// navy labels), self-hosted as public/map/poster.json; tiles still come from OpenFreeMap.
+const STYLE_URL = '/map/poster.json';
 
 // Animated dot from MapLibre's "Add an animated icon" example, in the site accent.
 function pulsingDot(map: import('maplibre-gl').Map) {
   const size = 100;
   const accent =
-    getComputedStyle(document.documentElement).getPropertyValue('--c-accent').trim() || '#0072e3';
+    getComputedStyle(document.documentElement).getPropertyValue('--c-accent').trim() || '#1f3bff';
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   let ctx: CanvasRenderingContext2D | null = null;
   return {
@@ -78,9 +78,9 @@ export function initGlobe() {
     maplibregl.setWorkerUrl(workerUrl);
     const map = new maplibregl.Map({
       container: el,
-      style: styleUrl(),
+      style: STYLE_URL,
       center: ORLANDO,
-      zoom: 1.5,
+      zoom: 5.6,
       cooperativeGestures: true,
       attributionControl: false,
     });
@@ -94,9 +94,8 @@ export function initGlobe() {
     const popup = new maplibregl.Popup({ offset: 12, closeOnClick: false, focusAfterOpen: false })
       .setLngLat(ORLANDO)
       .setText('Orlando, Florida');
-    // setStyle drops images/layers, so re-add the dot on every style load.
+    // The style is loaded once; add the dot as soon as it is ready.
     map.on('style.load', () => {
-      map.setProjection({ type: 'globe' });
       map.addImage('pulsing-dot', pulsingDot(map), { pixelRatio: 2 });
       map.addSource('orlando', {
         type: 'geojson',
@@ -114,12 +113,7 @@ export function initGlobe() {
     map.on('mouseenter', 'orlando', () => (map.getCanvas().style.cursor = 'pointer'));
     map.on('mouseleave', 'orlando', () => (map.getCanvas().style.cursor = ''));
 
-    const mo = new MutationObserver(() => map.setStyle(styleUrl(), { diff: false }));
-    mo.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
-    cleanups.push(() => {
-      mo.disconnect();
-      map.remove();
-    });
+    cleanups.push(() => map.remove());
   };
 
   if (!('IntersectionObserver' in window)) {
