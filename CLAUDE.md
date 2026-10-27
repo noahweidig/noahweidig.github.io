@@ -41,6 +41,23 @@ as utilities. Reuse existing primitives (`.card`, `.chip`, `.chip-accent`,
 `.btn`, `.shell`/`.shell-narrow`) instead of inventing new surface styles; a
 new page should look like it belongs, not like a bolted-on tool.
 
+## Visual system (width poster)
+
+The whole site is one poster look: Archivo (variable weight + width axes,
+self-hosted in `public/fonts`), square corners, 2px ink borders, flat color
+bands. The palette is four flat colors, `--p-blue`, `--p-deep`, `--p-ice` and
+`--p-sun` (plus `--p-ink`), defined once in `src/styles/global.css`. The
+`--c-*` theme tokens still drive light/dark; `.band-blue`, `.band-ice`,
+`.band-sun` and `.band-deep` re-point those tokens at a band's own colors, so
+buttons, chips, cards and links inside a band read correctly with no per-band
+overrides. The header and every `.page-hero` are cobalt bands, the footer is a
+deep band. Type roles: `h1`/`h2` are condensed capitals (`.xc` for the same
+look on any element), `.xw` is the small wide label, `h3`/`h4` stay mixed case.
+Don't add `rounded-*` utilities or new hex values; radius tokens are 0 and
+`scripts/check-tokens.mjs` rejects hex outside the token files. The home page
+hero sizes its name rows with `cqw` units from measured advance widths (see the
+comment in `Hero.astro`); re-measure if the font file changes.
+
 ## Content collections
 
 `src/content/{blog,projects,publications,awards,experience,education}` — each

@@ -3,19 +3,18 @@ import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import Hero from '../components/Hero.astro';
 import Affiliations from '../components/Affiliations.astro';
-import ResearchAreas from '../components/ResearchAreas.astro';
 import TechPreview from '../components/TechPreview.astro';
 import SectionHead from '../components/SectionHead.astro';
-import StatStrip from '../components/StatStrip.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import AwardCard from '../components/AwardCard.astro';
 import PostCard from '../components/PostCard.astro';
 import CitationRow from '../components/CitationRow.astro';
 import TimelineItem from '../components/TimelineItem.astro';
 import Icon from '../components/Icon.astro';
-import Popup from '../components/Popup.astro';
-import { byDate, readingTime, year } from '../lib/format';
+import { byDate, readingTime } from '../lib/format';
+import { researchAreas } from '../lib/research-areas';
 import { site } from '../lib/site';
+import '../styles/home.css';
 
 const allProjects = (await getCollection('projects')).sort(byDate);
 const featuredProjects = allProjects.filter((p) => p.data.featured).slice(0, 6);
@@ -36,100 +35,34 @@ const education = (await getCollection('education')).sort(byDate);
 const awards = (await getCollection('awards')).sort(byDate);
 const featuredAwards = awards.filter((a) => a.data.image).slice(0, 6);
 
-const pubCounts = Object.entries(
-  allPubs.reduce<Record<string, number>>((acc, p) => {
-    const c = p.data.categories[0] ?? 'Other';
-    acc[c] = (acc[c] ?? 0) + 1;
-    return acc;
-  }, {}),
-).sort((a, b) => b[1] - a[1]);
-
 const stats = [
-  {
-    value: `${allPubs.length}+`,
-    label: 'Papers & Talks',
-    id: 'pop-pubs',
-    icon: 'book',
-    body: 'Journal articles, conference presentations, webinars and media coverage, by type.',
-    items: pubCounts.map(([t, n]) => ({ t: `${t}s`, n: String(n), href: '/publications/' })),
-    href: '/publications/',
-    cta: 'All publications',
-  },
-  {
-    value: '8+',
-    label: 'Years Research Experience',
-    id: 'pop-years',
-    icon: 'briefcase',
-    body: 'Research, GIS, and data roles across universities, a federal agency, and local government.',
-    items: experience.map((e) => ({
-      t: `${e.data.title}, ${e.data.org}`,
-      n: String(year(e.data.date)),
-      href: `/experience/${e.id}/`,
-    })),
-    href: '#experience',
-    cta: 'See the full background',
-  },
-  {
-    value: '20+',
-    label: 'Tools Mastered',
-    id: 'pop-tools-count',
-    icon: 'cpu',
-    body: 'Mostly R and Python for analysis and modeling, SQL for data wrangling, and GIS tools (ArcGIS Pro, QGIS, GEE, GDAL) for spatial work.',
-    items: [],
-    href: '#skills',
-    cta: 'See the tech stack',
-  },
-  {
-    value: featuredProjects.length,
-    label: 'Featured Projects',
-    id: 'pop-featured',
-    icon: 'terminal',
-    body: 'Open tools, maps, and packages built and maintained in the open.',
-    items: projects.map((p) => ({ t: p.data.title, href: `/projects/${p.id}/` })),
-    href: '#projects',
-    cta: 'Browse the work',
-  },
+  { value: `${allPubs.length}+`, label: 'Papers & talks' },
+  { value: '8+', label: 'Years research experience' },
+  { value: '20+', label: 'Tools mastered' },
+  { value: String(featuredProjects.length), label: 'Featured projects' },
 ];
 
-const researchAreas = [
-  'Remote Sensing',
-  'Land-Use Change',
-  'Spatial Statistics',
-  'Applied AI',
-  'Biodiversity',
-  'Geospatial Engineering',
-];
-
-const starts = [
+const ways = [
   {
-    id: 'pop-research',
-    items: researchAreas.map((t) => ({ t, href: '#interests' })),
-    href: '#interests',
-    icon: 'layers',
-    tint: 'blue',
+    band: 'band-sun',
     title: 'Research',
-    body: 'Six focus areas, from WUI wildfire risk to species distribution modeling — with the papers behind each.',
+    body: 'Six focus areas, from WUI wildfire risk to species distribution modeling, with the papers behind each.',
     cta: 'Read the research',
+    href: '#interests',
   },
   {
-    id: 'pop-tools',
-    items: projects.map((p) => ({ t: p.data.title, href: `/projects/${p.id}/` })),
-    href: '#projects',
-    icon: 'terminal',
-    tint: 'blue',
+    band: 'band-ice',
     title: 'Tools & maps',
     body: 'Open tools: an R package for U.S. fire data, Earth Engine apps, interactive map galleries.',
     cta: 'Browse the work',
+    href: '#projects',
   },
   {
-    id: 'pop-writing',
-    items: posts.map((p) => ({ t: p.data.title, href: `/blog/${p.id}/` })),
-    href: '#blog',
-    icon: 'pencil',
-    tint: 'blue',
+    band: 'band-deep',
     title: 'Writing',
     body: 'Tutorials and notes on R, spatial workflows, and doing reproducible research in the open.',
     cta: 'Read the blog',
+    href: '#blog',
   },
 ];
 
@@ -162,194 +95,95 @@ const faqs = [
 <Base title={site.name} filters={{ section: 'Page' }}>
   <Hero />
 
-  <!-- stats + affiliations -->
-  <section class="shell py-20 md:py-28">
-    <StatStrip stats={stats} />
-    <Affiliations />
+  <section class="band-ice hm-band" aria-label="At a glance">
+    <div class="shell-wide">
+      <ul class="hm-stats">
+        {stats.map((s) => (
+          <li>
+            <span class="hm-num xc">{s.value}</span>
+            <span class="xw">{s.label}</span>
+          </li>
+        ))}
+      </ul>
+      <Affiliations />
+    </div>
   </section>
 
-  <!-- three ways in: bento, one large lead cell and two stacked -->
-  <section class="shell py-12 md:py-16">
-    <div class="bento">
-      {starts.map((s, i) => (
-        <div
-          class={`card card-hover bento-cell bento-${i} tint-${s.tint} group relative flex flex-col p-6 md:p-8`}
-          data-reveal
-          style={`--reveal-delay:${i * 70}ms`}
-        >
-          <span
-            class={`grid aspect-square h-11 w-11 shrink-0 place-items-center rounded-full tile-${s.tint}`}
-          >
-            <Icon name={s.icon} size={20} />
-          </span>
-          <h2 class="bento-title mt-5 text-xl">{s.title}</h2>
-          <p class="mt-2 flex-1 text-sm leading-relaxed text-dim">{s.body}</p>
-          <button
-            type="button"
-            class="popup-plus mt-5 ml-auto after:absolute after:inset-0 after:rounded-[inherit] after:content-['']"
-            data-popup-open={s.id}
-            aria-haspopup="dialog"
-            aria-label={`More about ${s.title}`}
-          >
-            <Icon name="plus" size={14} stroke-width={1.8} />
-          </button>
+  <section class="hm-ways" aria-label="Start here">
+    {ways.map((w) => (
+      <div class={`hm-way ${w.band}`}>
+        <div>
+          <h2 class="hm-way-title xc">{w.title}</h2>
+          <p class="hm-way-body">{w.body}</p>
         </div>
-      ))}
-    </div>
+        <a class="btn btn-primary self-start" href={w.href}>
+          {w.cta}
+          <Icon name="arrow" size={15} />
+        </a>
+      </div>
+    ))}
   </section>
 
-  {[...stats, ...starts].map((s) => (
-    <Popup id={s.id} eyebrow={'label' in s ? s.label : s.title} icon={s.icon} title={s.cta}>
-      <p class="text-lg leading-relaxed">{s.body}</p>
-      {s.items.length > 0 && (
-        <ul class="divide-y divide-line border-y border-line text-ink">
-          {s.items.map((it) => (
-            <li>
-              <a
-                class="flex items-center justify-between gap-4 py-3 hover:text-accent-ink"
-                href={it.href}
-              >
-                <span>{it.t}</span>
-                {'n' in it ? (
-                  <span class="font-mono text-sm text-faint">{it.n}</span>
-                ) : (
-                  <Icon name="arrow" size={15} class="shrink-0" />
-                )}
-              </a>
-            </li>
-          ))}
-        </ul>
-      )}
-      <a class="inline-flex items-center gap-1.5 font-medium text-accent-ink" href={s.href}>
-        {s.cta}
-        <Icon name="arrow" size={15} />
-      </a>
-    </Popup>
-  ))}
-
-  <!-- research areas -->
-  <section class="scroll-mt-24 py-28 md:py-36 cv-auto" id="interests">
-    <div class="shell">
+  <section class="band-blue hm-band scroll-mt-24" id="interests">
+    <div class="shell-wide">
       <SectionHead kicker="Research areas" title="Where I focus my work." />
-      <ResearchAreas />
-    </div>
-  </section>
-
-  <!-- projects -->
-  <section class="shell scroll-mt-24 py-24 md:py-32 cv-auto" id="projects">
-    <SectionHead
-      kicker="Selected work"
-      title="Tools, maps & applications."
-      href="/projects/"
-      linkLabel="projects"
-    />
-    <div class="mt-10" data-carousel data-reveal>
-      <div
-        class="carousel-track flex snap-x snap-mandatory gap-4 overflow-x-auto -mx-4 -my-6 px-4 py-6 [scroll-padding-inline:16px]"
-        data-carousel-track
-      >
-        {projects.map((entry, i) => (
-          <ProjectCard
-            entry={entry}
-            index={i}
-            cta
-            reveal={false}
-            class="w-[min(38rem,calc(100vw-3rem))] shrink-0 snap-start"
-          />
+      <div class="hm-rows">
+        {researchAreas.map((a, i) => (
+          <details class="hm-area" name="area" open={i === 0}>
+            <summary>
+              <span class="hm-area-name xc">{a.tab}</span>
+              <span class="hm-area-plus" aria-hidden="true"></span>
+            </summary>
+            <div class="hm-area-body">
+              <p class="xw">{a.eyebrow}</p>
+              <h3 class="hm-area-head">{a.heading}</h3>
+              <p class="hm-area-text">{a.body}</p>
+              <ul class="hm-chips">
+                {a.chips.map((c) => (
+                  <li class="chip">{c}</li>
+                ))}
+              </ul>
+            </div>
+          </details>
         ))}
       </div>
+    </div>
+  </section>
 
-      <div class="mt-8 flex items-center justify-between gap-3 md:justify-end">
-        <a class="btn btn-outline group h-12 md:hidden" href="/projects/">
-          View all<span class="sr-only"> projects</span>
-          <Icon
-            name="arrow"
-            size={15}
-            class="transition-transform duration-300 group-hover:translate-x-1"
-          />
-        </a>
-        <div class="flex items-center gap-3">
-          <button
-            type="button"
-            class="popup-plus carousel-btn"
-            data-carousel-prev
-            aria-label="Previous project"
-          >
-            <span class="carousel-chev carousel-chev-prev">
-              <Icon name="chevron" size={18} />
-            </span>
-          </button>
-          <button
-            type="button"
-            class="popup-plus carousel-btn"
-            data-carousel-next
-            aria-label="Next project"
-          >
-            <span class="carousel-chev carousel-chev-next">
-              <Icon name="chevron" size={18} />
-            </span>
-          </button>
-        </div>
+  <section class="band-ice hm-band scroll-mt-24" id="projects">
+    <div class="shell-wide">
+      <SectionHead
+        kicker="Selected work"
+        title="Tools, maps & applications."
+        href="/projects/"
+        linkLabel="projects"
+      />
+      <div class="hm-grid">
+        {projects.map((entry, i) => (
+          <ProjectCard entry={entry} index={i} cta reveal={false} />
+        ))}
       </div>
     </div>
   </section>
 
-  <!-- publications -->
-  <section class="shell scroll-mt-24 py-24 md:py-32 cv-auto" id="publications">
-    <SectionHead
-      kicker="Publications"
-      title="Peer-reviewed & in review."
-      href="/publications/"
-      linkLabel="publications"
-    />
-    <div class="mt-8" data-carousel data-reveal>
-      <div
-        class="carousel-track -mx-4 -my-6 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 py-6 [scroll-padding-inline:16px] md:m-0 md:block md:overflow-visible md:p-0"
-        data-carousel-track
-      >
+  <section class="band-sun hm-band scroll-mt-24" id="publications">
+    <div class="shell-wide">
+      <SectionHead
+        kicker="Publications"
+        title="Peer-reviewed & in review."
+        href="/publications/"
+        linkLabel="publications"
+      />
+      <div class="hm-stack">
         {featuredPubs.map((entry) => (
           <CitationRow entry={entry} compact />
         ))}
       </div>
-
-      <div class="mt-8 flex items-center justify-between gap-3 md:hidden">
-        <a class="btn btn-outline group h-12" href="/publications/">
-          View all<span class="sr-only"> publications</span>
-          <Icon
-            name="arrow"
-            size={15}
-            class="transition-transform duration-300 group-hover:translate-x-1"
-          />
-        </a>
-        <div class="flex items-center gap-3">
-          <button
-            type="button"
-            class="popup-plus carousel-btn"
-            data-carousel-prev
-            aria-label="Previous publication"
-          >
-            <span class="carousel-chev carousel-chev-prev">
-              <Icon name="chevron" size={18} />
-            </span>
-          </button>
-          <button
-            type="button"
-            class="popup-plus carousel-btn"
-            data-carousel-next
-            aria-label="Next publication"
-          >
-            <span class="carousel-chev carousel-chev-next">
-              <Icon name="chevron" size={18} />
-            </span>
-          </button>
-        </div>
-      </div>
     </div>
   </section>
 
-  <!-- skills -->
-  <section class="scroll-mt-24 py-24 md:py-32 cv-auto" id="skills">
-    <div class="shell">
+  <section class="band-deep hm-band scroll-mt-24" id="skills">
+    <div class="shell-wide">
       <SectionHead
         kicker="Tech stack"
         title="Technologies I use to build things."
@@ -360,188 +194,82 @@ const faqs = [
     </div>
   </section>
 
-  <!-- experience + education -->
-  <section class="shell scroll-mt-24 py-28 md:py-36 cv-auto" id="experience">
-    <SectionHead kicker="Background" title="Where I've worked and studied." />
-    <div class="mt-10 grid gap-x-16 gap-y-12 lg:grid-cols-2 lg:gap-y-0">
-      <div class="grid content-start gap-y-5 lg:row-span-3 lg:grid-rows-subgrid">
-        <h3 class="sr-only-nw">Experience</h3>
-        <ul class="grid gap-4 lg:row-span-2 lg:grid-rows-subgrid">
-          {experience.slice(0, 2).map((entry, i) => (
-            <li>
-              <TimelineItem
-                entry={entry}
-                base="experience"
-                current={i === 0}
-                headingLevel={4}
-                card
-              />
-            </li>
-          ))}
-        </ul>
-        <a class="btn btn-outline group mt-1 justify-self-start max-md:h-12" href="/experience/">
-          View all<span class="sr-only"> experience</span>
-          <Icon
-            name="arrow"
-            size={15}
-            class="transition-transform duration-300 group-hover:translate-x-1"
-          />
-        </a>
-      </div>
-      <div
-        id="education"
-        class="grid scroll-mt-24 content-start gap-y-5 lg:row-span-3 lg:grid-rows-subgrid"
-      >
-        <h3 class="sr-only-nw">Education</h3>
-        <ul class="grid gap-4 lg:row-span-2 lg:grid-rows-subgrid">
-          {education.slice(0, 2).map((entry) => (
-            <li>
-              <TimelineItem entry={entry} base="education" headingLevel={4} card />
-            </li>
-          ))}
-        </ul>
-        <a class="btn btn-outline group mt-1 justify-self-start max-md:h-12" href="/education/">
-          View all<span class="sr-only"> education</span>
-          <Icon
-            name="arrow"
-            size={15}
-            class="transition-transform duration-300 group-hover:translate-x-1"
-          />
-        </a>
+  <section class="band-ice hm-band scroll-mt-24" id="experience">
+    <div class="shell-wide">
+      <SectionHead kicker="Background" title="Where I've worked and studied." />
+      <div class="hm-bg2">
+        <div class="hm-bg-col">
+          <h3 class="xw">Experience</h3>
+          <ul class="hm-stack">
+            {experience.slice(0, 2).map((entry, i) => (
+              <li>
+                <TimelineItem
+                  entry={entry}
+                  base="experience"
+                  current={i === 0}
+                  headingLevel={4}
+                  card
+                />
+              </li>
+            ))}
+          </ul>
+          <a class="btn btn-outline group self-start" href="/experience/">
+            View all<span class="sr-only"> experience</span>
+            <Icon name="arrow" size={15} />
+          </a>
+        </div>
+        <div class="hm-bg-col scroll-mt-24" id="education">
+          <h3 class="xw">Education</h3>
+          <ul class="hm-stack">
+            {education.slice(0, 2).map((entry) => (
+              <li>
+                <TimelineItem entry={entry} base="education" headingLevel={4} card />
+              </li>
+            ))}
+          </ul>
+          <a class="btn btn-outline group self-start" href="/education/">
+            View all<span class="sr-only"> education</span>
+            <Icon name="arrow" size={15} />
+          </a>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- awards -->
-  <section class="scroll-mt-24 py-24 md:py-32 cv-auto" id="awards">
-    <div class="shell">
+  <section class="band-blue hm-band scroll-mt-24" id="awards">
+    <div class="shell-wide">
       <SectionHead
         kicker="Recognition"
         title="Featured awards."
         href="/awards/"
         linkLabel="awards"
       />
-    </div>
-    <div class="shell mt-10" data-carousel data-reveal>
-      <div
-        class="carousel-track flex snap-x snap-mandatory gap-4 overflow-x-auto -mx-4 -my-6 px-4 py-6 [scroll-padding-inline:16px]"
-        data-carousel-track
-      >
+      <div class="hm-grid">
         {featuredAwards.map((entry, i) => (
-          <AwardCard
-            entry={entry}
-            index={i}
-            reveal={false}
-            class="w-[min(38rem,calc(100vw-3rem))] shrink-0 snap-start"
-          />
+          <AwardCard entry={entry} index={i} reveal={false} />
         ))}
-      </div>
-
-      <div class="mt-8 flex items-center justify-between gap-3 md:justify-end">
-        <a class="btn btn-outline group h-12 md:hidden" href="/awards/">
-          View all<span class="sr-only"> awards</span>
-          <Icon
-            name="arrow"
-            size={15}
-            class="transition-transform duration-300 group-hover:translate-x-1"
-          />
-        </a>
-        <div class="flex items-center gap-3">
-          <button
-            type="button"
-            class="popup-plus carousel-btn"
-            data-carousel-prev
-            aria-label="Previous award"
-          >
-            <span class="carousel-chev carousel-chev-prev">
-              <Icon name="chevron" size={18} />
-            </span>
-          </button>
-          <button
-            type="button"
-            class="popup-plus carousel-btn"
-            data-carousel-next
-            aria-label="Next award"
-          >
-            <span class="carousel-chev carousel-chev-next">
-              <Icon name="chevron" size={18} />
-            </span>
-          </button>
-        </div>
       </div>
     </div>
   </section>
 
-  <!-- blog -->
-  <section class="shell scroll-mt-24 py-24 md:py-32 cv-auto" id="blog">
-    <SectionHead kicker="Writing" title="Notes & tutorials." href="/blog/" linkLabel="posts" />
-    <div class="mt-10" data-carousel>
-      <div
-        class="carousel-track -mx-4 -my-6 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 py-6 [scroll-padding-inline:16px] sm:m-0 sm:grid sm:grid-cols-2 sm:gap-5 sm:overflow-visible sm:p-0 lg:grid-cols-3"
-        data-carousel-track
-      >
+  <section class="band-ice hm-band scroll-mt-24" id="blog">
+    <div class="shell-wide">
+      <SectionHead kicker="Writing" title="Notes & tutorials." href="/blog/" linkLabel="posts" />
+      <div class="hm-grid">
         {posts.map((entry, i) => (
-          <PostCard
-            entry={entry}
-            index={i}
-            cta
-            readingTime={readingTime(entry.body)}
-            class="w-[min(38rem,calc(100vw-3rem))] shrink-0 snap-start sm:w-auto"
-          />
+          <PostCard entry={entry} index={i} cta readingTime={readingTime(entry.body)} />
         ))}
-      </div>
-
-      <div class="mt-8 flex items-center justify-between gap-3 md:justify-end">
-        <a class="btn btn-outline group h-12 md:hidden" href="/blog/">
-          View all<span class="sr-only"> posts</span>
-          <Icon
-            name="arrow"
-            size={15}
-            class="transition-transform duration-300 group-hover:translate-x-1"
-          />
-        </a>
-        <div class="flex items-center gap-3 sm:hidden">
-          <button
-            type="button"
-            class="popup-plus carousel-btn"
-            data-carousel-prev
-            aria-label="Previous post"
-          >
-            <span class="carousel-chev carousel-chev-prev">
-              <Icon name="chevron" size={18} />
-            </span>
-          </button>
-          <button
-            type="button"
-            class="popup-plus carousel-btn"
-            data-carousel-next
-            aria-label="Next post"
-          >
-            <span class="carousel-chev carousel-chev-next">
-              <Icon name="chevron" size={18} />
-            </span>
-          </button>
-        </div>
       </div>
     </div>
   </section>
 
-  <!-- cta -->
-  <section class="shell scroll-mt-24 py-24 md:py-32 cv-auto" id="cta">
-    <div class="card cta-card mx-auto text-center" data-reveal>
-      <p class="cta-kicker">
-        <span class="cta-dot" aria-hidden="true"></span>
-        Open to data science &amp; GIS roles
-      </p>
-      <h2 class="mx-auto mt-4 max-w-[20ch] font-display text-[clamp(2rem,1.3rem+2.8vw,3.5rem)] leading-[1.08] font-semibold tracking-tight text-balance">
-        Let's talk about spatial problems <span class="blue-grad">worth solving</span>.
+  <section class="band-sun hm-band scroll-mt-24" id="cta">
+    <div class="shell-wide">
+      <p class="xw">Open to data science &amp; GIS roles</p>
+      <h2 class="hm-cta-title xc">
+        Let's talk about spatial problems <span>worth solving.</span>
       </h2>
-      <p class="lede mx-auto mt-5 max-w-[40ch] text-dim">
-        Looking for <strong class="text-ink">data scientist</strong> and{' '}
-        <strong class="text-ink">GIS analyst</strong> roles where rigorous spatial analysis drives
-        real decisions.
-      </p>
-      <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+      <div class="hm-cta-row">
         <a class="btn btn-primary" href="/contact/">
           <Icon name="mail" size={16} />
           Get in touch
@@ -551,63 +279,62 @@ const faqs = [
           Resume
           <span class="sr-only-nw">(PDF, opens in a new tab)</span>
         </a>
-      </div>
-      <p class="mt-6">
         <span class="chip">Replies within 24 hours</span>
-      </p>
-      <p class="mt-4 text-small text-dim">
+      </div>
+      <p class="hm-cta-mail">
         or email{' '}
-        <a class="text-ink underline underline-offset-4" href={`mailto:${site.email}`}>
+        <a class="font-bold underline underline-offset-4" href={`mailto:${site.email}`}>
           {site.email}
         </a>
       </p>
     </div>
   </section>
 
-  <!-- faq -->
-  <section class="shell scroll-mt-24 py-24 md:py-32 cv-auto" id="faq">
-    <SectionHead
-      kicker="FAQ"
-      title="About my work."
-      subtitle="Common questions about collaboration and what I do"
-    />
-    <div class="mt-9 divide-y divide-line border-y border-line">
-      {faqs.map((f) => (
-        <details class="faq group" name="faq" data-reveal>
-          <summary class="flex cursor-pointer list-none items-center justify-between gap-6 py-5 text-lead font-semibold transition-colors hover:text-accent-ink">
-            <span class="min-w-0">{f.q}</span>
-            <span class="faq-chevron shrink-0" aria-hidden="true">
-              <Icon name="chevron" size={18} />
-            </span>
-          </summary>
-          <p class="max-w-3xl pb-5 text-body-lg leading-relaxed text-dim">
-            {f.link ? (
-              <>
-                {f.a.split(f.link.text)[0]}
-                <a class="text-accent-ink underline underline-offset-3" href={f.link.href}>
-                  {f.link.text}
-                </a>
-                {f.a.split(f.link.text)[1]}
-              </>
-            ) : (
-              f.a
-            )}
-          </p>
-        </details>
-      ))}
+  <section class="band-ice hm-band scroll-mt-24" id="faq">
+    <div class="shell-wide">
+      <SectionHead
+        kicker="FAQ"
+        title="About my work."
+        subtitle="Common questions about collaboration and what I do"
+      />
+      <div class="hm-faq">
+        {faqs.map((f) => (
+          <details class="faq" name="faq">
+            <summary>
+              <span class="min-w-0">{f.q}</span>
+              <span class="faq-chevron shrink-0" aria-hidden="true">
+                <Icon name="chevron" size={18} />
+              </span>
+            </summary>
+            <p>
+              {f.link ? (
+                <>
+                  {f.a.split(f.link.text)[0]}
+                  <a class="underline underline-offset-4" href={f.link.href}>
+                    {f.link.text}
+                  </a>
+                  {f.a.split(f.link.text)[1]}
+                </>
+              ) : (
+                f.a
+              )}
+            </p>
+          </details>
+        ))}
+      </div>
+      <script
+        type="application/ld+json"
+        is:inline
+        set:html={JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'FAQPage',
+          mainEntity: faqs.map((f) => ({
+            '@type': 'Question',
+            name: f.q,
+            acceptedAnswer: { '@type': 'Answer', text: f.a },
+          })),
+        })}
+      ></script>
     </div>
-    <script
-      type="application/ld+json"
-      is:inline
-      set:html={JSON.stringify({
-        '@context': 'https://schema.org',
-        '@type': 'FAQPage',
-        mainEntity: faqs.map((f) => ({
-          '@type': 'Question',
-          name: f.q,
-          acceptedAnswer: { '@type': 'Answer', text: f.a },
-        })),
-      })}
-    ></script>
   </section>
 </Base>

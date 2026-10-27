@@ -1,0 +1,50 @@
+[
+  {
+    "id": "remote-sensing",
+    "tab": "Remote Sensing",
+    "eyebrow": "Earth Observation",
+    "heading": "Seeing change from orbit.",
+    "body": "Multi-temporal satellite imagery turned into measurable change — classification, spectral indices, and time-series analysis at landscape scale in Google Earth Engine.",
+    "chips": ["Imagery Analysis", "Google Earth Engine", "Change Detection"]
+  },
+  {
+    "id": "land-use",
+    "tab": "Land-Use Change",
+    "eyebrow": "Social-Ecological Systems",
+    "heading": "Where people and landscapes meet.",
+    "body": "Modeling how development, disturbance, and policy reshape land cover, with a focus on wildfire risk in the wildland–urban interface.",
+    "chips": ["Land-Use Change", "Wildfire & WUI", "Risk Assessment"]
+  },
+  {
+    "id": "spatial-stats",
+    "tab": "Spatial Statistics",
+    "eyebrow": "Statistical Modeling",
+    "heading": "Uncertainty, stated honestly.",
+    "body": "Bayesian and spatial-statistical models that quantify what the data actually support, in reproducible pipelines anyone can rerun.",
+    "chips": ["Bayesian Analysis", "Forecasting", "Reproducible Research"]
+  },
+  {
+    "id": "applied-ai",
+    "tab": "Applied AI",
+    "eyebrow": "Data Storytelling",
+    "heading": "Models that reach a decision-maker.",
+    "body": "Machine learning applied to ecological and geospatial problems, paired with visualization that makes the result legible to non-specialists.",
+    "chips": ["Machine Learning", "Data Visualization", "Quantitative Ecology"]
+  },
+  {
+    "id": "biodiversity",
+    "tab": "Biodiversity",
+    "eyebrow": "Conservation Monitoring",
+    "heading": "Mapping what lives where.",
+    "body": "Species distribution models and habitat mapping that turn scattered occurrence records into conservation-planning inputs.",
+    "chips": ["Species Distribution", "Habitat Mapping", "Conservation Planning"]
+  },
+  {
+    "id": "geo-engineering",
+    "tab": "Geospatial Engineering",
+    "eyebrow": "Open Data & Tooling",
+    "heading": "Infrastructure for spatial work.",
+    "body": "Spatial databases, automated data pipelines, and open-source GIS tooling that keep analysis fast, current, and shareable.",
+    "chips": ["Spatial Databases", "Data Pipelines", "Open Source GIS"]
+  }
+]
