@@ -15,7 +15,7 @@ import Icon from './Icon.astro';
     data-search-backdrop
   >
     <div
-      class="card bg-bg flex w-full max-w-none flex-col overflow-hidden border-0 sm:max-w-4xl sm:border-2 sm:border-line-strong"
+      class="card flex w-full max-w-none flex-col overflow-hidden rounded-none border-0 sm:max-w-4xl sm:rounded-md sm:border sm:border-line-strong"
       data-search-panel
     >
       <!-- query row -->
@@ -23,8 +23,13 @@ import Icon from './Icon.astro';
           close circle beside it. `sm:contents` dissolves the pill wrapper so the
           desktop row is exactly what it was. */}
       <div class="flex h-16 items-center gap-2 border-b border-line px-5 sm:h-auto sm:gap-3.5 sm:bg-raised/40 sm:px-6 sm:py-1">
-        <div class="flex min-w-0 flex-1 items-center gap-2 bg-raised px-4 sm:contents">
-          <Icon name="nav-search" size={21} class="shrink-0 text-faint sm:text-accent-ink" />
+        <div class="flex min-w-0 flex-1 items-center gap-2 rounded-full bg-raised px-4 sm:contents">
+          <Icon
+            name="nav-search"
+            size={21}
+            stroke-width={1.8}
+            class="shrink-0 text-faint sm:text-accent-ink"
+          />
           <input
             type="text"
             id="search-input"
@@ -42,25 +47,25 @@ import Icon from './Icon.astro';
             type="button"
             data-search-clear
             hidden
-            class="grid h-5 w-5 shrink-0 place-items-center bg-faint text-bg"
+            class="grid h-5 w-5 shrink-0 place-items-center rounded-full bg-faint text-bg"
             aria-label="Clear search"
           >
-            <Icon name="nav-x" size={12} />
+            <Icon name="nav-x" size={12} stroke-width={3} />
           </button>
           <button
             type="button"
             data-filter-toggle
             aria-expanded="false"
             aria-controls="search-filters"
-            class="icon-tile icon-bare relative h-8 w-8 shrink-0 max-sm:-mr-1 text-faint hover:transform-none! aria-expanded:bg-accent aria-expanded:text-accent-contrast sm:h-9 sm:w-9"
+            class="icon-tile icon-bare relative h-8 w-8 shrink-0 rounded-full max-sm:-mr-1 text-faint hover:transform-none! aria-expanded:bg-accent aria-expanded:text-accent-contrast sm:h-9 sm:w-9"
             title="Filters"
           >
-            <Icon name="nav-listFilter" size={17} />
+            <Icon name="nav-listFilter" size={17} stroke-width={2.2} />
             <span class="sr-only-nw">Toggle filters</span>
             <span
               data-filter-count
               hidden
-              class="absolute -top-1 -right-1 grid h-4 min-w-4 place-items-center bg-accent px-1 text-micro font-semibold text-accent-contrast"
+              class="absolute -top-1 -right-1 grid h-4 min-w-4 place-items-center rounded-full bg-accent px-1 text-micro font-semibold text-accent-contrast"
             ></span>
           </button>
         </div>
@@ -70,8 +75,8 @@ import Icon from './Icon.astro';
           class="icon-tile icon-bare h-10 w-10 shrink-0 hover:transform-none! sm:h-9 sm:w-9"
           aria-label="Close search"
         >
-          <Icon name="nav-x" size={22} class="sm:hidden" />
-          <Icon name="nav-x" size={17} class="hidden sm:block" />
+          <Icon name="nav-x" size={22} stroke-width={1.8} class="sm:hidden" />
+          <Icon name="nav-x" size={17} stroke-width={2.2} class="hidden sm:block" />
         </button>
       </div>
 
@@ -106,13 +111,13 @@ import Icon from './Icon.astro';
       </div>
 
       <!-- hint bar -->
-      <div class="flex items-center gap-4 border-t border-line px-4 py-2.5 xw text-micro text-faint sm:bg-raised/40 sm:px-6 sm:py-3">
+      <div class="flex items-center gap-4 border-t border-line px-4 py-2.5 font-mono text-micro text-faint sm:bg-raised/40 sm:px-6 sm:py-3">
         <span class="hidden items-center gap-1.5 sm:flex">
-          <kbd class="border border-line-strong bg-surface px-1.5 py-0.5">↑</kbd>
-          <kbd class="border border-line-strong bg-surface px-1.5 py-0.5">↓</kbd> navigate
+          <kbd class="rounded border border-line-strong bg-surface px-1.5 py-0.5">↑</kbd>
+          <kbd class="rounded border border-line-strong bg-surface px-1.5 py-0.5">↓</kbd> navigate
         </span>
         <span class="hidden items-center gap-1.5 sm:flex">
-          <kbd class="border border-line-strong bg-surface px-1.5 py-0.5">↵</kbd> open
+          <kbd class="rounded border border-line-strong bg-surface px-1.5 py-0.5">↵</kbd> open
         </span>
         <span class="ml-auto" data-search-status aria-live="polite"></span>
       </div>

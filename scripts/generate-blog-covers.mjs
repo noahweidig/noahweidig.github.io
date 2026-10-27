@@ -1,8 +1,11 @@
 /**
- * Renders each blog post's cover art (dark and light) in the site's width-poster
- * look: a flat cobalt field, a wide yellow label, the title in giant condensed
- * Archivo capitals and a yellow band along the bottom (scripts/lib/blog-cover.mjs),
- * using the self-hosted Archivo face from public/fonts.
+ * Renders each blog post's cover art (dark and light) straight from the
+ * site's own tokens — accent/ember/moss/violet glows, the grid, the self-hosted
+ * Inter/JetBrains Mono faces — instead of a hand-maintained image.
+ * Blog covers are the title, a tag pill and three stacked to-do cards
+ * (scripts/lib/blog-cover.mjs): the slug picks which three accent hues rotate in.
+ * The other cards below keep the glow-and-contour-ring design, where the slug
+ * seeds which two hues glow and which corner the rings sit in.
  *
  * The same renderer also covers every other page that doesn't already carry
  * a real photo: one og:image per projects/publications/experience/education
@@ -21,7 +24,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import puppeteer from 'puppeteer';
-import { coverHtml } from './lib/blog-cover.mjs';
+import { coverHtml, hash } from './lib/blog-cover.mjs';
 import { readFrontmatter } from './lib/frontmatter.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -67,6 +70,50 @@ const SITE = { name: 'Noah Weidig', role: 'GIS Analyst & Data Scientist' };
 const WIDTH = 1200;
 const HEIGHT = 675;
 
+const THEME = {
+  dark: {
+    bg: '#07080b',
+    bgDeep: '#040507',
+    ink: '#e9ecf2',
+    dim: '#a7afbe',
+    faint: '#7c8494',
+    line: '#ffffff',
+    lineOpacity: 0.07,
+    ringOpacity: 0.11,
+  },
+  light: {
+    bg: '#fbfaf7',
+    bgDeep: '#f2f0eb',
+    ink: '#14161c',
+    dim: '#43495a',
+    faint: '#636a78',
+    line: '#14161c',
+    lineOpacity: 0.06,
+    ringOpacity: 0.1,
+  },
+};
+
+// Same hex values as --c-accent/--c-ember/--c-moss/--c-violet in global.css,
+// dark and light rows, so a cover always uses colors the site itself paints.
+const HUES = {
+  dark: { accent: '#3d86ff', ember: '#ff8f45', moss: '#4bd0a0', violet: '#a988ff' },
+  light: { accent: '#0f62d6', ember: '#a44a16', moss: '#0f7a56', violet: '#6541c9' },
+};
+
+// Deterministic per-slug variation: which two hues glow, where, and which
+// corner the contour-ring mark sits in. Order matters for the hash, not the
+// content, so adding posts later doesn't reshuffle existing covers.
+const PRESETS = [
+  { a: 'accent', aPos: '92% -10%', b: 'violet', bPos: '-8% 115%', ring: 'right' },
+  { a: 'violet', aPos: '-10% -15%', b: 'moss', bPos: '108% 110%', ring: 'left' },
+  { a: 'ember', aPos: '105% 115%', b: 'accent', bPos: '-10% -10%', ring: 'right' },
+  { a: 'moss', aPos: '95% -15%', b: 'violet', bPos: '105% 115%', ring: 'left' },
+];
+
+function presetFor(slug) {
+  return PRESETS[hash(slug) % PRESETS.length];
+}
+
 function buildFontFaceCss() {
   const css = fs.readFileSync(path.join(root, 'src/styles/fonts.css'), 'utf8');
   return css.replace(/url\('\/fonts\/([^']+)'\)/g, (_, file) => {
@@ -76,6 +123,154 @@ function buildFontFaceCss() {
 }
 
 const FONT_FACE_CSS = buildFontFaceCss();
+
+function escapeHtml(str) {
+  return str.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
+}
+
+function titleFontSize(title) {
+  if (title.length > 28) return '64px';
+  if (title.length > 16) return '76px';
+  return '92px';
+}
+
+function pageHtml({ title, kicker, mode, slug }) {
+  const t = THEME[mode];
+  const hues = HUES[mode];
+  const preset = presetFor(slug);
+  const ringCss =
+    preset.ring === 'right' ? 'right: -70px; bottom: -70px;' : 'left: -70px; bottom: -70px;';
+  const dotCss =
+    preset.ring === 'right' ? 'right: 60px; bottom: 60px;' : 'left: 60px; bottom: 60px;';
+
+  return `<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+${FONT_FACE_CSS}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: ${WIDTH}px; height: ${HEIGHT}px; overflow: hidden; }
+body {
+  position: relative;
+  background: linear-gradient(160deg, ${t.bg} 0%, ${t.bgDeep} 100%);
+  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+}
+.glow {
+  position: absolute;
+  inset: 0;
+  mix-blend-mode: ${mode === 'dark' ? 'screen' : 'multiply'};
+}
+.glow.a {
+  background: radial-gradient(560px 560px at ${preset.aPos}, ${hues[preset.a]} 0%, transparent 68%);
+  opacity: ${mode === 'dark' ? 0.55 : 0.28};
+}
+.glow.b {
+  background: radial-gradient(520px 520px at ${preset.bPos}, ${hues[preset.b]} 0%, transparent 68%);
+  opacity: ${mode === 'dark' ? 0.38 : 0.2};
+}
+.grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, ${t.line} 1px, transparent 1px),
+    linear-gradient(to bottom, ${t.line} 1px, transparent 1px);
+  background-size: 60px 60px;
+  opacity: ${t.lineOpacity};
+  -webkit-mask-image: radial-gradient(ellipse 85% 65% at 50% 0%, #000 20%, transparent 78%);
+  mask-image: radial-gradient(ellipse 85% 65% at 50% 0%, #000 20%, transparent 78%);
+}
+.rings {
+  position: absolute;
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+  ${ringCss}
+}
+.rings::before, .rings::after, .rings i {
+  content: '';
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  border-radius: 50%;
+  border: 1.5px solid ${t.ink};
+  opacity: ${t.ringOpacity};
+}
+.rings::before { width: 220px; height: 220px; }
+.rings::after { width: 320px; height: 320px; }
+.rings i { width: 420px; height: 420px; }
+.dot {
+  position: absolute;
+  ${dotCss}
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: ${hues.moss};
+}
+.hairline {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: ${t.line};
+  opacity: ${t.lineOpacity};
+}
+.content {
+  position: relative;
+  height: 100%;
+  padding: 64px 76px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.kicker {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: ${t.dim};
+}
+.title {
+  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  font-weight: 700;
+  font-size: ${titleFontSize(title)};
+  line-height: 1.08;
+  color: ${t.ink};
+  max-width: 920px;
+}
+.footer {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+.domain {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 16px;
+  letter-spacing: 0.03em;
+  color: ${t.faint};
+}
+</style>
+</head>
+<body>
+  <div class="glow a"></div>
+  <div class="glow b"></div>
+  <div class="grid"></div>
+  <div class="rings"><i></i></div>
+  <div class="dot"></div>
+  <div class="hairline" style="top: 0;"></div>
+  <div class="hairline" style="bottom: 0;"></div>
+  <div class="content">
+    <div class="kicker">${escapeHtml(kicker)}</div>
+    <div class="title">${escapeHtml(title)}</div>
+    <div class="footer">
+      <span class="domain">noahweidig.com</span>
+    </div>
+  </div>
+</body>
+</html>`;
+}
 
 // The title, the `categories` list and the `featured` flag are all a cover needs.
 function parseFrontmatter(raw, slug) {
@@ -101,8 +296,7 @@ function readEntryMeta(collDir, slug, kickerFor) {
 
 // Loaded from a file:// page rather than setContent(): about:blank may not
 // load file:// fonts, which silently falls back to a system face.
-async function renderCover(browser, opts, outFile) {
-  const html = coverHtml({ ...opts, fontCss: FONT_FACE_CSS });
+async function renderCover(browser, opts, outFile, html = pageHtml(opts)) {
   const tmp = path.join(os.tmpdir(), `cover-${process.pid}-${path.basename(outFile)}.html`);
   fs.writeFileSync(tmp, html);
   const page = await browser.newPage();
@@ -147,8 +341,8 @@ async function main() {
       ['dark', darkOut],
       ['light', lightOut],
     ]) {
-      const opts = { title, kicker, mode };
-      await renderCover(browser, opts, out);
+      const opts = { title, kicker, mode, slug };
+      await renderCover(browser, opts, out, coverHtml({ ...opts, fontCss: FONT_FACE_CSS }));
     }
     console.log(`✓ ${slug}`);
   }
@@ -156,7 +350,7 @@ async function main() {
   if (doSite || (!flagged && only.length === 0)) {
     await renderCover(
       browser,
-      { title: SITE.role, kicker: SITE.name, mode: 'light', slug: 'site-og' },
+      { title: SITE.role, kicker: SITE.name, mode: 'dark', slug: 'site-og' },
       siteCardOut,
     );
     console.log('✓ site-og');
@@ -173,7 +367,7 @@ async function main() {
       for (const slug of collSlugs) {
         const meta = readEntryMeta(dir, slug, kicker);
         const out = path.join(outDir, `${slug}.webp`);
-        await renderCover(browser, { ...meta, mode: 'light' }, out);
+        await renderCover(browser, { ...meta, mode: 'dark', slug: `${coll}/${slug}` }, out);
         console.log(`✓ ${coll}/${slug}`);
       }
     }
@@ -183,7 +377,7 @@ async function main() {
     fs.mkdirSync(ogDir, { recursive: true });
     for (const { slug, title, kicker } of PAGES) {
       const out = path.join(ogDir, `${slug}.webp`);
-      await renderCover(browser, { title, kicker, mode: 'light' }, out);
+      await renderCover(browser, { title, kicker, mode: 'dark', slug: `page-${slug}` }, out);
       console.log(`✓ page ${slug}`);
     }
   }

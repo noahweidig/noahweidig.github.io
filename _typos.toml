@@ -4,4 +4,3 @@ extend-exclude = ["package-lock.json", "src/data/", "src/styles/fonts.css", "pub
 [default.extend-words]
 nd = "nd"
 SER = "SER"
-wdth = "wdth"

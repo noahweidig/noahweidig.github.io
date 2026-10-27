@@ -2,7 +2,7 @@
 /**
  * One icon component for the whole site.
  *
- * UI icons are Material Symbols Sharp (Apache-2.0). They live in `src/lib/icons.generated.ts` —
+ * UI icons are Lucide (ISC). They live in `src/lib/icons.generated.ts` —
  * regenerate them with `node scripts/generate-icons.mjs`. Brand marks are the
  * SVGs in `public/uploads/`, inlined at build time (`src/lib/brand-icons.ts`).
  * The desktop nav bar's arrow and dropdown chevron are two fixed filled glyphs
@@ -15,12 +15,13 @@ interface Props {
   name: string;
   size?: number | string;
   class?: string;
+  'stroke-width'?: number;
 }
-const { name, size = 20, class: klass = '' } = Astro.props;
+const { name, size = 20, class: klass = '', 'stroke-width': sw = 1.6 } = Astro.props;
 
 /* Social/brand marks are the SVGs in `public/uploads/`; they win over the
    generated set. */
-const glyph: { viewBox: string; body: string } | undefined =
+const glyph: { viewBox: string; body: string; stroke?: boolean } | undefined =
   brand[BRAND_ALIAS[name] ?? name] ?? icons[name];
 /* The <symbol> carries the glyph's own viewBox (origin included); the outer svg
    only needs its size, or the origin offset would be applied twice. */
@@ -44,7 +45,11 @@ seen.add(id);
   viewBox={`0 0 ${box[2]} ${box[3]}`}
   width={size}
   height={size}
-  fill="currentColor"
+  fill={glyph.stroke ? 'none' : 'currentColor'}
+  stroke={glyph.stroke ? 'currentColor' : undefined}
+  stroke-width={glyph.stroke ? sw : undefined}
+  stroke-linecap={glyph.stroke ? 'round' : undefined}
+  stroke-linejoin={glyph.stroke ? 'round' : undefined}
   aria-hidden="true"
   focusable="false"
   class={klass}

@@ -1,284 +1,95 @@
 ---
+import HeroIcons from './HeroIcons.astro';
 import Icon from './Icon.astro';
-import { researchAreas } from '../lib/research-areas';
-import { site, socials } from '../lib/site';
-
-const rows = ['NOAH', 'WEIDIG'];
-const names = researchAreas.map((a) => a.tab);
-const ticker = [...names, ...names];
-const rain = [
-  'rasterio',
-  'postgis',
-  'python',
-  'terra',
-  'sf',
-  'gdal',
-  'earthengine',
-  'lidar',
-  'geopandas',
-  'sql',
-  'ndvi',
-  'qgis',
-  'tidyverse',
-  'wui',
-  'shiny',
-  'leaflet',
-  'sentinel2',
-  'xgboost',
-].map((word, i) => ({
-  word,
-  left: (i * 37 + 5) % 97,
-  dur: 5 + ((i * 5) % 5),
-  delay: -((i * 7) % 9),
-}));
+import { socials } from '../lib/site';
 ---
 
-<section class="band-blue under-nav hero" id="hero" data-hero>
-  <div class="hero-main">
-    <div class="hero-rain" aria-hidden="true">
-      {rain.map((r) => (
-        <span style={`--x:${r.left}%;--d:${r.dur}s;--w:${r.delay}s`}>{r.word}</span>
-      ))}
+<section class="under-nav relative overflow-x-clip border-b border-line" id="hero" data-hero>
+  <div class="hero-glow" aria-hidden="true"></div>
+  <HeroIcons />
+  <div class="shell relative pt-16 pb-16 text-center md:pt-18 md:pb-24 lg:pt-20 lg:pb-32">
+    <h1 class="hero-title font-display font-semibold">
+      <span class="hero-line" data-reveal>
+        Spatial analysis.
+      </span>
+      <span class="hero-line" data-reveal style="--reveal-delay:70ms">
+        Real <span class="blue-grad">insights</span>.
+      </span>
+    </h1>
+
+    <p class="lede mx-auto mt-8 max-w-xl text-center" data-reveal style="--reveal-delay:140ms">
+      I turn satellite imagery, fire perimeters, and messy field data into models people can
+      actually decide something with — mostly around wildfire risk in the wildland-urban interface.
+    </p>
+
+    <div
+      class="mt-10 flex flex-wrap items-center justify-center gap-3"
+      data-reveal
+      style="--reveal-delay:200ms"
+    >
+      <a class="btn btn-primary hero-btn" href="#projects">
+        View my work
+        <Icon name="arrow" size={15} />
+      </a>
+      <a class="btn btn-ghost hero-btn" href="/contact/">
+        Get in touch
+        <Icon name="mail" size={15} />
+      </a>
     </div>
-    <div class="shell-wide">
-      <div class="hero-top xw">
-        <span>{site.role}</span>
-        <span>{site.location} · 28.54°N 81.38°W</span>
-      </div>
-      <div class="hero-grid">
-        <h1 class="hero-name">
-          <span class="sr-only-nw">Noah Weidig</span>
-          {rows.map((word, i) => (
-            <span class={`hero-row hero-row-${i}`} aria-hidden="true">
-              {word.split('').map((ch) => (
-                <span>{ch}</span>
-              ))}
-            </span>
-          ))}
-        </h1>
-        <div class="hero-side">
-          <p class="hero-tag">
-            Spatial analysis. Real <span class="hero-hl">insights.</span>
-          </p>
-          <p class="hero-lede">
-            I turn satellite imagery, fire perimeters, and messy field data into models people can
-            actually decide something with. Mostly wildfire risk in the wildland-urban interface.
-          </p>
-          <div class="flex flex-wrap gap-2.5">
-            <a class="btn btn-primary" href="#projects">
-              View my work
-              <Icon name="arrow" size={15} />
-            </a>
-            <a class="btn btn-ghost" href="/contact/">
-              Get in touch
-              <Icon name="mail" size={15} />
-            </a>
-          </div>
-          <ul class="hero-links xw">
-            {socials.map((s) => (
-              <li>
-                <a href={s.href} target="_blank" rel="noopener">
-                  {s.label}
-                  <span class="sr-only-nw"> (opens in a new tab)</span>
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="hero-marq xw" aria-hidden="true">
-    <div class="hero-track">
-      {[0, 1].map(() => (
-        <div class="hero-set">
-          {ticker.map((a) => (
-            <span>{a} /</span>
-          ))}
-        </div>
+    <div
+      class="mt-8 flex flex-wrap items-center justify-center gap-2"
+      data-reveal
+      style="--reveal-delay:260ms"
+    >
+      {socials.map((s) => (
+        <a
+          href={s.href}
+          aria-label={`${s.label} (opens in a new tab)`}
+          data-tip={`${s.label} profile`}
+          target="_blank"
+          rel="noopener"
+          class="social grid size-12 place-items-center rounded-full sm:size-14"
+        >
+          <Icon name={s.icon} size={26} />
+        </a>
       ))}
     </div>
   </div>
 </section>
 
 <style>
-  .hero {
-    overflow: hidden;
+  /* Sized from the viewport so the longest line never wraps. */
+  .hero-title {
+    font-size: clamp(2rem, calc((100vw - 4rem) / 9.4), 6rem);
+    line-height: 1.3;
+    letter-spacing: -0.025em;
   }
-  .hero-main {
-    position: relative;
-  }
-  .hero-main > .shell-wide {
-    position: relative;
-    z-index: 1;
-  }
-  /* Code rain: words stacked upright in faint columns that fall behind the name. */
-  .hero-rain {
-    position: absolute;
-    inset: 0;
-    overflow: hidden;
-    container-type: size;
-    pointer-events: none;
-  }
-  .hero-rain > span {
-    position: absolute;
-    top: 0;
-    left: var(--x);
-    writing-mode: vertical-lr;
-    text-orientation: upright;
-    font-size: 0.85rem;
-    letter-spacing: 0.05em;
-    color: var(--p-ice);
-    opacity: 0;
-    mask-image: linear-gradient(to bottom, transparent, black 75%);
-    animation: hero-rain var(--d) linear var(--w) infinite;
-  }
-  @keyframes hero-rain {
-    0% {
-      transform: translateY(-100%);
-      opacity: 0;
-    }
-    12% {
-      opacity: 0.4;
-    }
-    80% {
-      opacity: 0.4;
-    }
-    100% {
-      transform: translateY(100cqh);
-      opacity: 0;
-    }
-  }
-  @media (max-width: 39.99rem) {
-    .hero-rain > span:nth-child(2n) {
-      display: none;
-    }
-  }
-  .hero-top {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 0.3rem 1.5rem;
-    padding-block: 1.5rem 0.9rem;
-    border-bottom: 1px solid color-mix(in oklab, var(--p-ice) 45%, transparent);
-  }
-  .hero-grid {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: 2rem;
-    padding-block: 2rem 3.25rem;
-  }
-  /* Each row is sized so its letters fill the column: the widths below are the
-     row's advance width in em at wdth 100 / wght 900 (WEIDIG 3.951), so
-     font-size = 0.97 x column / width. NOAH shares WEIDIG's size and sits left. No script, and no reflow once the
-     font arrives. */
-  .hero-name {
-    container-type: inline-size;
-    margin: 0;
-    min-width: 0;
-    line-height: 0.8;
-  }
-  .hero-row {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    font-weight: 900;
-    font-variation-settings:
-      'wdth' 100,
-      'wght' 900;
-    letter-spacing: -0.02em;
-    line-height: 0.8;
-  }
-  .hero-row > span {
+  .hero-line {
     display: block;
-  }
-  .hero-row-0 {
-    font-size: 24.55cqw;
-    justify-content: flex-start;
-  }
-  .hero-row-1 {
-    font-size: 24.55cqw;
-    margin-top: 0.12em;
-  }
-  .hero-side {
-    display: flex;
-    flex-direction: column;
-    gap: 1.2rem;
-    min-width: 0;
-  }
-  .hero-tag {
-    font-size: clamp(2rem, 4vw, 3.6rem);
-    text-wrap: balance;
-    font-weight: 800;
-    font-variation-settings:
-      'wdth' 100,
-      'wght' 800;
-    line-height: 1.05;
-  }
-  .hero-hl {
-    color: var(--c-accent-ink);
-  }
-  .hero-lede {
-    max-width: 36rem;
-    color: var(--c-ink);
-    font-size: clamp(1.05rem, 1.5vw, 1.3rem);
-    line-height: 1.55;
-  }
-  .hero-side .btn {
-    padding: 1.05rem 1.5rem;
-    font-size: 0.85rem;
-  }
-  .hero-links {
-    font-size: 0.82rem;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem 1rem;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-  .hero-links a {
-    text-underline-offset: 3px;
-  }
-  .hero-links a:hover {
-    text-decoration: underline;
-  }
-  .hero-marq {
-    overflow: hidden;
     white-space: nowrap;
-    padding-block: 0.7rem;
-    background: var(--p-sun);
-    color: var(--p-deep);
   }
-  .hero-track {
-    display: inline-flex;
-    animation: hero-marquee 45s linear infinite;
+  .hero-line + .hero-line {
+    margin-top: 0.1em;
   }
-  .hero-set {
-    display: inline-flex;
-    flex: none;
+  /* Same outline as the secondary button; fills blue on hover. */
+  .social {
+    border: 1px solid var(--c-line-strong);
+    background: transparent;
+    color: var(--c-ink);
+    transition:
+      background-color var(--dur-fast),
+      border-color var(--dur-fast),
+      color var(--dur-fast);
   }
-  .hero-set > span {
-    padding-right: 1.5rem;
-  }
-  @keyframes hero-marquee {
-    to {
-      transform: translateX(-50%);
-    }
-  }
-  @media (min-width: 56.25rem) {
-    .hero-grid {
-      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-      align-items: end;
-      gap: 4rem;
-    }
+  .social:hover,
+  .social:focus-visible {
+    background: var(--c-accent);
+    border-color: var(--c-accent);
+    color: var(--c-accent-contrast);
   }
   @media (prefers-reduced-motion: reduce) {
-    .hero-track {
-      animation: none;
-    }
-    .hero-rain {
-      display: none;
+    .social {
+      transition: none;
     }
   }
 </style>

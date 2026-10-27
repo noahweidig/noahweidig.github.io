@@ -9,7 +9,7 @@ categories:
 draft: false
 image: './cover.webp'
 image-light: './cover-light.webp'
-image-alt: 'Cover card reading “My Favorite R Packages” in white capitals on a cobalt field with a yellow band'
+image-alt: 'Cover card reading “My Favorite R Packages” beside three stacked to-do cards in green, violet and teal'
 ---
 
 These are the R packages I install on a fresh machine before anything else.

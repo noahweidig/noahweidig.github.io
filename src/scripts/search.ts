@@ -273,21 +273,21 @@ export function initSearch() {
           .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
         if (!values.length) return '';
         return `<div>
-          <h3 class="xw text-faint">${FILTER_LABEL[key] ?? key}</h3>
+          <h3 class="font-mono text-micro tracking-[0.14em] text-faint uppercase">${FILTER_LABEL[key] ?? key}</h3>
           <ul class="mt-2 grid gap-0.5">
             ${values
               .map(([value, n]) => {
                 const on = selected[key]?.has(value) ?? false;
                 return `<li><button type="button" data-filter-key="${escapeHtml(key)}" data-filter-value="${escapeHtml(value)}"
                   aria-pressed="${on}"
-                  class="flex w-full items-center gap-2 px-1.5 py-1 text-left text-small transition-colors hover:bg-line/60 ${
+                  class="flex w-full items-center gap-2 rounded px-1.5 py-1 text-left text-small transition-colors hover:bg-line/60 ${
                     on ? 'text-accent-ink' : 'text-dim'
                   }">
-                  <span class="grid h-3.5 w-3.5 shrink-0 place-items-center border ${
+                  <span class="grid h-3.5 w-3.5 shrink-0 place-items-center rounded-[3px] border ${
                     on ? 'border-accent bg-accent text-accent-contrast' : 'border-line-strong'
-                  }">${on ? iconSvg('check', 10) : ''}</span>
+                  }">${on ? iconSvg('check', 10, 3.5) : ''}</span>
                   <span class="min-w-0 flex-1 truncate">${escapeHtml(value)}</span>
-                  <span class="shrink-0 text-micro text-faint tabular-nums">${n}</span>
+                  <span class="shrink-0 font-mono text-micro text-faint">${n}</span>
                 </button></li>`;
               })
               .join('')}
