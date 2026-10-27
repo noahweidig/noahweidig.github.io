@@ -280,10 +280,10 @@ export function initSearch() {
                 const on = selected[key]?.has(value) ?? false;
                 return `<li><button type="button" data-filter-key="${escapeHtml(key)}" data-filter-value="${escapeHtml(value)}"
                   aria-pressed="${on}"
-                  class="flex w-full items-center gap-2 rounded px-1.5 py-1 text-left text-small transition-colors hover:bg-line/60 ${
+                  class="flex w-full items-center gap-2 px-1.5 py-1 text-left text-small transition-colors hover:bg-line/60 ${
                     on ? 'text-accent-ink' : 'text-dim'
                   }">
-                  <span class="grid h-3.5 w-3.5 shrink-0 place-items-center rounded-[3px] border ${
+                  <span class="grid h-3.5 w-3.5 shrink-0 place-items-center border ${
                     on ? 'border-accent bg-accent text-accent-contrast' : 'border-line-strong'
                   }">${on ? iconSvg('check', 10, 3.5) : ''}</span>
                   <span class="min-w-0 flex-1 truncate">${escapeHtml(value)}</span>
