@@ -28,8 +28,8 @@ const rain = [
 ].map((word, i) => ({
   word,
   left: (i * 37 + 5) % 97,
-  dur: 11 + ((i * 5) % 9),
-  delay: -((i * 7) % 15),
+  dur: 5 + ((i * 5) % 5),
+  delay: -((i * 7) % 9),
 }));
 ---
 
@@ -130,6 +130,7 @@ const rain = [
     letter-spacing: 0.05em;
     color: var(--p-ice);
     opacity: 0;
+    mask-image: linear-gradient(to bottom, transparent, black 75%);
     animation: hero-rain var(--d) linear var(--w) infinite;
   }
   @keyframes hero-rain {
