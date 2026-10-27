@@ -4,7 +4,7 @@ import Base from '../layouts/Base.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import Icon from '../components/Icon.astro';
 import { byDate, inlineMarkup, year } from '../lib/format';
-import { site, socials, skills } from '../lib/site';
+import { site, skills } from '../lib/site';
 
 const education = (await getCollection('education')).sort(byDate);
 const experience = (await getCollection('experience')).sort(byDate);
@@ -42,20 +42,6 @@ const byCat = (c: string) => pubs.filter((p) => p.data.categories.includes(c));
           noahweidig.com
         </a>
       </p>
-      <div class="mt-5 flex justify-center gap-2">
-        {socials.map((s) => (
-          <a
-            href={s.href}
-            aria-label={`${s.label} (opens in a new tab)`}
-            data-tip={`${s.label} profile`}
-            target="_blank"
-            rel="noopener"
-            class="icon-tile"
-          >
-            <Icon name={s.icon} size={16} />
-          </a>
-        ))}
-      </div>
       {/* Both PDFs are regenerated from this page's own content by
           .github/workflows/pdfs.yml, so they never drift from the site. */}
       <div class="no-print mt-6 flex flex-wrap justify-center gap-2.5">
