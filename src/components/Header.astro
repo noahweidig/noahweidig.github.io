@@ -136,7 +136,7 @@ const isActive = (href: string) => {
   <div
     id="mobile-nav"
     hidden
-    class="mobile-nav fixed inset-x-0 bottom-0 top-16 md:top-[4.5rem] lg:hidden"
+    class="mobile-nav fixed inset-x-0 bottom-0 top-[calc(4rem+1px)] md:top-[calc(4.5rem+1px)] lg:hidden"
   >
     <div class="mobile-scrim absolute inset-0" data-menu-scrim aria-hidden="true"></div>
     <nav aria-label="Mobile" class="mobile-drawer absolute inset-y-0 left-0 flex flex-col">
@@ -258,17 +258,6 @@ const isActive = (href: string) => {
   .nav-trigger:not(.nav-link-active):hover {
     background: transparent;
     color: var(--c-ink);
-  }
-  @media (max-width: 63.99rem) {
-    .bar-theme {
-      display: none;
-    }
-    #site-header[data-menu-open] .bar-theme {
-      display: grid;
-    }
-    #site-header[data-menu-open] .bar-search {
-      display: none;
-    }
   }
   [data-menu-toggle][aria-expanded='false'] .burger-close,
   [data-menu-toggle][aria-expanded='true'] .burger-open {
