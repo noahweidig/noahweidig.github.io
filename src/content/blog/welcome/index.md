@@ -4,9 +4,6 @@ date: '2026-04-28'
 description: Notes on science, data, maps, and the landscapes we live in — a place to share open-source GIS workflows, personal projects, spatial analysis techniques, and observations from the field.
 categories:
   - Thoughts
-image: './cover.webp'
-image-light: './cover-light.webp'
-image-alt: 'Cover card reading “Welcome to My Blog” beside three stacked to-do cards in pink, green and violet'
 ---
 
 ## Welcome

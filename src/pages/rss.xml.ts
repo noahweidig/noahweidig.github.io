@@ -2,7 +2,6 @@ import rss from '@astrojs/rss';
 import { experimental_AstroContainer as AstroContainer } from 'astro/container';
 import { getCollection, render } from 'astro:content';
 import { byDate } from '../lib/format';
-import { getImage } from 'astro:assets';
 import sanitizeHtml from 'sanitize-html';
 import type { APIContext } from 'astro';
 import { site } from '../lib/site';
@@ -59,9 +58,6 @@ export async function GET(context: APIContext) {
     xmlns: { dc: 'http://purl.org/dc/elements/1.1/' },
     items: await Promise.all(
       posts.slice(0, 20).map(async (post) => {
-        const cover = post.data.image
-          ? await getImage({ src: post.data.image, width: 1200 })
-          : undefined;
         return {
           title: post.data.title,
           description: post.data.description,
@@ -70,13 +66,6 @@ export async function GET(context: APIContext) {
           categories: [...post.data.categories],
           content: await renderPostHtml(container, post, new URL(`/blog/${post.id}/`, feedSite)),
           customData: `<dc:creator>${escapeXml(post.data.author)}</dc:creator>`,
-          ...(cover && {
-            enclosure: {
-              url: new URL(cover.src, feedSite).href,
-              length: 0,
-              type: 'image/webp',
-            },
-          }),
         };
       }),
     ),
