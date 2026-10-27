@@ -711,9 +711,12 @@
     left: 0.75rem;
     max-width: calc(100% - 1.5rem);
     border-radius: var(--radius-sm);
-    background: #fff;
+    border: 1px solid rgb(255 255 255 / 0.16);
+    background: rgb(12 12 16 / 0.55);
+    -webkit-backdrop-filter: blur(14px) saturate(1.4);
+    backdrop-filter: blur(14px) saturate(1.4);
     padding: 0.625rem 1.25rem;
-    color: var(--c-on-light);
+    color: #fff;
     font-size: var(--text-body-lg);
     font-weight: 500;
     line-height: 1.25;
