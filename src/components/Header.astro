@@ -224,6 +224,10 @@ const isActive = (href: string) => {
     opacity: 1;
     translate: 0 0;
   }
+  /* No inner top highlight: on a menu this small it reads as a doubled top stroke. */
+  .nav-menu {
+    box-shadow: none;
+  }
   .nav-group[data-open] > .nav-menu {
     display: grid;
     grid-template-columns: 21rem;
