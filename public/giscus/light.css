@@ -101,6 +101,7 @@ main {
   font-family: 'Archivo';
   font-weight: 100 900;
   font-stretch: 62% 125%;
+  font-display: swap;
   src: url('/fonts/archivo-latin.woff2') format('woff2');
 }
 
@@ -110,7 +111,7 @@ main,
 button,
 input,
 textarea {
-  font-family: 'Archivo', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif !important;
+  font-family: 'Archivo', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
 }
 
 main {
@@ -119,10 +120,10 @@ main {
 }
 
 /* Square corners and ink borders, like the rest of the site. */
-main *,
-main *::before,
-main *::after {
-  border-radius: 0 !important;
+main [class][class],
+main [class][class]::before,
+main [class][class]::after {
+  border-radius: 0;
 }
 
 .gsc-comment-box-tabs,
