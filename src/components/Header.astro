@@ -366,10 +366,10 @@ const isActive = (href: string) => {
     overflow: hidden;
     overscroll-behavior: none;
   }
-  /* Transparent at the top of the page; frosted glass with a hairline once scrolled. */
+  /* Solid at the top of the page; frosted glass with a hairline once scrolled. */
   .nav-glass {
-    background-color: transparent;
-    border-bottom: 1px solid transparent;
+    background-color: var(--c-bg);
+    border-bottom: 1px solid var(--c-line);
     transition:
       background-color var(--dur-base) var(--ease-out-soft),
       border-color var(--dur-base) var(--ease-out-soft);

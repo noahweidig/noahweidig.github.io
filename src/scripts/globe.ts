@@ -10,7 +10,7 @@ const styleUrl = () =>
 function pulsingDot(map: import('maplibre-gl').Map) {
   const size = 100;
   const accent =
-    getComputedStyle(document.documentElement).getPropertyValue('--c-accent').trim() || '#0072e3';
+    getComputedStyle(document.documentElement).getPropertyValue('--c-accent').trim() || '#4151b5';
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   let ctx: CanvasRenderingContext2D | null = null;
   return {

@@ -3,7 +3,7 @@
    cannot read the page's custom properties, so the values are literal here. */
 main {
   --color-prettylights-syntax-comment: #96958f;
-  --color-prettylights-syntax-constant: #6ba4ff;
+  --color-prettylights-syntax-constant: #8f9be0;
   --color-prettylights-syntax-entity: #c28df6;
   --color-prettylights-syntax-storage-modifier-import: #ebebea;
   --color-prettylights-syntax-entity-tag: #68ce7e;
@@ -17,7 +17,7 @@ main {
   --color-prettylights-syntax-carriage-return-bg: #ff6b78;
   --color-prettylights-syntax-string-regexp: #68ce7e;
   --color-prettylights-syntax-markup-list: #ebebea;
-  --color-prettylights-syntax-markup-heading: #6ba4ff;
+  --color-prettylights-syntax-markup-heading: #8f9be0;
   --color-prettylights-syntax-markup-italic: #ebebea;
   --color-prettylights-syntax-markup-bold: #ebebea;
   --color-prettylights-syntax-markup-deleted-text: #ff6b78;
@@ -30,7 +30,7 @@ main {
   --color-prettylights-syntax-markup-ignored-bg: #252525;
   --color-prettylights-syntax-meta-diff-range: #c28df6;
   --color-prettylights-syntax-brackethighlighter-angle: #a8a7a3;
-  --color-prettylights-syntax-constant-other-reference-link: #6ba4ff;
+  --color-prettylights-syntax-constant-other-reference-link: #8f9be0;
   --color-prettylights-syntax-sublimelinter-gutter-mark: #96958f;
 
   --color-btn-text: #ebebea;
@@ -39,18 +39,18 @@ main {
   --color-btn-shadow: 0 0 transparent;
   --color-btn-inset-shadow: 0 0 transparent;
   --color-btn-hover-bg: #333333;
-  --color-btn-hover-border: #0072e3;
+  --color-btn-hover-border: #4151b5;
   --color-btn-active-bg: #202020;
-  --color-btn-active-border: #0072e3;
+  --color-btn-active-border: #4151b5;
   --color-btn-selected-bg: #202020;
   --color-btn-primary-text: #ffffff;
-  --color-btn-primary-bg: #0072e3;
-  --color-btn-primary-border: #0072e3;
+  --color-btn-primary-bg: #4151b5;
+  --color-btn-primary-border: #4151b5;
   --color-btn-primary-shadow: 0 0 transparent;
   --color-btn-primary-inset-shadow: 0 0 transparent;
-  --color-btn-primary-hover-bg: #0076df;
-  --color-btn-primary-hover-border: #2997ff;
-  --color-btn-primary-selected-bg: #0072e3;
+  --color-btn-primary-hover-bg: #4151b5;
+  --color-btn-primary-hover-border: #4151b5;
+  --color-btn-primary-selected-bg: #4151b5;
   --color-btn-primary-selected-shadow: 0 0 transparent;
   --color-btn-primary-disabled-text: rgb(0 0 0 / 0.5);
   --color-btn-primary-disabled-bg: rgb(0 114 227 / 0.4);
@@ -72,8 +72,8 @@ main {
   --color-border-muted: #333333;
   --color-neutral-muted: rgb(168 167 163 / 0.16);
   --color-neutral-subtle: rgb(168 167 163 / 0.08);
-  --color-accent-fg: #6ba4ff;
-  --color-accent-emphasis: #0072e3;
+  --color-accent-fg: #8f9be0;
+  --color-accent-emphasis: #4151b5;
   --color-accent-muted: rgb(0 114 227 / 0.4);
   --color-accent-subtle: rgb(0 114 227 / 0.12);
   --color-success-fg: #68ce7e;

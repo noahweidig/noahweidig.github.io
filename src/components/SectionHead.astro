@@ -1,6 +1,6 @@
 ---
 import Icon from './Icon.astro';
-import { iconFor, tintFor } from '../lib/tint';
+import { tintFor } from '../lib/tint';
 
 interface Props {
   kicker?: string;
@@ -11,18 +11,12 @@ interface Props {
   tint?: 'blue' | 'yellow' | 'red';
 }
 const { kicker, title, subtitle, href, linkLabel } = Astro.props;
-const glyph = kicker ? iconFor(kicker) : undefined;
 const tint = Astro.props.tint ?? (kicker ? tintFor(kicker) : undefined);
 ---
 
 <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between" data-reveal>
   <div>
-    {kicker && (
-      <p class:list={['kicker', tint && `tint-${tint}`]}>
-        {glyph && <Icon name={glyph} size={14} />}
-        {kicker}
-      </p>
-    )}
+    {kicker && <p class:list={['kicker', tint && `tint-${tint}`]}>{kicker}</p>}
     <h2 class="section-title">{title}</h2>
     {subtitle && <p class="lede mt-3">{subtitle}</p>}
   </div>
