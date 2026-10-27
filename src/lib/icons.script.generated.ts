@@ -2,27 +2,27 @@
    The subset of icons.generated.ts that client scripts need as strings. */
 export const scriptIcons: Record<string, { viewBox: string; body: string }> = {
   close: {
-    viewBox: '0 -960 960 960',
+    viewBox: '40 -920 880 880',
     body: '<path d="m249-207-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231z"/>',
   },
   check: {
-    viewBox: '0 -960 960 960',
+    viewBox: '40 -920 880 880',
     body: '<path d="M378-246 154-470l43-43 181 181 384-384 43 43z"/>',
   },
   copy: {
-    viewBox: '0 -960 960 960',
+    viewBox: '40 -920 880 880',
     body: '<path d="M240-200v-680h560v680zm60-60h440v-560H300zM120-80v-680h60v620h500v60zm180-180v-560z"/>',
   },
   pilcrow: {
-    viewBox: '0 -960 960 960',
+    viewBox: '40 -920 880 880',
     body: '<path d="M370-160v-260h-20q-78.85 0-134.43-55.61Q160-531.21 160-610.11q0-78.89 55.57-134.39Q271.15-800 350-800h370v60h-90v580h-60v-580H430v580z"/>',
   },
   left: {
-    viewBox: '0 -960 960 960',
+    viewBox: '40 -920 880 880',
     body: '<path d="M561-240 320-481l241-241 43 43-198 198 198 198z"/>',
   },
   right: {
-    viewBox: '0 -960 960 960',
+    viewBox: '40 -920 880 880',
     body: '<path d="M530-481 332-679l43-43 241 241-241 241-43-43z"/>',
   },
 };
