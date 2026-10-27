@@ -42,10 +42,7 @@ const isActive = (href: string) => {
                 {group.text}
                 <Icon name="nav-chevronRight" size={14} stroke-width={2.6} class="nav-chevron" />
               </button>
-              <ul
-                class="nav-menu card absolute top-full left-1/2 z-10 hidden -translate-x-1/2 p-2.5"
-                style={`--cols:${group.items.length === 4 ? 2 : Math.min(group.items.length, 3)}`}
-              >
+              <ul class="nav-menu card absolute top-full left-1/2 z-10 hidden -translate-x-1/2 p-2">
                 {group.items.map((item) => {
                   const external = 'external' in item;
                   const current = !external && isActive(item.href);
@@ -56,20 +53,22 @@ const isActive = (href: string) => {
                         target={external ? '_blank' : undefined}
                         rel={external ? 'noopener' : undefined}
                         aria-current={current ? 'page' : undefined}
-                        class="nav-card group/card flex h-full flex-col"
+                        class="nav-card group/card flex items-center gap-3.5"
                         style={`--tint-base:${tintBase(navMeta[item.text]!.tint)}`}
                       >
                         <span
-                          class={`grid h-11 w-11 place-items-center rounded-full tile-${navMeta[item.text]!.tint}`}
+                          class={`grid h-10 w-10 shrink-0 place-items-center rounded-full tile-${navMeta[item.text]!.tint}`}
                         >
-                          <Icon name={navMeta[item.text]!.icon} size={21} />
+                          <Icon name={navMeta[item.text]!.icon} size={19} />
                         </span>
-                        <span class="mt-4 flex items-center gap-1.5 font-display text-lead font-semibold tracking-tight text-ink">
-                          {item.text}
-                          <Icon name="arrow" size={14} class="nav-card-arrow" />
+                        <span class="min-w-0">
+                          <span class="flex items-center gap-1.5 font-display text-base font-semibold tracking-tight text-ink">
+                            {item.text}
+                            <Icon name="arrow" size={14} class="nav-card-arrow" />
+                          </span>
+                          <span class="block text-small leading-snug text-dim">{item.tip}</span>
+                          {external && <span class="sr-only-nw"> (opens in a new tab)</span>}
                         </span>
-                        <span class="mt-1 text-small leading-snug text-dim">{item.tip}</span>
-                        {external && <span class="sr-only-nw"> (opens in a new tab)</span>}
                       </a>
                     </li>
                   );
@@ -203,18 +202,15 @@ const isActive = (href: string) => {
 
 <style>
   .nav-card {
-    padding: 1.1rem;
+    padding: 0.6rem 0.75rem;
     border-radius: var(--radius-md);
-    border: 1px solid var(--c-line-strong);
     background: transparent;
-    transition: border-color var(--dur-fast) var(--ease-out-soft);
+    transition: background-color var(--dur-fast) var(--ease-out-soft);
   }
   .nav-card:hover,
-  .nav-card:focus-visible {
-    border-color: color-mix(in oklab, var(--tint-base) 60%, var(--c-line-strong));
-  }
+  .nav-card:focus-visible,
   .nav-card[aria-current='page'] {
-    border-color: var(--tint-base);
+    background: color-mix(in oklab, var(--tint-base) 12%, transparent);
   }
   :global(.nav-card-arrow) {
     opacity: 0;
@@ -230,8 +226,8 @@ const isActive = (href: string) => {
   }
   .nav-group[data-open] > .nav-menu {
     display: grid;
-    grid-template-columns: repeat(var(--cols, 2), 14.5rem);
-    gap: 0.5rem;
+    grid-template-columns: 21rem;
+    gap: 0.125rem;
     max-width: calc(100vw - 2rem);
     animation: menu-drop 0.18s var(--ease-out-soft, ease-out) both;
   }
