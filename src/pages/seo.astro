@@ -109,10 +109,10 @@ const generated = new Date(report.generatedAt).toLocaleDateString('en-US', {
           <ul class="divide-y divide-line border-t border-line">
             {audit.issues.map((issue) => (
               <li class="px-5 py-3 text-sm">
-                <p class="text-xs text-dim">{issue.page}</p>
+                <p class="font-mono text-xs text-dim">{issue.page}</p>
                 <p class:list={['mt-0.5', issue.severity === 'error' && 'font-medium']}>
                   <span
-                    class="mr-1.5 inline-block"
+                    class="mr-1.5 inline-block rounded-full"
                     style={`width:6px;height:6px;background:${
                       issue.severity === 'error' ? 'var(--c-ember)' : 'var(--c-accent)'
                     }`}

@@ -1,0 +1,49 @@
+---
+import Icon from './Icon.astro';
+interface Props {
+  stats: { value: string | number; label: string; id?: string }[];
+}
+const { stats } = Astro.props;
+
+/* "36+" -> counts 0..36 in CSS (@property --n) with the "+" kept as a suffix.
+   The real value stays in the DOM for crawlers and screen readers. */
+const split = (v: string | number) => {
+  const m = /^(\d+)(.*)$/.exec(String(v));
+  return m ? { n: Number(m[1]), rest: m[2] ?? '' } : null;
+};
+---
+
+<dl class="grid grid-cols-2 gap-3 md:grid-cols-4" data-reveal>
+  {stats.map((s) => (
+    <div class="stat-tile group relative items-center py-6 text-center">
+      <dt class="sr-only-nw">{s.label}</dt>
+      <dd>
+        <b class="block font-display text-3xl font-semibold tracking-tight text-ink md:text-4xl">
+          {split(s.value) ? (
+            <>
+              <span class="sr-only-nw">{s.value}</span>
+              <span class="count" aria-hidden="true" style={`--to:${split(s.value)!.n}`} />
+              <span aria-hidden="true">{split(s.value)!.rest}</span>
+            </>
+          ) : (
+            s.value
+          )}
+        </b>
+        <span aria-hidden="true" class="mt-1.5 block text-xs font-medium text-dim">
+          {s.label}
+        </span>
+        {s.id && (
+          <button
+            type="button"
+            class="popup-plus mx-auto mt-3 after:absolute after:inset-0 after:content-['']"
+            data-popup-open={s.id}
+            aria-haspopup="dialog"
+            aria-label={`More about ${s.label}`}
+          >
+            <Icon name="plus" size={14} stroke-width={1.8} />
+          </button>
+        )}
+      </dd>
+    </div>
+  ))}
+</dl>

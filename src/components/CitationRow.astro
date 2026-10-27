@@ -50,7 +50,7 @@ const altmetricTip = altmetric
 <article
   class:list={[
     'group relative grid gap-y-1 transition-colors',
-    /* Compact (home page): a bordered card on phones, the list row from md up. */
+    /* Compact (home page): a card in a swipe track on phones, the list row from md up. */
     compact
       ? [
           'cite-compact grid-cols-1 gap-x-0 md:border-b md:border-line md:py-6 md:last:border-b-0 md:hover:border-line-strong',
@@ -86,7 +86,7 @@ const altmetricTip = altmetric
     </a>
   )}
   <div class:list={['flex flex-col items-center gap-2 pt-0.5', compact && 'max-md:hidden']}>
-    <span class={`grid h-9 w-9 place-items-center tile-${tintFor(category)}`}>
+    <span class={`grid h-9 w-9 place-items-center rounded-full tile-${tintFor(category)}`}>
       <Icon name={icon} size={17} />
     </span>
     <span class="text-xs text-faint">{year(d.date)}</span>
@@ -153,7 +153,7 @@ const altmetricTip = altmetric
       )}
       {compact &&
         cats.slice(1, 2).map((c) => (
-          <a href={tagHref(c)} class="chip chip-link">
+          <a href={tagHref(c)} class="chip transition-colors hover:bg-matte-hover hover:text-ink">
             {tagIcon(c) && <Icon name={tagIcon(c)!} size={12} />}
             {c}
           </a>
@@ -163,7 +163,7 @@ const altmetricTip = altmetric
           href={dimensions.url}
           target="_blank"
           rel="noopener"
-          class="chip chip-link"
+          class="chip transition-colors hover:bg-matte-hover hover:text-ink"
           data-tip-title="Dimensions"
           data-tip={dimensionsTip}
           aria-label={`${dimensions.timesCited} citation${dimensions.timesCited === 1 ? '' : 's'} on Dimensions (opens in a new tab)`}
@@ -190,7 +190,7 @@ const altmetricTip = altmetric
           href={altmetric.detailsUrl}
           target="_blank"
           rel="noopener"
-          class="chip chip-link"
+          class="chip transition-colors hover:bg-matte-hover hover:text-ink"
           data-tip-title="Altmetric Attention Score"
           data-tip={altmetricTip}
           aria-label={`Altmetric attention score ${Math.round(altmetric.score)} (opens in a new tab)`}
@@ -214,7 +214,7 @@ const altmetricTip = altmetric
           target="_blank"
           rel="noopener"
           aria-label="View DOI (opens in a new tab)"
-          class="chip chip-link"
+          class="chip transition-colors hover:bg-matte-hover hover:text-ink"
         >
           <Icon name="link" size={12} />
           DOI
@@ -226,7 +226,7 @@ const altmetricTip = altmetric
           target="_blank"
           rel="noopener"
           aria-label="View source (opens in a new tab)"
-          class="chip chip-link"
+          class="chip transition-colors hover:bg-matte-hover hover:text-ink"
         >
           <Icon name="external" size={12} />
           Source
@@ -238,7 +238,7 @@ const altmetricTip = altmetric
           target="_blank"
           rel="noopener"
           aria-label="View full PDF (opens in a new tab)"
-          class="chip chip-link"
+          class="chip transition-colors hover:bg-matte-hover hover:text-ink"
         >
           <Icon name="filePdf" size={12} />
           View full PDF
@@ -249,14 +249,19 @@ const altmetricTip = altmetric
 </article>
 
 <style>
-  /* Phones: each home-page publication is a bordered card at the column's
-     full width, like the other stacked sections. */
+  /* Phones: each home-page publication is a card sized like the other
+     carousels' cards (see the track in pages/index.astro). */
   @media (max-width: 47.99rem) {
     .cite-compact {
+      flex-shrink: 0;
+      width: min(38rem, calc(100vw - 3rem));
+      scroll-snap-align: start;
       padding: 1.25rem;
       background: var(--c-card);
       color: var(--c-ink);
-      border: 2px solid var(--c-line-strong);
+      border: 1px solid var(--c-line);
+      border-radius: var(--radius-md);
+      box-shadow: inset 0 1px 0 var(--c-edge);
     }
   }
 </style>

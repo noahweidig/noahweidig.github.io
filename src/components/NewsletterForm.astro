@@ -16,7 +16,7 @@ const frameName = 'substack-newsletter-frame';
     method="post"
     target={frameName}
     data-newsletter-form
-    class="newsletter-pill flex w-full min-w-0 flex-nowrap items-center border-2 border-control sm:w-80"
+    class="newsletter-pill flex w-full min-w-0 flex-nowrap items-center rounded-full border border-control sm:w-80"
   >
     <label for="newsletter-email" class="sr-only-nw">
       Email address
@@ -28,11 +28,11 @@ const frameName = 'substack-newsletter-frame';
       required
       placeholder="you@example.com"
       autocomplete="email"
-      class="newsletter-input h-10 w-0 min-w-0 flex-1 border-0 pr-2 pl-4 text-small text-ink focus-visible:outline-none"
+      class="newsletter-input h-10 w-0 min-w-0 flex-1 rounded-full border-0 pr-2 pl-4 text-small text-ink focus-visible:outline-none"
     />
     <button
       type="submit"
-      class="btn btn-primary newsletter-submit m-1 h-8 shrink-0 px-4 text-small"
+      class="btn btn-primary newsletter-submit m-1 h-8 shrink-0 rounded-full px-4 text-small"
     >
       Subscribe
     </button>

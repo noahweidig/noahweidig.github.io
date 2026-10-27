@@ -68,15 +68,15 @@ export function initLightbox() {
     box.setAttribute('aria-label', 'Image viewer');
     box.innerHTML = `
       <div class="lightbox-bar">
-        <span data-lightbox-count class="xw"></span>
+        <span data-lightbox-count class="font-mono text-2xs tracking-[0.14em] uppercase"></span>
         <span class="ml-auto flex items-center gap-2">
           ${
             shots.length > 1
-              ? `<button type="button" class="icon-tile" data-lightbox-prev aria-label="Previous image" data-tip="Previous (←)">${iconSvg('left', 17)}</button>
-                 <button type="button" class="icon-tile" data-lightbox-next aria-label="Next image" data-tip="Next (→)">${iconSvg('right', 17)}</button>`
+              ? `<button type="button" class="icon-tile" data-lightbox-prev aria-label="Previous image" data-tip="Previous (←)">${iconSvg('left', 17, 1.8)}</button>
+                 <button type="button" class="icon-tile" data-lightbox-next aria-label="Next image" data-tip="Next (→)">${iconSvg('right', 17, 1.8)}</button>`
               : ''
           }
-          <button type="button" class="icon-tile" data-lightbox-close aria-label="Close viewer" data-tip="Close (Esc)">${iconSvg('close', 17)}</button>
+          <button type="button" class="icon-tile" data-lightbox-close aria-label="Close viewer" data-tip="Close (Esc)">${iconSvg('close', 17, 1.8)}</button>
         </span>
       </div>
       <div class="lightbox-stage" data-lightbox-stage><img data-lightbox-img alt="" /></div>

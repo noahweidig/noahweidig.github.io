@@ -34,6 +34,7 @@ const alt = entry.data['image-alt'] ?? '';
       class="relative block aspect-16/9 overflow-hidden border-b border-line"
     >
       <ThemeImage
+        dark={image}
         light={imageLight}
         alt={alt}
         widths={IMAGE_WIDTHS.thumbnail}
@@ -42,7 +43,7 @@ const alt = entry.data['image-alt'] ?? '';
         class="h-full w-full object-cover"
       />
       {readingTime && (
-        <span class="absolute right-3 bottom-3 chip border-transparent bg-accent text-accent-contrast">
+        <span class="absolute right-3 bottom-3 chip border-transparent bg-black/55 text-white">
           {readingTime}
         </span>
       )}
@@ -70,13 +71,13 @@ const alt = entry.data['image-alt'] ?? '';
     <p class="mt-2 flex-1 text-sm leading-relaxed text-dim line-clamp-4">{description}</p>
     <div class="mt-4 flex justify-end">
       <span
-        class="grid h-9 w-9 shrink-0 place-items-center border border-line bg-raised transition-colors group-hover:bg-accent group-hover:text-accent-contrast"
+        class="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-line bg-raised transition-colors group-hover:bg-accent group-hover:text-white"
         aria-hidden="true"
       >
         <Icon
-          name="arrow"
+          name="chevron"
           size={16}
-          class="transition-transform duration-300 group-hover:translate-x-0.5"
+          class="-rotate-90 transition-transform duration-300 group-hover:translate-x-0.5"
         />
       </span>
     </div>
