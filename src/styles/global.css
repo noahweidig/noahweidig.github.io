@@ -532,27 +532,9 @@
     box-shadow: inset 0 1px 0 var(--c-edge);
     transition: border-color var(--dur-fast) ease-out;
   }
-  /* Hover: a 3px lift, soft shadow and a faint spotlight that follows the pointer
-     (--mx/--my are set by glow.ts). Lift is off for touch and reduced motion. */
-  .card-hover::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    pointer-events: none;
-    opacity: 0;
-    background: radial-gradient(
-      260px circle at var(--mx, 50%) var(--my, 0%),
-      color-mix(in oklab, var(--c-accent) 16%, transparent),
-      transparent 70%
-    );
-    transition: opacity var(--dur-base) var(--ease-out-soft);
-  }
+  /* Hover: a 3px lift and soft shadow. Lift is off for touch and reduced motion. */
   .card-hover:hover {
     border-color: color-mix(in oklab, var(--c-accent) 55%, var(--c-line));
-  }
-  .card-hover:hover::after {
-    opacity: 1;
   }
   @media (hover: hover) and (prefers-reduced-motion: no-preference) {
     .card-hover {
@@ -2013,16 +1995,6 @@
     font-size: var(--text-body-lg);
   }
 }
-.bento-cell {
-  background:
-    radial-gradient(
-      22rem 14rem at 100% 0%,
-      color-mix(in oklab, var(--tint) 12%, transparent),
-      transparent 70%
-    ),
-    var(--c-card);
-}
-
 /* Stat numbers count up from 0 as they scroll into view (no JS). The final
    value is also the static fallback where scroll timelines are unsupported. */
 @property --n {
