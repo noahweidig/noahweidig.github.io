@@ -88,8 +88,8 @@ const ticker = [...names, ...names];
     padding-block: 2rem 3.25rem;
   }
   /* Each row is sized so its letters fill the column: the widths below are the
-     row's advance width in em at wdth 100 / wght 900 (NOAH 3.197, WEIDIG 3.951),
-     so font-size = 0.97 x column / width. No script, and no reflow once the
+     row's advance width in em at wdth 100 / wght 900 (WEIDIG 3.951), so
+     font-size = 0.97 x column / width. NOAH shares WEIDIG's size and sits left. No script, and no reflow once the
      font arrives. */
   .hero-name {
     container-type: inline-size;
@@ -112,7 +112,8 @@ const ticker = [...names, ...names];
     display: block;
   }
   .hero-row-0 {
-    font-size: 30.3cqw;
+    font-size: 24.55cqw;
+    justify-content: flex-start;
   }
   .hero-row-1 {
     font-size: 24.55cqw;
