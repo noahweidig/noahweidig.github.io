@@ -1273,16 +1273,16 @@
     color: var(--c-ink);
   }
 
-  /* Outlined circle: share and copy icons beside a post. */
+  /* Outlined square: share and copy icons beside a post. Fills on hover. */
   .icon-tile.icon-outline {
-    border: 1px solid var(--c-line-strong);
+    border: 2px solid var(--c-line-strong);
     border-radius: 0;
     background: transparent;
   }
   .icon-tile.icon-outline:hover {
-    border-color: var(--c-accent-ink);
-    background: transparent;
-    color: var(--c-accent-ink);
+    border-color: var(--c-ink);
+    background: var(--c-ink);
+    color: var(--c-bg);
   }
 
   /* Same hit area and hover lift, with no circle around the glyph. */
