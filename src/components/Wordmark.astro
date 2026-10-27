@@ -37,7 +37,7 @@ const { class: cls = '', iconOnlyNarrow = false } = Astro.props;
     stroke-linejoin: round;
     stroke-linecap: round;
   }
-  /* Two-tone name, no tag: the surname sits one step lighter. */
+  /* Two-tone name, no tag: the surname is in the accent color. */
   .wm {
     display: inline-flex;
     gap: 0.28em;
@@ -48,7 +48,7 @@ const { class: cls = '', iconOnlyNarrow = false } = Astro.props;
   }
   .wm > .wm-last {
     font-weight: 500;
-    color: var(--c-faint);
+    color: var(--c-accent-ink);
   }
   @media (max-width: 23.75rem) {
     .wm-icon-narrow .wm {
