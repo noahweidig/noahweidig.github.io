@@ -1,39 +1,57 @@
 ---
-import Icon from './Icon.astro';
-import { iconFor, tintFor } from '../lib/tint';
-
 interface Props {
   kicker?: string;
   title: string;
   subtitle?: string;
   href?: string;
   linkLabel?: string;
-  tint?: 'blue' | 'yellow' | 'red';
 }
 const { kicker, title, subtitle, href, linkLabel } = Astro.props;
-const glyph = kicker ? iconFor(kicker) : undefined;
-const tint = Astro.props.tint ?? (kicker ? tintFor(kicker) : undefined);
 ---
 
-<div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between" data-reveal>
-  <div>
-    {kicker && (
-      <p class:list={['kicker', tint && `tint-${tint}`]}>
-        {glyph && <Icon name={glyph} size={14} />}
-        {kicker}
-      </p>
-    )}
-    <h2 class="section-title">{title}</h2>
-    {subtitle && <p class="lede mt-3">{subtitle}</p>}
-  </div>
-  {href && (
-    <a href={href} class="btn btn-outline group hidden shrink-0 md:inline-flex">
-      View all{linkLabel && <span class="sr-only"> {linkLabel}</span>}
-      <Icon
-        name="arrow"
-        size={15}
-        class="transition-transform duration-300 group-hover:translate-x-1"
-      />
-    </a>
+<header class="sh">
+  {(kicker || href) && (
+    <div class="sh-top xw">
+      <span>{kicker}</span>
+      {href && (
+        <a href={href} class="sh-more">
+          All {linkLabel ?? 'items'}
+          <span aria-hidden="true"> →</span>
+        </a>
+      )}
+    </div>
   )}
-</div>
+  <h2 class="sh-title xc">{title}</h2>
+  {subtitle && <p class="sh-sub">{subtitle}</p>}
+</header>
+
+<style>
+  .sh {
+    display: grid;
+    gap: 1rem;
+    margin-bottom: clamp(1.75rem, 4vw, 3rem);
+  }
+  .sh-top {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.5rem 1.5rem;
+    color: var(--c-ink);
+  }
+  .sh-more {
+    text-underline-offset: 4px;
+  }
+  .sh-more:hover {
+    text-decoration: underline;
+  }
+  .sh-title {
+    margin: 0;
+    font-size: clamp(3rem, 10vw, 8.5rem);
+    text-wrap: balance;
+  }
+  .sh-sub {
+    max-width: 40rem;
+    color: var(--c-dim);
+    font-size: var(--text-lead);
+  }
+</style>

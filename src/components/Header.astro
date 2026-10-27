@@ -21,7 +21,7 @@ const isActive = (href: string) => {
 >
   <div class="shell nav-bar relative z-10 flex h-16 items-center md:h-[4.5rem] gap-4 lg:grid lg:grid-cols-[1fr_auto_1fr]">
     <a href="/" class="group flex min-w-0 items-center gap-2.5">
-      <Wordmark class="text-[1.15rem] md:text-[1.25rem]" />
+      <Wordmark class="text-[1.7rem] md:text-[1.9rem]" />
     </a>
 
     <nav aria-label="Primary" class="mx-auto hidden lg:block">
@@ -35,7 +35,7 @@ const isActive = (href: string) => {
                 data-nav-trigger
                 aria-expanded="false"
                 class:list={[
-                  'nav-link nav-trigger inline-flex items-center gap-1.5 rounded-full px-4 py-2 font-display text-body-lg font-semibold tracking-tight xl:px-5 xl:text-base',
+                  'nav-link nav-trigger inline-flex items-center gap-1.5 px-4 py-2 font-display text-body-lg font-semibold tracking-tight xl:px-5 xl:text-base',
                   active ? 'nav-link-active' : '',
                 ]}
               >
@@ -60,7 +60,7 @@ const isActive = (href: string) => {
                         style={`--tint-base:${tintBase(navMeta[item.text]!.tint)}`}
                       >
                         <span
-                          class={`grid h-11 w-11 place-items-center rounded-full tile-${navMeta[item.text]!.tint}`}
+                          class={`grid h-11 w-11 place-items-center tile-${navMeta[item.text]!.tint}`}
                         >
                           <Icon name={navMeta[item.text]!.icon} size={21} />
                         </span>
@@ -81,7 +81,7 @@ const isActive = (href: string) => {
       </ul>
     </nav>
 
-    <div class="ml-auto flex shrink-0 items-center gap-1.5 lg:justify-self-end">
+    <div class="ml-auto flex shrink-0 items-center gap-2 lg:justify-self-end">
       <button
         type="button"
         data-search-open
@@ -166,9 +166,7 @@ const isActive = (href: string) => {
                         class="mobile-row"
                         style={`--tint-base:${tintBase(meta.tint)}`}
                       >
-                        <span
-                          class={`grid h-[34px] w-[34px] place-items-center rounded-full tile-${meta.tint}`}
-                        >
+                        <span class={`grid h-[34px] w-[34px] place-items-center tile-${meta.tint}`}>
                           <Icon name={meta.icon} size={18} />
                         </span>
                         <span class="min-w-0">
@@ -207,17 +205,19 @@ const isActive = (href: string) => {
 <style>
   .nav-card {
     padding: 1.1rem;
-    border-radius: var(--radius-md);
-    border: 1px solid var(--c-line-strong);
+    border: 2px solid var(--c-line);
     background: transparent;
-    transition: border-color var(--dur-fast) var(--ease-out-soft);
+    transition:
+      background-color var(--dur-fast) var(--ease-out-soft),
+      border-color var(--dur-fast) var(--ease-out-soft);
   }
   .nav-card:hover,
   .nav-card:focus-visible {
-    border-color: color-mix(in oklab, var(--tint-base) 60%, var(--c-line-strong));
+    border-color: var(--c-accent-ink);
+    background: color-mix(in oklab, var(--p-blue) 55%, var(--p-deep));
   }
   .nav-card[aria-current='page'] {
-    border-color: var(--tint-base);
+    border-color: var(--c-accent-ink);
   }
   :global(.nav-card-arrow) {
     opacity: 0;
@@ -284,7 +284,7 @@ const isActive = (href: string) => {
     overscroll-behavior: contain;
   }
   .mobile-scrim {
-    background: color-mix(in oklab, var(--c-bg) 45%, var(--c-scrim));
+    background: var(--c-scrim);
   }
   /* The menu always fills the screen, at every width it is shown. */
   .mobile-drawer {
@@ -366,19 +366,22 @@ const isActive = (href: string) => {
     overflow: hidden;
     overscroll-behavior: none;
   }
-  /* Transparent at the top of the page; frosted glass with a hairline once scrolled. */
+  /* A solid cobalt band at every scroll position, with a hairline once scrolled. */
   .nav-glass {
-    background-color: transparent;
     border-bottom: 1px solid transparent;
-    transition:
-      background-color var(--dur-base) var(--ease-out-soft),
-      border-color var(--dur-base) var(--ease-out-soft);
+    transition: border-color var(--dur-base) var(--ease-out-soft);
   }
   :global(html[data-scrolled]) .nav-glass {
-    background-color: color-mix(in oklab, var(--c-bg) 72%, transparent);
-    border-bottom-color: color-mix(in oklab, var(--c-line) 80%, transparent);
-    -webkit-backdrop-filter: blur(18px) saturate(1.6);
-    backdrop-filter: blur(18px) saturate(1.6);
+    border-bottom-color: color-mix(in oklab, var(--p-ice) 45%, transparent);
+  }
+  .nav-trigger,
+  .nav-link {
+    font-size: 0.74rem;
+    font-variation-settings:
+      'wdth' 125,
+      'wght' 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
   }
   @media (max-width: 63.99rem) {
     .nav-glass {
@@ -403,18 +406,22 @@ const isActive = (href: string) => {
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
   }
-  /* No hover tile on the bar's icon buttons. Resting is a step off full ink, so
-     hover reads lighter in dark theme and darker in light theme. */
+  /* The bar's icon buttons are 2.75rem squares, the same height as the
+     "Get in touch" button beside them. */
   .icon-btn {
-    color: color-mix(in oklab, var(--c-ink) 72%, transparent);
+    width: 2.75rem;
+    height: 2.75rem;
+    border: 2px solid var(--c-line-strong);
+    color: var(--c-ink);
     transition:
+      background-color var(--dur-fast) var(--ease-out-soft),
       color var(--dur-fast) var(--ease-out-soft),
       opacity var(--dur-fast) ease,
       visibility 0s 0s;
   }
   .icon-btn:hover {
-    background: transparent;
-    color: var(--c-ink);
+    background: var(--c-ink);
+    color: var(--c-bg);
   }
 </style>
 
