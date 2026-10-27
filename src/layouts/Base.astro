@@ -103,7 +103,7 @@ const jsonLd = {
 ---
 
 <!doctype html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="dark" data-theme-pref="system">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -148,7 +148,7 @@ const jsonLd = {
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#1f3bff" />
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#2383e2" />
     <meta name="apple-mobile-web-app-title" content="Noah Weidig" />
     <link rel="manifest" href="/site.webmanifest" />
     <link rel="alternate" type="application/rss+xml" title="Noah Weidig — Blog" href="/rss.xml" />
@@ -166,8 +166,43 @@ const jsonLd = {
       />
     )}
 
-    <link rel="preload" href="/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin />
 
+    <script is:inline>
+      (function () {
+        function pref() {
+          try {
+            var t = localStorage.getItem('nw-theme');
+            if (t === 'light' || t === 'dark' || t === 'system') return t;
+          } catch (e) {
+            /* private mode: fall through to the default */
+          }
+          return 'system';
+        }
+        function resolve(p) {
+          if (p === 'system') {
+            return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+          }
+          return p;
+        }
+        // Applied before first paint, so the page never flashes the wrong theme.
+        function apply() {
+          var p = pref();
+          var t = resolve(p);
+          document.documentElement.dataset.theme = t;
+          document.documentElement.dataset.themePref = p;
+        }
+        apply();
+        // A view-transition swap copies <html>'s attributes from the incoming
+        // document, which puts data-theme back to the server-rendered default —
+        // so a reader on light mode landed on a dark page after every click.
+        // astro:after-swap runs before the new page paints.
+        if (!window.__nwThemeBound) {
+          window.__nwThemeBound = true;
+          document.addEventListener('astro:after-swap', apply);
+        }
+      })();
+    </script>
     <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)}></script>
     <script
       is:inline

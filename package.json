@@ -43,11 +43,11 @@
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
     "@casoon/astro-post-audit": "0.9.1",
-    "@material-symbols/svg-400": "^0.48.2",
     "@types/node": "^26.6.4",
     "@types/sanitize-html": "^2.16.1",
     "axe-core": "^4.14.0",
     "js-yaml": "^5.4.3",
+    "lucide-static": "^1.53.0",
     "pagefind": "^1.5.2",
     "pdf-lib": "^1.17.1",
     "prettier": "^3.9.8",

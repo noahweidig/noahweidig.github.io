@@ -7,6 +7,11 @@ const { class: cls = '', iconOnlyNarrow = false } = Astro.props;
 ---
 
 <span class:list={['wm-lockup', { 'wm-icon-narrow': iconOnlyNarrow }, cls]}>
+  <svg class="wm-mark" viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"></path>
+    <path d="m3.3 7 8.7 5 8.7-5"></path>
+    <path d="M12 22V12"></path>
+  </svg>
   <span class="sr-only">Noah Weidig — home</span>
   <span class="wm font-display" aria-hidden="true">
     <span>Noah</span>
@@ -15,30 +20,38 @@ const { class: cls = '', iconOnlyNarrow = false } = Astro.props;
 </span>
 
 <style>
+  /* Logo mark: Lucide's `box`, outlined in the logo blue. */
   .wm-lockup {
     display: inline-flex;
     align-items: center;
+    gap: 0.5em;
   }
-  /* Condensed capitals; the surname takes the band's accent. */
+  .wm-mark {
+    width: 1.55em;
+    height: 1.55em;
+    flex: none;
+    fill: none;
+    stroke: var(--logo-blue);
+    stroke-width: 2.2;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+  }
+  /* Two-tone name, no tag: the surname sits one step lighter. */
   .wm {
     display: inline-flex;
-    gap: 0.25em;
-    font-weight: 900;
-    font-variation-settings:
-      'wdth' 64,
-      'wght' 900;
-    letter-spacing: 0;
-    line-height: 1;
-    text-transform: uppercase;
+    gap: 0.28em;
+    font-weight: 600;
+    letter-spacing: -0.035em;
     color: var(--c-ink);
     white-space: nowrap;
   }
   .wm > .wm-last {
-    color: var(--c-accent-ink);
+    font-weight: 500;
+    color: var(--c-faint);
   }
   @media (max-width: 23.75rem) {
     .wm-icon-narrow .wm {
-      font-size: 0.9em;
+      display: none;
     }
   }
 </style>
