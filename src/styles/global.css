@@ -3,22 +3,9 @@
 
 @custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
 
-/* Theme-toggle icon: light/dark/system, driven by [data-theme-pref] on <html>
-   rather than the resolved [data-theme] so the sun-moon icon shows even
-   while the resolved theme is light or dark. */
-[data-theme-icon] {
-  display: none;
-}
-:root[data-theme-pref='light'] [data-theme-icon='light'],
-:root[data-theme-pref='dark'] [data-theme-icon='dark'],
-:root[data-theme-pref='system'] [data-theme-icon='system'] {
-  display: inline-flex;
-}
-
 /* ============================================================================
-   Palette. Every semantic color is a runtime custom property so the theme
-   toggle can swap the whole system by flipping one attribute on <html>.
-   Dark is the default; :root[data-theme='light'] overrides the same names.
+   Palette. Every semantic color is a custom property, so the .band-* classes
+   below can re-point them for a band. The site is light-only.
    ========================================================================= */
 :root {
   --p-blue: #1f3bff;
@@ -26,8 +13,7 @@
   --p-ice: #f2f4ff;
   --p-sun: #ffd21f;
   --p-ink: #0b0f3d;
-  /* Matte fills for buttons, tags and controls: a flat grey step off the
-     surface, in whichever theme is active. */
+  /* Matte fills for buttons, tags and controls: a flat step off the surface. */
   --c-matte: color-mix(in oklab, var(--c-ink) 12%, var(--c-card));
   --z-sticky: 40;
   --z-header: 50;
@@ -36,52 +22,6 @@
   --z-modal: 200;
   --c-scrim: rgb(0 0 0 / 0.55);
   --c-matte-hover: color-mix(in oklab, var(--c-ink) 20%, var(--c-card));
-}
-/* The poster palette. Four flat colors do all the work: cobalt, ice, sun and
-   deep blue, with a navy ink. The theme tokens below are built from them, and
-   the .band-* classes re-point the theme tokens at a band's own colors. */
-:root,
-:root[data-theme='dark'] {
-  --c-bg: #070b3a;
-  --c-bg-deep: #050829;
-  --c-surface: #0a1048;
-  --c-card: #0d1457;
-  --c-raised: #141d70;
-  --c-line: #2b3593;
-  --c-line-strong: #f2f4ff;
-  --c-control-border: #9aa3ee;
-  --c-ink: #f2f4ff;
-  --c-dim: #b9c0f0;
-  --c-faint: #9ba4e0;
-
-  --c-accent: #ffd21f;
-  --c-accent-ink: #ffd21f;
-  --c-accent-contrast: #0a1480;
-  --c-btn2: #ffd21f;
-  --c-btn2-hover: #ffdf5c;
-  --c-btn2-active: #ffc800;
-  --c-on-light: #0b0f3d;
-  --c-red: #ff7a85;
-  --c-ember: var(--c-red);
-  --c-yellow: #ffd21f;
-  --c-yellow-ink: #ffd21f;
-  --c-teal: var(--c-accent-ink);
-  --c-pink: var(--c-red);
-  --c-moss: #68ce7e;
-  --logo-red: #ff7a85;
-  --logo-blue: #8d9bff;
-  --logo-yellow: #ffd21f;
-  --c-violet: var(--c-accent-ink);
-
-  --c-glow: transparent;
-  --c-edge: transparent;
-  --glow-a: 0;
-  --c-sheen: rgb(255 255 255 / 0.04);
-  --grid-line: rgb(255 255 255 / 0.06);
-  color-scheme: dark;
-}
-
-:root[data-theme='light'] {
   --c-bg: #f2f4ff;
   --c-bg-deep: #e3e7ff;
   --c-surface: #e9ecff;
@@ -120,10 +60,10 @@
   --grid-line: rgb(11 15 61 / 0.06);
   color-scheme: light;
 }
-
-/* Poster bands. Each one re-points the theme tokens at its own flat colors, so
-   every component inside (buttons, chips, cards, links) reads correctly on it
-   in either theme. The page header and every page hero are cobalt bands. */
+/* Poster bands. The palette is four flat colors, cobalt, ice, sun and deep blue,
+   with a navy ink. Each band re-points the theme tokens at its own colors, so
+   every component inside (buttons, chips, cards, links) reads correctly on it.
+   The page header and every page hero are cobalt bands. */
 :is(.band-blue, .page-hero, .nav-glass) {
   --c-bg: var(--p-blue);
   --c-bg-deep: var(--p-deep);
@@ -480,17 +420,6 @@
     max-width: 46rem;
   }
 
-  /* Canvas dot grid inside a hero (hero-dots.ts); fades out toward the bottom edge. */
-  .dot-grid {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent);
-    mask-image: linear-gradient(to bottom, #000 55%, transparent);
-  }
-
   /* --- page hero ---
      The theme-following band that opens every inner page: breadcrumbs, kicker,
      large title, intro and actions on the left, an optional frosted panel on
@@ -683,6 +612,12 @@
     border-color: var(--c-ink);
     color: var(--c-bg);
   }
+  /* On a sun band the resting button is already ink on sun, so hover goes to cobalt. */
+  .band-sun .btn-primary:hover {
+    background: var(--p-blue);
+    border-color: var(--p-blue);
+    color: var(--p-ice);
+  }
 
   .btn-ghost {
     color: var(--c-ink);
@@ -797,9 +732,9 @@
       color var(--dur-fast);
   }
   .chip-link:hover {
-    background: var(--c-ink);
-    border-color: var(--c-ink);
-    color: var(--c-bg);
+    background: var(--c-accent);
+    border-color: var(--c-accent);
+    color: var(--c-accent-contrast);
   }
   .card-badge {
     position: absolute;
@@ -1094,15 +1029,6 @@
     letter-spacing: 0.08em;
   }
 
-  /* Shiki: swap themes with the site theme rather than the OS. */
-  :root[data-theme='dark'] .astro-code,
-  :root[data-theme='dark'] .astro-code span {
-    color: var(--shiki-dark) !important;
-    font-style: var(--shiki-dark-font-style) !important;
-    font-weight: var(--shiki-dark-font-weight) !important;
-    text-decoration: var(--shiki-dark-text-decoration) !important;
-  }
-
   /* The copy button reveals on hover, which a touch device never does. */
   @media (hover: none) {
     [data-code-block] > button {
@@ -1347,16 +1273,16 @@
     color: var(--c-ink);
   }
 
-  /* Outlined circle: share and copy icons beside a post. */
+  /* Outlined square: share and copy icons beside a post. Fills on hover. */
   .icon-tile.icon-outline {
-    border: 1px solid var(--c-line-strong);
+    border: 2px solid var(--c-line-strong);
     border-radius: 0;
     background: transparent;
   }
   .icon-tile.icon-outline:hover {
-    border-color: var(--c-accent-ink);
-    background: transparent;
-    color: var(--c-accent-ink);
+    border-color: var(--c-ink);
+    background: var(--c-ink);
+    color: var(--c-bg);
   }
 
   /* Same hit area and hover lift, with no circle around the glyph. */
@@ -1955,6 +1881,13 @@
 
 /* Print: the CV page has to survive Cmd-P. */
 @media print {
+  .page-hero {
+    --c-ink: #14161a;
+    --c-dim: #333;
+    --c-accent-ink: #0a54ba;
+    background-color: #fff;
+    color: #14161a;
+  }
   :root {
     --c-bg: #fff;
     --c-surface: #fff;

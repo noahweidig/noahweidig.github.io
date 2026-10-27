@@ -11,7 +11,6 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { execFileSync } from 'node:child_process';
-import { paletteFor } from './lib/blog-cover.mjs';
 import { readFrontmatter } from './lib/frontmatter.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -47,7 +46,7 @@ for (const slug of needFrontmatter) {
   const file = path.join(blogDir, slug, 'index.md');
   const raw = fs.readFileSync(file, 'utf8');
   const title = String(readFrontmatter(raw).title ?? '');
-  const altText = `Cover card reading “${title}” beside three stacked to-do cards in ${paletteFor(slug).alt}`;
+  const altText = `Cover card reading “${title}” in white capitals on a cobalt field with a yellow band`;
   // Same quote choice Prettier makes for YAML strings, so the lint job
   // doesn't flag a freshly wired post.
   const alt = altText.includes("'") ? `"${altText}"` : `'${altText}'`;

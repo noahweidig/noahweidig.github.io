@@ -92,24 +92,6 @@ const isActive = (href: string) => {
         <Icon name="nav-search" size={21} stroke-width={1.8} />
       </button>
 
-      <button
-        type="button"
-        data-theme-toggle
-        data-tip="Switch color theme"
-        class="icon-btn bar-theme"
-        aria-label="Switch color theme"
-      >
-        <span data-theme-icon="light">
-          <Icon name="nav-sun" size={21} stroke-width={1.8} />
-        </span>
-        <span data-theme-icon="dark">
-          <Icon name="nav-moon" size={21} stroke-width={1.8} />
-        </span>
-        <span data-theme-icon="system">
-          <Icon name="nav-sunMoon" size={21} stroke-width={1.8} />
-        </span>
-      </button>
-
       <a
         class="btn btn-primary ml-1 hidden px-4 py-2.5 text-sm lg:inline-flex"
         href="/contact/"
@@ -263,12 +245,6 @@ const isActive = (href: string) => {
     color: var(--c-ink);
   }
   @media (max-width: 63.99rem) {
-    .bar-theme {
-      display: none;
-    }
-    #site-header[data-menu-open] .bar-theme {
-      display: grid;
-    }
     #site-header[data-menu-open] .bar-search {
       display: none;
     }

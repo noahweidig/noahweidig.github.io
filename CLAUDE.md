@@ -47,7 +47,8 @@ The whole site is one poster look: Archivo (variable weight + width axes,
 self-hosted in `public/fonts`), square corners, 2px ink borders, flat color
 bands. The palette is four flat colors, `--p-blue`, `--p-deep`, `--p-ice` and
 `--p-sun` (plus `--p-ink`), defined once in `src/styles/global.css`. The
-`--c-*` theme tokens still drive light/dark; `.band-blue`, `.band-ice`,
+`--c-*` tokens carry the light palette (the site is light-only, with no theme
+toggle); `.band-blue`, `.band-ice`,
 `.band-sun` and `.band-deep` re-point those tokens at a band's own colors, so
 buttons, chips, cards and links inside a band read correctly with no per-band
 overrides. The header and every `.page-hero` are cobalt bands, the footer is a

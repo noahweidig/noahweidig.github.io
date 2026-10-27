@@ -1,21 +1,12 @@
 ---
 /**
- * Renders one <img> for a dark/light image pair instead of two, so the
- * browser only ever downloads the variant actually shown.
- *
- * The dark variant is the one written into `src`/`srcset`, because dark is
- * the server-rendered default (`data-theme` in Base.astro). That matters for
- * more than correctness: the preload scanner reads the raw HTML ahead of the
- * parser and only starts a fetch for URLs it finds in those attributes, so an
- * src-less <img> costs the cover image its head start. A reader on light mode
- * gets the swap from the inline script right after the tag, using the
- * `data-theme` already resolved by Base.astro's pre-paint script; the
- * theme-toggle handler in ui.ts re-picks it if they switch themes.
+ * One responsive <img> for a blog cover. The site is light-only, so only the
+ * light variant is rendered. Its URLs sit in `src`/`srcset` so the preload
+ * scanner can start the fetch from the raw HTML.
  */
 import { getImage } from 'astro:assets';
 
 interface Props {
-  dark: ImageMetadata;
   light: ImageMetadata;
   widths: number[];
   sizes: string;
@@ -24,32 +15,18 @@ interface Props {
   class?: string;
 }
 
-const { dark, light, widths, sizes, alt, loading = 'lazy', class: className } = Astro.props;
-const darkImage = await getImage({ src: dark, widths, sizes });
-const lightImage = await getImage({ src: light, widths, sizes });
+const { light, widths, sizes, alt, loading = 'lazy', class: className } = Astro.props;
+const image = await getImage({ src: light, widths, sizes });
 ---
 
 <img
-  src={darkImage.src}
-  srcset={darkImage.srcSet.attribute}
-  data-theme-src-dark={darkImage.src}
-  data-theme-srcset-dark={darkImage.srcSet.attribute}
-  data-theme-src-light={lightImage.src}
-  data-theme-srcset-light={lightImage.srcSet.attribute}
+  src={image.src}
+  srcset={image.srcSet.attribute}
   sizes={sizes}
   alt={alt}
-  width={darkImage.attributes.width}
-  height={darkImage.attributes.height}
+  width={image.attributes.width}
+  height={image.attributes.height}
   loading={loading}
   decoding="async"
   class={className}
 />
-<script is:inline data-astro-rerun>
-  {
-    const img = document.currentScript.previousElementSibling;
-    if (document.documentElement.dataset.theme === 'light') {
-      img.src = img.dataset.themeSrcLight;
-      img.srcset = img.dataset.themeSrcsetLight;
-    }
-  }
-</script>
