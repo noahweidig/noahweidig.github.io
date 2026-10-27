@@ -5,9 +5,6 @@ description: 'Creating this site from the ground up and lessons learned along th
 categories:
   - Thoughts
   - Data Science
-image: './cover.webp'
-image-light: './cover-light.webp'
-image-alt: 'Cover card reading “Building a Portfolio Website” beside three stacked to-do cards in blue, yellow and pink'
 ---
 
 I've been through many iterations of a personal website and learned many lessons along the way. I spent a lot of time thinking about how to create a visually appealing website that balanced speed with interactivity and a high degree of customization. Here's the (messy) journey.

@@ -79,7 +79,7 @@ Built with [Astro 7](https://astro.build), TypeScript and [Tailwind CSS 4](https
 | `src/lib/`              | site constants and the date/citation formatters                               |
 | `public/`               | static assets served verbatim — media, fonts, PDFs, favicons                  |
 
-Content lives in a directory per entry (`src/content/blog/focus/index.md`), so a post's cover image sits next to the post that uses it and Astro's image pipeline can optimize it. The directory name is the URL slug.
+Content lives in a directory per entry (`src/content/blog/focus/index.md`). The directory name is the URL slug.
 
 ### Design system
 
@@ -135,9 +135,8 @@ npm run build:fast             # same, without the type check
 npm run preview                # serve dist/
 npm run a11y                   # axe-core over dist (or --base https://noahweidig.com)
 npm test                       # vitest run
-npm run covers                 # generate blog cover images
+npm run covers                 # generate cover art (site, collections, pages use it)
 npm run covers:all             # generate covers for site, collections, and pages
-npm run covers:ensure          # backfill missing blog covers only
 npm run icons                  # regenerate favicons/app icons
 npm run logos:pkg              # generate package-logo srcsets
 npm run lint                   # prettier --check + astro check + token check
@@ -163,7 +162,6 @@ node scripts/update-pubs.js    # refresh publications from Zotero
 | `pdfs.yml`                  | weekly, content changes                       | re-renders `cv.pdf` and `resume.pdf` from the built site                   |
 | `project-shots.yml`         | weekly, manual                                | recaptures the project screenshots from the live projects                  |
 | `post-audit.yml`            | PR, manual                                    | `@casoon/astro-post-audit` over the built site (`npm run audit:post`)      |
-| `blog-covers.yml`           | push touching a blog post, manual             | generates missing blog covers                                              |
 | `update-pubs.yml`           | 1st and 15th monthly, manual                  | Zotero sync of `src/content/publications/`, then deploys                   |
 | `update-citation-stats.yml` | weekly, manual                                | refreshes `src/data/citation-stats.json`, then deploys                     |
 | `seo-audit.yml`             | weekly, manual                                | refreshes `src/data/seo-audit.json` for `/seo/`, then deploys              |
@@ -174,9 +172,9 @@ Every workflow that needs a build goes through the `.github/actions/build-site` 
 
 The closing CTA has a MapLibre map centred on Orlando (`src/components/Globe.astro`, `src/scripts/globe.ts`). `maplibre-gl` loads lazily when the map nears the viewport. Tiles come from OpenFreeMap; the style is built from the CSS tokens and rebuilt when the theme changes.
 
-### Blog cover images
+### Blog post icons
 
-Every post carries a 1200×675 cover, referenced from the post's front matter as `image: "./cover.webp"` and served through Astro's image pipeline, which emits the responsive `srcset` for the cards on the homepage and `/blog/`. A post with no `image:` still renders — the card falls back to the text-only layout.
+Posts have no cover image. Cards show an icon tile picked from the post's first category (`TAG_ICONS` in `src/lib/tags.ts`), falling back to a file icon.
 
 ### Comments
 
