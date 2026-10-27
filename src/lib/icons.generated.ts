@@ -123,11 +123,6 @@ export const icons: Record<string, { viewBox: string; body: string; stroke?: boo
     body: '<path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/>',
     stroke: true,
   },
-  sunMoon: {
-    viewBox: '0 0 24 24',
-    body: '<path d="M12 2v2m2.837 12.385a6 6 0 1 1-7.223-7.222c.624-.147.97.66.715 1.248a4 4 0 0 0 5.26 5.259c.589-.255 1.396.09 1.248.715M16 12a4 4 0 0 0-4-4m7-3-1.256 1.256M20 12h2"/>',
-    stroke: true,
-  },
   menu: { viewBox: '0 0 24 24', body: '<path d="M4 5h16M4 12h16M4 19h16"/>', stroke: true },
   close: { viewBox: '0 0 24 24', body: '<path d="M18 6 6 18M6 6l12 12"/>', stroke: true },
   satellite: {
@@ -228,6 +223,12 @@ export const icons: Record<string, { viewBox: string; body: string; stroke?: boo
   },
   plus: { viewBox: '0 0 24 24', body: '<path d="M5 12h14m-7-7v14"/>', stroke: true },
   arrowUp: { viewBox: '0 0 24 24', body: '<path d="m5 12 7-7 7 7m-7 7V5"/>', stroke: true },
+  arrowDown: { viewBox: '0 0 24 24', body: '<path d="M12 5v14m7-7-7 7-7-7"/>', stroke: true },
+  cornerDownLeft: {
+    viewBox: '0 0 24 24',
+    body: '<path d="M20 4v7a4 4 0 0 1-4 4H4"/><path d="m9 10-5 5 5 5"/>',
+    stroke: true,
+  },
   tocLines: { viewBox: '0 0 24 24', body: '<path d="M21 5H3m12 7H3m14 7H3"/>', stroke: true },
   hash: {
     viewBox: '0 0 24 24',
@@ -421,11 +422,6 @@ export const icons: Record<string, { viewBox: string; body: string; stroke?: boo
   'nav-moon': {
     viewBox: '0 0 24 24',
     body: '<path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/>',
-    stroke: true,
-  },
-  'nav-sunMoon': {
-    viewBox: '0 0 24 24',
-    body: '<path d="M12 2v2"/> <path d="M14.837 16.385a6 6 0 1 1-7.223-7.222c.624-.147.97.66.715 1.248a4 4 0 0 0 5.26 5.259c.589-.255 1.396.09 1.248.715"/> <path d="M16 12a4 4 0 0 0-4-4"/> <path d="m19 5-1.256 1.256"/> <path d="M20 12h2"/>',
     stroke: true,
   },
   'nav-listFilter': {

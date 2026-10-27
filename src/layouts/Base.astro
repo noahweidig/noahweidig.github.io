@@ -103,7 +103,7 @@ const jsonLd = {
 ---
 
 <!doctype html>
-<html lang="en" data-theme="dark" data-theme-pref="system">
+<html lang="en" data-theme="dark" data-theme-pref="dark">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -173,23 +173,16 @@ const jsonLd = {
         function pref() {
           try {
             var t = localStorage.getItem('nw-theme');
-            if (t === 'light' || t === 'dark' || t === 'system') return t;
+            if (t === 'light' || t === 'dark') return t;
           } catch (e) {
             /* private mode: fall through to the default */
           }
-          return 'system';
-        }
-        function resolve(p) {
-          if (p === 'system') {
-            return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-          }
-          return p;
+          return 'dark';
         }
         // Applied before first paint, so the page never flashes the wrong theme.
         function apply() {
           var p = pref();
-          var t = resolve(p);
-          document.documentElement.dataset.theme = t;
+          document.documentElement.dataset.theme = p;
           document.documentElement.dataset.themePref = p;
         }
         apply();
