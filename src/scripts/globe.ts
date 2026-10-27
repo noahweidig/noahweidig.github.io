@@ -1,5 +1,5 @@
 /* ----------------------------------------------------------------- map -- */
-import type { SkySpecification } from 'maplibre-gl';
+import type { Map as MapLibreMap } from 'maplibre-gl';
 import { cleanups } from './dom';
 
 const ORLANDO: [number, number] = [-81.3789, 28.5384];
@@ -23,7 +23,8 @@ function starField(light: boolean) {
   return dots.join(',');
 }
 
-const sky = (light: boolean): SkySpecification => ({
+type Sky = NonNullable<Parameters<MapLibreMap['setSky']>[0]>;
+const sky = (light: boolean): Sky => ({
   'sky-color': light ? '#bcd0f5' : '#1b2a6b',
   'horizon-color': light ? '#e8eefc' : '#4151b5',
   'fog-color': light ? '#f4f6fc' : '#05060f',
@@ -34,7 +35,7 @@ const sky = (light: boolean): SkySpecification => ({
 });
 
 // Animated dot from MapLibre's "Add an animated icon" example, in the site accent.
-function pulsingDot(map: import('maplibre-gl').Map) {
+function pulsingDot(map: MapLibreMap) {
   const size = 100;
   const accent =
     getComputedStyle(document.documentElement).getPropertyValue('--c-accent').trim() || '#4151b5';
