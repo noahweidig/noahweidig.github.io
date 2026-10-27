@@ -1,4 +1,6 @@
 ---
+import Icon from './Icon.astro';
+
 interface Props {
   kicker?: string;
   title: string;
@@ -16,7 +18,7 @@ const { kicker, title, subtitle, href, linkLabel } = Astro.props;
       {href && (
         <a href={href} class="sh-more">
           All {linkLabel ?? 'items'}
-          <span aria-hidden="true"> →</span>
+          <Icon name="arrow" size={13} />
         </a>
       )}
     </div>
@@ -39,10 +41,13 @@ const { kicker, title, subtitle, href, linkLabel } = Astro.props;
     color: var(--c-ink);
   }
   .sh-more {
-    text-underline-offset: 4px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
   }
   .sh-more:hover {
     text-decoration: underline;
+    text-underline-offset: 4px;
   }
   .sh-title {
     margin: 0;

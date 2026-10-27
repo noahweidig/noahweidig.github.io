@@ -273,7 +273,7 @@ export function initSearch() {
           .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
         if (!values.length) return '';
         return `<div>
-          <h3 class="font-mono text-micro tracking-[0.14em] text-faint uppercase">${FILTER_LABEL[key] ?? key}</h3>
+          <h3 class="xw text-faint">${FILTER_LABEL[key] ?? key}</h3>
           <ul class="mt-2 grid gap-0.5">
             ${values
               .map(([value, n]) => {
@@ -287,7 +287,7 @@ export function initSearch() {
                     on ? 'border-accent bg-accent text-accent-contrast' : 'border-line-strong'
                   }">${on ? iconSvg('check', 10, 3.5) : ''}</span>
                   <span class="min-w-0 flex-1 truncate">${escapeHtml(value)}</span>
-                  <span class="shrink-0 font-mono text-micro text-faint">${n}</span>
+                  <span class="shrink-0 text-micro text-faint tabular-nums">${n}</span>
                 </button></li>`;
               })
               .join('')}

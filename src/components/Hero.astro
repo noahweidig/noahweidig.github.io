@@ -1,9 +1,11 @@
 ---
 import Icon from './Icon.astro';
-import { researchAreaNames, site, socials } from '../lib/site';
+import { researchAreas } from '../lib/research-areas';
+import { site, socials } from '../lib/site';
 
 const rows = ['NOAH', 'WEIDIG'];
-const ticker = [...researchAreaNames, ...researchAreaNames];
+const names = researchAreas.map((a) => a.tab);
+const ticker = [...names, ...names];
 ---
 
 <section class="band-blue under-nav hero" id="hero" data-hero>
@@ -24,7 +26,9 @@ const ticker = [...researchAreaNames, ...researchAreaNames];
         ))}
       </h1>
       <div class="hero-side">
-        <p class="hero-tag">Spatial analysis. Real insights.</p>
+        <p class="hero-tag">
+          Spatial analysis. Real <span class="hero-hl">insights.</span>
+        </p>
         <p class="hero-lede">
           I turn satellite imagery, fire perimeters, and messy field data into models people can
           actually decide something with. Mostly wildfire risk in the wildland-urban interface.
@@ -121,19 +125,29 @@ const ticker = [...researchAreaNames, ...researchAreaNames];
     min-width: 0;
   }
   .hero-tag {
-    font-size: clamp(1.7rem, 3vw, 2.3rem);
+    font-size: clamp(2rem, 4vw, 3.6rem);
+    text-wrap: balance;
     font-weight: 800;
     font-variation-settings:
       'wdth' 100,
       'wght' 800;
     line-height: 1.05;
   }
+  .hero-hl {
+    color: var(--c-accent-ink);
+  }
   .hero-lede {
-    max-width: 30rem;
+    max-width: 36rem;
     color: var(--c-ink);
+    font-size: clamp(1.05rem, 1.5vw, 1.3rem);
     line-height: 1.55;
   }
+  .hero-side .btn {
+    padding: 1.05rem 1.5rem;
+    font-size: 0.85rem;
+  }
   .hero-links {
+    font-size: 0.82rem;
     display: flex;
     flex-wrap: wrap;
     gap: 0.4rem 1rem;
@@ -172,9 +186,9 @@ const ticker = [...researchAreaNames, ...researchAreaNames];
   }
   @media (min-width: 56.25rem) {
     .hero-grid {
-      grid-template-columns: minmax(0, 1fr) 23rem;
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
       align-items: end;
-      gap: 3rem;
+      gap: 4rem;
     }
   }
   @media (prefers-reduced-motion: reduce) {

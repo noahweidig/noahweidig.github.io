@@ -111,16 +111,16 @@ const faqs = [
 
   <section class="hm-ways" aria-label="Start here">
     {ways.map((w) => (
-      <div class={`hm-way ${w.band}`}>
+      <a class={`hm-way ${w.band}`} href={w.href}>
         <div>
           <h2 class="hm-way-title xc">{w.title}</h2>
           <p class="hm-way-body">{w.body}</p>
         </div>
-        <a class="btn btn-primary self-start" href={w.href}>
+        <span class="btn btn-primary self-start">
           {w.cta}
           <Icon name="arrow" size={15} />
-        </a>
-      </div>
+        </span>
+      </a>
     ))}
   </section>
 
@@ -213,7 +213,7 @@ const faqs = [
               </li>
             ))}
           </ul>
-          <a class="btn btn-outline group self-start" href="/experience/">
+          <a class="btn btn-outline group self-start justify-self-start" href="/experience/">
             View all<span class="sr-only"> experience</span>
             <Icon name="arrow" size={15} />
           </a>
@@ -227,7 +227,7 @@ const faqs = [
               </li>
             ))}
           </ul>
-          <a class="btn btn-outline group self-start" href="/education/">
+          <a class="btn btn-outline group self-start justify-self-start" href="/education/">
             View all<span class="sr-only"> education</span>
             <Icon name="arrow" size={15} />
           </a>
@@ -302,9 +302,7 @@ const faqs = [
           <details class="faq" name="faq">
             <summary>
               <span class="min-w-0">{f.q}</span>
-              <span class="faq-chevron shrink-0" aria-hidden="true">
-                <Icon name="chevron" size={18} />
-              </span>
+              <span class="hm-area-plus" aria-hidden="true"></span>
             </summary>
             <p>
               {f.link ? (
