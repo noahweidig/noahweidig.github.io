@@ -342,13 +342,13 @@ const isActive = (href: string) => {
     overflow: hidden;
     overscroll-behavior: none;
   }
-  /* A solid cobalt band at every scroll position, with a hairline once scrolled. */
+  /* A solid ice band at every scroll position, with a hairline once scrolled. */
   .nav-glass {
     border-bottom: 1px solid transparent;
     transition: border-color var(--dur-base) var(--ease-out-soft);
   }
   :global(html[data-scrolled]) .nav-glass {
-    border-bottom-color: color-mix(in oklab, var(--p-ice) 45%, transparent);
+    border-bottom-color: var(--c-line);
   }
   .nav-trigger,
   .nav-link {
