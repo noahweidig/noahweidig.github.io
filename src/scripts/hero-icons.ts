@@ -118,7 +118,7 @@ export function initHeroIcons() {
         `width:${size}px;height:${size}px;rotate:${rot.toFixed(1)}deg;` +
         `opacity:${(pick(ALPHAS) * fade).toFixed(2)}`;
       el.innerHTML =
-        `<svg viewBox="0 -960 960 960" width="100%" height="100%" fill="currentColor" ` +
+        `<svg viewBox="0 0 880 880" width="100%" height="100%" fill="currentColor" ` +
         `focusable="false"><use href="#i-${name}"/></svg>`;
       nodes.push(el);
     }
