@@ -1,7 +1,6 @@
 ---
 import Breadcrumbs from './Breadcrumbs.astro';
-import Icon from './Icon.astro';
-import { iconFor, tintFor } from '../lib/tint';
+import { tintFor } from '../lib/tint';
 import { vtName } from '../lib/format';
 
 interface Props {
@@ -23,7 +22,6 @@ interface Props {
 const {
   title,
   kicker,
-  icon,
   intro,
   trail = [],
   compact = false,
@@ -36,7 +34,6 @@ const tint = tintFor(kicker ?? title);
 const vt = /^\/(projects|blog)\/[^/]+\/?$/.test(Astro.url.pathname)
   ? vtName(Astro.url.pathname)
   : undefined;
-const glyph = icon ?? iconFor(kicker ?? title);
 ---
 
 <section
@@ -50,7 +47,6 @@ const glyph = icon ?? iconFor(kicker ?? title);
       <Breadcrumbs trail={trail} current={title} />
       {kicker && (
         <p class={`kicker page-hero-kicker tint-${tint}`} data-pagefind-ignore>
-          {glyph && <Icon name={glyph} size={14} />}
           {kicker}
         </p>
       )}
