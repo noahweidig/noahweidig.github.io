@@ -24,14 +24,30 @@ const icon = categories.map(tagIcon).find(Boolean) ?? 'file';
   style={`--reveal-delay:${Math.min(index, 5) * 60}ms`}
 >
   <a href={`/blog/${entry.id}/`} class="absolute inset-0 z-10" tabindex="-1" aria-hidden="true"></a>
-  <div class="flex flex-1 flex-col p-5">
-    <div class="flex items-center gap-3">
-      <span
-        class="grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-line bg-raised text-accent-ink"
-        aria-hidden="true"
-      >
-        <Icon name={icon} size={20} />
+  <div class="relative flex flex-1 flex-col overflow-hidden p-5">
+    <span
+      class="pointer-events-none absolute -right-3.5 -top-3.5 text-accent-ink opacity-10"
+      aria-hidden="true"
+    >
+      <Icon name={icon} size={130} stroke-width={1.2} />
+    </span>
+    {categories[0] && (
+      <span class="chip relative w-max text-accent-ink">
+        <Icon name={icon} size={14} />
+        {categories[0]}
       </span>
+    )}
+    <h3 class="relative mt-3 text-xl leading-snug">
+      <a
+        href={`/blog/${entry.id}/`}
+        class="relative z-20 transition-colors group-hover:text-accent-ink"
+        style={`view-transition-name:${vtName(`/blog/${entry.id}`)}`}
+      >
+        {title}
+      </a>
+    </h3>
+    <p class="relative mt-2 flex-1 text-sm leading-relaxed text-dim line-clamp-4">{description}</p>
+    <div class="mt-4 flex items-center justify-between gap-3">
       <div class="flex items-center gap-2 text-xs font-medium text-faint">
         <time datetime={date.toISOString()}>{fullDate(date)}</time>
         {readingTime && (
@@ -41,18 +57,6 @@ const icon = categories.map(tagIcon).find(Boolean) ?? 'file';
           </>
         )}
       </div>
-    </div>
-    <h3 class="mt-2.5 text-xl leading-snug">
-      <a
-        href={`/blog/${entry.id}/`}
-        class="relative z-20 transition-colors group-hover:text-accent-ink"
-        style={`view-transition-name:${vtName(`/blog/${entry.id}`)}`}
-      >
-        {title}
-      </a>
-    </h3>
-    <p class="mt-2 flex-1 text-sm leading-relaxed text-dim line-clamp-4">{description}</p>
-    <div class="mt-4 flex justify-end">
       <span
         class="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-line bg-raised transition-colors group-hover:bg-accent group-hover:text-white"
         aria-hidden="true"

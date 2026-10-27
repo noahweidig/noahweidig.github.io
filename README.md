@@ -174,7 +174,7 @@ The closing CTA has a MapLibre map centred on Orlando (`src/components/Globe.ast
 
 ### Blog post icons
 
-Posts have no cover image. Cards show an icon tile picked from the post's first category (`TAG_ICONS` in `src/lib/tags.ts`), falling back to a file icon.
+Posts have no cover image. Cards show a category chip and watermark icon picked from the post's first category (`TAG_ICONS` in `src/lib/tags.ts`), falling back to a file icon.
 
 ### Comments
 
