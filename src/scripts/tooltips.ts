@@ -8,21 +8,24 @@ let tipEl: HTMLElement | null = null;
 let tipTimer: number | undefined;
 let tipTarget: HTMLElement | null = null;
 
-const tipRoot = () => {
+/* A modal dialog sits in the top layer, above any z-index, so a tooltip for
+   something inside one has to be rendered inside that dialog to be seen. */
+const tipRoot = (target: HTMLElement) => {
   if (!tipEl?.isConnected) {
     tipEl = document.createElement('div');
     tipEl.id = TIP_ID;
     tipEl.className = 'nw-tip';
     tipEl.setAttribute('role', 'tooltip');
-    document.body.appendChild(tipEl);
   }
+  const host = target.closest('dialog[open]') ?? document.body;
+  if (tipEl.parentElement !== host) host.appendChild(tipEl);
   return tipEl;
 };
 
 export function showTip(target: HTMLElement) {
   const text = target.dataset.tip;
   if (!text) return;
-  const el = tipRoot();
+  const el = tipRoot(target);
   const title = target.dataset.tipTitle;
   el.innerHTML = title
     ? `<b>${escapeHtml(title)}</b><span>${escapeHtml(text)}</span>`
