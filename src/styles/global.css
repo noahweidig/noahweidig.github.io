@@ -711,9 +711,12 @@
     left: 0.75rem;
     max-width: calc(100% - 1.5rem);
     border-radius: var(--radius-sm);
-    background: #fff;
+    border: 1px solid rgb(255 255 255 / 0.16);
+    background: rgb(12 12 16 / 0.55);
+    -webkit-backdrop-filter: blur(14px) saturate(1.4);
+    backdrop-filter: blur(14px) saturate(1.4);
     padding: 0.625rem 1.25rem;
-    color: var(--c-on-light);
+    color: #fff;
     font-size: var(--text-body-lg);
     font-weight: 500;
     line-height: 1.25;
@@ -722,6 +725,21 @@
     .card-badge {
       bottom: 1rem;
       left: 1rem;
+    }
+  }
+  /* Compact badge for secondary info (reading time), pinned bottom right. */
+  .card-badge-sm {
+    right: 0.75rem;
+    bottom: 0.75rem;
+    left: auto;
+    padding: 0.3rem 0.7rem;
+    font-size: var(--text-small);
+  }
+  @media (min-width: 40rem) {
+    .card-badge-sm {
+      right: 0.75rem;
+      bottom: 0.75rem;
+      left: auto;
     }
   }
   /* Link / action chips (DOI, PDF, Altmetric...): outlined in blue.
