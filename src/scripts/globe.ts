@@ -11,7 +11,10 @@ const styleUrl = () => `/map/${isLight() ? 'positron' : 'dark'}.json`;
 // seeded field of dots, with setSky() adding the horizon glow.
 function starField(light: boolean) {
   let seed = 7;
-  const rand = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  const rand = () => {
+    seed = (seed * 16807) % 2147483647;
+    return seed / 2147483647;
+  };
   const rgb = light ? '65 81 181' : '255 255 255';
   const dots = Array.from({ length: 110 }, () => {
     const r = rand() < 0.12 ? 1.6 : 0.9;
