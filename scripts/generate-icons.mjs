@@ -1,11 +1,11 @@
 /**
- * Rebuild src/lib/icons.generated.ts from lucide-static.
+ * Rebuild src/lib/icons.generated.ts from @material-symbols/svg-400.
  *
- * Every UI icon on the site is Lucide (ISC, lucide.dev): one 24px grid, one
- * stroke, one set of terminals. Brand marks are not generated here: they are
- * the SVGs in public/uploads/, loaded by src/lib/brand-icons.ts. Each icon is
- * run through SVGO (shapes to paths, paths merged, path data minified) so the
- * homepage ships as few bytes as possible.
+ * Every UI icon on the site is Material Symbols, Sharp style, weight 400
+ * (Apache-2.0, fonts.google.com/icons): 960 grid cropped to 40..920, filled shapes, square
+ * terminals. Brand marks are not generated here: they are the SVGs in
+ * public/uploads/, loaded by src/lib/brand-icons.ts. Each icon is run through
+ * SVGO so the homepage ships as few bytes as possible.
  *
  *   node scripts/generate-icons.mjs
  */
@@ -18,108 +18,111 @@ import { fileURLToPath } from 'node:url';
 import { optimize } from 'svgo';
 
 const require = createRequire(import.meta.url);
-const lucideDir = path.join(path.dirname(require.resolve('lucide-static/package.json')), 'icons');
+const iconDir = path.join(
+  path.dirname(require.resolve('@material-symbols/svg-400/package.json')),
+  'sharp',
+);
 
-/** site name -> Lucide icon file (icons/<file>.svg) */
+/** site name -> Material Symbols icon file (sharp/<file>.svg) */
 const MAP = {
-  rss: 'rss',
+  rss: 'rss_feed',
   mail: 'mail',
   envelope: 'mail',
-  message: 'message-square-text',
-  calendar: 'calendar-days',
-  briefcase: 'briefcase-business',
+  message: 'chat',
+  calendar: 'calendar_month',
+  briefcase: 'work',
   school: 'school',
-  code: 'code-xml',
-  users: 'users',
-  sparkles: 'sparkles',
+  code: 'code',
+  users: 'group',
+  sparkles: 'star_shine',
   layers: 'layers',
   trophy: 'trophy',
   bulb: 'lightbulb',
-  file: 'file-text',
-  pencil: 'pencil',
-  help: 'circle-question-mark',
+  file: 'description',
+  pencil: 'edit',
+  help: 'help',
   search: 'search',
-  pin: 'map-pin',
-  clock: 'clock',
-  cube: 'box',
+  pin: 'location_on',
+  clock: 'schedule',
+  cube: 'deployed_code',
   download: 'download',
-  arrow: 'arrow-right',
-  chevron: 'chevron-down',
-  external: 'external-link',
-  sun: 'sun',
-  moon: 'moon',
-  sunMoon: 'sun-moon',
+  arrow: 'arrow_forward',
+  chevron: 'keyboard_arrow_down',
+  external: 'open_in_new',
+  sun: 'light_mode',
+  moon: 'dark_mode',
+  sunMoon: 'contrast',
   menu: 'menu',
-  close: 'x',
+  close: 'close',
   satellite: 'satellite',
-  chart: 'chart-column',
-  ai: 'brain-circuit',
-  leaf: 'leaf',
+  chart: 'bar_chart',
+  ai: 'psychology',
+  leaf: 'eco',
   database: 'database',
-  terminal: 'square-terminal',
-  quote: 'quote',
-  video: 'video',
+  terminal: 'terminal',
+  quote: 'format_quote',
+  video: 'videocam',
   news: 'newspaper',
-  shield: 'shield-check',
-  slides: 'presentation',
-  book: 'book-open',
-  report: 'clipboard-check',
-  preprint: 'file-clock',
-  graduationCap: 'graduation-cap',
+  shield: 'verified_user',
+  slides: 'slideshow',
+  book: 'menu_book',
+  report: 'assignment_turned_in',
+  preprint: 'draft',
+  graduationCap: 'school',
   check: 'check',
-  tag: 'tag',
-  copy: 'copy',
+  tag: 'sell',
+  copy: 'content_copy',
   link: 'link',
-  lockOpen: 'lock-open',
-  plus: 'plus',
-  arrowUp: 'arrow-up',
-  tocLines: 'text-align-start',
-  hash: 'hash',
-  pilcrow: 'pilcrow',
-  reader: 'book-open-text',
-  expand: 'expand',
-  zoom: 'zoom-in',
-  left: 'chevron-left',
-  right: 'chevron-right',
-  printer: 'printer',
-  filePdf: 'file-down',
-  filter: 'list-filter',
+  lockOpen: 'lock_open',
+  plus: 'add',
+  arrowUp: 'arrow_upward',
+  tocLines: 'toc',
+  hash: 'tag',
+  pilcrow: 'format_paragraph',
+  reader: 'article',
+  expand: 'open_in_full',
+  zoom: 'zoom_in',
+  left: 'chevron_left',
+  right: 'chevron_right',
+  printer: 'print',
+  filePdf: 'picture_as_pdf',
+  filter: 'filter_list',
   info: 'info',
   pause: 'pause',
-  play: 'play',
-  circleArrowUp: 'circle-arrow-up',
-  rocket: 'rocket',
-  ellipsis: 'ellipsis',
-  share: 'share-2',
-  earth: 'earth',
-  cpu: 'cpu',
-  broom: 'broom-sparkles',
-  flame: 'flame',
-  flaskConical: 'flask-conical',
+  play: 'play_arrow',
+  circleArrowUp: 'arrow_circle_up',
+  rocket: 'rocket_launch',
+  ellipsis: 'more_horiz',
+  share: 'share',
+  earth: 'public',
+  cpu: 'memory',
+  broom: 'cleaning_services',
+  flame: 'local_fire_department',
+  flaskConical: 'science',
   plug: 'webhook',
   map: 'map',
   route: 'route',
   orbit: 'orbit',
-  mountain: 'mountain',
-  treePine: 'tree-pine',
+  mountain: 'landscape',
+  treePine: 'park',
   radar: 'radar',
-  sprout: 'sprout',
-  compass: 'compass',
-  landmark: 'landmark',
-  network: 'network',
-  grid: 'grid-3x3',
-  wind: 'wind',
-  droplets: 'droplets',
-  waypoints: 'waypoints',
-  trees: 'trees',
-  telescope: 'telescope',
+  sprout: 'psychiatry',
+  compass: 'explore',
+  landmark: 'account_balance',
+  network: 'lan',
+  grid: 'grid_on',
+  wind: 'air',
+  droplets: 'water_drop',
+  waypoints: 'conversion_path',
+  trees: 'forest',
+  telescope: 'travel_explore',
   'nav-search': 'search',
-  'nav-sun': 'sun',
-  'nav-moon': 'moon',
-  'nav-sunMoon': 'sun-moon',
-  'nav-listFilter': 'list-filter',
-  'nav-x': 'x',
-  'nav-chevronRight': 'chevron-right',
+  'nav-sun': 'light_mode',
+  'nav-moon': 'dark_mode',
+  'nav-sunMoon': 'contrast',
+  'nav-listFilter': 'filter_list',
+  'nav-x': 'close',
+  'nav-chevronRight': 'chevron_right',
 };
 
 /** The children of the <svg>, whitespace collapsed. Sliced rather than matched:
@@ -134,10 +137,9 @@ const inner = (svg) => {
     .trim();
 };
 
-/** Lucide's own attributes, repeated on the wrapper so SVGO sees the same
+/** Material's own attributes, repeated on the wrapper so SVGO sees the same
     context the icon renders in. */
-const WRAP =
-  'xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"';
+const WRAP = 'xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="#000"';
 
 const slim = (body) =>
   inner(
@@ -152,23 +154,16 @@ const slim = (body) =>
     their own small file so the scripts do not bundle the whole set. */
 const SCRIPT = ['copy', 'check', 'pilcrow', 'left', 'right', 'close'];
 
-/** Exact bodies for icons whose drawing must not move when Lucide is updated. */
-const PINNED = {
-  'nav-listFilter': '<path d="M3 6h18"/> <path d="M7 12h10"/> <path d="M10 18h4"/>',
-};
-
 const entries = await Promise.all(
   Object.entries(MAP).map(async ([name, file]) => {
-    const svg = await readFile(path.join(lucideDir, `${file}.svg`), 'utf8');
-    /* The nav bar and search dialog icons (nav-*) are kept exactly as drawn. */
-    const body = PINNED[name] ?? (name.startsWith('nav-') ? inner(svg) : slim(inner(svg)));
-    return `  ${JSON.stringify(name)}: { viewBox: "0 0 24 24", body: ${JSON.stringify(body)}, stroke: true },`;
+    const svg = await readFile(path.join(iconDir, `${file}.svg`), 'utf8');
+    return `  ${JSON.stringify(name)}: { viewBox: "40 -920 880 880", body: ${JSON.stringify(slim(inner(svg)))} },`;
   }),
 );
 
 const out = `/* Generated by scripts/generate-icons.mjs — do not edit by hand.
-   Lucide (ISC, lucide.dev), 24x24 grid, optimized with SVGO. */
-export const icons: Record<string, { viewBox: string; body: string; stroke?: boolean }> = {
+   Material Symbols Sharp (Apache-2.0), 960 grid cropped to 40..920, optimized with SVGO. */
+export const icons: Record<string, { viewBox: string; body: string }> = {
 ${entries.join('\n')}
 };
 `;
@@ -177,7 +172,7 @@ const scriptEntries = entries.filter((e) =>
 );
 const scriptOut = `/* Generated by scripts/generate-icons.mjs — do not edit by hand.
    The subset of icons.generated.ts that client scripts need as strings. */
-export const scriptIcons: Record<string, { viewBox: string; body: string; stroke?: boolean }> = {
+export const scriptIcons: Record<string, { viewBox: string; body: string }> = {
 ${scriptEntries.join('\n')}
 };
 `;

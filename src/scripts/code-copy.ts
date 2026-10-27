@@ -4,7 +4,7 @@ import { hideTip, showTip } from './tooltips';
 import { iconSvg } from './icon';
 
 const COPY_ICON = iconSvg('copy', 15);
-const CHECK_ICON = iconSvg('check', 15, 2);
+const CHECK_ICON = iconSvg('check', 15);
 
 export function initCodeCopy() {
   const blocks = document.querySelectorAll<HTMLPreElement>('.prose-nw pre');

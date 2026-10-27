@@ -285,7 +285,7 @@ export function initSearch() {
                   }">
                   <span class="grid h-3.5 w-3.5 shrink-0 place-items-center border ${
                     on ? 'border-accent bg-accent text-accent-contrast' : 'border-line-strong'
-                  }">${on ? iconSvg('check', 10, 3.5) : ''}</span>
+                  }">${on ? iconSvg('check', 10) : ''}</span>
                   <span class="min-w-0 flex-1 truncate">${escapeHtml(value)}</span>
                   <span class="shrink-0 text-micro text-faint tabular-nums">${n}</span>
                 </button></li>`;

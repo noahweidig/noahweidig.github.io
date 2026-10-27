@@ -40,7 +40,7 @@ const isActive = (href: string) => {
                 ]}
               >
                 {group.text}
-                <Icon name="nav-chevronRight" size={14} stroke-width={2.6} class="nav-chevron" />
+                <Icon name="nav-chevronRight" size={14} class="nav-chevron" />
               </button>
               <ul
                 class="nav-menu card absolute top-full left-1/2 z-10 hidden -translate-x-1/2 p-2.5"
@@ -89,7 +89,7 @@ const isActive = (href: string) => {
         class="icon-btn bar-search"
         aria-label="Search the site"
       >
-        <Icon name="nav-search" size={21} stroke-width={1.8} />
+        <Icon name="nav-search" size={21} />
       </button>
 
       <a
@@ -110,10 +110,10 @@ const isActive = (href: string) => {
         aria-label="Open menu"
       >
         <span class="burger-open">
-          <Icon name="menu" size={22} stroke-width={1.8} />
+          <Icon name="menu" size={22} />
         </span>
         <span class="burger-close">
-          <Icon name="close" size={22} stroke-width={1.8} />
+          <Icon name="close" size={22} />
         </span>
       </button>
     </div>
@@ -130,7 +130,7 @@ const isActive = (href: string) => {
         {navGroups.map((group, gi) => (
           <div class="mobile-group">
             <button type="button" class="mobile-group-head" aria-expanded="true" data-group-toggle>
-              <Icon name="nav-chevronRight" size={14} stroke-width={2.4} />
+              <Icon name="nav-chevronRight" size={14} />
               {group.text}
             </button>
             <div class="mobile-group-body">
@@ -196,7 +196,7 @@ const isActive = (href: string) => {
   .nav-card:hover,
   .nav-card:focus-visible {
     border-color: var(--c-accent-ink);
-    background: color-mix(in oklab, var(--p-blue) 55%, var(--p-deep));
+    background: var(--c-card);
   }
   .nav-card[aria-current='page'] {
     border-color: var(--c-accent-ink);
