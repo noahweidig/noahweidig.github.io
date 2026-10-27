@@ -21,6 +21,11 @@
    Dark is the default; :root[data-theme='light'] overrides the same names.
    ========================================================================= */
 :root {
+  --p-blue: #1f3bff;
+  --p-deep: #0a1480;
+  --p-ice: #f2f4ff;
+  --p-sun: #ffd21f;
+  --p-ink: #0b0f3d;
   /* Matte fills for buttons, tags and controls: a flat grey step off the
      surface, in whichever theme is active. */
   --c-matte: color-mix(in oklab, var(--c-ink) 12%, var(--c-card));
@@ -35,13 +40,6 @@
 /* The poster palette. Four flat colors do all the work: cobalt, ice, sun and
    deep blue, with a navy ink. The theme tokens below are built from them, and
    the .band-* classes re-point the theme tokens at a band's own colors. */
-:root {
-  --p-blue: #1f3bff;
-  --p-deep: #0a1480;
-  --p-ice: #f2f4ff;
-  --p-sun: #ffd21f;
-  --p-ink: #0b0f3d;
-}
 :root,
 :root[data-theme='dark'] {
   --c-bg: #070b3a;
