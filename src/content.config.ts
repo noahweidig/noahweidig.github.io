@@ -86,28 +86,16 @@ const awards = defineCollection({
 
 const blog = defineCollection({
   loader: dirLoader('./src/content/blog'),
-  schema: ({ image }) =>
-    z
-      .object({
-        title: z.string(),
-        date: z.coerce.date(),
-        updated: z.coerce.date().optional(),
-        description: z.string(),
-        author: z.string().default('Noah Weidig'),
-        'author-image': z.string().default('/media/authors/me.webp'),
-        categories: z.array(z.string()).default([]),
-        draft: z.boolean().default(false),
-        image: image().optional(),
-        // Light-theme counterpart of `image`, swapped in by CSS (`dark:`/light
-        // pairing, same as the header's logo and theme-toggle icons). Falls
-        // back to `image` when a post doesn't have one.
-        'image-light': image().optional(),
-        'image-alt': z.string().optional(),
-      })
-      .refine((data) => !data.image || !!data['image-alt'], {
-        message: '`image-alt` is required whenever `image` is set',
-        path: ['image-alt'],
-      }),
+  schema: z.object({
+    title: z.string(),
+    date: z.coerce.date(),
+    updated: z.coerce.date().optional(),
+    description: z.string(),
+    author: z.string().default('Noah Weidig'),
+    'author-image': z.string().default('/media/authors/me.webp'),
+    categories: z.array(z.string()).default([]),
+    draft: z.boolean().default(false),
+  }),
 });
 
 const timeline = (base: string) =>

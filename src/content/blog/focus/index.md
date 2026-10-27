@@ -5,9 +5,6 @@ description: Living in a distracted world — strategies for deep work, minimizi
 categories:
   - Tech
 draft: false
-image: './cover.webp'
-image-light: './cover-light.webp'
-image-alt: 'Cover card reading “Focus” beside three stacked to-do cards in red, blue and yellow'
 ---
 
 ## The problem

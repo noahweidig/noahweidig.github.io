@@ -4,7 +4,7 @@
  * hues (the slug picks which three), so covers read as one family.
  *
  * Pure string output: generate-blog-covers.mjs screenshots it, and
- * ensure-blog-covers.mjs reads paletteFor() to write the alt text.
+ * paletteFor() picks the accent hues.
  */
 
 const W = 1200;

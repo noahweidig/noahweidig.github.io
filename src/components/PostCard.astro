@@ -1,9 +1,8 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import { fullDate, vtName } from '../lib/format';
-import { IMAGE_WIDTHS } from '../lib/images';
+import { tagIcon } from '../lib/tags';
 import Icon from './Icon.astro';
-import ThemeImage from './ThemeImage.astro';
 
 interface Props {
   entry: CollectionEntry<'blog'>;
@@ -14,9 +13,8 @@ interface Props {
   class?: string;
 }
 const { entry, readingTime, index = 0, reveal = true, class: cls } = Astro.props;
-const { title, description, date, categories, image } = entry.data;
-const imageLight = entry.data['image-light'] ?? image!;
-const alt = entry.data['image-alt'] ?? '';
+const { title, description, date, categories } = entry.data;
+const icon = categories.map(tagIcon).find(Boolean) ?? 'file';
 ---
 
 <article
@@ -26,34 +24,23 @@ const alt = entry.data['image-alt'] ?? '';
   style={`--reveal-delay:${Math.min(index, 5) * 60}ms`}
 >
   <a href={`/blog/${entry.id}/`} class="absolute inset-0 z-10" tabindex="-1" aria-hidden="true"></a>
-  {image && (
-    <a
-      href={`/blog/${entry.id}/`}
-      tabindex="-1"
-      aria-hidden="true"
-      class="relative block aspect-16/9 overflow-hidden border-b border-line"
-    >
-      <ThemeImage
-        dark={image}
-        light={imageLight}
-        alt={alt}
-        widths={IMAGE_WIDTHS.thumbnail}
-        sizes="(min-width: 1024px) 380px, (min-width: 640px) 45vw, 92vw"
-        loading={index === 0 ? 'eager' : 'lazy'}
-        class="h-full w-full object-cover"
-      />
-      {readingTime && <span class="card-badge card-badge-sm">{readingTime}</span>}
-    </a>
-  )}
   <div class="flex flex-1 flex-col p-5">
-    <div class="flex items-center gap-2 text-xs font-medium text-faint">
-      <time datetime={date.toISOString()}>{fullDate(date)}</time>
-      {!image && readingTime && (
-        <>
-          <span>·</span>
-          <span>{readingTime}</span>
-        </>
-      )}
+    <div class="flex items-center gap-3">
+      <span
+        class="grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-line bg-raised text-accent-ink"
+        aria-hidden="true"
+      >
+        <Icon name={icon} size={20} />
+      </span>
+      <div class="flex items-center gap-2 text-xs font-medium text-faint">
+        <time datetime={date.toISOString()}>{fullDate(date)}</time>
+        {readingTime && (
+          <>
+            <span>·</span>
+            <span>{readingTime}</span>
+          </>
+        )}
+      </div>
     </div>
     <h3 class="mt-2.5 text-xl leading-snug">
       <a
