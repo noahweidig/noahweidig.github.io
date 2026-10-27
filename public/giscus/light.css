@@ -35,7 +35,7 @@ main {
 
   --color-btn-text: #0b0f3d;
   --color-btn-bg: #e9ecff;
-  --color-btn-border: #b7beeb;
+  --color-btn-border: #0b0f3d;
   --color-btn-shadow: 0 0 transparent;
   --color-btn-inset-shadow: 0 0 transparent;
   --color-btn-hover-bg: #e6e9ff;
@@ -59,23 +59,23 @@ main {
   --color-action-list-item-default-hover-bg: #e9ecff;
   --color-segmented-control-bg: #ffffff;
   --color-segmented-control-button-bg: #e9ecff;
-  --color-segmented-control-button-selected-border: #b7beeb;
+  --color-segmented-control-button-selected-border: #0b0f3d;
 
   --color-fg-default: #0b0f3d;
   --color-fg-muted: #3a4072;
   --color-fg-subtle: #565d8f;
-  --color-canvas-default: #ffffff;
+  --color-canvas-default: #f2f4ff;
   --color-canvas-overlay: #ffffff;
-  --color-canvas-inset: #f7f6f3;
-  --color-canvas-subtle: #f7f6f3;
-  --color-border-default: #e6e9ff;
-  --color-border-muted: #e6e9ff;
+  --color-canvas-inset: #ffffff;
+  --color-canvas-subtle: #ffffff;
+  --color-border-default: #0b0f3d;
+  --color-border-muted: #b7beeb;
   --color-neutral-muted: rgb(95 94 90 / 0.16);
   --color-neutral-subtle: rgb(95 94 90 / 0.08);
   --color-accent-fg: #1f3bff;
   --color-accent-emphasis: #1f3bff;
   --color-accent-muted: rgb(31 59 255 / 0.4);
-  --color-accent-subtle: rgb(0 114 227 / 0.12);
+  --color-accent-subtle: rgb(31 59 255 / 0.12);
   --color-success-fg: #0f6220;
   --color-attention-fg: #8c5d00;
   --color-attention-muted: rgb(255 177 16 / 0.4);
@@ -92,35 +92,56 @@ main {
   --color-scale-blue-8: #ffffff;
 
   --color-social-reaction-bg-hover: #e9ecff;
-  --color-social-reaction-bg-reacted-hover: rgb(0 114 227 / 0.2);
+  --color-social-reaction-bg-reacted-hover: rgb(31 59 255 / 0.2);
 
   color-scheme: light;
+}
+
+@font-face {
+  font-family: 'Archivo';
+  font-weight: 100 900;
+  font-stretch: 62% 125%;
+  src: url('/fonts/archivo-latin.woff2') format('woff2');
+}
+
+html,
+body,
+main,
+button,
+input,
+textarea {
+  font-family: 'Archivo', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif !important;
 }
 
 main {
   background-color: transparent;
   color: #0b0f3d;
-  font-family:
-    Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+
+/* Square corners and ink borders, like the rest of the site. */
+main *,
+main *::before,
+main *::after {
+  border-radius: 0 !important;
 }
 
 .gsc-comment-box-tabs,
 .gsc-comment-box-bottom,
 .gsc-comment-box-preview {
-  background-color: #ffffff;
+  background-color: #f2f4ff;
 }
 
+.gsc-comment-box,
 .gsc-comment > div,
 .gsc-reply > div {
   background-color: #ffffff;
-  border-color: #e6e9ff;
+  border: 2px solid #0b0f3d;
 }
 
 .gsc-header,
-.gsc-comment-box,
 .gsc-reactions,
 .gsc-timeline {
-  border-color: #e6e9ff;
+  border-color: #b7beeb;
 }
 
 .gsc-loading-image {

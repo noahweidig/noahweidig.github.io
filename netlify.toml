@@ -52,3 +52,10 @@
   for = "/giscus/*"
   [headers.values]
     Access-Control-Allow-Origin = "*"
+
+# giscus also loads the Archivo font file named in /giscus/light.css, from the
+# giscus.app origin, so the font needs the same header.
+[[headers]]
+  for = "/fonts/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
