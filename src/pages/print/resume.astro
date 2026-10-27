@@ -1,8 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import Print from '../../layouts/Print.astro';
-import Icon from '../../components/Icon.astro';
-import { site, socials, skills } from '../../lib/site';
+import { site, skills } from '../../lib/site';
 import { byDate, firstSentence, year } from '../../lib/format';
 
 /**
@@ -21,15 +20,6 @@ const bullets = (body = '', max = 2) =>
     .map((l) => l.trim().slice(2).trim())
     .slice(0, max);
 
-/** Short printable form of each profile; the PDF link still points at the full URL. */
-const short: Record<string, string> = {
-  LinkedIn: 'linkedin.com/in/noahweidig',
-  GitHub: 'github.com/noahweidig',
-  'Google Scholar': 'scholar.google.com · Noah Weidig',
-  ORCID: 'orcid.org/0000-0003-1205-3209',
-  ResearchGate: 'researchgate.net/profile/Noah-Weidig',
-};
-
 const summary =
   'GIS & Remote Sensing Research Associate using remote sensing, GIS, and data science to turn complex geospatial data into clear insight about how our world changes. Focused on wildland-urban interface wildfire risk, land-use change, and spatial decision-making.';
 ---
@@ -42,14 +32,6 @@ const summary =
       <span>{site.email}</span>
       <span>{site.location}</span>
       <span>noahweidig.com</span>
-    </p>
-    <p class="links">
-      {socials.map((s) => (
-        <a href={s.href}>
-          <Icon name={s.icon} size={11} />
-          {short[s.label] ?? s.href.replace(/^https?:\/\/(www\.)?/, '')}
-        </a>
-      ))}
     </p>
   </header>
 
@@ -143,22 +125,6 @@ const summary =
     content: '·';
     margin: 0 0.45em;
     color: var(--c-line-strong);
-  }
-  .links {
-    margin: 0.3em 0 0;
-    font-size: 0.68em;
-    color: var(--c-dim);
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.2em 1em;
-  }
-  .links a {
-    color: inherit;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35em;
   }
   .summary {
     margin: 0.5em 0 0;
