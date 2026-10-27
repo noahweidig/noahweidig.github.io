@@ -1,9 +1,11 @@
 ---
 import Icon from './Icon.astro';
-import { researchAreaNames, site, socials } from '../lib/site';
+import { researchAreas } from '../lib/research-areas';
+import { site, socials } from '../lib/site';
 
 const rows = ['NOAH', 'WEIDIG'];
-const ticker = [...researchAreaNames, ...researchAreaNames];
+const names = researchAreas.map((a) => a.tab);
+const ticker = [...names, ...names];
 ---
 
 <section class="band-blue under-nav hero" id="hero" data-hero>

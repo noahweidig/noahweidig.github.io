@@ -108,13 +108,3 @@ export const skills: [string, string][] = [
   ],
   ['Workflows', 'Git, GitHub, GitHub Actions, Conda, renv'],
 ];
-
-/** Short names of the six research areas, as shown in the home hero ticker. */
-export const researchAreaNames = [
-  'Remote Sensing',
-  'Land-Use Change',
-  'Spatial Statistics',
-  'Applied AI',
-  'Biodiversity',
-  'Geospatial Engineering',
-] as const;
