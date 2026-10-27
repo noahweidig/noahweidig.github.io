@@ -1915,30 +1915,6 @@
    Logo triad: blue, red and yellow carry the whole palette. Ambient glow,
    bento grid, count-up numbers and view-transition tuning live here.
    ========================================================================= */
-.hero-glow {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background:
-    radial-gradient(
-      42rem 26rem at 18% 0%,
-      color-mix(in oklab, var(--logo-blue) calc(var(--glow-a) * 100%), transparent),
-      transparent 70%
-    ),
-    radial-gradient(
-      34rem 22rem at 86% 12%,
-      color-mix(in oklab, var(--logo-blue) calc(var(--glow-a) * 60%), transparent),
-      transparent 70%
-    ),
-    radial-gradient(
-      30rem 20rem at 55% 100%,
-      color-mix(in oklab, var(--c-accent) calc(var(--glow-a) * 50%), transparent),
-      transparent 70%
-    );
-  -webkit-mask-image: linear-gradient(to bottom, #000 60%, transparent);
-  mask-image: linear-gradient(to bottom, #000 60%, transparent);
-}
-
 /* Blue rule across the top of the closing CTA, fading out at both ends;
    overflow clips it to the card's rounded corners so it sits inside the border. */
 .cta-card {
