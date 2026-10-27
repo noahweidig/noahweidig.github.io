@@ -729,6 +729,7 @@
   }
   .chip-link {
     transition:
+      background-color var(--dur-fast),
       border-color var(--dur-fast),
       color var(--dur-fast);
   }
