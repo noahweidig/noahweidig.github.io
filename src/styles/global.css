@@ -525,7 +525,7 @@
     box-shadow: inset 0 1px 0 var(--c-edge);
     transition: border-color var(--dur-fast) ease-out;
   }
-  /* Hover: a 3px lift and soft shadow. Lift is off for touch and reduced motion. */
+  /* Hover: brighter border and a soft shadow, no lift. */
   .card-hover:hover {
     border-color: color-mix(in oklab, var(--c-accent) 55%, var(--c-line));
   }
@@ -533,11 +533,9 @@
     .card-hover {
       transition:
         border-color var(--dur-base) var(--ease-out-soft),
-        transform var(--dur-base) var(--ease-out-soft),
         box-shadow var(--dur-base) var(--ease-out-soft);
     }
     .card-hover:hover {
-      transform: translateY(-3px);
       box-shadow: var(--shadow-3);
     }
   }
