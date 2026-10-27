@@ -81,7 +81,7 @@ const isActive = (href: string) => {
       </ul>
     </nav>
 
-    <div class="ml-auto flex shrink-0 items-center gap-1.5 lg:justify-self-end">
+    <div class="ml-auto flex shrink-0 items-center gap-2 lg:justify-self-end">
       <button
         type="button"
         data-search-open
@@ -406,18 +406,22 @@ const isActive = (href: string) => {
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
   }
-  /* No hover tile on the bar's icon buttons. Resting is a step off full ink, so
-     hover reads lighter in dark theme and darker in light theme. */
+  /* The bar's icon buttons are 2.75rem squares, the same height as the
+     "Get in touch" button beside them. */
   .icon-btn {
-    color: color-mix(in oklab, var(--c-ink) 72%, transparent);
+    width: 2.75rem;
+    height: 2.75rem;
+    border: 2px solid var(--c-line-strong);
+    color: var(--c-ink);
     transition:
+      background-color var(--dur-fast) var(--ease-out-soft),
       color var(--dur-fast) var(--ease-out-soft),
       opacity var(--dur-fast) ease,
       visibility 0s 0s;
   }
   .icon-btn:hover {
-    background: transparent;
-    color: var(--c-ink);
+    background: var(--c-ink);
+    color: var(--c-bg);
   }
 </style>
 
