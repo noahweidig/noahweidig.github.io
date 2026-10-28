@@ -163,7 +163,7 @@ const altmetricTip = altmetric
           href={dimensions.url}
           target="_blank"
           rel="noopener"
-          class="chip transition-colors hover:bg-matte-hover hover:text-ink"
+          class="chip chip-action"
           data-tip-title="Dimensions"
           data-tip={dimensionsTip}
           aria-label={`${dimensions.timesCited} citation${dimensions.timesCited === 1 ? '' : 's'} on Dimensions (opens in a new tab)`}
@@ -190,7 +190,7 @@ const altmetricTip = altmetric
           href={altmetric.detailsUrl}
           target="_blank"
           rel="noopener"
-          class="chip transition-colors hover:bg-matte-hover hover:text-ink"
+          class="chip chip-action"
           data-tip-title="Altmetric Attention Score"
           data-tip={altmetricTip}
           aria-label={`Altmetric attention score ${Math.round(altmetric.score)} (opens in a new tab)`}
@@ -214,7 +214,7 @@ const altmetricTip = altmetric
           target="_blank"
           rel="noopener"
           aria-label="View DOI (opens in a new tab)"
-          class="chip transition-colors hover:bg-matte-hover hover:text-ink"
+          class="chip chip-action"
         >
           <Icon name="link" size={12} />
           DOI
@@ -226,7 +226,7 @@ const altmetricTip = altmetric
           target="_blank"
           rel="noopener"
           aria-label="View source (opens in a new tab)"
-          class="chip transition-colors hover:bg-matte-hover hover:text-ink"
+          class="chip chip-action"
         >
           <Icon name="external" size={12} />
           Source
@@ -238,7 +238,7 @@ const altmetricTip = altmetric
           target="_blank"
           rel="noopener"
           aria-label="View full PDF (opens in a new tab)"
-          class="chip transition-colors hover:bg-matte-hover hover:text-ink"
+          class="chip chip-action"
         >
           <Icon name="filePdf" size={12} />
           View full PDF
