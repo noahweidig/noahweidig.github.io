@@ -92,16 +92,16 @@ npm run dev      # local dev server
 npm run build    # astro check + build to dist/ + pagefind index
 npm run preview  # serve dist/
 npm run lint     # prettier --check + astro check + token check
-npm test         # vitest
+npm test         # node --test
 ```
 
-`npm run` lists the rest (cover art, icons, PDFs, screenshots, accessibility audit). `npm run lint` is the gate: Prettier (`.prettierrc.json`), `astro check` for types, and `scripts/check/tokens.mjs`, which fails on hardcoded hex colors outside `src/styles/global.css`.
+`npm run` lists the rest (cover art, PDFs, screenshots). `npm run lint` is the gate: Prettier (`.prettierrc.json`), `astro check` for types, and `scripts/check/tokens.mjs`, which fails on hardcoded hex colors outside `src/styles/global.css`.
 
 ### Deploy and automation
 
 Every push to `main` builds and publishes to GitHub Pages through `.github/workflows/publish.yml`; pull requests get a Netlify deploy preview. The other workflows are named by role:
 
-- `ci-*.yml` run on pull requests (axe, Lighthouse, links, post-build audit, typos, workflow linting, dependency scans).
+- `ci-*.yml` run on pull requests (typos, workflow linting, dependency scans) or on a schedule (the monthly link sweep). Lighthouse and the link check run as jobs in `publish.yml`, reusing its build.
 - `bot-*.yml` run on a schedule, commit regenerated files to `main` and call `publish.yml` to deploy (Zotero sync, citation stats, project and publication screenshots, CV and résumé PDFs).
 
 Every workflow that needs a build goes through the `.github/actions/build-site` composite action, so each check scores the same bytes that get deployed. Scripts live in `scripts/`: `generate/` (art, icons, PDFs), `sync/` (Zotero, citation stats) and `check/` (axe, tokens, contact form, giscus). Browser code is `src/client/`.

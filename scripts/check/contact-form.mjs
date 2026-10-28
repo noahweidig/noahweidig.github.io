@@ -11,7 +11,7 @@
 // with HTTP 403 on the very first request of every scheduled run, so the form
 // was never actually checked. The same Cloudflare zone serves 200 to the real
 // Chrome the Lighthouse job drives, so this reads the page through Puppeteer
-// — the browser the axe job already installs — and keeps curl-equivalent
+// — the browser Puppeteer installs — and keeps curl-equivalent
 // plain fetches only for formspree.io, which is not behind that zone.
 
 import puppeteer from 'puppeteer';
@@ -33,7 +33,7 @@ const base = args.base.replace(/\/$/, '');
 const PAGE_URL = `${base}/contact/`;
 
 // Puppeteer's default UA carries "HeadlessChrome", which Cloudflare answers
-// with a bot interstitial. Same UA the axe audit sends, for the same reason.
+// with a bot interstitial. Same UA as the other Puppeteer scripts, for the same reason.
 const UA =
   'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) ' +
   'Chrome/140.0.0.0 Safari/537.36';

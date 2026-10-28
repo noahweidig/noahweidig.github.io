@@ -722,7 +722,6 @@ async function main() {
       body.push('');
     } else if (rec.appearanceOf) {
       body.push(
-        '> [!NOTE]',
         `> One of ${rec.appearanceOf.appearances.length} appearances of the same work. [See the full record and the other venues](/publications/${rec.appearanceOf.slug}/).`,
         '',
       );

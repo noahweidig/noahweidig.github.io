@@ -1,7 +1,5 @@
 # Generated or bot-written files: collapsed in PR diffs and left out of language stats.
 package-lock.json linguist-generated
-src/lib/icons.generated.ts linguist-generated
-src/lib/icons.script.generated.ts linguist-generated
 src/data/citation-stats.json linguist-generated
 src/data/publication-images.json linguist-generated
 src/content/publications/**/index.md linguist-generated

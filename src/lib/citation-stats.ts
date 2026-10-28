@@ -1,4 +1,4 @@
-import raw from '../data/citation-stats.json';
+import raw from '../data/citation-stats.json' with { type: 'json' };
 
 export interface DimensionsStats {
   timesCited: number;
@@ -20,18 +20,19 @@ export interface CitationStats {
   altmetric?: AltmetricStats;
 }
 
-const stats = raw as Record<string, CitationStats>;
-
 const normalizeDoi = (doi: string) =>
   doi
     .trim()
     .toLowerCase()
     .replace(/^https?:\/\/(dx\.)?doi\.org\//, '');
 
+/** A DOI lookup over a table of cached stats, keyed by normalized DOI. */
+export const makeCitationStatsFor =
+  (stats: Record<string, CitationStats>) =>
+  (doi: string | undefined | null): CitationStats | undefined =>
+    doi ? stats[normalizeDoi(doi)] : undefined;
+
 /** Cached Dimensions/Altmetric attention data for a DOI, fetched by the
  * `update-citation-stats` GitHub Action (scripts/sync/citation-stats.js)
  * rather than the vendors' own client-side badge widgets. */
-export function citationStatsFor(doi: string | undefined | null): CitationStats | undefined {
-  if (!doi) return undefined;
-  return stats[normalizeDoi(doi)];
-}
+export const citationStatsFor = makeCitationStatsFor(raw as Record<string, CitationStats>);
