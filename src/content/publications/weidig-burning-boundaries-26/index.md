@@ -1,30 +1,17 @@
 ---
-title: "Burning Boundaries: Large Wildfire Patterns and Drivers in the Eastern United States Wildland-Urban Interface"
+title: "Burning Boundaries: Large Wildfire Patterns in the Eastern United States Wildland-Urban Interface"
 date: "2026-10-23"
 description: "The recent increase in large wildfires in the eastern United States makes it crucial to examine the subsequent risk to human life and property."
 categories: ["Webinar"]
 pub-authors: "**Weidig, N. C.**, Wonkka, C. L., Ivey, M. A., Johnson, D. J. & Donovan, V. M."
 pub-venue: "Central Florida Prescribed Fire Council Annual Meeting"
 pub-listed: "yes"
-pub-appearances:
-  - venue: "Southern Fire Exchange"
-    when: "Nov 2025"
-    kind: "Webinar"
-    url: "https://www.youtube.com/watch?v=HdklLrpJKkM"
-  - venue: "Central Florida Prescribed Fire Council Annual Meeting"
-    when: "Oct 2026"
-    kind: "Webinar"
 citation: "**Weidig, N. C.**, Wonkka, C. L., Ivey, M. A., Johnson, D. J. & Donovan, V. M. (2026). *Central Florida Prescribed Fire Council Annual Meeting*."
 links:
   - label: "BibTeX"
     href: "/publications/weidig-burning-boundaries-26/cite.bib"
     variant: ghost
 ---
-
-## Presented at
-
-- [Southern Fire Exchange — Nov 2025](https://www.youtube.com/watch?v=HdklLrpJKkM) · Webinar
-- Central Florida Prescribed Fire Council Annual Meeting — Oct 2026 · Webinar
 
 ## Abstract
 

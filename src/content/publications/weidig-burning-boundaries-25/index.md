@@ -6,8 +6,7 @@ categories: ["Webinar"]
 pub-authors: "**Weidig, N. C.**, Wonkka, C. L., Ivey, M. A., Johnson, D. J. & Donovan, V. M."
 pub-venue: "Southern Fire Exchange"
 pub-url: "https://www.youtube.com/watch?v=HdklLrpJKkM"
-pub-appearance-of: "/publications/weidig-burning-boundaries-26/"
-pub-appearance-count: 2
+pub-listed: "yes"
 citation: "**Weidig, N. C.**, Wonkka, C. L., Ivey, M. A., Johnson, D. J. & Donovan, V. M. (2025). *Southern Fire Exchange*."
 links:
   - label: "Source"
@@ -18,8 +17,6 @@ links:
     href: "/publications/weidig-burning-boundaries-25/cite.bib"
     variant: ghost
 ---
-
-> One of 2 appearances of the same work. [See the full record and the other venues](/publications/weidig-burning-boundaries-26/).
 
 ## Abstract
 
