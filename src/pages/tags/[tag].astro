@@ -10,7 +10,7 @@ export async function getStaticPaths() {
 }
 
 const { group } = Astro.props;
-const sections = ['Projects', 'Publications', 'Blog'] as const;
+const sections = ['Projects', 'Publications'] as const;
 const count = group.items.length;
 ---
 
@@ -21,8 +21,8 @@ const count = group.items.length;
   kicker="Tag"
   section="Tags"
   trail={[{ label: 'Tags', href: '/tags/' }]}
-  description={`Everything tagged ${group.name} — ${count} item${count === 1 ? '' : 's'} across projects, publications and writing.`}
-  intro={`${count} item${count === 1 ? '' : 's'} tagged ${group.name}, across projects, publications and writing.`}
+  description={`Everything tagged ${group.name} — ${count} item${count === 1 ? '' : 's'} across projects and publications.`}
+  intro={`${count} item${count === 1 ? '' : 's'} tagged ${group.name}, across projects and publications.`}
   wide={false}
 >
   {sections.map((section) => {

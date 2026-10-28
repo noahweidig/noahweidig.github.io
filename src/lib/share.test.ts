@@ -3,7 +3,7 @@ import { describe, it } from 'node:test';
 import { buildShareTargets } from './share.ts';
 
 describe('buildShareTargets', () => {
-  const targets = buildShareTargets('Hello World', 'https://noahweidig.com/blog/x/');
+  const targets = buildShareTargets('Hello World', 'https://noahweidig.com/projects/x/');
 
   it('encodes title and url in every target', () => {
     for (const t of targets) {

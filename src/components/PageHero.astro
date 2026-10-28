@@ -30,8 +30,8 @@ const {
   hasAside = Astro.slots.has('aside'),
 } = Astro.props;
 const tint = tintFor(kicker ?? title);
-/* Only detail pages (/projects/x/, /blog/x/) morph from the card that linked here. */
-const vt = /^\/(projects|blog)\/[^/]+\/?$/.test(Astro.url.pathname)
+/* Only detail pages (/projects/x/) morph from the card that linked here. */
+const vt = /^\/projects\/[^/]+\/?$/.test(Astro.url.pathname)
   ? vtName(Astro.url.pathname)
   : undefined;
 ---

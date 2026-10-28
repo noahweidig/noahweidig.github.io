@@ -37,7 +37,6 @@ interface Props {
   prev?: Sibling | null;
   next?: Sibling | null;
   headings?: Heading[];
-  readingTime?: string;
   /** The page's LCP image, forwarded to Base so it preloads ahead of the fonts. */
   preloadImage?: { href: string; srcset?: string; sizes?: string };
 }
@@ -64,7 +63,6 @@ const {
   prev,
   next,
   headings = [],
-  readingTime,
   preloadImage,
 } = Astro.props;
 
@@ -192,7 +190,7 @@ const hasHeroPanel = heroPanel !== '';
           data-article-grid
         >
           <div class="hidden lg:col-start-1 lg:row-start-1 lg:block" data-post-aside>
-            <PostAside title={title} readingTime={readingTime} />
+            <PostAside title={title} />
           </div>
           <div class="min-w-0 lg:col-start-2">
             <div class="prose-nw">

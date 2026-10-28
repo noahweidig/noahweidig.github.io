@@ -9,12 +9,11 @@ import SectionHead from '../components/SectionHead.astro';
 import StatStrip from '../components/StatStrip.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import AwardCard from '../components/AwardCard.astro';
-import PostCard from '../components/PostCard.astro';
 import CitationRow from '../components/CitationRow.astro';
 import TimelineItem from '../components/TimelineItem.astro';
 import Icon from '../components/Icon.astro';
 import Popup from '../components/Popup.astro';
-import { byDate, readingTime, year } from '../lib/format';
+import { byDate, year } from '../lib/format';
 import { site } from '../lib/site';
 
 const allProjects = (await getCollection('projects')).sort(byDate);
@@ -28,15 +27,13 @@ const featuredPubs = allPubs
   .filter((p) => p.data['pub-listed'] === 'yes' && p.data.categories.includes('Journal Article'))
   .slice(0, 4);
 
-const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(byDate).slice(0, 3);
-
 const experience = (await getCollection('experience')).sort(byDate);
 const education = (await getCollection('education')).sort(byDate);
 
 const awards = (await getCollection('awards')).sort(byDate);
 const featuredAwards = awards.filter((a) => a.data.image).slice(0, 6);
 
-const PLURALS: Record<string, string> = { Thesis: 'Theses', 'Media Coverage': 'Media Coverage' };
+const PLURALS: Record<string, string> = { 'Media Coverage': 'Media Coverage', Thesis: 'Thesis' };
 const pubCounts = Object.entries(
   allPubs.reduce<Record<string, number>>((acc, p) => {
     const c = p.data.categories[0] ?? 'Other';
@@ -126,16 +123,6 @@ const starts = [
     body: 'Open tools: an R package for U.S. fire data, Earth Engine apps, interactive map galleries.',
     cta: 'Browse the work',
   },
-  {
-    id: 'pop-writing',
-    items: posts.map((p) => ({ t: p.data.title, href: `/blog/${p.id}/` })),
-    href: '#blog',
-    icon: 'pencil',
-    tint: 'blue',
-    title: 'Writing',
-    body: 'Tutorials and notes on R, spatial workflows, and doing reproducible research in the open.',
-    cta: 'Read the blog',
-  },
 ];
 
 const faqs = [
@@ -173,7 +160,7 @@ const faqs = [
     <Affiliations />
   </section>
 
-  <!-- three ways in: bento, one large lead cell and two stacked -->
+  <!-- two ways in: bento -->
   <section class="shell py-12 md:py-16">
     <div class="bento">
       {starts.map((s, i) => (
@@ -187,7 +174,7 @@ const faqs = [
           >
             <Icon name={s.icon} size={20} />
           </span>
-          <h2 class="bento-title mt-5 text-xl">{s.title}</h2>
+          <h2 class="mt-5 text-xl">{s.title}</h2>
           <p class="mt-2 flex-1 text-sm leading-relaxed text-dim">{s.body}</p>
           <button
             type="button"
@@ -467,60 +454,6 @@ const faqs = [
             class="popup-plus carousel-btn"
             data-carousel-next
             aria-label="Next award"
-          >
-            <span class="carousel-chev carousel-chev-next">
-              <Icon name="chevron" size={18} />
-            </span>
-          </button>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- blog -->
-  <section class="shell scroll-mt-24 py-24 md:py-32 cv-auto" id="blog">
-    <SectionHead kicker="Writing" title="Notes & tutorials." href="/blog/" linkLabel="posts" />
-    <div class="mt-10" data-carousel>
-      <div
-        class="carousel-track -mx-4 -my-6 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 py-6 [scroll-padding-inline:16px] sm:m-0 sm:grid sm:grid-cols-2 sm:gap-5 sm:overflow-visible sm:p-0 lg:grid-cols-3"
-        data-carousel-track
-      >
-        {posts.map((entry, i) => (
-          <PostCard
-            entry={entry}
-            index={i}
-            cta
-            readingTime={readingTime(entry.body)}
-            class="w-[min(38rem,calc(100vw-3rem))] shrink-0 snap-start sm:w-auto"
-          />
-        ))}
-      </div>
-
-      <div class="mt-8 flex items-center justify-between gap-3 md:justify-end">
-        <a class="btn btn-outline group h-12 md:hidden" href="/blog/">
-          View all<span class="sr-only"> posts</span>
-          <Icon
-            name="arrow"
-            size={15}
-            class="transition-transform duration-300 group-hover:translate-x-1"
-          />
-        </a>
-        <div class="flex items-center gap-3 sm:hidden">
-          <button
-            type="button"
-            class="popup-plus carousel-btn"
-            data-carousel-prev
-            aria-label="Previous post"
-          >
-            <span class="carousel-chev carousel-chev-prev">
-              <Icon name="chevron" size={18} />
-            </span>
-          </button>
-          <button
-            type="button"
-            class="popup-plus carousel-btn"
-            data-carousel-next
-            aria-label="Next post"
           >
             <span class="carousel-chev carousel-chev-next">
               <Icon name="chevron" size={18} />

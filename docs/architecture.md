@@ -10,7 +10,7 @@ How the pieces of this site fit together. The README covers running it.
 
 The site is published at the apex: **https://noahweidig.com**, so root-relative URLs (`/projects/`) are written by hand and used as they are. URLs inside a content file are written **relative** to the page (`../../media/…`).
 
-Section routes keep their paths. The feed is served at both `/rss.xml` and its old address, `/blog/index.xml`; a meta-refresh stub is no use to a feed reader, so `src/pages/blog/index.xml.ts` re-exports the same route.
+Section routes keep their paths.
 
 `public/CNAME` carries `noahweidig.com`, which claims the domain's **root** for this repo. GitHub Pages needs the file in the published output on every deploy, so it is committed rather than set in the repo's Pages settings alone.
 
@@ -39,11 +39,3 @@ The same run also refreshes `public/media/noahweidigcom.webp`, the demo image in
 ## The About map
 
 `/about` ends with a static SVG map of central Florida centred on Orlando (`src/components/OrlandoMap.astro`). No JS, no tiles; the land is Natural Earth 1:10m state outlines, and colors come from the CSS tokens so it follows the theme.
-
-## Blog post icons
-
-Posts have no cover image. Cards show a category chip and watermark icon picked from the post's first category (`TAG_ICONS` in `src/lib/tags.ts`), falling back to a file icon.
-
-## Comments
-
-Blog posts can carry [Giscus](https://giscus.app) threads. The widget stays off until `repoId` and `categoryId` are filled in under `giscus` in `src/lib/site.ts` — giscus.app rejects a mount without them, and a visible "giscus is not installed" error is worse than no comments at all.
