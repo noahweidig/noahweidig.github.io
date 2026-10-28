@@ -1710,8 +1710,9 @@
    Logo triad: blue, red and yellow carry the whole palette. Ambient glow,
    count-up numbers and view-transition tuning live here.
    ========================================================================= */
-/* Static dot grid behind the closing CTA, fading out toward the bottom;
-   overflow clips it to the card's rounded corners. */
+/* Static field of tiny squares at random alpha behind the closing CTA, densest at
+   the top and fading out. The SVG is an alpha mask, so the squares take the ink
+   color in either theme; overflow clips it to the card's rounded corners. */
 .cta-card {
   position: relative;
   isolation: isolate;
@@ -1723,11 +1724,10 @@
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  background-image: radial-gradient(circle, var(--c-line-strong) 1px, transparent 1.4px);
-  background-size: 7px 7px;
-  opacity: 0.7;
-  mask-image: linear-gradient(to bottom, #000 0%, transparent 65%);
-  -webkit-mask-image: linear-gradient(to bottom, #000 0%, transparent 65%);
+  background: var(--c-ink);
+  opacity: 0.22;
+  mask: url(/media/cta-grid.svg) top center / 420px 210px repeat-x;
+  -webkit-mask: url(/media/cta-grid.svg) top center / 420px 210px repeat-x;
 }
 
 /* Stat numbers count up from 0 as they scroll into view (no JS). The final
