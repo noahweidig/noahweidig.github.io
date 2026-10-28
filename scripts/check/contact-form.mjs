@@ -1,6 +1,6 @@
 // Checks that the contact form on production is still wired to a live endpoint.
 //
-//   node scripts/check-contact-form.mjs --base https://noahweidig.com
+//   node scripts/check/contact-form.mjs --base https://noahweidig.com
 //
 // Not run by any workflow now; run it by hand. A silently dead
 // contact form is the worst failure on this site: the form is the conversion

@@ -1486,7 +1486,7 @@
 
   /* --- back to top ---
      Shown only while the reader is scrolling up past the fold; scrolling
-     down hides it again, tracked in src/scripts/ui.ts. */
+     down hides it again, tracked in src/client/ui.ts. */
   .back-to-top {
     position: fixed;
     right: max(1.25rem, env(safe-area-inset-right));
@@ -1534,7 +1534,7 @@
   }
 
   /* --- tooltips ---
-     One floating element, positioned by src/scripts/ui.ts, so a tooltip is
+     One floating element, positioned by src/client/ui.ts, so a tooltip is
      never clipped by an ancestor's overflow. */
   .nw-tip {
     position: fixed;
@@ -1644,7 +1644,7 @@
   }
 
   /* Copy buttons (share row, share dialog, post aside): a blue outline with a
-     check while src/scripts/copy.ts holds data-state="copied". */
+     check while src/client/copy.ts holds data-state="copied". */
   [data-copy] .copied-ic,
   [data-copy][data-state='copied'] .copy-ic {
     display: none;

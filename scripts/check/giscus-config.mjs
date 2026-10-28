@@ -1,7 +1,7 @@
 // Checks that the giscus repo/category configured in src/lib/site.ts still
 // resolves on GitHub.
 //
-//   GITHUB_TOKEN=... node scripts/check-giscus-config.mjs
+//   GITHUB_TOKEN=... node scripts/check/giscus-config.mjs
 //
 // Not run by any workflow now; run it by hand. src/components/
 // Comments.astro mounts giscus only when repoId/categoryId look like
@@ -10,7 +10,7 @@
 // blog post would silently lose its comments section with nothing in CI to
 // catch it (#150).
 
-import { giscus } from '../src/lib/site.ts';
+import { giscus } from '../../src/lib/site.ts';
 
 function fail(message) {
   // message can carry GitHub API response text; strip control characters so

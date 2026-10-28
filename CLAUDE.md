@@ -22,7 +22,7 @@ in `.cjs` files.
   used by publications/awards/education/experience/projects/blog detail
   pages: breadcrumbs, chips, prev/next, ToC, etc.
 - `src/layouts/Print.astro` — standalone, no header/footer/scripts, used only
-  by `scripts/generate-pdfs.mjs` (Puppeteer) to render the printable CV/résumé.
+  by `scripts/generate/pdfs.mjs` (Puppeteer) to render the printable CV/résumé.
 
 `Detail` (and pages using it) support a `metaTitle` prop distinct from
 `title`: `title` is what renders in the visible `<h1>`, `metaTitle` overrides
@@ -55,7 +55,7 @@ meta tag to keep it out of `sitemap.xml`.
 
 ## Scheduled bot-commit workflows
 
-Pattern used by `update-citation-stats.yml`: a weekly
+Pattern used by the `bot-*.yml` workflows (e.g. `bot-update-citation-stats.yml`; PR checks are `ci-*.yml`): a weekly
 `schedule` + `workflow_dispatch` trigger, `contents: write` only on the job
 that needs it, a script writes to a file under `src/data/`, then:
 

@@ -4,7 +4,7 @@
  * Pagefind search dialog. Everything re-binds on `astro:page-load` so it
  * survives client-side navigations.
  *
- * Each feature lives in its own `init*()` module under `src/scripts/`; this
+ * Each feature lives in its own `init*()` module under `src/client/`; this
  * file just wires them together in the order `boot()` always ran them in.
  */
 
