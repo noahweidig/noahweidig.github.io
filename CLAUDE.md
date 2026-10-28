@@ -94,8 +94,8 @@ repo's Quality Gate fails the PR check on that alone.
   `https://sonarcloud.io/api/issues/search?componentKeys=noahweidig_new-website&pullRequest=<N>&resolved=false`
   to see exactly what's flagged rather than guessing from the check summary,
   which only names the failed _condition_, not the issue.
-- `axe`, `lychee`, `lhci`, `post-audit` also run per PR — see their workflow
-  files if one of these fails.
+- `lhci` and `lychee` also run per PR, as jobs in `publish.yml` that reuse the
+  `build` job's `dist/` artifact — see that file if one of these fails.
 
 ## Sandbox / environment notes
 
@@ -112,3 +112,7 @@ and other heavy devDependencies. If a full install is impractical:
   `npm run build` to complete.
 - For a new Node script with no npm dependencies, `node --check <file>` is a
   fast local sanity check that doesn't need `node_modules` at all.
+- `.npmrc` sets `engine-strict` and `package.json` requires Node
+  `>=22.23.4` (same as `.nvmrc`), so `npm ci` refuses to run on an older Node
+  such as the sandbox's 22.22. `npm test` is Node's built-in runner
+  (`node --test`) and needs no install: test files import `./x.ts` directly.

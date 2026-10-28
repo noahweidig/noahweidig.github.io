@@ -1,6 +1,5 @@
 dist/
 .astro/
-.audit/
 .lighthouseci/
 node_modules/
 .DS_Store

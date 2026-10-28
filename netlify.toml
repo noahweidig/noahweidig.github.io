@@ -4,9 +4,6 @@
   publish = "dist"
   command = "npm ci --ignore-scripts --no-audit --no-fund && npm run build:fast"
 
-[build.environment]
-  NODE_VERSION = "22.23.4"
-
 # ---------------------------------------------------------------------------
 # Caching (issue #205, partial).
 #

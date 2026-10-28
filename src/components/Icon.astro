@@ -2,13 +2,13 @@
 /**
  * One icon component for the whole site.
  *
- * UI icons are Lucide (ISC). They live in `src/lib/icons.generated.ts` —
- * regenerate them with `node scripts/generate/icons.mjs`. Brand marks are the
+ * UI icons are Lucide (ISC). They live in `src/lib/icons.ts`; add one by
+ * pasting its SVG children from lucide.dev. Brand marks are the
  * SVGs in `src/assets/brand-icons/`, inlined at build time (`src/lib/brand-icons.ts`).
  * The desktop nav bar's arrow and dropdown chevron are two fixed filled glyphs
  * (`nav-arrow`, `nav-chevron`), kept so the nav bar does not change.
  */
-import { icons } from '../lib/icons.generated';
+import { icons } from '../lib/icons';
 import { BRAND_ALIAS, brand } from '../lib/brand-icons';
 
 interface Props {
