@@ -1,8 +1,7 @@
 /**
  * Site behaviour: theme toggle, sticky header, mobile menu, scroll reveal,
  * pointer-tracked card glow, filter bars, tabs and the
- * Pagefind search dialog. Everything re-binds on `astro:page-load` so it
- * survives client-side navigations.
+ * Pagefind search dialog. Runs once per page load.
  *
  * Each feature lives in its own `init*()` module under `src/client/`; this
  * file just wires them together in the order `boot()` always ran them in.
@@ -17,7 +16,6 @@ import { initAffiliations } from './affiliations';
 import { initFilters } from './filters';
 import { initTabs } from './tabs';
 import { initSearch } from './search';
-import { initCodeCopy } from './code-copy';
 import { initHeadingAnchors } from './heading-anchors';
 import { initTooltips } from './tooltips';
 import { initLightbox } from './lightbox';
@@ -43,7 +41,6 @@ function boot() {
   initSearch();
   initCopy();
   initCarousels();
-  initCodeCopy();
   initHeadingAnchors();
   initLightbox();
   initTooltips();
@@ -56,4 +53,3 @@ function boot() {
 }
 
 boot();
-document.addEventListener('astro:page-load', boot);

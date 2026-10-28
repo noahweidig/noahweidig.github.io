@@ -27,8 +27,8 @@ runs:
       # --no-audit/--no-fund/--prefer-offline: the audit and funding passes are
       # network round trips this install has no use for, and --prefer-offline
       # keeps `npm ci` on the setup-node cache instead of refetching tarballs.
-      # The tree here is ~630 MB (puppeteer, sharp),
-      # so the install, not the work, is what the job timeouts have to cover.
+      # Puppeteer and pdf-lib are not in this install; the weekly bot gets
+      # them from scripts/package.json.
       run: npm ci --ignore-scripts --no-audit --no-fund --prefer-offline
 
     - name: Unit tests
