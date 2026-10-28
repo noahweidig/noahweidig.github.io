@@ -22,7 +22,7 @@ export const GET: APIRoute = async () => {
   const docs: Doc[] = [];
 
   const push = async (
-    collection: 'projects' | 'publications' | 'blog' | 'awards' | 'experience' | 'education',
+    collection: 'projects' | 'publications' | 'awards' | 'experience' | 'education',
     section: string,
     path: string,
   ) => {
@@ -41,7 +41,6 @@ export const GET: APIRoute = async () => {
 
   await push('projects', 'Projects', 'projects');
   await push('publications', 'Publications', 'publications');
-  await push('blog', 'Blog', 'blog');
   await push('awards', 'Awards', 'awards');
   await push('experience', 'Experience', 'experience');
   await push('education', 'Education', 'education');

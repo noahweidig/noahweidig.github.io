@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
-import { firstSentence, inlineMarkup, readingTime, slugify, splitAuthors } from './format.ts';
+import { firstSentence, inlineMarkup, slugify, splitAuthors } from './format.ts';
 
 describe('slugify', () => {
   it('lowercases and dashes', () => {
@@ -20,21 +20,6 @@ describe('inlineMarkup', () => {
       inlineMarkup('**bold** and *italic*'),
       '<strong>bold</strong> and <em>italic</em>',
     );
-  });
-});
-
-describe('readingTime', () => {
-  it('floors at 1 minute', () => {
-    assert.equal(readingTime('a few words'), '1 min read');
-  });
-  it('ignores fenced code blocks', () => {
-    assert.equal(
-      readingTime('word '.repeat(200) + '```' + 'x '.repeat(1000) + '```'),
-      '1 min read',
-    );
-  });
-  it('rounds to nearest minute at ~200wpm', () => {
-    assert.equal(readingTime('word '.repeat(400)), '2 min read');
   });
 });
 

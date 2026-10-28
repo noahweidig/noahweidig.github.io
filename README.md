@@ -12,7 +12,7 @@
   &nbsp;•&nbsp;
   <a href="https://noahweidig.com/publications">Publications</a>
   &nbsp;•&nbsp;
-  <a href="https://noahweidig.com/blog">Blog</a>
+  <a href="https://noahweidig.substack.com">Substack</a>
   &nbsp;•&nbsp;
   <a href="mailto:noah@noahweidig.com">noah@noahweidig.com</a>
 </p>
@@ -58,7 +58,7 @@ one; those copies drifted, so they are now links (#252):
 | Education       | <https://noahweidig.com/education>    |
 | Awards & grants | <https://noahweidig.com/awards>       |
 | CV              | <https://noahweidig.com/cv>           |
-| Writing         | <https://noahweidig.com/blog>         |
+| Writing         | <https://noahweidig.substack.com>     |
 
 ---
 
@@ -82,7 +82,7 @@ Built with [Astro 7](https://astro.build), TypeScript and [Tailwind CSS 4](https
 | `docs/`                 | longer notes on the content pipelines, URLs and design tokens                 |
 | `public/`               | static assets served verbatim — media, fonts, PDFs, favicons                  |
 
-Content lives in a directory per entry (`src/content/blog/focus/index.md`). The directory name is the URL slug.
+Content lives in a directory per entry (`src/content/projects/chartifyr/index.md`). The directory name is the URL slug.
 
 ### Commands
 

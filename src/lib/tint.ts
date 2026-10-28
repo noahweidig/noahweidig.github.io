@@ -12,7 +12,6 @@ export const SECTION_TINT: Record<string, Tint> = {
   Education: 'blue',
   Awards: 'blue',
   CV: 'blue',
-  Blog: 'blue',
   Newsletter: 'blue',
   'Tech stack': 'blue',
   FAQ: 'blue',
@@ -29,7 +28,7 @@ const SECTION_ALIAS: Record<string, string> = {
   Background: 'Experience',
   Award: 'Awards',
   Recognition: 'Awards',
-  Writing: 'Blog',
+  Writing: 'Newsletter',
   Tools: 'Tech stack',
   Tech: 'Tech stack',
 };
@@ -43,8 +42,7 @@ const SECTION_ICON: Record<string, string> = {
   Education: 'graduationCap',
   Awards: 'trophy',
   CV: 'file',
-  Blog: 'pencil',
-  Newsletter: 'mail',
+  Newsletter: 'pencil',
   'Tech stack': 'cpu',
   FAQ: 'help',
 };
