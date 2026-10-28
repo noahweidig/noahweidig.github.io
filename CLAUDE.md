@@ -15,7 +15,7 @@ in `.cjs` files.
 
 - `src/layouts/Base.astro` — the `<html>` shell. Owns all meta tags (title,
   description, canonical, OG/Twitter, JSON-LD `Person`/`WebSite`), theme
-  script, analytics. Every page ends up here.
+  script. Every page ends up here.
 - `src/layouts/Page.astro` — Base + a centered hero header (kicker, h1, intro)
   for simple content pages (privacy, contact).
 - `src/layouts/Detail.astro` — Base + the shared "single content item" shell
