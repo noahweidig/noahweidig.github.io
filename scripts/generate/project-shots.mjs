@@ -14,7 +14,7 @@
  * ResearchAreas both render `aspect-16/10 object-cover object-top`, and the
  * `<img>` inside each index.md declares 1600×1000. So one 1600×1000 frame is
  * the whole set of sizes the site needs — the og:image cards are drawn by
- * generate-blog-covers.mjs and never use a screenshot.
+ * the sitewide card and never use a screenshot.
  *
  * Written to src/assets/albums/projects/<slug>.webp for Astro <Image>.
  *

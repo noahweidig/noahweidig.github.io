@@ -3,38 +3,19 @@ import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 import { readFileSync, readdirSync } from 'node:fs';
-import { load } from 'js-yaml';
 
-const COLLECTIONS = ['blog', 'projects', 'publications', 'awards', 'experience', 'education'];
-
-// Path -> most recent frontmatter date, so the sitemap's <lastmod> reflects
-// content that already carries an authoritative date instead of build time.
-// astro:content isn't resolvable from this file, so frontmatter is read
-// directly rather than through the content collections API.
-const lastmodByPath = new Map();
 // Publication "appearance" records (pub-appearance-of set) are noindexed by
 // src/pages/publications/[...slug].astro — excluded here too so the sitemap
-// never contradicts that signal.
-const excludedPaths = new Set(['/404/', '/500/', '/print/resume/']);
+// never contradicts that signal. astro:content isn't resolvable from this
+// file, so the frontmatter key is matched directly.
+const excludedPaths = new Set(['/404/', '/print/resume/']);
 const noindexedPaths = new Set();
-for (const name of COLLECTIONS) {
-  const dir = new URL(`./src/content/${name}/`, import.meta.url);
-  let newest;
-  for (const slug of readdirSync(dir)) {
-    const raw = readFileSync(new URL(`${slug}/index.md`, dir), 'utf-8');
-    const match = raw.match(/^---\n([\s\S]*?)\n---/);
-    if (!match) continue;
-    const data = load(match[1]);
-    const date = new Date(data.date);
-    const path = `/${name}/${slug}/`;
-    if (name === 'publications' && data['pub-appearance-of']) {
-      noindexedPaths.add(path);
-      continue;
-    }
-    lastmodByPath.set(path, date);
-    if (!newest || date > newest) newest = date;
+const pubsDir = new URL('./src/content/publications/', import.meta.url);
+for (const slug of readdirSync(pubsDir)) {
+  const raw = readFileSync(new URL(`${slug}/index.md`, pubsDir), 'utf-8');
+  if (/^pub-appearance-of:\s*\S/m.test(raw.split(/^---$/m)[1] ?? '')) {
+    noindexedPaths.add(`/publications/${slug}/`);
   }
-  if (newest) lastmodByPath.set(`/${name}/`, newest);
 }
 
 export default defineConfig({
@@ -47,12 +28,6 @@ export default defineConfig({
         const path = new URL(page).pathname;
         if (excludedPaths.has(path.replace(/\/?$/, '/'))) return false;
         return !noindexedPaths.has(path);
-      },
-      serialize(item) {
-        const path = new URL(item.url).pathname;
-        const d = lastmodByPath.get(path);
-        if (d) item.lastmod = d.toISOString();
-        return item;
       },
     }),
   ],
