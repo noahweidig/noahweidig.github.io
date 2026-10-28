@@ -457,7 +457,7 @@ export function initSearch() {
     toggle.setAttribute('aria-expanded', String(openRail));
     if (openRail) void run();
   };
-  on(toggle, 'click', () => setRail(rail.hidden));
+  on(toggle, 'click', () => setRail(!!rail.hidden));
 
   on(groups, 'click', (ev) => {
     const btn = (ev.target as HTMLElement).closest<HTMLButtonElement>('[data-filter-key]');
