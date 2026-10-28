@@ -1,11 +1,11 @@
 /**
- * Brand icon registry — the SVGs in `public/uploads/`, parsed once at build
+ * Brand icon registry — the SVGs in `src/assets/brand-icons/`, parsed once at build
  * time. A plain module (rather than living inside Icon.astro's frontmatter)
  * so the glob-and-regex-parse work runs once for the whole build: Astro
  * re-executes a component's frontmatter on every instantiation, but an
  * imported module's top-level code runs once and its exports are cached.
  */
-const brandFiles = import.meta.glob<string>('/public/uploads/*.svg', {
+const brandFiles = import.meta.glob<string>('/src/assets/brand-icons/*.svg', {
   query: '?raw',
   import: 'default',
   eager: true,
