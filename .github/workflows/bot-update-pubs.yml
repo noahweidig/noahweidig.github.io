@@ -33,7 +33,7 @@ jobs:
           node-version-file: .nvmrc
 
       - name: Fetch Zotero publications
-        run: node scripts/update-pubs.js
+        run: node scripts/sync/pubs.js
 
       - name: Commit changes
         id: commit

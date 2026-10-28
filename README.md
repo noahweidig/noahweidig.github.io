@@ -64,7 +64,7 @@ one; those copies drifted, so they are now links (#252):
 
 ## This Site
 
-Built with [Astro 7](https://astro.build), TypeScript and [Tailwind CSS 4](https://tailwindcss.com), deployed to GitHub Pages — no external theme dependency. Everything ships as static HTML: there is no framework runtime on the page, only a single hand-written module (`src/scripts/ui.ts`) for the theme toggle, search dialog, filters and scroll reveals.
+Built with [Astro 7](https://astro.build), TypeScript and [Tailwind CSS 4](https://tailwindcss.com), deployed to GitHub Pages — no external theme dependency. Everything ships as static HTML: there is no framework runtime on the page, only a single hand-written module (`src/client/ui.ts`) for the theme toggle, search dialog, filters and scroll reveals.
 
 ### Layout
 
@@ -77,103 +77,36 @@ Built with [Astro 7](https://astro.build), TypeScript and [Tailwind CSS 4](https
 | `src/components/`       | cards, rows, the search dialog, the map                                       |
 | `src/styles/`           | the design tokens and component layer; `fonts.css` holds the `@font-face` set |
 | `src/lib/`              | site constants and the date/citation formatters                               |
+| `src/client/`           | the browser-side modules behind `ui.ts` (theme, search, filters, ...)         |
+| `scripts/`              | build-time tooling: `generate/`, `sync/` and `check/`                         |
+| `docs/`                 | longer notes on the content pipelines, URLs and design tokens                 |
 | `public/`               | static assets served verbatim — media, fonts, PDFs, favicons                  |
 
 Content lives in a directory per entry (`src/content/blog/focus/index.md`). The directory name is the URL slug.
 
-### Design system
-
-`src/styles/global.css` is the single source of truth. Every semantic color is a runtime custom property, so the theme toggle repaints the whole system by flipping one `data-theme` attribute on `<html>` — no duplicate stylesheet, no flash on load (the value is applied by an inline script before first paint). Tailwind's `@theme inline` block maps those properties onto utility classes, so `bg-surface` and `text-dim` resolve to whichever theme is active.
-
-### URLs
-
-The site is published at the apex: **https://noahweidig.com**, so root-relative URLs (`/projects/`) are written by hand and used as they are. URLs inside a content file are written **relative** to the page (`../../media/…`).
-
-Section routes keep their paths. Three pages Quarto rendered as `<name>.html` are directory routes now — `/contact/`, `/cv/`, `/privacy/` — with a redirect stub generated at each old path by `src/pages/[page].html.ts`. The feed is served at both `/rss.xml` and its old address, `/blog/index.xml`; a meta-refresh stub is no use to a feed reader, so `src/pages/blog/index.xml.ts` re-exports the same route.
-
-`public/CNAME` carries `noahweidig.com`, which claims the domain's **root** for this repo. GitHub Pages needs the file in the published output on every deploy, so it is committed rather than set in the repo's Pages settings alone.
-
-### Search
-
-[Pagefind](https://pagefind.app) indexes the built site as a post-build step and the dialog (⌘K, or `/`) loads it on first use. The index only covers `<main>`; the header, footer and search dialog itself are marked `data-pagefind-ignore`.
-
-### Publications
-
-Publications under `src/content/publications/` are regenerated from Zotero on the **1st and 15th** of each month by `.github/workflows/update-pubs.yml` (do not edit by hand). That workflow pushes with `GITHUB_TOKEN`, which cannot fire a `push` event, so it calls `publish.yml` directly (`workflow_call`) once it has committed — the deploy runs inside the sync's own run and fails it if it fails, rather than depending on a trigger that can be silently disabled. Every push to `main` rebuilds and publishes through the same workflow.
-
-Public PDF attachments in the Zotero library are downloaded to `public/publications/<slug>/<slug>.pdf` and surfaced as a **View PDF** button on the publication page and in the publications listing; the BibTeX record lands beside it as `cite.bib`.
-
-Zotero exports one record per _appearance_, so a talk given at four venues arrives as four near-identical items. The sync marks the most recent of each cluster `pub-listed: "yes"` and hangs the venue run off it, so the index shows one row per work while every appearance keeps its own page.
-
-Dimensions and Altmetric attention stats are fetched weekly by `.github/workflows/update-citation-stats.yml` (`node scripts/update-citation-stats.js`) into `src/data/citation-stats.json` (do not edit by hand), rather than by the vendors' own client-side badge widgets. Both vendors' documented data APIs are gated behind a registration process now; the script instead calls the same unofficial endpoints those widgets themselves use, so a lookup is best-effort and keeps the last successful value on a bad day. `CitationRow.astro` and `publications/[...slug].astro` render the cached numbers as plain links to the Dimensions/Altmetric detail pages, with a tooltip for the extra stats — no vendor JS ships to the page.
-
-### Project screenshots
-
-The card art for each project (`src/assets/albums/projects/<slug>.webp`) is captured from the project's own live site by `scripts/generate-project-shots.mjs`, weekly through `.github/workflows/project-shots.yml`, so a tool that changes does not keep showing the picture it had the day it shipped.
-
-The URL comes from the first `http(s)` link in the entry's frontmatter, so a new project needs no edit to the script. Shots are 1600×1000 in dark mode, framed from the top — the only geometry the site asks for, since `ProjectCard` and `ResearchAreas` both crop `aspect-16/10 object-cover object-top` and the og:image cards are drawn by `generate-blog-covers.mjs` rather than screenshotted. A site that fails to load leaves its committed image alone and warns; only a run where every capture fails fails the job. `roads` and `wuirisk` are skipped in the script (a third-party catalog page and an Earth Engine app) and keep hand-made images.
-
-The same run also refreshes `public/media/noahweidigcom.webp`, the demo image in this README's own header — a 2732×2048 shot of the live homepage at `noahweidig.com` — so it doesn't keep showing a stale design either. Pass `readme` to `npm run shots` to refresh just that one.
-
-### Toolchain
-
-| Tool                | Pinned in                            | Used for                                |
-| ------------------- | ------------------------------------ | --------------------------------------- |
-| Node                | `.nvmrc`                             | the build and the `scripts/` tooling    |
-| Astro / Tailwind    | `package.json` + `package-lock.json` | the build itself                        |
-| npm devDependencies | `package.json` + `package-lock.json` | pagefind, puppeteer, axe-core, prettier |
-
 ### Commands
 
 ```sh
-npm install                    # install the toolchain
-npm run dev                    # local dev server with HMR
-npm run build                  # astro check + build to dist/ + pagefind index
-npm run build:fast             # same, without the type check
-npm run preview                # serve dist/
-npm run a11y                   # axe-core over dist (or --base https://noahweidig.com)
-npm test                       # vitest run
-npm run covers                 # generate cover art (site, collections, pages use it)
-npm run covers:all             # generate covers for site, collections, and pages
-npm run icons                  # regenerate favicons/app icons
-npm run logos:pkg              # generate package-logo srcsets
-npm run lint                   # prettier --check + astro check + token check
-npm run format                 # prettier --write
-npm run pdfs                   # render the printable CV/résumé PDFs
-npm run audit:post             # build with AUDIT_REPORTS=1 for post-build audit tooling
-npm run shots                  # recapture project screenshots (add slugs to narrow)
-node scripts/update-pubs.js    # refresh publications from Zotero
+npm install      # install the toolchain
+npm run dev      # local dev server
+npm run build    # astro check + build to dist/ + pagefind index
+npm run preview  # serve dist/
+npm run lint     # prettier --check + astro check + token check
+npm test         # vitest
 ```
 
-`npm run lint` is the gate on the input: Prettier for formatting (`.prettierrc.json`, `.editorconfig`), `astro check` for types (every component, page, and content-collection schema), and `scripts/check-tokens.mjs`, which fails on hardcoded hex colors outside `src/styles/global.css` (plus a short allowlist). It runs as the `lint` job in `publish.yml`.
+`npm run` lists the rest (cover art, icons, PDFs, screenshots, accessibility audit). `npm run lint` is the gate: Prettier (`.prettierrc.json`), `astro check` for types, and `scripts/check/tokens.mjs`, which fails on hardcoded hex colors outside `src/styles/global.css`.
 
-### Continuous integration
+### Deploy and automation
 
-| Workflow                    | Runs on                                       | Does                                                                       |
-| --------------------------- | --------------------------------------------- | -------------------------------------------------------------------------- |
-| `publish.yml`               | push to `main`, PR, called by the Zotero sync | lints, builds, deploys to Pages                                            |
-| `axe.yml`                   | PR                                            | axe-core (`heading-order`) over the built site                             |
-| `lighthouse.yml`            | PR                                            | Lighthouse with score assertions and resource budgets (`lighthouserc.cjs`) |
-| `links.yml`                 | PR, monthly                                   | lychee over the built site                                                 |
-| `pdfs.yml`                  | weekly, content changes                       | re-renders `cv.pdf` and `resume.pdf` from the built site                   |
-| `project-shots.yml`         | weekly, manual                                | recaptures the project screenshots from the live projects                  |
-| `post-audit.yml`            | PR, manual                                    | `@casoon/astro-post-audit` over the built site (`npm run audit:post`)      |
-| `update-pubs.yml`           | 1st and 15th monthly, manual                  | Zotero sync of `src/content/publications/`, then deploys                   |
-| `update-citation-stats.yml` | weekly, manual                                | refreshes `src/data/citation-stats.json`, then deploys                     |
+Every push to `main` builds and publishes to GitHub Pages through `.github/workflows/publish.yml`; pull requests get a Netlify deploy preview. The other workflows are named by role:
 
-Every workflow that needs a build goes through the `.github/actions/build-site` composite action, so each check scores the same bytes that get deployed.
+- `ci-*.yml` run on pull requests (axe, Lighthouse, links, post-build audit, typos, workflow linting, dependency scans).
+- `bot-*.yml` run on a schedule, commit regenerated files to `main` and call `publish.yml` to deploy (Zotero sync, citation stats, project and publication screenshots, CV and résumé PDFs).
 
-### The About map
+Every workflow that needs a build goes through the `.github/actions/build-site` composite action, so each check scores the same bytes that get deployed. Scripts live in `scripts/`: `generate/` (art, icons, PDFs), `sync/` (Zotero, citation stats) and `check/` (axe, tokens, contact form, giscus). Browser code is `src/client/`.
 
-`/about` ends with a static SVG map of central Florida centred on Orlando (`src/components/OrlandoMap.astro`). No JS, no tiles; the land is Natural Earth 1:10m state outlines, and colors come from the CSS tokens so it follows the theme.
-
-### Blog post icons
-
-Posts have no cover image. Cards show a category chip and watermark icon picked from the post's first category (`TAG_ICONS` in `src/lib/tags.ts`), falling back to a file icon.
-
-### Comments
-
-Blog posts can carry [Giscus](https://giscus.app) threads. The widget stays off until `repoId` and `categoryId` are filled in under `giscus` in `src/lib/site.ts` — giscus.app rejects a mount without them, and a visible "giscus is not installed" error is worse than no comments at all.
+More detail on the content pipelines, URLs, search and design tokens is in [`docs/architecture.md`](docs/architecture.md).
 
 ---
 
