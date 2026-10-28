@@ -24,11 +24,14 @@ updates:
         patterns:
           - "*"
 
-  # The build tooling (puppeteer, pagefind, ...) is pinned in
+  # The build tooling (pagefind, sharp, ...) is pinned in
   # package.json / package-lock.json, so an ecosystem manager can watch it
-  # (#249).
+  # (#249). The bot-only tools (puppeteer, pdf-lib) are pinned in
+  # scripts/package.json, so this entry watches both.
   - package-ecosystem: npm
-    directory: "/"
+    directories:
+      - "/"
+      - "/scripts"
     schedule:
       interval: weekly
 

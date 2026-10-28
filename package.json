@@ -30,10 +30,8 @@
     "@types/node": "^26.6.5",
     "js-yaml": "^5.5.0",
     "pagefind": "^1.5.2",
-    "pdf-lib": "^1.17.1",
     "prettier": "^3.9.10",
     "prettier-plugin-astro": "^1.1.1",
-    "puppeteer": "^25.15.0",
     "sharp": "^0.35.4",
     "typescript": "^5.7.0"
   }

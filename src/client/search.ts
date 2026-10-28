@@ -399,14 +399,6 @@ export function initSearch() {
     delete document.documentElement.dataset.searchActive;
     unlockPage();
   });
-  /* ClientRouter swaps <body> but keeps <html>: a result click would leave the
-     lock attrs behind and pin the new page's body (fixed nav, no scroll). */
-  on(document, 'astro:before-swap', () => {
-    delete document.documentElement.dataset.searchLock;
-    delete document.documentElement.dataset.searchActive;
-    document.documentElement.style.removeProperty('--search-lock-y');
-    lockedY = null;
-  });
   document.querySelectorAll('[data-search-open]').forEach((b) => on(b, 'click', open));
   dialog.querySelectorAll('[data-search-close]').forEach((b) => on(b, 'click', close));
   on(dialog, 'click', (ev) => {

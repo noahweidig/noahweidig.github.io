@@ -12,18 +12,6 @@
   display: inline-flex;
 }
 
-/* One full turn of the theme-toggle icon each time it is clicked. */
-@keyframes theme-spin {
-  to {
-    rotate: 360deg;
-  }
-}
-@media (prefers-reduced-motion: no-preference) {
-  [data-theme-toggle].is-spinning [data-theme-icon] {
-    animation: theme-spin 0.5s var(--ease-out-soft);
-  }
-}
-
 /* ============================================================================
    Palette. Every semantic color is a runtime custom property so the theme
    toggle can swap the whole system by flipping one attribute on <html>.
@@ -980,18 +968,6 @@
     border: 1px solid var(--c-line);
     color: var(--c-accent-ink);
   }
-  .prose-nw pre {
-    padding: 1.15rem 1.25rem;
-    border-radius: var(--radius-md);
-    border: 1px solid var(--c-line);
-    overflow-x: auto;
-    font-size: var(--text-compact);
-    line-height: 1.65;
-    background: var(--c-surface) !important;
-  }
-  .prose-nw pre code {
-    font-family: var(--font-mono);
-  }
   .prose-nw blockquote {
     border-left: 2px solid var(--c-accent);
     padding: 0.1rem 0 0.1rem 1.15rem;
@@ -1021,22 +997,6 @@
     font-size: var(--text-small);
     text-transform: uppercase;
     letter-spacing: 0.06em;
-  }
-
-  /* Shiki: swap themes with the site theme rather than the OS. */
-  :root[data-theme='dark'] .astro-code,
-  :root[data-theme='dark'] .astro-code span {
-    color: var(--shiki-dark) !important;
-    font-style: var(--shiki-dark-font-style) !important;
-    font-weight: var(--shiki-dark-font-weight) !important;
-    text-decoration: var(--shiki-dark-text-decoration) !important;
-  }
-
-  /* The copy button reveals on hover, which a touch device never does. */
-  @media (hover: none) {
-    [data-code-block] > button {
-      opacity: 1;
-    }
   }
 
   /* --- tech tiles ---
@@ -1573,46 +1533,6 @@
     }
   }
 
-  /* --- code blocks --- */
-  /* flow-root: the <pre> is a BFC and narrows beside a floated image; the
-     wrapper must too, or the button anchors to the full-width box. */
-  [data-code-block] {
-    display: flow-root;
-  }
-  .code-copy {
-    position: absolute;
-    top: 0.6rem;
-    right: 0.6rem;
-    display: grid;
-    place-items: center;
-    width: 2rem;
-    height: 2rem;
-    border-radius: var(--radius-sm);
-    border: 1px solid var(--c-line);
-    background: var(--c-raised);
-    color: var(--c-dim);
-    opacity: 0;
-    transition:
-      opacity var(--dur-fast) var(--ease-out-soft),
-      color var(--dur-fast) var(--ease-out-soft),
-      background-color var(--dur-fast) var(--ease-out-soft),
-      border-color var(--dur-fast) var(--ease-out-soft);
-  }
-  .code-copy:hover {
-    border-color: var(--c-accent);
-    color: var(--c-accent-ink);
-  }
-  [data-code-block]:hover .code-copy,
-  .code-copy:focus-visible {
-    opacity: 1;
-  }
-  .code-copy[data-state='copied'] {
-    opacity: 1;
-    border-color: color-mix(in oklab, var(--c-accent) 50%, var(--c-line));
-    background: color-mix(in oklab, var(--c-accent) 16%, var(--c-surface));
-    color: var(--c-accent-ink);
-  }
-
   /* Copy buttons (share row, share dialog, post aside): a blue outline with a
      check while src/client/copy.ts holds data-state="copied". */
   [data-copy] .copied-ic,
@@ -1863,7 +1783,6 @@
   .nw-tip,
   .lightbox,
   .heading-anchor,
-  .code-copy,
   .skip-link,
   .no-print {
     display: none !important;
@@ -1882,7 +1801,7 @@
 
 /* ============================================================================
    Logo triad: blue, red and yellow carry the whole palette. Ambient glow,
-   bento grid, count-up numbers and view-transition tuning live here.
+   count-up numbers and view-transition tuning live here.
    ========================================================================= */
 /* Blue rule across the top of the closing CTA, fading out at both ends;
    overflow clips it to the card's rounded corners so it sits inside the border. */
@@ -1904,16 +1823,6 @@
   );
 }
 
-/* Bento: two equal cells side by side from tablet up. */
-.bento {
-  display: grid;
-  gap: 1.25rem;
-}
-@media (min-width: 48rem) {
-  .bento {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
 /* Stat numbers count up from 0 as they scroll into view (no JS). The final
    value is also the static fallback where scroll timelines are unsupported. */
 @property --n {
@@ -1943,8 +1852,11 @@
   }
 }
 
-/* Cross-page transitions: the header holds still while the page fades, and a
-   card title morphs into the detail H1 it links to. */
+/* Cross-document view transitions (no JS): the header holds still while the
+   page fades, and a card title morphs into the detail H1 it links to. */
+@view-transition {
+  navigation: auto;
+}
 .nav-glass {
   view-transition-name: site-header;
 }

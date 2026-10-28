@@ -27,12 +27,6 @@ function applyTheme(pref: ThemePref) {
 export function initTheme() {
   updateToggleLabels(currentPref());
   document.querySelectorAll<HTMLButtonElement>('[data-theme-toggle]').forEach((btn) => {
-    on(btn, 'click', () => {
-      applyTheme(other(currentPref()));
-      btn.classList.remove('is-spinning');
-      btn.getBoundingClientRect();
-      btn.classList.add('is-spinning');
-    });
-    on(btn, 'animationend', () => btn.classList.remove('is-spinning'));
+    on(btn, 'click', () => applyTheme(other(currentPref())));
   });
 }

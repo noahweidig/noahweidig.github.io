@@ -83,5 +83,5 @@ const { prev, next, label, width = 'body' } = Astro.props;
 
 <script>
   import { initTruncateWords } from '../lib/truncate-words';
-  document.addEventListener('astro:page-load', initTruncateWords);
+  initTruncateWords();
 </script>

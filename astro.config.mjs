@@ -32,14 +32,5 @@ export default defineConfig({
     }),
   ],
   vite: { plugins: [tailwindcss()] },
-  markdown: {
-    shikiConfig: {
-      // github-light's orange (#E36209) is 3.6:1 on the light code surface,
-      // which fails AA for small text; the high-contrast variant is built for
-      // exactly that and keeps the same palette family.
-      themes: { light: 'github-light-high-contrast', dark: 'github-dark-default' },
-      wrap: false,
-    },
-  },
   build: { format: 'directory' },
 });
