@@ -140,7 +140,6 @@ npm run logos:pkg              # generate package-logo srcsets
 npm run lint                   # prettier --check + astro check + token check
 npm run format                 # prettier --write
 npm run pdfs                   # render the printable CV/résumé PDFs
-npm run seo:audit              # run the SEO audit against a real dist/ build
 npm run audit:post             # build with AUDIT_REPORTS=1 for post-build audit tooling
 npm run shots                  # recapture project screenshots (add slugs to narrow)
 node scripts/update-pubs.js    # refresh publications from Zotero
@@ -156,13 +155,11 @@ node scripts/update-pubs.js    # refresh publications from Zotero
 | `axe.yml`                   | PR                                            | axe-core (`heading-order`) over the built site                             |
 | `lighthouse.yml`            | PR                                            | Lighthouse with score assertions and resource budgets (`lighthouserc.cjs`) |
 | `links.yml`                 | PR, monthly                                   | lychee over the built site                                                 |
-| `production-audit.yml`      | weekly                                        | Lighthouse, axe and lychee against the **live** site                       |
 | `pdfs.yml`                  | weekly, content changes                       | re-renders `cv.pdf` and `resume.pdf` from the built site                   |
 | `project-shots.yml`         | weekly, manual                                | recaptures the project screenshots from the live projects                  |
 | `post-audit.yml`            | PR, manual                                    | `@casoon/astro-post-audit` over the built site (`npm run audit:post`)      |
 | `update-pubs.yml`           | 1st and 15th monthly, manual                  | Zotero sync of `src/content/publications/`, then deploys                   |
 | `update-citation-stats.yml` | weekly, manual                                | refreshes `src/data/citation-stats.json`, then deploys                     |
-| `seo-audit.yml`             | weekly, manual                                | refreshes `src/data/seo-audit.json` for `/seo/`, then deploys              |
 
 Every workflow that needs a build goes through the `.github/actions/build-site` composite action, so each check scores the same bytes that get deployed.
 
