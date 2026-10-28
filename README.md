@@ -101,7 +101,7 @@ npm test         # vitest
 
 Every push to `main` builds and publishes to GitHub Pages through `.github/workflows/publish.yml`; pull requests get a Netlify deploy preview. The other workflows are named by role:
 
-- `ci-*.yml` run on pull requests (axe, Lighthouse, links, post-build audit, typos, workflow linting, dependency scans).
+- `ci-*.yml` run on pull requests (axe, Lighthouse, links, typos, workflow linting, dependency scans).
 - `bot-*.yml` run on a schedule, commit regenerated files to `main` and call `publish.yml` to deploy (Zotero sync, citation stats, project and publication screenshots, CV and résumé PDFs).
 
 Every workflow that needs a build goes through the `.github/actions/build-site` composite action, so each check scores the same bytes that get deployed. Scripts live in `scripts/`: `generate/` (art, icons, PDFs), `sync/` (Zotero, citation stats) and `check/` (axe, tokens, contact form, giscus). Browser code is `src/client/`.

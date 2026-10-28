@@ -14,7 +14,6 @@ links:
     variant: ghost
 ---
 
-> [!NOTE]
 > One of 2 appearances of the same work. [See the full record and the other venues](/publications/donovan-unravelling-changing-25-jebk/).
 
 ## Abstract

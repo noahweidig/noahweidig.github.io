@@ -9,7 +9,6 @@
   "scripts": {
     "a11y": "node scripts/check/axe.mjs",
     "astro": "astro",
-    "audit:post": "mkdir -p .audit && AUDIT_REPORTS=1 astro build",
     "build": "astro check && astro build && pagefind --site dist",
     "build:fast": "astro build && pagefind --site dist",
     "covers": "node scripts/generate/blog-covers.mjs",
@@ -27,19 +26,15 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@astrojs/markdown-remark": "^7.3.2",
     "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.4",
     "@tailwindcss/vite": "^4.3.3",
     "astro": "^7.4.2",
-    "marked": "^18.1.1",
-    "remark-github-blockquote-alert": "^2.1.0",
     "sanitize-html": "^2.18.1",
     "tailwindcss": "^4.3.3"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
-    "@casoon/astro-post-audit": "0.9.1",
     "@types/node": "^26.6.4",
     "@types/sanitize-html": "^2.16.1",
     "axe-core": "^4.14.0",

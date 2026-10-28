@@ -94,7 +94,7 @@ repo's Quality Gate fails the PR check on that alone.
   `https://sonarcloud.io/api/issues/search?componentKeys=noahweidig_new-website&pullRequest=<N>&resolved=false`
   to see exactly what's flagged rather than guessing from the check summary,
   which only names the failed _condition_, not the issue.
-- `axe`, `lychee`, `lhci`, `post-audit` also run per PR — see their workflow
+- `axe`, `lychee`, `lhci` also run per PR — see their workflow
   files if one of these fails.
 
 ## Sandbox / environment notes

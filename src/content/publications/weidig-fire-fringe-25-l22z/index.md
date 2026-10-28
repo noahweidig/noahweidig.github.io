@@ -19,7 +19,6 @@ links:
     variant: ghost
 ---
 
-> [!NOTE]
 > One of 2 appearances of the same work. [See the full record and the other venues](/publications/weidig-fire-fringe-25-f839/).
 
 ## Abstract
