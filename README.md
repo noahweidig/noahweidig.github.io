@@ -101,7 +101,7 @@ npm test         # node --test
 
 Every push to `main` builds and publishes to GitHub Pages through `.github/workflows/publish.yml`; pull requests get a Netlify deploy preview. The other workflows:
 
-- `ci-*.yml` run on pull requests (typos, workflow linting, dependency scans) or on a schedule (the monthly link sweep). Lighthouse and the link check run as jobs in `publish.yml`, reusing its build.
+- `ci-*.yml` run on pull requests (workflow linting) or on a schedule (the monthly link sweep). Lighthouse and the link check run as jobs in `publish.yml`, reusing its build.
 - `bot.yml` runs weekly: it refreshes the Zotero publications, citation stats, project and publication images and the CV and résumé PDFs in order, commits once, and calls `publish.yml` to deploy.
 
 Every workflow that needs a build goes through the `.github/actions/build-site` composite action, so each check scores the same bytes that get deployed. Scripts live in `scripts/`: `generate/` (icons, PDFs, screenshots), `sync/` (Zotero, citation stats) and `check/` (tokens). Browser code is `src/client/`.
