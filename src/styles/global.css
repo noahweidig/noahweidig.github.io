@@ -1704,6 +1704,7 @@
   position: relative;
   isolation: isolate;
   overflow: hidden;
+  box-shadow: none;
 }
 
 /* Stat numbers count up from 0 as they scroll into view (no JS). The final
