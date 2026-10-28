@@ -23,8 +23,6 @@ const lastmodByPath = new Map();
 const excludedPaths = new Set([
   '/404/',
   '/500/',
-  '/styleguide/',
-  '/seo/',
   '/blog/write/',
   '/print/resume/',
 ]);

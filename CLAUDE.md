@@ -17,7 +17,7 @@ in `.cjs` files.
   description, canonical, OG/Twitter, JSON-LD `Person`/`WebSite`), theme
   script, analytics. Every page ends up here.
 - `src/layouts/Page.astro` — Base + a centered hero header (kicker, h1, intro)
-  for simple content pages (privacy, contact, styleguide, seo).
+  for simple content pages (privacy, contact).
 - `src/layouts/Detail.astro` — Base + the shared "single content item" shell
   used by publications/awards/education/experience/projects/blog detail
   pages: breadcrumbs, chips, prev/next, ToC, etc.
@@ -49,7 +49,7 @@ frontmatter files directly (not through `astro:content`) to compute sitemap
 `lastmod` per path, and maintains `noindexedPaths` for publication
 "appearance of" duplicates. The sitemap integration's `filter()` also
 hardcodes exclusions for non-content routes that shouldn't be indexed
-(`/404`, `/500`, `/styleguide`, `/seo`, `/blog/write`) — add a new
+(`/404`, `/500`, `/blog/write`) — add a new
 diagnostic/dev-only route there too, don't rely on the page's own `noindex`
 meta tag to keep it out of `sitemap.xml`.
 
@@ -125,10 +125,8 @@ If you need to update a vendored file, re-copy from upstream and redo the
 `require('../foo.js')` → `require('../foo.cjs')` extension fix rather than
 hand-editing the vendored copy in place.
 
-## SEO dashboard
+## SEO audit
 
-`/seo/` (`src/pages/seo.astro`) renders `src/data/seo-audit.json`, regenerated
-weekly by `.github/workflows/seo-audit.yml` (`node scripts/run-seo-audit.mjs`
-against a real `dist/` build). The page is `noindex` — it's a diagnostics
-tool, not content. If the JSON's `totalPages` is `0`, that's the placeholder
-committed before the workflow's first run, not a broken audit.
+The `/seo/` dashboard page is gone, but `.github/workflows/seo-audit.yml`
+(`node scripts/run-seo-audit.mjs` against a real `dist/` build) still
+regenerates `src/data/seo-audit.json` weekly. Nothing renders it now.

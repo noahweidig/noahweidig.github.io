@@ -95,17 +95,6 @@ const HOMEPAGE_ASSERTIONS = {
   'largest-contentful-paint': ['error', { maxNumericValue: 6000 }],
 };
 
-// /styleguide/ carries a deliberate `noindex` (it's a dev reference page, not
-// meant to rank), which fails Lighthouse's `is-crawlable` SEO audit by design.
-// Three CI runs all put it at exactly 0.66 — the floor sits just below that,
-// same convention as the other ratchets in this file.
-const STYLEGUIDE_ASSERTIONS = {
-  ...ASSERTIONS,
-  'categories:seo': ['error', { minScore: 0.65 }],
-};
-
-const STYLEGUIDE_PATTERN = '/styleguide/(index\\.html)?$';
-
 /* lhci applies every matrix entry whose pattern matches, so each entry has to
    exclude the ones before it rather than merely come later. `pattern` is the
    homepage as that config addresses it — a built file path in CI, a bare
@@ -116,9 +105,8 @@ const STYLEGUIDE_PATTERN = '/styleguide/(index\\.html)?$';
    changes and why. */
 const assertMatrix = (pattern, adjust = (a) => a) => [
   { matchingUrlPattern: pattern, assertions: adjust(HOMEPAGE_ASSERTIONS) },
-  { matchingUrlPattern: STYLEGUIDE_PATTERN, assertions: adjust(STYLEGUIDE_ASSERTIONS) },
   {
-    matchingUrlPattern: `^(?!${pattern.replace(/^\^/, '')})(?!.*${STYLEGUIDE_PATTERN})`,
+    matchingUrlPattern: `^(?!${pattern.replace(/^\^/, '')})`,
     assertions: adjust(ASSERTIONS),
   },
 ];
@@ -139,7 +127,6 @@ module.exports = {
         url('publications/index.html'),
         url('blog/index.html'),
         url('contact/index.html'),
-        url('styleguide/index.html'),
         url('projects/chartifyr/index.html'),
         url('publications/alexander-shifting-forest-25/index.html'),
         url('blog/favorite-r-packages/index.html'),
