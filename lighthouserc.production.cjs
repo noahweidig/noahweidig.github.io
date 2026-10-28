@@ -10,8 +10,7 @@ const SITE = process.env.SITE_URL || 'https://noahweidig.com';
 // The one place production is not held to the PR bar.
 //
 // Every production run so far has scored SEO exactly 0.08 below the PR run on
-// every URL: 0.92 against a floor of 1.00 on the six ordinary pages, and 0.58
-// against 0.65 on /styleguide/. One audit, `robots-txt`, and it is a false
+// every URL: 0.92 against a floor of 1.00. One audit, `robots-txt`, and it is a false
 // positive that no change to this site can clear.
 //
 // Cloudflare prepends its own managed block to public/robots.txt, and that
@@ -84,7 +83,6 @@ module.exports = {
         `${SITE}/projects/`,
         `${SITE}/publications/`,
         `${SITE}/blog/`,
-        `${SITE}/styleguide/`,
       ],
     },
     upload: {

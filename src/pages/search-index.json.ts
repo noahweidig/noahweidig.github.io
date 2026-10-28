@@ -52,7 +52,6 @@ export const GET: APIRoute = async () => {
     ['Tech stack', '/tech/', 'Languages, libraries and tools I use'],
     ['Contact', '/contact/', 'Email, booking and the contact form'],
     ['Tags', '/tags/', 'Every tag used across the site'],
-    ['Styleguide', '/styleguide/', 'The design system behind the site'],
     ['Privacy', '/privacy/', 'What this site collects'],
     ['AI', '/ai/', 'How AI is used to build this site'],
   ] as const) {

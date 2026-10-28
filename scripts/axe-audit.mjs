@@ -28,9 +28,6 @@ const INDEX_PAGES = [
   'contact/index.html',
   // The 404 page carries the site chrome now, so it gets checked like any other.
   '404.html',
-  // Renders every token and component on one page (#222), so a regression in
-  // any component fails here regardless of which page it ships on.
-  'styleguide/index.html',
 ];
 
 // Detail routes are never in INDEX_PAGES, so nothing unique to them —
