@@ -81,15 +81,17 @@ const beyondWork = [
     </Fragment>
     <HeroPanel slot="aside">
       <div class="mx-auto w-full max-w-[13rem]">
-        <div class="portrait-ring aspect-square overflow-hidden rounded-full">
-          <Image
-            src={portrait}
-            alt="Noah Weidig"
-            widths={PORTRAIT_WIDTHS}
-            sizes={PORTRAIT_SIZES}
-            loading="eager"
-            class="aspect-square w-full object-cover"
-          />
+        <div class="portrait-ring aspect-square rounded-full p-2">
+          <div class="portrait-disc size-full overflow-hidden rounded-full">
+            <Image
+              src={portrait}
+              alt="Noah Weidig"
+              widths={PORTRAIT_WIDTHS}
+              sizes={PORTRAIT_SIZES}
+              loading="eager"
+              class="aspect-square w-full object-cover"
+            />
+          </div>
         </div>
       </div>
       <p class="mt-5 flex flex-wrap justify-center gap-2">
@@ -197,7 +199,9 @@ const beyondWork = [
 
 <style>
   .portrait-ring {
-    border: 4px solid var(--c-line-strong);
-    background: color-mix(in srgb, var(--c-accent) 18%, transparent);
+    border: 2px solid var(--c-accent);
+  }
+  .portrait-disc {
+    background: color-mix(in srgb, var(--c-accent) 12%, transparent);
   }
 </style>
