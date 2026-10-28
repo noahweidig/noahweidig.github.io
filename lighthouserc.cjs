@@ -7,8 +7,7 @@ const ROOT = path.resolve(__dirname, 'dist');
 const url = (p) => `http://localhost/${p}`;
 
 // Lighthouse CI over the built site, run per-PR by
-// .github/workflows/lighthouse.yml. lighthouserc.production.cjs imports
-// ASSERTIONS from here so production is held to the same bar as a PR.
+// .github/workflows/lighthouse.yml.
 //
 // The numbers are ceilings and floors, not targets: each sits just past the
 // worst of the ten audited URLs as measured today, so the current site passes
@@ -97,17 +96,12 @@ const HOMEPAGE_ASSERTIONS = {
 
 /* lhci applies every matrix entry whose pattern matches, so each entry has to
    exclude the ones before it rather than merely come later. `pattern` is the
-   homepage as that config addresses it — a built file path in CI, a bare
-   origin in production.
-
-   `adjust` rewrites each assertion set on the way out. Only the production
-   config passes one; see lighthouserc.production.cjs for the one thing it
-   changes and why. */
-const assertMatrix = (pattern, adjust = (a) => a) => [
-  { matchingUrlPattern: pattern, assertions: adjust(HOMEPAGE_ASSERTIONS) },
+   homepage as that config addresses it — a built file path in CI. */
+const assertMatrix = (pattern) => [
+  { matchingUrlPattern: pattern, assertions: HOMEPAGE_ASSERTIONS },
   {
     matchingUrlPattern: `^(?!${pattern.replace(/^\^/, '')})`,
-    assertions: adjust(ASSERTIONS),
+    assertions: ASSERTIONS,
   },
 ];
 

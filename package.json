@@ -21,7 +21,6 @@
     "optimize:icons": "svgo --config scripts/svgo.config.cjs -f public/media/icons/tech -o public/media/icons/tech",
     "lint": "prettier --check . && astro check && node scripts/check-tokens.mjs",
     "pdfs": "node scripts/generate-pdfs.mjs",
-    "seo:audit": "node scripts/run-seo-audit.mjs",
     "shots": "node scripts/generate-project-shots.mjs",
     "preview": "astro preview",
     "start": "astro dev",
@@ -53,7 +52,6 @@
     "puppeteer": "^25.13.0",
     "sharp": "^0.35.4",
     "svgo": "^4.1.0",
-    "turndown": "^7.2.4",
     "typescript": "^5.7.0",
     "vitest": "^5.0.4"
   }

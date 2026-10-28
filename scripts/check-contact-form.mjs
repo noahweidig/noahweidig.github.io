@@ -2,7 +2,7 @@
 //
 //   node scripts/check-contact-form.mjs --base https://noahweidig.com
 //
-// Run weekly by .github/workflows/production-audit.yml. A silently dead
+// Not run by any workflow now; run it by hand. A silently dead
 // contact form is the worst failure on this site: the form is the conversion
 // point every page funnels toward, and nothing would notice if the endpoint
 // were removed, disabled, or over quota (#273).

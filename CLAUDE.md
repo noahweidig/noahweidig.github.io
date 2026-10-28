@@ -55,7 +55,7 @@ meta tag to keep it out of `sitemap.xml`.
 
 ## Scheduled bot-commit workflows
 
-Pattern used by `update-citation-stats.yml` and `seo-audit.yml`: a weekly
+Pattern used by `update-citation-stats.yml`: a weekly
 `schedule` + `workflow_dispatch` trigger, `contents: write` only on the job
 that needs it, a script writes to a file under `src/data/`, then:
 
@@ -112,21 +112,3 @@ and other heavy devDependencies. If a full install is impractical:
   `npm run build` to complete.
 - For a new Node script with no npm dependencies, `node --check <file>` is a
   fast local sanity check that doesn't need `node_modules` at all.
-
-## Vendoring third-party code
-
-`scripts/seo-audit/lib/` vendors the auditor modules from
-[noahweidig/seo](https://github.com/noahweidig/seo) (MIT) as `.cjs` files
-(this project is `"type": "module"`, so vendored CommonJS needs the `.cjs`
-extension — ESM can `import` a `.cjs` file directly and Node's CJS/ESM
-interop will pick up its named `module.exports`). Each vendored file carries
-a short header comment naming its origin and pointing at the LICENSE copy.
-If you need to update a vendored file, re-copy from upstream and redo the
-`require('../foo.js')` → `require('../foo.cjs')` extension fix rather than
-hand-editing the vendored copy in place.
-
-## SEO audit
-
-The `/seo/` dashboard page is gone, but `.github/workflows/seo-audit.yml`
-(`node scripts/run-seo-audit.mjs` against a real `dist/` build) still
-regenerates `src/data/seo-audit.json` weekly. Nothing renders it now.
