@@ -1,10 +1,10 @@
-name: Check links
+name: Check links (monthly)
 
+# Pull requests get their link check from the `lychee` job in publish.yml,
+# which reuses that run's build. This is only the monthly sweep for link rot.
 on:
-  pull_request:
-    branches: [main]
   schedule:
-    # Monthly sweep for link rot on the 8th.
+    # The 8th of each month.
     - cron: '0 6 8 * *'
   workflow_dispatch:
 
@@ -21,35 +21,5 @@ jobs:
       - name: Build site
         uses: ./.github/actions/build-site
 
-      # lychee resolves a root-relative link against --root-dir, and the site is
-      # served at the apex, so dist itself is the root — the same shape the
-      # server serves.
-      - name: Run lychee
-        uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2.9.0
-        with:
-          # Check the rendered site so generated links are covered too.
-          # noahweidig.com is excluded: the site's own links are absolute in
-          # every canonical and og:url tag, so checking them live would score
-          # production rather than the build under test — a renamed or added
-          # route fails here until it deploys. The build's internal links are
-          # covered anyway, through --root-dir; the handful of noahweidig.com
-          # paths served by separate project-pages repos are not checked here.
-          # Accepted codes: 403/429 (bot blocking), 405 (Formspree POST
-          # endpoint), 415 (oakfirescience.com's WAF rejects the CI request
-          # though the page loads 200 in a browser), 999 (LinkedIn).
-          # Excluded hosts have TLS setups rustls can't negotiate, or reset
-          # the connection outright: the UF library's thesis repository
-          # (original-ufdc.uflib.ufl.edu) serves the linked PDF fine in a
-          # browser but resets CI's connection, and returns 403 to anything
-          # that is not one.
-          args: >-
-            --no-progress
-            --root-dir ${{ github.workspace }}/dist
-            --accept '100..=103,200..=299,403,405,415,429,999'
-            --exclude 'noahweidig\.com'
-            --exclude 'ecos\.fws\.gov'
-            --exclude 'usda\.gov'
-            --exclude 'victoriamdonovan\.org'
-            --exclude 'original-ufdc\.uflib\.ufl\.edu'
-            'dist/**/*.html'
-          fail: true
+      - name: Check links
+        uses: ./.github/actions/check-links
