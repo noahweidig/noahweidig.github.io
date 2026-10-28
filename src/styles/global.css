@@ -1002,7 +1002,7 @@
   /* --- pills (tech stack, worked with) ---
      The icons are single-color SVGs drawn as a mask, so they take the text
      color in either theme with no filter. */
-  .pill {
+  .tag-pill {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
@@ -1033,13 +1033,13 @@
     mask: var(--seal) center / contain no-repeat;
     -webkit-mask: var(--seal) center / contain no-repeat;
   }
-  .pill-link {
+  .tag-pill-link {
     transition:
       border-color var(--dur-fast),
       color var(--dur-fast);
   }
-  .pill-link:hover,
-  .pill-link:focus-visible {
+  .tag-pill-link:hover,
+  .tag-pill-link:focus-visible {
     border-color: var(--c-accent-ink);
     color: var(--c-accent-ink);
   }
