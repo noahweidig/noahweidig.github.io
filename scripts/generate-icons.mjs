@@ -38,6 +38,7 @@ const MAP = {
   file: 'file-text',
   pencil: 'pencil',
   help: 'circle-question-mark',
+  home: 'house',
   search: 'search',
   pin: 'map-pin',
   clock: 'clock',
