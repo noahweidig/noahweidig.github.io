@@ -10,7 +10,7 @@ How the pieces of this site fit together. The README covers running it.
 
 The site is published at the apex: **https://noahweidig.com**, so root-relative URLs (`/projects/`) are written by hand and used as they are. URLs inside a content file are written **relative** to the page (`../../media/…`).
 
-Section routes keep their paths. Three pages Quarto rendered as `<name>.html` are directory routes now — `/contact/`, `/cv/`, `/privacy/` — with a redirect stub generated at each old path by `src/pages/[page].html.ts`. The feed is served at both `/rss.xml` and its old address, `/blog/index.xml`; a meta-refresh stub is no use to a feed reader, so `src/pages/blog/index.xml.ts` re-exports the same route.
+Section routes keep their paths. The feed is served at both `/rss.xml` and its old address, `/blog/index.xml`; a meta-refresh stub is no use to a feed reader, so `src/pages/blog/index.xml.ts` re-exports the same route.
 
 `public/CNAME` carries `noahweidig.com`, which claims the domain's **root** for this repo. GitHub Pages needs the file in the published output on every deploy, so it is committed rather than set in the repo's Pages settings alone.
 

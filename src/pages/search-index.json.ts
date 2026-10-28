@@ -53,7 +53,6 @@ export const GET: APIRoute = async () => {
     ['Contact', '/contact/', 'Email, booking and the contact form'],
     ['Tags', '/tags/', 'Every tag used across the site'],
     ['Privacy', '/privacy/', 'What this site collects'],
-    ['AI', '/ai/', 'How AI is used to build this site'],
   ] as const) {
     docs.push({ t, u, s: 'Page', d });
   }

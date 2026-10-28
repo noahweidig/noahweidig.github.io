@@ -9,7 +9,7 @@ const extra: Record<string, Link[]> = {
   Work: [{ text: 'Tech stack', href: '/tech/' }],
   Writing: [
     { text: 'Tags', href: '/tags/' },
-    { text: 'AI', href: '/ai/' },
+    { text: 'RSS', href: '/rss.xml' },
   ],
 };
 const columns: { text: string; items: Link[] }[] = [
@@ -20,7 +20,11 @@ const columns: { text: string; items: Link[] }[] = [
       { text: 'Contact', href: '/contact/' },
       { text: 'Privacy', href: '/privacy/' },
       { text: 'Book a call', href: site.booking, external: true },
-      { text: 'RSS', href: '/rss.xml' },
+      {
+        text: 'Source code',
+        href: 'https://github.com/noahweidig/noahweidig.github.io',
+        external: true,
+      },
     ],
   },
 ];
