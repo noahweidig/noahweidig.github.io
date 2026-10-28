@@ -9,7 +9,7 @@
 // keyless, and working today, but unofficial: neither is documented for
 // external use and either could change or start blocking scripted requests
 // without notice. Best-effort by design, same as the OpenAlex citation-count
-// lookup in update-pubs.js: a bad day here keeps whatever the last successful
+// lookup in pubs.js: a bad day here keeps whatever the last successful
 // run wrote rather than wiping the numbers off the site.
 import fs from 'node:fs';
 import path from 'node:path';
