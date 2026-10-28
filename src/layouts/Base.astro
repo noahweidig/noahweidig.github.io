@@ -198,11 +198,7 @@ const jsonLd = {
         prefetch: [
           {
             where: {
-              and: [
-                { href_matches: '/*' },
-                { not: { href_matches: '/uploads/*' } },
-                { not: { selector_matches: 'a[href$=".pdf"]' } },
-              ],
+              and: [{ href_matches: '/*' }, { not: { selector_matches: 'a[href$=".pdf"]' } }],
             },
             eagerness: 'moderate',
           },
