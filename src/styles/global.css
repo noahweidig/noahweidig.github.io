@@ -799,27 +799,6 @@
     text-transform: uppercase;
     color: var(--c-accent-ink);
   }
-  .cta-dot {
-    width: 0.5rem;
-    height: 0.5rem;
-    border-radius: 50%;
-    background: var(--c-accent-ink);
-    animation: cta-pulse 2s ease-out infinite;
-  }
-  @keyframes cta-pulse {
-    0% {
-      box-shadow: 0 0 0 0 color-mix(in oklab, var(--c-accent-ink) 55%, transparent);
-    }
-    70%,
-    100% {
-      box-shadow: 0 0 0 0.5rem transparent;
-    }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .cta-dot {
-      animation: none;
-    }
-  }
   /* The Altmetric donut in a citation chip is a small vendor-served image
      sized to sit on the chip's text baseline. */
   .badge-pair {
@@ -1725,9 +1704,9 @@
   z-index: -1;
   pointer-events: none;
   background: var(--c-ink);
-  opacity: 0.22;
-  mask: url(/media/cta-grid.svg) top center / 420px 210px repeat-x;
-  -webkit-mask: url(/media/cta-grid.svg) top center / 420px 210px repeat-x;
+  opacity: 0.4;
+  mask: url(/media/cta-grid.svg) top center / 420px 420px repeat-x;
+  -webkit-mask: url(/media/cta-grid.svg) top center / 420px 420px repeat-x;
 }
 
 /* Stat numbers count up from 0 as they scroll into view (no JS). The final
