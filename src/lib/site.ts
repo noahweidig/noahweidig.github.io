@@ -33,7 +33,6 @@ export const navGroups = [
       { text: 'Projects', href: '/projects/', tip: 'Open tools, maps and applications' },
       { text: 'Publications', href: '/publications/', tip: 'Papers, talks and peer review' },
       { text: 'Experience', href: '/experience/', tip: 'Roles, research posts and internships' },
-      { text: 'Tech stack', href: '/tech/', tip: 'Languages, tools and platforms I use' },
     ],
   },
   {
@@ -56,7 +55,6 @@ export const navMeta: Record<string, { icon: string; tint: Tint }> = {
   Education: { icon: 'graduationCap', tint: SECTION_TINT.Education! },
   Awards: { icon: 'trophy', tint: SECTION_TINT.Awards! },
   CV: { icon: 'file', tint: SECTION_TINT.CV! },
-  'Tech stack': { icon: 'cpu', tint: SECTION_TINT['Tech stack']! },
 };
 
 export const socials = [

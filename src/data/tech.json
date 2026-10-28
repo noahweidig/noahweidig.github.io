@@ -4,23 +4,19 @@
     "tools": [
       {
         "name": "R",
-        "icon": "r",
-        "featured": true
+        "icon": "r"
       },
       {
         "name": "Python",
-        "icon": "python",
-        "featured": true
+        "icon": "python"
       },
       {
         "name": "JavaScript",
-        "icon": "javascript",
-        "featured": true
+        "icon": "javascript"
       },
       {
         "name": "SQL",
-        "icon": "sql",
-        "featured": true
+        "icon": "sql"
       },
       {
         "name": "Markdown",
@@ -70,23 +66,19 @@
     "tools": [
       {
         "name": "ArcGIS Pro",
-        "icon": "arcgis",
-        "featured": true
+        "icon": "arcgis"
       },
       {
         "name": "GEE",
-        "icon": "gee",
-        "featured": true
+        "icon": "gee"
       },
       {
         "name": "QGIS",
-        "icon": "qgis",
-        "featured": true
+        "icon": "qgis"
       },
       {
         "name": "GDAL",
-        "icon": "gdal",
-        "featured": true
+        "icon": "gdal"
       },
       {
         "name": "sf",
@@ -111,8 +103,7 @@
     "tools": [
       {
         "name": "Git",
-        "icon": "git",
-        "featured": true
+        "icon": "git"
       },
       {
         "name": "GitHub",
@@ -129,13 +120,11 @@
     "tools": [
       {
         "name": "Claude Code",
-        "icon": "claude-code",
-        "featured": true
+        "icon": "claude-code"
       },
       {
         "name": "Codex",
-        "icon": "codex",
-        "featured": true
+        "icon": "codex"
       },
       {
         "name": "Copilot",
