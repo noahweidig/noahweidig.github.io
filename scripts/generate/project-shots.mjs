@@ -3,7 +3,7 @@
  * and the research-areas panel use, so a tool that changes doesn't keep
  * showing the picture it had the day it shipped.
  *
- *   node scripts/generate-project-shots.mjs [slug ...]
+ *   node scripts/generate/project-shots.mjs [slug ...]
  *
  * The URL comes from the entry's own frontmatter — the first `links:` entry
  * that points somewhere http(s) — so adding a project needs no edit here.
@@ -26,9 +26,9 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import puppeteer from 'puppeteer';
-import { readFrontmatter } from './lib/frontmatter.mjs';
+import { readFrontmatter } from '../lib/frontmatter.mjs';
 
-const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const projectsDir = path.join(root, 'src/content/projects');
 const assetsDir = path.join(root, 'src/assets/albums/projects');
 const readmeShotPath = path.join(root, 'public/media/noahweidigcom.webp');

@@ -10,7 +10,7 @@
  * or replaced by a PDF page: publishers answer CI runners with bot walls, and
  * a miss must not wipe a good image.
  *
- *   node scripts/generate-publication-shots.mjs [slug ...]
+ *   node scripts/generate/publication-shots.mjs [slug ...]
  *
  * Output: src/assets/albums/publications/<slug>.webp (read through
  * pubShotFor in src/lib/images.ts).
@@ -21,7 +21,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import sharp from 'sharp';
 
-const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const pubsDir = path.join(root, 'src/content/publications');
 const outDir = path.join(root, 'src/assets/albums/publications');
 const manifestPath = path.join(root, 'src/data/publication-images.json');
