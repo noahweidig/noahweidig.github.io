@@ -69,9 +69,6 @@ const {
   preloadImage,
 } = Astro.props;
 
-/* Reading mode is a blog-post affordance: strip the rails and grow the type. */
-const reading = section === 'Blog';
-
 /* The contents rail needs room beside the measure, so a page that has one
    widens from the reading shell to the full one. */
 const hasToc = headings.filter((h) => h.depth === 2 || h.depth === 3).length > 1;
@@ -205,20 +202,6 @@ const mdHref =
             <PostAside title={title} readingTime={readingTime} />
           </div>
           <div class="min-w-0 lg:col-start-2">
-            {reading && (
-              <div class="no-print mb-6 flex justify-end" data-pagefind-ignore>
-                <button
-                  type="button"
-                  class="btn btn-ghost btn-sm"
-                  data-reading-toggle
-                  aria-pressed="false"
-                  data-tip="Reading mode: just the article"
-                >
-                  <Icon name="reader" size={15} />
-                  <span data-reading-label>Reading mode</span>
-                </button>
-              </div>
-            )}
             <div class="prose-nw">
               <slot />
             </div>
@@ -231,20 +214,6 @@ const mdHref =
       </div>
     ) : (
       <div class="shell-body py-12 md:py-16">
-        {reading && (
-          <div class="no-print mb-6 flex justify-end" data-pagefind-ignore>
-            <button
-              type="button"
-              class="btn btn-ghost btn-sm"
-              data-reading-toggle
-              aria-pressed="false"
-              data-tip="Reading mode: just the article"
-            >
-              <Icon name="reader" size={15} />
-              <span data-reading-label>Reading mode</span>
-            </button>
-          </div>
-        )}
         <div class="prose-nw">
           <slot />
         </div>
