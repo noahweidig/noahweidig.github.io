@@ -73,7 +73,7 @@ Built with [Astro 7](https://astro.build), TypeScript and [Tailwind CSS 4](https
 | `src/content/`          | the site's content, one Markdown file per entry, in six collections           |
 | `src/content.config.ts` | the Zod schema each collection is validated against at build time             |
 | `src/pages/`            | routes — file-based, with `[...slug].astro` generating every detail page      |
-| `src/layouts/`          | `Base` (head, chrome, analytics), `Page` (section index), `Detail` (article)  |
+| `src/layouts/`          | `Base` (head, chrome), `Page` (section index), `Detail` (article)             |
 | `src/components/`       | cards, rows, the search dialog, the map                                       |
 | `src/styles/`           | the design tokens and component layer; `fonts.css` holds the `@font-face` set |
 | `src/lib/`              | site constants and the date/citation formatters                               |
@@ -85,13 +85,11 @@ Content lives in a directory per entry (`src/content/blog/focus/index.md`). The 
 
 `src/styles/global.css` is the single source of truth. Every semantic color is a runtime custom property, so the theme toggle repaints the whole system by flipping one `data-theme` attribute on `<html>` — no duplicate stylesheet, no flash on load (the value is applied by an inline script before first paint). Tailwind's `@theme inline` block maps those properties onto utility classes, so `bg-surface` and `text-dim` resolve to whichever theme is active.
 
-[`/styleguide`](https://noahweidig.com/styleguide) renders every token, the type scale, and each component live, in whichever theme you are reading in.
-
 ### URLs
 
 The site is published at the apex: **https://noahweidig.com**, so root-relative URLs (`/projects/`) are written by hand and used as they are. URLs inside a content file are written **relative** to the page (`../../media/…`).
 
-Section routes keep their paths. Four pages Quarto rendered as `<name>.html` are directory routes now — `/contact/`, `/cv/`, `/privacy/`, `/styleguide/` — with a redirect stub committed at each old path under `public/`. The feed is served at both `/rss.xml` and its old address, `/blog/index.xml`; a meta-refresh stub is no use to a feed reader, so `src/pages/blog/index.xml.ts` re-exports the same route.
+Section routes keep their paths. Three pages Quarto rendered as `<name>.html` are directory routes now — `/contact/`, `/cv/`, `/privacy/` — with a redirect stub generated at each old path by `src/pages/[page].html.ts`. The feed is served at both `/rss.xml` and its old address, `/blog/index.xml`; a meta-refresh stub is no use to a feed reader, so `src/pages/blog/index.xml.ts` re-exports the same route.
 
 `public/CNAME` carries `noahweidig.com`, which claims the domain's **root** for this repo. GitHub Pages needs the file in the published output on every deploy, so it is committed rather than set in the repo's Pages settings alone.
 
@@ -168,9 +166,9 @@ node scripts/update-pubs.js    # refresh publications from Zotero
 
 Every workflow that needs a build goes through the `.github/actions/build-site` composite action, so each check scores the same bytes that get deployed.
 
-### The homepage map
+### The About map
 
-The closing CTA has a MapLibre map centred on Orlando (`src/components/Globe.astro`, `src/scripts/globe.ts`). `maplibre-gl` loads lazily when the map nears the viewport. Tiles come from OpenFreeMap; the style is built from the CSS tokens and rebuilt when the theme changes.
+`/about` ends with a static SVG map of central Florida centred on Orlando (`src/components/OrlandoMap.astro`). No JS, no tiles; the land is Natural Earth 1:10m state outlines, and colors come from the CSS tokens so it follows the theme.
 
 ### Blog post icons
 

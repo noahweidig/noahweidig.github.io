@@ -14,8 +14,6 @@ const allow = new Set([
   'src/layouts/Base.astro',
   'src/pages/print/resume.astro',
   'src/pages/index.astro',
-  'src/components/Globe.astro',
-  'src/scripts/globe.ts',
 ]);
 
 const walk = (dir) =>
