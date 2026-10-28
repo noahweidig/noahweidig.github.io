@@ -16,26 +16,12 @@ export const site = {
   ogImage: '/media/authors/site-og.webp',
 } as const;
 
-/**
- * Giscus, for blog-post comments. The widget only mounts once `repoId` and
- * `categoryId` are filled in — giscus.app rejects a mount without them, and a
- * visible "giscus is not installed" error is worse than no comments at all.
- * Both ids come from https://giscus.app after enabling Discussions on the repo.
- */
-export const giscus = {
-  repo: 'noahweidig/noahweidig.github.io',
-  repoId: 'R_kgDOUNb0Ww',
-  category: 'Announcements',
-  categoryId: 'DIC_kwDOUNb0W84DE4qC',
-} as const;
-
 export const nav = [
   { text: 'About', href: '/about/', tip: 'A bit more about who I am' },
   { text: 'Projects', href: '/projects/', tip: 'Open tools, maps and applications' },
   { text: 'Publications', href: '/publications/', tip: 'Papers, talks and peer review' },
   { text: 'Experience', href: '/experience/', tip: 'Roles, research posts and internships' },
   { text: 'Awards', href: '/awards/', tip: 'Fellowships, scholarships and honors' },
-  { text: 'Blog', href: '/blog/', tip: 'Notes and tutorials on R and spatial work' },
   { text: 'CV', href: '/cv/', tip: 'Full record, plus CV and résumé PDFs' },
   { text: 'Contact', href: '/contact/', tip: 'Email, booking and the contact form' },
 ] as const;
@@ -47,6 +33,7 @@ export const navGroups = [
       { text: 'Projects', href: '/projects/', tip: 'Open tools, maps and applications' },
       { text: 'Publications', href: '/publications/', tip: 'Papers, talks and peer review' },
       { text: 'Experience', href: '/experience/', tip: 'Roles, research posts and internships' },
+      { text: 'Tech stack', href: '/tech/', tip: 'Languages, tools and platforms I use' },
     ],
   },
   {
@@ -56,13 +43,6 @@ export const navGroups = [
       { text: 'Education', href: '/education/', tip: 'Degrees and training' },
       { text: 'Awards', href: '/awards/', tip: 'Fellowships, scholarships and honors' },
       { text: 'CV', href: '/cv/', tip: 'Full record, plus CV and résumé PDFs' },
-    ],
-  },
-  {
-    text: 'Writing',
-    items: [
-      { text: 'Blog', href: '/blog/', tip: 'Notes and tutorials on R and spatial work' },
-      { text: 'Newsletter', href: site.newsletter, tip: 'Subscribe on Substack', external: true },
     ],
   },
 ] as const;
@@ -76,8 +56,7 @@ export const navMeta: Record<string, { icon: string; tint: Tint }> = {
   Education: { icon: 'graduationCap', tint: SECTION_TINT.Education! },
   Awards: { icon: 'trophy', tint: SECTION_TINT.Awards! },
   CV: { icon: 'file', tint: SECTION_TINT.CV! },
-  Blog: { icon: 'pencil', tint: SECTION_TINT.Blog! },
-  Newsletter: { icon: 'mail', tint: SECTION_TINT.Newsletter! },
+  'Tech stack': { icon: 'cpu', tint: SECTION_TINT['Tech stack']! },
 };
 
 export const socials = [

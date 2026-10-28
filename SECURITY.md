@@ -3,7 +3,7 @@
 ## Scope
 
 This repository is the source for my personal website, a static
-[Quarto](https://quarto.org) site published at
+[Astro](https://astro.build) site published at
 [noahweidig.com](https://noahweidig.com). It ships no releases and no versioned
 artifacts, so there is nothing to support on a per-version basis: only the
 currently deployed site and the current `main` branch are in scope.

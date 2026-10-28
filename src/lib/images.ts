@@ -8,7 +8,7 @@ export const IMAGE_WIDTHS = {
   thumbnail: [400, 800, 1200],
   /** Smaller thumbnails, e.g. AwardCard */
   thumbnailSmall: [320, 640, 960],
-  /** Full-width hero/cover images, e.g. blog post detail page */
+  /** Full-width hero/cover images, e.g. detail pages */
   hero: [600, 1000, 1600],
 } satisfies Record<string, number[]>;
 

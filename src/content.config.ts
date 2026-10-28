@@ -84,20 +84,6 @@ const awards = defineCollection({
       }),
 });
 
-const blog = defineCollection({
-  loader: dirLoader('./src/content/blog'),
-  schema: z.object({
-    title: z.string(),
-    date: z.coerce.date(),
-    updated: z.coerce.date().optional(),
-    description: z.string(),
-    author: z.string().default('Noah Weidig'),
-    'author-image': z.string().default('/media/authors/me.webp'),
-    categories: z.array(z.string()).default([]),
-    draft: z.boolean().default(false),
-  }),
-});
-
 const timeline = (base: string) =>
   defineCollection({
     loader: dirLoader(base),
@@ -128,7 +114,6 @@ export const collections = {
   projects,
   publications,
   awards,
-  blog,
   education: timeline('./src/content/education'),
   experience: timeline('./src/content/experience'),
 };

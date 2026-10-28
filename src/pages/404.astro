@@ -8,11 +8,10 @@ const blurbs: Record<string, string> = {
   Publications: 'Papers, presentations, and media coverage.',
   Experience: 'Roles across GIS, remote sensing, and research.',
   Awards: 'Scholarships, grants, and honors.',
-  Blog: 'Notes on R, spatial data, and working reproducibly.',
   CV: 'The full record, in one page.',
   Contact: 'Email, book a call, or send a message.',
 };
-const destinations = nav.filter((n) => ['Projects', 'Publications', 'Blog'].includes(n.text));
+const destinations = nav.filter((n) => ['Projects', 'Publications', 'About'].includes(n.text));
 ---
 
 <Base title="Page Not Found" description="That page doesn't exist or has moved." noindex>

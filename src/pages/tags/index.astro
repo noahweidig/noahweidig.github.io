@@ -5,7 +5,7 @@ import Icon from '../../components/Icon.astro';
 import { tagGroups, tagIcon } from '../../lib/tags';
 
 const groups = await tagGroups();
-const sections = ['Projects', 'Publications', 'Blog'] as const;
+const sections = ['Projects', 'Publications'] as const;
 const total = new Set(groups.flatMap((g) => g.items.map((i) => i.href))).size;
 const stats = [
   { label: 'Tags', value: groups.length },
@@ -24,10 +24,10 @@ const max = Math.max(...groups.map((g) => g.items.length), 1);
   title="Tags"
   kicker="Index"
   section="Tags"
-  description="Every topic used across projects, publications and writing, with the work filed under each."
-  intro="Every topic used across projects, publications and writing, with the work filed under each."
+  description="Every topic used across projects and publications, with the work filed under each."
+  intro="Every topic used across projects and publications, with the work filed under each."
 >
-  <dl class="mb-10 grid grid-cols-2 gap-3 sm:grid-cols-5">
+  <dl class="mb-10 grid grid-cols-2 gap-3 sm:grid-cols-4">
     {stats.map((s) => (
       <div class="card px-4 py-3 max-sm:last:col-span-2">
         <dd class="text-2xl font-semibold tabular-nums">{s.value}</dd>

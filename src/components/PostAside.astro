@@ -4,9 +4,8 @@ import { buildShareTargets } from '../lib/share';
 
 interface Props {
   title: string;
-  readingTime?: string;
 }
-const { title, readingTime } = Astro.props;
+const { title } = Astro.props;
 const url = new URL(Astro.url.pathname, Astro.site).href;
 
 const targets = buildShareTargets(title, url).filter((s) =>
@@ -16,7 +15,6 @@ const targets = buildShareTargets(title, url).filter((s) =>
 
 <aside class="post-aside-panel no-print h-full" data-pagefind-ignore>
   <div class="sticky top-28 flex flex-col items-end gap-4">
-    {readingTime && <p class="text-xs font-medium whitespace-nowrap text-faint">{readingTime}</p>}
     <div class="flex flex-col items-end gap-1">
       {targets.map((s) => (
         <a

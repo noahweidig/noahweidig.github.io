@@ -2,7 +2,7 @@ import { getCollection } from 'astro:content';
 import { slugify } from './format';
 
 export interface TagItem {
-  section: 'Projects' | 'Publications' | 'Blog';
+  section: 'Projects' | 'Publications';
   href: string;
   title: string;
   description?: string;
@@ -17,15 +17,14 @@ export interface TagGroup {
 }
 
 /**
- * Every category used anywhere, mapped to the entries carrying it. Project and
- * blog tags and publication types share one namespace: they are the same kind
+ * Every category used anywhere, mapped to the entries carrying it. Project tags
+ * and publication types share one namespace: they are the same kind
  * of label to a reader, and a page per label is more useful than three.
  */
 export async function tagGroups(): Promise<TagGroup[]> {
-  const [projects, publications, blog] = await Promise.all([
+  const [projects, publications] = await Promise.all([
     getCollection('projects'),
     getCollection('publications'),
-    getCollection('blog', ({ data }) => !data.draft),
   ]);
 
   const byName = new Map<string, TagGroup>();
@@ -59,18 +58,6 @@ export async function tagGroups(): Promise<TagGroup[]> {
         href: `/publications/${p.id}/`,
         title: p.data.title,
         description: p.data['pub-venue'],
-        date: p.data.date,
-      });
-    }
-  }
-
-  for (const p of blog) {
-    for (const c of p.data.categories) {
-      add(c, {
-        section: 'Blog',
-        href: `/blog/${p.id}/`,
-        title: p.data.title,
-        description: p.data.description,
         date: p.data.date,
       });
     }

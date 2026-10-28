@@ -3,26 +3,3 @@
 [build]
   publish = "dist"
   command = "npm ci --ignore-scripts --no-audit --no-fund && npm run build:fast"
-
-# ---------------------------------------------------------------------------
-# Legacy redirect stubs (src/pages/[page].html.ts) emit /contact.html etc.
-# Netlify's pretty URLs then 301 /contact/ -> /contact and serve the stub at
-# /contact, whose redirect to /contact/ loops. Serve the real page there
-# instead. Deploy previews only; GitHub Pages doesn't do this.
-[[redirects]]
-  from = "/contact"
-  to = "/contact/index.html"
-  status = 200
-  force = true
-
-[[redirects]]
-  from = "/cv"
-  to = "/cv/index.html"
-  status = 200
-  force = true
-
-[[redirects]]
-  from = "/privacy"
-  to = "/privacy/index.html"
-  status = 200
-  force = true

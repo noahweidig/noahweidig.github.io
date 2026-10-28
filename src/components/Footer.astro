@@ -5,22 +5,15 @@ import Wordmark from './Wordmark.astro';
 import NewsletterForm from './NewsletterForm.astro';
 const year = new Date().getFullYear();
 type Link = { text: string; href: string; tip?: string; external?: boolean };
-const extra: Record<string, Link[]> = {
-  Work: [{ text: 'Tech stack', href: '/tech/' }],
-  Writing: [
-    { text: 'Tags', href: '/tags/' },
-    { text: 'AI', href: '/ai/' },
-  ],
-};
 const columns: { text: string; items: Link[] }[] = [
-  ...navGroups.map((g) => ({ text: g.text, items: [...g.items, ...(extra[g.text] ?? [])] })),
+  ...navGroups.map((g) => ({ text: g.text, items: [...g.items] })),
   {
     text: 'More',
     items: [
       { text: 'Contact', href: '/contact/' },
-      { text: 'Privacy', href: '/privacy/' },
       { text: 'Book a call', href: site.booking, external: true },
-      { text: 'RSS', href: '/rss.xml' },
+      { text: 'Substack', href: site.newsletter, external: true },
+      { text: 'Privacy', href: '/privacy/' },
     ],
   },
 ];
@@ -48,7 +41,7 @@ const iconBtn =
 
         <nav
           aria-label="Footer"
-          class="grid grid-cols-[repeat(2,auto)] justify-center gap-x-16 gap-y-8 sm:grid-cols-4 sm:justify-start sm:gap-x-10 lg:gap-x-14"
+          class="grid grid-cols-[repeat(3,auto)] justify-center gap-x-8 gap-y-8 sm:justify-start sm:gap-x-12 lg:gap-x-16"
         >
           {columns.map((col) => (
             <div>
@@ -119,14 +112,6 @@ const iconBtn =
               <Icon name={s.icon} size={18} />
             </a>
           ))}
-          <a
-            href="/rss.xml"
-            aria-label="RSS Feed"
-            data-tip="Subscribe to the blog feed"
-            class={iconBtn}
-          >
-            <Icon name="rss" size={18} stroke-width={1.6} />
-          </a>
         </div>
       </div>
     </div>

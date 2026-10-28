@@ -2,11 +2,6 @@
    To add one, copy its SVG children from lucide.dev into a new entry below.
    Icons that client scripts need as strings also go in icons.script.ts. */
 export const icons: Record<string, { viewBox: string; body: string; stroke?: boolean }> = {
-  rss: {
-    viewBox: '0 0 24 24',
-    body: '<path d="M4 11a9 9 0 0 1 9 9M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/>',
-    stroke: true,
-  },
   mail: {
     viewBox: '0 0 24 24',
     body: '<path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"/><rect width="20" height="16" x="2" y="4" rx="2"/>',
