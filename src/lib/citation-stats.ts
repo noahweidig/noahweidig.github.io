@@ -33,6 +33,6 @@ export const makeCitationStatsFor =
     doi ? stats[normalizeDoi(doi)] : undefined;
 
 /** Cached Dimensions/Altmetric attention data for a DOI, fetched by the
- * `update-citation-stats` GitHub Action (scripts/sync/citation-stats.js)
+ * weekly refresh GitHub Action (`bot.yml`) (scripts/sync/citation-stats.js)
  * rather than the vendors' own client-side badge widgets. */
 export const citationStatsFor = makeCitationStatsFor(raw as Record<string, CitationStats>);
