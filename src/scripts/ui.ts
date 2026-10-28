@@ -20,7 +20,6 @@ import { initTabs } from './tabs';
 import { initSearch } from './search';
 import { initCodeCopy } from './code-copy';
 import { initHeadingAnchors } from './heading-anchors';
-import { initReadingMode } from './reading-mode';
 import { initTooltips } from './tooltips';
 import { initLightbox } from './lightbox';
 import { initBackToTop } from './back-to-top';
@@ -48,7 +47,6 @@ function boot() {
   initCarousels();
   initCodeCopy();
   initHeadingAnchors();
-  initReadingMode();
   initLightbox();
   initTooltips();
   initToc();
