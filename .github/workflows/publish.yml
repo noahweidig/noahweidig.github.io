@@ -124,6 +124,21 @@ jobs:
       - name: Check links
         uses: ./.github/actions/check-links
 
+  # The one check to require in branch protection: it fails if any job above
+  # failed or was cancelled, and treats the PR-only jobs skipped on a push to
+  # main as passing.
+  ci-ok:
+    needs: [lint, build, lhci, lychee]
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Require every job to have passed or been skipped
+        run: |
+          [ "$RESULTS" = "${RESULTS/failure/}" ] && [ "$RESULTS" = "${RESULTS/cancelled/}" ]
+        env:
+          RESULTS: ${{ join(needs.*.result, ' ') }}
+
   deploy:
     needs: build
     if: github.event_name != 'pull_request'
