@@ -29,7 +29,7 @@ const normalizeDoi = (doi: string) =>
     .replace(/^https?:\/\/(dx\.)?doi\.org\//, '');
 
 /** Cached Dimensions/Altmetric attention data for a DOI, fetched by the
- * `update-citation-stats` GitHub Action (scripts/update-citation-stats.js)
+ * `update-citation-stats` GitHub Action (scripts/sync/citation-stats.js)
  * rather than the vendors' own client-side badge widgets. */
 export function citationStatsFor(doi: string | undefined | null): CitationStats | undefined {
   if (!doi) return undefined;
