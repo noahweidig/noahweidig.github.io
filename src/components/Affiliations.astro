@@ -21,28 +21,20 @@ const orgs = [
 
 <div class="mt-12" id="affiliations" data-reveal>
   <p class="text-center text-xs font-medium text-faint">Worked with</p>
-  <div class="relative mt-5" data-affil>
-    <ul class="affil-track" tabindex="0" aria-label="Institutions I have worked with">
-      {orgs.map(([name, href, src]) => (
-        <li class="contents">
-          <a
-            href={href}
-            target="_blank"
-            rel="noopener"
-            aria-label={`${name} (opens in a new tab)`}
-            class="card card-hover affil-card"
-          >
-            <span class="affil-logo" style={`--affil-logo:url(${src!})`} aria-hidden="true"></span>
-          </a>
-        </li>
-      ))}
-    </ul>
-    <span
-      class="affil-fade pointer-events-none transition-opacity duration-200 absolute inset-y-0 right-0 w-10"
-      aria-hidden="true"
-    ></span>
-  </div>
-  <p class="affil-hint mt-3 text-center text-xs font-medium text-faint" aria-hidden="true">
-    Swipe →
-  </p>
+  <ul class="mt-5 flex flex-wrap justify-center gap-2" aria-label="Institutions I have worked with">
+    {orgs.map(([name, href, src]) => (
+      <li>
+        <a
+          href={href}
+          target="_blank"
+          rel="noopener"
+          aria-label={`${name} (opens in a new tab)`}
+          class="org-tile"
+          title={name}
+        >
+          <span class="tech-ic" style={`--tech-ic:url(${src!})`} aria-hidden="true"></span>
+        </a>
+      </li>
+    ))}
+  </ul>
 </div>
