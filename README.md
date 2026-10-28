@@ -166,9 +166,9 @@ node scripts/update-pubs.js    # refresh publications from Zotero
 
 Every workflow that needs a build goes through the `.github/actions/build-site` composite action, so each check scores the same bytes that get deployed.
 
-### The homepage map
+### The About map
 
-The closing CTA has a MapLibre map centred on Orlando (`src/components/Globe.astro`, `src/scripts/globe.ts`). `maplibre-gl` loads lazily when the map nears the viewport. Tiles come from OpenFreeMap; the style is built from the CSS tokens and rebuilt when the theme changes.
+`/about` ends with a static SVG map of central Florida centred on Orlando (`src/components/OrlandoMap.astro`). No JS, no tiles; the land is Natural Earth 1:10m state outlines, and colors come from the CSS tokens so it follows the theme.
 
 ### Blog post icons
 
