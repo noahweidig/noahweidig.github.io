@@ -4,10 +4,9 @@
   "private": true,
   "description": "noahweidig.com — Astro + TypeScript + Tailwind.",
   "engines": {
-    "node": ">=22.12"
+    "node": ">=22.23.4"
   },
   "scripts": {
-    "a11y": "node scripts/check/axe.mjs",
     "astro": "astro",
     "build": "astro check && astro build && pagefind --site dist",
     "build:fast": "astro build && pagefind --site dist",
@@ -15,15 +14,13 @@
     "covers:all": "node scripts/generate/blog-covers.mjs --site --collections --pages",
     "dev": "astro dev",
     "format": "prettier --write .",
-    "icons": "node scripts/generate/icons.mjs",
     "logos:pkg": "node scripts/generate/pkg-logo-srcset.mjs",
-    "optimize:icons": "svgo --config scripts/svgo.config.cjs -f public/media/icons/tech -o public/media/icons/tech",
     "lint": "prettier --check . && astro check && node scripts/check/tokens.mjs",
     "pdfs": "node scripts/generate/pdfs.mjs",
     "shots": "node scripts/generate/project-shots.mjs",
     "preview": "astro preview",
     "start": "astro dev",
-    "test": "vitest run"
+    "test": "node --test \"src/lib/*.test.ts\""
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.19",
@@ -37,17 +34,13 @@
     "@astrojs/check": "^0.9.10",
     "@types/node": "^26.6.4",
     "@types/sanitize-html": "^2.16.1",
-    "axe-core": "^4.14.0",
     "js-yaml": "^5.5.0",
-    "lucide-static": "^1.61.0",
     "pagefind": "^1.5.2",
     "pdf-lib": "^1.17.1",
     "prettier": "^3.9.10",
     "prettier-plugin-astro": "^1.1.1",
     "puppeteer": "^25.13.0",
     "sharp": "^0.35.4",
-    "svgo": "^4.1.0",
-    "typescript": "^5.7.0",
-    "vitest": "^5.0.5"
+    "typescript": "^5.7.0"
   }
 }

@@ -9,7 +9,7 @@ import { join } from 'node:path';
 const allow = new Set([
   'src/styles/global.css',
   'src/styles/fonts.css',
-  'src/lib/icons.generated.ts',
+  'src/lib/icons.ts',
   'src/layouts/Print.astro',
   'src/layouts/Base.astro',
   'src/pages/print/resume.astro',

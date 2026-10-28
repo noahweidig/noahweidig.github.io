@@ -24,7 +24,7 @@ updates:
         patterns:
           - "*"
 
-  # The build tooling (puppeteer, axe-core, ...) is pinned in
+  # The build tooling (puppeteer, pagefind, ...) is pinned in
   # package.json / package-lock.json, so an ecosystem manager can watch it
   # (#249).
   - package-ecosystem: npm

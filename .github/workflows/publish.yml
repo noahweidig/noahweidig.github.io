@@ -32,8 +32,8 @@ concurrency:
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
-  # Every other gate in this repo checks the *output* — axe and Lighthouse
-  # both run against rendered pages. This one checks the input: formatting
+  # Every other gate in this repo checks the *output* — Lighthouse and the link
+  # check run against rendered pages. This one checks the input: formatting
   # across the source tree, plus `astro check`, which type-checks every
   # component, page and content-collection schema.
   lint:
@@ -69,6 +69,60 @@ jobs:
         uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
         with:
           path: dist
+
+      # The PR checks below audit this exact build instead of each running
+      # their own install and build.
+      - name: Upload built site for the PR checks
+        if: github.event_name == 'pull_request'
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: dist
+          path: dist
+          include-hidden-files: true
+          retention-days: 1
+          if-no-files-found: error
+
+  # Lighthouse over the build above. Eight URLs at three runs each (see
+  # lighthouserc.cjs), so it gets the long timeout.
+  lhci:
+    needs: build
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Download built site
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: dist
+          path: dist
+
+      - name: Run Lighthouse CI
+        uses: treosh/lighthouse-ci-action@3e7e23fb74242897f95c0ba9cabad3d0227b9b18 # v12
+        with:
+          configPath: ./lighthouserc.cjs
+          runs: 3
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+
+  # lychee over the same build; the exclusions live in the shared action.
+  lychee:
+    needs: build
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Download built site
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: dist
+          path: dist
+
+      - name: Check links
+        uses: ./.github/actions/check-links
 
   deploy:
     needs: build
