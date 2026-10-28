@@ -15,14 +15,14 @@
  * Source of truth is src/assets/blog/favorite-r-packages/logos/ (the
  * original, full-resolution files). Run after changing one of those:
  *
- *   node scripts/generate-pkg-logo-srcset.mjs
+ *   node scripts/generate/pkg-logo-srcset.mjs
  */
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import sharp from 'sharp';
 
-const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const srcDir = path.join(root, 'src/assets/blog/favorite-r-packages/logos');
 const outDir = path.join(root, 'public/media/blog/favorite-r-packages/logos');
 

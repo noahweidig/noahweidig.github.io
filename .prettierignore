@@ -3,7 +3,7 @@ dist/
 node_modules/
 package-lock.json
 public/
-# Zotero-generated; rewritten wholesale by scripts/update-pubs.js.
+# Zotero-generated; rewritten wholesale by scripts/sync/pubs.js.
 src/content/publications/
 .claude/
 .github/

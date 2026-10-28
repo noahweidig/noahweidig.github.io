@@ -1,10 +1,10 @@
 // Runs axe-core over the site's key pages and exits non-zero on violations.
 //
-//   node scripts/axe-audit.mjs                     # ./dist, read off disk
-//   node scripts/axe-audit.mjs --dir dist
-//   node scripts/axe-audit.mjs --base https://noahweidig.com
+//   node scripts/check/axe.mjs                     # ./dist, read off disk
+//   node scripts/check/axe.mjs --dir dist
+//   node scripts/check/axe.mjs --base https://noahweidig.com
 //
-// Lived in a heredoc inside .github/workflows/axe.yml until #249/#256: as a
+// Lived in a heredoc inside .github/workflows/ci-axe.yml until #249/#256: as a
 // file it can run locally (`npm run a11y`), it can point at production for
 // the scheduled audit, and its dependencies are pinned in package.json
 // instead of in a workflow string.

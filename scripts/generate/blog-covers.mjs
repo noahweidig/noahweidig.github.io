@@ -14,20 +14,20 @@
  * — unlike blog/award covers they aren't Astro content-collection images, so
  * no getImage() processing is needed.
  *
- *   node scripts/generate-blog-covers.mjs [slug ...]   # blog posts, all if omitted
- *   node scripts/generate-blog-covers.mjs --site        # the site-wide og:image card
- *   node scripts/generate-blog-covers.mjs --collections # projects/publications/experience/education covers
- *   node scripts/generate-blog-covers.mjs --pages       # section-index & utility-page covers
+ *   node scripts/generate/blog-covers.mjs [slug ...]   # blog posts, all if omitted
+ *   node scripts/generate/blog-covers.mjs --site        # the site-wide og:image card
+ *   node scripts/generate/blog-covers.mjs --collections # projects/publications/experience/education covers
+ *   node scripts/generate/blog-covers.mjs --pages       # section-index & utility-page covers
  */
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import puppeteer from 'puppeteer';
-import { coverHtml, hash } from './lib/blog-cover.mjs';
-import { readFrontmatter } from './lib/frontmatter.mjs';
+import { coverHtml, hash } from '../lib/blog-cover.mjs';
+import { readFrontmatter } from '../lib/frontmatter.mjs';
 
-const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const blogDir = path.join(root, 'src/content/blog');
 const fontsDir = path.join(root, 'public/fonts');
 const siteCardOut = path.join(root, 'public/media/authors/site-og.webp');

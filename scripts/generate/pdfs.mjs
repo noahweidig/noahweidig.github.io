@@ -3,7 +3,7 @@
  * public/, so the files people download are always the site's own
  * content rather than a document maintained beside it.
  *
- *   npm run build:fast && node scripts/generate-pdfs.mjs
+ *   npm run build:fast && node scripts/generate/pdfs.mjs
  *
  * The résumé has to be one page. Rather than hand-tuning the type until it
  * happens to fit, the script prints it, counts the pages, and shrinks a single
@@ -17,7 +17,7 @@ import { fileURLToPath } from 'node:url';
 import puppeteer from 'puppeteer';
 import { PDFDocument } from 'pdf-lib';
 
-const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const dist = path.join(root, 'dist');
 const outDir = path.join(root, 'public');
 

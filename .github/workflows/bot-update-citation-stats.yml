@@ -30,7 +30,7 @@ jobs:
           node-version-file: .nvmrc
 
       - name: Fetch Dimensions & Altmetric stats
-        run: node scripts/update-citation-stats.js
+        run: node scripts/sync/citation-stats.js
 
       - name: Commit changes
         id: commit
