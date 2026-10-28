@@ -33,8 +33,7 @@ jobs:
           # production rather than the build under test — a renamed or added
           # route fails here until it deploys. The build's internal links are
           # covered anyway, through --root-dir; the handful of noahweidig.com
-          # paths served by separate project-pages repos are covered live by
-          # production-audit.yml, which crawls the deployed site weekly.
+          # paths served by separate project-pages repos are not checked here.
           # Accepted codes: 403/429 (bot blocking), 405 (Formspree POST
           # endpoint), 415 (oakfirescience.com's WAF rejects the CI request
           # though the page loads 200 in a browser), 999 (LinkedIn).

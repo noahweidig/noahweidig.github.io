@@ -3,7 +3,7 @@
 //
 //   GITHUB_TOKEN=... node scripts/check-giscus-config.mjs
 //
-// Run weekly by .github/workflows/production-audit.yml. src/components/
+// Not run by any workflow now; run it by hand. src/components/
 // Comments.astro mounts giscus only when repoId/categoryId look like
 // non-empty strings — it can't tell a real id from a stale one. If
 // Discussions were ever disabled, or the category renamed or deleted, every

@@ -1,5 +1,5 @@
 ---
-import { navGroups, socials } from '../lib/site';
+import { navGroups, site, socials } from '../lib/site';
 import Icon from './Icon.astro';
 import Wordmark from './Wordmark.astro';
 import NewsletterForm from './NewsletterForm.astro';
@@ -19,7 +19,7 @@ const columns: { text: string; items: Link[] }[] = [
     items: [
       { text: 'Contact', href: '/contact/' },
       { text: 'Privacy', href: '/privacy/' },
-      { text: 'Terms', href: '/terms/' },
+      { text: 'Book a call', href: site.booking, external: true },
       { text: 'RSS', href: '/rss.xml' },
     ],
   },
@@ -89,20 +89,6 @@ const iconBtn =
               class="chip chip-action footer-dim hover:text-accent-contrast"
             >
               .xml
-            </a>
-            <a
-              href="/sitemap.md"
-              data-tip="Markdown sitemap for humans and LLMs"
-              class="chip chip-action footer-dim hover:text-accent-contrast"
-            >
-              .md
-            </a>
-            <a
-              href="/llms.txt"
-              data-tip="Short site guide for AI agents"
-              class="chip chip-action footer-dim hover:text-accent-contrast"
-            >
-              llms.txt
             </a>
           </div>
         </div>
