@@ -6,7 +6,7 @@ on:
   # Render-only check for PRs so a broken site never reaches main.
   pull_request:
     branches: [main]
-  # Called by update-pubs.yml after the Zotero sync commits new publications.
+  # Called by bot.yml after the weekly refresh commits regenerated content.
   # Pushes made with GITHUB_TOKEN don't fire `push` workflows, so without this
   # the bot's commit sits on main undeployed until someone happens to push
   # (#247). A `workflow_call` keeps the deploy inside the sync's own run — it

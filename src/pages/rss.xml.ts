@@ -50,11 +50,10 @@ export async function GET(context: APIContext) {
   const container = await AstroContainer.create();
   const feedSite = context.site ?? new URL(site.url);
 
-  const res = await rss({
+  return rss({
     title: 'Noah Weidig — Blog',
     description: 'Notes on science, data, maps, and the landscapes we live in.',
     site: feedSite,
-    stylesheet: '/xml.css',
     xmlns: { dc: 'http://purl.org/dc/elements/1.1/' },
     items: await Promise.all(
       posts.slice(0, 20).map(async (post) => {
@@ -71,10 +70,4 @@ export async function GET(context: APIContext) {
     ),
     customData: '<language>en-us</language>',
   });
-  // @astrojs/rss omits `type` on non-XSL stylesheets; some browsers then skip the CSS.
-  const xml = (await res.text()).replace(
-    '<?xml-stylesheet href="/xml.css"?>',
-    '<?xml-stylesheet type="text/css" href="/xml.css"?>',
-  );
-  return new Response(xml, { headers: res.headers });
 }

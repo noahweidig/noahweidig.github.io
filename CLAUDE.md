@@ -53,27 +53,17 @@ hardcodes exclusions for non-content routes that shouldn't be indexed
 diagnostic/dev-only route there too, don't rely on the page's own `noindex`
 meta tag to keep it out of `sitemap.xml`.
 
-## Scheduled bot-commit workflows
+## Scheduled refresh
 
-Pattern used by the `bot-*.yml` workflows (e.g. `bot-update-citation-stats.yml`; PR checks are `ci-*.yml`): a weekly
-`schedule` + `workflow_dispatch` trigger, `contents: write` only on the job
-that needs it, a script writes to a file under `src/data/`, then:
-
-```yaml
-git config user.name "github-actions[bot]"
-git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-git add src/data/<file>.json
-if git diff --cached --quiet; then
-echo "committed=false" >> "$GITHUB_OUTPUT"; exit 0
-fi
-echo "committed=true" >> "$GITHUB_OUTPUT"
-git commit -m "..."
-# push with retry/backoff
-```
-
-...followed by a `deploy` job gated on `needs.<job>.outputs.committed ==
-'true'` that calls `./.github/workflows/publish.yml` via `workflow_call`. Copy
-this shape rather than inventing a new one.
+`.github/workflows/bot.yml` is the one scheduled bot (PR checks are `ci-*.yml`
+and the jobs in `publish.yml`). Each Monday it runs the generators in order
+(`scripts/sync/*`, then `scripts/generate/{project,publication}-shots`, a
+build, then `scripts/generate/pdfs`), commits once with `contents: write` on
+that job only, and a `deploy` job gated on `needs.refresh.outputs.committed ==
+'true'` calls `./.github/workflows/publish.yml` via `workflow_call` (a push
+with `GITHUB_TOKEN` cannot trigger another workflow). To add a generator, add
+its step before the commit and its output paths to the `git add` list. Any
+failing step fails the run before anything is committed.
 
 **Always install via `.github/actions/build-site`** (the composite action)
 rather than hand-rolling `npm ci` + `npm run build:fast` in a workflow. It
