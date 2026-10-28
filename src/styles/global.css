@@ -1012,19 +1012,27 @@
     mask: var(--seal) center / contain no-repeat;
     -webkit-mask: var(--seal) center / contain no-repeat;
   }
-  .tag-pill-link {
-    transition:
-      border-color var(--dur-fast),
-      color var(--dur-fast);
+  .org-tile {
+    display: grid;
+    place-items: center;
+    width: 3.5rem;
+    height: 3.5rem;
+    border: 1px solid var(--c-line);
+    border-radius: var(--radius-md);
+    transition: border-color var(--dur-fast);
   }
-  .tag-pill-link .tech-ic {
-    width: 1.75rem;
-    height: 1.5rem;
+  .org-tile .tech-ic {
+    width: 2rem;
+    height: 2rem;
   }
-  .tag-pill-link:hover,
-  .tag-pill-link:focus-visible {
+  .org-tile:hover,
+  .org-tile:focus-visible {
     border-color: var(--c-accent-ink);
-    color: var(--c-accent-ink);
+  }
+  .org-tile:hover .tech-ic,
+  .org-tile:focus-visible .tech-ic {
+    background: var(--c-accent-ink);
+    opacity: 1;
   }
 
   /* FAQ accordion: the chevron flips about its horizontal axis (toward or away

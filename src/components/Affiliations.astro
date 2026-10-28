@@ -29,10 +29,10 @@ const orgs = [
           target="_blank"
           rel="noopener"
           aria-label={`${name} (opens in a new tab)`}
-          class="tag-pill tag-pill-link"
+          class="org-tile"
+          title={name}
         >
           <span class="tech-ic" style={`--tech-ic:url(${src!})`} aria-hidden="true"></span>
-          {name}
         </a>
       </li>
     ))}
