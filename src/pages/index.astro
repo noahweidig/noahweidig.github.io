@@ -36,6 +36,7 @@ const education = (await getCollection('education')).sort(byDate);
 const awards = (await getCollection('awards')).sort(byDate);
 const featuredAwards = awards.filter((a) => a.data.image).slice(0, 6);
 
+const PLURALS: Record<string, string> = { Thesis: 'Theses', 'Media Coverage': 'Media Coverage' };
 const pubCounts = Object.entries(
   allPubs.reduce<Record<string, number>>((acc, p) => {
     const c = p.data.categories[0] ?? 'Other';
@@ -51,7 +52,11 @@ const stats = [
     id: 'pop-pubs',
     icon: 'book',
     body: 'Journal articles, conference presentations, webinars and media coverage, by type.',
-    items: pubCounts.map(([t, n]) => ({ t: `${t}s`, n: String(n), href: '/publications/' })),
+    items: pubCounts.map(([t, n]) => ({
+      t: PLURALS[t] ?? `${t}s`,
+      n: String(n),
+      href: '/publications/',
+    })),
     href: '/publications/',
     cta: 'All publications',
   },
