@@ -75,8 +75,8 @@ const ASSERTIONS = {
   'cumulative-layout-shift': ['error', { maxNumericValue: 0.05 }],
   'total-blocking-time': ['error', { maxNumericValue: 200 }],
 
-  // Advisory: these fire on third-party embeds (Giscus) the build does
-  // not control, so they report without failing the run.
+  // Advisory: these fire on third-party resources the build does not
+  // control, so they report without failing the run.
   'unused-javascript': 'off',
   'third-party-cookies': 'off',
   'uses-long-cache-ttl': 'off',
@@ -119,11 +119,9 @@ module.exports = {
         url('cv/index.html'),
         url('projects/index.html'),
         url('publications/index.html'),
-        url('blog/index.html'),
         url('contact/index.html'),
         url('projects/chartifyr/index.html'),
         url('publications/alexander-shifting-forest-25/index.html'),
-        url('blog/favorite-r-packages/index.html'),
       ],
     },
     upload: { target: 'temporary-public-storage' },

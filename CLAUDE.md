@@ -19,7 +19,7 @@ in `.cjs` files.
 - `src/layouts/Page.astro` — Base + a centered hero header (kicker, h1, intro)
   for simple content pages (privacy, contact).
 - `src/layouts/Detail.astro` — Base + the shared "single content item" shell
-  used by publications/awards/education/experience/projects/blog detail
+  used by publications/awards/education/experience/projects detail
   pages: breadcrumbs, chips, prev/next, ToC, etc.
 - `src/layouts/Print.astro` — standalone, no header/footer/scripts, used only
   by `scripts/generate/pdfs.mjs` (Puppeteer) to render the printable CV/résumé.
@@ -43,7 +43,7 @@ new page should look like it belongs, not like a bolted-on tool.
 
 ## Content collections
 
-`src/content/{blog,projects,publications,awards,experience,education}` — each
+`src/content/{projects,publications,awards,experience,education}` — each
 entry is `index.md` with frontmatter. `astro.config.mjs` reads the publication
 frontmatter directly (not through `astro:content`) to maintain
 `noindexedPaths` for publication "appearance of" duplicates. The sitemap integration's `filter()` also

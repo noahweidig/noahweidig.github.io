@@ -31,15 +31,6 @@ export function inlineMarkup(input: string): string {
     .replace(/(^|[^*])\*([^*]+)\*/g, '$1<em>$2</em>');
 }
 
-/** ~200 wpm, matching the reading-time estimate the old build stamped in. */
-export function readingTime(body: string | undefined): string {
-  const words = String(body ?? '')
-    .replace(/```[\s\S]*?```/g, ' ')
-    .split(/\s+/)
-    .filter(Boolean).length;
-  return `${Math.max(1, Math.round(words / 200))} min read`;
-}
-
 /**
  * Splits a `pub-authors` string ("Ivey, M. A., Wonkka, C. L. & Weidig, N. C.")
  * into individual "Surname, Initials" names.
