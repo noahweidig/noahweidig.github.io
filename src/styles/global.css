@@ -1349,9 +1349,9 @@
     transition-delay: 0s;
   }
   .back-to-top:hover {
-    background: color-mix(in oklab, var(--c-bg) 85%, transparent);
-    border-color: color-mix(in oklab, var(--c-accent) 55%, var(--c-line));
-    color: var(--c-ink);
+    background: var(--c-accent);
+    border-color: var(--c-accent);
+    color: var(--c-accent-contrast);
   }
   /* Pages with a ToC: the button takes this exact corner on mobile. */
   @media (max-width: 63.99rem) {
@@ -1704,6 +1704,7 @@
   position: relative;
   isolation: isolate;
   overflow: hidden;
+  box-shadow: none;
 }
 
 /* Stat numbers count up from 0 as they scroll into view (no JS). The final
