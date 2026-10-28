@@ -1038,6 +1038,10 @@
       border-color var(--dur-fast),
       color var(--dur-fast);
   }
+  .tag-pill-link .tech-ic {
+    width: 1.75rem;
+    height: 1.5rem;
+  }
   .tag-pill-link:hover,
   .tag-pill-link:focus-visible {
     border-color: var(--c-accent-ink);
