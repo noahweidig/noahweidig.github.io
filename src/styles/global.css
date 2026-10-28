@@ -1015,15 +1015,18 @@
   .org-tile {
     display: grid;
     place-items: center;
-    width: 3.5rem;
-    height: 3.5rem;
+    width: 100%;
+    aspect-ratio: 1 / 1;
     border: 1px solid var(--c-line);
     border-radius: var(--radius-md);
+    background: var(--c-card);
     transition: border-color var(--dur-fast);
   }
   .org-tile .tech-ic {
-    width: 2rem;
-    height: 2rem;
+    width: 45%;
+    height: 45%;
+    max-width: 3.5rem;
+    max-height: 3.5rem;
   }
   .org-tile:hover,
   .org-tile:focus-visible {
@@ -1697,24 +1700,10 @@
    Logo triad: blue, red and yellow carry the whole palette. Ambient glow,
    count-up numbers and view-transition tuning live here.
    ========================================================================= */
-/* Static field of tiny squares at random alpha behind the closing CTA, densest at
-   the top and fading out. The SVG is an alpha mask, so the squares take the ink
-   color in either theme; overflow clips it to the card's rounded corners. */
 .cta-card {
   position: relative;
   isolation: isolate;
   overflow: hidden;
-}
-.cta-card::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background: var(--c-ink);
-  opacity: 0.4;
-  mask: url(/media/cta-grid.svg) top center / 420px 420px repeat-x;
-  -webkit-mask: url(/media/cta-grid.svg) top center / 420px 420px repeat-x;
 }
 
 /* Stat numbers count up from 0 as they scroll into view (no JS). The final
