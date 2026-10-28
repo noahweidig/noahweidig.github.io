@@ -1869,30 +1869,6 @@
   }
 }
 
-/* ============================================================================
-   Reading mode. Unlayered on purpose: these rules have to beat the Tailwind
-   utilities on the same elements (grid, hidden/lg:block), and an @layer block
-   always loses to unlayered CSS.
-   ========================================================================= */
-[data-reading] .prose-nw {
-  font-size: 1.15rem;
-  line-height: 1.85;
-}
-[data-reading] [data-toc],
-[data-reading] [data-toc-fab],
-[data-reading] [data-share-row],
-[data-reading] [data-post-aside],
-[data-reading] [data-comments],
-[data-reading] footer[data-site-footer] {
-  display: none;
-}
-/* Without the rail the two-column grid leaves the article parked left. */
-[data-reading] [data-article-grid] {
-  display: block;
-  max-width: 44rem;
-  margin-inline: auto;
-}
-
 /* Print: the CV page has to survive Cmd-P. */
 @media print {
   :root {
