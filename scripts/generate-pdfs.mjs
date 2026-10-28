@@ -1,6 +1,6 @@
 /**
  * Render the CV and the one-page résumé from the built site to PDFs in
- * public/uploads/, so the files people download are always the site's own
+ * public/, so the files people download are always the site's own
  * content rather than a document maintained beside it.
  *
  *   npm run build:fast && node scripts/generate-pdfs.mjs
@@ -19,7 +19,7 @@ import { PDFDocument } from 'pdf-lib';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const dist = path.join(root, 'dist');
-const outDir = path.join(root, 'public', 'uploads');
+const outDir = path.join(root, 'public');
 
 /** The origin the PDFs' links point at, read from the site config so it stays
     in step with the rest of the build. */

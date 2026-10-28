@@ -3,7 +3,7 @@
  *
  * Every UI icon on the site is Lucide (ISC, lucide.dev): one 24px grid, one
  * stroke, one set of terminals. Brand marks are not generated here: they are
- * the SVGs in public/uploads/, loaded by src/lib/brand-icons.ts. Each icon is
+ * the SVGs in src/assets/brand-icons/, loaded by src/lib/brand-icons.ts. Each icon is
  * run through SVGO (shapes to paths, paths merged, path data minified) so the
  * homepage ships as few bytes as possible.
  *

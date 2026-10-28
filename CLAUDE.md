@@ -49,7 +49,7 @@ frontmatter files directly (not through `astro:content`) to compute sitemap
 `lastmod` per path, and maintains `noindexedPaths` for publication
 "appearance of" duplicates. The sitemap integration's `filter()` also
 hardcodes exclusions for non-content routes that shouldn't be indexed
-(`/404`, `/500`, `/blog/write`) — add a new
+(`/404`, `/500`) — add a new
 diagnostic/dev-only route there too, don't rely on the page's own `noindex`
 meta tag to keep it out of `sitemap.xml`.
 
