@@ -41,7 +41,7 @@ Currently a **GIS & Remote Sensing Research Associate** at the University of Flo
 
 Actively seeking **Data Scientist** or **GIS Analyst** roles.
 
-📄 [Download Resume](https://noahweidig.com/uploads/resume.pdf)
+📄 [Download Resume](https://noahweidig.com/resume.pdf)
 
 ### Where the content lives
 
