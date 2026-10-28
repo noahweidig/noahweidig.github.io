@@ -1,0 +1,10 @@
+{
+  "name": "noahweidig-bot-tools",
+  "private": true,
+  "type": "module",
+  "description": "Dependencies only the weekly refresh bot needs; kept out of the root install so PR CI skips them.",
+  "dependencies": {
+    "pdf-lib": "^1.17.1",
+    "puppeteer": "^25.15.0"
+  }
+}

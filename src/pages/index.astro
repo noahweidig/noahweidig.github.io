@@ -93,38 +93,6 @@ const stats = [
   },
 ];
 
-const researchAreas = [
-  'Remote Sensing',
-  'Land-Use Change',
-  'Spatial Statistics',
-  'Applied AI',
-  'Biodiversity',
-  'Geospatial Engineering',
-];
-
-const starts = [
-  {
-    id: 'pop-research',
-    items: researchAreas.map((t) => ({ t, href: '#interests' })),
-    href: '#interests',
-    icon: 'layers',
-    tint: 'blue',
-    title: 'Research',
-    body: 'Six focus areas, from WUI wildfire risk to species distribution modeling — with the papers behind each.',
-    cta: 'Read the research',
-  },
-  {
-    id: 'pop-tools',
-    items: projects.map((p) => ({ t: p.data.title, href: `/projects/${p.id}/` })),
-    href: '#projects',
-    icon: 'terminal',
-    tint: 'blue',
-    title: 'Tools & maps',
-    body: 'Open tools: an R package for U.S. fire data, Earth Engine apps, interactive map galleries.',
-    cta: 'Browse the work',
-  },
-];
-
 const faqs = [
   {
     q: 'What do you do?',
@@ -160,38 +128,8 @@ const faqs = [
     <Affiliations />
   </section>
 
-  <!-- two ways in: bento -->
-  <section class="shell py-12 md:py-16">
-    <div class="bento">
-      {starts.map((s, i) => (
-        <div
-          class={`card card-hover bento-cell bento-${i} tint-${s.tint} group relative flex flex-col p-6 md:p-8`}
-          data-reveal
-          style={`--reveal-delay:${i * 70}ms`}
-        >
-          <span
-            class={`grid aspect-square h-11 w-11 shrink-0 place-items-center rounded-full tile-${s.tint}`}
-          >
-            <Icon name={s.icon} size={20} />
-          </span>
-          <h2 class="mt-5 text-xl">{s.title}</h2>
-          <p class="mt-2 flex-1 text-sm leading-relaxed text-dim">{s.body}</p>
-          <button
-            type="button"
-            class="popup-plus mt-5 ml-auto after:absolute after:inset-0 after:rounded-[inherit] after:content-['']"
-            data-popup-open={s.id}
-            aria-haspopup="dialog"
-            aria-label={`More about ${s.title}`}
-          >
-            <Icon name="plus" size={14} stroke-width={1.8} />
-          </button>
-        </div>
-      ))}
-    </div>
-  </section>
-
-  {[...stats, ...starts].map((s) => (
-    <Popup id={s.id} eyebrow={'label' in s ? s.label : s.title} icon={s.icon} title={s.cta}>
+  {stats.map((s) => (
+    <Popup id={s.id} eyebrow={s.label} icon={s.icon} title={s.cta}>
       <p class="text-lg leading-relaxed">{s.body}</p>
       {s.items.length > 0 && (
         <ul class="divide-y divide-line border-y border-line text-ink">
