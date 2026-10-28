@@ -95,7 +95,7 @@ npm run lint     # prettier --check + astro check + token check
 npm test         # node --test
 ```
 
-`npm run` lists the rest (cover art, PDFs, screenshots). `npm run lint` is the gate: Prettier (`.prettierrc.json`), `astro check` for types, and `scripts/check/tokens.mjs`, which fails on hardcoded hex colors outside `src/styles/global.css`.
+`npm run` lists the rest (PDFs, screenshots). `npm run lint` is the gate: Prettier (`.prettierrc.json`), `astro check` for types, and `scripts/check/tokens.mjs`, which fails on hardcoded hex colors outside `src/styles/global.css`.
 
 ### Deploy and automation
 
@@ -104,7 +104,7 @@ Every push to `main` builds and publishes to GitHub Pages through `.github/workf
 - `ci-*.yml` run on pull requests (typos, workflow linting, dependency scans) or on a schedule (the monthly link sweep). Lighthouse and the link check run as jobs in `publish.yml`, reusing its build.
 - `bot.yml` runs weekly: it refreshes the Zotero publications, citation stats, project and publication images and the CV and résumé PDFs in order, commits once, and calls `publish.yml` to deploy.
 
-Every workflow that needs a build goes through the `.github/actions/build-site` composite action, so each check scores the same bytes that get deployed. Scripts live in `scripts/`: `generate/` (art, icons, PDFs), `sync/` (Zotero, citation stats) and `check/` (axe, tokens, contact form, giscus). Browser code is `src/client/`.
+Every workflow that needs a build goes through the `.github/actions/build-site` composite action, so each check scores the same bytes that get deployed. Scripts live in `scripts/`: `generate/` (icons, PDFs, screenshots), `sync/` (Zotero, citation stats) and `check/` (tokens). Browser code is `src/client/`.
 
 More detail on the content pipelines, URLs, search and design tokens is in [`docs/architecture.md`](docs/architecture.md).
 

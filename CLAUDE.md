@@ -44,12 +44,11 @@ new page should look like it belongs, not like a bolted-on tool.
 ## Content collections
 
 `src/content/{blog,projects,publications,awards,experience,education}` — each
-entry is `index.md` with frontmatter. `astro.config.mjs` reads these
-frontmatter files directly (not through `astro:content`) to compute sitemap
-`lastmod` per path, and maintains `noindexedPaths` for publication
-"appearance of" duplicates. The sitemap integration's `filter()` also
+entry is `index.md` with frontmatter. `astro.config.mjs` reads the publication
+frontmatter directly (not through `astro:content`) to maintain
+`noindexedPaths` for publication "appearance of" duplicates. The sitemap integration's `filter()` also
 hardcodes exclusions for non-content routes that shouldn't be indexed
-(`/404`, `/500`) — add a new
+(`/404`) — add a new
 diagnostic/dev-only route there too, don't rely on the page's own `noindex`
 meta tag to keep it out of `sitemap.xml`.
 
