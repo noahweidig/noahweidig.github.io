@@ -1,7 +1,7 @@
 /**
  * Shared plumbing for the feature modules in this directory: the
  * `on()` event-binding helper that queues its own teardown, and
- * the shared cleanup queue that `boot()` drains on every `astro:page-load`.
+ * the shared cleanup queue that `boot()` drains before binding.
  */
 
 export const escapeHtml = (s: string) =>

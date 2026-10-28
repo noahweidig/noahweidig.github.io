@@ -35,6 +35,11 @@ jobs:
         with:
           build: 'false'
 
+      # Puppeteer and pdf-lib live in scripts/package.json, so PR CI never
+      # installs them.
+      - name: Install bot tools
+        run: npm ci --prefix scripts --ignore-scripts --no-audit --no-fund --prefer-offline
+
       # The install skips lifecycle scripts, so Puppeteer has not fetched a
       # browser; this is the supported way to do it after the fact.
       # `npm exec --no` runs the version already in the lockfile and never
@@ -42,7 +47,7 @@ jobs:
       # way to run one. The browser download is the CLI's own work, not a
       # lifecycle script, so it still happens.
       - name: Install Chrome for Puppeteer
-        run: npm exec --no --ignore-scripts -- puppeteer browsers install chrome
+        run: npm exec --prefix scripts --no --ignore-scripts -- puppeteer browsers install chrome
 
       # PDF first pages are rendered with poppler's pdftoppm.
       - name: Ensure pdftoppm
