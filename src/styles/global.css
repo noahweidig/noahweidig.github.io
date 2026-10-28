@@ -748,11 +748,18 @@
     border-color: color-mix(in oklab, var(--c-accent) 50%, transparent);
     color: var(--c-accent-ink);
   }
-  a.chip-accent {
-    transition: background-color var(--dur-fast);
+  a.chip-accent,
+  a.chip-action {
+    transition:
+      background-color var(--dur-fast),
+      border-color var(--dur-fast),
+      color var(--dur-fast);
   }
-  a.chip-accent:hover {
-    background: color-mix(in oklab, var(--c-accent) 16%, transparent);
+  a.chip-accent:hover,
+  a.chip-action:hover {
+    background: var(--c-accent);
+    border-color: var(--c-accent);
+    color: var(--c-accent-contrast);
   }
   /* Icon tiles: a 1px circle outlined in the color, icon in the theme's legible
      step. Pair with rounded-full. */
