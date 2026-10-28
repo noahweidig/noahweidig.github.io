@@ -1710,24 +1710,24 @@
    Logo triad: blue, red and yellow carry the whole palette. Ambient glow,
    count-up numbers and view-transition tuning live here.
    ========================================================================= */
-/* Blue rule across the top of the closing CTA, fading out at both ends;
-   overflow clips it to the card's rounded corners so it sits inside the border. */
+/* Static dot grid behind the closing CTA, fading out toward the bottom;
+   overflow clips it to the card's rounded corners. */
 .cta-card {
+  position: relative;
+  isolation: isolate;
   overflow: hidden;
 }
 .cta-card::before {
   content: '';
   position: absolute;
-  inset: 0 0 auto;
-  height: 3px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    var(--c-accent) 20%,
-    var(--c-accent-ink) 50%,
-    var(--c-accent) 80%,
-    transparent
-  );
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: radial-gradient(circle, var(--c-line-strong) 1px, transparent 1.4px);
+  background-size: 7px 7px;
+  opacity: 0.7;
+  mask-image: linear-gradient(to bottom, #000 0%, transparent 65%);
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, transparent 65%);
 }
 
 /* Stat numbers count up from 0 as they scroll into view (no JS). The final
