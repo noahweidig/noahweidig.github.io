@@ -18,6 +18,12 @@ updates:
       - dependencies
       - github-actions
 
+    # One PR per week for all action bumps instead of one per action.
+    groups:
+      actions:
+        patterns:
+          - "*"
+
   # The build tooling (puppeteer, axe-core, ...) is pinned in
   # package.json / package-lock.json, so an ecosystem manager can watch it
   # (#249).
@@ -36,3 +42,11 @@ updates:
 
     labels:
       - dependencies
+
+    # Minor and patch bumps arrive together as one weekly PR; majors stay
+    # separate so each gets its own review.
+    groups:
+      npm-minor-patch:
+        update-types:
+          - minor
+          - patch
