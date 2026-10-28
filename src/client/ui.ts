@@ -12,7 +12,6 @@ import { initTheme } from './theme';
 import { initHeader } from './header';
 import { initReveal } from './reveal';
 import { initGlow } from './glow';
-import { initAffiliations } from './affiliations';
 import { initFilters } from './filters';
 import { initTabs } from './tabs';
 import { initSearch } from './search';
@@ -35,7 +34,6 @@ function boot() {
   initHeader();
   initReveal();
   initGlow();
-  initAffiliations();
   initFilters();
   initTabs();
   initSearch();

@@ -999,10 +999,10 @@
     letter-spacing: 0.06em;
   }
 
-  /* --- tech pills ---
+  /* --- pills (tech stack, worked with) ---
      The icons are single-color SVGs drawn as a mask, so they take the text
      color in either theme with no filter. */
-  .tech-pill {
+  .pill {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
@@ -1024,42 +1024,6 @@
     -webkit-mask: var(--tech-ic) center / contain no-repeat;
   }
 
-  /* --- affiliations ---
-     Logos are drawn as masks in the text color. Wide screens show every card;
-     narrow ones swipe, with a fade on the trailing edge. Nothing moves on its own. */
-  .affil-track {
-    display: flex;
-    gap: 0.6rem;
-    margin: 0;
-    padding: 0.15rem 0;
-    list-style: none;
-    overflow-x: auto;
-    scroll-snap-type: x proximity;
-    scrollbar-width: none;
-  }
-  .affil-track::-webkit-scrollbar {
-    display: none;
-  }
-  .affil-card {
-    display: grid;
-    flex: none;
-    place-items: center;
-    width: 9rem;
-    padding: 1.15rem 0.75rem;
-    scroll-snap-align: start;
-  }
-  .affil-logo {
-    display: block;
-    width: 100%;
-    height: 2rem;
-    background: var(--c-ink);
-    opacity: 0.6;
-    transition:
-      opacity var(--dur-base) var(--ease-out-soft),
-      background-color var(--dur-base) var(--ease-out-soft);
-    mask: var(--affil-logo) center / contain no-repeat;
-    -webkit-mask: var(--affil-logo) center / contain no-repeat;
-  }
   /* Black-on-alpha seals: masked so dark mode needs no filter (iOS Safari
      renders filter:invert on these as black). */
   .seal {
@@ -1069,31 +1033,15 @@
     mask: var(--seal) center / contain no-repeat;
     -webkit-mask: var(--seal) center / contain no-repeat;
   }
-  .affil-card:hover .affil-logo,
-  .affil-card:focus-visible .affil-logo {
-    background: var(--c-accent-ink);
-    opacity: 1;
+  .pill-link {
+    transition:
+      border-color var(--dur-fast),
+      color var(--dur-fast);
   }
-  .affil-fade {
-    background: linear-gradient(90deg, transparent, var(--c-bg));
-  }
-  @media (min-width: 64rem) {
-    .affil-track {
-      display: grid;
-      grid-template-columns: repeat(8, minmax(0, 1fr));
-      overflow: visible;
-    }
-    .affil-card {
-      width: auto;
-      padding-block: 1.35rem;
-    }
-    .affil-logo {
-      height: 2.25rem;
-    }
-    .affil-fade,
-    .affil-hint {
-      display: none;
-    }
+  .pill-link:hover,
+  .pill-link:focus-visible {
+    border-color: var(--c-accent-ink);
+    color: var(--c-accent-ink);
   }
 
   /* FAQ accordion: the chevron flips about its horizontal axis (toward or away

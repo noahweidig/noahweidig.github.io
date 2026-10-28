@@ -1,48 +1,31 @@
 ---
 const orgs = [
-  ['University of Florida', 'https://www.ufl.edu/', '/media/icons/custom/uf.svg'],
-  [
-    'USDA Agricultural Research Service',
-    'https://www.ars.usda.gov/',
-    '/media/icons/custom/ars.svg',
-  ],
-  ['USDA Forest Service', 'https://www.fs.usda.gov/', '/media/icons/custom/fs.svg'],
-  ['University of Cincinnati', 'https://www.uc.edu/', '/media/icons/custom/uc.svg'],
-  ['Northern Kentucky University', 'https://www.nku.edu/', '/media/icons/custom/nku.svg'],
-  ['Student Conservation Association', 'https://thesca.org/', '/media/icons/custom/sca.svg'],
-  [
-    "Boone County Clerk's Office",
-    'https://boonecountyclerk.ky.gov/',
-    '/media/icons/custom/boone.svg',
-  ],
-  ['ECOS', 'https://www.instagram.com/nku_ecos/', '/media/icons/custom/ecos.svg'],
+  ['University of Florida', 'https://www.ufl.edu/'],
+  ['USDA Agricultural Research Service', 'https://www.ars.usda.gov/'],
+  ['USDA Forest Service', 'https://www.fs.usda.gov/'],
+  ['University of Cincinnati', 'https://www.uc.edu/'],
+  ['Northern Kentucky University', 'https://www.nku.edu/'],
+  ['Student Conservation Association', 'https://thesca.org/'],
+  ["Boone County Clerk's Office", 'https://boonecountyclerk.ky.gov/'],
+  ['ECOS', 'https://www.instagram.com/nku_ecos/'],
 ];
 ---
 
 <div class="mt-12" id="affiliations" data-reveal>
   <p class="text-center text-xs font-medium text-faint">Worked with</p>
-  <div class="relative mt-5" data-affil>
-    <ul class="affil-track" tabindex="0" aria-label="Institutions I have worked with">
-      {orgs.map(([name, href, src]) => (
-        <li class="contents">
-          <a
-            href={href}
-            target="_blank"
-            rel="noopener"
-            aria-label={`${name} (opens in a new tab)`}
-            class="card card-hover affil-card"
-          >
-            <span class="affil-logo" style={`--affil-logo:url(${src!})`} aria-hidden="true"></span>
-          </a>
-        </li>
-      ))}
-    </ul>
-    <span
-      class="affil-fade pointer-events-none transition-opacity duration-200 absolute inset-y-0 right-0 w-10"
-      aria-hidden="true"
-    ></span>
-  </div>
-  <p class="affil-hint mt-3 text-center text-xs font-medium text-faint" aria-hidden="true">
-    Swipe →
-  </p>
+  <ul class="mt-5 flex flex-wrap justify-center gap-2" aria-label="Institutions I have worked with">
+    {orgs.map(([name, href]) => (
+      <li>
+        <a
+          href={href}
+          target="_blank"
+          rel="noopener"
+          aria-label={`${name} (opens in a new tab)`}
+          class="pill pill-link"
+        >
+          {name}
+        </a>
+      </li>
+    ))}
+  </ul>
 </div>
