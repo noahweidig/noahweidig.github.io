@@ -85,13 +85,11 @@ Content lives in a directory per entry (`src/content/blog/focus/index.md`). The 
 
 `src/styles/global.css` is the single source of truth. Every semantic color is a runtime custom property, so the theme toggle repaints the whole system by flipping one `data-theme` attribute on `<html>` — no duplicate stylesheet, no flash on load (the value is applied by an inline script before first paint). Tailwind's `@theme inline` block maps those properties onto utility classes, so `bg-surface` and `text-dim` resolve to whichever theme is active.
 
-[`/styleguide`](https://noahweidig.com/styleguide) renders every token, the type scale, and each component live, in whichever theme you are reading in.
-
 ### URLs
 
 The site is published at the apex: **https://noahweidig.com**, so root-relative URLs (`/projects/`) are written by hand and used as they are. URLs inside a content file are written **relative** to the page (`../../media/…`).
 
-Section routes keep their paths. Four pages Quarto rendered as `<name>.html` are directory routes now — `/contact/`, `/cv/`, `/privacy/`, `/styleguide/` — with a redirect stub committed at each old path under `public/`. The feed is served at both `/rss.xml` and its old address, `/blog/index.xml`; a meta-refresh stub is no use to a feed reader, so `src/pages/blog/index.xml.ts` re-exports the same route.
+Section routes keep their paths. Three pages Quarto rendered as `<name>.html` are directory routes now — `/contact/`, `/cv/`, `/privacy/` — with a redirect stub generated at each old path by `src/pages/[page].html.ts`. The feed is served at both `/rss.xml` and its old address, `/blog/index.xml`; a meta-refresh stub is no use to a feed reader, so `src/pages/blog/index.xml.ts` re-exports the same route.
 
 `public/CNAME` carries `noahweidig.com`, which claims the domain's **root** for this repo. GitHub Pages needs the file in the published output on every deploy, so it is committed rather than set in the repo's Pages settings alone.
 
