@@ -12,18 +12,6 @@
   display: inline-flex;
 }
 
-/* One full turn of the theme-toggle icon each time it is clicked. */
-@keyframes theme-spin {
-  to {
-    rotate: 360deg;
-  }
-}
-@media (prefers-reduced-motion: no-preference) {
-  [data-theme-toggle].is-spinning [data-theme-icon] {
-    animation: theme-spin 0.5s var(--ease-out-soft);
-  }
-}
-
 /* ============================================================================
    Palette. Every semantic color is a runtime custom property so the theme
    toggle can swap the whole system by flipping one attribute on <html>.
