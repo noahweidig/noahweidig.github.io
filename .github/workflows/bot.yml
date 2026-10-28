@@ -1,0 +1,116 @@
+name: Weekly refresh
+
+# One scheduled run that regenerates everything the site keeps in git but does
+# not author by hand, in dependency order, then commits it once and deploys
+# once: Zotero publications, citation stats, project and publication images,
+# and the CV and résumé PDFs.
+on:
+  schedule:
+    # 03:00 UTC every Monday.
+    - cron: '0 3 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: bot-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    permissions:
+      contents: write
+    outputs:
+      committed: ${{ steps.commit.outputs.committed }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      # Toolchain only; the build comes after the content it renders has been
+      # refreshed.
+      - name: Install toolchain
+        uses: ./.github/actions/build-site
+        with:
+          build: 'false'
+
+      # The install skips lifecycle scripts, so Puppeteer has not fetched a
+      # browser; this is the supported way to do it after the fact.
+      # `npm exec --no` runs the version already in the lockfile and never
+      # fetches a package on demand; `--ignore-scripts` keeps that from being a
+      # way to run one. The browser download is the CLI's own work, not a
+      # lifecycle script, so it still happens.
+      - name: Install Chrome for Puppeteer
+        run: npm exec --no --ignore-scripts -- puppeteer browsers install chrome
+
+      # PDF first pages are rendered with poppler's pdftoppm.
+      - name: Ensure pdftoppm
+        run: |
+          command -v pdftoppm || {
+            sudo apt-get update
+            sudo apt-get install -y --no-install-recommends poppler-utils
+          }
+
+      - name: Sync Zotero publications
+        run: node scripts/sync/pubs.js
+
+      - name: Fetch Dimensions & Altmetric stats
+        run: node scripts/sync/citation-stats.js
+
+      # These two talk to the live sites, not to dist/.
+      - name: Refresh project screenshots
+        run: node scripts/generate/project-shots.mjs
+
+      - name: Refresh publication images
+        run: node scripts/generate/publication-shots.mjs
+
+      # After the content above, so the CV and résumé are rendered from it.
+      - name: Build site
+        run: npm run build:fast
+
+      - name: Render PDFs
+        run: node scripts/generate/pdfs.mjs
+
+      - name: Commit changes
+        id: commit
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            src/content/publications public/publications \
+            src/data/citation-stats.json \
+            src/assets/albums/projects public/media/noahweidigcom.webp \
+            src/assets/albums/publications src/data/publication-images.json \
+            public/cv.pdf public/resume.pdf
+          if git diff --cached --quiet; then
+            echo "Nothing to commit."
+            echo "committed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          echo "committed=true" >> "$GITHUB_OUTPUT"
+          git commit -m "Weekly refresh: publications, citation stats, images, PDFs"
+          # Retry the push so a transient failure doesn't silently drop an update.
+          for i in 1 2 3 4; do
+            if git push; then
+              echo "pushed"; exit 0
+            fi
+            echo "push failed, retrying in $((2**i))s"; sleep $((2**i))
+            git pull --rebase || true
+          done
+          echo "::error::git push failed after retries"; exit 1
+
+  # The push above is made with GITHUB_TOKEN, which cannot fire `push`
+  # workflows, so the deploy is called from here instead of being left to a
+  # trigger. A sync that never deploys looks exactly like a sync with nothing
+  # to publish (#247). As a called workflow it cannot fail silently: if the
+  # render or the deploy fails, this run fails.
+  deploy:
+    needs: refresh
+    if: needs.refresh.outputs.committed == 'true'
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    uses: ./.github/workflows/publish.yml
