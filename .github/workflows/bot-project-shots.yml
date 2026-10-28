@@ -9,8 +9,8 @@ on:
   push:
     branches: [main]
     paths:
-      - 'scripts/generate-project-shots.mjs'
-      - '.github/workflows/project-shots.yml'
+      - 'scripts/generate/project-shots.mjs'
+      - '.github/workflows/bot-project-shots.yml'
   workflow_dispatch:
     inputs:
       slugs:
@@ -54,7 +54,7 @@ jobs:
           set -euo pipefail
           clean=$(printf '%s' "${SLUGS:-}" | tr -cd 'a-z0-9 -')
           # shellcheck disable=SC2086
-          node scripts/generate-project-shots.mjs $clean
+          node scripts/generate/project-shots.mjs $clean
 
       - name: Commit screenshots
         run: |

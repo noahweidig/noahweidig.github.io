@@ -14,8 +14,8 @@ on:
       - 'src/pages/print/**'
       - 'src/layouts/Print.astro'
       - 'src/lib/site.ts'
-      - 'scripts/generate-pdfs.mjs'
-      - '.github/workflows/pdfs.yml'
+      - 'scripts/generate/pdfs.mjs'
+      - '.github/workflows/bot-pdfs.yml'
   workflow_dispatch:
 
 permissions:
@@ -47,7 +47,7 @@ jobs:
         run: npm exec --no --ignore-scripts -- puppeteer browsers install chrome
 
       - name: Render PDFs
-        run: node scripts/generate-pdfs.mjs
+        run: node scripts/generate/pdfs.mjs
 
       - name: Commit PDFs
         run: |

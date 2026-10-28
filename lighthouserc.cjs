@@ -7,7 +7,7 @@ const ROOT = path.resolve(__dirname, 'dist');
 const url = (p) => `http://localhost/${p}`;
 
 // Lighthouse CI over the built site, run per-PR by
-// .github/workflows/lighthouse.yml.
+// .github/workflows/ci-lighthouse.yml.
 //
 // The numbers are ceilings and floors, not targets: each sits just past the
 // worst of the ten audited URLs as measured today, so the current site passes
