@@ -382,17 +382,6 @@
     max-width: 46rem;
   }
 
-  /* Canvas dot grid inside a hero (hero-dots.ts); fades out toward the bottom edge. */
-  .dot-grid {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent);
-    mask-image: linear-gradient(to bottom, #000 55%, transparent);
-  }
-
   /* --- page hero ---
      The theme-following band that opens every inner page: breadcrumbs, kicker,
      large title, intro and actions on the left, an optional frosted panel on
