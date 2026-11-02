@@ -10,7 +10,7 @@ pub-doi: "10.1029/2024GL110586"
 pub-url: "https://doi.org/10.1029/2024GL110586"
 pub-pdf: "/publications/ivey-woody-cover-24/ivey-woody-cover-24.pdf"
 pub-listed: "yes"
-pub-citations: 9
+pub-citations: 10
 pub-oa: true
 citation: "Ivey, M. A., Wonkka, C. L., **Weidig, N. C.** & Donovan, V. M. (2024). *Geophysical Research Letters*, vol. 51, no. 24, pp. e2024GL110586."
 links:
