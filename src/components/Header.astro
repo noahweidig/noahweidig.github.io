@@ -40,7 +40,9 @@ const isActive = (href: string) => {
                 ]}
               >
                 {group.text}
-                <Icon name="nav-chevronRight" size={14} stroke-width={2.6} class="nav-chevron" />
+                <span class="nav-chevron-wrap" aria-hidden="true">
+                  <Icon name="chevron" size={14} stroke-width={2.6} class="nav-chevron" />
+                </span>
               </button>
               <ul class="nav-menu card absolute top-full left-1/2 z-10 hidden -translate-x-1/2 p-2">
                 {group.items.map((item) => {
@@ -252,14 +254,18 @@ const isActive = (href: string) => {
     max-width: calc(100vw - 2rem);
     animation: menu-drop 0.18s var(--ease-out-soft, ease-out) both;
   }
-  /* The right-pointing chevron is turned to point down, and up when open. */
+  /* Same flip as the FAQ chevron: about the horizontal axis, with perspective. */
+  .nav-chevron-wrap {
+    display: grid;
+    place-items: center;
+    perspective: 120px;
+  }
   :global(.nav-chevron) {
-    rotate: 90deg;
-    transition: rotate var(--dur-slow) var(--ease-out-soft, ease);
+    transition: transform var(--dur-slow) var(--ease-out-soft, ease);
   }
   .nav-group[data-open] :global(.nav-chevron),
   .nav-trigger:hover :global(.nav-chevron) {
-    rotate: -90deg;
+    transform: rotateX(180deg);
   }
   @media (prefers-reduced-motion: reduce) {
     :global(.nav-chevron) {
