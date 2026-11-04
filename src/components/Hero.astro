@@ -24,9 +24,13 @@ import { socials } from '../lib/site';
       data-reveal
       style="--reveal-delay:200ms"
     >
-      <a class="btn btn-primary hero-btn" href="#projects">
+      <a class="group btn btn-primary hero-btn" href="#projects">
         View my work
-        <Icon name="arrow" size={15} />
+        <Icon
+          name="arrow"
+          size={15}
+          class="transition-transform duration-300 group-hover:translate-x-1"
+        />
       </a>
       <a class="btn btn-ghost hero-btn" href="/contact/">
         Get in touch
