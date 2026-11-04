@@ -109,12 +109,16 @@ const isActive = (href: string) => {
       </button>
 
       <a
-        class="btn btn-primary ml-1 hidden px-4 py-2.5 text-sm lg:inline-flex"
+        class="group btn btn-primary ml-1 hidden px-4 py-2.5 text-sm lg:inline-flex"
         href="/contact/"
         data-tip="Email, booking and the contact form"
       >
         Get in touch
-        <Icon name="arrow" size={15} />
+        <Icon
+          name="arrow"
+          size={15}
+          class="transition-transform duration-300 group-hover:translate-x-1"
+        />
       </a>
 
       <button
