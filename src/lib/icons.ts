@@ -84,7 +84,7 @@ export const icons: Record<string, { viewBox: string; body: string; stroke?: boo
   },
   search: {
     viewBox: '0 0 24 24',
-    body: '<path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/>',
+    body: '<path d="m21 21-4.34-4.34M19 11a8 8 0 1 1-16 0 8 8 0 0 1 16 0"/>',
     stroke: true,
   },
   pin: {
