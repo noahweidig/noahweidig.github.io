@@ -19,4 +19,6 @@ links:
 
 I completed my B.S. in Biological Sciences at Northern Kentucky University on the Ecology, Evolution, & Organismal track, graduating with a 4.0 GPA.
 
+Northern Kentucky University is a public university in Highland Heights, Kentucky, just outside Cincinnati. Its biological sciences degree offers several tracks; the Ecology, Evolution, & Organismal track covers how organisms interact with their environments and how populations and ecosystems change over time, with a foundation in chemistry, physics, and mathematics.
+
 During my time at NKU I worked as a research assistant on ecological data projects and was recognized as the Outstanding Graduate in Biology by the Department of Biological Sciences.
