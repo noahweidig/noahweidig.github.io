@@ -6,6 +6,8 @@
 // navigation, no redirect — and the form optimistically swaps to a
 // confirmation once it's sent, the same assumption Substack's own embed
 // widget makes.
+import Icon from './Icon.astro';
+
 const substackUrl = 'https://noahweidig.substack.com';
 const frameName = 'substack-newsletter-frame';
 ---
@@ -32,9 +34,14 @@ const frameName = 'substack-newsletter-frame';
     />
     <button
       type="submit"
-      class="btn btn-primary newsletter-submit m-1 h-8 shrink-0 rounded-full px-4 text-small"
+      class="group btn btn-primary newsletter-submit m-1 h-8 shrink-0 rounded-full px-4 text-small"
     >
       Subscribe
+      <Icon
+        name="arrow"
+        size={15}
+        class="transition-transform duration-300 group-hover:translate-x-1"
+      />
     </button>
   </form>
   <p data-newsletter-note class="mt-2 text-xs text-dim">
