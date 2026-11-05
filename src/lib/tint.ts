@@ -12,6 +12,7 @@ export const SECTION_TINT: Record<string, Tint> = {
   Education: 'blue',
   Awards: 'blue',
   CV: 'blue',
+  Topics: 'blue',
   Newsletter: 'blue',
   'Tech stack': 'blue',
   FAQ: 'blue',

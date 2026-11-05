@@ -33,6 +33,7 @@ export const navGroups = [
       { text: 'Projects', href: '/projects/', tip: 'Open tools, maps and applications' },
       { text: 'Publications', href: '/publications/', tip: 'Papers, talks and peer review' },
       { text: 'Experience', href: '/experience/', tip: 'Roles, research posts and internships' },
+      { text: 'Topics', href: '/tags/', tip: 'Browse projects and papers by theme' },
     ],
   },
   {
@@ -51,6 +52,7 @@ export const navMeta: Record<string, { icon: string; tint: Tint }> = {
   Projects: { icon: 'terminal', tint: SECTION_TINT.Projects! },
   Publications: { icon: 'book', tint: SECTION_TINT.Publications! },
   Experience: { icon: 'briefcase', tint: SECTION_TINT.Experience! },
+  Topics: { icon: 'tag', tint: SECTION_TINT.Topics! },
   About: { icon: 'users', tint: SECTION_TINT.About! },
   Education: { icon: 'graduationCap', tint: SECTION_TINT.Education! },
   Awards: { icon: 'trophy', tint: SECTION_TINT.Awards! },
