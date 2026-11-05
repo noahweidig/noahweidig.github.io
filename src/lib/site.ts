@@ -33,6 +33,7 @@ export const navGroups = [
       { text: 'Projects', href: '/projects/', tip: 'Open tools, maps and applications' },
       { text: 'Publications', href: '/publications/', tip: 'Papers, talks and peer review' },
       { text: 'Experience', href: '/experience/', tip: 'Roles, research posts and internships' },
+      { text: 'Topics', href: '/tags/', tip: 'Browse projects and papers by theme' },
     ],
   },
   {
