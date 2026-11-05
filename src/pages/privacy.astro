@@ -1,5 +1,14 @@
 ---
 import Page from '../layouts/Page.astro';
+import HeroPanel from '../components/HeroPanel.astro';
+import Icon from '../components/Icon.astro';
+
+const facts = [
+  ['check', 'No analytics or tracking scripts'],
+  ['check', 'No cookies, nothing stored in your browser'],
+  ['mail', 'Contact form handled by Formspree'],
+  ['check', 'Fonts self-hosted, no font CDN'],
+];
 ---
 
 <Page
@@ -11,6 +20,16 @@ import Page from '../layouts/Page.astro';
   description="What this site collects, why, and how to opt out — the contact form and third-party services."
   wide={false}
 >
+  <HeroPanel slot="hero-aside" title="At a glance">
+    <ul class="grid">
+      {facts.map(([icon, text]) => (
+        <li class="flex items-center gap-3 border-b border-line py-3 text-body-lg last:border-0">
+          <Icon name={icon!} size={15} class="shrink-0 text-accent-ink" />
+          {text}
+        </li>
+      ))}
+    </ul>
+  </HeroPanel>
   <div class="prose-nw">
     <p class="text-faint">
       <em>Last updated: 28 July 2026</em>
