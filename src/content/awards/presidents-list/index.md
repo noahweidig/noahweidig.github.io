@@ -6,4 +6,4 @@ image: './featured.webp'
 image-alt: President's List award with 4.00 GPA designation
 ---
 
-For four consecutive years, I was recognized on the President's List at Northern Kentucky University for maintaining a 4.00 GPA.
+For four consecutive years, I was recognized on the President's List at Northern Kentucky University for maintaining a 4.00 GPA while completing my [B.S. in Biological Sciences](/education/nku-bachelors/).

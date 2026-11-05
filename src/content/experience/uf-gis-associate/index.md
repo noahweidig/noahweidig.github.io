@@ -14,3 +14,5 @@ Working in the Donovan Lab at the University of Florida, I lead GIS and remote s
 - Built reproducible spatial workflows for landscape-scale analysis of land-use and risk.
 - Integrated remote sensing and vector data to characterize the wildland-urban interface.
 - Produced maps and visualizations that communicate risk to non-technical stakeholders.
+
+This role continues the work I started as a [graduate research assistant](/experience/uf-grad-research/) in the same lab. It builds on the [WUI Wildfire Explorer](/projects/wuirisk/) dataset.

@@ -23,4 +23,4 @@ fireR takes the pain out of getting U.S. wildfire data. The federal fire dataset
 
 Each source has a matching pair. A `get_*()` function downloads and caches the data; a `read_*()` function loads it back with year filtering and your choice of output — an sf object, a terra SpatVector, or a plain data frame. Between them the package covers MTBS burn severity and perimeters, SE FireMap, NIFC perimeters, the FPA-FOD occurrence database, the USFS wildland-urban interface layer, and EPA and CEC ecoregion boundaries.
 
-I wrote it during my thesis so that pulling twenty years of MTBS fires took a single line instead of an afternoon of clicking and converting.
+I wrote it during my [thesis](/publications/weidig-patterns-drivers-25/) so that pulling twenty years of MTBS fires took a single line instead of an afternoon of clicking and converting. It uses the same data as the [WUI Wildfire Explorer](/projects/wuirisk/), and it can download the dataset behind the [FPA-FOD wildfire map](/projects/fpa-fod/).

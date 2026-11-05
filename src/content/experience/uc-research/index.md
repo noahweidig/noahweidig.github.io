@@ -16,3 +16,5 @@ The University of Cincinnati College of Medicine is a major academic medical res
 - Conducted quantitative data analysis using advanced statistical modeling.
 - Built visualizations to communicate research findings.
 - Supported reproducible analysis workflows for the research team.
+
+Related presentation: [Inflammation mediated reprogramming of platelets following transcatheter aortic valve replacement](/publications/weidig-inflammation-mediated-22/).

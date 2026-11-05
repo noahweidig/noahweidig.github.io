@@ -13,4 +13,4 @@ links:
     external: true
 ---
 
-My master's thesis on wildfire risk in the wildland-urban interface was also recognized as the Outstanding Thesis in Natural Resources by the University of Florida's College of Agricultural & Life Sciences. This award acknowledged the research's contribution to understanding and addressing natural resource challenges.
+My master's thesis on wildfire risk in the wildland-urban interface was also recognized as the Outstanding Thesis in Natural Resources by the University of Florida's College of Agricultural & Life Sciences. This award acknowledged the research's contribution to understanding and addressing natural resource challenges. The thesis, [Patterns and drivers of large wildfires](/publications/weidig-patterns-drivers-25/), was part of my [M.S. in Forest Resources & Conservation](/education/uf-masters/) and also won the [Outstanding Thesis in Forest Resources & Conservation](/awards/outstanding-thesis-forest-resources/) award.

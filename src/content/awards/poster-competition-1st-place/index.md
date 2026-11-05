@@ -11,4 +11,4 @@ links:
     external: true
 ---
 
-I received first place in the Entomological Society of America's Undergraduate Student Poster Competition for my research presentation. This award recognized my contributions to entomological research and effective science communication.
+I received first place in the Entomological Society of America's Undergraduate Student Poster Competition for my research presentation, [The Goldilocks principle](/publications/weidig-goldilocks-principle-21-w24i/), on mosquito egg-laying preferences. The research was funded by the [Dr. Carol Swarts Milburn Research Fellowship](/awards/milburn-research-fellowship/) and done as an [NKU research assistant](/experience/nku-research/). This award recognized my contributions to entomological research and effective science communication.

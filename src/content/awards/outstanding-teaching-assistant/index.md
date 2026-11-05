@@ -7,4 +7,4 @@ image: './featured.webp'
 image-alt: Outstanding Teaching Assistant of the Year award
 ---
 
-I was selected as the Outstanding Teaching Assistant of the Year from the University of Florida's School of Forest, Fisheries, & Geomatic Sciences for the 2024 academic year. This award recognized my dedication to supporting student learning and fostering an inclusive classroom environment.
+I was selected as the Outstanding Teaching Assistant of the Year from the University of Florida's School of Forest, Fisheries, & Geomatic Sciences for the 2024 academic year. This award recognized my dedication to supporting student learning and fostering an inclusive classroom environment. I earned it during my [M.S. in Forest Resources & Conservation](/education/uf-masters/).
