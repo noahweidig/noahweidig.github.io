@@ -12,3 +12,5 @@ links:
 ---
 
 I received the Student Travel Grant from the International Association of Landscape Ecology - North America to support my attendance at their 2025 annual conference. This award facilitated my participation in a premier professional meeting in landscape ecology.
+
+IALE-NA awards a limited number of these travel grants each year (10 in the most recent cycle) to student members who apply ahead of the annual meeting.

@@ -11,6 +11,8 @@ categories: [Experience]
 
 At the Boone County Clerk's Office, I managed and analyzed precinct-level GIS data supporting elections.
 
+In Kentucky, the county clerk is the chief election authority for the county. The Boone County Clerk's Office runs local elections and voter registration, and also handles vehicle titling and land records. The Voter Registration Department in Burlington maintains the precinct information that decides where each registered voter casts a ballot, so accurate precinct boundaries and voter records feed directly into how elections are run.
+
 - Managed precinct-level GIS data for voter registration.
 - Analyzed spatial data to support electoral planning.
 - Maintained data quality across voter and precinct records.
