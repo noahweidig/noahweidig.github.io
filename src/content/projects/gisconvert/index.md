@@ -17,4 +17,4 @@ GIS Convert converts spatial data between formats entirely in the browser: Shape
 
 It also validates geometry and previews the result on a map before you export, so you can catch a bad file before it breaks a downstream pipeline.
 
-I built it for the same reason as MapLab: people kept handing me spatial files in the wrong format and I was tired of doing the conversion by hand.
+I built it for the same reason as [MapLab](/projects/maplab/): people kept handing me spatial files in the wrong format and I was tired of doing the conversion by hand.

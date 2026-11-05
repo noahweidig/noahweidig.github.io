@@ -17,4 +17,4 @@ MapLab is GIS in a browser tab, meant for people who need to look at spatial dat
 
 It reads the formats people actually hand you: GeoJSON, zipped shapefiles, FlatGeobuf, GeoPackage, CSV with latitude and longitude columns, and GPX. Once the data is loaded you get a layers panel, drawing and measurement tools, and an attribute table, all sitting on OpenFreeMap tiles.
 
-I built it for collaborators who kept emailing me shapefiles and asking whether I could just show them where something was.
+I built it for collaborators who kept emailing me shapefiles and asking whether I could just show them where something was. [GIS Convert](/projects/gisconvert/) handles the format conversion, and [Map Explorer](/projects/maps/) collects maps I have made.

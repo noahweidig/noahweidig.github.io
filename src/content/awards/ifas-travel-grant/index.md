@@ -6,6 +6,6 @@ image: './featured.webp'
 image-alt: IFAS Travel Grant award certificate
 ---
 
-I received the IFAS Travel Grant to support my travel to a professional conference. This award helped offset the costs of presenting my research and networking with colleagues in the agricultural and life sciences community.
+I received the IFAS Travel Grant to support my travel to a professional conference. This award helped offset the costs of presenting my research and networking with colleagues in the agricultural and life sciences community. I held it during my [M.S. in Forest Resources & Conservation](/education/uf-masters/).
 
 The IFAS travel grant is available to graduate students who are presenting an oral talk or poster at a conference. It requires matching funds from the student's department or advisor, and each student can receive it once per fiscal year.
