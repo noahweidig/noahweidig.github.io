@@ -52,6 +52,7 @@ export const navMeta: Record<string, { icon: string; tint: Tint }> = {
   Projects: { icon: 'terminal', tint: SECTION_TINT.Projects! },
   Publications: { icon: 'book', tint: SECTION_TINT.Publications! },
   Experience: { icon: 'briefcase', tint: SECTION_TINT.Experience! },
+  Topics: { icon: 'tag', tint: SECTION_TINT.Topics! },
   About: { icon: 'users', tint: SECTION_TINT.About! },
   Education: { icon: 'graduationCap', tint: SECTION_TINT.Education! },
   Awards: { icon: 'trophy', tint: SECTION_TINT.Awards! },
