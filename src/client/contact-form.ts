@@ -6,6 +6,10 @@ export function initContactForm() {
   if (!form) return;
   const status = form.querySelector<HTMLElement>('[data-form-status]');
   const submit = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+  const wrap = form.querySelector<HTMLElement>('[data-send-wrap]');
+  const face = wrap?.querySelector<HTMLElement>('.confirm-face');
+  const done = wrap?.querySelector<HTMLElement>('[data-send-done]');
+  const redo = wrap?.querySelector<HTMLElement>('[data-send-redo]');
   const started = form.querySelector<HTMLInputElement>('input[name="nw-form-started"]');
   if (started) started.value = String(Date.now());
 
@@ -14,6 +18,18 @@ export function initContactForm() {
     status.textContent = msg;
     status.dataset.state = ok ? 'ok' : 'error';
   };
+
+  const show = (sent: boolean) => {
+    if (!wrap || !face || !done) return;
+    wrap.dataset.state = sent ? 'sent' : '';
+    face.inert = sent;
+    done.inert = !sent;
+  };
+  if (redo)
+    on(redo, 'click', () => {
+      show(false);
+      form.querySelector<HTMLInputElement>('input[name="name"]')?.focus();
+    });
 
   on(form, 'submit', async (ev) => {
     ev.preventDefault();
@@ -32,7 +48,9 @@ export function initContactForm() {
       if (res.ok) {
         form.reset();
         if (started) started.value = String(Date.now());
-        say('Thanks — your message is on its way. I reply within 24 hours.', true);
+        say('', true);
+        show(true);
+        setTimeout(() => redo?.focus(), 350);
       } else {
         say('That did not send. Email noah@noahweidig.com directly and it will reach me.', false);
       }

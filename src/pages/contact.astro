@@ -158,10 +158,31 @@ const facts = [
             aria-live="polite"
           ></p>
 
-          <button class="btn btn-primary w-full" type="submit">
-            Send message
-            <Icon name="arrow" size={15} />
-          </button>
+          <div
+            class="confirm-morph h-[calc(2.75rem+2px)] rounded-full border border-transparent"
+            data-send-wrap
+          >
+            <div class="confirm-face">
+              <button class="btn btn-primary h-11 w-full" type="submit">
+                Send message
+                <Icon name="arrow" size={15} />
+              </button>
+            </div>
+            <div class="confirm-done" data-send-done role="status" aria-live="polite" inert>
+              <div class="confirm-msg justify-center pr-[1.875rem]">
+                <Icon name="check" size={16} stroke-width={2} />
+                <span>Message sent. I reply within 24 hours.</span>
+              </div>
+              <button
+                type="button"
+                class="confirm-redo"
+                data-send-redo
+                aria-label="Send another message"
+              >
+                <Icon name="rotate-ccw" size={15} stroke-width={2} />
+              </button>
+            </div>
+          </div>
         </div>
       </form>
     </div>
