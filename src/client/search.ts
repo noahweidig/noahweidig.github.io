@@ -141,6 +141,13 @@ async function loadPagefind(): Promise<Pagefind | null> {
 /** Section first, then tags: the coarse facet reads better at the top. */
 const FILTER_ORDER = ['section', 'tag'];
 const FILTER_LABEL: Record<string, string> = { section: 'Section', tag: 'Tags' };
+const SECTION_ICON: Record<string, string> = {
+  Projects: 'layers',
+  Publications: 'book',
+  Awards: 'trophy',
+  Experience: 'briefcase',
+  Education: 'school',
+};
 const SECTION_TONE: Record<string, string> = {
   Projects: 'var(--c-accent-ink)',
   Publications: 'var(--c-moss)',
@@ -329,7 +336,7 @@ export function initSearch() {
           const tone = SECTION_TONE[r.section] ?? 'var(--c-dim)';
           return `${head}<a id="search-opt-${i}" role="option" aria-selected="false" href="${r.href}" style="--i:${i}"
           class="search-row relative flex h-14 items-center gap-3 rounded-[var(--radius-md)] px-3">
-          <span class="grid size-8 shrink-0 place-items-center rounded-lg text-small font-semibold" style="color:${tone};background:color-mix(in oklab, ${tone} 16%, transparent)">${escapeHtml((r.section[0] ?? '·').toUpperCase())}</span>
+          <span class="grid size-8 shrink-0 place-items-center rounded-lg " style="color:${tone};background:color-mix(in oklab, ${tone} 16%, transparent)">${iconSvg(SECTION_ICON[r.section] ?? 'file', 17, 1.8)}</span>
           <span class="min-w-0 flex-1">
             <span class="block truncate text-base text-ink">${r.title}</span>
             ${r.sub ? `<span class="block truncate text-small text-dim">${r.sub}</span>` : ''}
