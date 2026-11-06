@@ -205,7 +205,7 @@ export function initSearch() {
       body!.style.height = '';
       return;
     }
-    const last = out.lastElementChild;
+    const last = out!.lastElementChild;
     const content =
       last && last !== glide
         ? (last as HTMLElement).offsetTop + (last as HTMLElement).offsetHeight + 12
