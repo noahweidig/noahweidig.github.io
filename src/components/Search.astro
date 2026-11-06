@@ -261,10 +261,15 @@ import Icon from './Icon.astro';
     #search-filters :global(button[data-filter-key]) {
       width: auto;
       gap: 0.4rem;
-      padding: 0.4rem 0.8rem;
+      padding: 0.25rem 0.75rem;
       border: 1px solid var(--c-line-strong);
-      border-radius: var(--radius-sm);
+      border-radius: 9999px;
       font-size: var(--text-small);
+      color: var(--c-dim);
+    }
+    #search-filters :global(button[data-filter-key] > span:last-child) {
+      color: inherit;
+      opacity: 0.7;
     }
     #search-filters :global(button[data-filter-key] > span:first-child) {
       display: none;
