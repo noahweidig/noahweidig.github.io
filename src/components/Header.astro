@@ -130,7 +130,21 @@ const isActive = (href: string) => {
         aria-label="Open menu"
       >
         <span class="burger-open">
-          <Icon name="menu" size={22} stroke-width={1.8} />
+          <svg
+            class="burger-svg"
+            width="22"
+            height="22"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            aria-hidden="true"
+          >
+            <path class="bar bar-1" d="M4 5h16"></path>
+            <path class="bar bar-2" d="M4 12h16"></path>
+            <path class="bar bar-3" d="M4 19h16"></path>
+          </svg>
         </span>
         <span class="burger-close">
           <Icon name="close" size={22} stroke-width={1.8} />
@@ -289,6 +303,36 @@ const isActive = (href: string) => {
   [data-menu-toggle][aria-expanded='false'] .burger-close,
   [data-menu-toggle][aria-expanded='true'] .burger-open {
     display: none;
+  }
+  .burger-svg .bar {
+    transform-box: fill-box;
+    transform-origin: right center;
+    transition: transform 0.25s var(--ease-out-soft, ease-out);
+  }
+  .burger-svg .bar-1 {
+    transform: scaleX(1);
+  }
+  .burger-svg .bar-2 {
+    transform: scaleX(0.65);
+  }
+  .burger-svg .bar-3 {
+    transform: scaleX(0.8);
+  }
+  @media (hover: hover) {
+    [data-menu-toggle]:hover .bar-1 {
+      transform: scaleX(0.7);
+    }
+    [data-menu-toggle]:hover .bar-2 {
+      transform: scaleX(1);
+    }
+    [data-menu-toggle]:hover .bar-3 {
+      transform: scaleX(0.55);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .burger-svg .bar {
+      transition: none;
+    }
   }
   .mobile-nav {
     z-index: 20;
