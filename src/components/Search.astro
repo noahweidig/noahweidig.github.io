@@ -15,7 +15,7 @@ import Icon from './Icon.astro';
     data-search-backdrop
   >
     <div
-      class="card flex w-full max-w-none flex-col overflow-hidden rounded-none border-0 sm:max-w-4xl sm:rounded-md sm:border sm:border-line-strong"
+      class="card flex w-full max-w-none flex-col overflow-hidden rounded-none border-0 sm:max-w-[42.5rem] sm:rounded-2xl sm:border sm:border-line-strong sm:shadow-2xl"
       data-search-panel
     >
       <!-- query row -->
@@ -57,7 +57,7 @@ import Icon from './Icon.astro';
             data-filter-toggle
             aria-expanded="false"
             aria-controls="search-filters"
-            class="icon-tile icon-bare relative h-8 w-8 shrink-0 rounded-full max-sm:-mr-1 text-faint hover:transform-none! aria-expanded:bg-accent aria-expanded:text-accent-contrast sm:h-9 sm:w-9"
+            class="icon-tile icon-bare relative h-8 w-8 shrink-0 rounded-full max-sm:-mr-1 text-faint hover:transform-none! aria-expanded:bg-accent aria-expanded:text-accent-contrast sm:hidden"
             data-tip="Filters"
           >
             <Icon name="nav-listFilter" size={17} stroke-width={2.2} />
@@ -80,20 +80,30 @@ import Icon from './Icon.astro';
         </button>
       </div>
 
-      <!-- body: results + filter rail -->
+      {/* Desktop: section/tag chips replace the filter rail and its toggle. Empty
+          until Pagefind reports counts, hence the inline display:none. */}
       <div
-        class="relative flex min-h-[16rem] flex-1 sm:h-[min(36rem,68vh)] sm:flex-none"
+        data-search-chips
+        style="display:none"
+        class="hidden gap-1.5 overflow-x-auto border-b border-line px-6 py-2.5 [scrollbar-width:none] sm:flex"
+        aria-label="Filters"
+      ></div>
+
+      <!-- body: results (+ filter rail on phone) -->
+      {/* Desktop: height is set from the content in search.ts and animates. */}
+      <div
+        class="relative flex min-h-[16rem] flex-1 sm:h-0 sm:min-h-0 sm:flex-none sm:overflow-hidden sm:transition-[height] sm:duration-300 sm:ease-out"
         data-search-body
       >
         <div
-          class="min-w-0 flex-1 overflow-y-auto p-2 sm:p-3"
+          class="relative min-w-0 flex-1 overflow-y-auto p-2 sm:p-3"
           id="search-results"
           role="listbox"
           aria-label="Search results"
         >
           <p
             role="presentation"
-            class="px-3 py-10 text-center text-sm text-faint sm:py-24"
+            class="px-3 py-10 text-center text-sm text-faint"
             data-search-empty
           >
             Type to search, or pick a filter.
@@ -103,7 +113,7 @@ import Icon from './Icon.astro';
         <aside
           id="search-filters"
           hidden
-          class="w-44 shrink-0 overflow-y-auto border-l border-line bg-raised/60 p-4 sm:w-64 sm:p-6"
+          class="w-44 shrink-0 overflow-y-auto border-l border-line bg-raised/60 p-4 sm:hidden"
           aria-label="Filters"
         >
           <div class="grid gap-5" data-filter-groups></div>
@@ -132,6 +142,48 @@ import Icon from './Icon.astro';
     </div>
   </div>
 </dialog>
+
+<style is:global>
+  @media (min-width: 40rem) {
+    #site-search[open] [data-search-panel] {
+      transform-origin: 50% 0;
+      animation: search-pop 0.38s cubic-bezier(0.2, 1.1, 0.3, 1) both;
+    }
+    .search-row {
+      animation: search-row-in 0.32s cubic-bezier(0.2, 1, 0.3, 1) both;
+      animation-delay: calc(var(--i, 0) * 22ms);
+    }
+    .search-go {
+      opacity: 0;
+      transform: translateX(-4px);
+      transition:
+        opacity 0.2s,
+        transform 0.2s;
+    }
+    .search-row[aria-selected='true'] .search-go {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes search-pop {
+    from {
+      opacity: 0;
+      transform: translateY(-8px) scale(0.965);
+    }
+  }
+  @keyframes search-row-in {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #site-search [data-search-panel],
+    .search-row {
+      animation: none !important;
+    }
+  }
+</style>
 
 <style>
   /* Phone: the filter rail drops down from the top of the results as a row of

@@ -141,6 +141,18 @@ async function loadPagefind(): Promise<Pagefind | null> {
 /** Section first, then tags: the coarse facet reads better at the top. */
 const FILTER_ORDER = ['section', 'tag'];
 const FILTER_LABEL: Record<string, string> = { section: 'Section', tag: 'Tags' };
+const SECTION_ICON: Record<string, string> = {
+  Projects: 'layers',
+  Publications: 'book',
+  Awards: 'trophy',
+  Experience: 'briefcase',
+  Education: 'school',
+};
+const SECTION_TONE: Record<string, string> = {
+  Projects: 'var(--c-accent-ink)',
+  Publications: 'var(--c-moss)',
+  Awards: 'var(--c-yellow-ink)',
+};
 
 export function initSearch() {
   const dialog = document.getElementById('site-search') as HTMLDialogElement | null;
@@ -153,10 +165,14 @@ export function initSearch() {
   const badge = dialog.querySelector<HTMLElement>('[data-filter-count]');
   const status = dialog.querySelector<HTMLElement>('[data-search-status]');
   const clearBtn = dialog.querySelector<HTMLButtonElement>('[data-search-clear]');
+  const chipsEl = dialog.querySelector<HTMLElement>('[data-search-chips]');
+  const body = dialog.querySelector<HTMLElement>('[data-search-body]');
+  if (!chipsEl || !body) return;
   if (!input || !out || !rail || !groups || !toggle || !badge || !clearBtn) return;
   /* The full prompt doesn't fit the phone-width field. */
   if (matchMedia('(max-width: 39.99rem)').matches) input.placeholder = 'Search the site…';
 
+  const phone = () => matchMedia('(max-width: 39.99rem)').matches;
   const selected: Record<string, Set<string>> = {};
   let active = -1;
   let token = 0;
@@ -171,23 +187,62 @@ export function initSearch() {
   /* ---- results list ---- */
   const options = () => Array.from(out.querySelectorAll<HTMLAnchorElement>('[role="option"]'));
 
+  /* Desktop: one highlight that glides between rows, and a body whose height
+     follows its content. Both are inert on phone. */
+  const glide = document.createElement('div');
+  glide.className =
+    'pointer-events-none absolute inset-x-3 top-0 hidden rounded-[var(--radius-md)] bg-raised opacity-0 ring-1 ring-accent/40 ring-inset transition-[transform,height,opacity] duration-[260ms] ease-[cubic-bezier(0.3,1.2,0.4,1)] sm:block';
+  const setHtml = (html: string) => {
+    out.innerHTML = html;
+    out.prepend(glide);
+    sizeBody();
+  };
+  const moveGlide = () => {
+    const el = options()[active];
+    if (phone() || !el) {
+      glide.style.opacity = '0';
+      return;
+    }
+    glide.style.opacity = '1';
+    glide.style.height = `${el.offsetHeight}px`;
+    glide.style.transform = `translateY(${el.offsetTop}px)`;
+  };
+  function sizeBody() {
+    if (phone()) {
+      body!.style.height = '';
+      return;
+    }
+    const last = out!.lastElementChild;
+    const content =
+      last && last !== glide
+        ? (last as HTMLElement).offsetTop + (last as HTMLElement).offsetHeight + 12
+        : 0;
+    body!.style.height = `${Math.min(content, innerHeight * 0.6, 520)}px`;
+  }
+  on(window, 'resize', () => {
+    sizeBody();
+    moveGlide();
+  });
+
   const setActive = (i: number) => {
     const list = options();
     if (!list.length) {
       active = -1;
       input.removeAttribute('aria-activedescendant');
+      glide.style.opacity = '0';
       return;
     }
     active = (i + list.length) % list.length;
     list.forEach((el, n) => {
       const on = n === active;
       el.setAttribute('aria-selected', String(on));
-      el.classList.toggle('bg-raised', on);
+      el.classList.toggle('max-sm:bg-raised', on);
       if (on) {
         input.setAttribute('aria-activedescendant', el.id);
         el.scrollIntoView({ block: 'nearest' });
       }
     });
+    moveGlide();
   };
 
   const renderResults = (items: PagefindData[], hits: Hit[], q: string) => {
@@ -232,33 +287,96 @@ export function initSearch() {
     }
 
     if (!rows.length) {
-      out.innerHTML = `<p role="presentation" class="px-3 py-10 text-center text-sm text-faint sm:py-24">No matches${
-        q ? ` for &ldquo;${escapeHtml(q)}&rdquo;` : ''
-      }.</p>`;
+      setHtml(
+        `<p role="presentation" class="px-3 py-10 text-center text-sm text-faint">No matches${
+          q ? ` for &ldquo;${escapeHtml(q)}&rdquo;` : ''
+        }.</p>`,
+      );
       setActive(-1);
       return;
     }
 
     rows.sort((a, b) => b.score - a.score);
-    out.innerHTML = rows
-      .slice(0, 20)
-      .map((r, i) => {
-        const chip = r.section ? `<span class="chip shrink-0">${escapeHtml(r.section)}</span>` : '';
-        return `<a id="search-opt-${i}" role="option" aria-selected="false" href="${r.href}"
-          class="block rounded-none border-b border-line/60 px-3 py-3.5 transition-colors last:border-b-0 hover:bg-raised sm:rounded-[var(--radius-md)] sm:border-b-0 sm:px-4 sm:py-3.5 sm:[&[aria-selected=true]]:ring-1 sm:[&[aria-selected=true]]:ring-accent/40 sm:[&[aria-selected=true]]:ring-inset">
-          <span class="flex flex-col-reverse items-start gap-1.5 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
-            <span class="text-base font-medium text-ink sm:text-lead">${r.title}</span>
+    const top = rows.slice(0, 20);
+    if (phone()) {
+      setHtml(
+        top
+          .map((r, i) => {
+            const chip = r.section
+              ? `<span class="chip shrink-0">${escapeHtml(r.section)}</span>`
+              : '';
+            return `<a id="search-opt-${i}" role="option" aria-selected="false" href="${r.href}"
+          class="block rounded-none border-b border-line/60 px-3 py-3.5 transition-colors last:border-b-0 hover:bg-raised">
+          <span class="flex flex-col-reverse items-start gap-1.5">
+            <span class="text-base font-medium text-ink">${r.title}</span>
             ${chip}
           </span>
-          ${r.sub ? `<span class="mt-1 line-clamp-2 text-small leading-relaxed text-dim sm:mt-1.5 sm:text-small">${r.sub}</span>` : ''}
+          ${r.sub ? `<span class="mt-1 line-clamp-2 text-small leading-relaxed text-dim">${r.sub}</span>` : ''}
         </a>`;
-      })
-      .join('');
+          })
+          .join(''),
+      );
+      setActive(0);
+      return;
+    }
+
+    /* Desktop: grouped by section, groups ordered by their best hit. */
+    const order: string[] = [];
+    for (const r of top) if (!order.includes(r.section)) order.push(r.section);
+    const grouped = order.flatMap((sec) => top.filter((r) => r.section === sec));
+    let last: string | null = null;
+    setHtml(
+      grouped
+        .map((r, i) => {
+          const head =
+            r.section !== last
+              ? `<div role="presentation" class="px-3 ${i === 0 ? 'pt-1' : 'pt-3'} pb-1.5 font-mono text-micro tracking-[0.14em] text-faint uppercase">${escapeHtml(r.section || 'Other')}</div>`
+              : '';
+          last = r.section;
+          const tone = SECTION_TONE[r.section] ?? 'var(--c-dim)';
+          return `${head}<a id="search-opt-${i}" role="option" aria-selected="false" href="${r.href}" style="--i:${i}"
+          class="search-row relative flex h-14 items-center gap-3 rounded-[var(--radius-md)] px-3">
+          <span class="grid size-8 shrink-0 place-items-center rounded-lg " style="color:${tone};background:color-mix(in oklab, ${tone} 16%, transparent)">${iconSvg(SECTION_ICON[r.section] ?? 'file', 17, 1.8)}</span>
+          <span class="min-w-0 flex-1">
+            <span class="block truncate text-base text-ink">${r.title}</span>
+            ${r.sub ? `<span class="block truncate text-small text-dim">${r.sub}</span>` : ''}
+          </span>
+          <span class="search-go shrink-0 font-mono text-micro text-faint">open ↵</span>
+        </a>`;
+        })
+        .join(''),
+    );
     setActive(0);
   };
 
   /* ---- filter rail ---- */
+  /* Desktop chips: "All" plus each section, then the most common tags. */
+  const renderChips = (counts: FilterCounts) => {
+    const sections = Object.entries(counts.section ?? {}).filter(
+      ([v, n]) => n > 0 || selected.section?.has(v),
+    );
+    const tags = Object.entries(counts.tag ?? {})
+      .filter(([v, n]) => n > 0 || selected.tag?.has(v))
+      .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+      .slice(0, 6);
+    const chip = (key: string, value: string, label: string, n: number | null, on: boolean) =>
+      `<button type="button" data-chip-key="${escapeHtml(key)}" data-chip-value="${escapeHtml(value)}" aria-pressed="${on}"
+        class="flex shrink-0 items-center gap-1.5 rounded-full border border-line-strong px-3 py-1 text-small whitespace-nowrap text-dim transition-colors hover:bg-raised aria-pressed:border-accent aria-pressed:bg-accent aria-pressed:text-accent-contrast">${escapeHtml(label)}${
+          n === null ? '' : `<span class="font-mono text-micro opacity-70">${n}</span>`
+        }</button>`;
+    const total = sections.reduce((n, [, c]) => n + c, 0);
+    chipsEl.innerHTML =
+      chip('', '', 'All', total, !selected.section?.size) +
+      sections
+        .map(([v, n]) => chip('section', v, v, n, selected.section?.has(v) ?? false))
+        .join('') +
+      (tags.length ? '<span class="mx-1 w-px shrink-0 self-stretch bg-line-strong"></span>' : '') +
+      tags.map(([v, n]) => chip('tag', v, v, n, selected.tag?.has(v) ?? false)).join('');
+    chipsEl.style.display = sections.length || tags.length ? '' : 'none';
+  };
+
   const renderFilters = (counts: FilterCounts) => {
+    renderChips(counts);
     const keys = FILTER_ORDER.filter((k) => counts[k] && Object.keys(counts[k]!).length);
     if (!keys.length) {
       groups.innerHTML = '<p class="text-small text-faint">No filters available.</p>';
@@ -329,8 +447,10 @@ export function initSearch() {
     const filters = chosen();
     const hasFilters = Object.keys(filters).length > 0;
     if (!q && !hasFilters) {
-      out.innerHTML =
-        '<p class="px-3 py-10 text-center text-sm text-faint sm:py-24">Type to search, or pick a filter.</p>';
+      setHtml(
+        '<p class="px-3 py-10 text-center text-sm text-faint">Type to search, or pick a filter.</p>',
+      );
+      setActive(-1);
       if (status) status.textContent = '';
       renderFilters(await pf.filters());
       syncBadge();
@@ -458,6 +578,28 @@ export function initSearch() {
     if (openRail) void run();
   };
   on(toggle, 'click', () => setRail(!!rail.hidden));
+
+  on(chipsEl, 'click', (ev) => {
+    const btn = (ev.target as HTMLElement).closest<HTMLButtonElement>('[data-chip-key]');
+    if (!btn) return;
+    const key = btn.dataset.chipKey!;
+    const value = btn.dataset.chipValue!;
+    if (!key) selected.section?.clear();
+    else {
+      const set = (selected[key] ??= new Set());
+      if (set.has(value)) set.delete(value);
+      else set.add(value);
+    }
+    input.focus();
+    void run();
+  });
+
+  on(out, 'mousemove', (ev) => {
+    if (phone()) return;
+    const el = (ev.target as HTMLElement).closest<HTMLElement>('[role="option"]');
+    const i = el ? options().indexOf(el as HTMLAnchorElement) : -1;
+    if (i >= 0 && i !== active) setActive(i);
+  });
 
   on(groups, 'click', (ev) => {
     const btn = (ev.target as HTMLElement).closest<HTMLButtonElement>('[data-filter-key]');
