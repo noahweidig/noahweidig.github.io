@@ -68,7 +68,9 @@
   --c-edge: rgb(255 255 255 / 0.06);
   --glow-a: 0.16;
   --c-sheen: rgb(255 255 255 / 0.04);
-  --grid-line: rgb(255 255 255 / 0.045);
+  --grid-line: rgb(255 255 255 / 0.06);
+  --hero-glow: color-mix(in oklab, var(--c-accent) 42%, transparent);
+  --hero-glow-2: color-mix(in oklab, var(--c-accent-ink) 12%, transparent);
   color-scheme: dark;
 }
 
@@ -109,6 +111,8 @@
   --glow-a: 0.1;
   --c-sheen: rgb(15 20 30 / 0.02);
   --grid-line: rgb(20 25 40 / 0.045);
+  --hero-glow: color-mix(in oklab, var(--c-accent) 18%, transparent);
+  --hero-glow-2: color-mix(in oklab, var(--c-accent) 6%, transparent);
   color-scheme: light;
 }
 

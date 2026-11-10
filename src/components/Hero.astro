@@ -3,7 +3,7 @@ import Icon from './Icon.astro';
 import { socials } from '../lib/site';
 ---
 
-<section class="under-nav relative overflow-x-clip border-b border-line" id="hero" data-hero>
+<section class="under-nav relative isolate overflow-x-clip border-b border-line" id="hero" data-hero>
   <div class="shell relative pt-16 pb-16 text-center md:pt-18 md:pb-24 lg:pt-20 lg:pb-32">
     <h1 class="hero-title font-display font-semibold">
       <span class="hero-line" data-reveal>
@@ -59,6 +59,26 @@ import { socials } from '../lib/site';
 </section>
 
 <style>
+  /* Static CSS-only backdrop: accent bloom + fading grid. No JS, images or animation. */
+  #hero::before,
+  #hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+  }
+  #hero::before {
+    background:
+      radial-gradient(60% 60% at 50% 0%, var(--hero-glow), transparent 70%),
+      radial-gradient(38% 45% at 88% 105%, var(--hero-glow-2), transparent 70%);
+  }
+  #hero::after {
+    background:
+      linear-gradient(var(--grid-line) 1px, transparent 1px) 0 0 / 64px 64px,
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px) 0 0 / 64px 64px;
+    mask-image: radial-gradient(ellipse 70% 80% at 50% 0%, #000 10%, transparent 75%);
+  }
   /* Sized from the viewport so the longest line never wraps. */
   .hero-title {
     font-size: clamp(2rem, calc((100vw - 4rem) / 9.4), 6rem);
