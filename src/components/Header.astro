@@ -269,9 +269,14 @@ const isActive = (href: string) => {
     opacity: 1;
     translate: 0 0;
   }
-  /* No inner top highlight: on a menu this small it reads as a doubled top stroke. */
-  .nav-menu {
-    box-shadow: none;
+  /* Same glass as the search dialog: translucent fill, blur, hairline border. No
+     inner top highlight: on a menu this small it reads as a doubled top stroke. */
+  .nav-group > .nav-menu {
+    background-color: color-mix(in oklab, var(--c-bg) 68%, transparent);
+    border-color: color-mix(in oklab, var(--c-line-strong) 70%, transparent);
+    -webkit-backdrop-filter: blur(18px) saturate(1.6);
+    backdrop-filter: blur(18px) saturate(1.6);
+    box-shadow: 0 24px 64px -12px color-mix(in oklab, var(--c-bg-deep) 75%, transparent);
   }
   .nav-group[data-open] > .nav-menu {
     display: grid;
