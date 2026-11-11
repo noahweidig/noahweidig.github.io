@@ -47,6 +47,15 @@ const { class: klass = '' } = Astro.props;
     <text x="368.0" y="164.0" class="m-coord">
       28.54° N, 81.38° W
     </text>
+    <g transform="translate(192 262)" aria-hidden="true">
+      <circle r="22" class="m-gl-bg" />
+      <path
+        d="M0 -22V22M-19.05 -11H19.05M-22 0H22M-19.05 11H19.05M0 -22A11 22 0 0 1 0 22A11 22 0 0 1 0 -22M0 -22A19.05 22 0 0 1 0 22A19.05 22 0 0 1 0 -22"
+        class="m-gl-lines"
+      />
+      <circle r="22" class="m-gl-edge" />
+      <circle cx="-7.05" cy="-10.5" r="2.4" class="m-pin" />
+    </g>
     <g class="m-north" transform="translate(520 22)" aria-hidden="true">
       <path d="M0 0L7 26L0 21L-7 26Z" class="m-arrow" />
       <text x="0" y="-5" text-anchor="middle" class="m-lbl-ink">
@@ -105,6 +114,19 @@ const { class: klass = '' } = Astro.props;
   }
   .m-arrow {
     fill: var(--c-ink);
+  }
+  .m-gl-bg {
+    fill: var(--c-card);
+  }
+  .m-gl-lines {
+    fill: none;
+    stroke: var(--c-line-strong);
+    stroke-width: 0.5;
+  }
+  .m-gl-edge {
+    fill: none;
+    stroke: var(--c-ink);
+    stroke-width: 1;
   }
   .m-bar {
     fill: none;
