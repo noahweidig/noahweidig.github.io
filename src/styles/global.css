@@ -1695,17 +1695,11 @@
 }
 
 @layer utilities {
-  /* Top band that runs up behind the transparent header (4rem, 4.5rem from
-     48rem up; keep in step with the h- classes on .nav-bar in Header.astro). */
+  /* Top band that runs up behind the transparent header (4rem; keep in step
+     with the h- class on .nav-bar in Header.astro). */
   .under-nav {
     margin-top: -4rem;
     padding-top: 4rem;
-  }
-  @media (min-width: 48rem) {
-    .under-nav {
-      margin-top: -4.5rem;
-      padding-top: 4.5rem;
-    }
   }
   .skip-link {
     position: fixed;
