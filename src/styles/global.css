@@ -918,6 +918,11 @@
     .pill-row::-webkit-scrollbar {
       display: none;
     }
+    /* overflow-x:auto also clips y; give fractional pill heights room on iOS. */
+    .pill-row[data-filter-bar] {
+      padding-block: 3px;
+      margin-block: -3px;
+    }
     .pill-row > * {
       flex-shrink: 0;
       white-space: nowrap;
