@@ -6,28 +6,51 @@ import { iconSvg } from './icon';
    title index in /search-index.json is scored character-by-character and fills
    the gap: an exact run of characters is underlined solid, a loose subsequence
    match gets the wavy underline. */
-type Doc = { t: string; u: string; s: string; d?: string; g?: string[] };
+type Doc = {
+  t: string;
+  u: string;
+  s: string;
+  d?: string;
+  g?: string[];
+  /* Lowercased once at load so a keystroke never re-lowercases the index. */
+  lt?: string;
+  ld?: string;
+  lo?: string;
+};
 type Span = { start: number; end: number; exact: boolean };
 type Hit = { doc: Doc; score: number; spans: Span[] };
 
 let fuzzyIndex: Doc[] | null = null;
 let fuzzyFailed = false;
+let indexPromise: Promise<Doc[]> | null = null;
 
-async function loadIndex(): Promise<Doc[]> {
-  if (fuzzyIndex || fuzzyFailed) return fuzzyIndex ?? [];
-  try {
-    const res = await fetch('/search-index.json');
-    fuzzyIndex = (await res.json()) as Doc[];
-  } catch {
-    fuzzyFailed = true;
-    fuzzyIndex = [];
-  }
-  return fuzzyIndex;
+function loadIndex(): Promise<Doc[]> {
+  indexPromise ??= (async () => {
+    try {
+      const res = await fetch('/search-index.json');
+      const docs = (await res.json()) as Doc[];
+      for (const d of docs) {
+        d.lt = d.t.toLowerCase();
+        d.ld = (d.d ?? '').toLowerCase();
+        d.lo = `${d.s} ${(d.g ?? []).join(' ')}`.toLowerCase();
+      }
+      fuzzyIndex = docs;
+    } catch {
+      fuzzyFailed = true;
+      fuzzyIndex = [];
+    }
+    return fuzzyIndex;
+  })();
+  return indexPromise;
 }
 
 /** Contiguous run first, scattered subsequence second, nothing third. */
-function scoreTerm(term: string, text: string): { score: number; spans: Span[] } | null {
-  const hay = text.toLowerCase();
+function scoreTerm(
+  term: string,
+  text: string,
+  lower?: string,
+): { score: number; spans: Span[] } | null {
+  const hay = lower ?? text.toLowerCase();
   const at = hay.indexOf(term);
   if (at >= 0) {
     // A hit on a word boundary is worth more than one buried mid-word.
@@ -61,9 +84,10 @@ function scoreDoc(query: string, doc: Doc): Hit | null {
   let total = 0;
   const spans: Span[] = [];
   for (const term of terms) {
-    const inTitle = scoreTerm(term, doc.t);
+    const inTitle = scoreTerm(term, doc.t, doc.lt);
     const elsewhere =
-      scoreTerm(term, doc.d ?? '') ?? scoreTerm(term, `${doc.s} ${(doc.g ?? []).join(' ')}`);
+      scoreTerm(term, doc.d ?? '', doc.ld) ??
+      scoreTerm(term, `${doc.s} ${(doc.g ?? []).join(' ')}`, doc.lo);
     if (!inTitle && !elsewhere) return null;
     if (inTitle) {
       total += inTitle.score;
@@ -119,6 +143,7 @@ type Pagefind = {
     opts?: { filters?: Record<string, string[]> },
   ) => Promise<{ results: PagefindResult[]; filters: FilterCounts }>;
   filters: () => Promise<FilterCounts>;
+  init?: () => Promise<void>;
 };
 
 let pagefind: Pagefind | null = null;
@@ -422,55 +447,104 @@ export function initSearch() {
   };
 
   /* ---- the one query path ---- */
+  /* Filters are applied to the in-memory title index; `skip` leaves one facet
+     out so its own counts show what ticking another value would give. */
+  const matchDocs = (docs: Doc[], skip?: string) =>
+    docs.filter(
+      (d) =>
+        (skip === 'section' || !selected.section?.size || selected.section.has(d.s)) &&
+        (skip === 'tag' || !selected.tag?.size || (d.g ?? []).some((t) => selected.tag!.has(t))),
+    );
+  const indexCounts = (docs: Doc[]): FilterCounts => {
+    const section: Record<string, number> = {};
+    const tag: Record<string, number> = {};
+    for (const d of matchDocs(docs, 'section'))
+      if (d.s !== 'Page') section[d.s] = (section[d.s] ?? 0) + 1;
+    for (const d of matchDocs(docs, 'tag')) for (const t of d.g ?? []) tag[t] = (tag[t] ?? 0) + 1;
+    return { section, tag };
+  };
+  const fuzzyNow = (q: string) => (fuzzyIndex && q ? fuzzySearch(q, matchDocs(fuzzyIndex), 8) : []);
+
+  const cache = new Map<string, { all: PagefindData[]; counts: FilterCounts; total: number }>();
+
+  /* Keystroke path: no network, no debounce. Paints title-index hits at once
+     when the index is already in memory; `run` follows with full text. */
+  const fast = () => {
+    const q = input.value.trim();
+    ++token;
+    const hits = fuzzyNow(q);
+    if (hits.length) renderResults([], hits, q);
+  };
+
   const run = async () => {
     const q = input.value.trim();
     const mine = ++token;
-    const fuzzyHits = async () => {
-      if (!q) return [];
-      const docs = (await loadIndex()).filter((d) => {
-        const bySection = selected.section?.size ? selected.section.has(d.s) : true;
-        const byTag = selected.tag?.size ? (d.g ?? []).some((t) => selected.tag!.has(t)) : true;
-        return bySection && byTag;
-      });
-      return fuzzySearch(q, docs, 8);
-    };
+    const filters = chosen();
+    const hasFilters = Object.keys(filters).length > 0;
+    const docs = await loadIndex();
+    if (mine !== token) return;
+
+    if (!q) {
+      renderFilters(indexCounts(docs));
+      syncBadge();
+      if (!hasFilters) {
+        setHtml(
+          '<p class="px-3 py-10 text-center text-sm text-faint">Type to search, or pick a filter.</p>',
+        );
+        setActive(-1);
+        if (status) status.textContent = '';
+        return;
+      }
+      // Empty box plus ticked facets: answered entirely from memory.
+      const all = matchDocs(docs);
+      renderResults(
+        [],
+        all.slice(0, 20).map((doc) => ({ doc, score: 1, spans: [] })),
+        '',
+      );
+      if (status) status.textContent = `${all.length} result${all.length === 1 ? '' : 's'}`;
+      return;
+    }
+
+    const hits = fuzzyNow(q);
     const pf = await loadPagefind();
     if (mine !== token) return;
     if (!pf) {
       // Dev has no Pagefind bundle; the title index still answers most queries.
-      const hits = await fuzzyHits();
-      if (mine !== token) return;
       renderResults([], hits, q);
       return;
     }
 
-    const filters = chosen();
-    const hasFilters = Object.keys(filters).length > 0;
-    if (!q && !hasFilters) {
-      setHtml(
-        '<p class="px-3 py-10 text-center text-sm text-faint">Type to search, or pick a filter.</p>',
-      );
-      setActive(-1);
-      if (status) status.textContent = '';
-      renderFilters(await pf.filters());
+    const key = `${q}\u0000${JSON.stringify(filters)}`;
+    const done = (all: PagefindData[], counts: FilterCounts, total: number) => {
+      const merged = all.length >= 12 ? [] : hits;
+      renderResults(all, merged, q);
+      renderFilters(counts);
       syncBadge();
+      if (status) {
+        const n = total + merged.length;
+        status.textContent = `${n} result${n === 1 ? '' : 's'}`;
+      }
+    };
+
+    const hit = cache.get(key);
+    if (hit) return done(hit.all, hit.counts, hit.total);
+
+    const { results, filters: counts } = await pf.search(q, { filters });
+    if (mine !== token) return;
+    // First paint needs only a few fragments; the rest load behind it.
+    const head = await Promise.all(results.slice(0, 8).map((r) => r.data()));
+    if (mine !== token) return;
+    done(head, counts, results.length);
+    if (results.length <= 8) {
+      cache.set(key, { all: head, counts, total: results.length });
       return;
     }
-
-    // A null query with filters set is Pagefind's "everything matching these
-    // facets", which is what an empty box plus a ticked filter should mean.
-    const { results, filters: counts } = await pf.search(q || null, { filters });
-    if (mine !== token) return;
-    const data = await Promise.all(results.slice(0, 20).map((r) => r.data()));
-    const hits = data.length >= 12 ? [] : await fuzzyHits();
-    if (mine !== token) return;
-    renderResults(data, hits, q);
-    renderFilters(counts);
-    syncBadge();
-    if (status) {
-      const n = results.length + hits.length;
-      status.textContent = `${n} result${n === 1 ? '' : 's'}`;
-    }
+    const rest = await Promise.all(results.slice(8, 20).map((r) => r.data()));
+    const all = [...head, ...rest];
+    cache.set(key, { all, counts, total: results.length });
+    if (cache.size > 50) cache.delete(cache.keys().next().value!);
+    if (mine === token) done(all, counts, results.length);
   };
 
   const syncClear = () => {
@@ -522,8 +596,10 @@ export function initSearch() {
   document.querySelectorAll('[data-search-open]').forEach((b) => on(b, 'click', open));
   dialog.querySelectorAll('[data-search-close]').forEach((b) => on(b, 'click', close));
   on(dialog, 'click', (ev) => {
-    const target = ev.target as HTMLElement;
-    if (!target.closest('[data-search-panel]')) close();
+    /* The path is fixed at dispatch. A filter button that `run()` has already
+       re-rendered is detached by now, so `target.closest()` would miss the panel. */
+    const panel = dialog.querySelector('[data-search-panel]');
+    if (!panel || !ev.composedPath().includes(panel)) close();
   });
   on(document, 'keydown', (ev) => {
     const e = ev as KeyboardEvent;
@@ -560,8 +636,22 @@ export function initSearch() {
   let timer: number | undefined;
   on(input, 'input', () => {
     syncClear();
+    fast();
     window.clearTimeout(timer);
-    timer = window.setTimeout(run, 140);
+    timer = window.setTimeout(run, 90);
+  });
+
+  /* Fetch the title index and Pagefind's wasm + facet index before the first
+     keystroke: on idle, and as soon as the pointer or focus nears the button. */
+  const warm = () => {
+    void loadIndex();
+    void loadPagefind().then((p) => p?.init?.());
+  };
+  if ('requestIdleCallback' in window) requestIdleCallback(warm);
+  else setTimeout(warm, 2000);
+  document.querySelectorAll('[data-search-open]').forEach((b) => {
+    on(b, 'pointerenter', warm, { once: true });
+    on(b, 'focus', warm, { once: true });
   });
 
   on(clearBtn, 'click', () => {

@@ -85,16 +85,6 @@ const isActive = (href: string) => {
     <div class="ml-auto flex shrink-0 items-center gap-1.5 lg:justify-self-end">
       <button
         type="button"
-        data-search-open
-        data-tip="Search — press /"
-        class="icon-btn bar-search"
-        aria-label="Search the site"
-      >
-        <Icon name="nav-search" size={21} stroke-width={1.8} />
-      </button>
-
-      <button
-        type="button"
         data-theme-toggle
         data-tip="Switch color theme"
         class="icon-btn bar-theme"
@@ -105,6 +95,24 @@ const isActive = (href: string) => {
         </span>
         <span data-theme-icon="dark">
           <Icon name="nav-moon" size={21} stroke-width={1.8} />
+        </span>
+      </button>
+
+      <button
+        type="button"
+        data-search-open
+        data-tip="Search — press /"
+        class="icon-btn bar-search"
+        aria-label="Search the site"
+      >
+        <Icon name="nav-search" size={21} stroke-width={1.8} class="lg:hidden" />
+        <Icon name="nav-search" size={16} stroke-width={2} class="hidden shrink-0 lg:block" />
+        <span class="hidden text-small lg:block">Search</span>
+        <span
+          class="ml-auto hidden items-center gap-0.5 font-mono text-micro text-faint lg:flex"
+          aria-hidden="true"
+        >
+          <Icon name="command" size={12} stroke-width={2} />K
         </span>
       </button>
 
@@ -461,6 +469,25 @@ const isActive = (href: string) => {
   .icon-btn:hover {
     background: transparent;
     color: var(--c-ink);
+  }
+  /* Desktop: the search button is a full pill with a label and a shortcut hint.
+     Hover only nudges the fill and border. */
+  @media (min-width: 64rem) {
+    .bar-search {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      width: 10.5rem;
+      height: 2.25rem;
+      padding: 0 0.875rem;
+      border: 1px solid var(--c-line-strong);
+      border-radius: 9999px;
+      background: color-mix(in oklab, var(--c-raised) 55%, transparent);
+    }
+    .bar-search:hover {
+      background: var(--c-raised);
+      border-color: color-mix(in oklab, var(--c-ink) 28%, var(--c-line-strong));
+    }
   }
 </style>
 
