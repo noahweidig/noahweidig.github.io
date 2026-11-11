@@ -269,9 +269,14 @@ const isActive = (href: string) => {
     opacity: 1;
     translate: 0 0;
   }
-  /* No inner top highlight: on a menu this small it reads as a doubled top stroke. */
-  .nav-menu {
-    box-shadow: none;
+  /* Same glass as the search dialog: translucent fill, blur, hairline border. No
+     inner top highlight: on a menu this small it reads as a doubled top stroke. */
+  .nav-group > .nav-menu {
+    background-color: color-mix(in oklab, var(--c-bg) 68%, transparent);
+    border-color: color-mix(in oklab, var(--c-line-strong) 70%, transparent);
+    -webkit-backdrop-filter: blur(18px) saturate(1.6);
+    backdrop-filter: blur(18px) saturate(1.6);
+    box-shadow: 0 24px 64px -12px color-mix(in oklab, var(--c-bg-deep) 75%, transparent);
   }
   .nav-group[data-open] > .nav-menu {
     display: grid;
@@ -456,6 +461,31 @@ const isActive = (href: string) => {
     background: var(--c-bg);
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
+  }
+  /* A dropdown can only blur the page if nothing above it isolates the page: a
+     backdrop-filter on the bar, or its view-transition-name, both do. While one
+     is open the bar hands its fill and blur to a pseudo-element (which is a
+     sibling of the dropdown, not its ancestor) and drops the transition name. */
+  .nav-glass::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+  }
+  :global(:root) .nav-glass:has(.nav-group[data-open]) {
+    view-transition-name: none;
+    background-color: transparent;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+  :global(:root) .nav-glass:has(.nav-group[data-open])::before {
+    background-color: var(--c-bg);
+  }
+  :global(html[data-scrolled]) .nav-glass:has(.nav-group[data-open])::before {
+    background-color: color-mix(in oklab, var(--c-bg) 72%, transparent);
+    -webkit-backdrop-filter: blur(18px) saturate(1.6);
+    backdrop-filter: blur(18px) saturate(1.6);
   }
   /* No hover tile on the bar's icon buttons. Resting is a step off full ink, so
      hover reads lighter in dark theme and darker in light theme. */
