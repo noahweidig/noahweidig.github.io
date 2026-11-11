@@ -453,19 +453,17 @@ export function initSearch() {
     docs.filter(
       (d) =>
         (skip === 'section' || !selected.section?.size || selected.section.has(d.s)) &&
-        (skip === 'tag' ||
-          !selected.tag?.size ||
-          (d.g ?? []).some((t) => selected.tag!.has(t))),
+        (skip === 'tag' || !selected.tag?.size || (d.g ?? []).some((t) => selected.tag!.has(t))),
     );
   const indexCounts = (docs: Doc[]): FilterCounts => {
     const section: Record<string, number> = {};
     const tag: Record<string, number> = {};
-    for (const d of matchDocs(docs, 'section')) if (d.s !== 'Page') section[d.s] = (section[d.s] ?? 0) + 1;
+    for (const d of matchDocs(docs, 'section'))
+      if (d.s !== 'Page') section[d.s] = (section[d.s] ?? 0) + 1;
     for (const d of matchDocs(docs, 'tag')) for (const t of d.g ?? []) tag[t] = (tag[t] ?? 0) + 1;
     return { section, tag };
   };
-  const fuzzyNow = (q: string) =>
-    fuzzyIndex && q ? fuzzySearch(q, matchDocs(fuzzyIndex), 8) : [];
+  const fuzzyNow = (q: string) => (fuzzyIndex && q ? fuzzySearch(q, matchDocs(fuzzyIndex), 8) : []);
 
   const cache = new Map<string, { all: PagefindData[]; counts: FilterCounts; total: number }>();
 
