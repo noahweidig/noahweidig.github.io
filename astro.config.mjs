@@ -32,5 +32,5 @@ export default defineConfig({
     }),
   ],
   vite: { plugins: [tailwindcss()] },
-  build: { format: 'directory' },
+  build: { format: 'directory', inlineStylesheets: 'always' },
 });
