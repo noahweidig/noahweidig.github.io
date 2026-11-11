@@ -1260,8 +1260,14 @@
     width: min(40rem, 100%);
     padding: clamp(1.5rem, 5vw, 3rem);
     border-radius: var(--radius-md);
-    border: 1px solid var(--c-line-strong);
-    background: var(--c-card);
+    /* Same glass as the search dialog and nav dropdowns. */
+    border: 1px solid color-mix(in oklab, var(--c-line-strong) 70%, transparent);
+    background: color-mix(in oklab, var(--c-bg) 68%, transparent);
+    -webkit-backdrop-filter: blur(18px) saturate(1.6);
+    backdrop-filter: blur(18px) saturate(1.6);
+    box-shadow:
+      inset 0 1px 0 color-mix(in oklab, var(--c-ink) 8%, transparent),
+      0 24px 64px -12px color-mix(in oklab, var(--c-bg-deep) 75%, transparent);
   }
   .popup::backdrop {
     background: rgb(0 0 0 / 0.4);
