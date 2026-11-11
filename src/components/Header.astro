@@ -436,40 +436,56 @@ const isActive = (href: string) => {
     overflow: hidden;
     overscroll-behavior: none;
   }
-  /* Solid at the top of the page; frosted glass with a hairline once scrolled.
-     The fill and blur sit on a pseudo-element: a backdrop-filter on the header
-     itself would stop the dropdowns inside it from blurring the page. */
+  /* Solid at the top of the page; frosted glass with a hairline once scrolled. */
   .nav-glass {
+    background-color: var(--c-bg);
     border-bottom: 1px solid var(--c-line);
-    transition: border-color var(--dur-base) var(--ease-out-soft);
+    transition:
+      background-color var(--dur-base) var(--ease-out-soft),
+      border-color var(--dur-base) var(--ease-out-soft);
   }
+  :global(html[data-scrolled]) .nav-glass {
+    background-color: color-mix(in oklab, var(--c-bg) 72%, transparent);
+    border-bottom-color: color-mix(in oklab, var(--c-line) 80%, transparent);
+    -webkit-backdrop-filter: blur(18px) saturate(1.6);
+    backdrop-filter: blur(18px) saturate(1.6);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .nav-glass {
+      transition: none;
+    }
+  }
+  /* A backdrop-filter would make the bar the containing block for the fixed
+     mobile menu, so it's off while the menu is open. */
+  :global(:root) #site-header.nav-glass[data-menu-open] {
+    background: var(--c-bg);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+  /* A dropdown can only blur the page if nothing above it isolates the page: a
+     backdrop-filter on the bar, or its view-transition-name, both do. While one
+     is open the bar hands its fill and blur to a pseudo-element (which is a
+     sibling of the dropdown, not its ancestor) and drops the transition name. */
   .nav-glass::before {
     content: '';
     position: absolute;
     inset: 0;
     z-index: -1;
+    pointer-events: none;
+  }
+  :global(:root) .nav-glass:has(.nav-group[data-open]) {
+    view-transition-name: none;
+    background-color: transparent;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+  :global(:root) .nav-glass:has(.nav-group[data-open])::before {
     background-color: var(--c-bg);
-    transition: background-color var(--dur-base) var(--ease-out-soft);
   }
-  :global(html[data-scrolled]) .nav-glass {
-    border-bottom-color: color-mix(in oklab, var(--c-line) 80%, transparent);
-  }
-  :global(html[data-scrolled]) .nav-glass::before {
+  :global(html[data-scrolled]) .nav-glass:has(.nav-group[data-open])::before {
     background-color: color-mix(in oklab, var(--c-bg) 72%, transparent);
     -webkit-backdrop-filter: blur(18px) saturate(1.6);
     backdrop-filter: blur(18px) saturate(1.6);
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .nav-glass,
-    .nav-glass::before {
-      transition: none;
-    }
-  }
-  /* Solid while the mobile menu is open, so it covers the page cleanly. */
-  :global(:root) #site-header.nav-glass[data-menu-open]::before {
-    background: var(--c-bg);
-    -webkit-backdrop-filter: none;
-    backdrop-filter: none;
   }
   /* No hover tile on the bar's icon buttons. Resting is a step off full ink, so
      hover reads lighter in dark theme and darker in light theme. */
