@@ -47,6 +47,16 @@ const { class: klass = '' } = Astro.props;
     <text x="368.0" y="164.0" class="m-coord">
       28.54° N, 81.38° W
     </text>
+    <g class="m-north" transform="translate(520 22)" aria-hidden="true">
+      <path d="M0 0L7 26L0 21L-7 26Z" class="m-arrow" />
+      <text x="0" y="-5" text-anchor="middle" class="m-lbl-ink">N</text>
+    </g>
+    <g transform="translate(440 280)" aria-hidden="true">
+      <path d="M0 -4V0H90V-4M45 -2V0" class="m-bar" />
+      <text x="0" y="-8" text-anchor="middle" class="m-lbl-ink">0</text>
+      <text x="45" y="-8" text-anchor="middle" class="m-lbl-ink">50</text>
+      <text x="90" y="-8" text-anchor="middle" class="m-lbl-ink">100 km</text>
+    </g>
   </svg>
 </figure>
 
@@ -84,6 +94,22 @@ const { class: klass = '' } = Astro.props;
   }
   .m-city {
     fill: var(--c-faint);
+  }
+  .m-arrow {
+    fill: var(--c-ink);
+  }
+  .m-bar {
+    fill: none;
+    stroke: var(--c-ink);
+    stroke-width: 1.5;
+  }
+  .m-lbl-ink {
+    fill: var(--c-ink);
+    font-size: 10px;
+    font-family: inherit;
+    paint-order: stroke;
+    stroke: var(--c-card);
+    stroke-width: 3px;
   }
   .m-lbl,
   .m-name,
