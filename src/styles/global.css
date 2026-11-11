@@ -1269,10 +1269,11 @@
       inset 0 1px 0 color-mix(in oklab, var(--c-ink) 8%, transparent),
       0 24px 64px -12px color-mix(in oklab, var(--c-bg-deep) 75%, transparent);
   }
+  /* A light scrim, as in the search dialog, so the card has something to frost. */
   .popup::backdrop {
-    background: rgb(0 0 0 / 0.4);
-    -webkit-backdrop-filter: blur(12px);
-    backdrop-filter: blur(12px);
+    background: color-mix(in oklab, var(--c-bg-deep) 30%, transparent);
+    -webkit-backdrop-filter: blur(3px);
+    backdrop-filter: blur(3px);
   }
   .popup-close {
     position: absolute;
