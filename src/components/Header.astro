@@ -436,28 +436,37 @@ const isActive = (href: string) => {
     overflow: hidden;
     overscroll-behavior: none;
   }
-  /* Solid at the top of the page; frosted glass with a hairline once scrolled. */
+  /* Solid at the top of the page; frosted glass with a hairline once scrolled.
+     The fill and blur sit on a pseudo-element: a backdrop-filter on the header
+     itself would stop the dropdowns inside it from blurring the page. */
   .nav-glass {
-    background-color: var(--c-bg);
     border-bottom: 1px solid var(--c-line);
-    transition:
-      background-color var(--dur-base) var(--ease-out-soft),
-      border-color var(--dur-base) var(--ease-out-soft);
+    transition: border-color var(--dur-base) var(--ease-out-soft);
+  }
+  .nav-glass::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-color: var(--c-bg);
+    transition: background-color var(--dur-base) var(--ease-out-soft);
   }
   :global(html[data-scrolled]) .nav-glass {
-    background-color: color-mix(in oklab, var(--c-bg) 72%, transparent);
     border-bottom-color: color-mix(in oklab, var(--c-line) 80%, transparent);
+  }
+  :global(html[data-scrolled]) .nav-glass::before {
+    background-color: color-mix(in oklab, var(--c-bg) 72%, transparent);
     -webkit-backdrop-filter: blur(18px) saturate(1.6);
     backdrop-filter: blur(18px) saturate(1.6);
   }
   @media (prefers-reduced-motion: reduce) {
-    .nav-glass {
+    .nav-glass,
+    .nav-glass::before {
       transition: none;
     }
   }
-  /* A backdrop-filter would make the bar the containing block for the fixed
-     mobile menu, so it's off while the menu is open. */
-  :global(:root) #site-header.nav-glass[data-menu-open] {
+  /* Solid while the mobile menu is open, so it covers the page cleanly. */
+  :global(:root) #site-header.nav-glass[data-menu-open]::before {
     background: var(--c-bg);
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
