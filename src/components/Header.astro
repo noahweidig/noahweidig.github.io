@@ -19,7 +19,7 @@ const isActive = (href: string) => {
   class="nav-glass fixed inset-x-0 top-0 z-(--z-header)"
   id="site-header"
 >
-  <div class="shell nav-bar relative z-10 flex h-16 items-center md:h-[4.5rem] gap-4 lg:grid lg:grid-cols-[1fr_auto_1fr]">
+  <div class="shell nav-bar relative z-10 flex h-16 items-center gap-4 lg:grid lg:grid-cols-[1fr_auto_1fr]">
     <a href="/" data-tip="Home" class="group flex min-w-0 items-center gap-2.5 justify-self-start">
       <Wordmark class="text-[1.15rem] md:text-[1.25rem]" />
     </a>
@@ -164,7 +164,7 @@ const isActive = (href: string) => {
   <div
     id="mobile-nav"
     hidden
-    class="mobile-nav fixed inset-x-0 bottom-0 top-[calc(4rem+1px)] md:top-[calc(4.5rem+1px)] lg:hidden"
+    class="mobile-nav fixed inset-x-0 bottom-0 top-[calc(4rem+1px)] lg:hidden"
   >
     <div class="mobile-scrim absolute inset-0" data-menu-scrim aria-hidden="true"></div>
     <nav aria-label="Mobile" class="mobile-drawer absolute inset-y-0 left-0 flex flex-col">
@@ -224,7 +224,7 @@ const isActive = (href: string) => {
 </header>
 <!-- The bar is fixed (a sticky bar lags behind touch scrolling on iOS), so this holds its
      place in the flow. Keep it in step with the h- classes on .nav-bar. -->
-<div class="h-16 md:h-[4.5rem] print:hidden" aria-hidden="true" data-pagefind-ignore></div>
+<div class="h-16 print:hidden" aria-hidden="true" data-pagefind-ignore></div>
 
 <Search />
 
