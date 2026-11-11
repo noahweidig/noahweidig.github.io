@@ -596,8 +596,10 @@ export function initSearch() {
   document.querySelectorAll('[data-search-open]').forEach((b) => on(b, 'click', open));
   dialog.querySelectorAll('[data-search-close]').forEach((b) => on(b, 'click', close));
   on(dialog, 'click', (ev) => {
-    const target = ev.target as HTMLElement;
-    if (!target.closest('[data-search-panel]')) close();
+    /* The path is fixed at dispatch. A filter button that `run()` has already
+       re-rendered is detached by now, so `target.closest()` would miss the panel. */
+    const panel = dialog.querySelector('[data-search-panel]');
+    if (!panel || !ev.composedPath().includes(panel)) close();
   });
   on(document, 'keydown', (ev) => {
     const e = ev as KeyboardEvent;
