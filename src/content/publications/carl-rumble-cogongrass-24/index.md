@@ -1,5 +1,5 @@
 ---
-title: "Rumble in the Cogongrass Jungle: Shrub Resiliency from Round 1"
+title: "Rumble in the cogongrass jungle: shrub resiliency from round 1"
 date: "2024-02-21"
 description: "Cogongrass (Imperata cylindrica) is a pervasive invasive plant species across the Gulf of Mexico region and listed as the seventh worst weed in the world."
 categories: ["Presentation"]

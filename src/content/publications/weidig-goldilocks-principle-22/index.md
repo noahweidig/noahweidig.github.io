@@ -10,7 +10,7 @@ pub-doi: "10.1371/journal.pone.0277237"
 pub-url: "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0277237"
 pub-pdf: "/publications/weidig-goldilocks-principle-22/weidig-goldilocks-principle-22.pdf"
 pub-listed: "yes"
-pub-citations: 2
+pub-citations: 3
 pub-oa: true
 citation: "**Weidig, N. C.**, Miller, A. L. & Parker, A. T. (2022). *PLOS ONE*, vol. 17, no. 11, pp. e0277237."
 links:

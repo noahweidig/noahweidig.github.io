@@ -1,5 +1,5 @@
 ---
-title: "Southeastern Myotis (Myotis austroriparius) Use of Stormwater Sewer Systems"
+title: "Southeastern myotis (myotis austroriparius) use of stormwater sewer systems"
 date: "2025-04-01"
 description: "As urbanization continues, animals are increasingly compelled to navigate human-altered environments. Here we investigate wildlife use of stormwater sewer systems (SSS), a widespread, subterranean environment resulting from urbanization."
 categories: ["Presentation"]

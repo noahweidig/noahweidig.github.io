@@ -1,5 +1,5 @@
 ---
-title: "Changing Large Wildfire Risk in the Southeastern U.S."
+title: "Changing large wildfire risk in the southeastern U.S"
 date: "2024-02-22"
 description: "Global change is altering ecosystem structure and function including natural disturbance processes like fire that can threaten human communities. We assess changes in large (greater than 200 ha) wildfire activity across southeastern U.S."
 categories: ["Presentation"]
