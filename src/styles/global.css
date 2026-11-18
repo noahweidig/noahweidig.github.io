@@ -1788,6 +1788,11 @@
   isolation: isolate;
   overflow: hidden;
   box-shadow: none;
+  background: linear-gradient(
+    to top,
+    color-mix(in oklab, var(--c-accent) 38%, var(--c-card)),
+    var(--c-card) 85%
+  );
 }
 
 /* Stat numbers count up from 0 as they scroll into view (no JS). The final
