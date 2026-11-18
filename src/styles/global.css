@@ -1794,6 +1794,13 @@
     var(--c-card) 85%
   );
 }
+.cta-card .btn-primary {
+  background: #fff;
+  color: #11131a;
+}
+.cta-card .btn-primary:hover {
+  background: color-mix(in oklab, #fff 88%, var(--c-accent));
+}
 
 /* Stat numbers count up from 0 as they scroll into view (no JS). The final
    value is also the static fallback where scroll timelines are unsupported. */
