@@ -1798,6 +1798,10 @@
   background: #fff;
   color: #11131a;
 }
+.cta-card .btn-outline:not(:hover) {
+  background: color-mix(in oklab, var(--c-card) 55%, transparent);
+  border-color: color-mix(in oklab, var(--c-ink) 40%, transparent);
+}
 .cta-card .btn-primary:hover {
   background: color-mix(in oklab, #fff 88%, var(--c-accent));
 }
