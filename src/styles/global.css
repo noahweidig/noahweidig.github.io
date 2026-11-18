@@ -1788,6 +1788,29 @@
   isolation: isolate;
   overflow: hidden;
   box-shadow: none;
+  background: linear-gradient(
+    to top,
+    color-mix(in oklab, var(--c-accent) 38%, var(--c-card)),
+    var(--c-card) 85%
+  );
+}
+.cta-card .btn-primary {
+  background: #fff;
+  color: #11131a;
+}
+.cta-card .btn-outline:not(:hover) {
+  background: color-mix(in oklab, var(--c-card) 55%, transparent);
+  border-color: color-mix(in oklab, var(--c-ink) 40%, transparent);
+}
+.cta-card .btn-primary:hover {
+  background: color-mix(in oklab, #fff 88%, var(--c-accent));
+}
+:root[data-theme='light'] .cta-card .btn-primary {
+  background: #11131a;
+  color: #fff;
+}
+:root[data-theme='light'] .cta-card .btn-primary:hover {
+  background: color-mix(in oklab, #11131a 85%, white);
 }
 
 /* Stat numbers count up from 0 as they scroll into view (no JS). The final
