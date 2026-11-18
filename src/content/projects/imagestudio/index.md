@@ -7,7 +7,7 @@ categories:
 featured: false
 links:
   - label: 'Launch Tool'
-    href: 'https://noahweidig.com/imagestudio'
+    href: 'https://image.noahweidig.com'
     variant: primary
     external: true
 image-alt: 'The Image Studio editing interface'
