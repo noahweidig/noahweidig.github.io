@@ -21,8 +21,8 @@
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.4",
-    "@tailwindcss/vite": "^4.3.4",
-    "astro": "^7.4.7",
+    "@tailwindcss/vite": "^4.3.5",
+    "astro": "^7.4.11",
     "tailwindcss": "^4.3.3"
   },
   "devDependencies": {
@@ -30,7 +30,7 @@
     "@types/node": "^26.6.6",
     "js-yaml": "^5.5.0",
     "pagefind": "^1.6.0",
-    "prettier": "^3.9.10",
+    "prettier": "^3.10.0",
     "prettier-plugin-astro": "^1.1.2",
     "sharp": "^0.35.4",
     "typescript": "^6.0.3"
