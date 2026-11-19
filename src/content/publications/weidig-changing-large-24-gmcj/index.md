@@ -10,7 +10,7 @@ pub-doi: "10.1071/WF24110"
 pub-url: "https://www.publish.csiro.au/WF/WF24110"
 pub-pdf: "/publications/weidig-changing-large-24-gmcj/weidig-changing-large-24-gmcj.pdf"
 pub-listed: "yes"
-pub-citations: 3
+pub-citations: 4
 pub-oa: true
 citation: "**Weidig, N. C.**, Wonkka, C. L., Ivey, M. A. & Donovan, V. M. (2024). *International Journal of Wildland Fire*, vol. 33, no. 12."
 links:
