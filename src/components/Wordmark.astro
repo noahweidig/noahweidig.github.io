@@ -48,16 +48,15 @@ const { class: cls = '', iconOnlyNarrow = false } = Astro.props;
     letter-spacing: -0.035em;
     color: var(--c-ink);
     white-space: nowrap;
+    background-image: linear-gradient(var(--c-accent-ink), var(--c-accent-ink));
+    background-repeat: no-repeat;
+    background-position: 0 calc(100% - 0.12em);
+    background-size: 0% 2px;
+    transition: background-size 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
   }
   .wm > .wm-last {
     font-weight: 500;
     color: var(--c-accent-ink);
-    padding-bottom: 0.04em;
-    background-image: linear-gradient(currentColor, currentColor);
-    background-repeat: no-repeat;
-    background-position: 0 100%;
-    background-size: 0% 2px;
-    transition: background-size 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
   }
   .wm-mark * {
     stroke-dasharray: 1;
@@ -80,8 +79,8 @@ const { class: cls = '', iconOnlyNarrow = false } = Astro.props;
       animation-delay: 0.24s;
     }
   }
-  :global(a):hover .wm > .wm-last,
-  :global(a):focus-visible .wm > .wm-last {
+  :global(a):hover .wm,
+  :global(a):focus-visible .wm {
     background-size: 100% 2px;
   }
   @keyframes wm-draw {
