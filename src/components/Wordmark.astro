@@ -80,8 +80,8 @@ const { class: cls = '', iconOnlyNarrow = false } = Astro.props;
       animation-delay: 0.24s;
     }
   }
-  :global(a):hover .wm-last,
-  :global(a):focus-visible .wm-last {
+  :global(a):hover .wm > .wm-last,
+  :global(a):focus-visible .wm > .wm-last {
     background-size: 100% 2px;
   }
   @keyframes wm-draw {
