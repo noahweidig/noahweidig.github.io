@@ -3,13 +3,50 @@
 
 @custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
 
-/* Theme-toggle icon: light/dark, driven by [data-theme-pref] on <html>. */
+/* Theme-toggle icon: both glyphs stacked; the one matching [data-theme-pref]
+   on <html> shows. On hover the other fades in, previewing the next theme. */
 [data-theme-icon] {
-  display: none;
+  grid-area: 1 / 1;
+  display: inline-flex;
+  opacity: 0;
+  transform: scale(0.7);
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease;
 }
 :root[data-theme-pref='light'] [data-theme-icon='light'],
 :root[data-theme-pref='dark'] [data-theme-icon='dark'] {
-  display: inline-flex;
+  opacity: 1;
+  transform: none;
+}
+@media (hover: hover) {
+  :root[data-theme-pref='light'] [data-theme-toggle]:hover [data-theme-icon='light'],
+  :root[data-theme-pref='dark'] [data-theme-toggle]:hover [data-theme-icon='dark'] {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+  :root[data-theme-pref='light'] [data-theme-toggle]:hover [data-theme-icon='dark'],
+  :root[data-theme-pref='dark'] [data-theme-toggle]:hover [data-theme-icon='light'] {
+    opacity: 0.9;
+    transform: none;
+  }
+}
+
+/* Theme change: the new theme grows from the toggle as a circle. The header
+   joins the root snapshot so it is revealed with the page. */
+:root.theme-vt::view-transition-old(root),
+:root.theme-vt::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+:root.theme-vt::view-transition-old(root) {
+  z-index: 1;
+}
+:root.theme-vt::view-transition-new(root) {
+  z-index: 2;
+}
+:root.theme-vt .nav-glass {
+  view-transition-name: none;
 }
 
 /* ============================================================================
