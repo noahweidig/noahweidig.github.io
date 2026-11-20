@@ -55,6 +55,10 @@ function switchTheme(btn: HTMLElement) {
 export function initTheme() {
   updateToggleLabels(currentPref());
   document.querySelectorAll<HTMLButtonElement>('[data-theme-toggle]').forEach((btn) => {
-    on(btn, 'click', () => switchTheme(btn));
+    on(btn, 'click', (e) => {
+      if ((e as MouseEvent).detail > 0) btn.dataset.noPeek = '';
+      switchTheme(btn);
+    });
+    on(btn, 'pointerleave', () => delete btn.dataset.noPeek);
   });
 }

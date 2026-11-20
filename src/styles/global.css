@@ -20,13 +20,21 @@
   transform: none;
 }
 @media (hover: hover) {
-  :root[data-theme-pref='light'] [data-theme-toggle]:hover [data-theme-icon='light'],
-  :root[data-theme-pref='dark'] [data-theme-toggle]:hover [data-theme-icon='dark'] {
+  :root[data-theme-pref='light']
+    [data-theme-toggle]:not([data-no-peek]):hover
+    [data-theme-icon='light'],
+  :root[data-theme-pref='dark']
+    [data-theme-toggle]:not([data-no-peek]):hover
+    [data-theme-icon='dark'] {
     opacity: 0;
     transform: scale(0.7);
   }
-  :root[data-theme-pref='light'] [data-theme-toggle]:hover [data-theme-icon='dark'],
-  :root[data-theme-pref='dark'] [data-theme-toggle]:hover [data-theme-icon='light'] {
+  :root[data-theme-pref='light']
+    [data-theme-toggle]:not([data-no-peek]):hover
+    [data-theme-icon='dark'],
+  :root[data-theme-pref='dark']
+    [data-theme-toggle]:not([data-no-peek]):hover
+    [data-theme-icon='light'] {
     opacity: 0.9;
     transform: none;
   }
