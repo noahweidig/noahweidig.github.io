@@ -50,8 +50,8 @@ const { class: cls = '', iconOnlyNarrow = false } = Astro.props;
     white-space: nowrap;
     background-image: linear-gradient(var(--c-accent-ink), var(--c-accent-ink));
     background-repeat: no-repeat;
-    background-position: 0 calc(100% - 0.12em);
-    background-size: 0% 2px;
+    background-position: 0 calc(100% - 0.36em);
+    background-size: 0% 1px;
     transition: background-size 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
   }
   .wm > .wm-last {
@@ -81,7 +81,7 @@ const { class: cls = '', iconOnlyNarrow = false } = Astro.props;
   }
   :global(a):hover .wm,
   :global(a):focus-visible .wm {
-    background-size: 100% 2px;
+    background-size: calc(100% - 0.6em) 1px;
   }
   @keyframes wm-draw {
     from {
