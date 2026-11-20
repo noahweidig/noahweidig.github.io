@@ -50,22 +50,8 @@ const { class: cls = '', iconOnlyNarrow = false } = Astro.props;
     white-space: nowrap;
   }
   .wm > .wm-last {
-    position: relative;
     font-weight: 500;
     color: var(--c-accent-ink);
-  }
-  .wm > .wm-last::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: -0.12em;
-    height: 2px;
-    border-radius: 2px;
-    background: var(--c-accent);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
   }
   .wm-mark * {
     stroke-dasharray: 1;
@@ -87,10 +73,6 @@ const { class: cls = '', iconOnlyNarrow = false } = Astro.props;
     :global(a):focus-visible .wm-mark *:nth-child(4) {
       animation-delay: 0.24s;
     }
-  }
-  :global(a):hover .wm-last::after,
-  :global(a):focus-visible .wm-last::after {
-    transform: scaleX(1);
   }
   @keyframes wm-draw {
     from {
