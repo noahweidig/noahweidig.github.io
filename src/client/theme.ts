@@ -49,7 +49,7 @@ function switchTheme(btn: HTMLElement) {
       ),
     )
     .catch(() => {});
-  t.finished.finally(() => root.classList.remove('theme-vt'));
+  void t.finished.catch(() => {}).then(() => root.classList.remove('theme-vt'));
 }
 
 export function initTheme() {
