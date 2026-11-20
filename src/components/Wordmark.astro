@@ -88,6 +88,9 @@ const { class: cls = '', iconOnlyNarrow = false } = Astro.props;
     vector-effect: non-scaling-stroke;
     opacity: 0.4;
   }
+  :global(:root[data-theme='light']) .wm-hl path {
+    opacity: 0.2;
+  }
   .wm-mark * {
     stroke-dasharray: 1;
   }
