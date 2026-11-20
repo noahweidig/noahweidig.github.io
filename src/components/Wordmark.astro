@@ -19,7 +19,15 @@ const { class: cls = '', iconOnlyNarrow = false } = Astro.props;
   <span class="sr-only">Noah Weidig — home</span>
   <span class="wm font-display" aria-hidden="true">
     <span>Noah</span>
-    <span class="wm-last">Weidig</span>
+    <span class="wm-last">
+      Weidig
+      <svg class="wm-hl" viewBox="0 0 120 16" preserveAspectRatio="none">
+        <path d="M2 6C24 3 52 8 80 5S106 4 119 7" />
+      </svg>
+      <svg class="wm-hl wm-hl-b" viewBox="0 0 120 16" preserveAspectRatio="none">
+        <path d="M117 11C92 14 62 9 36 12S12 11 3 13" />
+      </svg>
+    </span>
   </span>
 </span>
 
@@ -51,21 +59,34 @@ const { class: cls = '', iconOnlyNarrow = false } = Astro.props;
   }
   .wm > .wm-last {
     position: relative;
+    isolation: isolate;
     font-weight: 500;
     color: var(--c-accent-ink);
   }
-  .wm > .wm-last::after {
-    content: '';
+  /* Marker swipe under the surname: two rough passes, wiped in on hover. */
+  .wm-hl {
     position: absolute;
-    left: 0;
-    right: 0;
-    bottom: -0.12em;
-    height: 2px;
-    border-radius: 2px;
-    background: var(--c-accent);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+    left: -5%;
+    width: 110%;
+    top: 0.62em;
+    height: 0.62em;
+    z-index: -1;
+    overflow: visible;
+    pointer-events: none;
+    fill: none;
+    clip-path: inset(-20% 100% -20% 0);
+    transition: clip-path 0.22s ease-in;
+  }
+  .wm-hl-b {
+    clip-path: inset(-20% 0 -20% 100%);
+  }
+  .wm-hl path {
+    stroke: var(--c-accent);
+    stroke-width: 0.3em;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
+    opacity: 0.6;
   }
   .wm-mark * {
     stroke-dasharray: 1;
@@ -88,9 +109,14 @@ const { class: cls = '', iconOnlyNarrow = false } = Astro.props;
       animation-delay: 0.24s;
     }
   }
-  :global(a):hover .wm-last::after,
-  :global(a):focus-visible .wm-last::after {
-    transform: scaleX(1);
+  :global(a):hover .wm-hl,
+  :global(a):focus-visible .wm-hl {
+    clip-path: inset(-20% -2% -20% -2%);
+    transition: clip-path 0.38s cubic-bezier(0.3, 0.7, 0.2, 1);
+  }
+  :global(a):hover .wm-hl-b,
+  :global(a):focus-visible .wm-hl-b {
+    transition-delay: 0.14s;
   }
   @keyframes wm-draw {
     from {
