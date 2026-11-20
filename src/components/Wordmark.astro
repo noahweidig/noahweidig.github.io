@@ -8,10 +8,10 @@ const { class: cls = '', iconOnlyNarrow = false } = Astro.props;
 
 <span class:list={['wm-lockup', { 'wm-icon-narrow': iconOnlyNarrow }, cls]}>
   <svg class="wm-mark" viewBox="0 0 24 24" aria-hidden="true">
-    <path d="M21.54 15H17a2 2 0 0 0-2 2v4.54" />
-    <path d="M7 3.34V5a3 3 0 0 0 3 3a2 2 0 0 1 2 2c0 1.1.9 2 2 2a2 2 0 0 0 2-2c0-1.1.9-2 2-2h3.17" />
-    <path d="M11 21.95V18a2 2 0 0 0-2-2a2 2 0 0 1-2-2v-1a2 2 0 0 0-2-2H2.05" />
-    <circle cx="12" cy="12" r="10" />
+    <path pathLength="1" d="M21.54 15H17a2 2 0 0 0-2 2v4.54" />
+    <path pathLength="1" d="M7 3.34V5a3 3 0 0 0 3 3a2 2 0 0 1 2 2c0 1.1.9 2 2 2a2 2 0 0 0 2-2c0-1.1.9-2 2-2h3.17" />
+    <path pathLength="1" d="M11 21.95V18a2 2 0 0 0-2-2a2 2 0 0 1-2-2v-1a2 2 0 0 0-2-2H2.05" />
+    <circle pathLength="1" cx="12" cy="12" r="10" />
   </svg>
   <span class="sr-only">Noah Weidig — home</span>
   <span class="wm font-display" aria-hidden="true">
@@ -47,8 +47,55 @@ const { class: cls = '', iconOnlyNarrow = false } = Astro.props;
     white-space: nowrap;
   }
   .wm > .wm-last {
+    position: relative;
     font-weight: 500;
     color: var(--c-accent-ink);
+  }
+  .wm > .wm-last::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -0.12em;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--c-accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .wm-mark * {
+    stroke-dasharray: 1;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    :global(a):hover .wm-mark *,
+    :global(a):focus-visible .wm-mark * {
+      animation: wm-draw 0.9s cubic-bezier(0.5, 0, 0.2, 1) both;
+    }
+    :global(a):hover .wm-mark *:nth-child(2),
+    :global(a):focus-visible .wm-mark *:nth-child(2) {
+      animation-delay: 0.08s;
+    }
+    :global(a):hover .wm-mark *:nth-child(3),
+    :global(a):focus-visible .wm-mark *:nth-child(3) {
+      animation-delay: 0.16s;
+    }
+    :global(a):hover .wm-mark *:nth-child(4),
+    :global(a):focus-visible .wm-mark *:nth-child(4) {
+      animation-delay: 0.24s;
+    }
+  }
+  :global(a):hover .wm-last::after,
+  :global(a):focus-visible .wm-last::after {
+    transform: scaleX(1);
+  }
+  @keyframes wm-draw {
+    from {
+      stroke-dashoffset: 1;
+    }
+    to {
+      stroke-dashoffset: 0;
+    }
   }
   @media (max-width: 23.75rem) {
     .wm-icon-narrow .wm {
