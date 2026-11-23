@@ -1,5 +1,5 @@
 ---
-title: "Fire at the fringe: Drivers of large wildfires in and near the wildland-urban interface of the eastern United States"
+title: "Fire at the fringe: drivers of large wildfires in and near the wildland-urban interface of the eastern United States"
 date: "2025-04-01"
 description: "Large wildfires are increasing in the eastern U.S., which contains the greatest amount of WUI compared to the rest of the country. Wildfires in and near the WUI pose the greatest risk to human life and property."
 categories: ["Presentation"]

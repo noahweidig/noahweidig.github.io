@@ -1,5 +1,5 @@
 ---
-title: "Changing Large Wildfire Dynamics in the Wildland–Urban Interface of the Eastern United States: Research Brief"
+title: "Changing large wildfire dynamics in the wildland–urban interface of the eastern United States: research brief"
 date: "2025-11-01"
 description: "As development continues to expand into fire-prone landscapes, the eastern United States is experiencing notable shifts in wildfire patterns."
 categories: ["Media Coverage"]

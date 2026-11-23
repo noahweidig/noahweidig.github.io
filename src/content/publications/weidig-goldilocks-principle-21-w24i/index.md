@@ -1,5 +1,5 @@
 ---
-title: "The Goldilocks principle: Finding the balance between water volume and nutrients for ovipositing Culex mosquitoes (Diptera: Culicidae)"
+title: "The goldilocks principle: finding the balance between water volume and nutrients for ovipositing culex mosquitoes (diptera: culicidae)"
 date: "2021-10-01"
 description: "Females of container-breeding mosquito species use visual and chemical cues to determine suitable habitats to oviposit their eggs."
 categories: ["Presentation"]

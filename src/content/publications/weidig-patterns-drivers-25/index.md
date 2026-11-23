@@ -1,6 +1,6 @@
 ---
 title: "Patterns and drivers of large wildfires within and surrounding the wildland-urban interface of the eastern United States"
-date: "2025-01-01"
+date: "2025-08-01"
 description: "The recent increase in large wildfires in the eastern United States makes it crucial to examine the subsequent risk to human life and property."
 categories: ["Thesis"]
 pub-authors: "**Weidig, N. C.**"

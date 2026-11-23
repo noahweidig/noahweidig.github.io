@@ -1,5 +1,5 @@
 ---
-title: "Burning Boundaries: Large Wildfire Patterns and Drivers in the Eastern United States Wildland-Urban Interface"
+title: "Burning boundaries: large wildfire patterns and drivers in the eastern United States wildland-urban interface"
 date: "2025-11-19"
 description: "Large wildfires are increasing in the eastern United States, raising concern about the risk to human life and property within the wildland-urban interface (WUI), where development and vegetation intermingle."
 categories: ["Webinar"]

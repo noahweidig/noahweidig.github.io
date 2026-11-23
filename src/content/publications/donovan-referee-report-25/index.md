@@ -1,5 +1,5 @@
 ---
-title: "Referee report. For: Integrated Fire Management and Closer to Nature Forest Management at the Landscape Scale as a Holistic Approach to Foster Forest Resilience to Wildfires [version 3; peer review: 4 approved with reservations, 2 not approved]"
+title: "Referee report. For: integrated fire management and closer to nature forest management at the landscape scale as a holistic approach to foster forest resilience to wildfires [version 3; peer review: 4 approved with reservations, 2 not approved]"
 date: "2025-01-01"
 description: "This Open Letter by Kalapodis and Sakkas presents a framework for enhancing the resilience of forests against the increasing wildfire issue in Europe by integrating Integrated Fire Management (IFM) and Closer-to-Nature Forest Management…"
 categories: ["Peer Review"]

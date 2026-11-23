@@ -1,5 +1,5 @@
 ---
-title: "R Markdown: A Reproducible Workflow"
+title: "R markdown: a reproducible workflow"
 date: "2024-06-01"
 description: "This talk covers the fundamentals of using R Markdown to create reproducible workflows that seamlessly integrate code, results, and narrative."
 categories: ["Presentation"]

@@ -1,10 +1,10 @@
 ---
-title: "The Goldilocks principle: Finding the balance between water volume and nutrients for ovipositing Culex mosquitoes (Diptera: Culicidae)"
+title: "The goldilocks principle: finding the balance between water volume and nutrients for ovipositing culex mosquitoes (diptera: culicidae)"
 date: "2022-11-10"
 description: "Females of container-breeding mosquito species use visual and chemical cues to determine suitable habitats to oviposit their eggs."
 categories: ["Journal Article"]
 pub-authors: "**Weidig, N. C.**, Miller, A. L. & Parker, A. T."
-pub-venue: "PLOS ONE"
+pub-venue: "PLOS One"
 pub-details: "vol. 17, no. 11, pp. e0277237"
 pub-doi: "10.1371/journal.pone.0277237"
 pub-url: "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0277237"
@@ -12,7 +12,7 @@ pub-pdf: "/publications/weidig-goldilocks-principle-22/weidig-goldilocks-princip
 pub-listed: "yes"
 pub-citations: 3
 pub-oa: true
-citation: "**Weidig, N. C.**, Miller, A. L. & Parker, A. T. (2022). *PLOS ONE*, vol. 17, no. 11, pp. e0277237."
+citation: "**Weidig, N. C.**, Miller, A. L. & Parker, A. T. (2022). *PLOS One*, vol. 17, no. 11, pp. e0277237."
 links:
   - label: "DOI"
     href: "https://doi.org/10.1371/journal.pone.0277237"

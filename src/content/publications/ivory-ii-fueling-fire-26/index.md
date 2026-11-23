@@ -1,5 +1,5 @@
 ---
-title: "Fueling the fire: predicting cogongrass (Imperata cylindrica) impacts on fire behavior across environmental and seasonal gradients"
+title: "Fueling the fire: predicting cogongrass (imperata cylindrica) impacts on fire behavior across environmental and seasonal gradients"
 date: "2026-09-07"
 description: "Invasive species can fundamentally alter fire regimes by modifying fuel characteristics, yet predicting their impacts on fire behavior remains challenging."
 categories: ["Journal Article"]

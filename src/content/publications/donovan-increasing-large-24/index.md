@@ -1,5 +1,5 @@
 ---
-title: "Increasing Large Wildfires in the Eastern United States"
+title: "Increasing large wildfires in the eastern United States"
 date: "2024-03-28"
 description: "This webinar provides an overview of changing large wildfire regimes in the eastern U.S., highlighting increasing wildfire number, size, and total area burned within regions of the southeast."
 categories: ["Webinar"]

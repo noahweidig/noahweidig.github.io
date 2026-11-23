@@ -1,5 +1,5 @@
 ---
-title: "Wildfire surges in East, Southeast US fueled by new trees and shrubs"
+title: "Wildfire surges in east, southeast US fueled by new trees and shrubs"
 date: "2024-12-17"
 description: "Woody vegetation has increased by 37% over the last 30 years in the eastern United States, fueling the rise in large wildfires. Texas and the Appalachian Mountains took the biggest hits."
 categories: ["Media Coverage"]

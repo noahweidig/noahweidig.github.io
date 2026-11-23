@@ -1,5 +1,5 @@
 ---
-title: "Georgia blaze shows how climate change has led to more wildfires in the East"
+title: "Georgia blaze shows how climate change has led to more wildfires in the east"
 date: "2026-04-24"
 description: "Often considered more a problem for Western North America, wildfires are becoming more intense, frequent and damaging in the East, such as this week’s blaze that destroyed dozens of homes in Georgia, fire scientists said."
 categories: ["Media Coverage"]

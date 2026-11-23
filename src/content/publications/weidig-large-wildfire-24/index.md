@@ -1,5 +1,5 @@
 ---
-title: "Large Wildfire Patterns in the Wildland-Urban Interface of the Eastern U.S."
+title: "Large wildfire patterns in the wildland-urban interface of the eastern U.S"
 date: "2024-04-01"
 description: "Wildfires are increasing in the eastern United States. The wildland-urban interface (WUI), which occurs at the intersection between human development and wildland vegetative fuels, remains the focus for predicting and mitigating wildfire…"
 categories: ["Presentation"]

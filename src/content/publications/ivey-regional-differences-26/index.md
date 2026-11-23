@@ -1,5 +1,5 @@
 ---
-title: "Regional differences in infilling and land-use conversion characterize woody cover increases across the Eastern United States"
+title: "Regional differences in infilling and land-use conversion characterize woody cover increases across the eastern United States"
 date: "2026-03-01"
 description: "Trees and shrubs are expanding into historically open ecosystems across the globe, threatening ecological function and ecosystem services."
 categories: ["Journal Article"]

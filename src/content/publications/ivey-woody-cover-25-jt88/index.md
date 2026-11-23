@@ -1,5 +1,5 @@
 ---
-title: "Woody Cover Fuels Large Wildfire Risk in the Eastern U.S."
+title: "Woody cover fuels large wildfire risk in the eastern U.S"
 date: "2025-08-01"
 description: "This study characterizes changes in woody vegetation cover across the eastern United States from 1990 to 2020 and evaluates its association with the occurrence of large wildfires (i.e., >200 ha (~494 acres))."
 categories: ["Media Coverage"]
