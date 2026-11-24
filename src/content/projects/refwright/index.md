@@ -13,6 +13,7 @@ links:
     external: true
   - label: 'GitHub'
     href: 'https://github.com/noahweidig/refwright'
+    variant: ghost
     external: true
 image-alt: 'The RefWright project site'
 ---
