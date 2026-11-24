@@ -695,7 +695,7 @@
   }
 
   /* Secondary button (the hero's second button, "View all" links, share and
-     copy buttons): outlined neutral, fills solid blue on hover like .btn-primary. */
+     copy buttons): outlined neutral, fills with ink (black/white per theme) on hover. */
   .btn-outline,
   .btn-wash,
   .page-hero-actions .btn-ghost,
@@ -708,16 +708,16 @@
   .btn-wash:hover,
   .page-hero-actions .btn-ghost:hover,
   .hero-btn.btn-ghost:hover {
-    background: var(--c-accent);
-    border-color: var(--c-accent);
-    color: var(--c-accent-contrast);
+    background: var(--c-ink);
+    border-color: var(--c-ink);
+    color: var(--c-bg);
   }
   .btn-outline:active,
   .btn-wash:active,
   .page-hero-actions .btn-ghost:active,
   .hero-btn.btn-ghost:active {
-    background: color-mix(in oklab, var(--c-accent) 86%, black);
-    border-color: color-mix(in oklab, var(--c-accent) 86%, black);
+    background: color-mix(in oklab, var(--c-ink) 86%, var(--c-bg));
+    border-color: color-mix(in oklab, var(--c-ink) 86%, var(--c-bg));
   }
 
   .btn-sm {
