@@ -386,7 +386,7 @@ export function initSearch() {
       .slice(0, 6);
     const chip = (key: string, value: string, label: string, n: number | null, on: boolean) =>
       `<button type="button" data-chip-key="${escapeHtml(key)}" data-chip-value="${escapeHtml(value)}" aria-pressed="${on}"
-        class="flex shrink-0 items-center gap-1.5 rounded-full border border-line-strong px-3 py-1 text-small whitespace-nowrap text-dim transition-colors hover:bg-raised aria-pressed:border-accent aria-pressed:bg-accent aria-pressed:text-accent-contrast">${escapeHtml(label)}${
+        class="flex shrink-0 items-center gap-1.5 rounded-full border border-line-strong px-3 py-1 text-small whitespace-nowrap text-dim transition-colors hover:bg-raised aria-pressed:border-[var(--c-pill-on)] aria-pressed:bg-[var(--c-pill-on)] aria-pressed:text-[var(--c-pill-on-ink)]">${escapeHtml(label)}${
           n === null ? '' : `<span class="font-mono text-micro opacity-70">${n}</span>`
         }</button>`;
     const total = sections.reduce((n, [, c]) => n + c, 0);

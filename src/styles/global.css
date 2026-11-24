@@ -91,6 +91,8 @@
   --c-accent: #4151b5;
   --c-accent-ink: #8f9be0;
   --c-accent-contrast: #ffffff;
+  --c-pill-on: #ffffff;
+  --c-pill-on-ink: #000000;
   --c-btn2: #4151b5;
   --c-btn2-hover: #4151b5;
   --c-btn2-active: #4151b5;
@@ -135,6 +137,8 @@
   --c-accent: #4151b5;
   --c-accent-ink: #4151b5;
   --c-accent-contrast: #ffffff;
+  --c-pill-on: #000000;
+  --c-pill-on-ink: #ffffff;
   --c-btn2: #4151b5;
   --c-btn2-hover: #4151b5;
   --c-btn2-active: #4151b5;
@@ -980,9 +984,9 @@
   }
   .pill[aria-pressed='true'],
   .pill[aria-selected='true'] {
-    background: var(--c-accent);
-    border-color: var(--c-accent);
-    color: var(--c-accent-contrast);
+    background: var(--c-pill-on);
+    border-color: var(--c-pill-on);
+    color: var(--c-pill-on-ink);
   }
 
   /* --- prose --- */
