@@ -291,11 +291,11 @@ import Icon from './Icon.astro';
       display: none;
     }
   }
-  /* Selected filters: solid accent fill, white text. */
+  /* Selected filters: black/white fill. */
   #search-filters :global(button[aria-pressed='true']) {
-    border-color: var(--c-accent);
-    background: var(--c-accent);
-    color: var(--c-accent-contrast);
+    border-color: var(--c-pill-on);
+    background: var(--c-pill-on);
+    color: var(--c-pill-on-ink);
   }
   #search-filters :global(button[aria-pressed='true'] span) {
     color: inherit;
