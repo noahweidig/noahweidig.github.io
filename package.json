@@ -20,9 +20,9 @@
     "test": "node --test \"src/lib/*.test.ts\""
   },
   "dependencies": {
-    "@astrojs/sitemap": "^3.7.4",
+    "@astrojs/sitemap": "^3.7.6",
     "@tailwindcss/vite": "^4.3.5",
-    "astro": "^7.4.11",
+    "astro": "^7.4.13",
     "tailwindcss": "^4.3.3"
   },
   "devDependencies": {
@@ -30,7 +30,7 @@
     "@types/node": "^26.6.6",
     "js-yaml": "^5.5.0",
     "pagefind": "^1.6.0",
-    "prettier": "^3.10.0",
+    "prettier": "^3.10.1",
     "prettier-plugin-astro": "^1.1.2",
     "sharp": "^0.35.4",
     "typescript": "^6.0.3"
