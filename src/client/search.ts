@@ -264,7 +264,9 @@ export function initSearch() {
       el.classList.toggle('max-sm:bg-raised', on);
       if (on) {
         input.setAttribute('aria-activedescendant', el.id);
-        el.scrollIntoView({ block: 'nearest' });
+        // The first row keeps its section heading in view; the body may still be growing.
+        if (active === 0) out.scrollTop = 0;
+        else el.scrollIntoView({ block: 'nearest' });
       }
     });
     moveGlide();
