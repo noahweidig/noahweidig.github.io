@@ -28,7 +28,7 @@ const count = group.items.length;
   {sections.map((section) => {
     const items = group.items.filter((i) => i.section === section);
     return items.length ? (
-      <section class="mb-12 last:mb-0">
+      <section class="mb-block last:mb-0">
         <h2 class="text-xs font-medium text-faint">{section}</h2>
         <ul class="mt-4 divide-y divide-line border-y border-line">
           {items.map((item) => (

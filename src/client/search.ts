@@ -175,8 +175,8 @@ const SECTION_ICON: Record<string, string> = {
 };
 const SECTION_TONE: Record<string, string> = {
   Projects: 'var(--c-accent-ink)',
-  Publications: 'var(--c-moss)',
-  Awards: 'var(--c-yellow-ink)',
+  Publications: 'var(--c-accent-ink)',
+  Awards: 'var(--c-accent-ink)',
 };
 
 export function initSearch() {

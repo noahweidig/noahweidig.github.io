@@ -1,7 +1,7 @@
 ---
 import { tintFor } from '../lib/tint';
 import type { CollectionEntry } from 'astro:content';
-import { Image } from 'astro:assets';
+import { Picture } from 'astro:assets';
 import Icon from './Icon.astro';
 import { firstSentence, inlineMarkup, slugify, year } from '../lib/format';
 import { tagHref, tagIcon, PUB_TYPE_ICONS } from '../lib/tags';
@@ -75,7 +75,9 @@ const altmetricTip = altmetric
         compact ? 'col-span-1' : 'col-span-2',
       ]}
     >
-      <Image
+      <Picture
+        formats={['avif', 'webp']}
+        pictureAttributes={{ class: 'contents' }}
         src={shot}
         alt=""
         widths={[200, 400, 600]}
