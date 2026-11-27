@@ -520,7 +520,8 @@ export function initSearch() {
     const done = (all: PagefindData[], counts: FilterCounts, total: number) => {
       const merged = all.length >= 12 ? [] : hits;
       renderResults(all, merged, q);
-      renderFilters(counts);
+      // Pagefind returns no facet counts for a text query; keep the chips from the index.
+      renderFilters(Object.keys(counts).length ? counts : indexCounts(docs));
       syncBadge();
       if (status) {
         const n = total + merged.length;
