@@ -31,6 +31,20 @@ runs:
       # them from scripts/package.json.
       run: npm ci --ignore-scripts --no-audit --no-fund --prefer-offline
 
+    # Astro keeps every encoded image (AVIF/WebP, each width) here, keyed by
+    # source hash and options. Restored after `npm ci`, which wipes
+    # node_modules; only new or changed images are encoded. Stale entries are
+    # never served, so a partial restore-keys hit is safe.
+    - name: Restore image cache
+      if: inputs.build == 'true'
+      uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+      with:
+        path: node_modules/.astro/assets
+        key: astro-img-${{ runner.os }}-${{ hashFiles('package-lock.json') }}-${{ hashFiles('src/assets/**', 'src/content/**/*.webp', 'src/content/**/*.png', 'src/content/**/*.jpg', 'src/content/**/*.jpeg') }}
+        restore-keys: |
+          astro-img-${{ runner.os }}-${{ hashFiles('package-lock.json') }}-
+          astro-img-${{ runner.os }}-
+
     - name: Unit tests
       shell: bash
       run: npm test
