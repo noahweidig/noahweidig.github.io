@@ -1,6 +1,6 @@
 ---
 import { getCollection, render } from 'astro:content';
-import { Image, getImage } from 'astro:assets';
+import { Picture, getImage } from 'astro:assets';
 import Detail from '../../layouts/Detail.astro';
 import { byDate, fullDate, truncateTitle, siblingLink } from '../../lib/format';
 import { site } from '../../lib/site';
@@ -63,7 +63,9 @@ const awardLd = {
   publishedTime={d.date}
 >
   {d.image && (
-    <Image
+    <Picture
+      formats={['avif', 'webp']}
+      pictureAttributes={{ class: 'contents' }}
       slot="hero-image"
       src={d.image}
       alt={d['image-alt'] ?? ''}

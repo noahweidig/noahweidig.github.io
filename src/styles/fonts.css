@@ -103,8 +103,7 @@
 @font-face {
   font-family: 'Bricolage Grotesque';
   font-style: normal;
-  font-weight: 200 800;
-  font-stretch: 75% 100%;
+  font-weight: 500 700;
   font-display: swap;
   src: url('/fonts/bricolage-latin-ext.woff2') format('woff2');
   unicode-range:
@@ -115,8 +114,7 @@
 @font-face {
   font-family: 'Bricolage Grotesque';
   font-style: normal;
-  font-weight: 200 800;
-  font-stretch: 75% 100%;
+  font-weight: 500 700;
   font-display: swap;
   src: url('/fonts/bricolage-latin.woff2') format('woff2');
   unicode-range:

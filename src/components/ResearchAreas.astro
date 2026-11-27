@@ -1,5 +1,5 @@
 ---
-import { Image } from 'astro:assets';
+import { Picture } from 'astro:assets';
 import { IMAGE_WIDTHS } from '../lib/images';
 
 const photos = import.meta.glob<{ default: ImageMetadata }>('../assets/research/*.webp', {
@@ -125,7 +125,9 @@ const areas = [
         </div>
       </div>
       <figure class="overflow-hidden rounded-md border border-line bg-surface">
-        <Image
+        <Picture
+          formats={['avif', 'webp']}
+          pictureAttributes={{ class: 'contents' }}
           src={a.image}
           alt={a.alt}
           widths={IMAGE_WIDTHS.thumbnail}

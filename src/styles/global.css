@@ -190,6 +190,8 @@
   --color-pink: var(--c-pink);
   --color-moss: var(--c-moss);
   --color-violet: var(--c-violet);
+  --spacing-section: var(--space-section);
+  --spacing-block: var(--space-block);
 
   --font-sans:
     'Inter', 'Inter Fallback', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
@@ -224,6 +226,9 @@
   --space-6: 1.5rem;
   --space-8: 2rem;
   --space-12: 3rem;
+  /* Vertical gap between page sections (py-section) and between stacked blocks (mt-block). */
+  --space-section: clamp(6rem, 4.5rem + 4vw, 8rem);
+  --space-block: 3rem;
   --shadow-1: 0 1px 2px color-mix(in oklab, var(--c-bg-deep) 40%, transparent);
   --shadow-2: 0 6px 20px -8px color-mix(in oklab, var(--c-bg-deep) 80%, transparent);
   --shadow-3: 0 14px 34px -12px color-mix(in oklab, var(--c-bg-deep) 75%, transparent);
