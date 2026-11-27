@@ -168,11 +168,14 @@ import Icon from './Icon.astro';
         inset 0 1px 0 color-mix(in oklab, var(--c-ink) 8%, transparent),
         0 24px 64px -12px color-mix(in oklab, var(--c-bg-deep) 75%, transparent);
     }
+    #site-search [data-search-below] {
+      background-color: color-mix(in oklab, var(--c-bg) 92%, transparent);
+    }
     /* A lighter scrim so the panel has something to frost. */
     #site-search::backdrop {
       background-color: color-mix(in oklab, var(--c-bg-deep) 30%, transparent);
-      -webkit-backdrop-filter: blur(3px);
-      backdrop-filter: blur(3px);
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
     }
     #site-search[data-search-idle] [data-search-below],
     #site-search:not([data-filters-open]) [data-search-chips] {
