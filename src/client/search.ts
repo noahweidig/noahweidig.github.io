@@ -478,7 +478,9 @@ export function initSearch() {
 
   const run = async () => {
     const q = input.value.trim();
-    dialog.toggleAttribute('data-search-idle', !q && !chosenCount() && !!rail.hidden);
+    const blank = !q && !chosenCount();
+    dialog.toggleAttribute('data-search-blank', blank);
+    dialog.toggleAttribute('data-search-idle', blank && !!rail.hidden);
     const mine = ++token;
     const filters = chosen();
     const hasFilters = Object.keys(filters).length > 0;
