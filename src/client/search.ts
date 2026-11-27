@@ -668,7 +668,7 @@ export function initSearch() {
     rail.hidden = !openRail;
     dialog.toggleAttribute('data-filters-open', openRail);
     toggle.setAttribute('aria-expanded', String(openRail));
-    if (openRail) void run();
+    void run();
   };
   on(toggle, 'click', () => setRail(!!rail.hidden));
 
