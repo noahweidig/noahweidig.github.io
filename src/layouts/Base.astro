@@ -145,8 +145,8 @@ const jsonLd = {
     <meta name="apple-mobile-web-app-title" content="Noah Weidig" />
     <link rel="manifest" href="/site.webmanifest" />
 
-    {/* Ahead of the fonts: on a throttled connection the two latin subsets are
-        88KB of higher-priority bytes, and the LCP image queues behind them. */}
+    {/* Ahead of the fonts: on a throttled connection the Bricolage latin subset is
+        73KB of higher-priority bytes, and the LCP image queues behind them. */}
     {preloadImage && (
       <link
         rel="preload"
@@ -158,7 +158,6 @@ const jsonLd = {
       />
     )}
 
-    <link rel="preload" href="/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link
       rel="preload"
       href="/fonts/bricolage-latin.woff2"

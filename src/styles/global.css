@@ -194,9 +194,10 @@
   --spacing-block: var(--space-block);
 
   --font-sans:
-    'Inter', 'Inter Fallback', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+    'Bricolage Grotesque', 'Bricolage Fallback', ui-sans-serif, system-ui, -apple-system,
+    'Segoe UI', sans-serif;
   --font-display:
-    'Bricolage Grotesque', 'Inter', 'Inter Fallback', ui-sans-serif, system-ui, -apple-system,
+    'Bricolage Grotesque', 'Bricolage Fallback', ui-sans-serif, system-ui, -apple-system,
     'Segoe UI', sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
 
