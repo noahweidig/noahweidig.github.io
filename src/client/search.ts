@@ -216,7 +216,7 @@ export function initSearch() {
      follows its content. Both are inert on phone. */
   const glide = document.createElement('div');
   glide.className =
-    'pointer-events-none absolute inset-x-3 top-0 hidden rounded-[var(--radius-md)] bg-raised opacity-0 ring-1 ring-accent/40 ring-inset transition-[transform,height,opacity] duration-[260ms] ease-[cubic-bezier(0.3,1.2,0.4,1)] sm:block';
+    'pointer-events-none absolute inset-x-3 top-0 hidden rounded-3xl bg-raised opacity-0 ring-1 ring-accent/40 ring-inset transition-[transform,height,opacity] duration-[260ms] ease-[cubic-bezier(0.3,1.2,0.4,1)] sm:block';
   const setHtml = (html: string) => {
     out.innerHTML = html;
     out.prepend(glide);
@@ -478,6 +478,7 @@ export function initSearch() {
 
   const run = async () => {
     const q = input.value.trim();
+    dialog.toggleAttribute('data-search-idle', !q && !chosenCount() && !!rail.hidden);
     const mine = ++token;
     const filters = chosen();
     const hasFilters = Object.keys(filters).length > 0;
@@ -519,7 +520,8 @@ export function initSearch() {
     const done = (all: PagefindData[], counts: FilterCounts, total: number) => {
       const merged = all.length >= 12 ? [] : hits;
       renderResults(all, merged, q);
-      renderFilters(counts);
+      // Pagefind returns no facet counts for a text query; keep the chips from the index.
+      renderFilters(Object.keys(counts).length ? counts : indexCounts(docs));
       syncBadge();
       if (status) {
         const n = total + merged.length;
@@ -664,8 +666,9 @@ export function initSearch() {
   /* ---- filter rail wiring ---- */
   const setRail = (openRail: boolean) => {
     rail.hidden = !openRail;
+    dialog.toggleAttribute('data-filters-open', openRail);
     toggle.setAttribute('aria-expanded', String(openRail));
-    if (openRail) void run();
+    void run();
   };
   on(toggle, 'click', () => setRail(!!rail.hidden));
 

@@ -1688,32 +1688,19 @@
   }
 
   /* --- search hit marks ---
-     A fuzzy hit is marked, never highlighted: exact runs take the ink and a
-     solid underline, loose character matches take a wavy one. */
+     Matched text takes the accent ink; loose character matches are softer. */
   .hit-exact {
-    color: var(--c-ink);
-    font-weight: 600;
-    text-decoration: underline;
-    text-decoration-thickness: 2px;
-    text-underline-offset: 0.18em;
-    text-decoration-color: var(--c-accent);
+    color: var(--c-accent-ink);
+    font-weight: 700;
   }
   .hit-fuzzy {
-    color: var(--c-ink);
+    color: color-mix(in oklab, var(--c-accent-ink) 75%, var(--c-ink));
     font-weight: 600;
-    text-decoration: underline wavy;
-    text-decoration-thickness: 1px;
-    text-underline-offset: 0.2em;
-    text-decoration-color: color-mix(in oklab, var(--c-accent) 70%, transparent);
   }
   #search-results mark {
     background: transparent;
-    color: var(--c-ink);
-    font-weight: 600;
-    text-decoration: underline;
-    text-decoration-thickness: 2px;
-    text-underline-offset: 0.18em;
-    text-decoration-color: var(--c-accent);
+    color: var(--c-accent-ink);
+    font-weight: 700;
   }
 
   /* --- reveal on scroll ---

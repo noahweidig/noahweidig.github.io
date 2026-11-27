@@ -37,5 +37,6 @@ runs:
           --exclude 'usda\.gov'
           --exclude 'victoriamdonovan\.org'
           --exclude 'original-ufdc\.uflib\.ufl\.edu'
+          --exclude 'substack\.com/api/'
           'dist/**/*.html'
         fail: true
