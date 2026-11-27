@@ -685,7 +685,11 @@ export function initSearch() {
     else {
       const set = (selected[key] ??= new Set());
       if (set.has(value)) set.delete(value);
-      else set.add(value);
+      else {
+        // A page has one section, so section chips pick one at a time.
+        if (key === 'section') set.clear();
+        set.add(value);
+      }
     }
     input.focus();
     void run();
@@ -705,7 +709,10 @@ export function initSearch() {
     const value = btn.dataset.filterValue!;
     const set = (selected[key] ??= new Set());
     if (set.has(value)) set.delete(value);
-    else set.add(value);
+    else {
+      if (key === 'section') set.clear();
+      set.add(value);
+    }
     void run();
   });
 }
