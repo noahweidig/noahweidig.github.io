@@ -5,6 +5,7 @@ import Icon from './Icon.astro';
 <dialog
   data-pagefind-ignore
   id="site-search"
+  data-search-idle
   class="m-0 h-full max-h-none w-full max-w-none bg-transparent p-0 backdrop:bg-black/40 backdrop:backdrop-blur-md"
   aria-label="Search"
 >
@@ -15,14 +16,17 @@ import Icon from './Icon.astro';
     data-search-backdrop
   >
     <div
-      class="card flex w-full max-w-none flex-col overflow-hidden rounded-none border-0 sm:max-w-[42.5rem] sm:rounded-2xl sm:border sm:border-line-strong sm:shadow-2xl"
+      class="card flex w-full max-w-none flex-col overflow-hidden rounded-none border-0 sm:max-w-[42.5rem] sm:overflow-visible sm:rounded-none sm:border-0 sm:bg-transparent sm:shadow-none"
       data-search-panel
     >
       <!-- query row -->
       {/* Phone: a pill-shaped field (icon, input, filter toggle) with a text
           close circle beside it. `sm:contents` dissolves the pill wrapper so the
           desktop row is exactly what it was. */}
-      <div class="flex h-16 items-center gap-2 border-b border-line px-5 sm:h-auto sm:gap-3.5 sm:bg-raised/40 sm:px-6 sm:py-1">
+      <div
+        data-search-bar
+        class="flex h-16 items-center gap-2 border-b border-line px-5 sm:h-16 sm:gap-3 sm:rounded-full sm:border sm:pr-3 sm:pl-6"
+      >
         <div class="flex min-w-0 flex-1 items-center gap-2 rounded-full bg-raised px-4 sm:contents">
           <Icon
             name="nav-search"
@@ -41,7 +45,7 @@ import Icon from './Icon.astro';
             placeholder="Search projects, papers, posts…"
             autocomplete="off"
             spellcheck="false"
-            class="w-full bg-transparent py-3 text-base text-ellipsis text-ink placeholder:text-faint focus-visible:rounded-none focus-visible:outline-none sm:py-5 sm:text-xl sm:tracking-tight"
+            class="w-full bg-transparent py-3 text-base text-ellipsis text-ink placeholder:text-faint focus-visible:rounded-none focus-visible:outline-none sm:py-0 sm:text-xl sm:tracking-tight"
           />
           <button
             type="button"
@@ -57,7 +61,7 @@ import Icon from './Icon.astro';
             data-filter-toggle
             aria-expanded="false"
             aria-controls="search-filters"
-            class="icon-tile icon-bare relative h-8 w-8 shrink-0 rounded-full max-sm:-mr-1 text-faint hover:transform-none! aria-expanded:bg-accent aria-expanded:text-accent-contrast sm:hidden"
+            class="icon-tile icon-bare relative h-8 w-8 shrink-0 rounded-full max-sm:-mr-1 text-faint hover:transform-none! aria-expanded:bg-accent aria-expanded:text-accent-contrast sm:h-10 sm:w-10 sm:border sm:border-line sm:aria-expanded:border-accent"
             data-tip="Filters"
           >
             <Icon name="nav-listFilter" size={17} stroke-width={2.2} />
@@ -69,10 +73,11 @@ import Icon from './Icon.astro';
             ></span>
           </button>
         </div>
+        <span class="hidden h-6 w-px shrink-0 bg-line sm:block" aria-hidden="true"></span>
         <button
           type="button"
           data-search-close
-          class="icon-tile icon-bare h-10 w-10 shrink-0 hover:transform-none! sm:h-9 sm:w-9"
+          class="icon-tile icon-bare h-10 w-10 shrink-0 rounded-full hover:transform-none!"
           aria-label="Close search"
         >
           <Icon name="nav-x" size={22} stroke-width={1.8} class="sm:hidden" />
@@ -80,64 +85,71 @@ import Icon from './Icon.astro';
         </button>
       </div>
 
-      {/* Desktop: section/tag chips replace the filter rail and its toggle. Empty
-          until Pagefind reports counts, hence the inline display:none. */}
+      {/* Desktop: filters, results and hints sit in a card under the pill. It
+          collapses while there is nothing to show (see data-search-idle). */}
       <div
-        data-search-chips
-        style="display:none"
-        class="hidden gap-1.5 overflow-x-auto border-b border-line px-6 py-2.5 [scrollbar-width:none] sm:flex"
-        aria-label="Filters"
-      ></div>
-
-      <!-- body: results (+ filter rail on phone) -->
-      {/* Desktop: height is set from the content in search.ts and animates. */}
-      <div
-        class="relative flex min-h-[16rem] flex-1 sm:h-0 sm:min-h-0 sm:flex-none sm:overflow-hidden sm:transition-[height] sm:duration-300 sm:ease-out"
-        data-search-body
+        data-search-below
+        class="contents sm:mt-2.5 sm:block sm:overflow-hidden sm:rounded-3xl sm:border"
       >
+        {/* Desktop: section/tag chips replace the filter rail and its toggle. Empty
+          until Pagefind reports counts, hence the inline display:none. */}
         <div
-          class="relative min-w-0 flex-1 overflow-y-auto p-2 sm:p-3"
-          id="search-results"
-          role="listbox"
-          aria-label="Search results"
+          data-search-chips
+          style="display:none"
+          class="hidden gap-1.5 overflow-x-auto border-b border-line px-4 py-2.5 [scrollbar-width:none] sm:flex"
+          aria-label="Filters"
+        ></div>
+
+        <!-- body: results (+ filter rail on phone) -->
+        {/* Desktop: height is set from the content in search.ts and animates. */}
+        <div
+          class="relative flex min-h-[16rem] flex-1 sm:h-0 sm:min-h-0 sm:flex-none sm:overflow-hidden sm:transition-[height] sm:duration-300 sm:ease-out"
+          data-search-body
         >
-          <p
-            role="presentation"
-            class="px-3 py-10 text-center text-sm text-faint"
-            data-search-empty
+          <div
+            class="relative min-w-0 flex-1 overflow-y-auto p-2 sm:p-3"
+            id="search-results"
+            role="listbox"
+            aria-label="Search results"
           >
-            Type to search, or pick a filter.
-          </p>
+            <p
+              role="presentation"
+              class="px-3 py-10 text-center text-sm text-faint"
+              data-search-empty
+            >
+              Type to search, or pick a filter.
+            </p>
+          </div>
+
+          <aside
+            id="search-filters"
+            hidden
+            class="w-44 shrink-0 overflow-y-auto border-l border-line bg-raised/60 p-4 sm:hidden"
+            aria-label="Filters"
+          >
+            <div class="grid gap-5" data-filter-groups></div>
+          </aside>
         </div>
 
-        <aside
-          id="search-filters"
-          hidden
-          class="w-44 shrink-0 overflow-y-auto border-l border-line bg-raised/60 p-4 sm:hidden"
-          aria-label="Filters"
-        >
-          <div class="grid gap-5" data-filter-groups></div>
-        </aside>
-      </div>
-
-      <!-- hint bar -->
-      <div class="flex items-center gap-4 border-t border-line px-4 py-2.5 font-mono text-micro text-faint sm:bg-raised/40 sm:px-6 sm:py-3">
-        <span class="hidden items-center gap-1.5 sm:flex">
-          <kbd class="grid size-6 place-items-center rounded border border-line-strong bg-surface">
-            <Icon name="arrowUp" size={14} />
-          </kbd>
-          <kbd class="grid size-6 place-items-center rounded border border-line-strong bg-surface">
-            <Icon name="arrowDown" size={14} />
-          </kbd>{' '}
-          navigate
-        </span>
-        <span class="hidden items-center gap-1.5 sm:flex">
-          <kbd class="grid size-6 place-items-center rounded border border-line-strong bg-surface">
-            <Icon name="cornerDownLeft" size={14} />
-          </kbd>{' '}
-          open
-        </span>
-        <span class="ml-auto" data-search-status aria-live="polite"></span>
+        <!-- hint bar -->
+        <div class="flex items-center gap-4 border-t border-line px-4 py-2.5 font-mono text-micro text-faint sm:bg-raised/40 sm:px-6 sm:py-3">
+          <span class="hidden items-center gap-1.5 sm:flex">
+            <kbd class="grid size-6 place-items-center rounded border border-line-strong bg-surface">
+              <Icon name="arrowUp" size={14} />
+            </kbd>
+            <kbd class="grid size-6 place-items-center rounded border border-line-strong bg-surface">
+              <Icon name="arrowDown" size={14} />
+            </kbd>{' '}
+            navigate
+          </span>
+          <span class="hidden items-center gap-1.5 sm:flex">
+            <kbd class="grid size-6 place-items-center rounded border border-line-strong bg-surface">
+              <Icon name="cornerDownLeft" size={14} />
+            </kbd>{' '}
+            open
+          </span>
+          <span class="ml-auto" data-search-status aria-live="polite"></span>
+        </div>
       </div>
     </div>
   </div>
@@ -146,7 +158,8 @@ import Icon from './Icon.astro';
 <style is:global>
   @media (min-width: 40rem) {
     /* Same glass as the scrolled nav bar: translucent bg, blur, hairline. */
-    #site-search [data-search-panel] {
+    #site-search [data-search-bar],
+    #site-search [data-search-below] {
       background-color: color-mix(in oklab, var(--c-bg) 68%, transparent);
       border-color: color-mix(in oklab, var(--c-line-strong) 70%, transparent);
       -webkit-backdrop-filter: blur(18px) saturate(1.6);
@@ -160,6 +173,10 @@ import Icon from './Icon.astro';
       background-color: color-mix(in oklab, var(--c-bg-deep) 30%, transparent);
       -webkit-backdrop-filter: blur(3px);
       backdrop-filter: blur(3px);
+    }
+    #site-search[data-search-idle] [data-search-below],
+    #site-search:not([data-filters-open]) [data-search-chips] {
+      display: none !important;
     }
     #site-search[open] [data-search-panel] {
       transform-origin: 50% 0;
